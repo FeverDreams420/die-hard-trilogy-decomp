@@ -1,6 +1,6 @@
 # Compiler notes (Phase 2)
 
-Status: **in progress.** Steps 1–2 have first results from scanning the raw EXEs. Signature matching in Ghidra, and steps 3–5 with function boundaries, still need Ghidra.
+Status: **all five steps have results (Oct 25, 2026); waiting on the Phase 2 checkpoint.** The `-G` value and the GCC version stay open until the Phase 4 bake-off.
 
 ## Step 1: PsyQ SDK version
 
@@ -67,4 +67,23 @@ Which GCC PsyQ 3.5 actually shipped is not yet confirmed. The prologue and epilo
 
 ## Steps 4–5: cross-references and leaf functions
 
-Not started. Both need function boundaries and call graphs, which is Ghidra work (headless scripts).
+Both come from `python -I tools/recon.py`, which reads the Ghidra tables in `build/ghidra/*.funcs.tsv` and the EXEs in `disc/` (Oct 25, 2026). Full lists are in `docs/phase2/`.
+
+How it compares functions: the same C linked into two EXEs gives the same instructions except where the linker filled in an address. The script blanks those spots (`jal`/`j` targets, `lui` immediates, the low half of a `lui` address pair, `$gp` offsets) and hashes what is left. **Limitation:** two tiny functions with the same shape but different globals also hash equal. For example the 6-instruction `CdReadCallback` body matches several other library stubs in SLUS.
+
+### Step 4: code shared between the games
+
+There are no overlays, so the original question ("which main-EXE functions does each overlay call") doesn't apply. The useful version is: which of the game's own (unnamed) functions appear in more than one EXE.
+
+- 1676 unnamed functions across the seven EXEs collapse to 1319 distinct bodies.
+- **Very little game code is shared.** Leaving out bodies also found in SLUS or BOOT (probably library code), only **26 bodies (703 instructions)** are in all three games and **97 bodies (7320 instructions)** are in two of them. DH1, DH2 and DH3 each have 330–365 functions found in no other EXE.
+- The biggest body in all three games is 163 instructions and makes 13 calls: LOADER 0x800361D0, SLIDE 0x80029E20, DH1 0x8006ADB0, DH2 0x80078AE4, DH3 0x80077F2C. It sits just before each EXE's startup code. **Guess:** a shared init or main-loop helper.
+- LOADER and SLIDE share most of their unnamed code with the games (only 95 of LOADER's 178, and 14 of SLIDE's 80, are unique).
+- Four unnamed bodies match a signature-named function in another EXE (`CdReadCallback`, `_check_gun_flag`, `COUNTER_OBJ_170`, `MEMMOVE_OBJ_64`). These are all 2–6 instruction stubs, so they are probably shape collisions, not missed library functions.
+- Consequence for later phases: shared priority functions are few, so each game will be mostly its own matching job (Phase 7). The `shared-functions.tsv` list says which matches carry over to other EXEs.
+
+### Step 5: leaf functions
+
+- **121 distinct unnamed leaf bodies** (2–20 instructions, no calls). 13 are in all three games, 57 read globals through `lui` pairs, 4 use `$gp`, and 5 set up a stack frame. 8 also appear in SLUS or BOOT and are flagged as probable library code.
+- `docs/phase2/bakeoff-leaves.tsv` picks 25 for the Phase 4 bake-off: every `$gp` and stack-frame leaf, then the most widely shared. The `$gp` ones (LOADER 0x800307EC, DH2 0x8007270C, DH1 0x80067E20, DH1 0x80067E60) are the ones that will decide `-G8` versus `-G4`.
+- **Compiler clue:** some leaves allocate a stack frame they never use. DH2 0x80031F90 is just `addiu sp,sp,-16` / `jr ra` / `addiu sp,sp,16`, and LOADER 0x8001E984 adds one `sh zero,88(a0)`. An optimizing GCC normally drops an unused frame, so this is a fingerprint for the bake-off: the right compiler and flags must reproduce it. **Guess:** these functions had a local variable that was optimized away after its stack slot was assigned.
