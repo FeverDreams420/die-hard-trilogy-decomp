@@ -1,6 +1,6 @@
 # Code map (Phase 1)
 
-Status: **in progress.** Steps 1–5 are done from static data; the boot chain below is traced from the disassembly. Step 6 (emulator) has started: the DH1 path is confirmed at runtime, and the other paths are still to check.
+Status: **done (Phase 1 checkpoint).** Steps 1–5 came from static data and the disassembly. Step 6 confirmed the boot chain in DuckStation on Oct 25, 2026: boot → LOADER, and all three games, load exactly as traced.
 
 ## Disc
 
@@ -30,7 +30,7 @@ Every code file is a complete PS-X EXE, not a headerless overlay. The load addre
 
 `jr $ra` count is the number of `0x03E00008` words, a rough count of functions. No other file on the disc has a meaningful count (two near-identical D3 map files have 4 each, almost certainly data).
 
-## Boot chain (static trace; DH1 path confirmed at runtime)
+## Boot chain (static trace, confirmed at runtime)
 
 Six executables load at 0x8001D500, so only one is in memory at a time. They pass control through **`BOOT.EXE`** (0x80013000–0x8001B800, below everything else) and a small shared block of low RAM that survives every swap. No program uses BIOS `LoadExec`. Each reads EXEs itself with libcd (`CdControl(CdlSetloc)` + `CdRead`: header sector first, then the body) and starts them with BIOS `Exec` (A0 function 0x43).
 
@@ -78,9 +78,11 @@ For more detail, BOOT's copy of the EXEC header is at 0x8001B34C: `t_addr` at 0x
 | Date | Action | Result | Matches? |
 | --- | --- | --- | --- |
 | 2026-10-25 | Chose Die Hard in the menu | `a1` = 2 at 0x80013660, then DH1 loaded | yes |
-| | Boot (expect 1) | not yet checked | |
-| | Die Harder (expect 3) | not yet checked | |
-| | Die Hard with a Vengeance (expect 4) | not yet checked | |
+| 2026-10-25 | System → Reset | `a1` = 1 at 0x80013660 (BOOT loading LOADER) | yes |
+| 2026-10-25 | Chose Die Harder in the menu | `a1` = 3 (0x00000003) at 0x80013660 | yes |
+| 2026-10-25 | Chose Die Hard with a Vengeance in the menu | `a1` = 4 at 0x80013660 | yes |
+
+All four values match the static trace, so the boot chain is confirmed at runtime.
 
 **Side observation (guess, needs follow-up):** an earlier *Read* breakpoint on 0x80013938, which is inside BOOT's code, was hit by an ordinary data load at PC 0x8003225C (`lw a0, -0x6(a2)` with a2 = 0x8001393E). At that moment s3 = 2 and s4 = 0x80012800, the same values the exit routine keeps in those registers, but which EXE was running wasn't recorded. A program treating BOOT's memory as data would explain why every program reloads BOOT.EXE from disc before handing back, instead of jumping back into it.
 
