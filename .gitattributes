@@ -1,0 +1,3 @@
+# The build runs in WSL2, where Windows line endings break shell scripts and Makefiles.
+* text=auto eol=lf
+*.exe binary

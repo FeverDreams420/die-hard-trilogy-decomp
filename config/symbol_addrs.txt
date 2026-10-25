@@ -1,0 +1,2 @@
+// The single source of function and global names for the whole project.
+// Format: name = 0xADDRESS; // type:func   (or type:data, size:0x10, etc.)

@@ -1,0 +1,15 @@
+# Install inside WSL:  python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+splat64[mips]
+
+# asm-differ (tools/asm-differ)
+colorama
+watchdog
+levenshtein
+cxxfilt
+
+# m2c (tools/m2c)
+graphviz
+
+# decomp-permuter (tools/decomp-permuter)
+pynacl
+toml

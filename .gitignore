@@ -1,0 +1,33 @@
+# Game files: never commit (each contributor supplies their own dump)
+disc/
+*.bin
+*.cue
+*.iso
+*.img
+
+# Build outputs
+build/
+
+# splat output is regenerated from the game files, so it stays out of git too
+asm/
+expected/
+*.ld
+
+# Compilers are copied in locally (see README), not committed
+tools/gcc-*/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Tool scratch files
+ctx.c
+nonmatchings/
+permuter-*/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
