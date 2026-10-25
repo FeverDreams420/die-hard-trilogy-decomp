@@ -1,6 +1,6 @@
 # Code map (Phase 1)
 
-Status: **in progress.** Steps 1–5 are done from static data; the boot chain below is traced from the disassembly. Step 6 (confirm it in the emulator) is still open.
+Status: **in progress.** Steps 1–5 are done from static data; the boot chain below is traced from the disassembly. Step 6 (emulator) has started: the DH1 path is confirmed at runtime, and the other paths are still to check.
 
 ## Disc
 
@@ -30,7 +30,7 @@ Every code file is a complete PS-X EXE, not a headerless overlay. The load addre
 
 `jr $ra` count is the number of `0x03E00008` words, a rough count of functions. No other file on the disc has a meaningful count (two near-identical D3 map files have 4 each, almost certainly data).
 
-## Boot chain (static trace; emulator check pending)
+## Boot chain (static trace; DH1 path confirmed at runtime)
 
 Six executables load at 0x8001D500, so only one is in memory at a time. They pass control through **`BOOT.EXE`** (0x80013000–0x8001B800, below everything else) and a small shared block of low RAM that survives every swap. No program uses BIOS `LoadExec`. Each reads EXEs itself with libcd (`CdControl(CdlSetloc)` + `CdRead`: header sector first, then the body) and starts them with BIOS `Exec` (A0 function 0x43).
 
@@ -69,12 +69,20 @@ Not yet explained: the variable indices in DH2, DH3 and SLIDE, and LOADER's choi
 
 ### Step 6: emulator check
 
-In the DuckStation debugger, set a breakpoint on BOOT's `Exec` call at **0x80013938**. Each time it hits, read:
+In the DuckStation CPU debugger, add an **Execute** breakpoint (not Read/Write) at **0x80013660** in BOOT. By then `lw a1, 0x2800(a1)` at 0x80013650 has loaded the next-EXE index, so register **a1** shows it directly. Reset the system so BOOT runs from the start.
 
-- the word at **0x80012800**: the EXE index (0–5)
-- the words at **0x8001B354** and **0x8001B358**: `t_addr` and `t_size` of the EXE about to run (BOOT's copy of the EXEC header is at 0x8001B34C)
+Expected `a1`: 1 on boot (LOADER), then 2 / 3 / 4 after choosing Die Hard / Die Harder / Die Hard with a Vengeance in the menu.
 
-Expected: index 1, 0x8001D500, 0x34800 (LOADER) on boot. Then, after choosing each game in the menu: 2/0x85800, 3/0x99800 or 4/0x98800. Optionally also break at SLUS's `Exec` (0x80021478): 0x80012800 should hold 1 and BOOT's `t_addr` (0x801326F0) should be 0x80013000.
+For more detail, BOOT's copy of the EXEC header is at 0x8001B34C: `t_addr` at 0x8001B354 should be 0x8001D500, and `t_size` at 0x8001B358 should match the table above.
+
+| Date | Action | Result | Matches? |
+| --- | --- | --- | --- |
+| 2026-10-25 | Chose Die Hard in the menu | `a1` = 2 at 0x80013660, then DH1 loaded | yes |
+| | Boot (expect 1) | not yet checked | |
+| | Die Harder (expect 3) | not yet checked | |
+| | Die Hard with a Vengeance (expect 4) | not yet checked | |
+
+**Side observation (guess, needs follow-up):** an earlier *Read* breakpoint on 0x80013938, which is inside BOOT's code, was hit by an ordinary data load at PC 0x8003225C (`lw a0, -0x6(a2)` with a2 = 0x8001393E). At that moment s3 = 2 and s4 = 0x80012800, the same values the exit routine keeps in those registers, but which EXE was running wasn't recorded. A program treating BOOT's memory as data would explain why every program reloads BOOT.EXE from disc before handing back, instead of jumping back into it.
 
 ## Data (no code)
 
