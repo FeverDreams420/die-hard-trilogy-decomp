@@ -15,7 +15,21 @@ Every one of the seven EXEs carries the same three `$Id` stamps from Sony's `lib
 (LOADER, SLIDE, DH2 and DH3 have the same three strings; `python -I` string scan, Oct 25, 2026.)
 
 - **Finding:** all seven programs were linked against the same library build, with sources dated up to **May 13, 1996**.
-- **Guess:** that date points to **PsyQ 3.5** (mid-1996). It needs confirming with PsyQ signature matching in Ghidra, which also names the library functions for `symbol_addrs`.
+- **Confirmed: PsyQ 3.5.0 in all seven EXEs.** The ghidra_psx_ldr extension (release 2026.10.03, Ghidra 12.1.4) detects the version from the binary and stores it as `Program Information.PsyQ Version = 3.5.0`. It then applied its 3.5.0 signatures. Read headless with `tools/ghidra/PrintOptions.java` (Oct 25, 2026).
+- Signature-named functions per EXE, written to `config/symbol_addrs.<exe>.txt` by `tools/ghidra/tsv2symbols.py`:
+
+  | EXE | Functions found | Named (library) | Unnamed |
+  | --- | --- | --- | --- |
+  | SLUS_001.19 | 465 | 426 | 39 |
+  | BOOT | 230 | 222 | 8 |
+  | LOADER | 700 | 522 | 178 |
+  | SLIDE | 492 | 412 | 80 |
+  | DH1 | 1032 | 655 | 377 |
+  | DH2 | 1160 | 653 | 507 |
+  | DH3 | 1125 | 638 | 487 |
+
+  Function counts exclude the 153 GTE macro labels the loader adds at 0x20000000. **Guess:** the unnamed functions are mostly the game's own code, but some may be library functions the signatures missed.
+- Ghidra's decompiler fails on SLUS_001.19 at 0x800215DC ("Unable to resolve constructor"), probably a GTE or coprocessor instruction it doesn't know. This only affects Ghidra's C view, not the function list.
 - The other library strings (`ResetGraph:jtb=%08x,env=%08x`, `CD_newmedia: sarching dir..`, `GPU timeout:que=%d,...`) carry no version number.
 
 ## Step 2: `$gp` and `-G`

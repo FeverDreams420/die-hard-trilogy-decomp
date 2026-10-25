@@ -1,2 +1,4 @@
-// The single source of function and global names for the whole project.
+// Shared names for addresses that mean the same thing in every EXE (low RAM, such as BOOT's
+// next-EXE index at 0x80012800). Six EXEs load at 0x8001D500, so each one's own functions
+// live in its own file: config/symbol_addrs.<exe>.txt (slus, boot, loader, slide, dh1, dh2, dh3).
 // Format: name = 0xADDRESS; // type:func   (or type:data, size:0x10, etc.)
