@@ -1,6 +1,6 @@
 # Compiler notes (Phase 2)
 
-Status: **all five steps have results (Oct 25, 2026); waiting on the Phase 2 checkpoint.** The `-G` value and the GCC version stay open until the Phase 4 bake-off.
+Status: **Phase 4 settled (Oct 25, 2026): GCC 2.5.7 (`gcc-2.5.7-psx`), `-O2 -G8`, ASPSX 2.34 for the games and 2.21 for LOADER.** Details under run 4.
 
 ## Step 1: PsyQ SDK version
 
@@ -137,4 +137,31 @@ Three leaves uploaded to decomp.me and compiled under all 24 PS1 compilers there
 - **Finding: GCC 2.5.7 (PSX patches) reproduces all three, including the `v0` register choice and DH1 0x8004A7C4's `mflo v0` / `nop` / jump-over shape. No other compiler matches any of the three, Sony's PsyQ presets included.**
 - So the game's own code was compiled with a GCC older than the PsyQ 3.5 libraries it links against. **Guess:** the developers kept an older compiler while updating the libraries.
 - `0x80030AA8` shows that wording still matters: `return base[i].c;` scores 20 even under 2.5.7, while taking `&base[i]` first matches.
-- **Next:** install `gcc-2.5.7-psx` locally (decompals/old-gcc 0.17, 3.2 MB), rerun `tools/bakeoff.py` on all 23 leaves for `-O1`/`-O2`, `-G` and the ASPSX version, then switch the Makefile from 2.7.2.
+
+### Run 4 (Oct 25, 2026): GCC 2.5.7 locally, 144 settings
+
+`gcc-2.5.7-psx` from decompals/old-gcc 0.17 is in `tools/gcc-2.5.7-psx/`. Changes to the leaf set since run 1:
+- LOADER 0x8003A818 dropped: it writes three words through `t0`–`t2` to offset 20, the `t[3]` field of a PsyQ `MATRIX`. **Guess:** it's libgte's `TransMatrix`, hand-written asm the signatures missed.
+- C reworded where needed:
+  - table getters take `&base[i]` first;
+  - small globals are *defined* in the file, so GCC knows their size and uses `$gp`;
+  - LOADER 0x80036008's loop is written as `while (1) { if (digit) return s; s++; }`;
+  - DH1 0x80023400 walks with pointers;
+  - frame leaves contain `if (0) printf(...)` (see run 2).
+
+**Winner: GCC 2.5.7, `-O2 -G8`, ASPSX 2.34 matches 20 of 22 leaves.** The next best settings reach 18, and the old-gcc 2.6.3/2.7.2/2.8.1 builds stay at 3 or fewer.
+
+| GCC 2.5.7 `-O2 -G8`, matches per EXE | 2.08 | 2.21 | 2.34 | 2.56 | 2.67 | 2.79 |
+| --- | --- | --- | --- | --- | --- | --- |
+| LOADER (10 leaves) | 9 | **10** | 9 | 8 | 8 | 8 |
+| DH1 (6) | 3 | 3 | **6** | **6** | **6** | **6** |
+| DH2 (5) | 3 | **4** | **4** | 3 | 3 | 3 |
+| DH3 (1) | 1 | 1 | 1 | 1 | 1 | 1 |
+
+- **`-O2`** beats `-O1` (108 against 96 leaf matches summed over ASPSX versions).
+- **`-G8`:** under `-G0` and `-G4` the `$gp` leaves fail (DH1 0x80067E20 and 0x80067E60, DH2 0x8007270C, LOADER 0x800307EC).
+- **ASPSX differs between EXEs.** LOADER 0x800307EC matches only with 2.21: its indexed store is `lui at` / `addiu at` / `addu at` / `sb a0,0(at)`, the expansion of ASPSX 2.21 and earlier. DH1 0x80067E60, the same function, matches only with 2.34 or later. DH2 rules out 2.56 and later, so the games use **2.34**.
+- **Still failing:** DH2 0x80077CE0 (`while (n--)` sum, also in DH3). The original tests the old value of `n`; ours compares with -1. Three wordings tried; it goes to Phase 5.
+- **In the real build:** DH1 0x80023400, 0x80042538, 0x8004A7C4 and 0x80061A30 are now C in `src/dh1/dh1.c`, and `make check` matches.
+- **Open for Phase 5/6:** under `-G8`, GCC 2.5.7 uses `$gp` only for variables it knows are small. A plain `extern` comes out as a `lui` pair, so `$gp` globals have to be defined in (or moved into) the C file that uses them. Those definitions change `.sbss`/`.sdata` layout, so they wait until data is split per file.
+- **To confirm later:** the frame leaves suggest debug prints compiled out with `if (0)`, which would leave their format strings in `.rodata`. Look for unused debug strings near those functions.

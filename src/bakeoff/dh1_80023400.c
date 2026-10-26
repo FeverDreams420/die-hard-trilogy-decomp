@@ -3,13 +3,17 @@
 extern unsigned short D_801FC0D8[16];
 
 void func_80023400(unsigned short *src) {
+    unsigned short *dst = D_801FC0D8;
     unsigned short i;
+    int unused[2];
 
     for (i = 0; i < 16; i++) {
-        if (src[i] == 0) {
-            D_801FC0D8[i] = 0;
+        if (*src == 0) {
+            *dst = 0;
         } else {
-            D_801FC0D8[i] = 0xFFFF;
+            *dst = 0xFFFF;
         }
+        dst++;
+        src++;
     }
 }

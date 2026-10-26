@@ -8,5 +8,7 @@ typedef struct {
 } Entry16;
 
 void *func_80030A90(Entry16 *base, short i) {
-    return (char *)base + base[i].offset;
+    Entry16 *e = &base[i];
+
+    return (char *)base + e->offset;
 }

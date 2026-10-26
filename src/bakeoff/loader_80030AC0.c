@@ -8,5 +8,7 @@ typedef struct {
 } Entry16;
 
 int func_80030AC0(Entry16 *base, short i) {
-    return base[i].d;
+    Entry16 *e = &base[i];
+
+    return e->d;
 }

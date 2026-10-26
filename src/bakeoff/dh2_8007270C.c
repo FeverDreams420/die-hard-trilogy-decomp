@@ -6,7 +6,7 @@ typedef struct {
     int pad[4];
 } Entry24;
 
-extern Entry24 *D_800B679C;          /* gp+0x5B8 */
+Entry24 *D_800B679C;          /* gp+0x5B8 */
 
 int func_8007270C(short i) {
     return D_800B679C[i].b;

@@ -26,13 +26,14 @@ LDFLAGS := -EL --no-check-sections -nostdlib
 
 # C pipeline, mirroring the original toolchain:
 #   cpp -> cc1 (GCC) -> maspsx (makes GNU as behave like Sony's ASPSX) -> as
-# The compiler and flags are placeholders until the Phase 4 bake-off picks them.
-# A file can override them with a target-specific variable, for example:
-#   build/src/dh1/foo.c.o: CC1 := tools/gcc-2.8.1-psx/cc1
+# Settings from the Phase 4 bake-off (docs/compiler-notes.md): GCC 2.5.7 with -O2 -G8
+# matches 20 of 22 test leaves. ASPSX is 2.34 for the games; LOADER's code fits 2.21.
+# A file or EXE can override a setting with a target-specific variable, for example:
+#   build/src/loader/%.c.o: ASPSX_VER := 2.21
 # Ubuntu's cpp, not tools/gcc-*/cpp: the old 32-bit cpp can't open files on
 # /mnt/c ("Value too large for defined data type", large WSL inode numbers).
 CPP      := cpp
-CC1      := tools/gcc-2.7.2-psx/cc1
+CC1      := tools/gcc-2.5.7-psx/cc1
 GFLAG    := -G8
 CPPFLAGS := -nostdinc -Iinclude -undef -Dmips -D__mips__ -D__OPTIMIZE__ -Dpsx -D__psx__ \
 	-D_MIPSEL -D_LANGUAGE_C -DLANGUAGE_C
@@ -40,7 +41,8 @@ CFLAGS   := -quiet -O2 $(GFLAG) -w -fno-builtin -fpeephole -ffunction-cse -fpcc-
 	-fcommon -msoft-float
 # -O1 lets GNU as fill branch delay slots, which ASPSX did for compiled code
 CASFLAGS := $(ASFLAGS) -O1
-MASPSX   := $(PYTHON) tools/maspsx/maspsx.py --expand-div --aspsx-version=2.56 $(GFLAG)
+ASPSX_VER := 2.34
+MASPSX   = $(PYTHON) tools/maspsx/maspsx.py --expand-div --aspsx-version=$(ASPSX_VER) $(GFLAG)
 
 # Each EXE's objects: its top-level asm files (header, data, asm segments) and its
 # C files. The per-function files in asm/<exe>/nonmatchings/ are pulled into

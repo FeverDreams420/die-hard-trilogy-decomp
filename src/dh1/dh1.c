@@ -1355,7 +1355,23 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022D60);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023270);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023400);
+extern unsigned short D_801FC0D8[16];
+
+void func_80023400(unsigned short *src) {
+    unsigned short *dst = D_801FC0D8;
+    unsigned short i;
+    int unused[2];
+
+    for (i = 0; i < 16; i++) {
+        if (*src == 0) {
+            *dst = 0;
+        } else {
+            *dst = 0xFFFF;
+        }
+        dst++;
+        src++;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023450);
 
@@ -1777,7 +1793,21 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041AB4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041C48);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042538);
+typedef struct {
+    char pad[0x2A];
+    short f2A;
+    short f2C;
+} Obj;
+
+extern short D_800A2F3C;
+extern Obj *D_800A5E90[];
+
+void func_80042538(Obj *o) {
+    D_800A5E90[D_800A2F3C] = o;
+    o->f2C = 0;
+    o->f2A = 0;
+    D_800A2F3C++;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042570);
 
@@ -1897,7 +1927,16 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800499A4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80049C9C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004A7C4);
+int func_8004A7C4(int a, int b, int c) {
+    int t;
+
+    if (b <= 0) {
+        t = (b * c) >> 12;
+    } else {
+        t = b >> 2;
+    }
+    return a + t;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004A7E8);
 
@@ -2480,7 +2519,16 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061988);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800619C8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061A30);
+typedef struct {
+    int *p;
+    int pad[3];
+} Entry16;
+
+extern Entry16 *D_800A353C;
+
+int func_80061A30(short i) {
+    return *D_800A353C[i].p - 1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061A58);
 
