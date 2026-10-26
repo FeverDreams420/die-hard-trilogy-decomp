@@ -3846,7 +3846,22 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069A14);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069B1C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069BD4);
+extern long CloseEvent(long event);
+extern long StartPAD(void);
+extern long StopCARD(void);
+extern long D_800A2E8C;
+extern long D_800A2E94;
+extern long D_800A2E9C;
+extern long D_800A2EA4;
+
+void func_80069BD4(void) {
+    StopCARD();
+    CloseEvent(D_800A2E8C);
+    CloseEvent(D_800A2E94);
+    CloseEvent(D_800A2E9C);
+    CloseEvent(D_800A2EA4);
+    StartPAD();
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069C3C);
 
