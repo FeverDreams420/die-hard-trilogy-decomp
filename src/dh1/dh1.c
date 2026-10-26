@@ -1948,7 +1948,8 @@ typedef struct {
 } Unk800A317CVals;
 
 extern struct {
-    char pad0[0x1C];
+    void (*func)(void);
+    char pad4[0x18];
     Unk800A317CVals *vals;
     s16 id;
 } *D_800A317C;
@@ -2916,7 +2917,34 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061844);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061988);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800619C8);
+typedef struct {
+    s16 pad0[2];
+    s16 unk4;
+    s16 unk6;
+    s16 pad8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+} Unk800619C8;
+
+void func_80061174(void);
+
+void func_800619C8(void) {
+    Unk800619C8 *d = (Unk800619C8 *)D_800A317C->vals;
+
+    d->unk4 = 0x1000;
+    d->unkA = 30;
+    d->unk6 = 1488;
+    d->unkC = 0;
+    d->unk14 = 300;
+    d->unk10 = 20;
+    d->unk12 = 30;
+    func_80061174();
+    D_800A317C->func = func_80061174;
+}
 
 typedef struct {
     int *p;
