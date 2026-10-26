@@ -2647,7 +2647,27 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800531B0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800532BC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053464);
+extern void func_80021698(s32);
+extern void func_80052930(s32, s32);
+extern void func_8006A4C4(void);
+extern void func_8006A6A8(void);
+extern void func_80053538();
+extern s16 D_800A2F0C;
+extern u8 D_801C1B9E;
+
+void func_80053464(void) {
+    Unk8003BA6C_Data *data;
+
+    func_80021698(3);
+    data = func_80021264(func_80053538, 1, 4)->data;
+    D_800A2F0C = 7;
+    func_8006A4C4();
+    D_801C1B9E = 100;
+    func_8006A6A8();
+    data->unk0 = 16;
+    data->unk2 = 0;
+    func_80052930(1, -1);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800534E0);
 
