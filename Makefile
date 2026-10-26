@@ -14,6 +14,8 @@ FILE_dh1  := DH1.EXE
 # pipefail, so a cc1 error in the middle of the C pipeline fails the build
 SHELL       := /bin/bash
 .SHELLFLAGS := -o pipefail -c
+# and delete the half-written .o, or the next make thinks it's up to date
+.DELETE_ON_ERROR:
 
 CROSS   := mipsel-linux-gnu-
 AS      := $(CROSS)as
