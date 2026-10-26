@@ -3142,7 +3142,26 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A42C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A670);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005AB1C);
+extern s16 D_801C1EFE;
+extern u16 D_800852B0[][16];
+
+u16 func_8005AB1C(u16 buttons, s16 config) {
+    u16 *map;
+    u16 out;
+    s16 i;
+
+    if (D_801C1EFE != 0) {
+        config += 3;
+    }
+    map = D_800852B0[config];
+    out = 0;
+    for (i = 0; i < 16; i++) {
+        if ((buttons >> i) & 1) {
+            out |= map[i];
+        }
+    }
+    return out;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005ABA8);
 
