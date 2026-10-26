@@ -2204,7 +2204,47 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800433F4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043498);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800436E4);
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVECTOR;
+
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[4];
+    s16 unkA;
+    u8 padC[0xC];
+    s32 unk18;
+    s32 unk1C;
+    s32 unk20;
+    u8 pad24[8];
+    s16 hit;
+    u8 pad2E[6];
+    s16 unk34;
+    u8 pad36[2];
+} Unk800436E4_Probe;
+
+void func_80041C48(Unk800436E4_Probe *probe);
+void func_80042570(Unk800436E4_Probe *probe, s16 arg1);
+
+int func_800436E4(SVECTOR *pos, s16 arg1) {
+    Unk800436E4_Probe probe;
+
+    probe.x = pos->vx;
+    probe.y = pos->vy;
+    probe.z = pos->vz;
+    probe.unkA = 0;
+    probe.unk18 = arg1;
+    probe.unk1C = 0x400;
+    probe.unk20 = arg1;
+    probe.hit = 0;
+    probe.unk34 = 0;
+    func_80042570(&probe, arg1);
+    if (probe.hit != 0) {
+        return -1;
+    }
+    func_80041C48(&probe);
+    return -(probe.hit != 0);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043770);
 
@@ -2234,10 +2274,6 @@ s32 func_80043930(Unk80043930 *a, Unk80043930 *b, Unk80043930 *c) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800439A4);
-
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVECTOR;
 
 s32 func_80043A90(SVECTOR *a, SVECTOR *b) {
     s32 dx = (a->vx - b->vx) >> 4;
