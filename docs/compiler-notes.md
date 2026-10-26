@@ -165,3 +165,18 @@ Three leaves uploaded to decomp.me and compiled under all 24 PS1 compilers there
 - **In the real build:** DH1 0x80023400, 0x80042538, 0x8004A7C4 and 0x80061A30 are now C in `src/dh1/dh1.c`, and `make check` matches.
 - **Open for Phase 5/6:** under `-G8`, GCC 2.5.7 uses `$gp` only for variables it knows are small. A plain `extern` comes out as a `lui` pair, so `$gp` globals have to be defined in (or moved into) the C file that uses them. Those definitions change `.sbss`/`.sdata` layout, so they wait until data is split per file.
 - **To confirm later:** the frame leaves suggest debug prints compiled out with `if (0)`, which would leave their format strings in `.rodata`. Look for unused debug strings near those functions.
+
+## Phase 5: matching idioms for GCC 2.5.7
+
+Patterns that turned a near-miss into a match. Each names the DH1 function where it was found.
+
+| What the original shows | C that produces it |
+| --- | --- |
+| A count-down loop that copies `n` and tests the old value (`move v0,a1` / `addiu a1,a1,-1` / `bnez v0`) | `n = i--; if (n == 0) break;` (plain `while (i--)` compares the new value with -1) |
+| A field load kept after a store to a scalar global | Read the field through a raw cast, `*(T **)((u8 *)task + 0x1C)` (0x8004BDD0). The scheduler assumes struct fields and scalar globals never alias and hoists the load otherwise; array indexing doesn't help. |
+| A global's address kept in an `$s` register across a call | Read it through a local pointer, `s16 *count = &D_801D209C;` (0x8003BA6C) |
+| A constant reloaded on every pass (`li v0,-1`) instead of kept in an `$s` register | Write the loop with a label and `if (++i < n) goto top;` (0x8006AD2C). Loop-invariant motion only runs on `for`/`while`/`do` loops. |
+| A global loaded as `lui` + `addiu`, then `lhu 0(reg)` (the low half not folded into the load) | Declare it `volatile` (0x8005C244, `D_800A32AC`, probably pad input). Volatile shared arrays also stop delay slots from being filled (0x8002076C). |
+| An array walked with two `$s` pointers a field apart (base and base+6), both stepped by the element size | Step a pointer with `p++` (0x80050844). A `short` index needs a sign extension every pass, which blocks strength reduction. |
+| A byte load (`lbu`) from a field that other code reads as 16 bits | `u16` field read as `field & 0xFF`; combine narrows the load (0x80050358, `VoiceState.id`) |
+| An unused stack frame | A call removed as dead code, probably `if (0) printf(...)` |
