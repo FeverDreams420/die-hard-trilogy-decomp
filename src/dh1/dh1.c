@@ -1820,12 +1820,11 @@ typedef struct {
     s16 cell;
 } Unk80031200;
 
-extern u16 D_800A79F2;
-extern u16 D_800A79F4;
+extern u16 D_800A79F2[2];
 
 void func_80031200(Unk80031200 *p) {
-    s16 x = p->x + (D_800A79F2 << 9);
-    s16 z = p->z + (D_800A79F4 << 9);
+    s16 x = p->x + (D_800A79F2[0] << 9);
+    s16 z = p->z + (D_800A79F2[1] << 9);
 
     p->cell = x / 1024 + (z / 1024) * 32;
 }
@@ -2222,7 +2221,43 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EA9C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EAE0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EEA8);
+typedef struct {
+    s16 x;
+    s16 z;
+    u8 pad4[2];
+    s16 links[4];
+    s16 unkE[4];
+    s16 unk16;
+    u8 pad18[8];
+} Unk80043CC4;
+
+extern Unk80043CC4 *D_800A3084;
+extern s16 D_800A31DC;
+extern u32 func_8003E42C(void *, s32);
+
+void func_8003EEA8(void *file) {
+    Unk80043CC4 *node;
+    u32 count;
+    u32 n;
+    s16 i;
+
+    D_800A3084 = func_8003E414(file, 1);
+    count = func_8003E42C(file, 1) >> 5;
+    i = 0;
+    while (1) {
+        n = count--;
+        if (n == 0) break;
+        node = &D_800A3084[i];
+        i++;
+        node->x -= D_800A79F2[0] << 9;
+        node->z -= D_800A79F2[1] << 9;
+        node->unkE[0] = 0;
+        node->unkE[1] = 0;
+        node->unkE[2] = 0;
+        node->unkE[3] = 0;
+    }
+    D_800A31DC = i;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EF64);
 
@@ -2437,16 +2472,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B0C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B6C);
 
-typedef struct {
-    u8 pad0[6];
-    s16 links[4];
-    u8 padE[8];
-    s16 unk16;
-    u8 pad18[8];
-} Unk80043CC4;
-
-extern Unk80043CC4 *D_800A3084;
-extern s16 D_800A31DC;
 
 s16 func_80043C60(s16 exclude) {
     s16 idx;
