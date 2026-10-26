@@ -2840,7 +2840,25 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80056918);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800569DC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80056A64);
+typedef struct {
+    char pad0[0xC8];
+    s16 timers[20];
+    s16 active;
+} Unk80056A64;
+
+void func_80056A64(void) {
+    Unk80056A64 *d = (Unk80056A64 *)D_800A317C->vals;
+    s16 i;
+    int unused[4];
+
+    for (i = 0; i < 20; i++) {
+        if (d->timers[i] != 0) {
+            if (--d->timers[i] == 0) {
+                d->active--;
+            }
+        }
+    }
+}
 
 typedef struct {
     s16 vx, vy, vz, pad;
