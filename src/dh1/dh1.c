@@ -687,7 +687,27 @@ void func_8001FCB0(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FD58);
+extern long OpenEvent(unsigned long desc, long spec, long mode, long (*func)());
+extern long EnableEvent(long event);
+extern void func_8006B3C0(void);
+extern void func_8006B3D0(void);
+extern void func_8006B340(unsigned long spec, unsigned short target, long mode);
+extern void func_8006B360(unsigned long spec);
+extern void func_8006B370(unsigned long spec);
+extern long D_800A31AC;
+long func_8001FE30();
+
+void func_8001FD58(void) {
+    if (D_800A31AC == 0) {
+        func_8006B3C0();
+        D_800A31AC = OpenEvent(0xF2000003, 2, 0x1000, func_8001FE30);
+        EnableEvent(D_800A31AC);
+        func_8006B340(0xF2000003, 1, 0x1000);
+        func_8006B360(0xF2000003);
+        func_8006B370(0xF2000003);
+        func_8006B3D0();
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FDE4);
 
