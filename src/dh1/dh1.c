@@ -2446,6 +2446,8 @@ extern volatile u16 D_800A343C[];
 extern struct {
     u8 pad[0x1780];
     s16 unk1780;
+    u8 pad1782[0x8];
+    s16 unk178A;
 } *D_800A350C;
 
 void func_80054F48(void) {
@@ -3154,7 +3156,23 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069C84);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A108);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A13C);
+extern char D_8007B5E0[];
+extern char D_8007B5FC[];
+extern char D_8007B618[];
+extern char D_8007B634[];
+
+char *func_8006A13C(s16 arg0) {
+    if (arg0 == 0) {
+        if (D_800A350C->unk178A != 0) {
+            return D_8007B5E0;
+        }
+        return D_8007B5FC;
+    }
+    if (D_800A350C->unk178A != 0) {
+        return D_8007B618;
+    }
+    return D_8007B634;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A1A8);
 
