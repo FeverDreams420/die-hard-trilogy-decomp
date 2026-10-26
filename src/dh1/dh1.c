@@ -2521,7 +2521,34 @@ void func_8004DDB4(u8 *a, u8 *b, s16 t, u8 *out) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004DE24);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004DFD0);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 vals[64];
+} Unk8004DFD0_Data;
+
+extern void *func_80021358(void (*fn)(), s32, s32);
+extern void *D_801F7D7C;
+extern void func_8004E04C();
+
+void func_8004DFD0(void) {
+    void *task;
+    Unk8004DFD0_Data *data;
+    s16 i;
+
+    task = func_80021358(func_8004E04C, 1, 0x86);
+    if (task != NULL) {
+        D_801F7D7C = task;
+        data = *(Unk8004DFD0_Data **)((u8 *)task + 0x1C);
+        data->unk0 = 0;
+        data->unk2 = 0;
+        data->unk4 = 0;
+        for (i = 0; i < 64; i++) {
+            data->vals[i] = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004E04C);
 
