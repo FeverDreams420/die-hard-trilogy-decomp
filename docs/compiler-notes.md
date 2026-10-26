@@ -107,4 +107,16 @@ The 25 picked leaves minus two that can't be C: DH1 0x8006B3E0 writes `$sp` dire
   - DH1: `lui at` / `addu at,at,v0` / `sb a0,lo(at)`.
   
   maspsx's version table gives the `addiu` form to ASPSX 2.21 and earlier. **Guess:** LOADER was assembled with an older ASPSX than DH1.
-- **Next:** GCC 2.6.3, the earlier PSX GCC and the remaining candidate for a 1996 SDK, is not installed. It is in the same decompals/old-gcc 0.17 release as our 2.7.2 and 2.8.1 builds (`gcc-2.6.3-psx.tar.gz`, 3.4 MB).
+
+### Run 2 (Oct 25, 2026): GCC 2.6.3 added (108 settings)
+
+- **GCC 2.6.3 matches the same 3 leaves and fails the same 20.** For these leaves 2.6.3, 2.7.2 and 2.8.1 produce identical code, and so does every flag tried on four representative leaves. The flags were `-O0`, `-O3`, `-fno-schedule-insns(2)`, `-fno-expensive-optimizations`, `-fno-strength-reduce`, `-fno-omit-frame-pointer`, `-fno-defer-pop`, `-fforce-mem`, `-fno-peephole`, `-fno-function-cse`, `-fcaller-saves`, `-g`, `-fno-cse-follow-jumps`, and `-mno-gas`/`-mmips-as`/`-mno-abicalls`.
+- **The unused stack frames are explained:** a call that the compiler later throws away still reserves the 16-byte argument area. `void f(void) { if (0) printf(...); }` gives exactly DH2 0x80031F90's 16-byte frame, and adding an unused `int x[2]` gives DH3 0x80055648's 24-byte frame. **Guess:** debug prints compiled out with a macro. To check: the dead string (`"debug
+"` in our test) stays in `.rdata`, so the original data should contain unused debug strings near these functions.
+- **What remains is three patterns none of our compiler builds reproduces:**
+  1. the result is computed in `v0`/`v1`, not in a dead argument register;
+  2. the first operand stays the destination (`addu a0,a0,a1` where ours has `addu a1,a1,a0`);
+  3. a frame with no saved registers is restored in the `jr ra` delay slot. GCC prints that epilogue as text after its delay-slot pass, so it can't fill the slot, and maspsx (like ASPSX) never fills slots.
+- **Conclusion so far:** the game was probably not built with these decompals/old-gcc rebuilds (GNU GCC plus PSX patches). **Guess:** Sony's own `cc1psx` from the PsyQ SDK differs in register allocation and in its epilogue. Next ways to find out:
+  1. decomp.me, whose PS1 presets run Sony's PsyQ compilers. This means uploading a few leaves' asm to a public site.
+  2. An original PsyQ SDK, if one turns up: `cc1psx.exe` run through Wine/DOSBox in place of `cc1`.
