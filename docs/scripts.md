@@ -22,6 +22,8 @@ Open it with `wsl -d Ubuntu-24.04 --cd /mnt/c/src/die-hard-trilogy-decomp`, then
 | --- | --- |
 | Disassemble an address range | `bash tools/re/dis.sh DH1.EXE 0x8001E9DC 0x8001EA74` |
 | Check that the toolchain is installed | `bash tools/check-env.sh` |
+| Rerun splat for every EXE in the Makefile | `make split` |
+| Rebuild and compare with the disc | `make check` (prints `OK` and the SHA-1, or the first differing byte) |
 
 ## Reading the `docs/phase2/` lists
 

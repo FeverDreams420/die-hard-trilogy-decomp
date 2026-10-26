@@ -1,0 +1,39 @@
+# splat config for BOOT.EXE (Phase 3: zero-C matching build).
+# Layout from the PS-X EXE header and build/ghidra/BOOT.funcs.tsv:
+#   0x80013000 rodata ($Id strings at 0x80013244), first function 0x80013590,
+#   last function ends 0x80019B5C (then 4 bytes of zero padding), data 0x80019B60 up to 0x8001B800. No bss in the header.
+name: BOOT.EXE
+sha1: e96cf5a9aa3c83c36b584f736dc44919eaba0305
+options:
+  basename: boot
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  target_path: disc/BOOT.EXE
+  asm_path: asm/boot
+  src_path: src/boot
+  asset_path: build/boot/assets
+  build_path: build
+  ld_script_path: build/boot.ld
+  symbol_addrs_path:
+    - config/symbol_addrs.txt
+    - config/symbol_addrs.boot.txt
+  undefined_funcs_auto_path: build/boot.undefined_funcs_auto.txt
+  undefined_syms_auto_path: build/boot.undefined_syms_auto.txt
+  gp_value: 0x8001B1C4
+  find_file_boundaries: yes
+  use_legacy_include_asm: no
+  section_order: [".rodata", ".text", ".data", ".bss"]
+segments:
+  - name: header
+    type: header
+    start: 0x0
+  - name: boot
+    type: code
+    start: 0x800
+    vram: 0x80013000
+    subsegments:
+      - [0x800, rodata]
+      - [0xD90, asm]
+      - [0x7360, data]
+  - [0x9000]
