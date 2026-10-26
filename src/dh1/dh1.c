@@ -3043,8 +3043,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B428);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B488);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B4E8);
-
 typedef struct {
     u8 pad0[0x2C];
     s16 unk2C;
@@ -3061,6 +3059,16 @@ typedef struct {
 
 extern s16 D_800A2E84;
 void func_80024DA8(void *arg0, int arg1, int arg2, int arg3, int arg4);
+
+void func_8005B4E8(Unk8005B554 *obj) {
+    D_800A2E84 = 0;
+    obj->unk2C = 5;
+    func_80024DA8(obj->unk64, 0x14, 2000, 500, 3);
+    obj->unk4C = 0x60;
+    obj->unk50 = 0;
+    obj->unkB0 = 0x1C0;
+    obj->unk78 |= 1;
+}
 
 void func_8005B554(Unk8005B554 *obj) {
     D_800A2E84 = 0;
