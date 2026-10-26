@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libspu.h"
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_0);
 
@@ -2241,7 +2242,26 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FFE0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050044);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050080);
+typedef struct {
+    short left;
+    short right;
+    char pad[8];
+} VoiceVol;
+
+extern VoiceVol D_801C1F1C[];
+
+void func_80050080(void) {
+    SpuVoiceAttr attr;
+    int i;
+
+    for (i = 0; i < 24; i++) {
+        attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+        attr.volume.left = D_801C1F1C[i].left;
+        attr.volume.right = D_801C1F1C[i].right;
+        attr.voice = 1 << i;
+        SpuSetVoiceAttr(&attr);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005010C);
 
