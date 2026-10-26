@@ -5,6 +5,10 @@
 
 #define SPU_VOICE_VOLL (0x01 << 0)
 #define SPU_VOICE_VOLR (0x01 << 1)
+#define SPU_VOICE_VOLMODEL (0x01 << 2)
+#define SPU_VOICE_VOLMODER (0x01 << 3)
+#define SPU_VOICE_PITCH (0x01 << 4)
+#define SPU_VOICE_NOTE (0x01 << 5)
 
 #define SPU_COMMON_MVOLL (0x01 << 0)
 #define SPU_COMMON_MVOLR (0x01 << 1)

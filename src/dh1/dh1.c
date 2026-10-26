@@ -2343,12 +2343,14 @@ void func_8004FFE0(int volume, int pan) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050044);
 
 typedef struct {
+    u8 id;
+    u8 pad1;
     short left;
     short right;
-    char pad[8];
+    char pad6[6];
 } VoiceVol;
 
-extern VoiceVol D_801C1F1C[];
+extern VoiceVol D_801C1F1A[];
 
 void func_80050080(void) {
     SpuVoiceAttr attr;
@@ -2356,8 +2358,8 @@ void func_80050080(void) {
 
     for (i = 0; i < 24; i++) {
         attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
-        attr.volume.left = D_801C1F1C[i].left;
-        attr.volume.right = D_801C1F1C[i].right;
+        attr.volume.left = D_801C1F1A[i].left;
+        attr.volume.right = D_801C1F1A[i].right;
         attr.voice = 1 << i;
         SpuSetVoiceAttr(&attr);
     }
@@ -2369,7 +2371,19 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050158);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050288);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800502F0);
+int func_800502F0(int handle, short note) {
+    SpuVoiceAttr attr;
+    int voice = handle & 0xFF;
+
+    if (D_801C1F1A[voice].id == ((handle >> 8) & 0xFF)) {
+        attr.mask = SPU_VOICE_NOTE;
+        attr.note = note;
+        attr.voice = 1 << voice;
+        SpuSetVoiceAttr(&attr);
+        return 0;
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050358);
 
