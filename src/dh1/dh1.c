@@ -2797,8 +2797,7 @@ typedef struct {
     short unk0;
     short unk2;
     short unk4;
-    u8 id;
-    u8 pad7;
+    u16 id;
     short left;
     short right;
 } VoiceState;
@@ -2811,7 +2810,7 @@ void func_80050158(int handle, int arg1, int arg2);
 int func_80050358(int handle) {
     int voice = handle & 0xFF;
 
-    if (D_801C1F14[voice].id == ((handle >> 8) & 0xFF)) {
+    if ((D_801C1F14[voice].id & 0xFF) == ((handle >> 8) & 0xFF)) {
         SpuSetKey(0, 1 << voice);
         D_801C1F14[voice].unk2 = 0;
         D_801C1F14[voice].unk0 = D_800A33DC;
@@ -2833,7 +2832,23 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050738);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050758);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050844);
+void func_80050844(void) {
+    VoiceState *v;
+    short i;
+    short j;
+
+    D_800A33DC = 0;
+    v = D_801C1F14;
+    for (i = 0; i < 24; i++) {
+        for (j = 0; j < 24; j++) {
+            func_80050358((v->id << 8) | j);
+        }
+        v->unk0 = 0;
+        v->unk2 = 0;
+        v->id = 0;
+        v++;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800508F0);
 
