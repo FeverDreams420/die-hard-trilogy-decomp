@@ -2087,8 +2087,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B0C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B6C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043C60);
-
 typedef struct {
     u8 pad0[6];
     s16 links[4];
@@ -2099,6 +2097,19 @@ typedef struct {
 
 s32 func_8001E9DC(s32);
 extern Unk80043CC4 *D_800A3084;
+extern s16 D_800A31DC;
+
+s16 func_80043C60(s16 exclude) {
+    s16 idx;
+
+    do {
+        do {
+            idx = func_8001E9DC(D_800A31DC);
+        } while (idx == exclude);
+    } while (D_800A3084[idx].unk16 == 3);
+    return idx;
+}
+
 
 s16 func_80043CC4(s16 idx) {
     Unk80043CC4 *node;
