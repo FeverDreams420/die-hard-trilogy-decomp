@@ -1474,7 +1474,20 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A194);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A270);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A35C);
+typedef struct {
+    s16 x;
+    s16 pad2;
+    s16 z;
+} Unk8002A35C;
+
+extern s32 SquareRoot0(s32 a);
+
+s32 func_8002A35C(Unk8002A35C *a, Unk8002A35C *b) {
+    s16 dx = a->x - b->x;
+    s16 dz = a->z - b->z;
+
+    return SquareRoot0(dx * dx + dz * dz);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A3C4);
 
