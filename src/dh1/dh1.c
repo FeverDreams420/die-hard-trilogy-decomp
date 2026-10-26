@@ -3579,7 +3579,19 @@ int func_80061A30(short i) {
     return *D_800A353C[i].p - 1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061A58);
+extern s16 D_800A3554;
+extern s16 D_800A3558;
+
+s16 func_80061A58(SVECTOR *pos) {
+    s16 dx = pos->vx - D_800A3554;
+    s16 dz = pos->vz - D_800A3558;
+    s16 dist = SquareRoot0(dx * dx + dz * dz);
+
+    if (dist > 3000) {
+        dist = 3000;
+    }
+    return 0x1000 - dist;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061AF0);
 
