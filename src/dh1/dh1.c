@@ -1522,7 +1522,24 @@ s32 func_80028E94(Vec32 *a, Vec32 *b) {
     return SquareRoot0(sum + dz * dz);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028F00);
+typedef struct {
+    s16 vx;
+    s16 vy;
+    s16 vz;
+} Vec16;
+
+extern s16 func_80028C78(Vec32 *from, Vec32 *to);
+extern Vec32 D_8007C3BC;
+
+void func_80028F00(Vec32 *from, Vec32 *to, Vec16 *angle) {
+    Vec32 d;
+
+    angle->vy = -func_80028C78(from, to);
+    d.vz = func_80028E94(from, to);
+    d.vx = to->vy - from->vy;
+    angle->vx = func_80028C78(&D_8007C3BC, &d) - 0x800;
+    angle->vz = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028F80);
 
