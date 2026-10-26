@@ -16,6 +16,7 @@ Usage (WSL, repo root): .venv/bin/python tools/bakeoff.py [leaf ...]
 import csv
 import glob
 import itertools
+import multiprocessing
 import os
 import re
 import struct
@@ -32,7 +33,7 @@ TSV = {"slus": "SLUS_001", "boot": "BOOT", "loader": "LOADER", "slide": "SLIDE",
 GCCS = sorted(os.path.basename(d) for d in glob.glob(os.path.join(ROOT, "tools", "gcc-*")))
 OPTS = ["-O1", "-O2"]
 GS = ["-G0", "-G4", "-G8"]
-ASPSX = ["2.34", "2.56", "2.67", "2.79"]
+ASPSX = ["2.08", "2.21", "2.34", "2.56", "2.67", "2.79"]
 CPPFLAGS = ["-nostdinc", "-Iinclude", "-undef", "-Dmips", "-D__mips__", "-D__OPTIMIZE__", "-D_MIPSEL",
             "-D_LANGUAGE_C", "-DLANGUAGE_C", "-DM2CTX"]
 CFLAGS = ["-quiet", "-w", "-fno-builtin", "-fpeephole", "-ffunction-cse", "-fpcc-struct-return",
@@ -105,23 +106,27 @@ def show(leaf, *combo):
         print("MATCH" if same(want, got, masks) else "DIFF")
 
 
+def run_one(task):
+    leaf, combo = task
+    exe, addr = os.path.basename(leaf)[:-2].split("_")
+    want = original(exe, int(addr, 16))
+    with tempfile.TemporaryDirectory(dir=os.path.join(ROOT, "build")) as tmp:
+        got, masks = compile_leaf(leaf, *combo, tmp)
+    return os.path.basename(leaf)[:-2], combo, int(got is not None and same(want, got, masks))
+
+
 def main():
     if sys.argv[1:2] == ["--show"]:
         return show(*sys.argv[2:7])
     leaves = sys.argv[1:] or sorted(glob.glob(os.path.join(ROOT, "src", "bakeoff", "*.c")))
     combos = list(itertools.product(GCCS, OPTS, GS, ASPSX))
+    with multiprocessing.Pool() as pool:
+        results = pool.map(run_one, [(leaf, c) for leaf in leaves for c in combos])
     wins = {c: 0 for c in combos}
     rows = []
-    with tempfile.TemporaryDirectory(dir=os.path.join(ROOT, "build")) as tmp:
-        for leaf in leaves:
-            name = os.path.basename(leaf)[:-2]
-            exe, addr = name.split("_")
-            want = original(exe, int(addr, 16))
-            for c in combos:
-                got, masks = compile_leaf(leaf, *c, tmp)
-                ok = got is not None and same(want, got, masks)
-                wins[c] += ok
-                rows.append((name, *c, int(ok)))
+    for name, c, ok in results:
+        wins[c] += ok
+        rows.append((name, *c, ok))
     with open(os.path.join(ROOT, "build", "bakeoff.tsv"), "w") as f:
         f.write("leaf\tgcc\topt\tG\taspsx\tmatch\n")
         for r in rows:
@@ -129,6 +134,11 @@ def main():
     print(f"{len(leaves)} leaves x {len(combos)} settings; best first (matches / {len(leaves)}):")
     for c, n in sorted(wins.items(), key=lambda kv: -kv[1])[:12]:
         print(f"  {n:3}  {' '.join(c)}")
+    per_leaf = {}
+    for name, *_, ok in rows:
+        per_leaf[name] = per_leaf.get(name, 0) + ok
+    never = [n for n, k in per_leaf.items() if k == 0]
+    print(f"leaves matching under no setting ({len(never)}): {' '.join(never)}")
     print("per-leaf results -> build/bakeoff.tsv")
 
 

@@ -90,10 +90,21 @@ There are no overlays, so the original question ("which main-EXE functions does 
 
 ## Phase 4: bake-off (in progress)
 
-Harness: `.venv/bin/python tools/bakeoff.py` compiles every `src/bakeoff/<exe>_<ADDR>.c` under each GCC in `tools/gcc-*` × `-O1`/`-O2` × `-G0`/`-G4`/`-G8` × maspsx `--aspsx-version` 2.34/2.56/2.67/2.79 (48 settings with two compilers). It compares each result with the original bytes, ignoring words the linker fills in. `--show <leaf> <gcc> <opt> <G> <aspsx>` disassembles one compile next to the original.
+Harness: `.venv/bin/python tools/bakeoff.py` compiles every `src/bakeoff/<exe>_<ADDR>.c` under each GCC in `tools/gcc-*` × `-O1`/`-O2` × `-G0`/`-G4`/`-G8` × maspsx `--aspsx-version` 2.08/2.21/2.34/2.56/2.67/2.79 (72 settings with two compilers, about 3 minutes). It compares each result with the original bytes, ignoring words the linker fills in. `--show <leaf> <gcc> <opt> <G> <aspsx>` disassembles one compile next to the original.
 
-First leaf, DH1 0x8004A7C4 (`a + (b <= 0 ? (b*c) >> 12 : b >> 2)`), Oct 25, 2026:
+### Run 1 (Oct 25, 2026): 23 leaves, GCC 2.7.2 and 2.8.1
 
-- No setting matches yet, and GCC 2.7.2 and 2.8.1 give the same code for it.
-- The original is 9 instructions: `bgtz` over the multiply path, `mflo v0` then a `nop`, then a `j` over the else block. Five wordings of the C gave 7 or 8 instructions: none produced the `nop` after `mflo`, and none produced the jump-over shape with `v0` for the temporary.
-- **Guess:** this points to a different compiler or flags (GCC 2.6.3 is not installed), but one leaf decides nothing. Next: C for the other 24 leaves in `docs/phase2/bakeoff-leaves.tsv`, then rerun the matrix.
+The 25 picked leaves minus two that can't be C: DH1 0x8006B3E0 writes `$sp` directly, and LOADER 0x8003ACF8 is GTE code (`mtc2`).
+
+- **Only 3 of 23 match under any setting:** DH2 0x8003456C and LOADER 0x80026268 under all 72 settings, LOADER 0x80026278 only with GCC 2.7.2 (any `-O`, `-G` and ASPSX). Best setting: 3/23.
+- **The 20 failures have the right shape and length but differ in register choice and operand order, consistently.** Examples:
+  - LOADER 0x80030AA8 has `addu a0,a0,a1` / `lw v0,8(a0)`; ours has `addu a1,a1,a0` / `lw v0,8(a1)`.
+  - LOADER 0x80026254 has `addu v0,a0,a1` … `li v1,-4`; ours computes in `a0` and uses `v0` for the constant.
+  - The original keeps the first operand as the destination and uses `v0`/`v1` for temporaries, where GCC 2.7.2 and 2.8.1 reuse the argument registers. That pattern is too regular to come from how the C is worded, which points at the compiler.
+- Five more leaves allocate a stack frame they never use (DH1 0x80023400 and 0x80042538, DH2 0x80031F90, DH3 0x80055648, LOADER 0x8001E984). Neither compiler does that for this C.
+- **ASPSX hint:** LOADER 0x800307EC and DH1 0x80067E60 are the same function, but the indexed byte store is expanded differently:
+  - LOADER: `lui at` / `addiu at,at,lo` / `addu at,at,v0` / `sb a0,0(at)`;
+  - DH1: `lui at` / `addu at,at,v0` / `sb a0,lo(at)`.
+  
+  maspsx's version table gives the `addiu` form to ASPSX 2.21 and earlier. **Guess:** LOADER was assembled with an older ASPSX than DH1.
+- **Next:** GCC 2.6.3, the earlier PSX GCC and the remaining candidate for a 1996 SDK, is not installed. It is in the same decompals/old-gcc 0.17 release as our 2.7.2 and 2.8.1 builds (`gcc-2.6.3-psx.tar.gz`, 3.4 MB).
