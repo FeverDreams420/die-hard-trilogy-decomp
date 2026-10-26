@@ -120,3 +120,21 @@ The 25 picked leaves minus two that can't be C: DH1 0x8006B3E0 writes `$sp` dire
 - **Conclusion so far:** the game was probably not built with these decompals/old-gcc rebuilds (GNU GCC plus PSX patches). **Guess:** Sony's own `cc1psx` from the PsyQ SDK differs in register allocation and in its epilogue. Next ways to find out:
   1. decomp.me, whose PS1 presets run Sony's PsyQ compilers. This means uploading a few leaves' asm to a public site.
   2. An original PsyQ SDK, if one turns up: `cc1psx.exe` run through Wine/DOSBox in place of `cc1`.
+
+### Run 3 (Oct 25, 2026): decomp.me, every PS1 compiler
+
+Three leaves uploaded to decomp.me and compiled under all 24 PS1 compilers there with `-O2 -G0`. Score 0 means an exact match; scratches `UmS5u`, `8uRbX` and `MNFBs` on decomp.me.
+
+| Compiler | LOADER 0x80026254 | LOADER 0x80030AA8 | DH1 0x8004A7C4 |
+| --- | --- | --- | --- |
+| **gcc2.5.7-psx** | **0** | 20 (**0** with `Entry16 *e = &base[i]; return e->c;`) | **0** |
+| gcc2.6.0-psx, gcc2.6.3-psx | 30 | 20 | 100 |
+| gcc2.7.x (psx, cdk, mipsel), gcc2.8.x | 30 | 20 | 125 |
+| gcc2.91.66-psx, gcc2.95.2-psx | 30 | 20 | 100 |
+| psyq3.3, psyq3.5, psyq4.5, psyq4.6, psyq_263_221 | 30 | 20 | 100 |
+| psyq3.6, psyq4.0–4.4 | 30 | 20 | 125 |
+
+- **Finding: GCC 2.5.7 (PSX patches) reproduces all three, including the `v0` register choice and DH1 0x8004A7C4's `mflo v0` / `nop` / jump-over shape. No other compiler matches any of the three, Sony's PsyQ presets included.**
+- So the game's own code was compiled with a GCC older than the PsyQ 3.5 libraries it links against. **Guess:** the developers kept an older compiler while updating the libraries.
+- `0x80030AA8` shows that wording still matters: `return base[i].c;` scores 20 even under 2.5.7, while taking `&base[i]` first matches.
+- **Next:** install `gcc-2.5.7-psx` locally (decompals/old-gcc 0.17, 3.2 MB), rerun `tools/bakeoff.py` on all 23 leaves for `-O1`/`-O2`, `-G` and the ASPSX version, then switch the Makefile from 2.7.2.
