@@ -1778,7 +1778,57 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031264);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031320);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003146C);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[4];
+    s16 unkA;
+    u8 padC[4];
+    s16 unk10;
+    u8 pad12[2];
+    s16 unk14;
+    u8 pad16[2];
+    s32 unk18;
+    s32 unk1C;
+    s32 unk20;
+    u8 pad24[4];
+    s16 unk28;
+    u8 pad2A[2];
+    s16 hit;
+    u8 pad2E[6];
+    s16 unk34;
+    u8 pad36[2];
+} Unk800436E4_Probe;
+
+void func_80041C48(Unk800436E4_Probe *probe);
+void func_80042570(Unk800436E4_Probe *probe);
+
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0x8E];
+    Unk800436E4_Probe probe;
+    u8 padCC[0x88];
+    s16 unk154;
+} Unk8003146C;
+
+void func_80041104();
+
+void func_8003146C(Unk8003146C *obj) {
+    obj->probe.unk34 = 0;
+    obj->probe.unk28 = 0;
+    if (obj->unk154 == 0) {
+        func_80042570(&obj->probe);
+    }
+    func_80041C48(&obj->probe);
+    if (obj->probe.hit != 0) {
+        obj->x += obj->probe.unk10;
+        obj->z += obj->probe.unk14;
+    }
+    obj->probe.hit = 0;
+    obj->probe.x = obj->x;
+    obj->probe.y = obj->y;
+    obj->probe.z = obj->z;
+    func_80041104(obj);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031500);
 
@@ -2228,24 +2278,6 @@ typedef struct {
     s16 vx, vy, vz, pad;
 } SVECTOR;
 
-typedef struct {
-    s16 x, y, z;
-    u8 pad6[4];
-    s16 unkA;
-    u8 padC[0xC];
-    s32 unk18;
-    s32 unk1C;
-    s32 unk20;
-    u8 pad24[8];
-    s16 hit;
-    u8 pad2E[6];
-    s16 unk34;
-    u8 pad36[2];
-} Unk800436E4_Probe;
-
-void func_80041C48(Unk800436E4_Probe *probe);
-void func_80042570(Unk800436E4_Probe *probe, s16 arg1);
-
 int func_800436E4(SVECTOR *pos, s16 arg1) {
     Unk800436E4_Probe probe;
 
@@ -2258,7 +2290,7 @@ int func_800436E4(SVECTOR *pos, s16 arg1) {
     probe.unk20 = arg1;
     probe.hit = 0;
     probe.unk34 = 0;
-    func_80042570(&probe, arg1);
+    func_80042570(&probe);
     if (probe.hit != 0) {
         return -1;
     }
