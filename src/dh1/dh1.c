@@ -2333,7 +2333,28 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800430AC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043308);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800433F4);
+typedef struct {
+    s16 m[3][3];
+    s32 t[3];
+} MATRIX;
+
+extern void SetRotMatrix(MATRIX *m);
+extern void SetTransMatrix(MATRIX *m);
+extern void func_800430AC(Obj *o, s32);
+extern MATRIX D_801C0B64;
+
+void func_800433F4(void) {
+    SVECTOR unused;
+    short i;
+
+    if (D_800A2F3C != 0) {
+        SetRotMatrix(&D_801C0B64);
+        SetTransMatrix(&D_801C0B64);
+        for (i = 0; i < D_800A2F3C; i++) {
+            func_800430AC(D_800A5E90[i], 2);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043498);
 
@@ -3810,11 +3831,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800665E8);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800666C4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066AB0);
-
-typedef struct {
-    s16 m[3][3];
-    s32 t[3];
-} MATRIX;
 
 typedef struct {
     s32 vx, vy, vz, pad;
