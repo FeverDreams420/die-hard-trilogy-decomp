@@ -2096,7 +2096,40 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800525F8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800527E8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005286C);
+typedef struct {
+    s16 x, y;
+    s32 pad;
+} Unk8005286C_Entry;
+
+typedef struct {
+    u8 pad0[0x18];
+    Unk8005286C_Entry unk18[2];
+    s16 unk28;
+    s16 unk2A;
+    u8 pad2C[8];
+    s32 unk34;
+    s32 unk38;
+} Unk8005286C;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk8005286C *unk1C;
+} *D_801F7D64;
+
+void func_8005286C(void) {
+    Unk8005286C *p = D_801F7D64->unk1C;
+    volatile s32 timeout = 60000;
+
+    while (p->unk38 == 0) {
+        if (--timeout == 0) {
+            p->unk38 = 1;
+            p->unk34 = !p->unk34;
+            p->unk28 = p->unk18[p->unk34].x;
+            p->unk2A = p->unk18[p->unk34].y;
+        }
+    }
+    p->unk38 = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052910);
 
