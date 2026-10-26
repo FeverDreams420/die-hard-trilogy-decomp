@@ -2344,7 +2344,12 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004D650);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004DA48);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004DDB4);
+extern u8 func_800296F8(u8 a, u8 b, s16 t);
+
+void func_8004DDB4(u8 *a, u8 *b, s16 t, u8 *out) {
+    out[0] = func_800296F8(a[0], b[0], t);
+    out[1] = func_800296F8(a[1], b[1], t);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004DE24);
 
