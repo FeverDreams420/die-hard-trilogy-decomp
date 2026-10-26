@@ -600,7 +600,46 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001E9DC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001EA74);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001EBD4);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk8003BA6C_Data;
+
+typedef struct {
+    u8 pad[0x1C];
+    Unk8003BA6C_Data *data;
+} Unk8003BA6C_Task;
+
+typedef struct {
+    s32 pad0;
+    s32 vals[3];
+} Unk800A317CVals;
+
+extern struct {
+    void (*func)(void);
+    char pad4[0x18];
+    Unk800A317CVals *vals;
+    s16 id;
+} *D_800A317C;
+
+extern Unk8003BA6C_Task *func_80021264(void (*fn)(), s32, s32);
+extern void func_8003E77C(void *, s32);
+extern void *D_800A33E4;
+extern u8 *D_800A3304;
+extern void (*D_800A34A4)(void);
+extern u8 D_800C38E8[];
+extern void func_8001EC50(void);
+extern void func_8003E4E8(void);
+extern void func_80069728();
+
+void func_8001EBD4(void) {
+    D_800A33E4 = D_800C38E8;
+    D_800A3304 = (u8 *)0x80013000;
+    func_80021264(func_80069728, 4, 0x12);
+    func_8003E77C(D_800A33E4, 0x87);
+    D_800A34A4 = func_8001EC50;
+    D_800A317C->func = func_8003E4E8;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001EC50);
 
@@ -1928,18 +1967,7 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003B850);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003B9B0);
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-} Unk8003BA6C_Data;
-
-typedef struct {
-    u8 pad[0x1C];
-    Unk8003BA6C_Data *data;
-} Unk8003BA6C_Task;
-
 extern s16 D_801D209C;
-extern Unk8003BA6C_Task *func_80021264(void (*fn)(), s32, s32);
 extern void func_8003B9B0();
 
 void func_8003BA6C(void) {
@@ -2089,18 +2117,6 @@ extern struct {
     char pad0[0x1C];
     Unk80041178List *list;
 } *D_801F7D28;
-
-typedef struct {
-    s32 pad0;
-    s32 vals[3];
-} Unk800A317CVals;
-
-extern struct {
-    void (*func)(void);
-    char pad4[0x18];
-    Unk800A317CVals *vals;
-    s16 id;
-} *D_800A317C;
 
 typedef struct {
     char pad0[0x12];
