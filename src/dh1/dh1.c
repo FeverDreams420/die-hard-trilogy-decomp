@@ -1559,7 +1559,23 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031070);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800311AC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031200);
+typedef struct {
+    s16 x;
+    s16 pad2;
+    s16 z;
+    char pad6[0xBE];
+    s16 cell;
+} Unk80031200;
+
+extern u16 D_800A79F2;
+extern u16 D_800A79F4;
+
+void func_80031200(Unk80031200 *p) {
+    s16 x = p->x + (D_800A79F2 << 9);
+    s16 z = p->z + (D_800A79F4 << 9);
+
+    p->cell = x / 1024 + (z / 1024) * 32;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031264);
 
