@@ -3946,7 +3946,31 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006AB40);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006AB6C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006AD2C);
+extern int CdReadSync(int mode, u8 *result);
+extern int VSync(int mode);
+extern int printf(const char *fmt, ...);
+extern char D_8007B684[];
+
+s32 func_8006AD2C(void) {
+    s16 frames;
+    s16 status;
+
+    frames = 0;
+retry:
+    status = CdReadSync(1, 0);
+    if (status == 0) {
+        return 1;
+    }
+    if (status == -1) {
+        return 0;
+    }
+    VSync(0);
+    if (++frames < 601) {
+        goto retry;
+    }
+    printf(D_8007B684);
+    return 0;
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C54);
 
