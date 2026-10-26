@@ -1,0 +1,41 @@
+# splat config for DH1.EXE (Phase 3: zero-C matching build).
+# Layout from the PS-X EXE header and build/ghidra/DH1.funcs.tsv: code from
+# 0x8001D500 to 0x8007A6E4 (the last BIOS stub, memchr, ends with a nop),
+# jump tables right after, file ends 0x800A2D00. No bss in the header.
+# The rodata start is not 16-aligned, so sections are not forced to 16.
+name: DH1.EXE
+sha1: a66e6a75356c296fe81165b137c04277236b62c4
+options:
+  basename: dh1
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  target_path: disc/DH1.EXE
+  asm_path: asm/dh1
+  src_path: src/dh1
+  asset_path: build/dh1/assets
+  build_path: build
+  ld_script_path: build/dh1.ld
+  symbol_addrs_path:
+    - config/symbol_addrs.txt
+    - config/symbol_addrs.dh1.txt
+  undefined_funcs_auto_path: build/dh1.undefined_funcs_auto.txt
+  undefined_syms_auto_path: build/dh1.undefined_syms_auto.txt
+  gp_value: 0x800A29EC
+  find_file_boundaries: yes
+  use_legacy_include_asm: no
+  subalign: 4
+  ld_align_section_vram_end: no
+  section_order: [".text", ".rodata", ".data", ".bss"]
+segments:
+  - name: header
+    type: header
+    start: 0x0
+  - name: dh1
+    type: code
+    start: 0x800
+    vram: 0x8001D500
+    subsegments:
+      - [0x800, asm]
+      - [0x5D9E4, rodata]
+  - [0x86000]

@@ -3,11 +3,12 @@
 #   make           assemble, link and rebuild each EXE into build/
 #   make check     compare each rebuilt EXE with disc/ (OK or the first differing offset)
 #
-# Each EXE has a config/<exe>.yaml. Phase 3 builds only BOOT; add more to EXES.
+# Each EXE has a config/<exe>.yaml. Add each new EXE to EXES and give it a FILE_<exe> line.
 
-EXES   := boot
+EXES   := boot dh1
 # disc file name for each EXE
 FILE_boot := BOOT.EXE
+FILE_dh1  := DH1.EXE
 
 CROSS   := mipsel-linux-gnu-
 AS      := $(CROSS)as

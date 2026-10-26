@@ -3,6 +3,10 @@
 
 Keeps functions that Ghidra named (PsyQ signatures or the PSX loader) and drops
 FUN_xxxxxxxx placeholders and the loader's GTE macro block at 0x20000000.
+Sizes are left out on purpose: Ghidra's signatures also name labels inside a
+function (the *_OBJ_<offset> names), with sizes as small as 4 bytes. Given those
+sizes, splat's disassembler cut functions short and wrote the rest of DH1 as raw
+.word data, so splat finds each function's end itself instead.
 
 Usage: python tools/ghidra/tsv2symbols.py build/ghidra/BOOT.funcs.tsv BOOT.EXE > out.txt
 """
@@ -23,7 +27,7 @@ def main():
         name = r["name"]
         if counts[name] > 1:
             name = f"{name}_{r['addr'][2:].upper()}"
-        print(f"{name} = 0x{r['addr'][2:].upper()}; // type:func size:{r['size']}")
+        print(f"{name} = 0x{r['addr'][2:].upper()}; // type:func")
     dupes = sum(1 for n, c in counts.items() if c > 1)
     print(f"{exe}: {len(rows)} symbols, {dupes} duplicated names", file=sys.stderr)
 
