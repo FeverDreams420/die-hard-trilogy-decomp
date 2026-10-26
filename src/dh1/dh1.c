@@ -2699,7 +2699,21 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800697C0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006994C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069974);
+u8 func_8006994C(u8 *data, s32 len);
+
+s32 func_80069974(u8 *data, s32 len, u8 *out) {
+    s32 n = 0;
+
+    while (len > 0x400) {
+        out[n++] = func_8006994C(data, 0x400);
+        len -= 0x400;
+        data += 0x400;
+    }
+    if (len != 0) {
+        out[n++] = func_8006994C(data, len);
+    }
+    return n;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069A14);
 
