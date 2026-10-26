@@ -2039,7 +2039,34 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004BDD0);
 void func_8004BE44(void) {
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004BE4C);
+typedef struct {
+    void *slots[16];
+    s16 count;
+} SlotTable;
+
+typedef struct {
+    u8 pad0[0x1C];
+    SlotTable *table;
+} Unk801F7D80;
+
+extern Unk801F7D80 *D_801F7D80;
+
+s16 func_8004BE4C(void *item) {
+    SlotTable *table = D_801F7D80->table;
+    s16 i;
+
+    if (table->count >= 16) {
+        return -1;
+    }
+    for (i = 0; i < 16; i++) {
+        if (table->slots[i] == 0) {
+            table->slots[i] = item;
+            table->count++;
+            return i;
+        }
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004BED8);
 
