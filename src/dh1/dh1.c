@@ -2020,7 +2020,32 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80037790);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80037D64);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80038554);
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVECTOR;
+
+extern void func_8003768C(SVECTOR *pos, s32 arg1);
+extern void func_8004ACD4(SVECTOR *pos);
+extern void func_80056ADC(SVECTOR *v, s16 arg1);
+extern s16 func_80050974(SVECTOR *pos, s32 arg1);
+extern s16 func_800508F0(SVECTOR *pos);
+extern void func_8004FB78(s32 *params);
+
+void func_80038554(SVECTOR *pos) {
+    s32 params[6];
+
+    D_800A3244--;
+    func_8003768C(pos, 0);
+    func_8004ACD4(pos);
+    func_80056ADC(pos, 0xE00);
+    params[0] = 0x10;
+    params[1] = func_80050974(pos, 0x3FFF);
+    params[2] = func_800508F0(pos) * 4;
+    params[3] = 0x400;
+    params[4] = 0;
+    params[5] = 0;
+    func_8004FB78(params);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800385F4);
 
@@ -2291,10 +2316,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043308);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800433F4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043498);
-
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVECTOR;
 
 int func_800436E4(SVECTOR *pos, s16 arg1) {
     Unk800436E4_Probe probe;
