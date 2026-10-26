@@ -1,4 +1,4 @@
-# Die Hard Trilogy decompilation
+# Die Hard Trilogy decompilation **in progress**
 
 A byte-matching decompilation of Die Hard Trilogy (PlayStation, 1996), with a native PC port to follow.
 
