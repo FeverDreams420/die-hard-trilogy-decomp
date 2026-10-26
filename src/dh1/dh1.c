@@ -3768,7 +3768,20 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061FF4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800620A8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80062700);
+void func_80062700(u8 *rgb, s16 x, s16 z) {
+    s32 dx = (x - D_800A3554) >> 3;
+    s32 dz = (z - D_800A3558) >> 3;
+    s32 dist = SquareRoot0(dx * dx + dz * dz);
+    s32 c;
+
+    if (dist > 250) {
+        dist = 250;
+    }
+    c = ((255 - dist) * 3800) >> 12;
+    rgb[0] = c;
+    rgb[1] = c;
+    rgb[2] = 255 - dist;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800627B8);
 
