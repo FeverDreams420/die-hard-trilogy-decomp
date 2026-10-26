@@ -2224,7 +2224,17 @@ s32 func_80043930(Unk80043930 *a, Unk80043930 *b, Unk80043930 *c) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800439A4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043A90);
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVECTOR;
+
+s32 func_80043A90(SVECTOR *a, SVECTOR *b) {
+    s32 dx = (a->vx - b->vx) >> 4;
+    s32 dy = (a->vy - b->vy) >> 4;
+    s32 dz = (a->vz - b->vz) >> 4;
+
+    return SquareRoot0(dx * dx + dy * dy + dz * dz) << 4;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B0C);
 
@@ -2931,10 +2941,6 @@ void func_80056A64(void) {
         }
     }
 }
-
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVECTOR;
 
 typedef struct {
     SVECTOR pos[20];
