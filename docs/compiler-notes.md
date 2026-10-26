@@ -63,7 +63,7 @@ With a mid-1996 SDK:
 | 2.7.2 | Nov 1995 | yes (`tools/gcc-2.7.2-psx`) | **main candidate** |
 | 2.8.1 | 1998 | yes (`tools/gcc-2.8.1-psx`) | too new for a 1996 game; use only as a control |
 
-Which GCC PsyQ 3.5 actually shipped is not yet confirmed. The prologue and epilogue shapes in Phase 4 will settle it.
+Which GCC PsyQ 3.5 actually shipped is not yet confirmed. Supporting evidence: the psyz project (in the Parasite Eve port, `third_party/psyz/decomp`) rebuilds PsyQ 3.5.0 libraries with GCC 2.7.2 and maspsx `--aspsx-version=2.56`, so those are the starting settings in our `Makefile`. The prologue and epilogue shapes in Phase 4 will settle it.
 
 ## Steps 4–5: cross-references and leaf functions
 

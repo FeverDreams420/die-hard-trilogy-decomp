@@ -24,6 +24,11 @@ Open it with `wsl -d Ubuntu-24.04 --cd /mnt/c/src/die-hard-trilogy-decomp`, then
 | Check that the toolchain is installed | `bash tools/check-env.sh` |
 | Rerun splat for every EXE in the Makefile | `make split` |
 | Rebuild and compare with the disc | `make check` (prints `OK` and the SHA-1, or the first differing byte) |
+| Show a function's assembly | `bash tools/match.sh asm dh1 func_8004A7C4` |
+| Draft C for it with m2c | `bash tools/match.sh m2c dh1 func_8004A7C4` |
+| Does my C for it match? (one line) | `bash tools/match.sh score dh1 func_8004A7C4` |
+| Side-by-side diff, once | `bash tools/match.sh diff dh1 func_8004A7C4` |
+| Live diff that rebuilds when you save the C file (`q` quits) | `bash tools/match.sh watch dh1 func_8004A7C4` |
 
 ## Reading the `docs/phase2/` lists
 

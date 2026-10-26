@@ -24,6 +24,7 @@ options:
   gp_value: 0x800A29EC
   find_file_boundaries: yes
   use_legacy_include_asm: no
+  generate_asm_macros_files: no  # include/include_asm.h is ours now
   subalign: 4
   ld_align_section_vram_end: no
   section_order: [".text", ".rodata", ".data", ".bss"]
@@ -36,6 +37,6 @@ segments:
     start: 0x800
     vram: 0x8001D500
     subsegments:
-      - [0x800, asm]
-      - [0x5D9E4, rodata]
+      - [0x800, c, dh1]
+      - [0x5D9E4, .rodata, dh1]
   - [0x86000]

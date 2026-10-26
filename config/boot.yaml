@@ -23,6 +23,7 @@ options:
   gp_value: 0x8001B1C4
   find_file_boundaries: yes
   use_legacy_include_asm: no
+  generate_asm_macros_files: no  # include/include_asm.h is ours now
   section_order: [".rodata", ".text", ".data", ".bss"]
 segments:
   - name: header

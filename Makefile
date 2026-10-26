@@ -2,6 +2,7 @@
 #   make split     run splat (regenerates asm/ and build/<exe>.ld)
 #   make           assemble, link and rebuild each EXE into build/
 #   make check     compare each rebuilt EXE with disc/ (OK or the first differing offset)
+#   make clean     delete build outputs (keeps asm/, the Ghidra project and the linker scripts)
 #
 # Each EXE has a config/<exe>.yaml. Add each new EXE to EXES and give it a FILE_<exe> line.
 
@@ -9,6 +10,10 @@ EXES   := boot dh1
 # disc file name for each EXE
 FILE_boot := BOOT.EXE
 FILE_dh1  := DH1.EXE
+
+# pipefail, so a cc1 error in the middle of the C pipeline fails the build
+SHELL       := /bin/bash
+.SHELLFLAGS := -o pipefail -c
 
 CROSS   := mipsel-linux-gnu-
 AS      := $(CROSS)as
@@ -19,9 +24,30 @@ PYTHON  := .venv/bin/python
 ASFLAGS := -EL -march=r3000 -mtune=r3000 -msoft-float -no-pad-sections -Iinclude -G0
 LDFLAGS := -EL --no-check-sections -nostdlib
 
-# Each EXE's object list comes from its asm folder, which splat creates.
-asm_of = $(shell find asm/$(1) -name '*.s' 2>/dev/null)
-obj_of = $(patsubst %.s,build/%.s.o,$(call asm_of,$(1)))
+# C pipeline, mirroring the original toolchain:
+#   cpp -> cc1 (GCC) -> maspsx (makes GNU as behave like Sony's ASPSX) -> as
+# The compiler and flags are placeholders until the Phase 4 bake-off picks them.
+# A file can override them with a target-specific variable, for example:
+#   build/src/dh1/foo.c.o: CC1 := tools/gcc-2.8.1-psx/cc1
+# Ubuntu's cpp, not tools/gcc-*/cpp: the old 32-bit cpp can't open files on
+# /mnt/c ("Value too large for defined data type", large WSL inode numbers).
+CPP      := cpp
+CC1      := tools/gcc-2.7.2-psx/cc1
+GFLAG    := -G8
+CPPFLAGS := -nostdinc -Iinclude -undef -Dmips -D__mips__ -D__OPTIMIZE__ -Dpsx -D__psx__ \
+	-D_MIPSEL -D_LANGUAGE_C -DLANGUAGE_C
+CFLAGS   := -quiet -O2 $(GFLAG) -w -fno-builtin -fpeephole -ffunction-cse -fpcc-struct-return \
+	-fcommon -msoft-float
+# -O1 lets GNU as fill branch delay slots, which ASPSX did for compiled code
+CASFLAGS := $(ASFLAGS) -O1
+MASPSX   := $(PYTHON) tools/maspsx/maspsx.py --expand-div --aspsx-version=2.56 $(GFLAG)
+
+# Each EXE's objects: its top-level asm files (header, data, asm segments) and its
+# C files. The per-function files in asm/<exe>/nonmatchings/ are pulled into
+# the C files by INCLUDE_ASM, so they are dependencies, not objects.
+asm_of = $(shell find asm/$(1) -name '*.s' -not -path '*/nonmatchings/*' 2>/dev/null)
+c_of   = $(shell find src/$(1) -name '*.c' 2>/dev/null)
+obj_of = $(patsubst %.s,build/%.s.o,$(call asm_of,$(1))) $(patsubst %.c,build/%.c.o,$(call c_of,$(1)))
 
 .PHONY: all split check clean
 all: $(foreach e,$(EXES),build/$(FILE_$(e)))
@@ -33,7 +59,14 @@ build/%.s.o: %.s
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) -o $@ $<
 
+build/src/%.c.o: src/%.c
+	@mkdir -p $(dir $@)
+	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(MASPSX) | $(AS) $(CASFLAGS) -o $@
+
 define exe_rules
+$(patsubst %.c,build/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \
+	$(wildcard include/*.h include/*.inc)
+
 build/$(1).elf: $(call obj_of,$(1)) build/$(1).ld
 	$(LD) $(LDFLAGS) -Map build/$(1).map -T build/$(1).ld \
 		-T build/$(1).undefined_syms_auto.txt -T build/$(1).undefined_funcs_auto.txt -o $$@
@@ -52,4 +85,4 @@ check: all
 	done; exit $$status
 
 clean:
-	rm -rf build/asm $(foreach e,$(EXES),build/$(e).elf build/$(e).map build/$(FILE_$(e)))
+	rm -rf build/asm build/src $(foreach e,$(EXES),build/$(e).elf build/$(e).map build/$(FILE_$(e)))
