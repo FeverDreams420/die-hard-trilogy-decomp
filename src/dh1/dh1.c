@@ -1415,10 +1415,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800248D4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024A2C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024B28);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024BA8);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -1433,10 +1429,40 @@ typedef struct {
     s16 unk1A;
     s16 unk1C;
     s16 unk1E;
-    u8 pad20[0xA];
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    s16 unk26;
+    s16 unk28;
     s16 unk2A;
     u8 unk2C;
+    u8 unk2D;
 } Obj80024D00;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    u8 unkA;
+    u8 padB;
+} Unk800A30B4;
+
+extern Unk800A30B4 *D_800A30B4;
+
+void func_80024B28(Obj80024D00 *obj, s16 idx) {
+    obj->unk2D = D_800A30B4[idx].unkA;
+    obj->unk20 = D_800A30B4[idx].unk0;
+    obj->unk22 = D_800A30B4[idx].unk2;
+    obj->unk24 = D_800A30B4[idx].unk4;
+    obj->unk26 = D_800A30B4[idx].unk6;
+    obj->unk28 = D_800A30B4[idx].unk8;
+    obj->unk2A = 3500;
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024BA8);
+
 
 void func_80024BA8(Obj80024D00 *obj);
 
