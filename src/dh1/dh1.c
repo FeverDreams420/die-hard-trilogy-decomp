@@ -2517,7 +2517,37 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C6F0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C7C4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C8D0);
+typedef struct {
+    u8 pad[0xFA];
+    s16 unkFA;
+    s16 unkFC;
+    s16 unkFE;
+} Unk8005C8D0;
+
+void func_80051778(s16, s32);
+
+void func_8005C8D0(Unk8005C8D0 *p) {
+    if (++p->unkFE >= 3) {
+        p->unkFE = 0;
+    }
+    switch (p->unkFE) {
+        case 1:
+            if (p->unkFA == 0) {
+                if (p->unkFC != 0) {
+                    p->unkFE = 2;
+                } else {
+                    p->unkFE = 0;
+                }
+            }
+            break;
+        case 2:
+            if (p->unkFC == 0) {
+                p->unkFE = 0;
+            }
+            break;
+    }
+    func_80051778(p->unkFE, 0);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C978);
 
