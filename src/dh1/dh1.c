@@ -641,7 +641,25 @@ void func_8001EBD4(void) {
     D_800A317C->func = func_8003E4E8;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001EC50);
+extern void func_8003FCC8(void);
+extern void *func_8003E414(void *, s32);
+extern void func_8003219C(void *, u8 *);
+extern void func_8001FEBC(void);
+extern void func_800248D4(void);
+extern void func_8003E85C(void);
+extern s16 D_800A2FEC;
+extern s16 D_800A307C;
+extern s16 D_800A33F4;
+
+void func_8001EC50(void) {
+    func_8003FCC8();
+    func_8003219C(func_8003E414(D_800A33E4, 1), D_800A3304);
+    func_8001FEBC();
+    func_800248D4();
+    D_800A2FEC = 0;
+    D_800A33F4 = D_800A307C;
+    D_800A317C->func = func_8003E85C;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001ECC8);
 
