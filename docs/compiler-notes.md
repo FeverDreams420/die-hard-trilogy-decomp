@@ -87,3 +87,13 @@ There are no overlays, so the original question ("which main-EXE functions does 
 - **121 distinct unnamed leaf bodies** (2–20 instructions, no calls). 13 are in all three games, 57 read globals through `lui` pairs, 4 use `$gp`, and 5 set up a stack frame. 8 also appear in SLUS or BOOT and are flagged as probable library code.
 - `docs/phase2/bakeoff-leaves.tsv` picks 25 for the Phase 4 bake-off: every `$gp` and stack-frame leaf, then the most widely shared. The `$gp` ones (LOADER 0x800307EC, DH2 0x8007270C, DH1 0x80067E20, DH1 0x80067E60) are the ones that will decide `-G8` versus `-G4`.
 - **Compiler clue:** some leaves allocate a stack frame they never use. DH2 0x80031F90 is just `addiu sp,sp,-16` / `jr ra` / `addiu sp,sp,16`, and LOADER 0x8001E984 adds one `sh zero,88(a0)`. An optimizing GCC normally drops an unused frame, so this is a fingerprint for the bake-off: the right compiler and flags must reproduce it. **Guess:** these functions had a local variable that was optimized away after its stack slot was assigned.
+
+## Phase 4: bake-off (in progress)
+
+Harness: `.venv/bin/python tools/bakeoff.py` compiles every `src/bakeoff/<exe>_<ADDR>.c` under each GCC in `tools/gcc-*` × `-O1`/`-O2` × `-G0`/`-G4`/`-G8` × maspsx `--aspsx-version` 2.34/2.56/2.67/2.79 (48 settings with two compilers). It compares each result with the original bytes, ignoring words the linker fills in. `--show <leaf> <gcc> <opt> <G> <aspsx>` disassembles one compile next to the original.
+
+First leaf, DH1 0x8004A7C4 (`a + (b <= 0 ? (b*c) >> 12 : b >> 2)`), Oct 25, 2026:
+
+- No setting matches yet, and GCC 2.7.2 and 2.8.1 give the same code for it.
+- The original is 9 instructions: `bgtz` over the multiply path, `mflo v0` then a `nop`, then a `j` over the else block. Five wordings of the C gave 7 or 8 instructions: none produced the `nop` after `mflo`, and none produced the jump-over shape with `v0` for the temporary.
+- **Guess:** this points to a different compiler or flags (GCC 2.6.3 is not installed), but one leaf decides nothing. Next: C for the other 24 leaves in `docs/phase2/bakeoff-leaves.tsv`, then rerun the matrix.

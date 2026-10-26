@@ -28,6 +28,8 @@ Open it with `wsl -d Ubuntu-24.04 --cd /mnt/c/src/die-hard-trilogy-decomp`, then
 | Draft C for it with m2c | `bash tools/match.sh m2c dh1 func_8004A7C4` |
 | Does my C for it match? (one line) | `bash tools/match.sh score dh1 func_8004A7C4` |
 | Side-by-side diff, once | `bash tools/match.sh diff dh1 func_8004A7C4` |
+| Phase 4 compiler matrix over `src/bakeoff/` | `.venv/bin/python tools/bakeoff.py` |
+| One leaf under one setting, next to the original | `.venv/bin/python tools/bakeoff.py --show src/bakeoff/dh1_8004A7C4.c gcc-2.7.2-psx -O2 -G8 2.56` |
 | Live diff that rebuilds when you save the C file (`q` quits) | `bash tools/match.sh watch dh1 func_8004A7C4` |
 
 ## Reading the `docs/phase2/` lists
