@@ -2947,7 +2947,39 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800562CC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80056918);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800569DC);
+typedef struct {
+    SVECTOR pos[20];
+    s16 unkA0[20];
+    s16 unkC8[20];
+    s16 count;
+} Unk80056ADC;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk80056ADC *unk1C;
+} *D_801F7D70;
+
+void func_80056A64(void);
+
+void func_800569DC(void) {
+    void *task;
+    Unk80056ADC *p;
+    s16 i;
+
+    task = func_80021264(func_80056A64, 1, 0xF2);
+    if (task != NULL) {
+        D_801F7D70 = task;
+        p = D_801F7D70->unk1C;
+        for (i = 0; i < 20; i++) {
+            p->pos[i].vx = 0;
+            p->pos[i].vy = 0;
+            p->pos[i].vz = 0;
+            p->unkA0[i] = 0;
+            p->unkC8[i] = 0;
+        }
+        p->count = 0;
+    }
+}
 
 typedef struct {
     char pad0[0xC8];
@@ -2968,18 +3000,6 @@ void func_80056A64(void) {
         }
     }
 }
-
-typedef struct {
-    SVECTOR pos[20];
-    s16 unkA0[20];
-    s16 unkC8[20];
-    s16 count;
-} Unk80056ADC;
-
-extern struct {
-    u8 pad[0x1C];
-    Unk80056ADC *unk1C;
-} *D_801F7D70;
 
 void func_80056ADC(SVECTOR *v, s16 arg1) {
     Unk80056ADC *p = D_801F7D70->unk1C;
