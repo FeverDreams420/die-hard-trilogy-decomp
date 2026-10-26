@@ -2218,7 +2218,21 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054990);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054C70);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054F48);
+extern volatile u16 D_800A343C[];
+extern struct {
+    u8 pad[0x1780];
+    s16 unk1780;
+} *D_800A350C;
+
+void func_80054F48(void) {
+    if ((D_800A343C[0] & 0x2000) || (D_800A343C[0] & 0x40)) {
+        D_800A350C->unk1780++;
+    }
+    if (D_800A343C[0] & 0x8000) {
+        D_800A350C->unk1780--;
+    }
+    D_800A350C->unk1780 &= 7;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054FEC);
 
