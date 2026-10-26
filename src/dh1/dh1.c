@@ -3735,8 +3735,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800666C4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066AB0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066B44);
-
 typedef struct {
     s16 m[3][3];
     s32 t[3];
@@ -3749,6 +3747,17 @@ typedef struct {
 extern MATRIX *RotMatrix(SVECTOR *r, MATRIX *m);
 extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
 extern MATRIX D_801FB868;
+extern MATRIX *func_80023660(SVECTOR *r, MATRIX *m);
+
+void func_80066B44(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
+    VECTOR tmp;
+
+    func_80023660(rot, &D_801FB868);
+    ApplyMatrix(&D_801FB868, v, &tmp);
+    out->vx = base->vx + tmp.vx;
+    out->vy = base->vy + tmp.vy;
+    out->vz = base->vz + tmp.vz;
+}
 
 void func_80066BD8(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     VECTOR tmp;
