@@ -1323,7 +1323,24 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800206CC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020704);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002076C);
+extern volatile u16 D_800A343C[];
+extern volatile u16 D_800A30F4[];
+extern volatile u16 D_800A34CC[];
+extern volatile u16 D_800A31A4[];
+
+void func_8002076C(void) {
+    short i = 1;
+    int n;
+
+    while (1) {
+        D_800A343C[i] = D_800A30F4[i];
+        D_800A34CC[i] = D_800A31A4[i];
+        D_800A30F4[i] = 0;
+        D_800A31A4[i] = 0;
+        n = i--;
+        if (n == 0) break;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800207DC);
 
