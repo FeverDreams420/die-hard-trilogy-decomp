@@ -6,6 +6,9 @@
 #define SPU_VOICE_VOLL (0x01 << 0)
 #define SPU_VOICE_VOLR (0x01 << 1)
 
+#define SPU_COMMON_MVOLL (0x01 << 0)
+#define SPU_COMMON_MVOLR (0x01 << 1)
+
 typedef struct {
     short left;
     short right;
@@ -35,6 +38,22 @@ typedef struct {
     unsigned short adsr2;
 } SpuVoiceAttr;
 
+typedef struct {
+    SpuVolume volume;
+    long reverb;
+    long mix;
+} SpuExtAttr;
+
+typedef struct {
+    unsigned long mask;
+    SpuVolume mvol;
+    SpuVolume mvolmode;
+    SpuVolume mvolx;
+    SpuExtAttr cd;
+    SpuExtAttr ext;
+} SpuCommonAttr;
+
 void SpuSetVoiceAttr(SpuVoiceAttr *arg);
+void SpuSetCommonAttr(SpuCommonAttr *attr);
 
 #endif

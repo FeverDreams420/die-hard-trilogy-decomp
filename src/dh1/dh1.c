@@ -2320,7 +2320,25 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB38);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB78);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FFE0);
+extern struct {
+    u8 pad[0x1780];
+    s16 unk1780;
+    u8 pad1782[0x8];
+    s16 unk178A;
+    s16 unk178C;
+} *D_800A350C;
+
+void func_8004FFE0(int volume, int pan) {
+    SpuCommonAttr attr;
+
+    if (D_800A350C->unk178C != 0) {
+        pan = 0;
+    }
+    attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
+    attr.mvol.left = volume - ((volume * pan) >> 14);
+    attr.mvol.right = volume + ((volume * pan) >> 14);
+    SpuSetCommonAttr(&attr);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050044);
 
@@ -2487,12 +2505,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054990);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054C70);
 
 extern volatile u16 D_800A343C[];
-extern struct {
-    u8 pad[0x1780];
-    s16 unk1780;
-    u8 pad1782[0x8];
-    s16 unk178A;
-} *D_800A350C;
 
 void func_80054F48(void) {
     if ((D_800A343C[0] & 0x2000) || (D_800A343C[0] & 0x40)) {
