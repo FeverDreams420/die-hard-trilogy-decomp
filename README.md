@@ -4,7 +4,7 @@ A byte-matching decompilation of Die Hard Trilogy (PlayStation, 1996), with a na
 
 This repository contains no game data. You need your own copy of the game.
 
-If you want to help, you can see the code map here: [Click Here](docs/phase2/code-map.md.md)
+If you want to help, you can see the code map here: [Click Here](docs/phase2/code-map.md)
 
 ## Build environment
 
