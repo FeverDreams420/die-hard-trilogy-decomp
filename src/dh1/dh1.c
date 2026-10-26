@@ -655,10 +655,21 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F778);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F970);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FC20);
-
 extern s16 D_801C0B44[];
 extern s16 D_801C2034[];
+s32 func_8001E9DC(s32);
+void func_8001FCB0(void);
+
+void func_8001FC20(void) {
+    s16 i;
+
+    func_80021264(func_8001FCB0, 1, 0);
+    for (i = 0; i < 16; i++) {
+        D_801C0B44[i] = func_8001E9DC(360) - 180;
+        D_801C2034[i] = 0;
+    }
+}
+
 
 void func_8001FCB0(void) {
     s16 i;
@@ -2248,7 +2259,6 @@ typedef struct {
     u8 pad18[8];
 } Unk80043CC4;
 
-s32 func_8001E9DC(s32);
 extern Unk80043CC4 *D_800A3084;
 extern s16 D_800A31DC;
 
