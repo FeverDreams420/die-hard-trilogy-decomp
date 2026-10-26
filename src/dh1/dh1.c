@@ -1962,7 +1962,22 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043814);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043858);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043930);
+typedef struct {
+    s16 x;
+    s16 pad2;
+    s16 z;
+} Unk80043930;
+
+s32 func_80043930(Unk80043930 *a, Unk80043930 *b, Unk80043930 *c) {
+    s32 ax = a->x;
+    s32 az = a->z;
+    s32 cross = (az - c->z) * (b->x - ax) - (ax - c->x) * (b->z - az);
+
+    if (cross < 0) {
+        cross = -cross;
+    }
+    return SquareRoot0(cross);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800439A4);
 
