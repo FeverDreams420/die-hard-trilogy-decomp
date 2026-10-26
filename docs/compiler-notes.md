@@ -119,7 +119,7 @@ The 25 picked leaves minus two that can't be C: DH1 0x8006B3E0 writes `$sp` dire
   3. a frame with no saved registers is restored in the `jr ra` delay slot. GCC prints that epilogue as text after its delay-slot pass, so it can't fill the slot, and maspsx (like ASPSX) never fills slots.
 - **Conclusion so far:** the game was probably not built with these decompals/old-gcc rebuilds (GNU GCC plus PSX patches). **Guess:** Sony's own `cc1psx` from the PsyQ SDK differs in register allocation and in its epilogue. Next ways to find out:
   1. decomp.me, whose PS1 presets run Sony's PsyQ compilers. This means uploading a few leaves' asm to a public site.
-  2. An original PsyQ SDK, if one turns up: `cc1psx.exe` run through Wine/DOSBox in place of `cc1`.
+  2. A local copy of the PsyQ SDK, if one is available: `cc1psx.exe` run through Wine/DOSBox in place of `cc1`.
 
 ### Run 3 (Oct 25, 2026): decomp.me, every PS1 compiler
 

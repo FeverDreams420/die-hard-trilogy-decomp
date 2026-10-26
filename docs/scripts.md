@@ -1,6 +1,6 @@
 # Scripts you can run yourself
 
-Every analysis script in this repo prints a short answer and writes any long list to a file, so you can rerun it yourself. Run them from the repo root (`C:\src\die-hard-trilogy-decomp`). Paths in `disc/` and `build/` are on your machine only and never committed.
+Every analysis script in this repo prints a short answer and writes any long list to a file, so you can rerun it any time. Run them from the repo root (`C:\src\die-hard-trilogy-decomp`). Paths in `disc/` and `build/` are on your machine only and never committed.
 
 ## From PowerShell (Windows)
 

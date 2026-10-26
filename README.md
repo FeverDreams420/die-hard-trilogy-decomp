@@ -1,6 +1,6 @@
 # Die Hard Trilogy decompilation *in progress*
 
-A byte-matching decompilation of Die Hard Trilogy (PlayStation, 1996), with a native PC port to follow.
+A byte-matching decompilation of Die Hard Trilogy (PlayStation, 1996), with a native PC port to follow. See `docs/code-map.md` for where the code lives on the disc and `docs/compiler-notes.md` for the toolchain.
 
 This repository contains no game data. You need your own copy of the game.
 
