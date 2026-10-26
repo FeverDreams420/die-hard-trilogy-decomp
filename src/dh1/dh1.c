@@ -1502,7 +1502,25 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028C78);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028E14);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028E94);
+typedef struct {
+    s32 vx;
+    s32 vy;
+    s32 vz;
+} Vec32;
+
+extern s32 SquareRoot0(s32 a);
+
+s32 func_80028E94(Vec32 *a, Vec32 *b) {
+    s32 dx = a->vx - b->vx;
+    s32 dz;
+    s32 sum;
+
+    dx = (dx < 0) ? -dx : dx;
+    sum = dx * dx;
+    dz = a->vz - b->vz;
+    dz = (dz < 0) ? -dz : dz;
+    return SquareRoot0(sum + dz * dz);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028F00);
 
@@ -1543,8 +1561,6 @@ typedef struct {
     s16 pad2;
     s16 z;
 } Unk8002A35C;
-
-extern s32 SquareRoot0(s32 a);
 
 s32 func_8002A35C(Unk8002A35C *a, Unk8002A35C *b) {
     s16 dx = a->x - b->x;
