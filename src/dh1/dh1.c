@@ -1904,8 +1904,14 @@ extern struct {
     Unk80041178List *list;
 } *D_801F7D28;
 
+typedef struct {
+    s32 pad0;
+    s32 vals[3];
+} Unk800A317CVals;
+
 extern struct {
-    char pad0[0x20];
+    char pad0[0x1C];
+    Unk800A317CVals *vals;
     s16 id;
 } *D_800A317C;
 
@@ -2759,7 +2765,18 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005EA78);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005EB14);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005EBF4);
+extern s32 func_8005EA78(s16 a, s16 b);
+
+void func_8005EBF4(s16 arg0) {
+    s16 v = 600;
+    s16 i = 2;
+    Unk800A317CVals *vals = D_800A317C->vals;
+
+    do {
+        vals->vals[i] = func_8005EA78(v, arg0);
+        v -= 600;
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005EC74);
 
