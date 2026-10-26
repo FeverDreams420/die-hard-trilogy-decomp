@@ -2006,8 +2006,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040E94);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040FF4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041104);
-
 typedef struct {
     char pad0[0xA];
     s16 unkA;
@@ -2018,6 +2016,7 @@ typedef struct {
     char pad16[0x14];
     s16 unk2A;
     s16 unk2C;
+    s16 unk2E;
 } Unk80041178;
 
 typedef struct {
@@ -2048,6 +2047,27 @@ extern struct {
     Unk800A317CVals *vals;
     s16 id;
 } *D_800A317C;
+
+typedef struct {
+    char pad0[0x12];
+    s16 unk12;
+    char pad14[0x80];
+    Unk80041178 sub;
+} Unk80041104;
+
+void func_80041104(Unk80041104 *p) {
+    Unk80041178List *list = D_801F7D28->list;
+
+    list->entries[list->count].id = D_800A317C->id;
+    list->entries[list->count].obj = &p->sub;
+    list->count++;
+    p->sub.unk10 = 0;
+    p->sub.unk12 = 0;
+    p->sub.unk14 = 0;
+    p->sub.unk2C = 0;
+    p->sub.unk2E = 0;
+    p->sub.unkA = -p->unk12;
+}
 
 void func_80041178(Unk80041178 *o) {
     Unk80041178List *list = D_801F7D28->list;
