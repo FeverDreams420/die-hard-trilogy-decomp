@@ -2647,7 +2647,33 @@ int func_800502F0(int handle, short note) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050358);
+typedef struct {
+    short unk0;
+    short unk2;
+    short unk4;
+    u8 id;
+    u8 pad7;
+    short left;
+    short right;
+} VoiceState;
+
+extern VoiceState D_801C1F14[];
+extern u16 D_800A33DC;
+extern void SpuSetKey(long on_off, unsigned long voice_bit);
+void func_80050158(int handle, int arg1, int arg2);
+
+int func_80050358(int handle) {
+    int voice = handle & 0xFF;
+
+    if (D_801C1F14[voice].id == ((handle >> 8) & 0xFF)) {
+        SpuSetKey(0, 1 << voice);
+        D_801C1F14[voice].unk2 = 0;
+        D_801C1F14[voice].unk0 = D_800A33DC;
+        func_80050158(handle, 0, 0);
+        return 0;
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800503F0);
 
