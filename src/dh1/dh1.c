@@ -1646,7 +1646,25 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028B04);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028C78);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028E14);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+} Unk8002A35C;
+
+s32 func_8002A35C(Unk8002A35C *a, Unk8002A35C *b);
+s32 func_80028B04(Unk8002A35C *a, Unk8002A35C *b);
+extern Unk8002A35C D_800A2A10;
+
+void func_80028E14(Unk8002A35C *from, Unk8002A35C *to, Unk8002A35C *out) {
+    Unk8002A35C d;
+
+    out->y = -func_80028B04(from, to);
+    d.z = func_8002A35C(from, to);
+    d.x = to->y - from->y;
+    out->x = func_80028B04(&D_800A2A10, &d) - 0x800;
+    out->z = 0;
+}
 
 typedef struct {
     s32 vx;
@@ -1718,12 +1736,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80029944);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A194);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A270);
-
-typedef struct {
-    s16 x;
-    s16 pad2;
-    s16 z;
-} Unk8002A35C;
 
 s32 func_8002A35C(Unk8002A35C *a, Unk8002A35C *b) {
     s16 dx = a->x - b->x;
