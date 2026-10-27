@@ -1854,7 +1854,7 @@ typedef struct {
     s16 unkA;
     u8 padC[4];
     s16 unk10;
-    u8 pad12[2];
+    s16 unk12;
     s16 unk14;
     u8 pad16[2];
     s32 unk18;
@@ -1900,7 +1900,33 @@ void func_8003146C(Unk8003146C *obj) {
     func_80041104(obj);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031500);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0x4A];
+    s16 unk50;
+    u8 pad52[0x42];
+    Unk800436E4_Probe probe;
+} Unk80031500;
+
+void func_80031500(Unk80031500 *obj) {
+    obj->probe.unk34 = 0;
+    obj->probe.unk28 = 0;
+    obj->probe.hit = 0;
+    func_80042570(&obj->probe);
+    func_80041C48(&obj->probe);
+    if (obj->probe.hit != 0) {
+        obj->probe.hit = 0;
+        obj->x += obj->probe.unk10;
+        obj->z += obj->probe.unk14;
+        obj->probe.unk10 = 0;
+        obj->probe.unk12 = 0;
+        obj->probe.unk14 = 0;
+        obj->unk50 >>= 1;
+    }
+    obj->probe.x = obj->x;
+    obj->probe.y = obj->y;
+    obj->probe.z = obj->z;
+}
 
 typedef struct {
     u8 pad0[0x30];
