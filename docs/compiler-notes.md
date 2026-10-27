@@ -183,6 +183,7 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `if (g == NULL) ... else g->f` reloads `g` in the `else` branch instead of reusing the tested value | Declare `g` `volatile` (0x80030090, `D_801F7D50`). |
 | `$a1`-`$a3` look like call arguments but the callee never reads them | They may be leftovers from earlier code; try the call with fewer arguments (0x80030090). |
 | A local filled from an 8-byte constant with `lwl`/`lwr` pairs (`la` of a constant, then four unaligned loads and stores) | A struct of `char` initialized from a string, `struct { char str[8]; } name = { "d" };`. A plain `char buf[8] = "d"` copies two bytes and calls `memset` instead. The constant goes to `.sdata`, which the Makefile renames to `.rdata` (0x80069728). |
+| A pointer increment sits in the delay slot of the `jal` that receives it | Increment in the argument: `AddPrim(ot, prim++)` (0x800691F0). |
 | An array walked with two `$s` pointers a field apart (base and base+6), both stepped by the element size | Step a pointer with `p++` (0x80050844). A `short` index needs a sign extension every pass, which blocks strength reduction. |
 | A byte load (`lbu`) from a field that other code reads as 16 bits | `u16` field read as `field & 0xFF`; combine narrows the load (0x80050358, `VoiceState.id`) |
 | An unused stack frame | A call removed as dead code, probably `if (0) printf(...)` |
