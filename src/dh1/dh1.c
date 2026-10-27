@@ -2267,7 +2267,58 @@ void func_8003BB20(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003BB9C);
+typedef struct {
+    s16 vals[10][4];
+    s16 unk50[10];
+    s16 unk64[10];
+    s16 unk78[10];
+    s16 unk8C[10];
+    s16 unkA0[10];
+    s16 unkB4[10];
+    s16 unkC8[10];
+    s16 unkDC[10];
+    u8 unkF0[10];
+    u8 unkFA[10];
+    s16 unk104;
+    s16 unk106;
+} Unk8003BB9C_Data;
+
+extern void *D_801F7D38;
+
+void func_8003BC64(void);
+extern int VSync(int mode);
+
+void func_8003BB9C(void) {
+    void *task;
+    Unk8003BB9C_Data *data;
+    s16 i;
+
+    task = func_80021264(func_8003BC64, 1, 0x108);
+    if (task == NULL) {
+        while (1) {
+            VSync(0);
+        }
+    }
+    D_801F7D38 = task;
+    data = *(Unk8003BB9C_Data **)((u8 *)task + 0x1C);
+    data->unk104 = 0;
+    data->unk106 = 1;
+    for (i = 0; i < 10; i++) {
+        data->unkFA[i] = 0;
+        data->vals[i][0] = 0;
+        data->vals[i][1] = 0;
+        data->vals[i][2] = 0;
+        data->vals[i][3] = 0;
+        data->unk64[i] = 0;
+        data->unk78[i] = 0;
+        data->unk8C[i] = 0;
+        data->unkA0[i] = 0;
+        data->unkB4[i] = 0;
+        data->unkC8[i] = 0;
+        data->unkF0[i] = 0;
+        data->unkDC[i] = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003BC64);
 
