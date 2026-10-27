@@ -3072,7 +3072,24 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800544F8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800545BC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800546EC);
+extern char D_801C1B8C[];
+void func_800540F4(short x, short y, char *str, int d, int a, int b, int c);
+
+void func_800546EC(short x, short y, unsigned int value, int d, int a, int b, int c, short len) {
+    short i, j;
+
+    i = len - 1;
+    if (len != 0) {
+        do {
+            D_801C1B8C[i] = value % 10 + '0';
+            value /= 10;
+            j = i;
+            i--;
+        } while (j != 0);
+    }
+    D_801C1B8C[len] = 0;
+    func_800540F4(x, y, D_801C1B8C, d, a, b, c);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800547B0);
 
