@@ -2506,7 +2506,18 @@ retry:
     return node->links[0];
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043D68);
+void func_8004379C(short id, SVECTOR *out);
+
+short func_80043D68(short a, short b, short scale) {
+    SVECTOR va;
+    SVECTOR vb;
+    int d;
+
+    func_8004379C(a, &va);
+    func_8004379C(b, &vb);
+    d = func_80043A90(&vb, &va);
+    return d != 0 ? (scale << 12) / d : 0x1000;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043E14);
 
