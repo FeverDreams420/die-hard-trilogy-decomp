@@ -3627,7 +3627,8 @@ typedef struct {
 typedef struct {
     u8 pad0[0x2C];
     s16 unk2C;
-    u8 pad2E[0x1E];
+    s16 unk2E;
+    u8 pad30[0x1C];
     s16 unk4C;
     u8 pad4E[2];
     s16 unk50;
@@ -3714,7 +3715,19 @@ void func_8005C2E8(Unk8005B554 *obj) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C38C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C658);
+void func_8005C658(Unk8005B554 *obj) {
+    if (D_800A32AC[0] & 0x8000) {
+        func_8005B0F0(obj);
+    } else if (D_800A32AC[0] & 0x2000) {
+        func_8005B144(obj);
+    } else {
+        func_8005B198(obj);
+    }
+    obj->unk2E = func_800437C8(obj->unk2E, -500, 24);
+    if (obj->unk2E <= 0) {
+        obj->unk2C = 8;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C6F0);
 
