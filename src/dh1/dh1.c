@@ -3025,7 +3025,32 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052488);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800525F8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800527E8);
+typedef struct {
+    u32 *vlcbuf[2];
+    u8 pad8[0x28];
+    s32 vlcid;
+} Unk800527E8;
+
+extern s32 DecDCTvlc(u32 *bs, u32 *buf);
+extern s32 StFreeRing(u32 *base);
+u32 *func_800525F8(Unk800527E8 *dec);
+
+s32 func_800527E8(Unk800527E8 *dec) {
+    u32 *frame;
+    s32 tries;
+
+    for (tries = 100; tries != 0;) {
+        frame = func_800525F8(dec);
+        tries--;
+        if (frame != NULL) {
+            dec->vlcid ^= 1;
+            DecDCTvlc(frame, dec->vlcbuf[dec->vlcid]);
+            StFreeRing(frame);
+            return 0;
+        }
+    }
+    return -1;
+}
 
 typedef struct {
     s16 x, y;
