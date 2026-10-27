@@ -3693,7 +3693,26 @@ void func_8005CA3C(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005CA44);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005CA98);
+typedef struct {
+    u8 pad0[0x114];
+    u8 unk114;
+} Unk8005CA98;
+
+extern s16 D_800A32CC;
+extern s32 D_800A339C;
+void func_80050738(s32 arg0);
+void func_80052E18(s32 arg0);
+
+void func_8005CA98(Unk8005CA98 *obj) {
+    if (obj->unk114 != 0) {
+        obj->unk114--;
+    } else {
+        D_800A32CC = -1;
+        func_80050738(D_800A339C);
+        func_80052E18(4);
+        obj->unk114 = 0xFF;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005CB00);
 
