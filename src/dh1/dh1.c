@@ -1818,7 +1818,42 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002FEC0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002FFA8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80030090);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk80030090Pt;
+
+typedef struct {
+    Unk80030090Pt *p[3];
+} Unk80030090;
+
+extern struct Task *D_801F7D44;
+extern struct Task *volatile D_801F7D50;
+extern void func_8002CFBC(Unk80030090 *);
+extern void func_8002EDA8(Unk80030090 *);
+
+void func_80030090(Unk80030090 *tri) {
+    Unk80030090Pt *ref;
+    s16 max;
+
+    if (D_801F7D50 == NULL) {
+        ref = (Unk80030090Pt *)D_801F7D44->vals;
+    } else {
+        ref = (Unk80030090Pt *)D_801F7D50->vals;
+    }
+    max = tri->p[0]->unk2;
+    if (max < tri->p[1]->unk2) {
+        max = tri->p[1]->unk2;
+    }
+    if (max < tri->p[2]->unk2) {
+        max = tri->p[2]->unk2;
+    }
+    if (max - ref->unk2 > 0x200) {
+        func_8002CFBC(tri);
+    } else {
+        func_8002EDA8(tri);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80030154);
 

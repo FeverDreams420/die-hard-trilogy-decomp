@@ -180,6 +180,8 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A global's address kept in an `$s` register across a call | Read it through a local pointer, `s16 *count = &D_801D209C;` (0x8003BA6C) |
 | A constant reloaded on every pass (`li v0,-1`) instead of kept in an `$s` register | Write the loop with a label and `if (++i < n) goto top;` (0x8006AD2C). Loop-invariant motion only runs on `for`/`while`/`do` loops. |
 | A global loaded as `lui` + `addiu`, then `lhu 0(reg)` (the low half not folded into the load) | Declare it `volatile` (0x8005C244, `D_800A32AC`, probably pad input). Volatile shared arrays also stop delay slots from being filled (0x8002076C). |
+| `if (g == NULL) ... else g->f` reloads `g` in the `else` branch instead of reusing the tested value | Declare `g` `volatile` (0x80030090, `D_801F7D50`). |
+| `$a1`-`$a3` look like call arguments but the callee never reads them | They may be leftovers from earlier code; try the call with fewer arguments (0x80030090). |
 | An array walked with two `$s` pointers a field apart (base and base+6), both stepped by the element size | Step a pointer with `p++` (0x80050844). A `short` index needs a sign extension every pass, which blocks strength reduction. |
 | A byte load (`lbu`) from a field that other code reads as 16 bits | `u16` field read as `field & 0xFF`; combine narrows the load (0x80050358, `VoiceState.id`) |
 | An unused stack frame | A call removed as dead code, probably `if (0) printf(...)` |
