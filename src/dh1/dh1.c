@@ -4621,7 +4621,38 @@ void func_80069098(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006912C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800691F0);
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} DR_AREA;
+
+typedef struct {
+    s16 clipX;
+    u8 pad[0xDC26];
+} Unk800A8094;
+
+extern Unk800A8094 D_800A8094[];
+extern u32 *D_800A32E4;
+extern DR_AREA *D_800A3374;
+extern void SetDrawArea(DR_AREA *p, RECT *r);
+extern void AddPrim(void *ot, void *p);
+
+void func_800691F0(s16 top, s32 bottom) {
+    DR_AREA *prim = D_800A3374;
+    RECT r;
+    u32 *ot;
+
+    r.x = D_800A8094[(s16)(D_800A333C ^ 1)].clipX;
+    r.y = top;
+    r.w = 320;
+    r.h = bottom - top;
+    SetDrawArea(prim, &r);
+    ot = D_800A32E4 + 0x9FE;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, prim++);
+    }
+    D_800A3374 = prim;
+}
 
 typedef struct {
     u8 pad0[0xC];
