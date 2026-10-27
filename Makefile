@@ -44,6 +44,10 @@ CFLAGS   := -quiet -O2 $(GFLAG) -w -fno-builtin -fpeephole -ffunction-cse -fpcc-
 # -O1 lets GNU as fill branch delay slots, which ASPSX did for compiled code
 CASFLAGS := $(ASFLAGS) -O1
 ASPSX_VER := 2.34
+# Each EXE has a single .rodata segment that also holds its .data and .sdata,
+# so small constants the compiler puts in .sdata (initializers of 8 bytes or
+# less) go to .rodata until data is split into its own segments.
+SDATA_TO_RODATA := sed 's/^\t\.sdata$$/\t.rdata/'
 MASPSX   = $(PYTHON) tools/maspsx/maspsx.py --expand-div --aspsx-version=$(ASPSX_VER) $(GFLAG)
 
 # Each EXE's objects: its top-level asm files (header, data, asm segments) and its
@@ -65,7 +69,7 @@ build/%.s.o: %.s
 
 build/src/%.c.o: src/%.c
 	@mkdir -p $(dir $@)
-	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(MASPSX) | $(AS) $(CASFLAGS) -o $@
+	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(SDATA_TO_RODATA) | $(MASPSX) | $(AS) $(CASFLAGS) -o $@
 
 define exe_rules
 $(patsubst %.c,build/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \

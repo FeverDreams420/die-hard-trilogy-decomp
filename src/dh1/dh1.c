@@ -4690,7 +4690,34 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C30);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C38);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069728);
+typedef struct {
+    u8 pad[0xA];
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+} Unk80069728Vals;
+
+typedef struct {
+    char str[8];
+} Unk80069728Name;
+
+extern void func_8004C97C(char *);
+extern void func_80069520(void);
+
+void func_80069728(void) {
+    Unk80069728Vals *v = (Unk80069728Vals *)D_800A317C->vals;
+    Unk80069728Name name = { "d" };
+
+    v->unkC = 0x7210;
+    v->unkA = 0;
+    v->unkE = 10;
+    v->unk10 = 0;
+    func_8004C97C(name.str);
+    func_8004C97C(name.str);
+    func_8004C97C(name.str);
+    D_800A317C->func = func_80069520;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800697C0);
 
