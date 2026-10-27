@@ -1583,6 +1583,11 @@ typedef struct {
     s16 unk2A;
     u8 unk2C;
     u8 unk2D;
+    u8 pad2E[0x14];
+    s16 unk42;
+    s16 unk44;
+    s16 unk46;
+    s16 unk48;
 } Obj80024D00;
 
 typedef struct {
@@ -4107,7 +4112,23 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061C90);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061E20);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061FF4);
+void func_80061E20();
+
+void func_80061FF4(s32 arg0, s16 arg1, s16 arg2) {
+    Unk8003BA6C_Task *task;
+    Obj80024D00 *obj;
+
+    task = func_80021264(func_80061E20, 1, 0x4C);
+    if (task != NULL) {
+        obj = (Obj80024D00 *)task->data;
+        func_80024D00(obj);
+        func_80024DA8(obj, 4, 0, 0xF6, 8);
+        func_80024DA8(obj, 4, 0, 0xF6, 8);
+        obj->unk46 = arg1;
+        obj->unk48 = arg2;
+        obj->unk42 = arg0 - 0x41;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800620A8);
 
