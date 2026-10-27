@@ -4714,15 +4714,39 @@ s32 func_80069974(u8 *data, s32 len, u8 *out) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069A14);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069B1C);
-
-extern long CloseEvent(long event);
-extern long StartPAD(void);
-extern long StopCARD(void);
 extern long D_800A2E8C;
 extern long D_800A2E94;
 extern long D_800A2E9C;
 extern long D_800A2EA4;
+extern long TestEvent(long event);
+extern long _card_info(long chan);
+
+long func_80069B1C(s16 chan) {
+    s32 i = 0;
+
+    if (_card_info(chan) != 0) {
+        for (; i < 120; i++) {
+            if (TestEvent(D_800A2E8C) == 1) {
+                return -1;
+            }
+            if (TestEvent(D_800A2E94) == 1) {
+                return 0;
+            }
+            if (TestEvent(D_800A2E9C) == 1) {
+                return 0;
+            }
+            if (TestEvent(D_800A2EA4) == 1) {
+                return -1;
+            }
+            VSync(0);
+        }
+    }
+    return 0;
+}
+
+extern long CloseEvent(long event);
+extern long StartPAD(void);
+extern long StopCARD(void);
 
 void func_80069BD4(void) {
     StopCARD();
