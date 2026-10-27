@@ -1897,7 +1897,7 @@ typedef struct {
     s16 unkCE;
 } Unk800315B0;
 
-s16 func_800437C8(s16 value, s16 target, s16 step);
+s32 func_800437C8(s32 value, s32 target, s32 step);
 
 void func_800315B0(Unk800315B0 *obj) {
     if (obj->unk30 == 0) {
@@ -4066,7 +4066,47 @@ void func_80066BD8(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     out->vz = base->vz + tmp.vz;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066C6C);
+typedef struct {
+    u8 pad0[4];
+    s32 unk4;
+    u8 pad8[0xAC];
+    s32 unkB4;
+    s32 unkB8;
+    s32 unkBC;
+    u8 padC0[0x5A];
+    s16 unk11A;
+} Unk80066C6C;
+
+
+void func_80066C6C(Unk80066C6C *obj) {
+    s32 step;
+    s32 limit;
+
+    switch (obj->unk11A) {
+    case 2:
+    case 3:
+        step = 0x300;
+        limit = 30;
+        obj->unkB8 = obj->unkB4 + 0x10000;
+        break;
+    case 1:
+    case 4:
+        step = 0xC00;
+        limit = 120;
+        obj->unkB8 = obj->unkB4 + 0x30000;
+        break;
+    default:
+        step = 0;
+        limit = 0;
+        break;
+    }
+    obj->unk4 += obj->unkBC;
+    if (obj->unk4 < obj->unkB8) {
+        obj->unkBC = func_800437C8(obj->unkBC, step, limit);
+    } else {
+        obj->unkBC = func_800437C8(obj->unkBC, -step, limit);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066D40);
 
