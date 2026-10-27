@@ -624,6 +624,9 @@ extern struct Task {
     Unk800A317CVals *vals;
     s16 id;
     s32 flags;
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
 } *D_800A317C;
 
 extern Unk8003BA6C_Task *func_80021264(void (*fn)(), s32, s32);
@@ -3289,7 +3292,48 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B38);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800562CC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80056918);
+typedef struct {
+    u8 pad0[0x30];
+    s16 unk30;
+    u8 pad32[6];
+    s16 unk38;
+} Unk80056918;
+
+extern s16 D_800A33AC;
+extern s16 D_800A356C;
+extern u8 D_80084B64[];
+extern u8 D_80084C74[];
+extern u8 D_80084D84[];
+extern u8 D_80084E94[];
+extern u8 D_80084FA4[];
+extern u8 D_800850B4[];
+extern u8 *D_800A8038;
+extern u8 *D_800A8040;
+extern u8 *D_800A8044;
+extern u8 *D_800A8048;
+extern u8 *D_800A804C;
+extern u8 *D_800A8050;
+void func_800562CC(void);
+
+void func_80056918(void) {
+    Unk80056918 *d;
+
+    d = (Unk80056918 *)D_800A317C->vals;
+    D_800A317C->unk28 = 0xFF;
+    D_800A317C->unk29 = 0;
+    D_800A317C->unk2A = 0xFF;
+    d->unk30 = -1;
+    d->unk38 = 0;
+    D_800A33AC = 0;
+    D_800A356C = 0;
+    D_800A8038 = D_80084B64;
+    D_800A8040 = D_80084C74;
+    D_800A8044 = D_80084D84;
+    D_800A8048 = D_80084E94;
+    D_800A804C = D_80084FA4;
+    D_800A8050 = D_800850B4;
+    D_800A317C->func = func_800562CC;
+}
 
 typedef struct {
     SVECTOR pos[20];
