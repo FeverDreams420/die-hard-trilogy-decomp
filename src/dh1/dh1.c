@@ -3706,7 +3706,47 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058C04);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058E74);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005942C);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 pad4[2];
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    s32 pad24[2];
+    s16 unk2C;
+} Unk8005942C;
+
+extern u16 D_80080A18[];
+extern s32 D_801D7084[];
+
+void func_8005942C(Unk8005942C *obj, s16 idx, s32 angle) {
+    s16 speed;
+    s32 off;
+
+    angle *= 64;
+    obj->unk2 = angle;
+    off = D_80080A18[D_800A307C];
+    obj->unkC = 0;
+    obj->unkA = 0;
+    obj->unk8 = 0;
+    obj->unk18 = 0x1000;
+    obj->unk14 = 0x1000;
+    obj->unk10 = 0x1000;
+    obj->unk2 = angle + off;
+    obj->unk20 = D_801D7084[idx];
+    speed = func_8001E9DC(16) + 48;
+    if ((s16)func_8001E9DC(2)) {
+        speed = -speed;
+    }
+    obj->unk2C = speed;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800594E4);
 
