@@ -3176,7 +3176,30 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800534E0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053538);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005366C);
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
+extern RECT D_800A2B1C;
+extern s32 ClearImage(RECT *rect, u8 r, u8 g, u8 b);
+extern s32 DrawSync(s32 mode);
+extern void func_80020D60(void);
+extern void func_80060370();
+
+void func_8005366C(void) {
+    RECT rect = D_800A2B1C;
+    Unk8003BA6C_Task *task;
+
+    func_80021698(3);
+    task = func_80021264(func_80060370, 1, 0x324);
+    if (task != NULL) {
+        D_800A2F0C = 6;
+        task->data->unk0 = 0;
+        ClearImage(&rect, 0, 0, 0);
+        DrawSync(0);
+        func_80020D60();
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053710);
 
