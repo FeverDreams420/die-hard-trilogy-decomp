@@ -4963,13 +4963,9 @@ void func_80057918(Unk80057918 *p, s16 color) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80057A10);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800582A0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800583AC);
-
 typedef struct {
     s16 unk0;
-    s16 pad2;
+    s16 unk2;
     s16 unk4;
     s16 pad6;
     s16 unk8;
@@ -4983,8 +4979,50 @@ typedef struct {
     s32 unk20;
     u8 pad24[0x8];
     s16 unk2C;
-    u8 pad2E[0x86];
+    s16 unk2E;
+    s16 unk30;
+    u8 pad32[0x4A];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    u8 pad82[4];
+    s16 unk86;
+    u8 pad88[0xC];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[0x14];
 } Unk800584A4;
+
+typedef struct {
+    s16 v[5];
+} Unk800582A0_Models;
+
+extern Unk800582A0_Models D_8007B18C;
+
+void func_800582A0(Unk800584A4 *obj, s16 type, s16 arg2) {
+    Unk800582A0_Models models = D_8007B18C;
+
+    obj->unk8 = 0;
+    obj->unkA = func_8001E9DC(0x1000);
+    obj->unkC = 0;
+    obj->unk10 = 0x1000;
+    obj->unk14 = 0x1000;
+    obj->unk18 = 0x1000;
+    obj->unk94 = 0x100;
+    obj->unk98 = 0x200;
+    obj->unk9C = 0x100;
+    obj->unk7C = obj->unk0;
+    obj->unk7E = obj->unk2;
+    obj->unk80 = obj->unk4;
+    obj->unk86 = obj->unkA;
+    obj->unk20 = D_801D70F0[models.v[type - 66]];
+    obj->unk2C = arg2 & 0x1F;
+    obj->unk30 = arg2 >> 5;
+    obj->unk2E = models.v[type - 66];
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800583AC);
 
 extern struct {
     s32 unk0;
