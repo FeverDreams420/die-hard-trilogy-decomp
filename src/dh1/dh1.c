@@ -5009,11 +5009,13 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B1CC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B210);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B250);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
+    u8 pad4[4];
+    s16 unk8;
+    s16 padA;
+    s16 unkC;
 } Unk8005B554_114;
 
 typedef struct {
@@ -5032,7 +5034,9 @@ typedef struct {
     u8 pad4E[2];
     s16 unk50;
     u8 pad52[0x12];
-    u8 unk64[0xC];
+    u8 unk64[6];
+    s16 unk6A;
+    u8 pad6C[4];
     u32 unk70;
     u8 pad74[4];
     u16 unk78;
@@ -5040,16 +5044,42 @@ typedef struct {
     s32 unkB0;
     u8 padB4[0x12];
     s16 unkC6;
-    u8 padC8[0x2C];
+    u8 padC8[0x28];
+    s16 unkF0;
+    u8 padF2[2];
     s16 unkF4;
     u8 padF6[2];
     s16 unkF8[3];
     s16 unkFE;
     u8 pad100[0x14];
     Unk8005B554_114 unk114;
-    u8 pad118[4];
-    s16 unk11C;
 } Unk8005B554;
+
+extern s16 func_80031C58(u8 *anim);
+
+void func_8005B250(Unk8005B554 *obj) {
+    Unk8005B554_114 *p = &obj->unk114;
+
+    if (obj->unk6A != 0) {
+        obj->unk6A = func_800437C8(obj->unk6A, 0, 24);
+    }
+    obj->unk50 = func_80031C58(obj->unk64);
+    if (obj->unk4C > 0) {
+        obj->unk4C -= 8;
+        if (obj->unk4C < 0) {
+            obj->unk4C = 0;
+        }
+    } else if (obj->unk4C < 0) {
+        obj->unk4C += 8;
+        if (obj->unk4C > 0) {
+            obj->unk4C = 0;
+        }
+    }
+    if (obj->unk6A == 0 && (p->unkC != 0 || obj->unkF0 == 0)) {
+        func_80024DA8(obj->unk64, D_8007C550[obj->unkF4], 0, 0, 8);
+        obj->unk2C = 12;
+    }
+}
 
 extern s16 D_800A2E84;
 
@@ -5113,7 +5143,7 @@ void func_8005B5C0(Unk8005B554 *obj) {
         obj->unk50 = 0;
         obj->unk34 = obj->unk12;
         func_80024DA8(obj->unk64, 0x16, 0x800, 0xA4, 4);
-        if (obj->unk11C == 0 || --obj->unk11C == 0) {
+        if (obj->unk114.unk8 == 0 || --obj->unk114.unk8 == 0) {
             params[0] = 0x30;
             params[1] = 0x3FFF;
             params[2] = 0;
@@ -5122,7 +5152,7 @@ void func_8005B5C0(Unk8005B554 *obj) {
             params[5] = 1;
             params[3] += D_801C1EF6;
             func_8004FB78(params);
-            obj->unk11C = func_8001E9DC(3) + 3;
+            obj->unk114.unk8 = func_8001E9DC(3) + 3;
         }
     }
 }
