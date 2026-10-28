@@ -1672,7 +1672,7 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023C7C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023E80);
 
-extern s16 func_800296F8(s16 a, s16 b, s16 t);
+extern s16 func_800296F8(s32 a, s32 b, s32 t);
 
 void func_800241BC(s16 *a, s16 *b, s16 t, s16 *out) {
     out[0] = func_800296F8(a[0], b[0], t);
@@ -3167,7 +3167,19 @@ void func_80047314(void) {
     func_80021554();
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800473CC);
+s32 func_800473CC(SVECTOR *out, Obj80047314 *obj, SVECTOR *target) {
+    s32 dist;
+    s32 t;
+
+    out->vx = func_800296F8(obj->unk0, target->vx, obj->unkD4);
+    out->vy = func_800296F8(obj->unk2, target->vy, obj->unkD4);
+    out->vz = func_800296F8(obj->unk4, target->vz, obj->unkD4);
+    dist = func_80043A90(out, (SVECTOR *)obj);
+    t = dist * 2;
+    out->vx += func_800296F8(obj->unkDE, 0, t);
+    out->vz += func_800296F8(obj->unkE0, 0, t);
+    return dist;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800474AC);
 
