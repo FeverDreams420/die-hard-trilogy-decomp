@@ -2982,7 +2982,54 @@ void func_8003BB9C(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003BC64);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003BE8C);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[0xC];
+    s16 unk12;
+    u8 pad14[0x52];
+    u8 unk66;
+    u8 pad67[0x1D];
+    s16 unk84;
+    s16 unk86;
+    s16 unk88;
+    s16 unk8A;
+    s16 unk8C;
+    u8 pad8E[3];
+    u8 unk91;
+} Unk8003BE8C;
+
+void func_8003BE8C(Unk8003BE8C *src) {
+    Unk8003BB9C_Data *data;
+    s16 slot;
+    s16 best;
+    s16 i;
+
+    slot = 0;
+    data = *(Unk8003BB9C_Data **)((u8 *)D_801F7D38 + 0x1C);
+    best = 0x7FFF;
+    for (i = 0; i < 10; i++) {
+        if (data->unkDC[i] < best) {
+            slot = i;
+            best = data->unkDC[0];
+        }
+    }
+    data->vals[slot][0] = src->unk0;
+    data->vals[slot][1] = src->unk2;
+    data->vals[slot][2] = src->unk4;
+    data->unk50[slot] = src->unk12;
+    data->unk64[slot] = src->unk84;
+    data->unk78[slot] = src->unk86;
+    data->unk8C[slot] = src->unk88;
+    data->unkA0[slot] = src->unk8A;
+    data->unkB4[slot] = src->unk8C;
+    data->unkC8[slot] = src->unk91;
+    data->unkF0[slot] = src->unk66;
+    data->unkDC[slot] = data->unk106;
+    data->unkFA[slot] = 0xFF;
+    data->unk106++;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003BFA8);
 
