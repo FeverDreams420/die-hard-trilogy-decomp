@@ -2950,7 +2950,45 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040620);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040C68);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040D98);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+} POLY_F3;
+
+#define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
+#define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
+
+extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
+extern s32 func_800292FC(void);
+extern s32 D_800A2EFC;
+extern s32 D_800A326C;
+extern s32 D_800A3394;
+extern void AddPrim(void *ot, void *p);
+
+void func_80040D98(SVECTOR **v, u8 shade) {
+    POLY_F3 *prim = D_800A3374;
+    u32 *ot;
+
+    if (RotNclip3(v[2], v[1], v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800A2EFC, &D_800A326C, &D_800A3394) > 0) {
+        D_800A326C = func_800292FC();
+        if (D_800A326C >= 8) {
+            prim->r0 = shade;
+            prim->g0 = shade;
+            prim->b0 = shade;
+            setlen(prim, 4);
+            setcode(prim, 0x20);
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, prim);
+            }
+            prim++;
+            D_800A3374 = prim;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040E94);
 
