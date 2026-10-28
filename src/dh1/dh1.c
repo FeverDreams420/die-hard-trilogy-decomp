@@ -1807,8 +1807,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800247D4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800248D4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024A2C);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -1837,6 +1835,30 @@ typedef struct {
     s16 unk46;
     s16 unk48;
 } Obj80024D00;
+
+void func_80024A2C(Obj80024D00 *src, Obj80024D00 *dst) {
+    dst->unk0 = src->unk0;
+    dst->unk2 = src->unk2;
+    dst->unk4 = src->unk4;
+    dst->unk6 = src->unk6;
+    dst->unk8 = src->unk8;
+    dst->unkC = src->unkC;
+    dst->unk10 = src->unk10;
+    dst->unk14 = src->unk14;
+    dst->unk16 = src->unk16;
+    dst->unk18 = src->unk18;
+    dst->unk1A = src->unk1A;
+    dst->unk1C = src->unk1C;
+    dst->unk1E = src->unk1E;
+    dst->unk20 = src->unk20;
+    dst->unk22 = src->unk22;
+    dst->unk24 = src->unk24;
+    dst->unk26 = src->unk26;
+    dst->unk28 = src->unk28;
+    dst->unk2A = src->unk2A;
+    dst->unk2C = src->unk2C;
+    dst->unk2D = src->unk2D;
+}
 
 typedef struct {
     s16 unk0;
