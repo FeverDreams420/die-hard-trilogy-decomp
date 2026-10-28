@@ -5433,7 +5433,32 @@ char *func_8006A13C(s16 arg0) {
     return D_8007B634;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A1A8);
+extern s32 open(char *name, s32 mode);
+extern s32 read(s32 fd, void *buf, s32 n);
+extern s32 close(s32 fd);
+extern u8 D_800A357C[];
+
+s32 func_8006A1A8(s16 slot) {
+    char *name;
+    s32 fd;
+
+    if (slot == 0) {
+        name = func_8006A13C(0);
+    } else {
+        name = func_8006A13C(1);
+    }
+    fd = open(name, 1);
+    if (fd == -1) {
+        close(fd);
+        return 0;
+    }
+    if (read(fd, D_800A357C, 0x200) != 0x200) {
+        close(fd);
+        return 0;
+    }
+    close(fd);
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A248);
 
