@@ -4433,12 +4433,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B210);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B250);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B34C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B428);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B488);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -4471,6 +4465,41 @@ typedef struct {
 
 extern s16 D_800A2E84;
 void func_80024DA8(void *arg0, int arg1, int arg2, int arg3, int arg4);
+
+typedef struct {
+    int *p;
+    int pad[3];
+} Entry16;
+
+extern Entry16 *D_800A353C;
+
+extern volatile u16 D_800A32AC[];
+
+void func_8005B34C(Unk8005B554 *obj) {
+    if (obj->unk2C == 9) {
+        return;
+    }
+    if (obj->unk2C == 0) {
+        if (D_800A32AC[0] & 0x1000) {
+            obj->unk50 = 100;
+        } else if (D_800A32AC[0] & 0x4000) {
+            obj->unk50 = -50;
+        } else {
+            obj->unk50 = 0;
+        }
+    }
+    obj->unk2C = 4;
+    obj->unk2E = 200;
+    if (obj->unk50 == 0) {
+        func_80024DA8(obj->unk64, 0x13, 0, 0xB8, 1);
+    } else {
+        func_80024DA8(obj->unk64, 0x12, ((u16 *)D_800A353C[18].p)[10], 0xB8, 8);
+    }
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B428);
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B488);
 
 void func_8005B4E8(Unk8005B554 *obj) {
     D_800A2E84 = 0;
@@ -4902,13 +4931,6 @@ void func_800619C8(void) {
     func_80061174();
     D_800A317C->func = func_80061174;
 }
-
-typedef struct {
-    int *p;
-    int pad[3];
-} Entry16;
-
-extern Entry16 *D_800A353C;
 
 int func_80061A30(short i) {
     return *D_800A353C[i].p - 1;
