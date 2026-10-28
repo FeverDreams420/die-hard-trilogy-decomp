@@ -6,4 +6,6 @@
 #include "include_asm.h"
 #include "types.h"
 
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
 #endif /* COMMON_H */

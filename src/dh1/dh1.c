@@ -4785,7 +4785,41 @@ void func_8005E260(s16 arg0, s16 seconds) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E300);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E478);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 unk8[12];
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+} Unk8005E478_Data;
+
+extern SVECTOR D_800A3194;
+void func_8005E300(void);
+
+void func_8005E478(SVECTOR *pos) {
+    Unk8002A35C *from = (Unk8002A35C *)D_801F7D44->vals;
+    Unk8003BA6C_Task *task;
+    Unk8005E478_Data *data;
+    s16 i;
+
+    task = func_80021264(func_8005E300, 1, 0x304);
+    if (task != NULL) {
+        data = *(Unk8005E478_Data **)((u8 *)task + 0x1C);
+        data->x = pos->vx;
+        data->y = pos->vy;
+        data->z = pos->vz;
+        data->unk20 = 0;
+        data->unk22 = -func_80028B04(from, (Unk8002A35C *)&D_800A3194) + 0x600;
+        data->unk24 = 0x1400;
+        for (i = 0; i < 12; i++) {
+            /* ABS(i - 6) would fold -(i - 6) into 6 - i first and lose the abs */
+            data->unk8[i] = ABS(i + -6);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E55C);
 
