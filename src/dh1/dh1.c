@@ -3132,7 +3132,24 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80047B68);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80047F7C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800482FC);
+void func_80047F7C(void);
+
+void func_800482FC(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+
+    obj->unk116 = 0;
+    obj->unk114 *= 30;
+    if (obj->unk118 > 0) {
+        func_80024DA8(obj->unk64, D_8007C550[obj->unkF4], 0, 0x52, 0);
+    } else {
+        obj->unk118 = 0;
+    }
+    obj->unkDC = func_80043C60(obj->unkD6);
+    obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+    obj->unkE2 = func_8001E9DC(0x14) + 0x14;
+    obj->unkE4 = 0;
+    D_800A317C->func = func_80047F7C;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800483C8);
 
