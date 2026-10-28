@@ -624,16 +624,20 @@ extern struct Task {
     char pad4[4];
     void (*cleanup)(void);
     struct Task *next;
-    char pad10[0xC];
+    struct Task *prev;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    char pad1A[2];
     Unk800A317CVals *vals;
-    s16 id;
+    s32 id;
     s32 flags;
     u8 unk28;
     u8 unk29;
     u8 unk2A;
 } *D_800A317C;
 
-extern Unk8003BA6C_Task *func_80021264(void (*fn)(), s32, s32);
+extern Unk8003BA6C_Task *func_80021264(void (*fn)(), s16, s16);
 extern void func_8003E77C(void *, s32);
 extern void *D_800A33E4;
 extern u8 *D_800A3304;
@@ -1434,8 +1438,7 @@ extern s16 D_800A3424;
 extern s16 D_800A3234;
 extern s16 D_800A3024;
 extern s32 D_800A314C;
-extern s16 D_800A305C;
-extern s16 D_800A305E;
+extern s16 D_800A305C[3];
 extern s16 D_800A2A68;
 extern u8 D_801D7330[][4];
 extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
@@ -1451,8 +1454,8 @@ s32 func_80020380(s16 track) {
     CdControlB(2, D_801D7330[track + 2], 0);
     CdControlB(0xE, (unsigned char *)5, 0);
     CdControl(3, 0, 0);
-    D_800A305C = track;
-    D_800A305E = 30;
+    D_800A305C[0] = track;
+    D_800A305C[1] = 30;
     D_800A2A68 = 20;
     return -1;
 }
@@ -1590,7 +1593,39 @@ void func_80020E38(s16 ofsx, s16 ofsy, u8 isbg, s16 x, s16 y, s16 w, s16 h) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020F08);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021264);
+extern struct Task *D_800A32C4;
+extern s32 D_800A2F7C;
+extern s32 func_8002186C(s16);
+
+Unk8003BA6C_Task *func_80021264(void (*fn)(), s16 flags, s16 size) {
+    struct Task *t;
+    struct Task *next;
+
+    if (D_800A32C4 == NULL) {
+        return NULL;
+    }
+    if ((s16)func_8002186C(size) == 0) {
+        return NULL;
+    }
+    t = D_800A32C4;
+    t->func = fn;
+    next = t->next;
+    D_800A317C->next->prev = t;
+    t->next = D_800A317C->next;
+    D_800A317C->next = t;
+    t->prev = D_800A317C;
+    t->unk14 = D_800A305C[0];
+    t->unk16 = D_800A305C[1];
+    t->unk18 = D_800A305C[2];
+    D_800A32C4 = next;
+    t->id = D_800A2F7C++;
+    t->unk28 = 0xFF;
+    t->unk29 = 0xFF;
+    t->unk2A = 0xFF;
+    t->flags = flags;
+    t->cleanup = NULL;
+    return (Unk8003BA6C_Task *)t;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021358);
 
