@@ -3661,7 +3661,58 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80045478);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004566C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80045EF4);
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[2];
+    Unk8002A35C prev;
+    u8 padE[4];
+    s16 unk12;
+    u8 pad14[0xE];
+    s16 unk22;
+    u8 pad24[0x18];
+    s32 unk3C;
+    s32 unk40;
+    s32 unk44;
+    u8 pad48[4];
+    s16 unk4C;
+    s16 unk4E;
+    s16 unk50;
+    u8 pad52[0x12];
+    Anim anim;
+    u8 pad84[0x50];
+    s16 unkD4;
+} Unk80045EF4;
+
+extern s16 func_80031C58(u8 *anim);
+extern void func_80039518(Unk80045EF4 *obj);
+extern void func_80024EF0(Anim *anim);
+
+s16 func_80045EF4(Unk80045EF4 *obj, s32 speed) {
+    s16 step;
+
+    if (obj->unk12 == obj->unk22) {
+        obj->anim.unk6 = 0xA4;
+        obj->unk4C = 0;
+        obj->unk4E = 0;
+        obj->unk50 = func_80031C58((u8 *)&obj->anim);
+        func_80039518(obj);
+        obj->pos.x += obj->unk3C;
+        obj->pos.y += obj->unk40;
+        obj->pos.z += obj->unk44;
+        obj->prev.x = obj->pos.x;
+        obj->prev.y = obj->pos.y;
+        obj->prev.z = obj->pos.z;
+        func_80024EF0(&obj->anim);
+        step = func_800296F8(obj->anim.unk6 * 4, 1, (s16)((speed << 12) / 0x600));
+        if (step < 0) {
+            step = 0;
+        }
+        obj->unkD4 += step;
+    } else {
+        step = 0;
+    }
+    return step;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046030);
 
