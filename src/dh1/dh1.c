@@ -3287,7 +3287,18 @@ int func_80050358(int handle) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800503F0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050448);
+extern long SpuSetReverbVoice(long on_off, unsigned long voice_bit);
+
+int func_80050448(int handle) {
+    int voice = handle & 0xFF;
+
+    if ((D_801C1F14[voice].id & 0xFF) == ((handle >> 8) & 0xFF)) {
+        SpuSetReverbVoice(0, 1 << voice);
+        D_801C1F14[voice].unk0 = D_800A33DC;
+        return 0;
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800504B8);
 
