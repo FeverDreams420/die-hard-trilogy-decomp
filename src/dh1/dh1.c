@@ -2231,7 +2231,67 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800358F0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80035B38);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800360C8);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    u8 pad24[0x4E];
+    s16 unk72;
+    s16 unk74;
+    u8 pad76[6];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    s16 pad82;
+    s16 unk84;
+    s16 unk86;
+    s16 unk88;
+    u8 pad8A[0xA];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[6];
+    s16 unkA6;
+    s16 unkA8;
+} Unk800360C8;
+
+extern struct {
+    s32 unk0;
+} D_801D7130;
+
+void func_800360C8(Unk800360C8 *obj, s32 unused, s32 angle) {
+    obj->unk2 = 0x480;
+    obj->unk8 = 0;
+    obj->unkA = angle << 9;
+    obj->unkC = 0;
+    obj->unk10 = 0x3000;
+    obj->unk14 = 0x3000;
+    obj->unk18 = 0x3000;
+    obj->unk84 = 0;
+    obj->unk86 = angle << 9;
+    obj->unk88 = 0;
+    obj->unkA6 = 0;
+    obj->unkA8 = 0;
+    obj->unk94 = 0x200;
+    obj->unk98 = 0x400;
+    obj->unk9C = 0x480;
+    obj->unk7C = obj->unk0;
+    obj->unk7E = obj->unk2;
+    obj->unk80 = obj->unk4;
+    obj->unk20 = D_801D7130.unk0;
+    obj->unk74 = 0;
+    obj->unk72 = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003614C);
 
