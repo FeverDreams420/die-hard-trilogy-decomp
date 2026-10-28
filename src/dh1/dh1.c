@@ -3330,7 +3330,31 @@ void func_800492F8(SVECTOR *pos) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800493D0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80049510);
+typedef struct {
+    Unk80043930 pos;
+    u8 pad6[0x5C];
+    s16 unk62;
+} Unk80049510;
+
+s32 func_80049510(Unk80049510 *self) {
+    Unk80041178List *list = D_801F7D28->list;
+    Unk80043930 *ref;
+    Unk80041178 *obj;
+    s16 i;
+
+    if (D_801F7D50 == NULL) {
+        return 0;
+    }
+    ref = (Unk80043930 *)D_801F7D50->vals;
+    func_8002A35C((Unk8002A35C *)ref, (Unk8002A35C *)self);
+    for (i = 0; i < list->count; i++) {
+        obj = list->entries[i].obj;
+        if (((u8 *)obj)[0x37] != self->unk62 && func_80043930(&self->pos, ref, (Unk80043930 *)obj) < 0x400) {
+            return -1;
+        }
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800495F8);
 
