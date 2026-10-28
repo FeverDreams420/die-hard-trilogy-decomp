@@ -2789,7 +2789,46 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800385F4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80038B00);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800390B8);
+typedef struct {
+    s16 x;
+    s16 z;
+    u8 pad4[2];
+    s16 links[4];
+    s16 unkE[4];
+    s16 unk16;
+    s16 unk18;
+    u8 pad1A[2];
+    u8 unk1C;
+    u8 pad1D[3];
+} Unk80043CC4;
+
+extern Unk80043CC4 *D_800A3084;
+extern s16 D_800A31DC;
+
+extern s16 D_800A3464;
+extern s16 D_800A7F98[];
+extern u8 *D_800A340C;
+void func_800391E0(s16 i);
+
+void func_800390B8(void) {
+    s16 i;
+    s16 j;
+    Unk80043CC4 *node;
+    u8 unused[16];
+
+    D_800A3464 = 0;
+    for (i = 0; i < D_800A31DC; i++) {
+        node = &D_800A3084[i];
+        if (node->unk16 != 0) {
+            D_800A7F98[node->unk18] = i;
+            D_800A3464++;
+        }
+        func_800391E0(i);
+        for (j = 0; j < D_800A31DC; j++) {
+            D_800A340C[j * 256 + i] = D_800A3084[j].unk1C;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800391E0);
 
@@ -3082,18 +3121,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EA9C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EAE0);
 
-typedef struct {
-    s16 x;
-    s16 z;
-    u8 pad4[2];
-    s16 links[4];
-    s16 unkE[4];
-    s16 unk16;
-    u8 pad18[8];
-} Unk80043CC4;
-
-extern Unk80043CC4 *D_800A3084;
-extern s16 D_800A31DC;
 extern u32 func_8003E42C(void *, s32);
 
 void func_8003EEA8(void *file) {
