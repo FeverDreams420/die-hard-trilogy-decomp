@@ -5317,10 +5317,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800685FC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800688B4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800688DC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800689BC);
-
 extern u8 D_800A2A48[];
 extern char D_800A2C10[];
 extern int VSync(int mode);
@@ -5332,6 +5328,33 @@ extern void func_8006B188(s32);
 
 extern s16 D_800A34BC;
 extern void func_80052DB8(void);
+
+typedef struct {
+    u8 pad0[0x3C];
+    s16 timer;
+} Unk800688DC;
+
+void func_800688DC(void) {
+    s16 *timer = &((Unk800688DC *)D_800A317C->vals)->timer;
+
+    if (*timer != 0) {
+        (*timer)--;
+        func_80053864(160, D_800A33C4 >> 1, D_800A2C10, 0x800, 0x400, D_800A2A30, D_800A2A48);
+    } else {
+        if (D_800A34BC != 0) {
+            func_80052DB8();
+        }
+        func_8001FDE4();
+        DrawSync(0);
+        VSync(0);
+        StopPAD();
+        func_80076F04();
+        func_800206CC();
+        func_8006B188(1);
+    }
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800689BC);
 
 void func_80068BA4(void) {
     s32 *timer = (s32 *)D_800A317C->vals;
