@@ -3067,14 +3067,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80045EF4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046030);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046598);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004667C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046D2C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046ED4);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -3123,6 +3115,35 @@ typedef struct {
 } Obj80047314;
 
 extern const s16 D_8007C550[];
+s16 func_80043C60(s16 exclude);
+void func_80046030(void);
+
+void func_80046598(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+    SVECTOR unused[2];
+
+    obj->unk12 = obj->unk112 = obj->unk116 << 9;
+    obj->unkDC = func_80043C60(-1);
+    obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+    obj->unkE2 = func_8001E9DC(0x14) + 0x14;
+    obj->unkE4 = 0;
+    if (obj->unk114 != 0) {
+        if (obj->unk28 == 11) {
+            func_80024DA8(obj->unk64, 0x28, 0, 0xF6, 0);
+            obj->unk28 = 7;
+        } else {
+            func_80024DA8(obj->unk64, D_8007C550[obj->unkF4], 0, 0x52, 0);
+        }
+    }
+    D_800A317C->func = func_80046030;
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004667C);
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046D2C);
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046ED4);
+
 void func_80046ED4(void);
 
 void func_80047258(void) {
