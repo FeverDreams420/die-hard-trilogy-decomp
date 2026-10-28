@@ -5078,7 +5078,28 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065F10);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066474);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800665E8);
+void func_800666C4(void);
+
+void func_800665E8(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+    s16 *speed = &obj->unk114;
+    SVECTOR unused[2];
+
+    if (obj->unk116 >= 0) {
+        obj->unk116 += 0x10;
+    } else {
+        obj->unk116 = 0;
+    }
+    speed[0] <<= 9;
+    speed[9] = 0;
+    obj->unk12 = speed[0];
+    obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+    obj->unkDA = func_80043D68(obj->unkD6, obj->unkD8, obj->unkD2);
+    obj->unkE2 = func_8001E9DC(0x14) + 0x14;
+    obj->unkE4 = 0;
+    func_80024DA8(obj->unk64, D_8007C550[obj->unkF4], 0, 0x52, 0);
+    D_800A317C->func = func_800666C4;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800666C4);
 
