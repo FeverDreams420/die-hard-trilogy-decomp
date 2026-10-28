@@ -1629,7 +1629,35 @@ Unk8003BA6C_Task *func_80021264(void (*fn)(), s16 flags, s16 size) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021358);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021454);
+struct Task *func_80021454(struct Task *parent, void (*fn)(), s16 flags, s16 size) {
+    struct Task *t;
+    struct Task *next;
+
+    if (D_800A32C4 == NULL) {
+        return NULL;
+    }
+    if ((s16)func_8002186C(size) == 0) {
+        return NULL;
+    }
+    t = D_800A32C4;
+    t->func = fn;
+    next = t->next;
+    parent->next->prev = t;
+    t->next = parent->next;
+    parent->next = t;
+    t->prev = parent;
+    t->unk14 = D_800A305C[0];
+    t->unk16 = D_800A305C[1];
+    t->unk18 = D_800A305C[2];
+    D_800A32C4 = next;
+    t->id = D_800A2F7C++;
+    t->flags = flags;
+    t->cleanup = NULL;
+    t->unk28 = 0;
+    t->unk29 = 200;
+    t->unk2A = 0xFF;
+    return t;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021554);
 
