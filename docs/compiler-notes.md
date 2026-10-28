@@ -187,4 +187,10 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A pointer increment sits in the delay slot of the `jal` that receives it | Increment in the argument: `AddPrim(ot, prim++)` (0x800691F0). |
 | An array walked with two `$s` pointers a field apart (base and base+6), both stepped by the element size | Step a pointer with `p++` (0x80050844). A `short` index needs a sign extension every pass, which blocks strength reduction. |
 | A byte load (`lbu`) from a field that other code reads as 16 bits | `u16` field read as `field & 0xFF`; combine narrows the load (0x80050358, `VoiceState.id`) |
+| Several fields set to one value, stored in reverse field order | A chained assignment `a = b = c = 0;`: GCC stores the rightmost name first (0x8002A194, 0x800523AC) |
+| A global read hoisted to the top in our build, but read late (after stores to a struct) in the original | Declare the global as a one-field struct (`extern struct { s32 unk0; } D_...;`). GCC 2.5.7 assumes a plain scalar can't overlap a struct field, so it moves the read early; a struct read has to wait behind the stores (0x800360C8, 0x800584A4) |
+| A load through one pointer scheduled above stores through another | The read comes first in the source; the scheduler then sinks the store (`movie->unk40 = info->mode;` first, 0x800523AC) |
+| A struct copy comes out as `lwl`/`lwr` pairs, but the original uses `lhu`/`sh` per field | Copy field by field (`RECT`, 0x800523AC) |
+| A value just stored is loaded again (`lhu`) instead of reused | Another store through the same `s16 *` between the write and the read; CSE drops the remembered value (`speed[9] = 0;` between, 0x800665E8) |
+| `lhu` where you expect `lh` (or `sltu`), and nothing extends the value | The field is unsigned: `u16`/`u32`, or cast both sides of an `==` to `(u16)` (0x80049744, 0x80031264, 0x8005F880) |
 | An unused stack frame | A call removed as dead code, probably `if (0) printf(...)` |
