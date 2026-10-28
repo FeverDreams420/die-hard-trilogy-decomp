@@ -3213,7 +3213,70 @@ s32 func_80043A90(SVECTOR *a, SVECTOR *b) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B0C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B6C);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE[2];
+    s16 unk12;
+    u8 pad14[0x14];
+    s16 unk28;
+    u8 pad2A[0x22];
+    s16 unk4C;
+    s16 unk4E;
+    s16 unk50;
+    u8 pad52[0x12];
+    u8 unk64[2];
+    s16 unk66;
+    u8 pad68[0x18];
+    s16 unk80;
+    u8 pad82[0x50];
+    s16 unkD2;
+    s16 unkD4;
+    s16 unkD6;
+    s16 unkD8;
+    s16 unkDA;
+    s16 unkDC;
+    s16 unkDE;
+    s16 unkE0;
+    s16 unkE2;
+    s16 unkE4;
+    u8 padE6[0xE];
+    s16 unkF4;
+    u8 padF6[0xE];
+    s16 unk104;
+    u8 pad106[0xC];
+    s16 unk112;
+    s16 unk114;
+    s16 unk116;
+    s16 unk118;
+    u8 pad11A[0xC];
+    s16 unk126;
+    u8 pad128[0x2A];
+    s16 unk152;
+} Obj80047314;
+
+void func_8004379C(short id, SVECTOR *out);
+
+s32 func_80043B6C(Unk8002A35C *out, Obj80047314 *obj) {
+    SVECTOR b;
+    SVECTOR a;
+    s32 dist;
+
+    func_8004379C(obj->unkD6, &a);
+    func_8004379C(obj->unkD8, &b);
+    out->x = func_800296F8(a.vx, b.vx, obj->unkD4);
+    out->y = func_800296F8(a.vy, b.vy, obj->unkD4);
+    out->z = func_800296F8(a.vz, b.vz, obj->unkD4);
+    dist = func_8002A35C(out, (Unk8002A35C *)obj);
+    out->x += func_800296F8(obj->unkDE, 0, dist * 2);
+    out->z += func_800296F8(obj->unkE0, 0, dist * 2);
+    return dist;
+}
 
 
 s16 func_80043C60(s16 exclude) {
@@ -3248,8 +3311,6 @@ retry:
     }
     return node->links[0];
 }
-
-void func_8004379C(short id, SVECTOR *out);
 
 short func_80043D68(short a, short b, short scale) {
     SVECTOR va;
@@ -3341,53 +3402,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004566C);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80045EF4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046030);
-
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 pad6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 padE[2];
-    s16 unk12;
-    u8 pad14[0x14];
-    s16 unk28;
-    u8 pad2A[0x22];
-    s16 unk4C;
-    s16 unk4E;
-    s16 unk50;
-    u8 pad52[0x12];
-    u8 unk64[2];
-    s16 unk66;
-    u8 pad68[0x18];
-    s16 unk80;
-    u8 pad82[0x50];
-    s16 unkD2;
-    s16 unkD4;
-    s16 unkD6;
-    s16 unkD8;
-    s16 unkDA;
-    s16 unkDC;
-    s16 unkDE;
-    s16 unkE0;
-    s16 unkE2;
-    s16 unkE4;
-    u8 padE6[0xE];
-    s16 unkF4;
-    u8 padF6[0xE];
-    s16 unk104;
-    u8 pad106[0xC];
-    s16 unk112;
-    s16 unk114;
-    s16 unk116;
-    s16 unk118;
-    u8 pad11A[0xC];
-    s16 unk126;
-    u8 pad128[0x2A];
-    s16 unk152;
-} Obj80047314;
 
 extern const s16 D_8007C550[];
 s16 func_80043C60(s16 exclude);
