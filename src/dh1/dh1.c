@@ -3253,7 +3253,46 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044B74);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044E9C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80045164);
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0x5E];
+    Anim anim;
+    u8 pad84[0x68];
+    s16 unkEC;
+    s16 unkEE;
+    u8 padF0[0x68];
+    s16 unk158;
+} Unk80045164;
+
+extern void func_8003E384(Unk80045164 *obj);
+extern void func_80031320(Unk80045164 *obj);
+extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
+extern s32 func_8004BF0C(Unk8002A35C *pos);
+extern void func_8004525C(void);
+extern void func_8004BFB8(void);
+
+void func_80045164(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    s16 tmp;
+
+    func_8003E384(obj);
+    func_8002A270(&obj->pos, 4);
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031320(obj);
+    obj->unkEC = func_8001E9DC(4) + 1;
+    obj->unkEE = 0;
+    D_800A317C->func = func_8004525C;
+    if (obj->unk158 == 0 && (s16)func_8004BF0C(&obj->pos) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(&obj->anim, tmp, 0, 0x52, 8);
+        D_800A317C->func = func_8004BFB8;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004525C);
 
