@@ -2882,6 +2882,8 @@ typedef struct {
     s16 unk116;
     u8 pad118[0xE];
     s16 unk126;
+    u8 pad128[0x2A];
+    s16 unk152;
 } Obj80047314;
 
 extern const s16 D_8007C550[];
@@ -2943,7 +2945,19 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800483C8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800487B4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80048B50);
+void func_800487B4();
+
+void func_80048B50(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+
+    obj->unk126 = 0;
+    obj->unk152 = obj->unk12;
+    obj->unk114 *= 30;
+    obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+    obj->unkE2 = func_8001E9DC(0x14) + 0x14;
+    obj->unkE4 = 0;
+    D_800A317C->func = func_800487B4;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80048BD4);
 
