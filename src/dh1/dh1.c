@@ -3811,7 +3811,51 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800504F0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050738);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050758);
+extern char D_801F97D4[];
+
+void func_80050758(void) {
+    SpuVoiceAttr voice;
+    SpuCommonAttr common;
+    SpuReverbAttr reverb;
+
+    SsUtReverbOff();
+    SpuStart();
+    SpuInitMalloc(16, D_801F97D4);
+    SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
+
+    common.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR | SPU_COMMON_CDVOLL | SPU_COMMON_CDVOLR |
+                  SPU_COMMON_CDREV | SPU_COMMON_CDMIX;
+    common.mvol.left = 0x3FFF;
+    common.mvol.right = 0x3FFF;
+    common.cd.volume.left = 0x3FFF;
+    common.cd.volume.right = 0x3FFF;
+    common.cd.reverb = SPU_OFF;
+    common.cd.mix = SPU_ON;
+    SpuSetCommonAttr(&common);
+
+    SpuReserveReverbWorkArea(SPU_ON);
+    reverb.mask = SPU_REV_MODE | SPU_REV_DEPTHL | SPU_REV_DEPTHR | SPU_REV_DELAYTIME | SPU_REV_FEEDBACK;
+    reverb.mode = SPU_REV_MODE_OFF;
+    SpuSetReverbModeParam(&reverb);
+    SpuSetReverb(SPU_ON);
+
+    voice.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA | SPU_VOICE_ADSR_AMODE |
+                 SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR |
+                 SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
+    voice.voice = SPU_ALLCH;
+    voice.volume.left = 0x3FFF;
+    voice.volume.right = 0x3FFF;
+    voice.pitch = 0x1000;
+    voice.a_mode = SPU_VOICE_LINEARIncN;
+    voice.s_mode = SPU_VOICE_LINEARIncN;
+    voice.r_mode = SPU_VOICE_LINEARDecN;
+    voice.ar = 0;
+    voice.dr = 0;
+    voice.sr = 0;
+    voice.rr = 0;
+    voice.sl = 0xF;
+    SpuSetVoiceAttr(&voice);
+}
 
 void func_80050844(void) {
     VoiceState *v;
