@@ -1484,11 +1484,46 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800209B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020B90);
 
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
+typedef struct {
+    unsigned addr : 24;
+    unsigned len : 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
+
+typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+extern u32 *D_800A32E4;
+extern void *D_800A3374;
+extern DRAWENV *SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
+
 extern s16 D_800A3104;
 extern s16 D_800A33C4;
 extern char D_8007A83C[];
 extern u8 D_800A2A34[];
-extern void func_80020E38(s32, s32, s32, s32, s32, s32, s32);
+void func_80020E38(s16 ofsx, s16 ofsy, u8 isbg, s16 x, s16 y, s16 w, s16 h);
 extern void func_80053864(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
 
 void func_80020D60(void) {
@@ -1502,7 +1537,31 @@ void func_80020D60(void) {
     func_80020E38(640, 0, 0, 640, 0, 320, 120);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020E38);
+void func_80020E38(s16 ofsx, s16 ofsy, u8 isbg, s16 x, s16 y, s16 w, s16 h) {
+    DR_ENV *prim = D_800A3374;
+    DRAWENV env;
+
+    env.clip.x = x;
+    env.clip.y = y;
+    env.clip.w = w;
+    env.clip.h = h;
+    env.ofs[0] = ofsx;
+    env.ofs[1] = ofsy;
+    env.tw.x = 0;
+    env.tw.y = 0;
+    env.tw.w = 255;
+    env.tw.h = 255;
+    env.dtd = 255;
+    env.dfe = 255;
+    env.isbg = isbg;
+    env.r0 = 0;
+    env.g0 = 0;
+    env.b0 = 0;
+    SetDrawEnv(prim, &env);
+    addPrim(D_800A32E4 + 0x9FE, prim);
+    prim++;
+    D_800A3374 = prim;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020F08);
 
@@ -1768,41 +1827,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80029488);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800295B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800296F8);
-
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
-
-typedef struct {
-    unsigned addr : 24;
-    unsigned len : 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
-
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
-#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
-
-typedef struct {
-    u32 tag;
-    u32 code[15];
-} DR_ENV;
-
-typedef struct {
-    RECT clip;
-    s16 ofs[2];
-    RECT tw;
-    u16 tpage;
-    u8 dtd;
-    u8 dfe;
-    u8 isbg;
-    u8 r0, g0, b0;
-    DR_ENV dr_env;
-} DRAWENV;
-
-extern u32 *D_800A32E4;
-extern void *D_800A3374;
-extern DRAWENV *SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
 
 void func_80029728(s16 ofsx, s16 ofsy, u8 isbg, s16 x, s16 y, s16 w, s16 h) {
     DR_ENV *prim = D_800A3374;
