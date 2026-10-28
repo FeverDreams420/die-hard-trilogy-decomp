@@ -203,3 +203,9 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `lhu` of a stack argument and `sll`/`sra` of register arguments, while callers pass plain `int` | An old-style definition with `s16` parameters (`void f(a, b) Anim *a; s16 b; {`); drop any later `int` prototype (0x80024DA8) |
 | Two `mult`s issued back to back before either result is used | Compute both products into `s32` temporaries first, then use them; put the shifted product first in the sum (`(dx >> 12) + p->pos.x`, 0x80057918) |
 | Argument copies to saved registers placed after the first global loads, not at the top | Declare a parameter that only ever goes into byte stores as `u8` instead of `s32` (0x80040D98) |
+| A global reloaded on every pass of a loop, where ours hoists it out | Read the loop bound straight from its global in the `for` test (`i < D_800A3074`) instead of a local copy; GCC 2.5.7 hoists only one load per loop (0x80058788) |
+| Stores through pointers don't force a reload of a scalar global (struct field stores are assumed not to alias plain scalars) | Make the global a struct (`History D_801D2078` with `idx`, `log[5][2]`); struct-to-struct accesses can alias, so the field gets reloaded (0x8003A790) |
+| Field accesses off one base register at the wrong offsets (`-2`, `0x18`) | GCC uses the address of the first field named in the source as the base; reorder statements so the original base field comes first (0x80058788) |
+| The compared bound loaded before the negate of an absolute value | `if (ABS(x) < p->limit)` instead of `if (x < 0) x = -x;` then compare (0x800493D0) |
+| An early `return 0` adding a `j` the original lacks | One exit: `if (ok) { ... } else { r = 0; } return r;` (0x80045EF4) |
+| A lerp result used without `sll`/`sra` sign extension | `func_800296F8` returns `int`, not `s16` (0x80050158) |
