@@ -2327,11 +2327,27 @@ typedef struct {
     s16 cell;
 } Unk80031200;
 
-extern u16 D_800A79F2[2];
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    s16 unk8;
+    s16 unkA;
+} GridCell;
+
+typedef struct {
+    s16 unk0;
+    u16 x;
+    u16 z;
+    u16 w;
+    u8 pad8[0x14];
+    GridCell *cells;
+} Grid;
+
+extern Grid D_800A79F0;
 
 void func_80031200(Unk80031200 *p) {
-    s16 x = p->x + (D_800A79F2[0] << 9);
-    s16 z = p->z + (D_800A79F2[1] << 9);
+    s16 x = p->x + (D_800A79F0.x << 9);
+    s16 z = p->z + (D_800A79F0.z << 9);
 
     p->cell = x / 1024 + (z / 1024) * 32;
 }
@@ -2732,8 +2748,8 @@ void func_8003768C(SVECTOR *pos, s16 arg1) {
     d->pos.x = pos->vx;
     d->pos.y = pos->vy;
     d->pos.z = pos->vz;
-    d->unk88 = (pos->vx >> 8) + D_800A79F2[0] * 2;
-    d->unk8A = (pos->vz >> 8) + D_800A79F2[1] * 2;
+    d->unk88 = (pos->vx >> 8) + D_800A79F0.x * 2;
+    d->unk8A = (pos->vz >> 8) + D_800A79F0.z * 2;
     d->unk8C = 2;
     d->unk8E = 2;
     d->unk90 = 3;
@@ -3007,8 +3023,8 @@ void func_8003EEA8(void *file) {
         if (n == 0) break;
         node = &D_800A3084[i];
         i++;
-        node->x -= D_800A79F2[0] << 9;
-        node->z -= D_800A79F2[1] << 9;
+        node->x -= D_800A79F0.x << 9;
+        node->z -= D_800A79F0.z << 9;
         node->unkE[0] = 0;
         node->unkE[1] = 0;
         node->unkE[2] = 0;
@@ -5108,7 +5124,9 @@ typedef struct {
     s32 unk18;
     s32 pad1C;
     s32 unk20;
-    u8 pad24[0x8];
+    s32 pad24;
+    u16 unk28;
+    s16 unk2A;
     s16 unk2C;
     s16 unk2E;
     s16 unk30;
@@ -5187,7 +5205,31 @@ void func_80058520(void *arg0, void *arg1, Unk800584A4 *self) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800585D4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058788);
+extern s16 D_800A3074;
+
+void func_80058788(void) {
+    s16 i;
+    s16 count;
+    Unk800584A4 *obj;
+    GridCell *cell;
+    s16 col;
+    s16 row;
+
+    count = 0;
+    for (i = 0; i < D_800A3074; i++) {
+        obj = &D_800A3564[i];
+        if (obj->unk28 == 0xFF00) {
+            col = (obj->unk0 >> 9) + D_800A79F0.x;
+            row = (obj->unk4 >> 9) + D_800A79F0.z;
+            count++;
+            cell = D_800A79F0.cells + D_800A79F0.w * row + col;
+            cell->unk4 = 0;
+            cell->unkA = 0;
+            obj->unk2A = 0;
+        }
+    }
+    D_800A3074 -= count;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058898);
 
