@@ -4830,7 +4830,38 @@ s32 func_8005EA78(s16 a, s16 b) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005EB14);
+typedef struct {
+    u8 pad0[0xC0];
+    u8 unkC0[6][0x30];
+    s16 unk1E0[6];
+    s16 state[6];
+} Unk8005EB14_Item;
+
+typedef struct {
+    s32 pad0;
+    Unk8005EB14_Item *items[3];
+} Unk8005EB14;
+
+extern int func_80024D64(int);
+
+void func_8005EB14(void) {
+    Unk8005EB14 *obj = (Unk8005EB14 *)D_800A317C->vals;
+    Unk8005EB14_Item *item;
+    s16 i;
+    s16 j;
+
+    i = 2;
+    do {
+        item = obj->items[i];
+        j = 5;
+        do {
+            if (item->state[j] == 2) {
+                item->state[j] = 4;
+                func_80024DA8(item->unkC0[j], 7, func_80024D64(7), 0xF6, 8);
+            }
+        } while (j-- != 0);
+    } while (i-- != 0);
+}
 
 void func_8005EBF4(s16 arg0) {
     s16 v = 600;
