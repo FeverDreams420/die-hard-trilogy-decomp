@@ -1858,7 +1858,67 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800297F8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80029944);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A194);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    s16 unk1A;
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+    s16 unk22;
+    struct {
+        s16 unk0;
+        s16 unk2;
+        s16 unk4;
+        s16 unk6;
+    } unk24[64];
+    struct {
+        u8 unk0;
+        u8 unk1;
+        u8 unk2;
+        u8 unk3;
+    } unk224[64];
+} Unk8002A194_Data;
+
+extern void func_80029944();
+extern Unk8003BA6C_Task *D_801F7D48;
+extern s16 D_800A2A1E;
+extern s16 D_800A327C;
+
+void func_8002A194(void) {
+    Unk8002A194_Data *data;
+    s16 i;
+
+    D_801F7D48 = func_80021264(func_80029944, 1, 0x324);
+    if (D_801F7D48 != NULL) {
+        data = (Unk8002A194_Data *)D_801F7D48->data;
+        data->unk6 = data->unkE = data->unk16 = data->unk1E = data->unk0 = 0;
+        data->unk4 = data->unk8 = data->unk10 = data->unk14 = -0x4100;
+        data->unkC = data->unk18 = data->unk1C = data->unk20 = 0x3D00;
+        for (i = 0; i < 64; i++) {
+            data->unk24[i].unk0 = 0;
+            data->unk24[i].unk2 = 0;
+            data->unk24[i].unk4 = 0;
+            data->unk24[i].unk6 = 0;
+            data->unk224[i].unk0 = 0;
+            data->unk224[i].unk1 = 0;
+            data->unk224[i].unk2 = 0;
+        }
+        D_800A2A1E = 0;
+        D_800A327C = -1;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A270);
 
