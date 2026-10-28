@@ -3063,7 +3063,25 @@ s32 func_80043930(Unk80043930 *a, Unk80043930 *b, Unk80043930 *c) {
     return SquareRoot0(cross);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800439A4);
+extern s16 D_800A3464;
+extern s16 D_800A7F98[];
+
+s16 func_800439A4(s16 exclude) {
+    s16 i = 0;
+    s16 idx = func_8001E9DC(D_800A3464);
+    s16 id;
+
+    while (1) {
+        id = D_800A7F98[idx];
+        if (id != exclude && D_800A3084[id].unk16 == 2) {
+            return id;
+        }
+        idx = (idx + 1) % D_800A3464;
+        if (++i >= 51) {
+            return D_800A7F98[0];
+        }
+    }
+}
 
 s32 func_80043A90(SVECTOR *a, SVECTOR *b) {
     s32 dx = (a->vx - b->vx) >> 4;
