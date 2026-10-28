@@ -3700,7 +3700,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005217C);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052234);
 
 typedef struct {
-    u8 pad0[0x18];
+    RECT rect[2];
+    u8 pad10[8];
     u32 start;
     u32 end;
     s16 mode;
@@ -3709,10 +3710,20 @@ typedef struct {
 typedef struct {
     u8 pad0[0x10];
     u32 *ring;
-    u8 pad14[0x38];
+    u8 pad14[4];
+    RECT rect[2];
+    RECT slice;
+    s32 unk30;
+    s32 unk34;
+    s32 unk38;
+    s32 unk3C;
+    s32 unk40;
+    u8 pad44[8];
     s32 unk4C;
     u8 pad50[0x14];
     Unk8005231C_Info *info;
+    u8 pad68[0xC];
+    s16 unk74;
 } Unk8005231C;
 
 extern void CdReadCallback(void (*func)());
@@ -3732,7 +3743,34 @@ s16 func_8005231C(void (*outFunc)(), void (*endFunc)(), Unk8005231C *movie) {
     return func_80052234(movie);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800523AC);
+void func_800523AC(Unk8005231C *movie) {
+    Unk8005231C_Info *info = movie->info;
+
+    movie->unk40 = info->mode;
+    movie->unk34 = movie->unk30 = D_800A333C;
+    movie->unk74 = 0;
+    movie->unk38 = 0;
+    movie->unk3C = -1;
+    movie->rect[0].x = info->rect[0].x;
+    movie->rect[0].y = info->rect[0].y;
+    movie->rect[0].w = info->rect[0].w;
+    movie->rect[0].h = info->rect[0].h;
+    movie->rect[1].x = info->rect[1].x;
+    movie->rect[1].y = info->rect[1].y;
+    movie->rect[1].w = info->rect[1].w;
+    movie->rect[1].h = info->rect[1].h;
+    if (movie->unk34 == 0) {
+        movie->slice.x = info->rect[0].x;
+        movie->slice.y = info->rect[0].y;
+        movie->slice.w = 16;
+        movie->slice.h = info->rect[0].h;
+    } else {
+        movie->slice.x = info->rect[1].x;
+        movie->slice.y = info->rect[1].y;
+        movie->slice.w = 16;
+        movie->slice.h = info->rect[1].h;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052488);
 
