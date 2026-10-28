@@ -1791,7 +1791,7 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023C7C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023E80);
 
-extern s16 func_800296F8(s32 a, s32 b, s32 t);
+extern int func_800296F8(s32 a, s32 b, s32 t);
 
 void func_800241BC(s16 *a, s16 *b, s16 t, s16 *out) {
     out[0] = func_800296F8(a[0], b[0], t);
@@ -4298,7 +4298,9 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB78);
 extern struct {
     u8 pad[0x1780];
     s16 unk1780;
-    u8 pad1782[0x8];
+    u8 pad1782[0x4];
+    s16 unk1786;
+    u8 pad1788[0x2];
     s16 unk178A;
     s16 unk178C;
 } *D_800A350C;
@@ -4342,7 +4344,37 @@ void func_80050080(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005010C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050158);
+int func_80050158(int id, int volume, int pan) {
+    SpuVoiceAttr attr;
+    int voice;
+    int d;
+
+    if (D_800A350C->unk178C != 0) {
+        pan = 0;
+    }
+    volume = func_800296F8(0, volume, D_800A350C->unk1786);
+    voice = id & 0xFF;
+    if (D_801C1F1A[voice].id == ((id >> 8) & 0xFF)) {
+        attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+        volume >>= 1;
+        d = func_800296F8(0, volume, ABS(pan));
+        attr.volume.left = volume;
+        attr.volume.right = volume;
+        if (pan < 0) {
+            attr.volume.left = d + volume;
+            attr.volume.right = volume - d;
+        } else {
+            attr.volume.left = volume - d;
+            attr.volume.right = d + volume;
+        }
+        attr.voice = 1 << voice;
+        SpuSetVoiceAttr(&attr);
+        D_801C1F1A[voice].left = attr.volume.left;
+        D_801C1F1A[voice].right = attr.volume.right;
+        return 0;
+    }
+    return -1;
+}
 
 int func_80050288(int handle, short pitch) {
     SpuVoiceAttr attr;
@@ -4384,7 +4416,6 @@ typedef struct {
 extern VoiceState D_801C1F14[];
 extern u16 D_800A33DC;
 extern void SpuSetKey(long on_off, unsigned long voice_bit);
-void func_80050158(int handle, int arg1, int arg2);
 
 int func_80050358(int handle) {
     int voice = handle & 0xFF;
