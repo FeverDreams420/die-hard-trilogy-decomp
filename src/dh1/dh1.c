@@ -4939,7 +4939,22 @@ void func_80069098(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     out->vz = base->vz + tmp.vz;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006912C);
+extern SVECTOR D_800A2FC4;
+extern SVECTOR D_800A3194;
+extern SVECTOR D_800A349C;
+extern VECTOR D_801C1EC4;
+extern MATRIX *func_80070C9C(MATRIX *m, VECTOR *v);
+
+void func_8006912C(void) {
+    D_800A349C.vx = -D_800A3194.vx;
+    D_800A349C.vy = -D_800A3194.vy;
+    D_800A349C.vz = -D_800A3194.vz;
+    func_80068E80(&D_800A2FC4, &D_801C0B64);
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    func_80070C9C(&D_801C0B64, &D_801C1EC4);
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+}
 
 typedef struct {
     u32 tag;
