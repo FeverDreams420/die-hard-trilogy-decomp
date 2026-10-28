@@ -6080,7 +6080,40 @@ void func_8005EBF4(s16 arg0) {
     } while (i--);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005EC74);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk8005EC74;
+
+extern void func_80062F8C(s16 a, s16 b);
+extern void func_800627B8(void);
+extern u8 D_800A2A48[];
+extern s16 D_800A2F54;
+extern s16 D_800A346C;
+extern s16 D_800A3114;
+extern void func_80063E0C(void);
+
+void func_8005EC74(void) {
+    Unk8005EC74 *d = (Unk8005EC74 *)D_800A317C->vals;
+
+    d->unk2 = func_800437C8(d->unk2, 0xC00, 0x40);
+    func_80062F8C(d->unk0, d->unk2);
+    d->unk0 += 8;
+    func_800627B8();
+    func_8004983C();
+    func_800544F8(160, 34, D_801D2068[0], 0x600, 1200, D_800A2A48, D_800A2A30, 8);
+    if (D_800A2F54 == 6) {
+        if (D_800A346C == 1 || D_800A346C == 5) {
+            func_80021698(8);
+            D_800A3114 = 2;
+            D_800A317C->func = func_80063E0C;
+        } else {
+            D_800A3114 = 0;
+            D_800A2F54 = 7;
+            func_80052E18(3);
+        }
+    }
+}
 
 void func_8005ED94(void) {
 }
