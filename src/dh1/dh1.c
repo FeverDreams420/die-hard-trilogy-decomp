@@ -608,6 +608,10 @@ typedef struct {
 typedef struct {
     u8 pad[0x1C];
     Unk8003BA6C_Data *data;
+    u8 pad20[8];
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
 } Unk8003BA6C_Task;
 
 typedef struct {
@@ -4242,7 +4246,35 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B58);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005DB40);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E260);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Unk8005E260_Data;
+
+extern s16 D_800A329C;
+void func_8005DB40();
+
+void func_8005E260(s16 arg0, s16 seconds) {
+    Unk8003BA6C_Task *task;
+    Unk8005E260_Data *data;
+
+    if (D_800A329C == 0) {
+        task = func_80021264(func_8005DB40, 1, 8);
+        if (task != NULL) {
+            task->unk28 = 0;
+            task->unk29 = 0x80;
+            task->unk2A = 0xFF;
+            data = (Unk8005E260_Data *)task->data;
+            data->unk0 = 0;
+            data->unk2 = seconds * 30 - 1;
+            data->unk4 = arg0;
+            data->unk6 = 0x1000;
+            D_800A32CC = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E300);
 
