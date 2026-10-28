@@ -4680,7 +4680,31 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005704C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800572F4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80057918);
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0x218];
+    s16 radius;
+} Unk80057918;
+
+extern s16 D_800854C0[];
+
+void func_80057918(Unk80057918 *p, s16 color) {
+    Unk8002A35C v;
+    s16 a;
+    s16 r;
+    s32 dx, dz;
+
+    func_8002A270(&p->pos, color);
+    for (a = 0; a < 0x1000; a += 0x80) {
+        r = p->radius;
+        dx = D_800854C0[a & 0xFFF] * r;
+        dz = D_800854C0[(a + 0x400) & 0xFFF] * r;
+        v.x = (dx >> 12) + p->pos.x;
+        v.y = p->pos.y;
+        v.z = p->pos.z - (dz >> 12);
+        func_8002A270(&v, (p->radius >> 7) + 7);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80057A10);
 
