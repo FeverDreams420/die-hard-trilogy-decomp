@@ -6084,15 +6084,36 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B98);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F438);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F688);
-
 typedef struct {
     u8 c[4];
 } Color4;
 
 typedef struct {
+    u8 pad0[0x2A];
+    s16 unk2A;
+    u8 pad2C[0x1E];
+    s16 unk4A;
+} Unk8005F688;
+
+extern Color4 D_800A2B94;
+extern Color4 D_800A2B98;
+extern void func_800545BC(s32 x, s32 y, s32 value, s32 a3, s32 a4, u8 *a5, u8 *a6);
+
+void func_8005F688(Unk8005F688 *p) {
+    Color4 top = D_800A2B94;
+    Color4 bottom = D_800A2B98;
+
+    if (p->unk4A >= 0x30) {
+        p->unk4A -= 0x10;
+        if (p->unk4A >= 0x30) {
+            func_800545BC(160, 140, p->unk2A, 0x271000 / p->unk4A, 0xAF000 / p->unk4A, top.c, bottom.c);
+        }
+    }
+}
+
+typedef struct {
     u8 pad0[0x38];
-    char *text;
+    s32 value;
 } Unk8005F790;
 
 extern Color4 D_800A2B84;
@@ -6100,7 +6121,6 @@ extern Color4 D_800A2B88;
 extern Color4 D_800A2BA0;
 extern Color4 D_800A2BA4;
 extern char D_800A2BA8[];
-extern void func_800545BC(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
 
 void func_8005F790(Unk8005F790 *p) {
     Color4 top1 = D_800A2BA0;
@@ -6109,7 +6129,7 @@ void func_8005F790(Unk8005F790 *p) {
     Color4 bottom2 = D_800A2B88;
 
     func_80053864(83, 198, D_800A2BA8, 0xC00, 1200, top1.c, bottom1.c);
-    func_800545BC(237, 198, p->text, 0xC00, 1200, top2.c, bottom2.c);
+    func_800545BC(237, 198, p->value, 0xC00, 1200, top2.c, bottom2.c);
 }
 
 typedef struct {
