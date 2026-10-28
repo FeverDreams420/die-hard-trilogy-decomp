@@ -621,7 +621,7 @@ typedef struct {
 
 extern struct Task {
     void (*func)(void);
-    char pad4[4];
+    void (*saved)(void);
     void (*cleanup)(void);
     struct Task *next;
     struct Task *prev;
@@ -2636,7 +2636,9 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036DE8);
 
 typedef struct {
     s16 unk0;
-    char pad2[0x1A];
+    char pad2[2];
+    s16 unk4;
+    char pad6[0x16];
 } Unk800A7A32;
 
 extern s16 D_800A3244;
@@ -3384,10 +3386,16 @@ typedef struct {
     Unk8002A35C pos;
     u8 pad6[0x5E];
     Anim anim;
-    u8 pad84[0x68];
+    u8 pad84[0x3A];
+    s16 unkBE;
+    u8 padC0[0xA];
+    u8 unkCA;
+    u8 padCB[0x21];
     s16 unkEC;
     s16 unkEE;
-    u8 padF0[0x68];
+    u8 padF0[2];
+    s16 unkF2;
+    u8 padF4[0x64];
     s16 unk158;
 } Unk80045164;
 
@@ -3564,7 +3572,46 @@ void func_80048B50(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80048BD4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80049064);
+extern s16 D_800A336C;
+extern s16 D_800A61B4;
+extern void func_80039858(void);
+extern void func_8003B850(void);
+extern void func_80049820(u32);
+
+void func_80049064(Unk80045164 *obj, s16 flag) {
+    s16 hit = obj->unkBE;
+    void (*prev)(void);
+
+    if (hit == 0) {
+        return;
+    }
+    if (hit < 0) {
+        obj->unk158 = 200;
+        if (flag != 0) {
+            obj->unkBE = 0;
+            prev = D_800A317C->func;
+            D_800A317C->func = func_8003B850;
+            D_800A317C->saved = prev;
+            return;
+        }
+    } else {
+        obj->unkF2 -= hit;
+        if (obj->unkF2 <= 0) {
+            if (D_800A7A32[obj->unkCA].unk4 == D_800A336C) {
+                func_80049820(5000);
+            } else {
+                func_80049820(5);
+            }
+            D_800A61B4 = -1;
+            D_800A317C->func = func_80039858;
+            return;
+        }
+        if (obj->unk158 != 0) {
+            obj->unk158 = 0;
+        }
+    }
+    obj->unkBE = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004916C);
 
