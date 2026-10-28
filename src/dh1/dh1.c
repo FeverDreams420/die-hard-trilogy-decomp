@@ -1627,7 +1627,38 @@ Unk8003BA6C_Task *func_80021264(void (*fn)(), s16 flags, s16 size) {
     return (Unk8003BA6C_Task *)t;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021358);
+extern struct Task *D_801F7D6C;
+
+struct Task *func_80021358(void (*fn)(), s16 flags, s16 size) {
+    struct Task *anchor = D_801F7D6C;
+    struct Task *t;
+    struct Task *next;
+
+    if (D_800A32C4 == NULL) {
+        return NULL;
+    }
+    if ((s16)func_8002186C(size) == 0) {
+        return NULL;
+    }
+    t = D_800A32C4;
+    t->func = fn;
+    next = t->next;
+    anchor->prev->next = t;
+    t->prev = anchor->prev;
+    t->next = anchor;
+    anchor->prev = t;
+    t->unk14 = D_800A305C[0];
+    t->unk16 = D_800A305C[1];
+    t->unk18 = D_800A305C[2];
+    D_800A32C4 = next;
+    t->id = D_800A2F7C++;
+    t->flags = flags;
+    t->cleanup = NULL;
+    t->unk28 = 0x80;
+    t->unk29 = 0x80;
+    t->unk2A = 0x80;
+    return t;
+}
 
 struct Task *func_80021454(struct Task *parent, void (*fn)(), s16 flags, s16 size) {
     struct Task *t;
@@ -3923,7 +3954,6 @@ typedef struct {
     s16 vals[64];
 } Unk8004DFD0_Data;
 
-extern void *func_80021358(void (*fn)(), s32, s32);
 extern void *D_801F7D7C;
 extern void func_8004E04C();
 
