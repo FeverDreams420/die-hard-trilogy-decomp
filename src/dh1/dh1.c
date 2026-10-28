@@ -2070,7 +2070,37 @@ void func_80031200(Unk80031200 *p) {
     p->cell = x / 1024 + (z / 1024) * 32;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031264);
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0xC];
+    u16 unk12;
+} Unk80031264_Target;
+
+extern s32 D_800A2FBC;
+extern Unk8002A35C *D_800A3534;
+
+void func_80031264(Unk8002A35C *from) {
+    Unk80031264_Target *target;
+    s32 dist;
+    s32 angle;
+
+    if (D_801F7D50 != NULL) {
+        target = (Unk80031264_Target *)D_801F7D50->vals;
+        if (from != &target->pos) {
+            dist = func_8002A35C(from, &target->pos);
+            if (dist < D_800A2FBC) {
+                angle = (func_80028B04(from, &target->pos) - target->unk12) << 20 >> 20;
+                if (angle < 0) {
+                    angle = -angle;
+                }
+                if (angle < 0x60) {
+                    D_800A2FBC = dist;
+                    D_800A3534 = from;
+                }
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031320);
 
