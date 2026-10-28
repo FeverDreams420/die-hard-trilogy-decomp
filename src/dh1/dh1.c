@@ -1430,7 +1430,32 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020300);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020340);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020380);
+extern s16 D_800A3424;
+extern s16 D_800A3234;
+extern s16 D_800A3024;
+extern s32 D_800A314C;
+extern s16 D_800A305C;
+extern s16 D_800A305E;
+extern s16 D_800A2A68;
+extern u8 D_801D7330[][4];
+extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
+
+s32 func_80020380(s16 track) {
+    u8 unused[56];
+
+    D_800A3424 = 0;
+    D_800A3234 = track + 2;
+    D_800A3024 = D_800A3234;
+    D_800A314C = D_801D7330[D_800A3024 + 1][1] + D_801D7330[D_800A3024 + 1][0] * 90 - 2;
+    CdControlB(2, D_801D7330[track + 2], 0);
+    CdControlB(0xE, (unsigned char *)5, 0);
+    CdControl(3, 0, 0);
+    D_800A305C = track;
+    D_800A305E = 30;
+    D_800A2A68 = 20;
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020468);
 
