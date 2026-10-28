@@ -3408,7 +3408,19 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005010C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050158);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050288);
+int func_80050288(int handle, short pitch) {
+    SpuVoiceAttr attr;
+    int voice = handle & 0xFF;
+
+    if (D_801C1F1A[voice].id == ((handle >> 8) & 0xFF)) {
+        attr.mask = SPU_VOICE_PITCH;
+        attr.pitch = pitch;
+        attr.voice = 1 << voice;
+        SpuSetVoiceAttr(&attr);
+        return 0;
+    }
+    return -1;
+}
 
 int func_800502F0(int handle, short note) {
     SpuVoiceAttr attr;
