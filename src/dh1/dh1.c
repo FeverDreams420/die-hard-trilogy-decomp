@@ -4515,7 +4515,21 @@ void func_8005366C(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053710);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053770);
+extern s32 D_80080F24[];
+extern s8 D_801FC098[];
+extern s16 func_80054C70(void *data, s32 a1);
+
+void func_80053770(void) {
+    s16 i;
+
+    for (i = 0; i < D_80080F24[0]; i++) {
+        D_801FC098[i] = (func_80054C70(func_8003E414(D_80080F24, i), -1) << 5) / 200;
+    }
+    i = 9;
+    do {
+        D_801FC098[i] = 30;
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053864);
 
