@@ -2600,7 +2600,7 @@ extern void func_8004ACD4(SVECTOR *pos);
 extern void func_80056ADC(SVECTOR *v, s16 arg1);
 extern s16 func_80050974(SVECTOR *pos, s32 arg1);
 extern s16 func_800508F0(SVECTOR *pos);
-extern void func_8004FB78(s32 *params);
+extern s32 func_8004FB78(s32 *params);
 
 void func_80038554(SVECTOR *pos) {
     s32 params[6];
@@ -3713,7 +3713,52 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F498);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F634);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FA1C);
+typedef struct {
+    u8 pad0[0x168];
+    SVECTOR pos;
+    s16 unk170;
+    s16 unk172;
+    s16 unk174;
+    s16 unk176;
+    s16 unk178;
+    u8 pad17A[2];
+    s32 unk17C;
+    s16 unk180;
+    u8 pad182[2];
+} Unk8004FA1C;
+
+extern void func_8004F634();
+extern void func_8004F498(Unk8004FA1C *p, s16 a, s32 b, s16 c);
+extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
+
+void func_8004FA1C(SVECTOR *pos) {
+    Unk8003BA6C_Task *task;
+    Unk8004FA1C *p;
+    s32 params[6];
+    s32 tmp;
+
+    task = func_80021264(func_8004F634, 3, sizeof(Unk8004FA1C));
+    if (task != NULL) {
+        p = (Unk8004FA1C *)task->data;
+        p->pos.vx = pos->vx;
+        p->pos.vy = pos->vy;
+        p->pos.vz = pos->vz;
+        p->unk178 = func_80023E80(&p->pos, &tmp, &tmp);
+        p->unk176 = 0xE00;
+        p->unk172 = -1;
+        p->unk180 = 0;
+        p->unk174 = 0x40;
+        p->unk170 = 600;
+        func_8004F498(p, p->unk174, 0x40, p->unk176);
+        params[0] = 0x14;
+        params[1] = 0x2000;
+        params[2] = func_800508F0(&p->pos) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        p->unk17C = func_8004FB78(params);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB10);
 
