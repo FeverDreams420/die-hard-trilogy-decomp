@@ -174,6 +174,7 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | --- | --- |
 | A count-down loop that copies `n` and tests the old value (`move v0,a1` / `addiu a1,a1,-1` / `bnez v0`) | `n = i--; if (n == 0) break;` (plain `while (i--)` compares the new value with -1) |
 | A field load kept after a store to a scalar global | Read the field through a raw cast, `*(T **)((u8 *)task + 0x1C)` (0x8004BDD0). The scheduler assumes struct fields and scalar globals never alias and hoists the load otherwise; array indexing doesn't help. |
+| Two values swap registers around an `a || b` test that assigns the same thing | Write it as `if (a) x = y; else if (b) x = y;` (0x8005C6F0). Each branch then has its own copy, which changes how GCC allocates the registers for the compared values. |
 | A pointer global loaded again after a store through it (`sw zero,0(v0)`, then `lw v1,%lo(D_800A317C)`) | Store through a plain pointer, `*(s32 *)D_800A317C->vals = 0;` (0x8001ECC8). A store to a struct field (`->vals->f = 0`) is assumed not to touch a scalar global, so GCC reuses the first load. |
 | Two neighbouring globals re-read on every loop pass through one base register (`addiu t0,%lo(D_800A79F2)`, then `lhu 0(t0)` / `lhu 2(t0)`) | Declare them as one array, `extern u16 D_800A79F2[2];` (0x8003EEA8). As separate scalars GCC hoists both loads out of the loop. |
 | A frame 8 bytes larger than the saved registers need | An unused 8-byte local, for example `SVECTOR unused;` (0x800433F4) |
