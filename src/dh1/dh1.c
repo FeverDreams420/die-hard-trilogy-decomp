@@ -4838,7 +4838,35 @@ void func_80053464(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800534E0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053538);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk80053538;
+
+extern char D_8007B034[];
+extern char D_8007B040[];
+extern u8 D_800A2A3C[];
+extern u8 D_800A2A40[];
+extern s16 D_800A33EC;
+extern volatile u16 D_800A32AC[];
+extern s16 D_800A30CC;
+
+void func_80053538(void) {
+    Unk80053538 *d = (Unk80053538 *)D_800A317C->vals;
+
+    if (d->unk2 != 0) {
+        func_80053864(160, D_800A33C4 >> 1, D_8007B034, 0x800, 0x400, D_800A2A3C, D_800A2A40);
+    } else {
+        func_80053864(160, D_800A33C4 >> 1, D_8007B040, 0x800, 0x400, D_800A2A3C, D_800A2A40);
+    }
+    if (d->unk0 != 0) {
+        d->unk0--;
+    } else if (D_800A33EC != 0 || (d->unk2 != 0 && ((D_800A32AC[0] & 0x40) || (D_800A32AC[0] & 0x800)))) {
+        D_800A30CC = 15;
+        func_80052E18(10);
+        d->unk0 = -1;
+    }
+}
 
 extern RECT D_800A2B1C;
 extern s32 ClearImage(RECT *rect, u8 r, u8 g, u8 b);
