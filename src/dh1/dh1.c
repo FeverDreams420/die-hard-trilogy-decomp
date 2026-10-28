@@ -4880,7 +4880,25 @@ void func_800546EC(short x, short y, unsigned int value, int d, int a, int b, in
     func_800540F4(x, y, D_801C1B8C, d, a, b, c);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800547B0);
+void func_800547B0(short x, short y, int value, int d, int a, int b, int c) {
+    short i, j;
+
+    value = ABS(value);
+    i = 9;
+    do {
+        D_801C1B8C[i] = value % 10 + '0';
+        value /= 10;
+        j = i;
+        i--;
+    } while (j != 0);
+    for (i = 0; i < 10; i++) {
+        if (D_801C1B8C[i] != '0') {
+            func_800540F4(x, y, &D_801C1B8C[i], d, a, b, c);
+            return;
+        }
+    }
+    func_800540F4(x, y, &D_801C1B8C[9], d, a, b, c);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800548E0);
 
