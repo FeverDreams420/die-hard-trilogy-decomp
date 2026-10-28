@@ -2903,7 +2903,23 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800437C8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043814);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043858);
+s32 func_80043858(SVECTOR *p, SVECTOR *a, SVECTOR *b) {
+    s32 dot;
+    s32 len;
+
+    dot = ((p->vz - b->vz) * (p->vz - a->vz) - (p->vx - b->vx) * (a->vx - p->vx) + 0x800) >> 12;
+    len = ((p->vx - a->vx) * (p->vx - a->vx) + (p->vz - a->vz) * (p->vz - a->vz) + 0x800) >> 12;
+    if (len == 0) {
+        return 0;
+    }
+    if (len + 0x800 < dot) {
+        return -1;
+    }
+    if (dot < -0x800) {
+        return -1;
+    }
+    return (dot << 12) / len;
+}
 
 typedef struct {
     s16 x;
