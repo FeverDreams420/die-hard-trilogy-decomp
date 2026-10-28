@@ -4603,7 +4603,44 @@ void func_80052E18(s32 arg0) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052E88);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800531B0);
+extern RECT D_800A2B1C;
+extern s32 ClearImage(RECT *rect, u8 r, u8 g, u8 b);
+extern s32 DrawSync(s32 mode);
+extern void SetDispMask(s32 mask);
+extern u32 *ClearOTagR(u32 *ot, s32 n);
+extern u32 D_800A80E8[];
+extern u32 D_800B5D10[];
+extern s16 D_800A3514;
+extern s16 D_800A315C;
+extern s16 D_801D209C;
+extern void func_8001F778(void);
+extern void func_8001ED6C(void);
+extern void func_80020468(void);
+
+void func_800531B0(void) {
+    RECT rect = D_800A2B1C;
+
+    D_800A3514 = 0;
+    func_80021698(0xF);
+    SetDispMask(0);
+    DrawSync(0);
+    VSync(0);
+    ClearOTagR(D_800A80E8, 0xA00);
+    ClearOTagR(D_800B5D10, 0xA00);
+    ClearImage(&rect, 0, 0, 0);
+    DrawSync(0);
+    VSync(0);
+    SetDispMask(1);
+    func_8001F778();
+    if (D_801D209C < 0) {
+        D_800A315C = -1;
+    }
+    func_8001ED6C();
+    D_800A2F0C = 11;
+    func_80020468();
+    D_800A3514 = 0;
+    ((struct Task *)D_801F7D24)->vals->pad0 = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800532BC);
 
