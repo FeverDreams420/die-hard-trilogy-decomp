@@ -5620,7 +5620,49 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F92C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F98C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060064);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 w, h;
+} TILE;
+
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} DR_MODE;
+
+extern void SetTile(TILE *p);
+extern void SetSemiTrans(void *p, s32 abe);
+extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
+extern void SetDrawMode(DR_MODE *p, s32 dfe, s32 dtd, s32 tpage, RECT *tw);
+
+void func_80060064(u8 shade) {
+    TILE *tile = D_800A3374;
+    DR_MODE *mode;
+    u32 *ot;
+
+    tile->x0 = 0;
+    tile->y0 = 0;
+    tile->w = 0x1FF;
+    tile->h = 0xFF;
+    SetTile(tile);
+    tile->r0 = shade;
+    tile->g0 = shade;
+    tile->b0 = shade;
+    SetSemiTrans(tile, 1);
+    ot = D_800A32E4 + 1;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, tile++);
+    }
+    mode = (DR_MODE *)tile;
+    SetDrawMode(mode, 1, 1, GetTPage(0, 2, 0, 0), NULL);
+    ot = D_800A32E4 + 1;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, mode++);
+    }
+    D_800A3374 = mode;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060168);
 
