@@ -7138,7 +7138,67 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006ADB0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B03C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B07C);
+typedef struct {
+    u32 pc0;
+    u32 gp0;
+    u32 t_addr;
+    u32 t_size;
+    u32 d_addr;
+    u32 d_size;
+    u32 b_addr;
+    u32 b_size;
+    u32 s_addr;
+    u32 s_size;
+    u32 sp, fp, gp, ret, base;
+} EXEC;
+
+typedef struct {
+    char key[8];
+    u32 text;
+    u32 data;
+    EXEC exec;
+    char title[60];
+} XF_HDR;
+
+extern XF_HDR D_801F7F24;
+extern char D_8007B6FC[];
+extern char D_8007B708[];
+extern int ResetCallback(void);
+extern int func_8006ADB0(void);
+extern int VSyncCallback(void (*f)(void));
+extern void func_8006B03C(void);
+extern int ResetGraph(int mode);
+extern void PadStop(void);
+extern long Exec(EXEC *exec, long argc, char **argv);
+extern int CdReset(int mode);
+
+void func_8006B07C(s16 next) {
+    s32 *index = (s32 *)0x80012800;
+    s16 i;
+
+    ResetCallback();
+    func_8003E3CC();
+    while (1) {
+        if (func_8006ADB0()) {
+            printf(D_8007B6FC);
+            VSyncCallback(0);
+            for (i = 0; i < 60; i++) {
+                VSync(0);
+            }
+            func_800206CC();
+            func_8006B03C();
+            ResetGraph(3);
+            PadStop();
+            D_801F7F24.exec.s_addr = 0x8001D4F0;
+            D_801F7F24.exec.s_size = 0;
+            *index = next;
+            func_8006B3C0();
+            Exec(&D_801F7F24.exec, 0, 0);
+            printf(D_8007B708);
+        }
+        CdReset(0);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B188);
 
