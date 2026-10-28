@@ -201,3 +201,5 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | One error path reached by `beqz` over a `j`, shared by two checks | Write the error block out twice (`if (fail) { cleanup(); return 0; }` after each loop); GCC merges the copies (0x80052234) |
 | A loop whose exit test sits at the bottom with a `move` in the delay slot, where `do`/`while` or `for` comes out rotated | `while (1) { ...; if (++i >= n) return ...; }` (0x800439A4) |
 | `lhu` of a stack argument and `sll`/`sra` of register arguments, while callers pass plain `int` | An old-style definition with `s16` parameters (`void f(a, b) Anim *a; s16 b; {`); drop any later `int` prototype (0x80024DA8) |
+| Two `mult`s issued back to back before either result is used | Compute both products into `s32` temporaries first, then use them; put the shifted product first in the sum (`(dx >> 12) + p->pos.x`, 0x80057918) |
+| Argument copies to saved registers placed after the first global loads, not at the top | Declare a parameter that only ever goes into byte stores as `u8` instead of `s32` (0x80040D98) |
