@@ -1589,7 +1589,34 @@ void func_80021698(s16 mask) {
     D_800A317C = cur;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002174C);
+extern void func_80020F08(void);
+extern void func_8001EA74(void);
+extern s16 D_800A3414;
+extern s16 D_800A2F34;
+extern s16 D_800A3454;
+extern s16 D_800A3294;
+extern s16 D_800A33CC;
+extern s16 D_800A32BC;
+extern u16 D_800A3014;
+
+void func_8002174C(void) {
+    func_80020F08();
+    D_800A317C->unk28 = 0xFF;
+    D_800A317C->unk29 = 0xFF;
+    D_800A317C->unk2A = 0;
+    D_800A3414 = 0;
+    D_800A2F34 = 0;
+    D_800A3454 = 0;
+    D_800A3294 = 0;
+    D_800A33CC = 0;
+    D_800A32BC = 0;
+    D_800A317C->func = func_8001EA74;
+    for (;;) {
+        D_800A317C->func();
+        D_800A3014 += 5;
+        D_800A317C = D_800A317C->next;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002182C);
 
