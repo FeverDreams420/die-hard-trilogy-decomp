@@ -4130,7 +4130,9 @@ typedef struct {
 } Unk8005B554_114;
 
 typedef struct {
-    u8 pad0[0x2C];
+    s16 pad0;
+    s16 unk2;
+    u8 pad4[0x28];
     s16 unk2C;
     s16 unk2E;
     u8 pad30[0x1C];
@@ -4144,7 +4146,9 @@ typedef struct {
     u16 unk78;
     u8 pad7A[0x36];
     s32 unkB0;
-    u8 padB4[0x40];
+    u8 padB4[0x12];
+    s16 unkC6;
+    u8 padC8[0x2C];
     s16 unkF4;
     u8 padF6[0x1E];
     Unk8005B554_114 unk114;
@@ -4234,7 +4238,30 @@ void func_8005C658(Unk8005B554 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C6F0);
+extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
+
+void func_8005C6F0(Unk8005B554 *obj) {
+    s16 y = obj->unkC6;
+    s16 h;
+    s32 tmp;
+
+    h = func_80023E80(obj, &tmp, &tmp);
+    if (y == -1) {
+        y = h;
+    } else if (y < h) {
+        y = h;
+    }
+    if (y >= obj->unk2) {
+        func_80024DA8(obj->unk64, D_8007C570[obj->unkF4], 0, 200, 3);
+        obj->unk2C = 0;
+        obj->unk2E = 0;
+        obj->unk2 = y;
+        obj->unk4C = 0;
+    } else {
+        obj->unk2E = func_800437C8(obj->unk2E, -500, 24);
+    }
+    obj->unkC6 = -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C7C4);
 
