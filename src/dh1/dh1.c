@@ -3893,6 +3893,7 @@ typedef struct {
     s32 unk20;
     u8 pad24[0x8];
     s16 unk2C;
+    u8 pad2E[0x86];
 } Unk800584A4;
 
 extern struct {
@@ -3912,7 +3913,18 @@ void func_800584A4(Unk800584A4 *obj) {
     obj->unk2C = 1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058520);
+extern Unk800584A4 *D_800A3564;
+extern void func_8004DA48(void *obj, s16 *pos, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
+
+void func_80058520(void *arg0, void *arg1, Unk800584A4 *self) {
+    Unk800584A4 *obj = &D_800A3564[self->unkA];
+
+    if (--obj->unk2C <= 0) {
+        obj->unkA += 0x20;
+        func_8004DA48(obj, &obj->unk8, 0x25, 0, 0x40, 0, 0x1000, 0x10, (s16)func_8001E9DC(0x200));
+        obj->unk2C = 10;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800585D4);
 
