@@ -2819,7 +2819,47 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A430);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A48C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A790);
+typedef struct {
+    u8 pad0[0x122];
+    s16 unk122;
+} Unk8003A790;
+
+extern s32 D_801C08F8[];
+extern s16 D_800A2F14;
+extern s16 D_800A2F74;
+extern s16 D_800A3184;
+extern s16 D_800A61B0;
+extern s16 D_800A61B2;
+typedef struct {
+    s16 count;
+    s16 idx;
+    s16 unk4;
+    s16 log[5][2];
+} History;
+
+extern History D_801D2078;
+
+void func_8003A790(Unk8003A790 *obj, s16 type) {
+    if (obj->unk122 != -1) {
+        D_801C08F8[obj->unk122] = 0;
+    }
+    if (type == 0) {
+        D_800A61B0 = -1;
+        D_800A3184 += 60;
+        if (D_800A2F14 == 0) {
+            D_800A2F74++;
+        }
+    }
+    if (type == 1) {
+        D_800A61B2 = -1;
+    }
+    if (++D_801D2078.idx >= 5) {
+        D_801D2078.idx = 0;
+    }
+    D_801D2078.log[D_801D2078.idx][0] = D_801D2078.count;
+    D_801D2078.log[D_801D2078.idx][1] = type;
+    D_801D2078.count++;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A8A4);
 
@@ -3810,9 +3850,6 @@ extern s16 D_801D2070;
 extern s16 D_801D2072;
 extern s16 D_801D2074;
 extern s16 D_801D2076;
-extern s16 D_801D2078;
-extern s16 D_801D207A;
-extern s16 D_801D207C;
 extern s16 D_801D2096;
 extern s16 D_801D2098;
 extern s16 D_801D209A;
@@ -3846,9 +3883,9 @@ void func_800498B0(void) {
     D_801D2098 = 0;
     D_801D209A = 0x40;
     D_801D206C = 0;
-    D_801D2078 = 0;
-    D_801D207A = 0;
-    D_801D207C = 0;
+    D_801D2078.count = 0;
+    D_801D2078.idx = 0;
+    D_801D2078.unk4 = 0;
     D_801D20A4 = 0;
     data->unk44 = 15;
 }
