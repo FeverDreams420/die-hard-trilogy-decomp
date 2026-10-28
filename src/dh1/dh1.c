@@ -3911,7 +3911,57 @@ void func_800492F8(SVECTOR *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800493D0);
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0xC];
+    u16 unk12;
+    u8 pad14[0x14];
+    s16 unk28;
+    u8 pad2A[0xB8];
+    s16 unkE2;
+    s16 unkE4;
+    u8 padE6[0x1E];
+    u16 unk104;
+    u8 pad106[4];
+    s16 unk10A;
+    u8 pad10C[0x1C];
+    s16 unk128;
+    u8 pad12A[0x2A];
+    s16 unk154;
+} Unk800493D0;
+
+extern s16 func_80042DD0(Unk800493D0 *obj, Unk8002A35C *target, s32 arg2);
+extern void func_8004566C(void);
+
+s32 func_800493D0(Unk800493D0 *obj) {
+    Unk8002A35C *target;
+    s32 angle;
+
+    if (D_801F7D50 != NULL) {
+        target = (Unk8002A35C *)D_801F7D50->vals;
+        if (--obj->unkE2 >= 0) {
+            return 0;
+        }
+        obj->unkE2 = func_8001E9DC(10) + 10;
+        if (obj->unk154 != 0 && obj->unk28 != 0x12) {
+            return 0;
+        }
+        if (obj->unk28 == 0x12) {
+            target = (Unk8002A35C *)D_801C08F8[obj->unk128];
+        }
+        angle = (func_80028B04(target, &obj->pos) - (obj->unk12 + obj->unk104)) << 20 >> 20;
+        if (ABS(angle) < obj->unk10A) {
+            if (func_80042DD0(obj, target, 0) == 0) {
+                return 0;
+            }
+            func_800492F8((SVECTOR *)obj);
+            obj->unkE4 = -1;
+            D_800A317C->func = func_8004566C;
+            return -1;
+        }
+    }
+    return 0;
+}
 
 typedef struct {
     Unk80043930 pos;
