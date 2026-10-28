@@ -2045,6 +2045,8 @@ typedef struct {
 
 extern void func_8002B674(Unk8002FEC0 *);
 extern void func_8002E3BC(Unk8002FEC0 *);
+extern void func_8002EF40(Unk8002FEC0 *);
+extern void func_8002E570(Unk8002FEC0 *);
 
 void func_8002FEC0(Unk8002FEC0 *quad) {
     Unk80030090Pt *ref;
@@ -2072,7 +2074,31 @@ void func_8002FEC0(Unk8002FEC0 *quad) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002FFA8);
+void func_8002FFA8(Unk8002FEC0 *quad) {
+    Unk80030090Pt *ref;
+    s16 max;
+
+    if (D_801F7D50 == NULL) {
+        ref = (Unk80030090Pt *)D_801F7D44->vals;
+    } else {
+        ref = (Unk80030090Pt *)D_801F7D50->vals;
+    }
+    max = quad->p[0]->unk2;
+    if (max < quad->p[1]->unk2) {
+        max = quad->p[1]->unk2;
+    }
+    if (max < quad->p[2]->unk2) {
+        max = quad->p[2]->unk2;
+    }
+    if (max < quad->p[3]->unk2) {
+        max = quad->p[3]->unk2;
+    }
+    if (max - ref->unk2 > 0x200) {
+        func_8002EF40(quad);
+    } else {
+        func_8002E570(quad);
+    }
+}
 
 extern void func_8002CFBC(Unk80030090 *);
 extern void func_8002EDA8(Unk80030090 *);
