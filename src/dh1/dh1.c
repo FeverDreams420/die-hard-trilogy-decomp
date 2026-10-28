@@ -2147,15 +2147,9 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800360C8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003614C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800365C0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036644);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036688);
-
 typedef struct {
     s16 unk0;
-    s16 pad2;
+    s16 unk2;
     s16 unk4;
     s16 pad6;
     s16 unk8;
@@ -2170,6 +2164,29 @@ typedef struct {
 } Unk80036918;
 
 extern s32 D_801D70F0[];
+
+void func_800365C0(Unk80036918 *p, s16 type) {
+    s16 idx;
+
+    p->unk2 = 0x400;
+    p->unk8 = 0;
+    p->unkA = 0;
+    p->unkC = 0;
+    p->unk10 = 0x1000;
+    p->unk14 = 0x1000;
+    p->unk18 = 0x1000;
+    idx = type - 7;
+    p->unk0 = (p->unk0 & ~0x1FF) + 0x100;
+    p->unk4 = (p->unk4 & ~0x1FF) + 0x100;
+    if (idx < 92 || idx > 102) {
+        idx = 0;
+    }
+    p->unk20 = D_801D70F0[idx];
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036644);
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036688);
 
 void func_80036918(Unk80036918 *p, s16 type, s16 flag) {
     s16 idx;
