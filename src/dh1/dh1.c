@@ -1953,7 +1953,22 @@ void func_8002A194(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A270);
+extern u8 D_8007FF40[][4];
+
+void func_8002A270(Unk8002A35C *pos, s16 color) {
+    Unk8002A194_Data *data = (Unk8002A194_Data *)D_801F7D48->data;
+
+    if (data->unk0 < 64) {
+        data->unk24[data->unk0].unk0 = pos->x;
+        data->unk24[data->unk0].unk2 = pos->y;
+        data->unk24[data->unk0].unk4 = pos->z;
+        data->unk224[data->unk0].unk0 = D_8007FF40[color][0];
+        data->unk224[data->unk0].unk1 = D_8007FF40[color][1];
+        data->unk224[data->unk0].unk2 = D_8007FF40[color][2];
+        data->unk224[data->unk0].unk3 = D_8007FF40[color][3];
+        data->unk0++;
+    }
+}
 
 s32 func_8002A35C(Unk8002A35C *a, Unk8002A35C *b) {
     s16 dx = a->x - b->x;
