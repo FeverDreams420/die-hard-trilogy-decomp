@@ -4857,7 +4857,30 @@ void func_80056ADC(SVECTOR *v, s16 arg1) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80056B8C);
+s16 func_80056B8C(Unk8002A35C *from, s16 range) {
+    Unk80056ADC *p = D_801F7D70->unk1C;
+    s32 best;
+    s16 found;
+    s16 i;
+    s32 d;
+
+    if (p->count == 0) {
+        return -1;
+    }
+    best = 0x7FFF0000;
+    found = -1;
+    for (i = 0; i < p->count; i++) {
+        d = func_8002A35C(from, (Unk8002A35C *)&p->pos[i]) - p->unkA0[i];
+        if (d < 0) {
+            d = 0;
+        }
+        if (d < range && d < best) {
+            best = d;
+            found = i;
+        }
+    }
+    return found;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80056C94);
 
