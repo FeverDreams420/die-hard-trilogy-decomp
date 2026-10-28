@@ -3620,7 +3620,59 @@ void func_8004983C(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800498B0);
+typedef struct {
+    u8 pad[0x44];
+    s16 unk44;
+} Unk800498B0_Data;
+
+extern void func_80049C9C();
+extern s16 D_800A315C;
+extern s16 D_801D2070;
+extern s16 D_801D2072;
+extern s16 D_801D2074;
+extern s16 D_801D2076;
+extern s16 D_801D2078;
+extern s16 D_801D207A;
+extern s16 D_801D207C;
+extern s16 D_801D2096;
+extern s16 D_801D2098;
+extern s16 D_801D209A;
+extern s16 D_801D209E;
+extern s16 D_801D20A0;
+extern s16 D_801D20A2;
+extern s16 D_801D20A4;
+extern s16 D_801D20A6;
+extern s16 D_801D20A8;
+extern s16 D_801D20AA;
+
+void func_800498B0(void) {
+    Unk800498B0_Data *data;
+
+    data = (Unk800498B0_Data *)func_80021264(func_80049C9C, 1, 0x48)->data;
+    if (D_800A315C != 0) {
+        D_801D2068[0] = 0;
+        D_801D2070 = 0;
+        D_801D2072 = 0;
+        D_801D2074 = 0;
+        D_801D2076 = 0;
+        D_801D20A2 = 12;
+        D_801D209E = 1;
+        D_801D20A0 = 15;
+        D_801D2096 = 0;
+        D_801D209C = 2;
+        D_801D20A6 = 2;
+        D_801D20A8 = 0;
+        D_801D20AA = 0;
+    }
+    D_801D2098 = 0;
+    D_801D209A = 0x40;
+    D_801D206C = 0;
+    D_801D2078 = 0;
+    D_801D207A = 0;
+    D_801D207C = 0;
+    D_801D20A4 = 0;
+    data->unk44 = 15;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800499A4);
 
