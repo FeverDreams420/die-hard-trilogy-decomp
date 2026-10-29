@@ -5507,7 +5507,50 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055298);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005543C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055D9C);
+typedef struct {
+    RECT disp;
+    RECT screen;
+    u8 isinter;
+    u8 isrgb24;
+    u8 pad0;
+    u8 pad1;
+} DISPENV;
+
+typedef struct {
+    DISPENV disp;
+    DRAWENV draw;
+    u8 pad70[0xDBB8];
+} Unk800A8078;
+
+extern Unk800A8078 D_800A8078[2];
+extern s32 D_800A31F4;
+extern void func_800207DC();
+extern void func_8002076C(void);
+extern void DrawOTag(u32 *ot);
+extern s32 func_8006B350(unsigned long spec);
+extern void func_8006B370(unsigned long spec);
+extern DISPENV *PutDispEnv(DISPENV *env);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+
+void func_80055D9C(void) {
+    func_800207DC();
+    func_8002076C();
+    D_800A32AC[0] = D_800A3144[0];
+    DrawOTag(D_800A32E4 + 0x9FF);
+    DrawSync(0);
+    VSync(0);
+    while (D_800A31F4 < 3) {
+        if (func_8006B350(0xF2000001) > 0x400) {
+            break;
+        }
+    }
+    func_8006B370(0xF2000001);
+    D_800A31F4 = 0;
+    PutDispEnv(&D_800A8078[D_800A333C].disp);
+    ClearOTagR(D_800A32E4, 3);
+    D_800A333C ^= 1;
+    PutDrawEnv(&D_800A8078[D_800A333C].draw);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055EE0);
 
