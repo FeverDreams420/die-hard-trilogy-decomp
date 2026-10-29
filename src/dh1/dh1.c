@@ -6707,7 +6707,49 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800615A0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800616AC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061844);
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0x26];
+    u8 unk2C[0x174];
+    Anim anim;
+} Unk80061844;
+
+extern SVECTOR D_800A2F04;
+extern u8 *D_800A2FAC;
+extern s16 func_8002501C(void *obj, void *model, s16 fade, s32 arg3, Anim *anim);
+extern void AddPrims(void *ot, void *p0, void *p1);
+extern void func_80061544(Unk80061844 *obj);
+extern void func_800615A0(Unk80061844 *obj);
+extern void func_800616AC(Unk80061844 *obj);
+
+void func_80061844(void) {
+    Unk80061844 *obj = (Unk80061844 *)D_800A317C->vals;
+    s16 fade = 0xFFF;
+    s16 dist = func_8002A35C(&obj->pos, (Unk8002A35C *)&D_800A2F04);
+    s16 n;
+    u32 *ot;
+
+    if (dist > 0x9F0) {
+        fade = 0x1000 - (dist - 0x9F0) * 16;
+        if (fade < 0) {
+            fade = 0;
+        }
+    }
+    n = func_8002501C(obj, obj->unk2C, fade, 0, &obj->anim);
+    if (D_800A326C > 8 && n >= 8) {
+        ot = D_800A32E4 + D_800A326C;
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+        }
+    }
+    func_800616AC(obj);
+    if (func_80024EF0(&obj->anim) != 0) {
+        func_80061544(obj);
+    }
+    if (dist > 0xAF1) {
+        func_800615A0(obj);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061988);
 
