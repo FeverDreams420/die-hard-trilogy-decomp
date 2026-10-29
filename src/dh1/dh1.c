@@ -6780,7 +6780,39 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060168);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800601C4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060200);
+typedef struct {
+    u8 pad0[0x32];
+    s16 unk32;
+} Unk80060200;
+
+extern s16 D_800A3334;
+
+void func_80060200(void) {
+    Unk80060200 *data = (Unk80060200 *)D_800A317C->vals;
+    TILE *tile = D_800A3374;
+    s16 w, h;
+    u32 *ot;
+
+    data->unk32 += 0x100;
+    w = func_800296F8(0, D_800A3334 / 2, data->unk32);
+    h = func_800296F8(0, D_800A33C4 / 2, data->unk32);
+    tile->w = w * 2;
+    tile->h = h * 2;
+    tile->x0 = D_800A3334 / 2 - w;
+    tile->y0 = D_800A33C4 / 2 - h;
+    SetTile(tile);
+    tile->r0 = 0;
+    tile->g0 = 0;
+    tile->b0 = 0;
+    ot = D_800A32E4 + 1;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, tile++);
+    }
+    D_800A3374 = tile;
+    if (data->unk32 > 0x1068) {
+        D_800A3114 = 2;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060348);
 
