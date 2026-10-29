@@ -209,3 +209,9 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | The compared bound loaded before the negate of an absolute value | `if (ABS(x) < p->limit)` instead of `if (x < 0) x = -x;` then compare (0x800493D0) |
 | An early `return 0` adding a `j` the original lacks | One exit: `if (ok) { ... } else { r = 0; } return r;` (0x80045EF4) |
 | A lerp result used without `sll`/`sra` sign extension | `func_800296F8` returns `int`, not `s16` (0x80050158) |
+| A store scheduled after a global load the original has before it (or the reverse) | Store through a struct field (`data->unk0 = 0`) instead of `*(s16 *)p`; struct fields are assumed not to alias plain scalars, so loads can move past them (0x8003E85C) |
+| An early `addiu sN, s0, off` kept for one late field store | Take the field's address in a local at the top (`s16 *state = &obj->unk2C;`) (0x80033820) |
+| A `u8` argument copied with `move` (no `andi`) before `~x` | Widen it through an `s16` local: `s16 c = shade; g0 = ~c;` (0x80040FF4) |
+| A struct copied to the stack and never used (`lwl`/`lwr` into `0x10(sp)`) | An unused local `Struct v = global;`; its declaration order against other locals sets which load comes first (0x80031070) |
+| Caller sign-extends a `u16` argument the callee declares `u16` | The original caller saw another prototype; use a K&R definition plus `extern T f();` and cast at the call (`(s16)x`) (0x80031070, 0x8005AB1C) |
+| Per-field stores in the wrong order around a global `++` | Reorder the source statements; GCC 2.5.7 keeps scalar-global order but moves struct-field stores freely (0x80036DE8) |
