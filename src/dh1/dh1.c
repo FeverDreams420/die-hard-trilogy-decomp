@@ -2370,7 +2370,53 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800308F8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80030EA4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031070);
+extern struct {
+    struct {
+        u8 pad0[5];
+        u8 unk5;
+        u8 pad6[0x2EA];
+    } players[8];
+    s16 unk1780;
+    u8 pad1782[0x4];
+    s16 unk1786;
+    u8 pad1788[0x2];
+    s16 unk178A;
+    s16 unk178C;
+} *D_800A350C;
+
+typedef struct {
+    s16 v[3];
+} Unk800A2A80;
+
+extern Unk800A2A80 D_800A2A80;
+extern u16 D_800A2A1C;
+extern volatile u16 D_800A3144[];
+extern volatile u16 D_800A32AC[];
+extern volatile u16 D_800A3146;
+extern volatile u16 D_800A32AE;
+extern void func_800207DC();
+extern void func_8002076C(void);
+extern u16 func_8005AB1C();
+
+void func_80031070(void) {
+    s16 config = 0;
+    Unk800A2A80 unused = D_800A2A80;
+
+    if (D_800A2F0C == 11) {
+        config = D_800A350C->players[D_800A350C->unk1780].unk5;
+    }
+    func_800207DC();
+    func_8002076C();
+    D_800A32AC[0] = func_8005AB1C((s16)D_800A3144[0], config);
+    D_800A343C[0] = func_8005AB1C((s16)D_800A343C[0], config);
+    D_800A32AE = D_800A3146;
+    if (D_800A343C[0] & 0x100) {
+        D_800A2A1C += 0x2000;
+    }
+    if ((s16)D_800A2A1C < 0) {
+        D_800A2A1C = 0x1EFF;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800311AC);
 
@@ -4651,16 +4697,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB38);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB78);
 
-extern struct {
-    u8 pad[0x1780];
-    s16 unk1780;
-    u8 pad1782[0x4];
-    s16 unk1786;
-    u8 pad1788[0x2];
-    s16 unk178A;
-    s16 unk178C;
-} *D_800A350C;
-
 void func_8004FFE0(int volume, int pan) {
     SpuCommonAttr attr;
 
@@ -5889,7 +5925,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A670);
 extern s16 D_801C1EFE;
 extern u16 D_800852B0[][16];
 
-u16 func_8005AB1C(u16 buttons, s16 config) {
+u16 func_8005AB1C(buttons, config)
+u16 buttons;
+s16 config;
+{
     u16 *map;
     u16 out;
     s16 i;
