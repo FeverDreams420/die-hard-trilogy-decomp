@@ -3213,8 +3213,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E4E8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E77C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E85C);
-
 typedef struct {
     s16 unk0;
     s16 next;
@@ -3222,7 +3220,36 @@ typedef struct {
     s16 *file;
 } Unk8003E970;
 
+extern s16 D_800A2FFC;
+extern s16 D_800A2F54;
+extern void *D_800A310C;
+extern void *D_800A3154;
+extern s16 D_800809E4[];
+extern struct Unk800584A4 *D_800A3564;
+extern s16 D_800A2F94;
+extern void *func_8001FE84(s32 size);
+extern void CdReadCallback(void (*func)());
+extern void func_8003E47C();
 extern void func_8003F9F8();
+
+void func_8003E85C(void) {
+    Unk8003E970 *data;
+
+    D_800A2FFC = 0;
+    data = (Unk8003E970 *)D_800A317C->vals;
+    D_800A2F54 = 7;
+    D_800A33E4 = D_800A310C;
+    D_800A3154 = func_8001FE84(0x8400);
+    D_800A340C = func_8001FE84(0x10000);
+    D_800A30B4 = func_8001FE84(0xF0);
+    D_800A3564 = func_8001FE84(D_800809E4[D_800A307C] * 180);
+    D_800A2F94 = -1;
+    CdReadCallback(func_8003E47C);
+    func_8003E77C(D_800A33E4, D_800A307C + 0x55);
+    data->unk0 = 0;
+    D_800A34A4 = func_8003F9F8;
+    D_800A317C->func = func_8003E4E8;
+}
 
 void func_8003E970(void) {
     Unk8003E970 *data = (Unk8003E970 *)D_800A317C->vals;
@@ -5615,7 +5642,7 @@ void func_80057918(Unk80057918 *p, s16 color) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80057A10);
 
-typedef struct {
+typedef struct Unk800584A4 {
     s16 unk0;
     s16 unk2;
     s16 unk4;
