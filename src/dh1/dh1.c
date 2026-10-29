@@ -2557,7 +2557,52 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80033490);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800335F0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80033820);
+typedef struct {
+    u8 pad0[0xA];
+    s16 unkA;
+    u8 padC[0x20];
+    s16 unk2C;
+    u8 pad2E[0x6E];
+    s32 unk9C;
+} Unk80033820_Obj;
+
+typedef struct {
+    s16 speed;
+    s16 dir;
+    s16 count;
+    s16 timer;
+    Unk80033820_Obj *obj;
+} Unk80033820;
+
+void func_80033820(void) {
+    Unk80033820 *data = (Unk80033820 *)D_800A317C->vals;
+    Unk80033820_Obj *obj = data->obj;
+    s16 *state = &obj->unk2C;
+
+    if (data->dir != 0) {
+        obj->unkA += data->speed;
+    } else {
+        obj->unkA -= data->speed;
+    }
+    data->timer -= data->speed;
+    if (data->timer < 0) {
+        data->speed = 20;
+        if (data->dir != 0) {
+            data->dir = 0;
+        } else {
+            data->dir = 1;
+        }
+        data->count = 5;
+        data->timer = 0x400;
+    }
+    data->speed -= 4;
+    data->count--;
+    if (data->count < 0) {
+        func_80021554();
+        obj->unk9C = 32;
+        *state = 5;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80033918);
 
