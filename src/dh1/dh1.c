@@ -4513,7 +4513,25 @@ void func_8004D15C(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004D1D8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004D360);
+void func_8004D360(SVECTOR *v) {
+    s16 x = v->vx;
+    s16 y = v->vy;
+    s16 z = v->vz;
+    s32 len = SquareRoot0(x * x + y * y + z * z);
+
+    if (len != 0) {
+        x = (x << 12) / len;
+        y = (y << 12) / len;
+        z = (z << 12) / len;
+        v->vx = x;
+        v->vy = y;
+        v->vz = z;
+    } else {
+        v->vx = 0;
+        v->vy = 0x1000;
+        v->vz = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004D4A0);
 
