@@ -4537,7 +4537,62 @@ void func_8004ED2C(s16 *angle, s16 *speed) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004EDB0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F364);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad;
+} Unk8004F364_Pt;
+
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[2];
+    Unk8004F364_Pt pts[8];
+    u8 pad48[0x44];
+    s32 unk8C;
+    s16 unk90[8];
+    s16 pad9[8];
+    s16 unkB0[16];
+    s16 unkD0[16];
+    s16 padF0;
+    s16 unkF2;
+    s16 padF4[2];
+    s16 unkF8;
+    s16 unkFA[8];
+    s16 unk10A;
+} Unk8004F364;
+
+extern void func_8004EDB0();
+
+void func_8004F364(Unk8002A35C *pos, s32 arg1) {
+    struct Task *task = func_80021358(func_8004EDB0, 3, sizeof(Unk8004F364));
+    Unk8004F364 *data;
+    s16 i;
+
+    if (task != NULL) {
+        data = (Unk8004F364 *)task->vals;
+        data->pos.x = pos->x;
+        data->pos.y = pos->y;
+        data->pos.z = pos->z;
+        i = 15;
+        do {
+            data->unkB0[i] = func_8001E9DC(180);
+            data->unkD0[i] = 0;
+        } while (i-- != 0);
+        i = 7;
+        do {
+            data->unk90[i] = 0x40;
+            data->pts[i].x = func_8001E9DC(0x40) - 0x20;
+            data->pts[i].z = func_8001E9DC(0x40) - 0x20;
+            data->pts[i].y = i * 8;
+            data->unkFA[i] = 0;
+        } while (i-- != 0);
+        data->unkF2 = 0;
+        data->unkF8 = func_8001E9DC(0x100) + 0x180;
+        data->unk10A = 0;
+        data->unk8C = arg1;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F498);
 
