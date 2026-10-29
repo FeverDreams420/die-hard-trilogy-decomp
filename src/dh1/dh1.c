@@ -1919,10 +1919,11 @@ typedef struct {
     s16 unk6;
     u32 prevTime;
     u32 time;
-    u8 pad10[6];
-    s16 unk16;
+    u32 unk10;
+    u16 unk14;
+    u16 unk16;
     u8 pad18[2];
-    s16 unk1A;
+    u16 unk1A;
     u8 pad1C[2];
     u16 unk1E;
 } Anim;
@@ -1958,7 +1959,39 @@ s16 blend;
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024EA0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024EF0);
+s16 func_80024EF0(Anim *anim) {
+    s16 ret = 0;
+    int *info;
+    s32 t;
+
+    if (anim->unk16 == 2) {
+        anim->unk10 += anim->unk1A;
+        if (anim->unk10 >= 0x1000) {
+            anim->unk16 = 0;
+        }
+    } else {
+        info = D_800A353C[anim->id].p;
+        t = anim->unk6 + anim->time;
+        if (t >= info[0]) {
+            anim->time = t - info[0];
+        } else if (t < 0) {
+            anim->time = t + info[0];
+        } else {
+            anim->time = t;
+        }
+        if (anim->unk14 & 1) {
+            if (info[2] * 2 + anim->time >= info[0]) {
+                anim->unk6 = 0;
+                ret = -1;
+            }
+        }
+        if (anim->time >= info[0]) {
+            ret = -1;
+        }
+        anim->time %= info[0];
+    }
+    return ret;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024FFC);
 
@@ -3761,7 +3794,7 @@ typedef struct {
 
 extern s16 func_80031C58(u8 *anim);
 extern void func_80039518(Unk80045EF4 *obj);
-extern void func_80024EF0(Anim *anim);
+extern s16 func_80024EF0(Anim *anim);
 
 s16 func_80045EF4(Unk80045EF4 *obj, s32 speed) {
     s16 step;
