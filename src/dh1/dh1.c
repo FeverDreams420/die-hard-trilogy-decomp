@@ -5372,7 +5372,25 @@ void func_800544F8(short x, short y, unsigned int value, int d, int a, u8 *b, u8
     func_80053864(x, y, D_801C1B8C, d, a, b, c);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800545BC);
+void func_800545BC(short x, short y, int value, int d, int a, u8 *b, u8 *c) {
+    short i, j;
+
+    value = ABS(value);
+    i = 9;
+    do {
+        D_801C1B8C[i] = value % 10 + '0';
+        value /= 10;
+        j = i;
+        i--;
+    } while (j != 0);
+    for (i = 0; i < 10; i++) {
+        if (D_801C1B8C[i] != '0') {
+            func_80053864(x, y, &D_801C1B8C[i], d, a, b, c);
+            return;
+        }
+    }
+    func_80053864(x, y, &D_801C1B8C[9], d, a, b, c);
+}
 
 void func_800540F4(short x, short y, char *str, int d, int a, int b, int c);
 
@@ -6574,7 +6592,7 @@ typedef struct {
 
 extern Color4 D_800A2B94;
 extern Color4 D_800A2B98;
-extern void func_800545BC(s32 x, s32 y, s32 value, s32 a3, s32 a4, u8 *a5, u8 *a6);
+extern void func_800545BC(short x, short y, int value, int d, int a, u8 *b, u8 *c);
 
 void func_8005F688(Unk8005F688 *p) {
     Color4 top = D_800A2B94;
