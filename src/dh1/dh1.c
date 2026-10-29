@@ -2825,19 +2825,55 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800369B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800369FC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036DE8);
-
 typedef struct {
-    s16 unk0;
-    char pad2[2];
-    s16 unk4;
-    char pad6[0x16];
-} Unk800A7A32;
+    s16 x;
+    s16 y;
+    s16 z;
+    char pad6[2];
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    char padE[2];
+    s16 unk10;
+    s16 state;
+    char pad14[2];
+    s16 id;
+    s16 unk18;
+    s16 unk1A;
+} Unk800A7A20;
+
+extern Unk800A7A20 D_800A7A20[50];
+extern s16 D_800A30D4;
+extern s16 D_800A336C;
+
+s16 func_80036DE8(Unk8002A35C *pos, s16 type, s16 arg2, s16 arg3) {
+    s16 i;
+
+    if (D_800A30D4 >= 50) {
+        return 0xFF;
+    }
+    for (i = 0; i < 50; i++) {
+        if (D_800A7A20[i].state != -1) {
+            D_800A7A20[i].x = pos->x;
+            D_800A7A20[i].y = pos->y;
+            D_800A7A20[i].z = pos->z;
+            D_800A30D4++;
+            D_800A7A20[i].unk8 = type;
+            D_800A7A20[i].unkA = 0;
+            D_800A7A20[i].unkC = arg2;
+            D_800A7A20[i].unk18 = 1;
+            D_800A7A20[i].unk10 = 2;
+            D_800A7A20[i].state = -1;
+            D_800A7A20[i].unk1A = arg3;
+            D_800A7A20[i].id = D_800A336C;
+            return i;
+        }
+    }
+    return 0xFF;
+}
 
 extern s16 D_800A3244;
 extern void *D_801F7D34;
-extern Unk800A7A32 D_800A7A32[50];
-extern s16 D_800A30D4;
 extern void func_80037D64();
 
 void func_80036F28(void) {
@@ -2846,7 +2882,7 @@ void func_80036F28(void) {
     D_800A3244 = 0;
     D_801F7D34 = func_80021264(func_80037D64, 1, 6);
     for (i = 0; i < 50; i++) {
-        D_800A7A32[i].unk0 = 0;
+        D_800A7A20[i].state = 0;
     }
     D_800A30D4 = 0;
 }
@@ -4120,7 +4156,7 @@ void func_80049064(Unk80045164 *obj, s16 flag) {
     } else {
         obj->unkF2 -= hit;
         if (obj->unkF2 <= 0) {
-            if (D_800A7A32[obj->unkCA].unk4 == D_800A336C) {
+            if (D_800A7A20[obj->unkCA].id == D_800A336C) {
                 func_80049820(5000);
             } else {
                 func_80049820(5);
