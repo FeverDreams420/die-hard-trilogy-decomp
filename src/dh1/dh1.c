@@ -3293,7 +3293,38 @@ void func_80040D98(SVECTOR **v, u8 shade) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040E94);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040FF4);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+    u32 pad;
+} LINE_F3;
+
+void func_80040FF4(SVECTOR **v, u8 shade) {
+    LINE_F3 *prim = D_800A3374;
+    u32 *ot;
+
+    if (RotNclip3(v[2], v[1], v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800A2EFC, &D_800A326C, &D_800A3394) > 0) {
+        D_800A326C = func_800292FC();
+        if (D_800A326C >= 8) {
+            s16 c = shade;
+            prim->r0 = 0;
+            prim->g0 = ~c;
+            prim->b0 = c;
+            setlen(prim, 5);
+            setcode(prim, 0x48);
+            prim->pad = 0x55555555;
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, prim);
+            }
+            prim++;
+            D_800A3374 = prim;
+        }
+    }
+}
 
 typedef struct {
     char pad0[0xA];
