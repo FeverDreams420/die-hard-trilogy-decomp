@@ -2674,7 +2674,9 @@ void func_80031264(Unk8002A35C *from) {
 }
 
 typedef struct {
-    char pad[0x2A];
+    char pad[0x18];
+    s32 f18;
+    char pad1C[0xE];
     short f2A;
     short f2C;
 } Obj;
@@ -2690,9 +2692,11 @@ typedef struct {
     Anim anim;
     u8 pad84[0x10];
     Obj unk94;
-    u8 padC2[8];
+    u8 padC4[6];
     u8 unkCA;
-    u8 padCB[0x21];
+    u8 padCB[0x1D];
+    s16 unkE8;
+    u8 padEA[2];
     s16 unkEC;
     s16 unkEE;
     u8 padF0[2];
@@ -4483,7 +4487,38 @@ s32 func_80049510(Unk80049510 *self) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800495F8);
+extern const s16 D_8007C560[];
+
+void func_800495F8(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    Anim *anim;
+    s32 tmp;
+
+    func_8003E384(obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_8002A270(&obj->pos, obj->unk28 != 4 ? 4 : 0);
+    anim = &obj->anim;
+    func_80024EF0(anim);
+    func_80031320(obj);
+    if (obj->unk158 == 0 && (s16)func_8004BF0C(&obj->pos) != 0) {
+        obj->unkE8 = 0;
+        func_80024DA8(anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
+        obj->unk94.f18 = 200;
+        D_800A317C->func = D_800A317C->saved;
+    } else if (obj->unk94.f2A != 0) {
+        obj->unkE8 = 0;
+        func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
+        obj->unk94.f18 = 200;
+        D_800A317C->func = D_800A317C->saved;
+    } else if (--obj->unkE8 == 0) {
+        func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
+        obj->unk94.f18 = 200;
+        D_800A317C->func = D_800A317C->saved;
+    }
+}
 
 extern s16 D_800A3274;
 extern const s16 D_8007C560[];
