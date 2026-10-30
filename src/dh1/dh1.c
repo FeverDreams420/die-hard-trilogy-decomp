@@ -4510,7 +4510,63 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004C19C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004C38C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004C97C);
+typedef struct {
+    s16 pos[3];
+    u8 pad6[0x22];
+    s16 unk28[16];
+    s16 unk48[16];
+    s16 unk68[16];
+    s16 unk88[16];
+    s16 unkA8;
+    s16 unkAA;
+    s16 unkAC[16];
+    s16 unkCC[16];
+    s16 unkEC[16];
+    s16 unk10C[16];
+    s16 unk12C;
+    s16 unk12E;
+    s16 unk130;
+    s16 unk132;
+    s16 unk134;
+    s16 unk136;
+} Unk8004C97C_Data;
+
+void func_8004C38C();
+
+void func_8004C97C(s16 *pos) {
+    Unk8003BA6C_Task *task;
+    Unk8004C97C_Data *d;
+    s16 i;
+
+    task = func_80021264(func_8004C38C, 5, 0x138);
+    if (task != NULL) {
+        d = (Unk8004C97C_Data *)task->data;
+        d->pos[0] = pos[0];
+        d->pos[1] = pos[1];
+        d->pos[2] = pos[2];
+        i = 15;
+        do {
+            func_8001E9DC(0x1000);
+            d->unk28[i] = func_8001E9DC(0x1000);
+            d->unk12C = 0;
+            d->unk12E = 0x20;
+        } while (i--);
+        i = 15;
+        do {
+            d->unk48[i] = func_8001E9DC(0x1000);
+            d->unkAC[i] = func_8001E9DC(0x1000);
+            d->unk10C[i] = func_8001E9DC(0x1000);
+            d->unk68[i] = func_8001E9DC(0x80) - 0x40;
+            d->unk88[i] = func_8001E9DC(0x1000);
+        } while (i--);
+        d->unkA8 = 0;
+        d->unkAA = 0x1E;
+        d->unk130 = 0x10;
+        d->unk132 = 0x80;
+        d->unk134 = 0x1E;
+        d->unk136 = 0x200;
+    }
+}
 
 typedef struct {
     SVECTOR pos[32];
@@ -7572,7 +7628,7 @@ typedef struct {
     char str[8];
 } Unk80069728Name;
 
-extern void func_8004C97C(char *);
+extern void func_8004C97C(s16 *);
 extern void func_80069520(void);
 
 void func_80069728(void) {
@@ -7583,9 +7639,9 @@ void func_80069728(void) {
     v->unkA = 0;
     v->unkE = 10;
     v->unk10 = 0;
-    func_8004C97C(name.str);
-    func_8004C97C(name.str);
-    func_8004C97C(name.str);
+    func_8004C97C((s16 *)name.str);
+    func_8004C97C((s16 *)name.str);
+    func_8004C97C((s16 *)name.str);
     D_800A317C->func = func_80069520;
 }
 
