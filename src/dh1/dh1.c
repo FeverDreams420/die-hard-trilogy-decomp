@@ -4675,7 +4675,36 @@ s32 func_8004BF0C(Unk8002A35C *pos) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004BFB8);
+void func_8004BFB8(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    s32 tmp;
+
+    func_8003E384(obj);
+    if (obj->unk28 == 4) {
+        func_8002A270(&obj->pos, 0);
+    } else {
+        func_8002A270(&obj->pos, 4);
+    }
+    func_80024EF0(&obj->anim);
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031320(obj);
+    func_80049064(obj, 0);
+    if ((s16)func_8004BF0C(&obj->pos) == 0) {
+        switch (obj->unk28) {
+        case 3:
+        case 8:
+        case 0x12:
+            func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0x52, 8);
+            break;
+        default:
+            func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
+            break;
+        }
+        D_800A317C->func = D_800A317C->saved;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004C104);
 
