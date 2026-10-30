@@ -7226,7 +7226,37 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800627B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80062A78);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80062F8C);
+extern SVECTOR D_800A34B4;
+extern SVECTOR D_800A3544;
+extern SVECTOR D_800A2FC4;
+extern SVECTOR D_800A3194;
+extern s16 D_800A3334;
+extern s16 D_800A33C4;
+extern s16 D_800A33B4;
+extern void func_80070FBC(s32 a, s32 b);
+extern void SetFogNear(s32 a, s32 h);
+extern void func_80021BE4(void);
+
+void func_80062F8C(s16 angle, s16 height) {
+    D_800A34B4.vx = 0;
+    D_800A34B4.vz = 0;
+    D_800A34B4.vy = angle;
+    D_800A3544.vx = 0;
+    D_800A3544.vz = -0x1130;
+    D_800A3544.vy = height;
+    func_80043E14(&D_800A34B4, &D_800A3544, &D_800A2F04, &D_800A3194);
+    func_80028E14((Unk8002A35C *)&D_800A2F04, (Unk8002A35C *)&D_800A3194, (Unk8002A35C *)&D_800A2FC4);
+    if (height > 1500) {
+        height = 1500;
+    }
+    D_800A2FC4.vx -= func_800296F8(-0x80, 0x1B8, height);
+    func_80070FBC(D_800A3334 / 2, D_800A33C4 / 2);
+    SetFogNear(0x7D00, 0x100);
+    func_80070FDC(0x100);
+    D_800A33B4 = 0x100;
+    func_80021BE4();
+    D_800A2FC4.vy = -D_800A2FC4.vy;
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA0);
 
