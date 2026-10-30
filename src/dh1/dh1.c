@@ -2271,13 +2271,11 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002C758);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002CD18);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002CE64);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002CFBC);
-
 extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
+extern s32 RotTransPers4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *sxy3, s32 *p, s32 *flag);
 extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
 extern s32 func_800292FC(void);
+extern s32 func_800293A4(void);
 extern s32 D_800A2EFC;
 extern s32 D_800A326C;
 extern s32 D_800A3394;
@@ -2298,12 +2296,55 @@ typedef struct {
 } Unk8002DB90_Prim;
 
 typedef struct {
-    SVECTOR *v[3];
-    s32 unkC;
+    SVECTOR *v[4];
     u16 tex;
     u8 unk12;
     s8 clut;
 } Unk8002DB90_Face;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1E;
+    s32 xy3;
+    u16 uv3;
+    u16 pad26;
+} Unk8002CE64_Prim;
+
+extern Unk8002CE64_Prim *D_800A31C4;
+
+void func_8002CE64(Unk8002DB90_Face *f) {
+    Unk8002CE64_Prim *prim = D_800A31C4;
+    u16 *tex;
+    u32 *ot;
+
+    D_800A326C = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800A2EFC, &D_800A3394);
+    if (!(D_800A3394 & 0xFFFFE000)) {
+        D_800A326C = func_800293A4();
+        tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+        prim->uv1 = tex[0];
+        prim->uv0 = tex[2];
+        prim->uv3 = tex[4];
+        prim->uv2 = tex[6];
+        prim->clut = tex[f->clut + 14];
+        prim->tpage = tex[3];
+        ot = D_800A32E4 + D_800A326C;
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrim(ot, prim);
+        }
+        D_800A31C4++;
+    }
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002CFBC);
 
 void func_8002D46C(Unk8002DB90_Face *f) {
     Unk8002DB90_Prim *prim = D_800A3374;
@@ -3562,8 +3603,6 @@ typedef struct {
     s32 xy3;
 } POLY_F4;
 
-extern s32 RotTransPers4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *sxy3, s32 *p, s32 *flag);
-extern s32 func_800293A4(void);
 extern s32 func_800711AC(s32 sxy0, s32 sxy1, s32 sxy2);
 
 void func_80040C68(SVECTOR **v, s16 shade) {
