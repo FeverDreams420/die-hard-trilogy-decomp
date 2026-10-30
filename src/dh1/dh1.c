@@ -1524,6 +1524,8 @@ typedef struct {
 
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+#define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
+#define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 typedef struct {
@@ -2279,7 +2281,58 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002D5B4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002DA54);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002DB90);
+extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
+extern s32 func_800292FC(void);
+extern s32 D_800A2EFC;
+extern s32 D_800A326C;
+extern s32 D_800A3394;
+extern void *D_800A3154;
+extern void AddPrim(void *ot, void *p);
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u32 uv1;
+    s32 xy2;
+    u16 uv2;
+    u16 pad;
+} Unk8002DB90_Prim;
+
+typedef struct {
+    SVECTOR *v[3];
+    s32 unkC;
+    u16 tex;
+    u8 unk12;
+    s8 clut;
+} Unk8002DB90_Face;
+
+void func_8002DB90(Unk8002DB90_Face *f) {
+    Unk8002DB90_Prim *prim = D_800A3374;
+    u16 *tex;
+    u32 *ot;
+
+    D_800A326C = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800A2EFC, &D_800A3394);
+    if (!(D_800A3394 & 0xFFFFE000)) {
+        D_800A326C = func_800292FC();
+        tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+        prim->uv0 = tex[0];
+        prim->uv1 = *(u32 *)(tex + 2);
+        prim->uv2 = tex[4];
+        prim->clut = tex[f->clut + 14];
+        setlen(prim, 7);
+        setcode(prim, 0x25);
+        ot = D_800A32E4 + D_800A326C;
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrim(ot, prim);
+        }
+        prim++;
+        D_800A3374 = prim;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002DCCC);
 
@@ -3476,15 +3529,8 @@ typedef struct {
     s32 xy2;
 } POLY_F3;
 
-#define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
-#define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
 
 extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
-extern s32 func_800292FC(void);
-extern s32 D_800A2EFC;
-extern s32 D_800A326C;
-extern s32 D_800A3394;
-extern void AddPrim(void *ot, void *p);
 
 typedef struct {
     u32 tag;
