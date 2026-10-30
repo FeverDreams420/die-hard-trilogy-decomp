@@ -2673,7 +2673,75 @@ void func_80031264(Unk8002A35C *from) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031320);
+typedef struct {
+    char pad[0x2A];
+    short f2A;
+    short f2C;
+} Obj;
+
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0xA];
+    u8 model[0x18];
+    s16 unk28;
+    u8 pad2A[2];
+    s16 state;
+    u8 pad2E[0x36];
+    Anim anim;
+    u8 pad84[0x10];
+    Obj unk94;
+    u8 padC2[8];
+    u8 unkCA;
+    u8 padCB[0x21];
+    s16 unkEC;
+    s16 unkEE;
+    u8 padF0[2];
+    s16 unkF2;
+    s16 unkF4;
+    u8 padF6[0x5E];
+    s16 unk154;
+    s16 unk156;
+    s16 unk158;
+} Unk80045164;
+
+extern u8 *D_800A2FAC;
+extern s16 D_801C1F00;
+extern s16 D_801C1EDA;
+extern s16 func_8002501C(void *obj, void *model, s16 fade, s32 arg3, Anim *anim);
+extern void AddPrims(void *ot, void *p0, void *p1);
+extern void func_80031ED0(Unk80045164 *obj, void *model, s16 arg2);
+extern s16 func_800290D4(s16 a, s16 b);
+extern void func_800430AC(Obj *o, s32);
+
+void func_80031320(Unk80045164 *obj) {
+    SVECTOR unused[2];
+    s16 n;
+    u32 *ot;
+
+    if (obj->state == 8 || obj->state == 4) {
+        n = func_8002501C(obj, obj->model, 0xFFF, 0, &obj->anim);
+    } else {
+        n = func_8002501C(obj, obj->model, 0xFFF, 1, &obj->anim);
+    }
+    if (D_800A326C > 8 && n >= 8) {
+        if (D_801C1F00 != 0) {
+            func_80031ED0(obj, obj->model, obj->unk28);
+        } else {
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+            }
+        }
+        obj->unk156 = func_800290D4(obj->unkF4, obj->unk156);
+        func_80031264(&obj->pos);
+        if (D_801C1EDA != 0) {
+            func_800430AC(&obj->unk94, 0);
+        }
+        obj->unk154 = 0;
+    } else {
+        obj->unk154 = 1;
+    }
+}
 
 typedef struct {
     s16 x, y, z;
@@ -3783,11 +3851,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041AB4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041C48);
 
-typedef struct {
-    char pad[0x2A];
-    short f2A;
-    short f2C;
-} Obj;
 
 extern short D_800A2F3C;
 extern Obj *D_800A5E90[];
@@ -4055,22 +4118,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044B74);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044E9C);
 
-typedef struct {
-    Unk8002A35C pos;
-    u8 pad6[0x5E];
-    Anim anim;
-    u8 pad84[0x3A];
-    s16 unkBE;
-    u8 padC0[0xA];
-    u8 unkCA;
-    u8 padCB[0x21];
-    s16 unkEC;
-    s16 unkEE;
-    u8 padF0[2];
-    s16 unkF2;
-    u8 padF4[0x64];
-    s16 unk158;
-} Unk80045164;
 
 extern void func_8003E384(Unk80045164 *obj);
 extern void func_80031320(Unk80045164 *obj);
@@ -4303,7 +4350,7 @@ extern void func_8003B850(void);
 extern void func_80049820(u32);
 
 void func_80049064(Unk80045164 *obj, s16 flag) {
-    s16 hit = obj->unkBE;
+    s16 hit = obj->unk94.f2A;
     void (*prev)(void);
 
     if (hit == 0) {
@@ -4312,7 +4359,7 @@ void func_80049064(Unk80045164 *obj, s16 flag) {
     if (hit < 0) {
         obj->unk158 = 200;
         if (flag != 0) {
-            obj->unkBE = 0;
+            obj->unk94.f2A = 0;
             prev = D_800A317C->func;
             D_800A317C->func = func_8003B850;
             D_800A317C->saved = prev;
@@ -4334,7 +4381,7 @@ void func_80049064(Unk80045164 *obj, s16 flag) {
             obj->unk158 = 0;
         }
     }
-    obj->unkBE = 0;
+    obj->unk94.f2A = 0;
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004916C);
