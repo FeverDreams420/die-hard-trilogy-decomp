@@ -7053,16 +7053,47 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061524);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061544);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800615A0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800616AC);
+typedef struct {
+    SVECTOR rot;
+    u8 pad8[0x16C];
+} Unk80061844_Model;
 
 typedef struct {
     Unk8002A35C pos;
     u8 pad6[0x26];
-    u8 unk2C[0x174];
+    Unk80061844_Model model;
     Anim anim;
+    u8 pad1C0[0x3C];
+    s32 unk1FC;
 } Unk80061844;
+
+extern void func_80061544(Unk80061844 *obj);
+extern SVECTOR D_800A2F04;
+extern SVECTOR D_800A34B4;
+extern SVECTOR D_800A3544;
+extern s16 D_800A324C;
+
+void func_800615A0(Unk80061844 *obj) {
+    D_800A34B4.vx = 0;
+    D_800A34B4.vz = 0;
+    D_800A34B4.vy = func_8001E9DC(0x1000);
+    D_800A3544.vx = 0;
+    D_800A3544.vz = 0xAF0;
+    D_800A3544.vy = 0;
+    func_80043E14(&D_800A34B4, &D_800A3544, &D_800A2F04, (SVECTOR *)obj);
+    obj->model.rot.vx = 0;
+    obj->model.rot.vz = 0;
+    obj->model.rot.vy = D_800A34B4.vy + 0x800;
+    obj->unk1FC = 0;
+    func_80024D00((Obj80024D00 *)&obj->anim);
+    func_80024DA8(&obj->anim, 0, 0, 0xF6, 0x10);
+    func_80024DA8(&obj->anim, 0, 0, 0xF6, 0x10);
+    func_80024B28((Obj80024D00 *)&obj->anim, (s16)func_8001E9DC(D_800A324C));
+    func_80061544(obj);
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800616AC);
+
 
 extern SVECTOR D_800A2F04;
 extern u8 *D_800A2FAC;
@@ -7085,7 +7116,7 @@ void func_80061844(void) {
             fade = 0;
         }
     }
-    n = func_8002501C(obj, obj->unk2C, fade, 0, &obj->anim);
+    n = func_8002501C(obj, &obj->model, fade, 0, &obj->anim);
     if (D_800A326C > 8 && n >= 8) {
         ot = D_800A32E4 + D_800A326C;
         if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
