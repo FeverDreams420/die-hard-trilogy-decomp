@@ -8013,7 +8013,56 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006057C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060A80);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060C3C);
+typedef struct {
+    s16 next;
+    u32 score;
+    char name[12];
+} Unk80060C3C_Entry;
+
+typedef struct {
+    Unk80060C3C_Entry e[10];
+    s16 free;
+    s16 head;
+    s16 last;
+} Unk80060C3C_Table;
+
+s16 func_80060C3C(Unk80060C3C_Table *t, u32 score, char *name) {
+    Unk80060C3C_Entry *e;
+    s16 ret = 0;
+    s16 prev = -1;
+    s16 n = 9;
+    s16 cur = t->head;
+    s16 i;
+
+    do {
+        e = &t->e[cur];
+        if (e->score < score) {
+            if (name == NULL) {
+                return -1;
+            }
+            strcpy(t->e[t->free].name, name);
+            t->e[t->free].score = score;
+            t->last = t->free;
+            if (prev == -1) {
+                t->head = t->free;
+                t->e[t->free].next = cur;
+            } else {
+                t->e[prev].next = t->free;
+                t->e[t->free].next = cur;
+            }
+            ret = -1;
+            break;
+        }
+        prev = cur;
+        cur = e->next;
+    } while (n--);
+    cur = t->head;
+    for (i = 0; i < 9; i++) {
+        cur = t->e[cur].next;
+    }
+    t->free = cur;
+    return ret;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060DCC);
 
