@@ -1929,7 +1929,24 @@ void func_80024B28(Obj80024D00 *obj, s16 idx) {
     obj->unk2A = 3500;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024BA8);
+extern s16 D_800A324C;
+
+void func_80024BA8(Obj80024D00 *obj) {
+    s16 idx;
+
+    idx = func_8001E9DC(D_800A324C);
+    obj->unk2D = D_800A30B4[idx].unkA;
+    obj->unk24 = D_800A30B4[idx].unk4;
+    idx = func_8001E9DC(D_800A324C);
+    obj->unk20 = D_800A30B4[idx].unk0;
+    idx = func_8001E9DC(D_800A324C);
+    obj->unk22 = D_800A30B4[idx].unk2;
+    idx = func_8001E9DC(D_800A324C);
+    obj->unk26 = D_800A30B4[idx].unk6;
+    idx = func_8001E9DC(D_800A324C);
+    obj->unk28 = D_800A30B4[idx].unk8;
+    obj->unk2A = 3500;
+}
 
 
 void func_80024BA8(Obj80024D00 *obj);
