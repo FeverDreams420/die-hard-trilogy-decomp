@@ -8274,7 +8274,73 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065B74);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065F10);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066474);
+typedef struct Unk80066474 {
+    u8 pad0[0x28];
+    s16 unk28;
+    u8 pad2A[0xAA];
+    s16 unkD4;
+    s16 unkD6;
+    s16 unkD8;
+    s16 unkDA;
+    s16 unkDC;
+    u8 padDE[4];
+    s16 unkE2;
+    s16 unkE4;
+    u8 padE6[4];
+    s16 unkEA;
+    u8 padEC[0x28];
+    s16 unk114;
+    s16 unk116;
+    s16 unk118;
+    s16 unk11A;
+    u8 pad11C[8];
+    struct Unk80066474 *unk124;
+    s16 unk128;
+    s16 unk12A;
+    s16 unk12C;
+    u8 pad12E[2];
+    s16 unk130;
+    s16 unk132;
+} Unk80066474;
+
+extern struct Task *volatile D_801F7D58;
+void func_80065110(void);
+
+void func_80066474(void) {
+    Unk80066474 *obj = (Unk80066474 *)D_800A317C->vals;
+    Unk80066474 *other;
+    SVECTOR unused[2];
+
+    if (D_801F7D58 == NULL) {
+        obj->unkDC = func_80043C60(-1);
+        obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+        obj->unkE2 = func_8001E9DC(20) + 20;
+        obj->unkE4 = 0;
+        obj->unk28 = 7;
+        obj->unk114 = 0;
+        obj->unk116 = 0;
+        obj->unk118 = 0;
+        D_800A317C->func = func_80046030;
+    } else {
+        other = (Unk80066474 *)D_801F7D58->vals;
+        obj->unk128 = 0x180;
+        obj->unk124 = other;
+        obj->unk12A = (s16)func_8001E9DC(5) * 819;
+        obj->unk12C = 0;
+        obj->unkDC = other->unkD8;
+        obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+        obj->unkD4 = 0;
+        obj->unkEA = func_8001E9DC(20) + 50;
+        obj->unkDA = 0;
+        obj->unk118 = func_8001E9DC(20) + 90;
+        obj->unk130 = -1;
+        obj->unk132 = -1;
+        obj->unk116 = 1;
+        obj->unk11A = func_8001E9DC(40) + 280;
+        obj->unkE2 = func_8001E9DC(10) + 10;
+        D_800A317C->func = func_80065110;
+    }
+}
 
 void func_800666C4(void);
 
