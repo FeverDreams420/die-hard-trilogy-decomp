@@ -598,8 +598,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001E80C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001E9DC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001EA74);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -646,6 +644,54 @@ extern u8 D_800C38E8[];
 extern void func_8001EC50(void);
 extern void func_8003E4E8(void);
 extern void func_80069728();
+
+extern s16 D_800A2F44;
+extern void *D_801F7D24;
+extern u16 D_8008A708[][16];
+extern char D_80087CA8[];
+extern u8 D_800896A8[];
+extern void func_80053770(void);
+extern s16 func_80054C70(void *data, s32 a1);
+extern void func_800697C0(void);
+extern s32 DrawSync(s32 mode);
+extern int VSync(int mode);
+extern void LoadTPage(void *pix, s32 tp, s32 abr, s16 x, s32 y, s32 w, s32 h);
+extern void LoadClut(u16 *clut, s32 x, s32 y);
+extern void func_8001EBD4(void);
+extern s16 D_800A2F0C;
+extern s16 D_800A2FEC;
+extern s16 D_800A333C;
+extern s32 D_800A31F4;
+extern void func_8001F37C(void);
+extern void func_8001F0F8(void);
+
+void func_8001EA74(void) {
+    s16 i;
+
+    D_800A2F44 = 0;
+    D_801F7D24 = D_800A317C;
+    func_80053770();
+    func_80054C70(D_80087CA8, 0);
+    func_800697C0();
+    DrawSync(0);
+    VSync(0);
+    LoadTPage(D_800896A8, 0, 0, 0x2C0, 0, 0x100, 0x100);
+    for (i = 0; i < 7; i++) {
+        DrawSync(0);
+        VSync(0);
+        LoadClut(D_8008A708[i], 0x300, i);
+    }
+    DrawSync(0);
+    VSync(0);
+    func_80021264(func_8001EBD4, 1, 0x2C);
+    D_800A2F0C = 13;
+    D_800A2FEC = 0;
+    D_800A333C = 0;
+    D_800A31F4 = 3;
+    func_8001F37C();
+    *(s32 *)D_800A317C->vals = 0;
+    D_800A317C->func = func_8001F0F8;
+}
 
 void func_8001EBD4(void) {
     D_800A33E4 = D_800C38E8;
