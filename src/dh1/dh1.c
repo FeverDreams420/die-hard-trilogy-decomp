@@ -7508,8 +7508,6 @@ void func_8005E260(s16 arg0, s16 seconds) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E300);
-
 typedef struct {
     s16 x;
     s16 y;
@@ -7521,8 +7519,38 @@ typedef struct {
     s16 unk24;
 } Unk8005E478_Data;
 
+extern void func_80060A80(Unk8002A35C *, s16, s32);
+
+void func_8005E300(void) {
+    Unk8005E478_Data *d = (Unk8005E478_Data *)D_800A317C->vals;
+    Unk8002A35C v;
+    s16 i;
+    s16 a = d->unk22;
+    s16 r;
+    s32 dx, dz;
+
+    for (i = 0; i < 12; i++, a += 0x55) {
+        if (d->unk8[i] == 0) {
+            r = d->unk20; dx = D_800854C0[a & 0xFFF] * r; dz = D_800854C0[(u16)(a + 0x400) & 0xFFF] * r;
+            v.x = (dx >> 12) + d->x;
+            v.y = d->y + 0x200;
+            v.z = (dz >> 12) + d->z;
+            func_80060A80(&v, a, 0xC0);
+            d->unk8[i] = 6;
+        } else {
+            d->unk8[i]--;
+        }
+    }
+    if ((d->unk20 += 0xC0) > d->unk24) {
+        d->unk20 = d->unk24 - 0x800;
+        d->unk24 -= 0x400;
+        if (d->unk24 < 0x800) {
+            d->unk24 = 0x800;
+        }
+    }
+}
+
 extern SVECTOR D_800A3194;
-void func_8005E300(void);
 
 void func_8005E478(SVECTOR *pos) {
     Unk8002A35C *from = (Unk8002A35C *)D_801F7D44->vals;
