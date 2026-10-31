@@ -4962,7 +4962,7 @@ extern s16 D_801D2076;
 extern s16 D_801D2096;
 extern s16 D_801D2098;
 extern s16 D_801D209A;
-extern s16 D_801D209E;
+extern s16 D_801D209E[];
 extern s16 D_801D20A0;
 extern s16 D_801D20A2;
 extern s16 D_801D20A4;
@@ -4981,7 +4981,7 @@ void func_800498B0(void) {
         D_801D2074 = 0;
         D_801D2076 = 0;
         D_801D20A2 = 12;
-        D_801D209E = 1;
+        D_801D209E[0] = 1;
         D_801D20A0 = 15;
         D_801D2096 = 0;
         D_801D209C = 2;
@@ -5734,7 +5734,72 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800514D8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80051778);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80051960);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    s16 unk24;
+    s16 unk26;
+    s16 unk28;
+    s16 unk2A;
+    s16 unk2C;
+    s16 unk2E;
+    s16 unk30;
+    s16 pad32;
+    s32 unk34;
+    s32 unk38;
+    s32 unk3C;
+    s32 pad40;
+    s32 unk44;
+} Unk80051960;
+
+extern void *D_801F7D60;
+extern s16 D_80080E68[];
+extern s16 D_80080E78[];
+extern void func_80051AC0(void);
+
+void func_80051960(void) {
+    void *task;
+    Unk80051960 *data;
+
+    task = func_80021264(func_80051AC0, 1, 0x48);
+    if (task != NULL) {
+        D_801F7D60 = task;
+        data = *(Unk80051960 **)((u8 *)task + 0x1C);
+        data->unk0 = 0;
+        data->unk2 = D_80080E78[D_801D209E[0]];
+        data->unk4 = D_801D209E[0];
+        data->unk6 = D_801D209E[0];
+        data->unk10 = D_80080E78[D_801D209E[0]];
+        data->unk14 = D_80080E78[D_801D209E[0]];
+        data->unk18 = D_80080E78[D_801D209E[0]];
+        data->unk8 = 0x800;
+        data->unkA = 0;
+        data->unkC = 0;
+        data->unk20 = D_801D70F0[D_80080E68[D_801D209E[0]]];
+        data->unk24 = 0;
+        data->unk26 = 0x2000;
+        data->unk28 = 0;
+        data->unk2A = 0;
+        data->unk34 = 0x2000;
+        data->unk38 = 0x2000;
+        data->unk3C = 0x2000;
+        data->unk2C = 0x800;
+        data->unk2E = 0;
+        data->unk30 = -0x200;
+        data->unk44 = D_801D70F0[30];
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80051AC0);
 
