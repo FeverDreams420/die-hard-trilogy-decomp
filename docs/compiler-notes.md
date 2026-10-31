@@ -215,3 +215,8 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A struct copied to the stack and never used (`lwl`/`lwr` into `0x10(sp)`) | An unused local `Struct v = global;`; its declaration order against other locals sets which load comes first (0x80031070) |
 | Caller sign-extends a `u16` argument the callee declares `u16` | The original caller saw another prototype; use a K&R definition plus `extern T f();` and cast at the call (`(s16)x`) (0x80031070, 0x8005AB1C) |
 | Per-field stores in the wrong order around a global `++` | Reorder the source statements; GCC 2.5.7 keeps scalar-global order but moves struct-field stores freely (0x80036DE8) |
+| `setcode`, then `lbu`/`ori 2` reload of the code byte | `setcode(p, c); setlen(p, n); setSemiTrans(p, 1);` in that order: the `setlen` store between them stops the fold (0x80040E94) |
+| Constant stores to a struct hoisted above table loads | Declare the table without `const`; GCC 2.5.7 then keeps stores after loads that might alias (0x80033490) |
+| Chained `a = b = x` stores in the wrong order | The rightmost target is stored first; swap the chain (0x80033490) |
+| `x >> 1` as `srl` instead of `sll`/`sra 17` | Use `(shade >> 1)` in each expression, not `shade >>= 1` (0x80040E94) |
+| Three identical tails, one using a saved pointer | Write the tail out in each branch; GCC cross-jumps them (0x800495F8) |
