@@ -3608,7 +3608,46 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A8A4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003B04C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003B850);
+extern void func_8003E384(Unk80045164 *obj);
+extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
+extern void func_80039858(void);
+extern void func_80049820(u32);
+
+void func_8003B850(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    s32 tmp;
+
+    func_8003E384(obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031320(obj);
+    func_8002A270(&obj->pos, obj->unk28 != 4 ? 4 : 0);
+    if (obj->unk158 == 0) {
+        D_800A317C->func = D_800A317C->saved;
+        return;
+    }
+    obj->unk158--;
+    if (obj->unk94.f2A != 0) {
+        if (obj->unk94.f2A < 0) {
+            obj->unk158 = 200;
+        } else {
+            obj->unkF2 -= obj->unk94.f2A;
+            if (obj->unkF2 <= 0) {
+                if (D_800A7A20[obj->unkCA].id == D_800A336C) {
+                    if (obj->unk28 == 4) {
+                        func_80049820(-10000);
+                    } else {
+                        func_80049820(5000);
+                    }
+                } else {
+                    func_80049820(5);
+                }
+                D_800A317C->func = func_80039858;
+            }
+        }
+        obj->unk94.f2A = 0;
+    }
+}
 
 typedef struct {
     u8 top[4];
