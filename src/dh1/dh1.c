@@ -7304,7 +7304,54 @@ void func_8005E478(SVECTOR *pos) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E55C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E91C);
+typedef struct {
+    u8 pad0[0x14];
+    s16 unk14;
+    u8 pad16[6];
+    s16 unk1C;
+    u8 pad1E[0x12];
+} Unk8005E91C_Anim;
+
+typedef struct {
+    SVECTOR pos[6];
+    SVECTOR unk30[6];
+    SVECTOR rot[6];
+    SVECTOR out[6];
+    Unk8005E91C_Anim anim[6];
+    s16 unk1E0[6];
+    s16 state[6];
+    s16 unk1F8[6];
+    s16 unk204;
+    s16 unk206;
+    u8 pad208[2];
+    s16 unk20A;
+    s16 unk20C[6];
+} Unk8005E91C;
+
+extern SVECTOR D_800A2B74;
+extern void func_80043E14(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out);
+extern int func_80024D64(int);
+
+void func_8005E91C(Unk8005E91C *obj, s16 idx, s16 arg2) {
+    SVECTOR v = D_800A2B74;
+
+    obj->pos[idx].vx = idx * 600 - 2100;
+    obj->pos[idx].vy = 0;
+    obj->pos[idx].vz = obj->unk20A;
+    obj->rot[idx].vx = 0;
+    obj->rot[idx].vy = func_8001E9DC(0x1000);
+    obj->rot[idx].vz = 0;
+    obj->state[idx] = 0;
+    obj->unk1E0[idx] = func_8001E9DC(0x800);
+    obj->unk1F8[idx] = 0;
+    func_80043E14(&obj->rot[idx], &v, &obj->pos[idx], &obj->out[idx]);
+    func_80024D00((Obj80024D00 *)&obj->anim[idx]);
+    func_80024B28((Obj80024D00 *)&obj->anim[idx], arg2);
+    func_80024DA8(&obj->anim[idx], 7, func_80024D64(7), 0xF6, 8);
+    obj->anim[idx].unk1C = 0;
+    obj->anim[idx].unk14 = 0;
+    obj->unk20C[idx] = arg2;
+}
 
 typedef struct {
     u8 pad0[0x204];
@@ -7320,7 +7367,7 @@ typedef struct {
 } Unk8005EA78_Task;
 
 extern void func_8005E55C();
-extern void func_8005E91C(Unk8005EA78 *obj, s16 idx, s16 arg2);
+extern void func_8005E91C();
 
 s32 func_8005EA78(s16 a, s16 b) {
     Unk8005EA78_Task *task;
