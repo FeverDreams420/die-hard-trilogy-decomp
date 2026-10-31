@@ -1526,6 +1526,8 @@ typedef struct {
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 #define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
 #define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
+#define getcode(p) (u8)(((P_TAG *)(p))->code)
+#define setSemiTrans(p, abe) ((abe) ? setcode(p, getcode(p) | 0x02) : setcode(p, getcode(p) & ~0x02))
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 typedef struct {
@@ -3781,7 +3783,44 @@ void func_80040D98(SVECTOR **v, u8 shade) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040E94);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+    s32 xy3;
+    u32 pad;
+} LINE_F4;
+
+void func_80040E94(SVECTOR **v, s16 shade) {
+    LINE_F4 *prim = D_800A3374;
+    u32 *ot;
+
+    D_800A326C = RotTransPers4(v[3], v[2], v[1], v[0], &prim->xy0, &prim->xy1, &prim->xy2, &prim->xy3, &D_800A2EFC, &D_800A3394);
+    D_800A326C = func_800293A4();
+    if (D_800A326C >= 8) {
+        if (func_800711AC(prim->xy0, prim->xy1, prim->xy2) > 0) {
+            prim->r0 = 0;
+            prim->g0 = 0x40 - shade;
+            prim->b0 = shade;
+        } else {
+            prim->r0 = 0;
+            prim->g0 = 0x20 - (shade >> 1);
+            prim->b0 = shade >> 1;
+        }
+        setcode(prim, 0x4C);
+        setlen(prim, 6);
+        setSemiTrans(prim, 1);
+        prim->pad = 0x55555555;
+        ot = D_800A32E4 + D_800A326C;
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrim(ot, prim);
+        }
+        prim++;
+        D_800A3374 = prim;
+    }
+}
 
 typedef struct {
     u32 tag;
