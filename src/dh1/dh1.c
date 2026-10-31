@@ -6550,7 +6550,91 @@ void func_80058788(void) {
     D_800A3074 -= count;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058898);
+typedef struct {
+    s16 model;
+    s16 animModel;
+    s16 frames;
+    s16 unk6;
+} Unk80058898_Def;
+
+typedef struct {
+    s32 model;
+    s16 flags[10];
+    s16 frames;
+    s16 unk1A;
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+} Unk80058898_Anim;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    u8 pad24[8];
+    Unk80058898_Anim anim;
+    u8 pad50[0x2C];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    u8 pad82[0x12];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[6];
+    s16 unkA6;
+} Unk80058898;
+
+extern Unk80058898_Def D_800851C4[];
+
+void func_80058898(Unk80058898 *obj, s16 type) {
+    s16 idx = type - 72;
+    s16 model = D_800851C4[idx].model;
+    s16 animModel = D_800851C4[idx].animModel;
+    Unk80058898_Anim *anim;
+    s16 i;
+
+    obj->unkC = 0;
+    obj->unkA = 0;
+    obj->unk8 = 0;
+    obj->unk18 = 0x1000;
+    obj->unk14 = 0x1000;
+    obj->unk10 = 0x1000;
+    obj->unk20 = D_801D70F0[model];
+    obj->unk7C = obj->unk0;
+    obj->unk7E = obj->unk2;
+    obj->unk94 = 0x80;
+    obj->unk80 = obj->unk4;
+    obj->unk98 = D_800851C4[idx].unk6;
+    obj->unk9C = 0x80;
+    obj->unkA6 = 0;
+    obj->anim.unk1A = 0;
+    obj->anim.unk1C = 0;
+    anim = &obj->anim;
+    if (animModel != -1) {
+        anim->model = D_801D70F0[animModel];
+        anim->unk20 = anim->frames = D_800851C4[idx].frames;
+        anim->unk1E = -1;
+        for (i = 0; i < anim->frames; i++) {
+            anim->flags[i] = 1;
+        }
+    } else {
+        anim->unk1E = 0;
+        anim->frames = 0;
+        anim->unk1A = 0;
+        anim->unk20 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800589E8);
 
