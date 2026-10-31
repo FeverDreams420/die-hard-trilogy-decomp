@@ -7372,7 +7372,40 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D610);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D780);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D9D4);
+extern char *strcpy(char *dst, const char *src);
+
+void func_8005D9D4(s16 value, char *out) {
+    char buf[20];
+    s16 div = 10000;
+    char *p = buf;
+    s16 neg = 0;
+    s16 i;
+    s16 d;
+
+    if (value < 0) {
+        value = ABS(value);
+        neg = -1;
+    }
+    for (i = 0; i < 5; i++) {
+        d = value / div;
+        *p++ = d + '0';
+        value -= d * div;
+        div /= 10;
+    }
+    *p = 0;
+    for (i = 0; i < 4; i++) {
+        if (buf[i] != '0') {
+            break;
+        }
+        buf[i] = ' ';
+    }
+    if (neg) {
+        *out = '-';
+        strcpy(out + 1, buf);
+    } else {
+        strcpy(out, buf);
+    }
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B40);
 
