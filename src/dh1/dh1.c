@@ -2149,15 +2149,49 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024FFC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002501C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028B04);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028C78);
-
 typedef struct {
     s16 x;
     s16 y;
     s16 z;
 } Unk8002A35C;
+
+extern s32 SquareRoot0(s32 a);
+extern s16 D_800874C0[];
+
+s32 func_80028B04(Unk8002A35C *a, Unk8002A35C *b) {
+    s32 dx = a->x - b->x;
+    s32 adx = ABS(dx);
+    s32 dz = a->z - b->z;
+    s32 adz = ABS(dz);
+    s32 dist;
+    s32 s;
+    s32 c;
+    s32 ang;
+
+    dist = (SquareRoot0((adx * adx + adz * adz) >> 4) + 2) << 2;
+    if (dist < 2) {
+        return -1;
+    }
+    s = (adx << 10) / dist;
+    c = (adz << 10) / dist;
+    if (c >= 0x400) {
+        c = 0x3FF;
+    }
+    if (s >= 0x2D5) {
+        ang = 0x400 - D_800874C0[c];
+    } else {
+        ang = D_800874C0[s];
+    }
+    if (dz < 0) {
+        ang = 0x800 - ang;
+    }
+    if (dx < 0) {
+        ang = 0x1000 - ang;
+    }
+    return (s16)(0x1000 - ang);
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80028C78);
 
 s32 func_8002A35C(Unk8002A35C *a, Unk8002A35C *b);
 s32 func_80028B04(Unk8002A35C *a, Unk8002A35C *b);
