@@ -2706,7 +2706,8 @@ void func_80031264(Unk8002A35C *from) {
 }
 
 typedef struct {
-    char pad[0x18];
+    s16 x, y, z;
+    char pad6[0x12];
     s32 f18;
     char pad1C[0xE];
     short f2A;
@@ -2714,9 +2715,14 @@ typedef struct {
 } Obj;
 
 typedef struct {
+    SVECTOR rot;
+    u8 pad8[0x10];
+} Unk80045164_Model;
+
+typedef struct {
     Unk8002A35C pos;
     u8 pad6[0xA];
-    u8 model[0x18];
+    Unk80045164_Model model;
     s16 unk28;
     u8 pad2A[2];
     s16 state;
@@ -2739,7 +2745,9 @@ typedef struct {
     u8 padF0[2];
     s16 unkF2;
     s16 unkF4;
-    u8 padF6[0x5E];
+    u8 padF6[0x20];
+    u8 unk116;
+    u8 pad117[0x3D];
     s16 unk154;
     s16 unk156;
     s16 unk158;
@@ -2763,13 +2771,13 @@ void func_80031320(Unk80045164 *obj) {
     u32 *ot;
 
     if (obj->state == 8 || obj->state == 4) {
-        n = func_8002501C(obj, obj->model, 0xFFF, 0, &obj->anim);
+        n = func_8002501C(obj, &obj->model, 0xFFF, 0, &obj->anim);
     } else {
-        n = func_8002501C(obj, obj->model, 0xFFF, 1, &obj->anim);
+        n = func_8002501C(obj, &obj->model, 0xFFF, 1, &obj->anim);
     }
     if (D_800A326C > 8 && n >= 8) {
         if (D_801C1F00 != 0) {
-            func_80031ED0(obj, obj->model, obj->unk28);
+            func_80031ED0(obj, &obj->model, obj->unk28);
         } else {
             ot = D_800A32E4 + D_800A326C;
             if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
@@ -3322,7 +3330,47 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039584);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800395C0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003961C);
+extern void func_8003D8EC(Unk80045164 *obj, s32 arg1);
+extern void func_8003BAD8(void);
+void func_8003BE8C();
+
+void func_8003961C(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    s16 time;
+    s16 done;
+
+    func_80031320(obj);
+    time = obj->anim.time;
+    done = func_80024EF0(&obj->anim);
+    obj->unkD4++;
+    if (obj->unk116 != 0) {
+        obj->model.rot.vy += 0x80;
+        obj->pos.y += 0x40;
+        if (done) {
+            obj->anim.time = time;
+            done = 0;
+        }
+        obj->unk116--;
+        if (obj->unk116 == 0) {
+            func_8003D8EC(obj, -1);
+            D_800A317C->vals->vals[1] = 5;
+            D_800A317C->func = func_8003BAD8;
+        }
+    }
+    if (obj->unkD4 < 10) {
+        obj->unk94.x = obj->pos.x;
+        obj->unk94.y = obj->pos.y;
+        obj->unk94.z = obj->pos.z;
+        func_80041104(obj);
+    }
+    if (done) {
+        obj->anim.time = time;
+        func_8003D8EC(obj, -1);
+        func_8003BE8C(obj);
+        D_800A317C->vals->vals[1] = 5;
+        D_800A317C->func = func_8003BAD8;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039778);
 
