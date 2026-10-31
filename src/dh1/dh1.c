@@ -5901,7 +5901,8 @@ typedef struct {
 } Unk8005231C_Info;
 
 typedef struct {
-    u8 pad0[0x10];
+    u32 *vlcbuf[2];
+    u32 *imgbuf[2];
     u32 *ring;
     u8 loc[4];
     RECT rect[2];
@@ -5913,7 +5914,8 @@ typedef struct {
     s32 unk40;
     u8 pad44[8];
     s32 unk4C;
-    u8 pad50[0x14];
+    s32 unk50;
+    u8 pad54[0x10];
     Unk8005231C_Info *info;
     u8 pad68[0xC];
     s16 unk74;
@@ -6007,7 +6009,52 @@ void func_800523AC(Unk8005231C *movie) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052488);
+typedef struct {
+    s16 x, y;
+    s32 pad;
+} Unk8005286C_Entry;
+
+typedef struct {
+    u8 pad0[0x18];
+    Unk8005286C_Entry unk18[2];
+    s16 unk28;
+    s16 unk2A;
+    u8 pad2C[8];
+    s32 unk34;
+    s32 unk38;
+} Unk8005286C;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk8005286C *unk1C;
+} *D_801F7D64;
+
+extern void LoadImage(RECT *rect, u32 *p);
+extern void DecDCTout(u32 *buf, s32 size);
+
+void func_80052488(void) {
+    Unk8005231C *movie = (Unk8005231C *)D_801F7D64->unk1C;
+    int rem;
+
+    LoadImage(&movie->slice, movie->imgbuf[movie->unk74]);
+    movie->unk74 = !movie->unk74;
+    rem = movie->rect[movie->unk34].w % 16;
+    if (movie->unk50 && rem) {
+        movie->slice.x += rem;
+        movie->unk50 = 0;
+    } else {
+        movie->slice.x += 16;
+    }
+    if (movie->slice.x < movie->rect[movie->unk34].x + movie->rect[movie->unk34].w) {
+        DecDCTout(movie->imgbuf[movie->unk74], ((movie->slice.w - 1) / 16 + 1) * (((movie->slice.h - 1) / 16 + 1) << 8) >> 1);
+    } else {
+        movie->unk38 = 1;
+        movie->unk50 = 1;
+        movie->unk34 = !movie->unk34;
+        movie->slice.x = movie->rect[movie->unk34].x;
+        movie->slice.y = 31;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800525F8);
 
@@ -6037,26 +6084,6 @@ s32 func_800527E8(Unk800527E8 *dec) {
     }
     return -1;
 }
-
-typedef struct {
-    s16 x, y;
-    s32 pad;
-} Unk8005286C_Entry;
-
-typedef struct {
-    u8 pad0[0x18];
-    Unk8005286C_Entry unk18[2];
-    s16 unk28;
-    s16 unk2A;
-    u8 pad2C[8];
-    s32 unk34;
-    s32 unk38;
-} Unk8005286C;
-
-extern struct {
-    u8 pad[0x1C];
-    Unk8005286C *unk1C;
-} *D_801F7D64;
 
 void func_8005286C(void) {
     Unk8005286C *p = D_801F7D64->unk1C;
