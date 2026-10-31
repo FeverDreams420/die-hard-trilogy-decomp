@@ -3851,7 +3851,58 @@ void func_8003FCC8(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003FD70);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040010);
+typedef struct {
+    u8 pad0[0xA];
+    u16 unkA;
+} Unk80040010_Hdr;
+
+typedef struct {
+    s16 pad0;
+    s16 unk2;
+    s16 pad4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    void *unk14;
+    Unk80040010_Hdr *hdr;
+    u16 *map;
+    void *unk20;
+} Unk80040010;
+
+extern s16 D_800C38C8[];
+extern void func_80040160(void);
+
+void func_80040010(void *file) {
+    Unk80040010 *data = (Unk80040010 *)D_800A317C->vals;
+    s16 i;
+    s16 j;
+
+    data->map = func_8003E414(file, 0);
+    data->hdr = func_8003E414(file, 1);
+    data->unk12 = func_8003E42C(file, 0) >> 5;
+    data->unk10 = func_8003E42C(file, 1) >> 7;
+    data->unk20 = func_8003E414(file, 2);
+    data->unk8 = 0x280;
+    data->unkA = 0x100;
+    data->unkC = 0x2C0;
+    data->unkE = 0x100;
+    data->unk2 = 0;
+    data->unk6 = 0;
+    data->unk14 = D_800A3154;
+    D_800A317C->func = func_80040160;
+    j = data->hdr->unkA << 4;
+    for (i = 0; i < 16; i++) {
+        if (data->map[j++] == 0xFFFF) {
+            D_800C38C8[i] = 0x7000;
+        } else {
+            D_800C38C8[i] = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040160);
 
