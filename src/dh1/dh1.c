@@ -1852,7 +1852,54 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800245B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800247D4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800248D4);
+typedef struct {
+    int *p;
+    int pad[3];
+} Entry16;
+
+extern Entry16 *D_800A353C;
+extern void *D_800A351C;
+extern void *D_800A310C;
+extern u8 D_801FB888[];
+extern u8 D_8007F9A8[];
+extern u8 D_8007FB14[];
+extern u8 D_8007FC48[];
+extern u8 D_8007FDB4[];
+extern void *func_80022600(void *);
+extern void func_800247D4(u8 *);
+extern void func_80024240(s16);
+extern void func_800245B8(s16);
+
+void func_800248D4(void) {
+    s32 *file;
+    s32 n;
+    Entry16 *e;
+    s16 i;
+
+    D_800A351C = func_80022600(D_801FB888);
+    func_800247D4(D_8007F9A8);
+    func_800247D4(D_8007FC48);
+    func_800247D4(D_8007FB14);
+    func_800247D4(D_8007FDB4);
+    file = func_8003E414(D_800A33E4, 0);
+    n = *file;
+    D_800A353C = (Entry16 *)(file + 1);
+    while (n--) {
+        e = D_800A353C++;
+        e->p = (int *)((u8 *)file + (s32)e->p);
+    }
+    D_800A353C = (Entry16 *)(file + 1);
+    D_800A33E4 = func_8003E414(D_800A33E4, 1);
+    D_800A310C = func_80022600(D_800A33E4);
+    i = *file;
+    while (i--) {
+        func_80024240(i);
+    }
+    i = *file;
+    while (i--) {
+        func_800245B8(i);
+    }
+}
 
 typedef struct {
     s16 unk0;
@@ -1970,11 +2017,6 @@ void func_80024D00(Obj80024D00 *obj) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024D64);
-
-typedef struct {
-    int *p;
-    int pad[3];
-} Entry16;
 
 typedef struct {
     u16 prevId;
