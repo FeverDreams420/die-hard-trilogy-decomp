@@ -2940,7 +2940,102 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032A68);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032FD8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80033490);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    u8 pad24[8];
+    s16 unk2C;
+    s16 unk2E;
+    s16 unk30;
+    s16 unk32;
+    s16 unk34;
+    s16 unk36;
+    s16 unk38;
+    s16 unk3A;
+    SVECTOR *unk3C[4];
+    u8 pad4C[4];
+    SVECTOR unk50[4];
+    u8 pad70[0xC];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    u8 pad82[4];
+    s16 unk86;
+    u8 pad88[4];
+    s16 unk8C;
+    s16 unk8E;
+    s16 unk90;
+    u8 pad92[2];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[6];
+    s16 unkA6;
+    s16 unkA8;
+    u8 padAA[6];
+    s16 unkB0;
+} Unk80033490;
+
+typedef struct {
+    s16 x;
+    s16 z;
+    s16 angle;
+} Unk80033490_Place;
+
+typedef struct {
+    s16 a;
+    s16 b;
+    s16 c;
+} Unk80033490_Size;
+
+extern Unk80033490_Place D_80080614[];
+extern Unk80033490_Size D_8008065C[];
+extern s32 D_801D7030[];
+
+void func_80033490(Unk80033490 *obj, s16 model, s16 kind) {
+    obj->unk0 = (obj->unk0 & ~0x1FF) + D_80080614[kind >> 4].x;
+    obj->unk4 = (obj->unk4 & ~0x1FF) + D_80080614[kind >> 4].z;
+    obj->unk8 = 0;
+    obj->unkA = obj->unk3A = D_80080614[kind >> 4].angle;
+    obj->unkC = 0;
+    obj->unk10 = 0x1000;
+    obj->unk14 = 0x1000;
+    obj->unk18 = 0x1000;
+    obj->unk20 = D_801D7030[model];
+    kind &= 0xF;
+    obj->unk30 = obj->unk38 = D_8008065C[kind].a;
+    obj->unk2E = obj->unk36 = D_8008065C[kind].b;
+    obj->unk2C = obj->unk34 = D_8008065C[kind].c;
+    obj->unk32 = 0;
+    obj->unk3C[0] = &obj->unk50[0];
+    obj->unk3C[1] = &obj->unk50[1];
+    obj->unk3C[2] = &obj->unk50[2];
+    obj->unk3C[3] = &obj->unk50[3];
+    obj->unk7C = obj->unk0;
+    obj->unk7E = obj->unk2;
+    obj->unk80 = obj->unk4;
+    obj->unkA6 = 0;
+    obj->unkA8 = 0;
+    obj->unkB0 = 0;
+    obj->unk94 = 0x100;
+    obj->unk98 = 0x400;
+    obj->unk9C = 0x60;
+    obj->unk8C = 0;
+    obj->unk8E = 0;
+    obj->unk90 = 0;
+    obj->unk86 = obj->unkA;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800335F0);
 
