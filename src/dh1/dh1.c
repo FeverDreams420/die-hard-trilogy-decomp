@@ -4026,7 +4026,51 @@ void func_8003EEA8(void *file) {
     D_800A31DC = i;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EF64);
+typedef struct {
+    u16 n;
+    s32 off;
+} Unk8003EF64_Entry;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    u16 unkA;
+} Unk8003EF64_Def;
+
+extern u8 *D_800A3474;
+extern u8 *D_800A2F1C;
+extern u8 *D_800A32EC;
+extern u16 D_800A2F6C;
+extern u16 D_800A30BC;
+extern u16 D_800A3434;
+
+void func_8003EF64(void *file) {
+    Unk8003EF64_Entry *hdr;
+    u16 *src;
+    s16 i;
+
+    hdr = func_8003E414(file, 4);
+    D_800A3474 = (u8 *)hdr + hdr[0].off;
+    D_800A2F1C = (u8 *)hdr + hdr[1].off;
+    src = (u16 *)((u8 *)hdr + hdr[2].off);
+    D_800A32EC = (u8 *)hdr + hdr[3].off;
+    D_800A2F6C = hdr[0].n;
+    D_800A30BC = hdr[1].n;
+    D_800A3434 = hdr[3].n;
+    D_800A324C = hdr[2].n;
+    for (i = 0; i < D_800A324C; i++) {
+        ((Unk8003EF64_Def *)D_800A30B4)[i].unk0 = src[0] * 0x2C;
+        ((Unk8003EF64_Def *)D_800A30B4)[i].unk2 = src[1] * 0x2C;
+        ((Unk8003EF64_Def *)D_800A30B4)[i].unk4 = src[2] * 0x2C;
+        ((Unk8003EF64_Def *)D_800A30B4)[i].unk6 = src[3] * 0x2C;
+        ((Unk8003EF64_Def *)D_800A30B4)[i].unk8 = src[4] * 0x2C;
+        ((Unk8003EF64_Def *)D_800A30B4)[i].unkA = src[5];
+        src += 6;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003F0E4);
 
