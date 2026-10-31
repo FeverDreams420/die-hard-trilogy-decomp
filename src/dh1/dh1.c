@@ -2675,7 +2675,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80030EA4);
 
 extern struct {
     struct {
-        u8 pad0[5];
+        u8 pad0[4];
+        u8 unk4;
         u8 unk5;
         u8 pad6[0x2EA];
     } players[8];
@@ -8112,7 +8113,65 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067EA0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800680A4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800683E4);
+typedef struct {
+    u8 pad0[0x18];
+    void *unk18;
+    u8 pad1C[0x20];
+    s16 unk3C;
+    s16 unk3E;
+    s16 unk40;
+    s16 pad42;
+    s16 unk44;
+    s16 pad46;
+    s16 unk48;
+} Unk800683E4;
+
+extern u8 D_80087A88[];
+extern u8 D_80087B98[];
+extern s16 D_801F97BC;
+extern s16 D_800A34FC;
+extern s16 D_800A34BC;
+extern void func_800680A4(void);
+extern void func_80054FEC(Unk800683E4 *);
+
+void func_800683E4(void) {
+    Unk800683E4 *data;
+
+    if (D_800A2F0C != 13) {
+        func_80021698(15);
+    }
+    D_800A30CC = 1;
+    D_800A329C = 0;
+    data = (Unk800683E4 *)func_80021264(func_800680A4, 1, 0x4C)->data;
+    if (D_800A350C->players[D_800A350C->unk1780].unk4) {
+        data->unk18 = D_80087B98;
+    } else {
+        data->unk18 = D_80087A88;
+    }
+    func_80054FEC(data);
+    D_801F97BC = 0;
+    data->unk44 = 600;
+    if (D_800A2F0C == 13) {
+        D_800A34FC = 0;
+        data->unk3C = 0;
+        if (D_800A333C) {
+            data->unk48 = 10;
+        } else {
+            data->unk48 = 11;
+        }
+    } else {
+        data->unk3C = 2;
+        data->unk48 = 2;
+        data->unk40 = 0xFF;
+        func_80052930(0, -1);
+        if (!D_800A34BC) {
+            data->unk44 = 0;
+        }
+    }
+    D_800A2F0C = 12;
+    data->unk3E = 0;
+    D_801D209C = 0;
+}
 
 typedef struct {
     u8 pad0[0x3C];
