@@ -5400,11 +5400,19 @@ void func_8004CBB8(s16 i) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004CCE8);
 
 typedef struct {
-    char pad0[0x238];
+    char pad0[0x200];
+    s16 x;
+    s16 y;
+    s16 z;
+    char pad206[0xA];
+    s16 dx;
+    s16 dy;
+    s16 dz;
+    char pad216[0x22];
     s16 unk238;
     s16 unk23A;
     s16 unk23C;
-    s16 pad23E;
+    s16 unk23E;
     s16 unk240;
 } Unk8004D15C;
 
@@ -5425,7 +5433,39 @@ void func_8004D15C(void) {
     D_800A317C->func = func_8004CCE8;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004D1D8);
+void func_8004D1D8(SVECTOR *pos, SVECTOR *dir, s16 arg2) {
+    s32 params[8];
+    Unk8003BA6C_Task *task;
+    Unk8004D15C *d;
+
+    params[0] = (s16)func_8001E9DC(3);
+    params[1] = func_80050974(pos, 0x1000);
+    params[2] = func_800508F0(pos) * 4;
+    params[3] = 0x400;
+    params[4] = 0;
+    params[5] = 0;
+    func_8004FB78(params);
+    if ((s16)func_8001E9DC(0x100) > 0x80) {
+        params[0] = (s16)func_8001E9DC(2) + 3;
+        params[1] = func_80050974(pos, 0x1000);
+        params[2] = func_800508F0(pos) * 4;
+        params[3] = 0x400 - (s16)func_8001E9DC(0xC0);
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+    }
+    task = func_80021264(func_8004D15C, 3, 0x242);
+    if (task != NULL) {
+        d = *(Unk8004D15C **)((u8 *)task + 0x1C);
+        d->x = pos->vx;
+        d->y = pos->vy;
+        d->z = pos->vz;
+        d->dx = dir->vx;
+        d->dy = dir->vy;
+        d->dz = dir->vz;
+        d->unk23E = arg2;
+    }
+}
 
 void func_8004D360(SVECTOR *v) {
     s16 x = v->vx;
