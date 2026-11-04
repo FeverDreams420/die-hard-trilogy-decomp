@@ -8347,7 +8347,36 @@ void func_80061AF0(void) {
     func_80021554();
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061C90);
+void func_80061C90(s16 arg0, s16 arg1) {
+    Unk80061AF0 *p;
+    s16 n;
+    struct Task *task = (struct Task *)func_80021264(func_80061AF0, 1, 0x4C);
+
+    if (task != NULL) {
+        p = (Unk80061AF0 *)task->vals;
+        n = arg0;
+        if (arg0 <= 0 || arg0 >= D_800A324C) {
+            n = func_8001E9DC(D_800A324C - 1) + 1;
+        }
+        func_80024D00((Obj80024D00 *)&p->anim);
+        func_80024DA8(&p->anim, 0x16, 0, 0xF6, 8);
+        func_80024DA8(&p->anim, 0x16, 0, 0xF6, 8);
+        func_80024B28((Obj80024D00 *)&p->anim, n);
+        p->unk4A = arg1;
+        p->unk40 = -0x30;
+        p->unk42 = arg0;
+        p->unk44 = D_800A3194.vy + 0x80;
+        D_800A34B4.vz = 0x780;
+        D_800A34B4.vy = 0;
+        D_800A34B4.vx = 0;
+        p->rot.vx = 0;
+        p->rot.vz = 0;
+        p->rot.vy = -arg0 * 0x9D;
+        func_80043E14(&p->rot, &D_800A34B4, &D_800A2F04, &p->pos);
+        SetRotMatrix(&D_801C0B64);
+        SetTransMatrix(&D_801C0B64);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061E20);
 
