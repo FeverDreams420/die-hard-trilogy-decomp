@@ -8288,7 +8288,64 @@ s16 func_80061A58(SVECTOR *pos) {
     return 0x1000 - dist;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061AF0);
+typedef struct {
+    u8 pad0[0x292];
+    u8 unk292[1];
+} Unk80061AF0_Owner;
+
+typedef struct {
+    Anim anim;
+    u8 pad20[0x10];
+    SVECTOR pos;
+    SVECTOR rot;
+    s16 unk40;
+    s16 unk42;
+    s16 unk44;
+    s16 pad46[2];
+    s16 unk4A;
+} Unk80061AF0;
+
+extern struct Task *volatile D_801F7D74;
+extern s16 D_800A3344;
+extern void func_800620A8(SVECTOR *pos, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+
+void func_80061AF0(void) {
+    Unk80061AF0 *p = (Unk80061AF0 *)D_800A317C->vals;
+    s16 fade = func_80061A58(&p->pos);
+    Unk80061AF0_Owner *owner;
+    SVECTOR pos;
+    s16 n;
+    u32 *ot;
+
+    if (D_801F7D74 != NULL) {
+        owner = (Unk80061AF0_Owner *)D_801F7D74->vals;
+        if (p->unk4A != 0) {
+            p->unk4A--;
+            return;
+        }
+        pos.vx = p->pos.vx;
+        pos.vy = p->pos.vy;
+        pos.vz = p->pos.vz;
+        pos.vy += p->unk44;
+        SetRotMatrix(&D_801C0B64);
+        SetTransMatrix(&D_801C0B64);
+        n = func_8002501C(&pos, &p->rot, fade, 0, &p->anim);
+        if (D_800A326C > 8 && n >= 8) {
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+            }
+        }
+        func_800620A8(&pos, p->unk42 + 0x41, -0x200, D_800A3344, 0);
+        p->unk44 += p->unk40;
+        p->unk40 -= 8;
+        if (p->unk44 >= 0) {
+            return;
+        }
+        owner->unk292[p->unk42] = 0;
+    }
+    func_80021554();
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061C90);
 
