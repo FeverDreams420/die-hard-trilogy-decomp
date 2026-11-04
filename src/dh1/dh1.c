@@ -2761,7 +2761,8 @@ extern struct {
         u8 pad6[0x2EA];
     } players[8];
     s16 unk1780;
-    u8 pad1782[0x4];
+    u8 pad1782[0x2];
+    s16 unk1784;
     s16 unk1786;
     u8 pad1788[0x2];
     s16 unk178A;
@@ -6513,7 +6514,54 @@ void func_800550D0(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800550D8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055298);
+typedef struct {
+    u8 pad0[0x48];
+    struct {
+        u16 unk48;
+        u8 pad4A[2];
+        s32 unk4C;
+        u8 pad50[0x28];
+    } e[1];
+} Unk80055298_Table;
+
+typedef struct {
+    u8 pad0[0x18];
+    Unk80055298_Table *unk18;
+    u8 pad1C[0x16];
+    s16 unk32;
+    u8 pad34[0x12];
+    s16 unk46;
+} Unk80055298;
+
+void func_80055298(Unk80055298 *obj) {
+    Unk80055298_Table *t = obj->unk18;
+    u16 state = t->e[obj->unk32].unk48;
+    s32 params[6];
+
+    if (D_800A32AC[0] & 0x2000) {
+        t->e[obj->unk32].unk4C = func_800437C8((s16)t->e[obj->unk32].unk4C, 0x1000, 0x80);
+    }
+    if (D_800A32AC[0] & 0x8000) {
+        t->e[obj->unk32].unk4C = func_800437C8((s16)t->e[obj->unk32].unk4C, 0, 0x80);
+    }
+    switch ((s16)state) {
+    case 0:
+        func_8005010C(D_800A350C->unk1784 * 4, 0);
+        obj->unk46 = -1;
+        break;
+    case 1:
+        if ((D_800A343C[0] & 0x40) || (D_800A34CC[0] & 0x8000) || (D_800A34CC[0] & 0x2000)) {
+            params[0] = 6;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+        }
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005543C);
 
