@@ -6823,7 +6823,8 @@ typedef struct {
     u8 pad44[8];
     s32 unk4C;
     s32 unk50;
-    u8 pad54[0x10];
+    u8 pad54[0xC];
+    s32 unk60;
     Unk8005231C_Info *info;
     u8 pad68[0xC];
     s16 unk74;
@@ -7012,7 +7013,49 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052910);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052930);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052C14);
+extern s16 D_800A34BC;
+extern s16 D_800A30CC;
+extern void DecDCTin(u32 *buf, s32 mode);
+extern void func_80074D48(void);
+extern void CdDataCallback(void (*func)());
+extern void CdReadyCallback(void (*func)());
+
+void func_80052C14(void) {
+    Unk8005231C *movie = (Unk8005231C *)D_800A317C->vals;
+    s16 ok;
+    u8 param[8];
+
+    if (D_800A34BC != 0) {
+        ok = -1;
+        D_800A34BC = ok;
+        if (D_800A30CC != 0) {
+            ok = --D_800A30CC != 0 ? -1 : 0;
+        }
+        if (movie->unk4C == 0 && ok) {
+            DecDCTin(movie->vlcbuf[movie->unk30], movie->unk60);
+            DecDCTout(movie->imgbuf[movie->unk74], ((movie->slice.w - 1) / 16 + 1) * (((movie->slice.h - 1) / 16 + 1) << 8) >> 1);
+            if (func_800527E8((Unk800527E8 *)movie) == -1) {
+                func_80052DB8();
+                func_8003E3CC();
+            } else {
+                func_8005286C();
+                movie->unk3C = 0;
+                return;
+            }
+        } else {
+            param[0] = 0x80;
+            CdControlB(0xE, param, 0);
+            DecDCToutCallback(0);
+            func_80074D48();
+            CdDataCallback(0);
+            CdReadyCallback(0);
+            CdControlB(9, 0, 0);
+            func_8005010C(D_800A350C->unk1784 * 4, 0);
+        }
+        D_800A34BC = 0;
+    }
+    func_80021554();
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052DB8);
 
