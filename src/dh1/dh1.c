@@ -8843,8 +8843,14 @@ typedef struct {
     u8 pad6[0x26];
     Unk80061844_Model model;
     Anim anim;
-    u8 pad1C0[0x3C];
-    s32 unk1FC;
+    u8 pad1C0[0x10];
+    SVECTOR vel;
+    SVECTOR unk1D8;
+    SVECTOR v1E0;
+    SVECTOR v1E8;
+    u8 pad1F0[0xC];
+    struct Task *unk1FC;
+    s32 unk200;
 } Unk80061844;
 
 extern void func_80061544(Unk80061844 *obj);
@@ -8872,7 +8878,44 @@ void func_800615A0(Unk80061844 *obj) {
     func_80061544(obj);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800616AC);
+void func_800616AC(Unk80061844 *obj) {
+    VECTOR tmp;
+    s16 saved;
+    Unk80061844 *src;
+
+    obj->model.rot.vx += obj->vel.vx;
+    obj->model.rot.vy += obj->vel.vy;
+    obj->model.rot.vz += obj->vel.vz;
+    saved = obj->v1E8.vz;
+    if (saved > 0) {
+        if (obj->anim.unk16 == 0) {
+            obj->v1E8.vz = func_80031C58((u8 *)&obj->anim);
+        }
+        func_80043E14(&obj->model.rot, &obj->v1E8, (SVECTOR *)obj, (SVECTOR *)obj);
+    } else {
+        func_80023C7C(&obj->model.rot, &D_801FB868);
+        ApplyMatrix(&D_801FB868, &obj->v1E8, &tmp);
+        obj->pos.x += tmp.vx * 3;
+        obj->pos.y += tmp.vy * 3;
+        obj->pos.z += tmp.vz * 3;
+    }
+    obj->v1E8.vz = saved;
+    if (obj->unk1FC != NULL) {
+        if (obj->unk200 == obj->unk1FC->id) {
+            src = (Unk80061844 *)obj->unk1FC->vals;
+            obj->pos.x = src->pos.x;
+            obj->pos.y = src->pos.y;
+            obj->pos.z = src->pos.z;
+            obj->model.rot.vx = src->model.rot.vx;
+            obj->model.rot.vy = src->model.rot.vy;
+            obj->model.rot.vz = src->model.rot.vz;
+            func_80043E14(&obj->model.rot, &obj->v1E0, (SVECTOR *)obj, (SVECTOR *)obj);
+        } else {
+            obj->unk1FC = NULL;
+            obj->unk200 = -1;
+        }
+    }
+}
 
 
 extern SVECTOR D_800A2F04;
