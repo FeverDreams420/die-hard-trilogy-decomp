@@ -3276,7 +3276,48 @@ void func_80030090(Unk80030090 *tri) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80030154);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003072C);
+extern s16 func_800293F0(void);
+
+void func_8003072C(Unk8002DB90_Face *f) {
+    Unk8002CE64_Prim *prim = D_800A3374;
+    u16 *tex;
+    u32 *ot;
+    s32 mid;
+    s16 c;
+
+    D_800A326C = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800A2EFC, &D_800A3394);
+    if (!(D_800A3394 & 0xFFFFE000)) {
+        D_800A326C = func_800293A4();
+        mid = (func_800293F0() + D_800A326C) >> 1;
+        if (D_800A326C > D_800A2A22) {
+            c = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+            if (c > 0x80) {
+                c = 0x80;
+            }
+        } else {
+            c = 0x80;
+        }
+        if (c > 0) {
+            tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+            prim->uv0 = tex[0];
+            *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+            prim->uv2 = tex[4];
+            prim->uv3 = tex[6];
+            prim->clut = tex[f->clut + 14];
+            prim->r0 = c;
+            prim->g0 = c;
+            prim->b0 = c;
+            setlen(prim, 9);
+            setcode(prim, 0x2E);
+            ot = D_800A32E4 + mid;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, prim);
+            }
+            prim++;
+            D_800A3374 = prim;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800308F8);
 
