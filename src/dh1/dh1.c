@@ -9322,7 +9322,50 @@ void func_80061C90(s16 arg0, s16 arg1) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061E20);
+typedef struct {
+    Anim anim;
+    u8 pad20[0x22];
+    s16 unk42;
+    u8 pad44[2];
+    s16 unk46;
+    s16 unk48;
+} Unk80061E20;
+
+extern s16 D_800A3344;
+extern void func_800620A8(SVECTOR *pos, s32 size, s32 scale, s32 arg3, s32 arg4);
+
+void func_80061E20(void) {
+    Unk80061E20 *obj = (Unk80061E20 *)D_800A317C->vals;
+    SVECTOR pos;
+    u32 *ot;
+    s16 vis;
+
+    obj->unk46 -= 0x20;
+    if (obj->unk46 < -0x1068) {
+        func_80021554();
+        return;
+    }
+    D_800A34B4.vz = obj->unk46;
+    D_800A34B4.vy = 0;
+    D_800A34B4.vx = 0;
+    D_800A3544.vx = 0;
+    D_800A3544.vz = 0;
+    D_800A3544.vy = obj->unk48;
+    func_80043E14(&D_800A3544, &D_800A34B4, &D_800A2F04, &pos);
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    D_800A3544.vy += 0x800;
+    func_80024B28((Obj80024D00 *)obj, obj->unk42 % D_800A324C);
+    vis = func_8002501C(&pos, &D_800A3544, 0xFFF, 0, &obj->anim);
+    if (D_800A326C > 8 && vis >= 8) {
+        ot = D_800A32E4 + D_800A326C;
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+        }
+    }
+    func_800620A8(&pos, obj->unk42 + 0x41, 0x400, D_800A3344, 0);
+    func_80024EF0(&obj->anim);
+}
 
 void func_80061E20();
 
