@@ -220,3 +220,7 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | Chained `a = b = x` stores in the wrong order | The rightmost target is stored first; swap the chain (0x80033490) |
 | `x >> 1` as `srl` instead of `sll`/`sra 17` | Use `(shade >> 1)` in each expression, not `shade >>= 1` (0x80040E94) |
 | Three identical tails, one using a saved pointer | Write the tail out in each branch; GCC cross-jumps them (0x800495F8) |
+| `lhu` from a signed field, then `sll`/`sra` at each use | Copy the field into an `s16` local; using the field directly gives `lh` (0x80055298, 0x800585D4) |
+| `sra v1,v0,17` into a new register, not `v0` | `c >>= 1` on the `s16` variable, not a new `half` local (0x800550D8) |
+| Parameter used before a late `move` to a saved register | The early uses read the parameter and the later ones a copy: `s32 y2 = y;` after the other initializers (0x800550D8) |
+| Value kept out of `a0` before a call | Keep the stores in source order so the argument setup overlaps it: `tpage`, colours, then the call (0x8002F6C0) |
