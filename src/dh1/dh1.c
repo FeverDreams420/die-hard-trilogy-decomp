@@ -5950,7 +5950,81 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004B3C8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004B63C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004BBF8);
+typedef struct {
+    u8 pad0[8];
+    s16 x, y, z;
+    u8 padE[2];
+    s16 unk10;
+    u8 pad12[6];
+} Unk8004BBF8_Part;
+
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    Unk8004BBF8_Part parts[32];
+    s16 unk310;
+    s16 unk312;
+    s16 unk314;
+    s16 unk316;
+    s32 unk318;
+} Unk8004BBF8;
+
+extern void func_8004B63C();
+s16 func_8004BE4C(void *item);
+
+void func_8004BBF8(SVECTOR *pos) {
+    Unk8003BA6C_Task *task = func_80021264(func_8004B63C, 1, sizeof(Unk8004BBF8));
+    Unk8004BBF8 *obj;
+    struct Task *saved;
+    s32 params[6];
+    s16 i;
+
+    if (task == NULL) {
+        return;
+    }
+    obj = (Unk8004BBF8 *)task->data;
+    obj->unk316 = func_8004BE4C(obj);
+    if (obj->unk316 == -1) {
+        saved = D_800A317C;
+        D_800A317C = (struct Task *)task;
+        func_80021554();
+        D_800A317C = saved;
+        return;
+    }
+    obj->pos.vx = pos->vx;
+    obj->pos.vy = pos->vy;
+    obj->pos.vz = pos->vz;
+    obj->rot.vx = 0;
+    obj->rot.vy = func_8001E9DC(0x1000);
+    obj->rot.vz = 0;
+    obj->unk310 = 0x100;
+    obj->unk312 = 0;
+    if ((s16)func_8001E9DC(2) != 0) {
+        obj->unk314 = 0x78;
+    } else {
+        obj->unk314 = -0x78;
+    }
+    for (i = 0; i < 32; i++) {
+        obj->parts[i].x = 0;
+        obj->parts[i].y = 0;
+        obj->parts[i].z = 0;
+        obj->parts[i].unk10 = 0;
+    }
+    params[0] = 0x19;
+    params[1] = func_80050974(&obj->pos, 0x3FFF);
+    params[2] = func_800508F0(&obj->pos) * 4;
+    params[3] = 0x400;
+    params[4] = 0;
+    params[5] = 0;
+    obj->unk318 = func_8004FB78(params);
+    params[0] = 0x1A;
+    params[1] = func_80050974(&obj->pos, 0x3FFF);
+    params[2] = func_800508F0(&obj->pos) * 4;
+    params[3] = 0x400;
+    params[4] = 0;
+    params[5] = 0;
+    obj->unk318 = func_8004FB78(params);
+}
 
 typedef struct {
     void *slots[16];
