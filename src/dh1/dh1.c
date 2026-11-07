@@ -3115,7 +3115,63 @@ void func_8002F6C0(Unk8002DB90_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002F894);
+extern s16 D_800854C0[];
+
+void func_8002F894(Unk8002DB90_Face *f) {
+    Unk8002CE64_Prim *prim = D_800A30A4;
+    u16 *tex;
+    u32 *ot;
+    s32 z;
+    s16 c;
+    s16 a;
+    s32 r;
+    s32 dx;
+    s32 dz;
+    SVECTOR p0;
+    SVECTOR p1;
+    SVECTOR p2;
+    SVECTOR p3;
+    SVECTOR unused;
+
+    a = -func_80028B04((Unk8002A35C *)&D_800A3194, (Unk8002A35C *)f->v[0]);
+    r = f->v[1]->vx;
+    dx = (D_800854C0[(a + 0x400) & 0xFFF] * r) >> 12;
+    dz = (D_800854C0[a & 0xFFF] * r) >> 12;
+    p0.vx = p3.vx = f->v[0]->vx - dx;
+    p0.vz = p3.vz = f->v[0]->vz + dz;
+    p1.vx = p2.vx = f->v[0]->vx + dx;
+    p1.vz = p2.vz = f->v[0]->vz - dz;
+    p0.vy = p1.vy = f->v[2]->vy;
+    p2.vy = p3.vy = f->v[0]->vy;
+    D_800A326C = RotTransPers4(&p0, &p1, &p2, &p3, &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800A2EFC, &D_800A3394);
+    if (!(D_800A3394 & 0xFFFFE000)) {
+        D_800A326C = z = func_800293A4();
+        if (z > D_800A2A22) {
+            c = (0x100 - (z - D_800A2A22)) >> 1;
+            if (c > 0x80) {
+                c = 0x80;
+            }
+        } else {
+            c = 0x80;
+        }
+        if (c > 0) {
+            tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+            prim->uv0 = tex[0];
+            *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+            prim->uv2 = tex[4];
+            prim->uv3 = tex[6];
+            prim->clut = tex[f->clut + 14];
+            prim->r0 = c;
+            prim->g0 = c;
+            prim->b0 = c;
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, prim);
+            }
+            D_800A30A4++;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002FB4C);
 
