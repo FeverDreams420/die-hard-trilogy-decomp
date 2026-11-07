@@ -2542,7 +2542,64 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A40C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A7BC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002B4C0);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u16 uv0, clut;
+    s16 x1, y1;
+    u16 uv1, tpage;
+    s16 x2, y2;
+    u16 uv2, pad1;
+    s16 x3, y3;
+    u16 uv3, pad2;
+} Unk8002B4C0_Prim;
+
+typedef struct {
+    u8 pad0[0xC];
+    s16 timer;
+    u8 padE[2];
+    u8 r, g, b;
+    u8 pad13;
+    s16 x;
+    s16 y;
+    u8 pad18[4];
+    s16 size;
+    s16 idx;
+} Unk8002B4C0;
+
+extern Unk8002A35C D_8007C4FC[];
+
+void func_8002B4C0(void) {
+    Unk8002B4C0 *obj = (Unk8002B4C0 *)D_800A317C->vals;
+    Unk8002B4C0_Prim *prim = D_800A3374;
+    u16 *tex;
+
+    prim->x0 = prim->x2 = obj->x - obj->size;
+    prim->y0 = prim->y1 = obj->y - obj->size;
+    prim->x1 = prim->x3 = obj->x + obj->size;
+    prim->y2 = prim->y3 = obj->y + obj->size;
+    tex = (u16 *)D_800A3154;
+    prim->uv0 = tex[0x84];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 0x86);
+    prim->uv2 = tex[0x88];
+    prim->uv3 = tex[0x8A];
+    prim->clut = tex[0x95];
+    prim->r0 = obj->r;
+    prim->g0 = obj->g;
+    prim->b0 = obj->b;
+    setlen(prim, 9);
+    setcode(prim, 0x2E);
+    addPrim(D_800A32E4, prim);
+    D_800A3374 = prim + 1;
+    obj->r -= 0x10;
+    obj->g -= 0x10;
+    obj->b -= 0x10;
+    if (++obj->timer == 10) {
+        D_8007C4FC[obj->idx].x = 0;
+        func_80021554();
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002B674);
 
