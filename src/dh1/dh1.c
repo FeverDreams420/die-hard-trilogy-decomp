@@ -3075,7 +3075,45 @@ void func_8002F4F4(Unk8002DB90_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002F6C0);
+extern void SetSemiTrans(void *p, s32 abe);
+
+void func_8002F6C0(Unk8002DB90_Face *f) {
+    Unk8002CE64_Prim *prim = D_800A30A4;
+    u16 *tex;
+    u32 *ot;
+    s32 z;
+    s16 c;
+
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800A2EFC, &D_800A326C, &D_800A3394) > 0 && !(D_800A3394 & 0xFFFFE000)) {
+        D_800A326C = z = func_800293A4();
+        if (z > D_800A2A22) {
+            c = (0x100 - (z - D_800A2A22)) >> 1;
+            if (c > 0x80) {
+                c = 0x80;
+            }
+        } else {
+            c = 0x80;
+        }
+        if (c > 0) {
+            tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+            prim->uv1 = tex[0];
+            prim->uv0 = tex[2];
+            prim->uv3 = tex[4];
+            prim->uv2 = tex[6];
+            prim->clut = tex[f->clut + 14];
+            prim->tpage = tex[3];
+            prim->r0 = c;
+            prim->g0 = c;
+            prim->b0 = c;
+            SetSemiTrans(prim, 1);
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, prim);
+            }
+            D_800A30A4++;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002F894);
 
