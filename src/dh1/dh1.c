@@ -3616,7 +3616,9 @@ typedef struct {
     s16 unk154;
     s16 unk156;
     s16 unk158;
-    u8 pad15A[6];
+    u8 pad15A[2];
+    s16 unk15C;
+    u8 pad15E[2];
     s16 unk160;
     s16 unk162;
 } Unk80045164;
@@ -10248,7 +10250,48 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A920);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006AB40);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006AB6C);
+extern Unk80045164 *D_801FBDC8[];
+
+void func_8006AB6C(void) {
+    Unk8002A35C *player;
+    Unk80045164 *a;
+    Unk80045164 *b;
+    s16 i;
+    s16 j;
+    s32 dist;
+
+    if (D_801F7D50 == NULL) {
+        return;
+    }
+    player = (Unk8002A35C *)D_801F7D50->vals;
+    for (i = 0; i < 0x80; i++) {
+        a = D_801FBDC8[i];
+        if (a == NULL) {
+            continue;
+        }
+        if (a->unk28 == 0 || a->unk28 == 4 || (a->unk154 != 0 && a->unk28 != 0x12)) {
+        hide:
+            a->unk15C = 0;
+        } else {
+            dist = func_8002A35C(player, &a->pos);
+            a->unk15C = -1;
+            for (j = 0; j < 0x80; j++) {
+                b = D_801FBDC8[j];
+                if (b == NULL || j == i) {
+                    continue;
+                }
+                if (b->unk28 == 0 || b->unk28 == 4) {
+                    continue;
+                }
+                if (func_8002A35C(&b->pos, player) < dist && func_8002A35C(&b->pos, &a->pos) <= dist) {
+                    if (func_80043930((Unk80043930 *)a, (Unk80043930 *)player, (Unk80043930 *)b) < 0x400) {
+                        goto hide;
+                    }
+                }
+            }
+        }
+    }
+}
 
 extern int CdReadSync(int mode, u8 *result);
 extern int VSync(int mode);
