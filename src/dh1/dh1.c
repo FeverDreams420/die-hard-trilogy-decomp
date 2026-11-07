@@ -3728,7 +3728,66 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031828);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031A5C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031AB8);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0xC];
+    s16 unk12;
+    u8 pad14[0x1A];
+    s16 unk2E;
+    s16 unk30;
+    u8 pad32[0x32];
+    Anim anim;
+    u8 pad84[0x42];
+    s16 unkC6;
+    u8 padC8[6];
+    s16 unkCE;
+    u8 padD0[0x24];
+    s16 unkF4;
+} Unk80031AB8;
+
+extern u16 D_8007C432;
+extern u16 D_8007C434;
+extern u16 D_800A2A24;
+extern const s16 D_8007C560[];
+extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
+
+void func_80031AB8(Unk80031AB8 *obj) {
+    u16 *e = (u16 *)D_800A353C[obj->anim.id].p;
+    s32 tmp;
+    s16 floor;
+
+    if (D_8007C432 != D_800A2A24 && D_8007C434 != D_800A2A24) {
+        obj->unkCE = func_800437C8(obj->unkCE, 0, 0x10);
+    }
+    obj->unk12 += obj->unkCE;
+    obj->y += obj->unk2E;
+    if (obj->unk30 != 0) {
+        if (obj->anim.time < e[10]) {
+            obj->anim.unk6 = 0xB8;
+        } else {
+            obj->anim.unk6 = 0x2E;
+        }
+        if (obj->anim.time >= e[11]) {
+            obj->anim.time = e[11];
+        }
+    }
+    obj->unk2E = func_800437C8(obj->unk2E, -0x1F4, 0x18);
+    floor = obj->unkC6;
+    if (floor == -1) {
+        floor = func_80023E80(obj, &tmp, &tmp);
+    }
+    if (floor >= obj->y) {
+        if (obj->unk30 != 0) {
+            func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0xA4, 4);
+        }
+        obj->unk2E = 0;
+        obj->y = floor;
+        obj->unk30 = 0;
+    } else if (obj->y - floor > 0x100) {
+        obj->unk30++;
+    }
+    obj->unkC6 = -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031C58);
 
