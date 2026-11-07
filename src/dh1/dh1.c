@@ -6373,12 +6373,8 @@ void func_8004F364(Unk8002A35C *pos, s32 arg1) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F498);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F634);
-
 typedef struct {
-    u8 pad0[0x168];
+    SVECTOR v[9][5];
     SVECTOR pos;
     s16 unk170;
     s16 unk172;
@@ -6391,8 +6387,41 @@ typedef struct {
     u8 pad182[2];
 } Unk8004FA1C;
 
+s16 func_8004F498(Unk8004FA1C *obj, s16 dstep, s16 step, s16 y) {
+    s16 i;
+    s16 j;
+    s16 k;
+    s16 r;
+    s16 prev;
+    s32 x;
+    s32 z;
+
+    for (i = 0; i < 5; i++) {
+        r = i * 250 + 0x80;
+        j = 8;
+        do {
+            k = j;
+            if (j == 8) {
+                k = 0;
+            }
+            k *= 2;
+            r -= 0x20;
+            x = D_800854C0[(k * 0x200) & 0xFFF] * r;
+            z = D_800854C0[(k * 0x200 + 0x400) & 0xFFF] * r;
+            obj->v[j][i].vx = (x >> 12) + obj->pos.vx;
+            obj->v[j][i].vz = (z >> 12) + obj->pos.vz;
+            obj->v[j][i].vy = y + func_8001E9DC(0x40);
+        } while (j-- != 0);
+        prev = y;
+        y -= step;
+        step += dstep;
+    }
+    return prev;
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F634);
+
 extern void func_8004F634();
-extern void func_8004F498(Unk8004FA1C *p, s16 a, s32 b, s16 c);
 extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
 
 void func_8004FA1C(SVECTOR *pos) {
