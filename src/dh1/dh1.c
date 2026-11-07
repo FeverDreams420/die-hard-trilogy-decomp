@@ -7118,7 +7118,74 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800550B4);
 void func_800550D0(void) {
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800550D8);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, pad1;
+    s16 x1, y1;
+    u8 r2, g2, b2, pad2;
+    s16 x2, y2;
+    u8 r3, g3, b3, pad3;
+    s16 x3, y3;
+} Unk800550D8_Prim;
+
+extern void SetPolyG4(void *p);
+
+void func_800550D8(s16 t, s32 y) {
+    s16 top = y - 8;
+    s16 bottom = y + 8;
+    Unk800550D8_Prim *p = D_800A3374;
+    s32 y2 = y;
+    u32 *ot;
+    s16 c;
+
+    p->x0 = p->x2 = 0xD2;
+    p->x1 = p->x3 = 0x12A;
+    p->y0 = p->y1 = top;
+    p->y2 = p->y3 = bottom;
+    p->r0 = 0x64;
+    p->g0 = 0;
+    p->b0 = 0;
+    p->r2 = 0x64;
+    p->g2 = 0;
+    p->b2 = 0;
+    p->r3 = 0xA0;
+    p->g3 = 0x3C;
+    p->b3 = 0x1E;
+    p->r1 = 0xA0;
+    p->g1 = 0x3C;
+    p->b1 = 0x1E;
+    SetPolyG4(p);
+    ot = D_800A32E4 + 2;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, p++);
+    }
+    p->x0 = p->x2 = func_800296F8(0xD2, 0x116, t);
+    p->x1 = p->x3 = func_800296F8(0xD6, 0x12A, t);
+    p->y0 = p->y1 = y2 - 9;
+    p->y2 = p->y3 = y2 + 9;
+    c = func_800296F8(0x78, 0xFF, t);
+    p->r0 = c;
+    p->g0 = c;
+    p->b0 = c;
+    p->r1 = c;
+    p->g1 = c;
+    p->b1 = c;
+    c >>= 1;
+    p->r2 = c;
+    p->g2 = c;
+    p->b2 = c;
+    p->r3 = c;
+    p->g3 = c;
+    p->b3 = c;
+    SetPolyG4(p);
+    ot = D_800A32E4 + 1;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, p++);
+    }
+    D_800A3374 = p;
+}
 
 typedef struct {
     u8 pad0[0x48];
