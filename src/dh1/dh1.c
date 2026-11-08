@@ -1874,7 +1874,82 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800223C8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022424);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002242C);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 w, h;
+} TILE;
+
+typedef struct {
+    u8 minute, second, sector, track;
+} CdlLOC;
+
+typedef struct {
+    CdlLOC pos;
+    u32 size;
+    char name[16];
+} CdlFILE;
+
+extern void CdSetDebug(int level);
+extern CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
+extern int CdRead(int sectors, u32 *buf, int mode);
+extern void SetTile(TILE *p);
+extern void DrawPrim(void *p);
+extern int CdReadSync(int mode, u8 *result);
+extern void func_80022424();
+
+s32 func_8002242C(u32 *buf, char *name) {
+    CdlFILE file;
+    TILE tile;
+    s32 i;
+
+    CdSetDebug(0);
+    if (CdSearchFile(&file, name) == NULL) {
+        for (i = 0; i < 201; i++) {
+            VSync(0);
+            LoadTPage(func_80022424, 0, 0, 0xFA, i & 0xFF, 0x100, 0x100);
+        }
+        return 0;
+    }
+    CdControlB(0x15, (unsigned char *)&file.pos, 0);
+    CdRead((file.size + 0x7FF) >> 11, buf, 0x80);
+    i = 0;
+    tile.x0 = 0;
+    tile.y0 = 200;
+    tile.w = 320;
+    tile.h = 15;
+    tile.r0 = 0;
+    tile.g0 = 0;
+    tile.b0 = 0;
+    SetTile(&tile);
+    DrawPrim(&tile);
+    tile.w = 1;
+    tile.h = 5;
+    tile.r0 = 0xFF;
+    tile.g0 = 0xFF;
+    tile.b0 = 0;
+    while (CdReadSync(1, 0) > 0) {
+        VSync(0);
+        if (i++ > 300) {
+            return 0;
+        }
+        switch (i % 10) {
+        case 0:
+            tile.h = 10;
+            break;
+        case 5:
+            tile.h = 5;
+            break;
+        default:
+            tile.h = 1;
+            break;
+        }
+        tile.x0 = i;
+        DrawPrim(&tile);
+    }
+    return file.size;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022600);
 
@@ -9190,13 +9265,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F8F0);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F92C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F98C);
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    s16 w, h;
-} TILE;
 
 typedef struct {
     u32 tag;
