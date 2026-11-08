@@ -2285,7 +2285,7 @@ typedef struct {
     u16 unk16;
     u8 pad18[2];
     u16 unk1A;
-    u8 pad1C[2];
+    u16 unk1C;
     u16 unk1E;
 } Anim;
 
@@ -4817,7 +4817,76 @@ void func_8003BB9C(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003BC64);
+typedef struct {
+    SVECTOR pos[10];
+    s16 rotY[10];
+    s16 unk64[10];
+    s16 unk78[10];
+    s16 unk8C[10];
+    s16 unkA0[10];
+    s16 unkB4[10];
+    s16 unkC8[10];
+    s16 unkDC[10];
+    u8 animId[10];
+    u8 active[10];
+} Unk8003BC64;
+
+typedef struct {
+    SVECTOR rot;
+    Anim anim;
+    s16 unk28[5];
+    s16 unk32;
+    u8 unk34;
+    u8 unk35;
+} Unk8003BC64_Part;
+
+void func_8003BC64(void) {
+    Unk8003BC64 *obj = (Unk8003BC64 *)D_800A317C->vals;
+    SVECTOR unused;
+    Unk8003BC64_Part part;
+    s32 *m;
+    s16 i;
+
+    part.anim.id = 0x1B;
+    m = D_800A353C[part.anim.id].p;
+    part.anim.time = ((u16 *)m)[11];
+    part.anim.unk16 = 0;
+    part.unk32 = 0xDAC;
+    part.anim.unk1A = 0x1000;
+    part.unk34 = 100;
+    part.anim.unk1E = 0;
+    part.anim.unk1C = 0;
+    for (i = 0; i < 10; i++) {
+        if (obj->active[i] == 0) {
+            continue;
+        }
+        part.rot.vx = 0;
+        part.rot.vy = obj->rotY[i];
+        part.rot.vz = 0;
+        part.unk28[0] = obj->unk64[i];
+        part.unk28[1] = obj->unk78[i];
+        part.unk28[2] = obj->unk8C[i];
+        part.unk28[3] = obj->unkA0[i];
+        part.unk28[4] = obj->unkB4[i];
+        part.unk35 = obj->unkC8[i];
+        part.anim.id = obj->animId[i];
+        m = D_800A353C[part.anim.id].p;
+        part.anim.time = m[0] - m[2];
+        if (func_8002501C(&obj->pos[i], &part, 0xFFF, 0, &part.anim) >= 8 && D_800A326C > 8) {
+            if (D_801C1F00 != 0) {
+                func_80031ED0((Unk80045164 *)&obj->pos[i], &part, 0x14);
+            } else {
+                u32 *ot = D_800A32E4 + D_800A326C;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+                }
+            }
+        } else {
+            obj->active[i] = 0;
+            obj->unkDC[i] = 0;
+        }
+    }
+}
 
 typedef struct {
     s16 unk0;
