@@ -1960,7 +1960,33 @@ MATRIX *func_8002384C(SVECTOR *rot, MATRIX *m) {
     return m;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023A64);
+MATRIX *func_80023A64(SVECTOR *rot, MATRIX *m) {
+    u16 ax, ay, az;
+    s16 cx, sx, cy, sy, cz, sz;
+    s32 sxsy, sxcy;
+
+    ax = rot->vx;
+    ay = rot->vy;
+    sx = D_800854C0[ax & 0xFFF];
+    sy = D_800854C0[ay & 0xFFF];
+    sxsy = sx * sy;
+    cy = D_800854C0[(ay + 0x400) & 0xFFF];
+    sxcy = sx * cy;
+    az = rot->vz;
+    cz = D_800854C0[(az + 0x400) & 0xFFF];
+    sz = D_800854C0[az & 0xFFF];
+    cx = D_800854C0[(ax + 0x400) & 0xFFF];
+    m->m[0][0] = -((cy * cz + (s16)(sxsy >> 12) * sz) >> 12);
+    m->m[0][1] = -((-cx * sz) >> 12);
+    m->m[0][2] = -((-sy * cz + (s16)(sxcy >> 12) * sz) >> 12);
+    m->m[1][0] = -((cy * sz - (s16)(sxsy >> 12) * cz) >> 12);
+    m->m[1][1] = -((cx * cz) >> 12);
+    m->m[1][2] = -((-sy * sz - (s16)(sxcy >> 12) * cz) >> 12);
+    m->m[2][1] = sx;
+    m->m[2][0] = (u32)(cx * sy) >> 12;
+    m->m[2][2] = (u32)(cx * cy) >> 12;
+    return m;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80023C7C);
 
