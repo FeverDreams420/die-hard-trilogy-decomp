@@ -5187,7 +5187,102 @@ void func_8003FCC8(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003FD70);
+typedef struct {
+    u8 u0, v0;
+    u16 clut;
+    u8 u1, v1;
+    u16 tpage;
+    u8 u2, v2;
+    u16 padA;
+    u8 u3, v3;
+    u16 padE;
+    u8 u4, v4;
+    u16 tpage2;
+    u8 u5, v5;
+    u16 tpage1;
+    u16 clut2;
+    u16 pad1A;
+    u16 cluts[8];
+} Unk8003FD70_Tex;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 pad12;
+    Unk8003FD70_Tex *unk14;
+    u16 *unk18;
+    s32 pad1C;
+    u8 *unk20;
+} Unk8003FD70;
+
+extern u16 GetClut(s32 x, s32 y);
+extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
+
+void func_8003FD70(void) {
+    Unk8003FD70 *d = (Unk8003FD70 *)D_800A317C->vals;
+    Unk8003FD70_Tex *e;
+    u8 u, v;
+    s16 i, j, k;
+    s16 idx;
+
+    e = d->unk14;
+    v = 0;
+    if (d->unk2 >= 3) {
+        LoadTPage(d->unk20, 0, 0, d->unk8, d->unkA, 0x100, 0x100);
+        d->unk20 += 0x8000;
+    }
+    u = 0;
+    for (i = 0; i < 64; i++) {
+        e->u5 = u;
+        e->u4 = u;
+        e->u0 = u;
+        e->v5 = v;
+        e->v4 = v;
+        e->v0 = v;
+        e->u1 = u + 0x1F;
+        e->v1 = v;
+        e->u2 = u;
+        e->v2 = v + 0x1F;
+        e->u3 = u + 0x1F;
+        e->v3 = v + 0x1F;
+        u += 0x20;
+        if (u == 0) {
+            v += 0x20;
+        }
+        idx = d->unk18[d->unk6];
+        d->unkC = (idx & 1) * 160 + 0x2C0;
+        d->unkE = (idx >> 1) + 0x100;
+        e->clut = GetClut(d->unkC, d->unkE);
+        e->clut2 = GetClut(d->unkC + 16, d->unkE);
+        e->tpage = GetTPage(0, 0, d->unk8, d->unkA);
+        e->tpage2 = GetTPage(0, 2, d->unk8, d->unkA);
+        e->tpage1 = GetTPage(0, 1, d->unk8, d->unkA);
+        e->u4 = e->u5 = e->u1;
+        e->v4 = e->v5 = e->v1;
+        for (j = 0, k = 0x20; k < 0xA0; k += 0x10) {
+            e->cluts[j++] = GetClut(d->unkC + k, d->unkE);
+        }
+        e++;
+        d->unk6++;
+    }
+    d->unk8 -= 0x40;
+    if (d->unk8 < 0) {
+        d->unk8 = 0x3C0;
+        d->unkA = 0;
+    }
+    d->unk14 = e;
+    d->unk2++;
+    if (d->unk2 >= d->unk10) {
+        D_800A317C->func = func_8003F9F8;
+    }
+}
 
 typedef struct {
     u8 pad0[0xA];
