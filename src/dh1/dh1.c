@@ -6948,7 +6948,65 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050A98);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800514D8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80051778);
+typedef struct {
+    s16 unk0;
+    s16 pad2[2];
+    s16 unk6;
+    s16 pad8[14];
+    s16 unk24;
+    s16 pad26[2];
+    s16 unk2A;
+} Unk80051778_Ctl;
+
+typedef struct {
+    u8 pad0[0x2C];
+    s16 unk2C;
+    u8 pad2E[0x64 - 0x2E];
+    Anim anim;
+} Unk80051778_Obj;
+
+extern void *D_801F7D60;
+extern const s16 D_8007C570[];
+extern const s16 D_8007C590[];
+
+void func_80051778(s16 id, s16 flag) {
+    Unk80051778_Ctl *c = (Unk80051778_Ctl *)((struct Task *)D_801F7D60)->vals;
+    Unk80051778_Obj *obj;
+    s16 *p;
+
+    if (D_801F7D50 == NULL) {
+        return;
+    }
+    obj = (Unk80051778_Obj *)D_801F7D50->vals;
+    p = (s16 *)((u8 *)obj + 0x114);
+    if (flag) {
+        if (c->unk6 != id) {
+            if (obj->unk2C == 12) {
+                func_80024DA8(&obj->anim, D_8007C550[id], -1, 0x52, 3);
+            } else if (obj->unk2C == 1) {
+                func_80024DA8(&obj->anim, D_8007C590[id], -1, -0x15E, 3);
+            } else if (obj->unk2C == 2) {
+                func_80024DA8(&obj->anim, D_8007C590[id], -1, 0x15E, 3);
+            } else if (obj->unk2C != 5 && obj->unk2C != 6) {
+                func_80024DA8(&obj->anim, D_8007C570[id], -1, 0x52, 3);
+            }
+            c->unk6 = id;
+            c->unk0 = 1;
+            if (c->unk6 == 3 || c->unk6 == 4 || c->unk6 == 6) {
+                p[5] = -1;
+            }
+            *(s16 *)((u8 *)obj + 0xF6) = 30;
+        } else {
+            if (c->unk6 == 3 || c->unk6 == 4 || c->unk6 == 6) {
+                *(s16 *)((u8 *)obj + 0x11E) = -1;
+            }
+            *(s16 *)((u8 *)obj + 0xF6) += 30;
+        }
+    } else if (c->unk2A != id) {
+        c->unk2A = id;
+        c->unk24 = 1;
+    }
+}
 
 typedef struct {
     s16 unk0;
@@ -8601,7 +8659,7 @@ void func_8005C7C4(Unk8005B554 *obj) {
     }
 }
 
-void func_80051778(s16, s32);
+void func_80051778(s16, s16);
 
 void func_8005C8D0(Unk8005C8D0 *p) {
     if (++p->unkFE >= 3) {
