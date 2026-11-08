@@ -3789,7 +3789,9 @@ typedef struct {
 
 typedef struct {
     SVECTOR rot;
-    u8 pad8[0x10];
+    u8 pad8[0xA];
+    s16 unk12;
+    u8 pad14[4];
 } Unk80045164_Model;
 
 typedef struct {
@@ -3815,12 +3817,14 @@ typedef struct {
     s16 unkEA;
     s16 unkEC;
     s16 unkEE;
-    u8 padF0[2];
+    s16 unkF0;
     s16 unkF2;
     s16 unkF4;
     u8 padF6[0x20];
     u8 unk116;
-    u8 pad117[0x3D];
+    u8 pad117[0xD];
+    struct Task *unk124;
+    u8 pad128[0x2C];
     s16 unk154;
     s16 unk156;
     s16 unk158;
@@ -5641,7 +5645,63 @@ void func_80045164(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004525C);
+extern void func_80049064(Unk80045164 *obj, s16 flag);
+extern s16 func_80042DD0();
+extern s16 func_80043814(s16 from, s16 to, s32 step);
+extern void func_80045478(void);
+
+void func_8004525C(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    Unk8002A35C *target;
+    u16 *anim;
+    s16 angle;
+    s16 tmp;
+
+    func_8003E384(obj);
+    func_8002A270(&obj->pos, 4);
+    if (obj->unk158 == 0) {
+        func_80024EF0(&obj->anim);
+    }
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031320(obj);
+    if (obj->unk124 == NULL) {
+        D_800A317C->func = D_800A317C->saved;
+        return;
+    }
+    target = (Unk8002A35C *)obj->unk124->vals;
+    if (obj->unk158 == 0 && (s16)func_8004BF0C(&obj->pos) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(&obj->anim, tmp, 0, 0x52, 8);
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    anim = (u16 *)D_800A353C[obj->anim.id].p;
+    func_80049064(obj, 0);
+    if (obj->unk158 != 0) {
+        obj->unk158--;
+        return;
+    }
+    if (obj->unkF0 != 0) {
+        obj->unkF0--;
+    }
+    angle = func_80028B04(target, &obj->pos) - 0x400;
+    obj->model.unk12 = angle & 0xFFF;
+    if (obj->model.rot.vy == obj->model.unk12 && obj->anim.time >= anim[11]) {
+        if (func_80042DD0(obj, target, -1) == 0) {
+            func_80024DA8(&obj->anim, 0xF, 0, 0xA4, 3);
+            D_800A317C->func = D_800A317C->saved;
+        } else {
+            D_800A317C->func = func_80045478;
+        }
+        return;
+    }
+    obj->model.rot.vy = func_80043814(obj->model.rot.vy, angle, 0xA0);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80045478);
 
