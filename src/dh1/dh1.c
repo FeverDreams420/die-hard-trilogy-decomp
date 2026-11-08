@@ -5003,7 +5003,82 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003DB10);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003DB38);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E1D0);
+typedef struct {
+    s16 x, y, z;
+    s16 pad6;
+    s16 rx, ry, rz;
+    s16 padE;
+    s32 sx, sy, sz;
+    s32 pad1C;
+    s32 unk20;
+} Unk8003E1D0_Model;
+
+typedef struct {
+    s16 x, y, z;
+    s16 pad6;
+    s16 unk8, unkA, unkC;
+    s16 padE[2];
+    s16 unk12;
+    u8 pad14[0x14];
+    s16 unk28;
+    u8 pad2A[0x22];
+    s16 unk4C, unk4E, unk50;
+    u8 pad52[0x5A];
+    s32 unkAC;
+    s32 padB0;
+    s32 unkB4;
+    u8 padB8[0x1C];
+    s16 unkD4, unkD6, unkD8, unkDA, unkDC;
+    u8 padDE[4];
+    s16 unkE2, unkE4;
+    u8 padE6[0x2E];
+    Unk8003E1D0_Model model;
+} Unk8003E1D0;
+
+extern SVECTOR D_800A34B4;
+extern SVECTOR D_800A3544;
+extern s16 func_80043CC4(s16 id);
+extern short func_80043D68(short a, short b, short scale);
+extern void func_8004379C(short id, SVECTOR *out);
+extern void func_8003DB38(void);
+
+void func_8003E1D0(void) {
+    Unk8003E1D0 *obj = (Unk8003E1D0 *)D_800A317C->vals;
+    Unk8003E1D0_Model *m = &obj->model;
+    s32 d, e;
+
+    obj->unkD8 = obj->unkDC = func_80043CC4(obj->unkD6);
+    func_8004379C(obj->unkD6, &D_800A34B4);
+    func_8004379C(obj->unkD8, &D_800A3544);
+    d = func_8002A35C((Unk8002A35C *)&D_800A34B4, (Unk8002A35C *)&D_800A3544);
+    e = func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)&D_800A3544);
+    obj->unkD4 = (d < e ? 0x200000 : 0x400000) / d;
+    obj->unkDA = func_80043D68(obj->unkD6, obj->unkD8, 0x40);
+    obj->unk4C = 0;
+    obj->unk4E = 0;
+    obj->unk50 = 0;
+    obj->unk8 = obj->x;
+    obj->unkA = obj->y;
+    obj->unkC = obj->z;
+    obj->unkE2 = func_8001E9DC(20) + 20;
+    obj->unkE4 = 0;
+    obj->unkAC = 100;
+    obj->unkB4 = 100;
+    if (obj->unk28 == 13) {
+        m->x = obj->x;
+        m->y = obj->y;
+        m->z = obj->z;
+        m->rx = 0;
+        m->ry = obj->unk12;
+        m->rz = 0;
+        m->sx = 0x1000;
+        m->sy = 0x1000;
+        m->sz = 0x1000;
+        m->unk20 = D_801D70F0[38];
+        obj->unkD4 = 0;
+    }
+    D_800A317C->func = func_8003DB38;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E384);
 
