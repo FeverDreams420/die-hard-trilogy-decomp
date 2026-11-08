@@ -5915,7 +5915,54 @@ void func_8004525C(void) {
     obj->model.rot.vy = func_80043814(obj->model.rot.vy, angle, 0xA0);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80045478);
+extern void func_800369FC(void *obj, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+
+void func_80045478(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    s32 params[6];
+    s16 tmp;
+
+    func_8003E384(obj);
+    obj->model.rot.vy = func_80043814(obj->model.rot.vy, obj->model.unk12, 0xA0);
+    func_8002A270(&obj->pos, 4);
+    if (obj->unk158 == 0) {
+        func_80024EF0(&obj->anim);
+    }
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031320(obj);
+    if (obj->unk158 == 0 && (s16)func_8004BF0C(&obj->pos) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(&obj->anim, tmp, 0, 0x52, 8);
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    func_80049064(obj, 0);
+    if (obj->unk158 != 0) {
+        obj->unk158--;
+        return;
+    }
+    obj->unkF0 = 2;
+    obj->unkEE = -1;
+    obj->unk156 = -1;
+    func_80056ADC((SVECTOR *)obj, 0x800);
+    obj->model.rot.vy += 0x400;
+    func_800369FC(obj, 1, 0, 0, 0);
+    obj->model.rot.vy -= 0x400;
+    params[0] = 6;
+    params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+    params[2] = func_800508F0((SVECTOR *)obj) * 4;
+    params[3] = 0x400;
+    params[4] = 0;
+    params[5] = 0;
+    func_8004FB78(params);
+    func_80024DA8(&obj->anim, 0xF, 0, 0xA4, 3);
+    D_800A317C->func = D_800A317C->saved;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004566C);
 
