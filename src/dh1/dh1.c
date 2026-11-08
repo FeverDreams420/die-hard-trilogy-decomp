@@ -750,7 +750,93 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F0F8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F37C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F778);
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
+typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+typedef struct {
+    RECT disp;
+    RECT screen;
+    u8 isinter;
+    u8 isrgb24;
+    u8 pad0;
+    u8 pad1;
+} DISPENV;
+
+typedef struct {
+    DISPENV disp;
+    DRAWENV draw;
+    u32 ot[0xA00];
+    void *prims;
+    void *unk2874;
+    u8 buf[0xB3B0];
+} Unk800A8078;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1E;
+    s32 xy3;
+    u16 uv3;
+    u16 pad26;
+} Unk8002CE64_Prim;
+
+extern Unk800A8078 D_800A8078[2];
+extern Unk8002CE64_Prim *D_800A30A4;
+extern Unk8002CE64_Prim *D_800A31C4;
+extern void *D_800A3374;
+extern u32 *D_800A32E4;
+extern void DrawOTag(u32 *ot);
+extern u32 *ClearOTagR(u32 *ot, s32 n);
+extern void func_8004FB10(void);
+extern s32 func_8006B350(unsigned long spec);
+extern DISPENV *PutDispEnv(DISPENV *env);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+
+void func_8001F778(void) {
+    DrawOTag(&D_800A8078[D_800A333C].ot[0x9FF]);
+    DrawSync(0);
+    VSync(0);
+    func_8004FB10();
+    if (func_8006B350(0xF2000001) < 0x200) {
+        VSync(0);
+    }
+    func_8004FB10();
+    PutDispEnv(&D_800A8078[D_800A333C].disp);
+    ClearOTagR(D_800A8078[D_800A333C].ot, 0xA00);
+    D_800A32E4 = D_800A8078[D_800A333C].ot;
+    D_800A333C ^= 1;
+    PutDrawEnv(&D_800A8078[D_800A333C].draw);
+    D_800A30A4 = (Unk8002CE64_Prim *)D_800A8078[D_800A333C].buf;
+    D_800A31C4 = D_800A8078[D_800A333C].unk2874;
+    D_800A3374 = D_800A8078[D_800A333C].prims;
+    func_8006B370(0xF2000001);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F970);
 
@@ -1589,10 +1675,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800209B8);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020B90);
 
 typedef struct {
-    s16 x, y, w, h;
-} RECT;
-
-typedef struct {
     unsigned addr : 24;
     unsigned len : 8;
     u8 r0, g0, b0, code;
@@ -1605,23 +1687,6 @@ typedef struct {
 #define getcode(p) (u8)(((P_TAG *)(p))->code)
 #define setSemiTrans(p, abe) ((abe) ? setcode(p, getcode(p) | 0x02) : setcode(p, getcode(p) & ~0x02))
 #define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
-
-typedef struct {
-    u32 tag;
-    u32 code[15];
-} DR_ENV;
-
-typedef struct {
-    RECT clip;
-    s16 ofs[2];
-    RECT tw;
-    u16 tpage;
-    u8 dtd;
-    u8 dfe;
-    u8 isbg;
-    u8 r0, g0, b0;
-    DR_ENV dr_env;
-} DRAWENV;
 
 extern u32 *D_800A32E4;
 extern void *D_800A3374;
@@ -2524,23 +2589,6 @@ typedef struct {
     u8 unk12;
     s8 clut;
 } Unk8002DB90_Face;
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s32 xy0;
-    u16 uv0;
-    u16 clut;
-    s32 xy1;
-    u16 uv1;
-    u16 tpage;
-    s32 xy2;
-    u16 uv2;
-    u16 pad1E;
-    s32 xy3;
-    u16 uv3;
-    u16 pad26;
-} Unk8002CE64_Prim;
 
 extern Unk8002CE64_Prim *D_800A31C4;
 
@@ -7948,21 +7996,6 @@ void func_80055298(Unk80055298 *obj) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005543C);
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    u8 isinter;
-    u8 isrgb24;
-    u8 pad0;
-    u8 pad1;
-} DISPENV;
-
-typedef struct {
-    DISPENV disp;
-    DRAWENV draw;
-    u8 pad70[0xDBB8];
-} Unk800A8078;
 
 extern Unk800A8078 D_800A8078[2];
 extern s32 D_800A31F4;
