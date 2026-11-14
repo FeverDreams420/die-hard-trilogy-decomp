@@ -5100,7 +5100,107 @@ void func_8003BE8C(Unk8003BE8C *src) {
     data->unk106++;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003BFA8);
+typedef struct {
+    s16 used;
+    u16 timer;
+    s16 pad4;
+    s16 state;
+    u8 pad8[0x18];
+} Unk8003BFA8_Entry;
+
+typedef struct {
+    u8 pad0[0x18];
+    s16 unk18;
+    s16 unk1A;
+    s16 unk1C;
+    s16 unk1E;
+} Unk8003BFA8_Data;
+
+extern u8 *D_800A3474;
+extern s16 D_800A2F6C;
+extern Unk8003BA6C_Task *D_801F7D3C[];
+extern s16 D_800A329C;
+extern s16 D_800A2EF0;
+extern s16 D_800A3274;
+extern Unk80045164 *D_801FBDC8[];
+extern s16 D_800A31CC;
+extern s16 D_800A3054;
+extern s16 D_800A2FD4;
+extern s16 D_800A3324;
+extern s16 D_800A32F4;
+extern s16 D_800A318C;
+extern s16 D_800A2EE8;
+extern s16 D_800A34AC;
+extern s16 D_800A32DC;
+extern s16 D_800A31FC;
+extern s16 D_800A3504;
+extern s16 D_800A344C;
+extern s16 D_800A30C4;
+extern void func_8003C1C4();
+
+void func_8003BFA8(void) {
+    Unk8003BFA8_Entry *e = (Unk8003BFA8_Entry *)D_800A3474;
+    Unk8003BA6C_Task *task;
+    Unk8003BFA8_Data *d;
+    s16 i;
+    s16 last;
+    s16 reset = 0;
+
+    task = func_80021264(func_8003C1C4, 1, 0x20);
+    D_801F7D3C[0] = task;
+    d = (Unk8003BFA8_Data *)task->data;
+    d->unk18 = 0;
+    if (D_800A329C != 0) {
+        d->unk1A = 1;
+    } else {
+        d->unk1A = 0;
+    }
+    d->unk1C = 0;
+    for (i = 0; i < 0x80; i++) {
+        D_801FBDC8[i] = 0;
+    }
+    D_800A31CC = 0;
+    D_800A3054 = 0;
+    D_800A2FD4 = 0;
+    D_800A3324 = 0;
+    D_800A32F4 = 0;
+    D_800A318C = 0;
+    D_800A2EE8 = 0;
+    D_800A34AC = 0;
+    D_800A32DC = 0;
+    D_800A31FC = 0;
+    D_800A3504 = 0;
+    D_800A344C = 0;
+    D_800A30C4 = 0;
+    D_800A3274 = 0;
+    last = 99;
+    for (i = 0; i < D_800A2F6C; e++, i++) {
+        if (e->used == 0) {
+            if (e->timer < 30) {
+                last = i;
+            }
+            if (e->timer != 1) {
+                e->timer *= 30;
+            }
+        }
+        if (e->state == 4) {
+            if (D_800A2EF0 != 0) {
+                e->state = 2;
+                reset = -1;
+            } else {
+                e->state = 1;
+                reset = 0;
+            }
+        }
+    }
+    d->unk1E = last;
+    if (reset) {
+        D_800A2EF0 = 0;
+    }
+    for (i = 0; i < 20; i++) {
+        D_801C08F8[i] = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003C1C4);
 
@@ -5322,10 +5422,8 @@ typedef struct {
     u16 unkA;
 } Unk8003EF64_Def;
 
-extern u8 *D_800A3474;
 extern u8 *D_800A2F1C;
 extern u8 *D_800A32EC;
-extern u16 D_800A2F6C;
 extern u16 D_800A30BC;
 extern u16 D_800A3434;
 
