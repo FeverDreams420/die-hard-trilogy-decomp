@@ -5582,7 +5582,11 @@ s32 func_8003E45C(void *data, s16 i) {
 void func_8003E474(void) {
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E47C);
+extern s16 D_800A2F84;
+
+void func_8003E47C(void) {
+    D_800A2F84 = 20;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E490);
 
