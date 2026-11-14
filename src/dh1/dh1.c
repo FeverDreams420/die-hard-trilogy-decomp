@@ -4810,7 +4810,44 @@ void func_800365C0(Unk80036918 *p, s16 type) {
     p->unk20 = D_801D70F0[idx];
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036644);
+typedef struct Unk800584A4 {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    s32 pad24;
+    u16 unk28;
+    s16 unk2A;
+    s16 unk2C;
+    s16 unk2E;
+    s16 unk30;
+    u8 pad32[0x4A];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    u8 pad82[4];
+    s16 unk86;
+    u8 pad88[0xC];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[0x14];
+} Unk800584A4;
+
+extern Unk800584A4 *D_800A3564;
+
+void func_80036644(void *arg0, void *arg1, Unk800584A4 *self) {
+    func_80032344((Unk80032344 *)&D_800A3564[self->unkA], 1);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036688);
 
@@ -9149,39 +9186,6 @@ void func_80057918(Unk80057918 *p, s16 color) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80057A10);
-
-typedef struct Unk800584A4 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 pad6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 padE;
-    s32 unk10;
-    s32 unk14;
-    s32 unk18;
-    s32 pad1C;
-    s32 unk20;
-    s32 pad24;
-    u16 unk28;
-    s16 unk2A;
-    s16 unk2C;
-    s16 unk2E;
-    s16 unk30;
-    u8 pad32[0x4A];
-    s16 unk7C;
-    s16 unk7E;
-    s16 unk80;
-    u8 pad82[4];
-    s16 unk86;
-    u8 pad88[0xC];
-    s32 unk94;
-    s32 unk98;
-    s32 unk9C;
-    u8 padA0[0x14];
-} Unk800584A4;
 
 typedef struct {
     s16 v[5];
