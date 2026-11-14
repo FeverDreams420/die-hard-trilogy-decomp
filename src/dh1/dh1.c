@@ -1581,7 +1581,14 @@ void func_80020300(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020340);
+void func_80020340(void) {
+    u8 result[8];
+
+    if (D_800A3424 == 0) {
+        CdControlB(9, 0, result);
+        D_800A3424 = 1;
+    }
+}
 
 extern s16 D_800A3234;
 extern s16 D_800A3024;
