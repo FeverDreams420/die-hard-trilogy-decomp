@@ -12170,7 +12170,15 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C8C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006ADB0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B03C);
+extern int CdSync(int mode, unsigned char *result);
+
+void func_8006B03C(void) {
+    u8 result[8];
+
+    CdSync(0, result);
+    CdControl(10, 0, result);
+    CdSync(0, result);
+}
 
 typedef struct {
     u32 pc0;
