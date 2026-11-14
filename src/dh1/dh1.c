@@ -6129,7 +6129,16 @@ void func_80041178(Unk80041178 *o) {
     o->unkA = 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800411E4);
+void func_8004121C(void);
+
+void func_800411E4(void) {
+    void *task = func_80021264(func_8004121C, 1, 0x144);
+    Unk80041178List *list;
+
+    D_801F7D28 = task;
+    list = *(Unk80041178List **)((u8 *)task + 0x1C);
+    list->count = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004121C);
 
