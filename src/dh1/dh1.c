@@ -2395,7 +2395,9 @@ void func_80024D00(Obj80024D00 *obj) {
     func_80024BA8(obj);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024D64);
+int func_80024D64(int i) {
+    return (s16)func_8001E9DC(*D_800A353C[(s16)i].p);
+}
 
 typedef struct {
     u16 prevId;
