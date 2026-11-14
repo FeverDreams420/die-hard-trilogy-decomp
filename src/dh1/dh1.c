@@ -703,7 +703,7 @@ void func_8001EBD4(void) {
 }
 
 extern void func_8003FCC8(void);
-extern void *func_8003E414(void *, s32);
+extern void *func_8003E414(void *, s16);
 extern void *func_8003219C(void *, void *);
 extern void func_8001FEBC(void);
 extern void func_800248D4(void);
@@ -5550,7 +5550,22 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E384);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E3CC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E414);
+typedef struct {
+    s32 offset;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+} PackEntry;
+
+typedef struct {
+    s32 count;
+    PackEntry entries[1];
+} Pack;
+
+void *func_8003E414(void *data, s16 i) {
+    Pack *pack = data;
+    return (u8 *)pack + pack->entries[i].offset;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E42C);
 
