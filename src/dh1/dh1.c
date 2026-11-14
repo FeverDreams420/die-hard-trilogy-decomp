@@ -11477,7 +11477,17 @@ void func_80067D28(s16 i) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067D50);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067D98);
+void func_80067D98(void) {
+    s16 *p = &D_801C1EF6;
+
+    if (*p == 0) {
+        *p = 0x400;
+    } else if (*p == 0x400) {
+        *p = -0x180;
+    } else {
+        *p = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067DD8);
 
