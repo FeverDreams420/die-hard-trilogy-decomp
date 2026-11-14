@@ -10544,12 +10544,18 @@ void func_80060064(u8 shade) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060168);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800601C4);
-
 typedef struct {
     u8 pad0[0x32];
     s16 unk32;
 } Unk80060200;
+
+void func_80060168(void);
+
+void func_800601C4(void) {
+    ((Unk80060200 *)D_800A317C->vals)->unk32 = 0xFF;
+    D_800A317C->func = func_80060168;
+    func_80060168();
+}
 
 extern s16 D_800A3334;
 
