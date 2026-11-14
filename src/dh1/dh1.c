@@ -10611,7 +10611,21 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060DCC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061174);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061524);
+typedef struct {
+    u8 pad0[0x1D0];
+    SVECTOR unk1D0;
+    u8 pad1D8[0x10];
+    SVECTOR unk1E8;
+} Unk80061524;
+
+void func_80061524(Unk80061524 *obj) {
+    obj->unk1E8.vx = 0;
+    obj->unk1E8.vy = 0;
+    obj->unk1E8.vz = 0x20;
+    obj->unk1D0.vx = 0;
+    obj->unk1D0.vy = 0;
+    obj->unk1D0.vz = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061544);
 
