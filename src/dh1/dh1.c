@@ -4078,12 +4078,6 @@ void func_800317B0(Unk800315B0 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031804);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031828);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031A5C);
-
 typedef struct {
     s16 x, y, z;
     u8 pad6[0xC];
@@ -4100,6 +4094,17 @@ typedef struct {
     u8 padD0[0x24];
     s16 unkF4;
 } Unk80031AB8;
+
+extern u16 D_8007C42C[];
+extern u16 D_800A2A24;
+
+void func_80031804(s16 i) {
+    D_8007C42C[i] = D_800A2A24;
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031828);
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031A5C);
 
 extern u16 D_8007C432;
 extern u16 D_8007C434;
