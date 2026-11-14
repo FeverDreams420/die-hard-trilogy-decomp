@@ -12911,7 +12911,15 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", init_ring_status);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StGetNext);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800750D8);
+extern s32 D_801FB85C;
+extern s32 D_801C1B88;
+extern s32 D_801F97D0;
+
+void func_800750D8(s32 arg0, s32 arg1, s32 arg2) {
+    D_801FB85C = arg0;
+    D_801C1B88 = arg1;
+    D_801F97D0 = arg2;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StCdInterrupt);
 
