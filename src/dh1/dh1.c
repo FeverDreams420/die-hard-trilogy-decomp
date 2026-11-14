@@ -7823,7 +7823,14 @@ int func_80050448(int handle) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800504B8);
+int func_800504B8(int handle) {
+    int voice = handle & 0xFF;
+
+    if (D_801C1F1A[voice].id == ((handle >> 8) & 0xFF)) {
+        return voice;
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800504F0);
 
