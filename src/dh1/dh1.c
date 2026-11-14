@@ -7768,7 +7768,11 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800504B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800504F0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050738);
+extern void SpuFree(s32 addr);
+
+void func_80050738(s32 arg0) {
+    SpuFree(arg0);
+}
 
 extern char D_801F97D4[];
 
