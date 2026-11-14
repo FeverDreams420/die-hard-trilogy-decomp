@@ -898,7 +898,14 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FDE4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FE30);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FE84);
+extern void *func_80022600(void *);
+
+void *func_8001FE84(s32 size) {
+    s32 old = (s32)D_800A33E4;
+
+    D_800A33E4 = func_80022600((void *)(size + old));
+    return (void *)old;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FEBC);
 
