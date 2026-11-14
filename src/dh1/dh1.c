@@ -7674,7 +7674,15 @@ void func_8004FFE0(int volume, int pan) {
     SpuSetCommonAttr(&attr);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050044);
+void func_80050044(void) {
+    SpuVoiceAttr attr;
+
+    attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+    attr.voice = 0xFFFFFF;
+    attr.volume.left = 0;
+    attr.volume.right = 0;
+    SpuSetVoiceAttr(&attr);
+}
 
 typedef struct {
     u8 id;
