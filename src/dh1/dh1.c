@@ -5575,7 +5575,9 @@ s32 func_8003E444(void *data, s16 i) {
     return ((Pack *)data)->entries[i].unk8;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E45C);
+s32 func_8003E45C(void *data, s16 i) {
+    return ((Pack *)data)->entries[i].unkC;
+}
 
 void func_8003E474(void) {
 }
