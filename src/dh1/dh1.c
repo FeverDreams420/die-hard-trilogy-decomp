@@ -11328,7 +11328,9 @@ void func_80067D08(s16 i) {
     D_801C1ED4[i] = -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067D28);
+void func_80067D28(s16 i) {
+    D_801C1ED4[i] = D_801C1ED4[i] == 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067D50);
 
