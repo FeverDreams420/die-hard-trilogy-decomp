@@ -9081,7 +9081,13 @@ void func_8005B0F0(Unk8005B554 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B144);
+void func_8005B144(Unk8005B554 *obj) {
+    if (obj->unkCE < 0x20) {
+        obj->unkCE = func_800437C8(obj->unkCE, 0x20, 8);
+    } else {
+        obj->unkCE = func_800437C8(obj->unkCE, 0x40, 2);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B198);
 
