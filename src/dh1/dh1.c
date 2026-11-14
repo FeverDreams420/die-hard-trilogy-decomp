@@ -4047,7 +4047,15 @@ void func_80031678(Unk800315B0 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800316CC);
+extern u8 D_8008011C[];
+
+void func_800316CC(Unk800315B0 *obj) {
+    obj->unk38 = D_8008011C;
+    if (obj->unk30 == 0) {
+        obj->unk50 = func_800437C8(obj->unk50, 0, 0x30);
+        obj->unk4C = func_800437C8(obj->unk4C, 0, 0x80);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031728);
 
