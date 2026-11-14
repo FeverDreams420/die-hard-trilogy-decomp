@@ -229,3 +229,10 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `-(x - K)` comes out as `li`/`subu` where the original has `addiu -K`/`negu` | Two statements: `x -= K; x = -x;` (0x80031ED0) |
 | `p + i + 1` adds the base first, then 8 | Write `p + (i + 1)` (0x80031ED0) |
 | Two pointers stepped together in a loop, one of them only for colours and `AddPrim` | Post-increment in the argument: `AddPrim(ot, line++);` (0x80031ED0) |
+| Running sum comes out as `addu v0,v1,v0` then `addiu v1,v0,1` | One expression, `sum = sum + *p++ + 1;`, not `+=` or a separate `sum++` (0x8006994C) |
+| `addu a0,a0,s0` (integer first) where pointer arithmetic gives `addu a0,s0,a0` | Hold the old pointer as an integer: `s32 old = (s32)G; f((void *)(size + old));` (0x8001FE84) |
+| Looked-up index should stay in `v0` as the return value | `if (match) return voice; return -1;` rather than assigning `-1` to the variable (0x800504B8) |
+| `sll 16`/`sra 16` at a call that passes a parameter straight on | The parameter is `s16`; an `s32` parameter passed to an `s16` callee gets no extension (0x8006B188) |
+| Global loaded again right after `G++` | Plain `G++; return G;` with a `u16` global already reloads; no `volatile` needed (0x8004FB10) |
+| Empty function that still makes a stack frame | An unused local array sized to the frame: `u8 unused[24];` (0x80055EE0) |
+| Load of the spawned task's data hoisted above the store of the task pointer | Read the data pointer through a cast, `*(T **)((u8 *)task + 0x1C)`, so it isn't a struct-field load (0x800411E4, as 0x80051960) |
