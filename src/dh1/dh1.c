@@ -9285,7 +9285,7 @@ typedef struct {
     s16 unk24;
 } Unk8005E478_Data;
 
-extern void func_80060A80(Unk8002A35C *, s16, s32);
+extern void func_80060A80(Unk8002A35C *, s16, s16);
 
 void func_8005E300(void) {
     Unk8005E478_Data *d = (Unk8005E478_Data *)D_800A317C->vals;
@@ -9726,7 +9726,63 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060370);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006057C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060A80);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 size[16];
+    s16 rotA[16];
+    s16 life[16];
+    s16 velX[16];
+    s16 velY[16];
+    s16 velZ[16];
+    s16 rotB[16];
+    s16 spin[16];
+    s16 unk108;
+    s16 pad10A;
+    s16 unk10C;
+    s16 pad10E[5];
+    s16 dx;
+    s16 pad11A;
+    s16 dz;
+    s16 pad11E;
+} Unk80060A80_Data;
+
+extern void func_8006057C();
+
+void func_80060A80(Unk8002A35C *pos, s16 angle, s16 speed) {
+    struct Task *t;
+    Unk80060A80_Data *d;
+    s16 i;
+
+    if (D_800A2F0C == 11) {
+        t = func_80021358(func_8006057C, 3, 0x120);
+    } else {
+        t = func_80021454(D_800A317C, func_8006057C, 3, 0x120);
+    }
+    if (t != NULL) {
+        d = (Unk80060A80_Data *)t->vals;
+        d->unk108 = 0;
+        d->unk10C = 0x140;
+        d->dx = (D_800854C0[angle & 0xFFF] * speed) >> 12;
+        d->dz = (D_800854C0[(u16)(angle + 0x400) & 0xFFF] * speed) >> 12;
+        d->x = pos->x;
+        d->y = pos->y;
+        d->z = pos->z;
+        i = 15;
+        do {
+            d->size[i] = func_8001E9DC(0x10) + 0x10;
+            d->rotA[i] = func_8001E9DC(0x1000);
+            d->rotB[i] = func_8001E9DC(0x1000);
+            d->spin[i] = func_8001E9DC(0x40) - 0x20;
+            d->life[i] = func_8001E9DC(4) + 6;
+            d->velX[i] = func_8001E9DC(0x40) - 0x20;
+            d->velY[i] = func_8001E9DC(0x30) + 0x20;
+            d->velZ[i] = func_8001E9DC(2) + 1;
+        } while (i--);
+    }
+}
 
 typedef struct {
     s16 next;
