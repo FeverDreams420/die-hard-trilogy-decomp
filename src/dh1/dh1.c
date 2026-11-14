@@ -10899,7 +10899,14 @@ void func_80061844(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061988);
+void func_80061988(void) {
+    Unk8003BA6C_Task *task;
+
+    task = func_80021264(func_80061844, 3, 0x298);
+    if (task != NULL) {
+        func_800615A0((Unk80061844 *)task->data);
+    }
+}
 
 typedef struct {
     s16 pad0[2];
