@@ -11955,7 +11955,11 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A72C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A920);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006AB40);
+void func_8006AB6C(void);
+
+void func_8006AB40(void) {
+    func_80021264(func_8006AB6C, 1, 0);
+}
 
 extern Unk80045164 *D_801FBDC8[];
 
