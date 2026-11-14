@@ -11526,7 +11526,17 @@ void func_80068540(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800685FC);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800688B4);
+typedef struct {
+    u8 pad0[0x3C];
+    s16 timer;
+} Unk800688DC;
+
+void func_800688DC(void);
+
+void func_800688B4(void) {
+    ((Unk800688DC *)D_800A317C->vals)->timer = 5;
+    D_800A317C->func = func_800688DC;
+}
 
 extern u8 D_800A2A48[];
 extern char D_800A2C10[];
@@ -11539,11 +11549,6 @@ extern void func_8006B188(s32);
 
 extern s16 D_800A34BC;
 extern void func_80052DB8(void);
-
-typedef struct {
-    u8 pad0[0x3C];
-    s16 timer;
-} Unk800688DC;
 
 void func_800688DC(void) {
     s16 *timer = &((Unk800688DC *)D_800A317C->vals)->timer;
