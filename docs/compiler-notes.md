@@ -224,3 +224,8 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `sra v1,v0,17` into a new register, not `v0` | `c >>= 1` on the `s16` variable, not a new `half` local (0x800550D8) |
 | Parameter used before a late `move` to a saved register | The early uses read the parameter and the later ones a copy: `s32 y2 = y;` after the other initializers (0x800550D8) |
 | Value kept out of `a0` before a call | Keep the stores in source order so the argument setup overlaps it: `tpage`, colours, then the call (0x8002F6C0) |
+| `* 2` of an `s16` call result comes out as `sll 16`/`sra 15` | Use `<< 1` (0x8005B1CC) |
+| A quotient lands in its own register and is then copied with `move` | Declare the quotient variable `s16` (`s16 frame = t / step;`) (0x80031C58) |
+| `-(x - K)` comes out as `li`/`subu` where the original has `addiu -K`/`negu` | Two statements: `x -= K; x = -x;` (0x80031ED0) |
+| `p + i + 1` adds the base first, then 8 | Write `p + (i + 1)` (0x80031ED0) |
+| Two pointers stepped together in a loop, one of them only for colours and `AddPrim` | Post-increment in the argument: `AddPrim(ot, line++);` (0x80031ED0) |
