@@ -1899,7 +1899,13 @@ void func_8002174C(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002182C);
+void func_8002182C(struct Task *task) {
+    struct Task *saved = D_800A317C;
+
+    D_800A317C = task;
+    task->func();
+    D_800A317C = saved;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002186C);
 
