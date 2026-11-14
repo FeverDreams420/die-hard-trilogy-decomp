@@ -1937,7 +1937,9 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002214C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800223C8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022424);
+s32 func_80022424(void) {
+    return 0;
+}
 
 typedef struct {
     u32 tag;
@@ -1962,7 +1964,7 @@ extern int CdRead(int sectors, u32 *buf, int mode);
 extern void SetTile(TILE *p);
 extern void DrawPrim(void *p);
 extern int CdReadSync(int mode, u8 *result);
-extern void func_80022424();
+extern s32 func_80022424();
 
 s32 func_8002242C(u32 *buf, char *name) {
     CdlFILE file;
