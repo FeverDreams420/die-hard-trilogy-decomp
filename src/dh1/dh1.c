@@ -3888,7 +3888,7 @@ extern s16 D_801C1F00;
 extern s16 D_801C1EDA;
 extern s16 func_8002501C(void *obj, void *model, s16 fade, s32 arg3, Anim *anim);
 extern void AddPrims(void *ot, void *p0, void *p1);
-extern void func_80031ED0(Unk80045164 *obj, void *model, s16 arg2);
+extern void func_80031ED0(SVECTOR *pos, SVECTOR *rot, s16 color);
 extern s16 func_800290D4(s16 a, s16 b);
 extern void func_800430AC(Obj *o, s32);
 
@@ -3904,7 +3904,7 @@ void func_80031320(Unk80045164 *obj) {
     }
     if (D_800A326C > 8 && n >= 8) {
         if (D_801C1F00 != 0) {
-            func_80031ED0(obj, &obj->model, obj->unk28);
+            func_80031ED0((SVECTOR *)obj, (SVECTOR *)&obj->model, obj->unk28);
         } else {
             ot = D_800A32E4 + D_800A326C;
             if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
@@ -4215,7 +4215,89 @@ s16 func_80031C58(Anim *anim) {
     return a - (wrap + func_800296F8(from, to, D_800A2EFC));
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031ED0);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 x1, y1;
+} LINE_F2;
+
+extern SVECTOR D_800A3194;
+extern SVECTOR D_800A349C;
+extern MATRIX D_801C0B64;
+extern VECTOR D_801C1EC4;
+extern MATRIX D_801FB868;
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void LoadAverageShort12(SVECTOR *v0, SVECTOR *v1, s32 p0, s32 p1, SVECTOR *v2);
+extern MATRIX *RotMatrix(SVECTOR *r, MATRIX *m);
+extern MATRIX *MulMatrix2(MATRIX *m0, MATRIX *m1);
+extern s32 RotTransPers(SVECTOR *v0, s32 *sxy, s32 *p, s32 *flag);
+extern void SetLineF2(LINE_F2 *p);
+
+void func_80031ED0(SVECTOR *pos, SVECTOR *rot, s16 color) {
+    LINE_F2 *line = D_800A3374;
+    u32 *ot;
+    s16 i;
+    s16 c;
+    u8 unused[0x48];
+
+    PushMatrix();
+    rot->vy = -rot->vy + 0x800;
+    LoadAverageShort12(pos, &D_800A3194, 0x1000, -0x1000, &D_800A349C);
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    RotMatrix(rot, &D_801FB868);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    rot->vy -= 0x800;
+    rot->vy = -rot->vy;
+    for (i = 0; i < 26; i += 2) {
+        D_800A326C = RotTransPers((SVECTOR *)D_800A351C + i, (s32 *)&line->x0, &D_800A2EFC, &D_800A3394) >> 1;
+        D_800A326C = ((RotTransPers((SVECTOR *)D_800A351C + (i + 1), (s32 *)&line->x1, &D_800A2EFC, &D_800A3394) >> 1) + D_800A326C) >> 1;
+        if (D_800A326C > D_800A2A22) {
+            c = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+            if (c > 0x7F) {
+                c = 0x7F;
+            }
+        } else {
+            c = 0x7F;
+        }
+        if (c > 0) {
+            c <<= 1;
+            SetLineF2(line);
+            switch (color) {
+            case 0:
+                line->r0 = c;
+                line->g0 = c;
+                line->b0 = c;
+                break;
+            case 4:
+                line->r0 = 0;
+                line->g0 = 0;
+                line->b0 = c;
+                break;
+            case 20:
+                line->r0 = c;
+                line->g0 = c;
+                line->b0 = 0;
+                break;
+            default:
+                line->r0 = c;
+                line->g0 = 0;
+                line->b0 = 0;
+                break;
+            }
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, line++);
+            }
+        }
+    }
+    D_800A3374 = line;
+    PopMatrix();
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003219C);
 
@@ -5142,7 +5224,7 @@ void func_8003BC64(void) {
         part.anim.time = m[0] - m[2];
         if (func_8002501C(&obj->pos[i], &part, 0xFFF, 0, &part.anim) >= 8 && D_800A326C > 8) {
             if (D_801C1F00 != 0) {
-                func_80031ED0((Unk80045164 *)&obj->pos[i], &part, 0x14);
+                func_80031ED0((SVECTOR *)&obj->pos[i], (SVECTOR *)&part, 0x14);
             } else {
                 u32 *ot = D_800A32E4 + D_800A326C;
                 if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
