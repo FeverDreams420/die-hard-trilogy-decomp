@@ -11574,7 +11574,7 @@ extern void StopPAD(void);
 extern void func_8001FDE4(void);
 extern void func_800206CC(void);
 extern void func_80076F04(void);
-extern void func_8006B188(s32);
+extern void func_8006B188(s16);
 
 extern s16 D_800A34BC;
 extern void func_80052DB8(void);
@@ -12205,7 +12205,12 @@ void func_8006B07C(s16 next) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B188);
+extern void func_8006B3E0(s32);
+
+void func_8006B188(s16 arg0) {
+    func_8006B3E0(0x801FFF00);
+    func_8006B07C(arg0);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", start);
 
