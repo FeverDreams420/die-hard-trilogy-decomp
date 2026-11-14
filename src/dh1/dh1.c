@@ -8609,7 +8609,18 @@ void func_8005506C(Unk8005506C *obj) {
     obj->unk34 = 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055074);
+typedef struct {
+    u8 pad0[0x18];
+    s32 unk18;
+} Unk80055074;
+
+extern s32 D_800A8034[];
+extern void func_80054FEC();
+
+void func_80055074(Unk80055074 *obj, s16 i) {
+    obj->unk18 = D_800A8034[i];
+    func_80054FEC(obj);
+}
 
 void func_800550A8(Unk8005506C *obj) {
     obj->unk3E = -1;
