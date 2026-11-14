@@ -4104,7 +4104,14 @@ void func_80031804(s16 i) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031828);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031A5C);
+void func_80031A5C(Unk80031AB8 *obj) {
+    u16 *e = (u16 *)D_800A353C[obj->anim.id].p;
+
+    if (obj->unk30 == 0) {
+        obj->unk2E = 200;
+        func_80024DA8(&obj->anim, 0x12, e[10], 0xB8, 1);
+    }
+}
 
 extern u16 D_8007C432;
 extern u16 D_8007C434;
