@@ -5567,7 +5567,9 @@ void *func_8003E414(void *data, s16 i) {
     return (u8 *)pack + pack->entries[i].offset;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E42C);
+u32 func_8003E42C(void *data, s16 i) {
+    return ((Pack *)data)->entries[i].unk4;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E444);
 
@@ -5648,7 +5650,7 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EA9C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EAE0);
 
-extern u32 func_8003E42C(void *, s32);
+extern u32 func_8003E42C(void *, s16);
 
 void func_8003EEA8(void *file) {
     Unk80043CC4 *node;
