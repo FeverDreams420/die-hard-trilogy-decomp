@@ -9284,7 +9284,74 @@ void func_8005C2E8(Unk8005B554 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005C38C);
+extern s16 D_800A311C;
+extern void func_8005B1CC(Unk8005B554 *obj);
+extern void func_8005B210(Unk8005B554 *obj);
+extern void func_8005B488(Unk8005B554 *obj);
+
+void func_8005C38C(Unk8005B554 *obj) {
+    u16 *e = (u16 *)D_800A353C[obj->unk66].p;
+    s32 params[6];
+
+    switch (obj->unk114.unk6) {
+    case 0:
+        if (e[10] < obj->unk70) {
+            params[0] = 0x21;
+            params[1] = 0x800;
+            params[2] = -0x400;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_80056ADC((SVECTOR *)obj, 1);
+            obj->unk114.unk6 = 1;
+        }
+        break;
+    case 1:
+        if (obj->unk70 < e[10]) {
+            params[0] = 0x21;
+            params[1] = 0x800;
+            params[2] = 0x400;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_80056ADC((SVECTOR *)obj, 1);
+            obj->unk114.unk6 = 0;
+        }
+        break;
+    }
+    func_8005B6AC(obj);
+    if (obj->unk2C == 7) {
+        return;
+    }
+    if (D_800A343C[0] & 0x10) {
+        func_8005B34C(obj);
+    } else if (D_800A32AC[0] & 1) {
+        func_8005B4E8(obj);
+    } else if (D_800A32AC[0] & 2) {
+        func_8005B554(obj);
+    } else if (D_800A32AC[0] & 0x1000) {
+        func_8005B1CC(obj);
+        D_800A311C = 0x80;
+    } else if (D_800A32AC[0] & 0x4000) {
+        func_8005B210(obj);
+        D_800A311C = -0x40;
+    } else if (!(D_800A32AC[0] & 8) && (D_800A32AC[0] & 4)) {
+        func_8005B428(obj);
+    } else if (!(D_800A32AC[0] & 4) && (D_800A32AC[0] & 8)) {
+        func_8005B488(obj);
+    } else {
+        func_8005B250(obj);
+    }
+    if (D_800A32AC[0] & 0x8000) {
+        func_8005B0F0(obj);
+    } else if (D_800A32AC[0] & 0x2000) {
+        func_8005B144(obj);
+    } else {
+        func_8005B198(obj);
+    }
+}
 
 void func_8005C658(Unk8005B554 *obj) {
     if (D_800A32AC[0] & 0x8000) {
