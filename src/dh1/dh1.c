@@ -4140,7 +4140,8 @@ typedef struct {
     s32 unk18;
     s32 pad1C;
     s32 unk20;
-    u8 pad24[8];
+    u8 pad24[6];
+    s16 unk2A;
     s16 unk2C;
     s16 unk2E;
     s16 unk30;
@@ -4223,7 +4224,35 @@ void func_80033490(Unk80033490 *obj, s16 model, s16 kind) {
     obj->unk86 = obj->unkA;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800335F0);
+typedef struct {
+    char pad0[0xA];
+    s16 unkA;
+    char padC[4];
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    char pad16[0x14];
+    s16 unk2A;
+    s16 unk2C;
+    s16 unk2E;
+} Unk80041178;
+
+typedef struct {
+    s16 id;
+    s16 pad2;
+    Unk80041178 *obj;
+} Unk80041178Entry;
+
+typedef struct {
+    s16 count;
+    s16 pad2;
+    Unk80041178Entry entries[1];
+} Unk80041178List;
+
+extern struct {
+    char pad0[0x1C];
+    Unk80041178List *list;
+} *D_801F7D28;
 
 typedef struct {
     u8 pad0[0xA];
@@ -4241,6 +4270,95 @@ typedef struct {
     s16 timer;
     Unk80033820_Obj *obj;
 } Unk80033820;
+
+extern s16 func_80050974(SVECTOR *pos, s32 arg1);
+extern s16 func_800508F0(SVECTOR *pos);
+extern s32 func_8004FB78(s32 *params);
+extern void func_80033820(void);
+
+void func_800335F0(Unk80033490 *obj, s16 speed) {
+    Unk80041178List *list = D_801F7D28->list;
+    Unk8003BA6C_Task *task;
+    Unk80033820 *data;
+    Unk8002A35C *target;
+    s32 params[6];
+    SVECTOR unused;
+    s32 best;
+    s32 dist;
+    s16 i;
+    s16 nearest;
+    s16 dx;
+    s16 dz;
+
+    if (obj->unk2C == 1 || obj->unk2C == 5 || obj->unk2A == 0) {
+        return;
+    }
+    params[0] = 0x1D;
+    params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+    params[2] = func_800508F0((SVECTOR *)obj) * 4;
+    params[3] = 0x580;
+    params[4] = 0;
+    params[5] = 0;
+    func_8004FB78(params);
+    task = func_80021264(func_80033820, 1, 0xC);
+    if (task == NULL) {
+        return;
+    }
+    data = (Unk80033820 *)task->data;
+    data->speed = speed;
+    data->dir = obj->unk2E;
+    data->count = 50;
+    data->obj = (Unk80033820_Obj *)obj;
+    data->timer = obj->unk30;
+    obj->unk2C = 1;
+    best = 0x7FFFFFFF;
+    nearest = 0;
+    for (i = 0; i < list->count; i++) {
+        dist = func_8002A35C((Unk8002A35C *)list->entries[i].obj, (Unk8002A35C *)obj);
+        if (dist < best) {
+            best = dist;
+            nearest = i;
+        }
+    }
+    target = (Unk8002A35C *)list->entries[nearest].obj;
+    dx = obj->unk0 - target->x;
+    dz = obj->unk4 - target->z;
+    data->timer = 0x400;
+    switch (obj->unkA >> 10) {
+    case 0:
+        if (dz > 0) {
+            data->dir = 0;
+        }
+        if (dz < 0) {
+            data->dir = 1;
+        }
+        break;
+    case 1:
+        if (dx > 0) {
+            data->dir = 0;
+        }
+        if (dx < 0) {
+            data->dir = 1;
+        }
+        break;
+    case 2:
+        if (dz > 0) {
+            data->dir = 1;
+        }
+        if (dz < 0) {
+            data->dir = 0;
+        }
+        break;
+    case 3:
+        if (dx > 0) {
+            data->dir = 1;
+        }
+        if (dx < 0) {
+            data->dir = 0;
+        }
+        break;
+    }
+}
 
 void func_80033820(void) {
     Unk80033820 *data = (Unk80033820 *)D_800A317C->vals;
@@ -4532,9 +4650,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80037D64);
 
 extern void func_8004ACD4(SVECTOR *pos);
 extern void func_80056ADC(SVECTOR *v, s16 arg1);
-extern s16 func_80050974(SVECTOR *pos, s32 arg1);
-extern s16 func_800508F0(SVECTOR *pos);
-extern s32 func_8004FB78(s32 *params);
 
 void func_80038554(SVECTOR *pos) {
     s32 params[6];
@@ -5556,36 +5671,6 @@ void func_80040FF4(SVECTOR **v, u8 shade) {
         }
     }
 }
-
-typedef struct {
-    char pad0[0xA];
-    s16 unkA;
-    char padC[4];
-    s16 unk10;
-    s16 unk12;
-    s16 unk14;
-    char pad16[0x14];
-    s16 unk2A;
-    s16 unk2C;
-    s16 unk2E;
-} Unk80041178;
-
-typedef struct {
-    s16 id;
-    s16 pad2;
-    Unk80041178 *obj;
-} Unk80041178Entry;
-
-typedef struct {
-    s16 count;
-    s16 pad2;
-    Unk80041178Entry entries[1];
-} Unk80041178List;
-
-extern struct {
-    char pad0[0x1C];
-    Unk80041178List *list;
-} *D_801F7D28;
 
 typedef struct {
     char pad0[0x12];
