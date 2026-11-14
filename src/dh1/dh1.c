@@ -11859,7 +11859,15 @@ void func_80069728(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800697C0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006994C);
+u8 func_8006994C(u8 *data, s32 len) {
+    s32 sum = 5;
+
+    while (len != 0) {
+        sum = sum + *data++ + 1;
+        len--;
+    }
+    return sum;
+}
 
 u8 func_8006994C(u8 *data, s32 len);
 
