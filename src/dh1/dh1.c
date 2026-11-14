@@ -9380,7 +9380,73 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D1B4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D610);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D780);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8 pad6[0x8E];
+    s16 unk94;
+    s16 unk96;
+    s16 unk98;
+    s16 pad9A[2];
+    s16 unk9E;
+} Unk8005D780;
+
+s16 func_8005D780(Unk8005D780 *obj) {
+    MATRIX unused;
+    SVECTOR v[4];
+    s32 tmp[2];
+    s32 c;
+    s32 s;
+    s32 dx;
+    s32 dz;
+    s16 h0;
+    s16 h1;
+    s16 h2;
+    s16 h3;
+    s16 best;
+    s16 d0;
+    s16 d1;
+    s16 d2;
+    s16 d3;
+
+    c = D_800854C0[(obj->unk9E + 0x400) & 0xFFF] * 100;
+    s = D_800854C0[(obj->unk9E + 0x800) & 0xFFF] * 100;
+    v[0].vy = v[1].vy = v[2].vy = v[3].vy = obj->y;
+    dx = (c + s) >> 12;
+    dz = (s - c) >> 12;
+    v[0].vx = obj->unk94 - dx;
+    v[0].vz = obj->unk98 - dz;
+    v[2].vx = obj->unk94 + dx;
+    v[2].vz = obj->unk98 + dz;
+    dx = (c - s) >> 12;
+    dz = (c + s) >> 12;
+    v[1].vx = obj->unk94 - dx;
+    v[1].vz = obj->unk98 - dz;
+    v[3].vx = obj->unk94 + dx;
+    v[3].vz = obj->unk98 + dz;
+    h0 = func_80023E80(&v[0], tmp, tmp);
+    h1 = func_80023E80(&v[1], tmp, tmp);
+    h2 = func_80023E80(&v[2], tmp, tmp);
+    h3 = func_80023E80(&v[3], tmp, tmp);
+    d0 = obj->y - h0;
+    d1 = obj->y - h1;
+    d2 = obj->y - h2;
+    d3 = obj->y - h3;
+    best = h0;
+    if (ABS(d0) > ABS(d1)) {
+        best = h1;
+        d0 = d1;
+    }
+    if (ABS(d0) > ABS(d2)) {
+        best = h2;
+        d0 = d2;
+    }
+    if (ABS(d0) > ABS(d3)) {
+        best = h3;
+    }
+    return best;
+}
 
 extern char *strcpy(char *dst, const char *src);
 
