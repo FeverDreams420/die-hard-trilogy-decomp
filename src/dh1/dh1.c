@@ -4995,7 +4995,12 @@ void func_8003955C(Unk80045164 *obj) {
     func_80024EF0(&obj->anim);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039584);
+void func_80039584(Unk80045164 *obj) {
+    func_80031200((Unk80031200 *)obj);
+    func_80024EF0(&obj->anim);
+    func_8003146C((Unk8003146C *)obj);
+    func_80031320(obj);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800395C0);
 
