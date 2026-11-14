@@ -2018,7 +2018,12 @@ s32 func_8002242C(u32 *buf, char *name) {
     return file.size;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022600);
+void *func_80022600(void *p) {
+    u32 v = (u32)p;
+    v += 3;
+    v &= ~3;
+    return (void *)v;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022610);
 
