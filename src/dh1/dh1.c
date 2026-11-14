@@ -1594,7 +1594,24 @@ s32 func_80020380(s16 track) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020468);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800204C0);
+typedef struct {
+    u8 val0;
+    u8 val1;
+    u8 val2;
+    u8 val3;
+} CdlATV;
+
+extern int CdMix(CdlATV *vol);
+
+void func_800204C0(s32 vol) {
+    CdlATV atv;
+
+    atv.val0 = vol;
+    atv.val1 = vol;
+    atv.val2 = 0;
+    atv.val3 = 0;
+    CdMix(&atv);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800204F0);
 
