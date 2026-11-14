@@ -6880,10 +6880,12 @@ void func_80049744(Obj80047314 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80049820);
-
 extern s32 D_801D2068[];
 extern s32 D_801D206C;
+
+void func_80049820(u32 arg0) {
+    D_801D2068[1] += arg0;
+}
 
 void func_8004983C(void) {
     s32 step;
