@@ -4301,7 +4301,64 @@ void func_80031ED0(SVECTOR *pos, SVECTOR *rot, s16 color) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003219C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032344);
+typedef struct {
+    u8 pad0[0x12];
+    u16 flags;
+} Unk80032344_Face;
+
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    VECTOR scale;
+    u8 *data;
+} Unk80032344;
+
+extern s16 D_800A3224;
+extern void (*D_8007FF9C[])(Unk80032344_Face *f);
+extern void (*D_8008001C[])(Unk80032344_Face *f);
+extern void func_80022D60(Unk80032344_Face *f);
+
+s32 func_80032344(Unk80032344 *obj, s16 mode) {
+    Unk80032344_Face *f = (Unk80032344_Face *)(obj->data + 8);
+    s16 xy[2];
+
+    PushMatrix();
+    LoadAverageShort12(&obj->pos, &D_800A3194, 0x1000, -0x1000, &D_800A349C);
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    RotMatrix(&obj->rot, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &obj->scale);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    if (mode != 2 || D_800A3224 == 0) {
+        D_800A326C = RotTransPers((SVECTOR *)&D_800A2A10, (s32 *)xy, &D_800A2EFC, &D_800A3394) >> 1;
+        if ((u32)(D_800A326C - 0x20) >= 0x960 || (u16)(xy[0] + 0x8C) >= 0x259 || (u16)(xy[1] + 0x50) >= 0x245) {
+            PopMatrix();
+            return 0;
+        }
+    }
+    switch (mode) {
+    case 0:
+        do {
+            D_8008001C[f->flags & 0x1F](f);
+        } while (!((f++)->flags & 0x80));
+        break;
+    case 1:
+        do {
+            D_8007FF9C[f->flags & 0x1F](f);
+        } while (!((f++)->flags & 0x80));
+        break;
+    case 2:
+        do {
+            func_80022D60(f);
+        } while (!((f++)->flags & 0x80));
+        break;
+    }
+    D_800A3224 = 0;
+    PopMatrix();
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800325DC);
 
