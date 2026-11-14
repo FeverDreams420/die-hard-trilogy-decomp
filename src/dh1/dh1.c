@@ -8556,7 +8556,12 @@ void func_800550A8(Unk8005506C *obj) {
     obj->unk3E = -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800550B4);
+extern s16 D_800A356C;
+
+void func_800550B4(Unk8005506C *obj) {
+    obj->unk3E = -1;
+    D_800A356C = 2;
+}
 
 void func_800550D0(void) {
 }
