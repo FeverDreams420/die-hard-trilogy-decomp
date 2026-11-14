@@ -813,7 +813,7 @@ extern void *D_800A3374;
 extern u32 *D_800A32E4;
 extern void DrawOTag(u32 *ot);
 extern u32 *ClearOTagR(u32 *ot, s32 n);
-extern void func_8004FB10(void);
+extern u16 func_8004FB10(void);
 extern s32 func_8006B350(unsigned long spec);
 extern DISPENV *PutDispEnv(DISPENV *env);
 extern DRAWENV *PutDrawEnv(DRAWENV *env);
@@ -7646,7 +7646,12 @@ void func_8004FA1C(SVECTOR *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB10);
+extern u16 D_800A33DC;
+
+u16 func_8004FB10(void) {
+    D_800A33DC++;
+    return D_800A33DC;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB38);
 
