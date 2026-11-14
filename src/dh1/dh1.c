@@ -8727,7 +8727,9 @@ void func_80055D9C(void) {
     PutDrawEnv(&D_800A8078[D_800A333C].draw);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055EE0);
+void func_80055EE0(void) {
+    u8 unused[24];
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055EEC);
 
