@@ -5765,7 +5765,17 @@ void func_8003E970(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EA9C);
+extern u16 *D_800A3004;
+extern u16 *D_800A2F5C;
+extern u16 D_800A79FE;
+
+void func_8003EA9C(void *file) {
+    u16 *p;
+
+    D_800A3004 = p = func_8003E414(file, 0);
+    D_800A2F5C = p + 3;
+    D_800A79FE = *p;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003EAE0);
 
