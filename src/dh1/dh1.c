@@ -7157,7 +7157,12 @@ s16 func_8004BE4C(void *item) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004BED8);
+void func_8004BED8(s16 i) {
+    SlotTable *table = D_801F7D80->table;
+
+    table->slots[i] = 0;
+    table->count--;
+}
 
 s32 func_8004BF0C(Unk8002A35C *pos) {
     SlotTable *table = D_801F7D80->table;
