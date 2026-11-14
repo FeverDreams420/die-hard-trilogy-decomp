@@ -8143,6 +8143,8 @@ typedef struct {
     u8 pad2C[8];
     s32 unk34;
     s32 unk38;
+    u8 pad3C[0x10];
+    s32 unk4C;
 } Unk8005286C;
 
 extern struct {
@@ -8221,7 +8223,10 @@ void func_8005286C(void) {
     p->unk38 = 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052910);
+s32 func_80052910(void) {
+    D_801F7D64->unk1C->unk4C = -1;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052930);
 
