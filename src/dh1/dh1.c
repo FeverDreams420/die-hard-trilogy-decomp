@@ -6167,7 +6167,13 @@ int func_800436E4(SVECTOR *pos, s16 arg1) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043770);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004379C);
+void func_8004379C(short id, SVECTOR *out) {
+    Unk80043CC4 *node = &D_800A3084[id];
+
+    out->vx = node->x;
+    out->vy = 0;
+    out->vz = node->z;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800437C8);
 
