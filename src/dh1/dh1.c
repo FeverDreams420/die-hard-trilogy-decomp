@@ -2426,7 +2426,9 @@ s16 func_80024EF0(Anim *anim) {
     return ret;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024FFC);
+s32 func_80024FFC(s16 a, s16 b) {
+    return (a + b - 0x100) >> 5;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002501C);
 
