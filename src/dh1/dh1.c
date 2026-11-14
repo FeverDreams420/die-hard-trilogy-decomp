@@ -4157,7 +4157,63 @@ void func_80031AB8(Unk80031AB8 *obj) {
     obj->unkC6 = -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031C58);
+typedef struct {
+    SVECTOR v[27];
+} AnimFrame;
+
+typedef struct {
+    s32 len;
+    s32 count;
+    u32 step;
+    s32 scale;
+    s32 unk10;
+    s32 unk14;
+    AnimFrame frames[1];
+} AnimInfo;
+
+s16 func_80031C58(Anim *anim) {
+    AnimInfo *info = (AnimInfo *)D_800A353C[anim->id].p;
+    s16 t;
+    s16 len;
+    s16 frame;
+    s16 from;
+    s16 to;
+    s16 a;
+    s16 wrap;
+
+    t = ABS((s32)(anim->time % info->len));
+    frame = t / info->step;
+    D_800A2EFC = (t % info->step) * info->scale >> 12;
+    if (frame == 0) {
+        from = 0;
+        to = info->frames[0].v[26].vz;
+    } else {
+        from = info->frames[frame - 1].v[26].vz;
+        to = info->frames[frame].v[26].vz;
+    }
+    a = func_800296F8(from, to, D_800A2EFC);
+    t = anim->time + anim->unk6;
+    len = info->len;
+    if (t > len) {
+        wrap = info->frames[info->count - 1].v[26].vz;
+        t = t - len;
+    } else if (t < 0) {
+        wrap = -info->frames[info->count - 1].v[26].vz;
+        t = len + t;
+    } else {
+        wrap = 0;
+    }
+    frame = t / info->step;
+    D_800A2EFC = (t % info->step) * info->scale >> 12;
+    if (frame == 0) {
+        from = 0;
+        to = info->frames[0].v[26].vz;
+    } else {
+        from = info->frames[frame - 1].v[26].vz;
+        to = info->frames[frame].v[26].vz;
+    }
+    return a - (wrap + func_800296F8(from, to, D_800A2EFC));
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031ED0);
 
@@ -6295,7 +6351,6 @@ typedef struct {
     s16 unkD4;
 } Unk80045EF4;
 
-extern s16 func_80031C58(u8 *anim);
 extern void func_80039518(Unk80045EF4 *obj);
 extern s16 func_80024EF0(Anim *anim);
 
@@ -6306,7 +6361,7 @@ s16 func_80045EF4(Unk80045EF4 *obj, s32 speed) {
         obj->anim.unk6 = 0xA4;
         obj->unk4C = 0;
         obj->unk4E = 0;
-        obj->unk50 = func_80031C58((u8 *)&obj->anim);
+        obj->unk50 = func_80031C58(&obj->anim);
         func_80039518(obj);
         obj->pos.x += obj->unk3C;
         obj->pos.y += obj->unk40;
@@ -9149,15 +9204,14 @@ void func_8005B198(Unk8005B554 *obj) {
 
 void func_8005B1CC(Unk8005B554 *obj) {
     obj->unk6A = func_800437C8(obj->unk6A, 200, 24);
-    obj->unk50 = func_80031C58(obj->unk64) << 1;
+    obj->unk50 = func_80031C58((Anim *)obj->unk64) << 1;
 }
 
 void func_8005B210(Unk8005B554 *obj) {
     obj->unk6A = func_800437C8(obj->unk6A, -200, 24);
-    obj->unk50 = func_80031C58(obj->unk64);
+    obj->unk50 = func_80031C58((Anim *)obj->unk64);
 }
 
-extern s16 func_80031C58(u8 *anim);
 
 void func_8005B250(Unk8005B554 *obj) {
     Unk8005B554_114 *p = &obj->unk114;
@@ -9165,7 +9219,7 @@ void func_8005B250(Unk8005B554 *obj) {
     if (obj->unk6A != 0) {
         obj->unk6A = func_800437C8(obj->unk6A, 0, 24);
     }
-    obj->unk50 = func_80031C58(obj->unk64);
+    obj->unk50 = func_80031C58((Anim *)obj->unk64);
     if (obj->unk4C > 0) {
         obj->unk4C -= 8;
         if (obj->unk4C < 0) {
@@ -10419,7 +10473,7 @@ void func_800616AC(Unk80061844 *obj) {
     saved = obj->v1E8.vz;
     if (saved > 0) {
         if (obj->anim.unk16 == 0) {
-            obj->v1E8.vz = func_80031C58((u8 *)&obj->anim);
+            obj->v1E8.vz = func_80031C58(&obj->anim);
         }
         func_80043E14(&obj->model.rot, &obj->v1E8, (SVECTOR *)obj, (SVECTOR *)obj);
     } else {
