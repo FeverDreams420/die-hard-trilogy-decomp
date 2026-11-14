@@ -10503,7 +10503,10 @@ void func_80060200(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060348);
+void func_80060348(void) {
+    ((Unk80060200 *)D_800A317C->vals)->unk32 = 0;
+    D_800A317C->func = func_80060200;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060370);
 
