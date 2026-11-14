@@ -4872,7 +4872,9 @@ void func_80036918(Unk80036918 *p, s16 type, s16 flag) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800369B8);
+void func_800369B8(void *arg0, void *arg1, Unk800584A4 *self) {
+    func_80032344((Unk80032344 *)&D_800A3564[self->unkA], 1);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800369FC);
 
