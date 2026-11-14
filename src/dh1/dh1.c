@@ -4973,7 +4973,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800394B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039518);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003955C);
+void func_8003955C(Unk80045164 *obj) {
+    obj->anim.unk6 = 0xA4;
+    func_80024EF0(&obj->anim);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039584);
 
