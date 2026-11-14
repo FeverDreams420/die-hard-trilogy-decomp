@@ -1637,7 +1637,14 @@ void func_800204C0(s32 vol) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800204F0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800206CC);
+extern void FlushCache(void);
+
+void func_800206CC(void) {
+    DrawSync(0);
+    func_8006B3C0();
+    FlushCache();
+    func_8006B3D0();
+}
 
 extern s16 D_801C1EEE;
 extern volatile u16 D_800A343C[];
