@@ -3706,7 +3706,25 @@ void func_800757A8(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     out->vz = base->vz + tmp.vz;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007583C);
+extern SVECTOR D_800B6E90;
+extern SVECTOR D_800B6BB0;
+extern SVECTOR D_800B72C0;
+extern MATRIX D_80169F78;
+extern VECTOR D_801C9980;
+extern void SetRotMatrix(MATRIX *m);
+extern void SetTransMatrix(MATRIX *m);
+extern MATRIX *func_80085EA0(MATRIX *m, VECTOR *v);
+
+void func_8007583C(void) {
+    D_800B72C0.vx = -D_800B6BB0.vx;
+    D_800B72C0.vy = -D_800B6BB0.vy;
+    D_800B72C0.vz = -D_800B6BB0.vz;
+    func_80075578(&D_800B6E90, &D_80169F78);
+    ApplyMatrix(&D_80169F78, &D_800B72C0, &D_801C9980);
+    func_80085EA0(&D_80169F78, &D_801C9980);
+    SetRotMatrix(&D_80169F78);
+    SetTransMatrix(&D_80169F78);
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B678C);
 
