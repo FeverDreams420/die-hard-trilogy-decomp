@@ -3512,7 +3512,14 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007112C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071174);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071680);
+extern s16 D_800B6EB8;
+extern s16 D_800B7170;
+extern void func_800717CC(s32, s16);
+
+void func_80071680(s32 arg0) {
+    D_800B6EB8 = -1;
+    func_800717CC(arg0, D_800B7170);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800716B4);
 
