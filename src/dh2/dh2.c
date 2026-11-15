@@ -2251,7 +2251,14 @@ void func_8003DD54(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DDA0);
+void func_8003DDA0(void) {
+    u8 result[8];
+
+    if (D_800B7238 == 1) {
+        CdControlB(3, 0, result);
+        D_800B7238 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DDE0);
 
