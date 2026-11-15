@@ -3989,7 +3989,7 @@ extern struct {
     u8 pad1782[0x2];
     s16 unk1784;
     s16 unk1786;
-    u8 pad1788[0x2];
+    s16 unk1788;
     s16 unk178A;
     s16 unk178C;
 } *D_800A350C;
@@ -10697,7 +10697,69 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80059DB8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A22C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A42C);
+typedef struct {
+    SVECTOR pos;
+    SVECTOR vel[16];
+    SVECTOR out[16];
+    s16 angle[16];
+    s16 unk128[16];
+    s16 unk148;
+    u8 unk14A[16];
+    u8 pad15A[0x10];
+    s16 unk16A;
+    s16 unk16C;
+} Unk8005A42C;
+
+extern SVECTOR D_800A2B50;
+extern void func_8005A670();
+
+void func_8005A42C(SVECTOR *pos, s32 arg1, s16 arg2) {
+    s32 y;
+    SVECTOR v = D_800A2B50;
+    Unk8005A42C *d;
+    Unk8003BA6C_Task *task;
+    s16 n;
+    s16 i;
+
+    y = arg1;
+    n = func_800296F8(0, arg2, D_800A350C->unk1788);
+    if (n == 0) {
+        return;
+    }
+    task = func_80021264(func_8005A670, 3, 0x16E);
+    if (task == NULL) {
+        return;
+    }
+    d = (Unk8005A42C *)task->data;
+    d->unk16C = func_800296F8(4, 0x10, n);
+    d->unk148 = func_800296F8(30, 100, n);
+    d->unk16A = 0x1000;
+    d->pos.vx = pos->vx;
+    d->pos.vy = pos->vy;
+    d->pos.vz = pos->vz;
+    d->unk16C = 1;
+    i = 15;
+    PushMatrix();
+    do {
+        D_800A34B4.vx = func_8001E9DC(0x1000);
+        D_800A34B4.vy = func_8001E9DC(0x1000);
+        D_800A34B4.vz = func_8001E9DC(0x1000);
+        func_80043E14(&D_800A34B4, &v, (SVECTOR *)&D_800A2A10, &d->out[i]);
+        d->out[i].vx >>= 1;
+        d->out[i].vz >>= 1;
+        d->vel[i].vx = func_8001E9DC(15) - 7;
+        d->vel[i].vy = func_8001E9DC(15) - 7 + y;
+        d->vel[i].vz = func_8001E9DC(15) - 7;
+        d->angle[i] = func_8001E9DC(0x1000);
+        d->unk128[i] = func_800296F8((s16)(func_8001E9DC(0x300) - 0x180), 0, n);
+        if ((s16)func_8001E9DC(2)) {
+            d->unk14A[i] = 8;
+        } else {
+            d->unk14A[i] = 9;
+        }
+    } while (i--);
+    PopMatrix();
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A670);
 
