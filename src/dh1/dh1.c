@@ -2390,16 +2390,54 @@ void func_800241BC(s16 *a, s16 *b, s16 t, s16 *out) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024240);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800245B8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800247D4);
-
 typedef struct {
     int *p;
     int pad[3];
 } Entry16;
 
 extern Entry16 *D_800A353C;
+
+typedef struct {
+    s16 v[27][4];
+} Unk800245B8_Frame;
+
+typedef struct {
+    s32 unk0;
+    u16 count;
+    u8 pad6[0x12];
+    Unk800245B8_Frame frames[1];
+} Unk800245B8;
+
+void func_800245B8(s16 idx) {
+    Unk800245B8 *anim = (Unk800245B8 *)D_800A353C[idx].p;
+    Unk800245B8_Frame *f;
+    s16 tmp[4];
+    s16 n = anim->count;
+
+    while (n--) {
+        f = &anim->frames[n];
+        func_800241BC(f->v[4], f->v[5], 0x800, tmp);
+        func_800241BC(f->v[4], tmp, 0x100, f->v[4]);
+        func_800241BC(f->v[5], tmp, 0x400, f->v[5]);
+        func_800241BC(f->v[6], f->v[7], 0x800, tmp);
+        func_800241BC(f->v[6], tmp, 0x400, f->v[6]);
+        func_800241BC(f->v[7], tmp, 0x400, f->v[7]);
+        func_800241BC(f->v[8], f->v[9], 0x800, tmp);
+        func_800241BC(f->v[8], tmp, 0x100, f->v[8]);
+        func_800241BC(f->v[9], tmp, 0x400, f->v[9]);
+        func_800241BC(f->v[10], f->v[11], 0x800, tmp);
+        func_800241BC(f->v[10], tmp, 0x400, f->v[10]);
+        func_800241BC(f->v[11], tmp, 0x400, f->v[11]);
+        func_800241BC(f->v[4], f->v[8], 0x800, tmp);
+        func_800241BC(f->v[4], tmp, -0x7D0, f->v[4]);
+        func_800241BC(f->v[8], tmp, -0x7D0, f->v[8]);
+        func_800241BC(f->v[14], f->v[15], -0x200, f->v[14]);
+        func_800241BC(f->v[20], f->v[21], -0x200, f->v[20]);
+    }
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800247D4);
+
 extern void *D_800A351C;
 extern void *D_800A310C;
 extern u8 D_801FB888[];
