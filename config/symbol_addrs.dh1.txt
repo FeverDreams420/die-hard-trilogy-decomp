@@ -655,3 +655,34 @@ SPRINTF_OBJ_770 = 0x8007A5C8; // type:func
 SPRINTF_OBJ_804 = 0x8007A65C; // type:func
 strlen = 0x8007A6B4; // type:func
 memchr = 0x8007A6D4; // type:func
+
+// Rodata that splat would otherwise move into a function's .s file. Kept as
+// INCLUDE_RODATA symbols so every rodata item in dh1.c is a line that can sit
+// next to the function that owns it (jump tables must land right after theirs).
+D_8007C254 = 0x8007C254; // force_not_migration:True
+D_800A29FC = 0x800A29FC; // force_not_migration:True
+D_800A2B3C = 0x800A2B3C; // force_not_migration:True
+D_800A2B5C = 0x800A2B5C; // force_not_migration:True
+D_800A2B9C = 0x800A2B9C; // force_not_migration:True
+D_800A2BE0 = 0x800A2BE0; // force_not_migration:True
+D_800A2BE8 = 0x800A2BE8; // force_not_migration:True
+D_800A2C44 = 0x800A2C44; // force_not_migration:True
+D_800A2C4C = 0x800A2C4C; // force_not_migration:True
+D_800A2C94 = 0x800A2C94; // force_not_migration:True
+jtbl_8007A6E4 = 0x8007A6E4; // force_not_migration:True
+jtbl_8007A734 = 0x8007A734; // force_not_migration:True
+jtbl_8007A794 = 0x8007A794; // force_not_migration:True
+D_8007A7C8 = 0x8007A7C8; // force_not_migration:True
+D_8007A7D4 = 0x8007A7D4; // force_not_migration:True
+jtbl_8007A7EC = 0x8007A7EC; // force_not_migration:True
+jtbl_8007A848 = 0x8007A848; // force_not_migration:True
+jtbl_8007A86C = 0x8007A86C; // force_not_migration:True
+jtbl_8007A8B4 = 0x8007A8B4; // force_not_migration:True
+jtbl_8007A8DC = 0x8007A8DC; // force_not_migration:True
+jtbl_8007A8F4 = 0x8007A8F4; // force_not_migration:True
+jtbl_8007A934 = 0x8007A934; // force_not_migration:True
+jtbl_8007A984 = 0x8007A984; // force_not_migration:True
+jtbl_8007A9F0 = 0x8007A9F0; // force_not_migration:True
+
+// Lookup table inside .text read by DecDCTvlcSize and DecDCTvlc
+func_80079AC0 = 0x80079AC0; // type:data

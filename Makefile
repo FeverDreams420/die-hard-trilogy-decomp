@@ -48,6 +48,13 @@ ASPSX_VER := 2.34
 # so small constants the compiler puts in .sdata (initializers of 8 bytes or
 # less) go to .rodata until data is split into its own segments.
 SDATA_TO_RODATA := sed 's/^\t\.sdata$$/\t.rdata/'
+# GCC puts ".align 3" before each jump table. In the original EXEs the tables
+# are only word aligned in absolute terms (jtbl_8007ACA0 at 0 mod 8 is followed
+# directly by jtbl_8007ACB4 at 4 mod 8), and one big C file can't reproduce the
+# section base of each original source file anyway, so drop it and keep GCC's
+# ".align 2". Any padding the original has belongs to the INCLUDE_RODATA
+# symbol before the table.
+JTBL_ALIGN := sed '/^\t\.align\t3$$/{N;s/^\t\.align\t3\n\(\t\.align\t2\)$$/\1/;}'
 MASPSX   = $(PYTHON) tools/maspsx/maspsx.py --expand-div --aspsx-version=$(ASPSX_VER) $(GFLAG)
 
 # Each EXE's objects: its top-level asm files (header, data, asm segments) and its
@@ -69,7 +76,7 @@ build/%.s.o: %.s
 
 build/src/%.c.o: src/%.c
 	@mkdir -p $(dir $@)
-	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(SDATA_TO_RODATA) | $(MASPSX) | $(AS) $(CASFLAGS) -o $@
+	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(SDATA_TO_RODATA) | $(JTBL_ALIGN) | $(MASPSX) | $(AS) $(CASFLAGS) -o $@
 
 define exe_rules
 $(patsubst %.c,build/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \

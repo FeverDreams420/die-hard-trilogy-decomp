@@ -27,522 +27,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_970);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_9EC);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A6E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A734);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A794);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7C8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7D4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A7EC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A83C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A848);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A85C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A86C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A8A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A8CC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8DC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A934);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A974);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A984);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A9E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A9F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AA38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AA48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AAC0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB0C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB28);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AB40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB8C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ABB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ABFC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC20);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC34);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AC64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC90);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACB4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ACCC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AD3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AD98);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ADB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ADC8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ADD8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE28);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE78);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE98);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AEB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AEC0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AED0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AEE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AF38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF60);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AFE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B034);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B040);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B04C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B060);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B070);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B090);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B0A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B0B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B0E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B12C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B144);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B18C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B19C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B250);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B25C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B268);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B290);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B2B8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2EC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B310);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B348);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B3A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B3B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B3C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B3CC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B41C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B42C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B440);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B450);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B464);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B474);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B48C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B49C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B4AC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B4C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B4D0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B4F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B520);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B52C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B538);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B550);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B564);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B574);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B584);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B5D4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B5E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B5FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B618);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B634);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B650);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B668);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B674);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B684);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B690);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6DC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B708);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B714);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B724);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B758);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B774);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B790);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7AC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7D4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B80C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B824);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B830);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B83C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B858);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B874);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B880);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B88C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B8C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B8E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B8F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B90C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B938);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B94C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B968);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B97C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B990);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B99C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9B0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9CC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9D8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA14);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA28);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAC0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAD0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB20);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB2C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB44);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB68);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB78);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB84);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB94);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBB4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBC0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBC8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBD4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBF8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC0C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC14);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC28);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC94);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCC4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007BCD0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCE4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCF8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD10);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD4C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD70);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD8C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDA4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDC0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDFC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE28);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE60);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE84);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEA4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEDC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEFC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF20);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF8C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFC8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFD8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C000);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C020);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C040);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C060);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C080);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C09C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C0AC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C0BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C0E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C11C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C12C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C140);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C154);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C208);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C20C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C230);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C234);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C23C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C240);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C244);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C250);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", InitPAD);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SendPAD);
@@ -593,6 +77,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_338);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", check_machine);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", main);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A6E4);
 
 extern u8 D_801D74C0[], D_801E20A0[], D_801E74C0[], D_801F20A0[];
 typedef struct {
@@ -833,7 +319,15 @@ void func_8001ECC8(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001ED6C);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A734);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F0F8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A794);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7C8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7D4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F37C);
 
@@ -1023,658 +517,6 @@ void func_8001FEBC(void) {
     D_800A32A4 = func_800504F0(0, func_8003E414(D_800A33E4, 2));
 }
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C268);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C270);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C394);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C3BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C3CC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C42C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C434);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C450);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C4FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C500);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C550);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C560);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C570);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C580);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C590);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C6F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C730);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C734);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007F528);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007F9A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FB14);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FC48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FDB4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FF40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FF9C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FFB4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080000);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008001C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008008C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008009C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008011C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080254);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008041C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080420);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080424);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800804BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800804C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800804C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008055C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080574);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080594);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080598);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080614);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080618);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008065C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080660);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806C8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008073C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080740);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080744);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080748);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807D4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807D8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080994);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800809E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A4C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080AEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080AF0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080AF4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080B8C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080BB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080C38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080CB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080CD8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080D38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080DA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080DB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E68);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E78);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080EF4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080F24);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084B64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084C74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084D84);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084DD0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084E94);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084FA4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800850B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800851C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800851C8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008523C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085250);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085254);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800852B0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085370);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085388);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085398);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008539C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800854C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800874C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80087A88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80087B98);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80087CA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800896A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A708);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A808);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A828);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A868);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A8E8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A968);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A9E8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AA08);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AB18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AC28);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AD38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AE48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AF58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B068);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B178);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B288);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B294);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2D0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2DC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2E8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B304);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B314);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B324);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B330);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B33C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B348);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B354);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B360);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B36C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B378);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B37C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B380);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B39C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3A0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3AC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3B0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3B8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3E8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C41C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C43C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C440);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C444);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C448);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C44C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C450);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C470);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C474);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C478);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C47C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C49C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4A0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4E8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4EC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4F8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C558);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C55C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C560);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C564);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C568);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C56C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C580);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C59C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5A0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5C8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5CC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5D0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5D4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5D8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5DC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5E8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5F8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C600);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C604);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C608);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C60C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C61C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C79C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C7A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C7AC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008CA2C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008CAAC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090ABC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B4C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B60);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090BE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090C00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090C80);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090D00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090D80);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090DE4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E04);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E08);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E0C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E10);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E14);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E34);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E44);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E4C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E60);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E68);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E70);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E78);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E7C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E90);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E9C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F08);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F0C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F10);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F14);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F20);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F60);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F68);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F70);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F78);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090FA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090FAC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090FB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913B0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913B8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913BC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913C0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913C4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913C8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913CC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913D0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913D4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913D8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913DC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913E4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913E8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913EC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913F8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091408);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8009140C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091410);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091414);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091418);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8009141C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091420);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091470);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091718);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8009189C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800918A0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800918E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091920);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091924);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919A4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919A8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919AC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919B0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919B4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919B8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919D4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919D8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919DC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800921E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A21E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29E0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29EC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F8);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FF14);
 
 extern s16 D_800A3424;
@@ -1776,6 +618,10 @@ void func_800204C0(s32 vol) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800204F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A7EC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A83C);
 
 extern void FlushCache(void);
 
@@ -2112,6 +958,10 @@ struct Task *func_80021454(struct Task *parent, void (*fn)(), s16 flags, s16 siz
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021554);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A848);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A85C);
 
 extern void func_80021554(void);
 
@@ -2800,6 +1650,10 @@ s32 func_80024FFC(s16 a, s16 b) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002501C);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A86C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A8A4);
+
 typedef struct {
     s16 x;
     s16 y;
@@ -2995,6 +1849,10 @@ void func_80028F80(Unk8002DB90_Face *f) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800290D4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A8CC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800292FC);
 
@@ -4589,6 +3447,8 @@ void func_80031804(s16 i) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031828);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8DC);
+
 void func_80031A5C(Unk80031AB8 *obj) {
     u16 *e = (u16 *)D_800A353C[obj->anim.id].p;
 
@@ -5297,6 +4157,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800358F0);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80035B38);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8F4);
+
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -5360,6 +4222,10 @@ void func_800360C8(Unk800360C8 *obj, s32 unused, s32 angle) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003614C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A934);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A974);
 
 typedef struct {
     s16 unk0;
@@ -5607,6 +4473,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800385F4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80038B00);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A984);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A9E0);
+
 typedef struct {
     s16 x;
     s16 z;
@@ -5812,6 +4682,10 @@ void func_8003961C(void) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039778);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039858);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A9F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AA38);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039B80);
 
@@ -6253,9 +5127,21 @@ void func_8003BFA8(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003C1C4);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AA48);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003CB90);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AAC0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB0C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB28);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003D280);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AB40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB8C);
 
 s16 func_8003D890(Unk80045164 *obj) {
     s16 i;
@@ -6338,6 +5224,16 @@ void func_8003DB10(void) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003DB38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ABB8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ABFC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC20);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC34);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC48);
 
 typedef struct {
     s16 x, y, z;
@@ -6734,6 +5630,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003F0E4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003F9F8);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AC64);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC90);
+
 extern void LoadTPage(void *pix, s32 tp, s32 abr, s16 x, s32 y, s32 w, s32 h);
 
 void func_8003FCC8(void) {
@@ -6987,6 +5887,8 @@ void func_800403C8(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040620);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACA0);
+
 typedef struct {
     u32 tag;
     u8 r0, g0, b0, code;
@@ -7176,7 +6078,13 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004121C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004161C);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACB4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ACCC);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800418DC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACEC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041AB4);
 
@@ -7194,6 +6102,8 @@ void func_80042538(Obj *o) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042570);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AD3C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042DD0);
 
@@ -7519,6 +6429,8 @@ void func_80043E14(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043EA8);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AD98);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044470);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004475C);
@@ -7526,6 +6438,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004475C);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044B74);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044E9C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ADB0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ADC8);
 
 
 extern void func_8003E384(Unk80045164 *obj);
@@ -7667,6 +6583,10 @@ void func_80045478(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004566C);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ADD8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE00);
+
 extern void func_80039518(Unk80045EF4 *obj);
 extern s16 func_80024EF0(Anim *anim);
 
@@ -7724,6 +6644,8 @@ void func_80046598(void) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004667C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE28);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046D2C);
 
@@ -7789,6 +6711,12 @@ s32 func_800473CC(SVECTOR *out, Obj80047314 *obj, SVECTOR *target) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800474AC);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE78);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE88);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80047B68);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80047F7C);
@@ -7831,6 +6759,14 @@ void func_80048B50(void) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80048BD4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE98);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AEB0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AEC0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AED0);
 
 extern s16 D_800A336C;
 extern s16 D_800A61B4;
@@ -9317,7 +8253,15 @@ void func_800509D0(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050A98);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AEE0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AF38);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800514D8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF48);
 
 typedef struct {
     s16 unk0;
@@ -9549,6 +8493,8 @@ void func_80051AC0(void) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80051DF8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF60);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005217C);
 
@@ -10068,6 +9014,24 @@ void func_800531B0(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800532BC);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AFE0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B034);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B040);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B04C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B060);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B070);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B090);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B0A4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B0B4);
+
 extern void func_80021698(s16);
 extern void func_80052930(s32, s32);
 extern void func_8006A4C4(void);
@@ -10494,120 +9458,6 @@ void func_80055EE0(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055EEC);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A04);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A08);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A10);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A20);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A24);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A34);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A44);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A4C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A60);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A68);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A7C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A80);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A90);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A98);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ABC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ACC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ADC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AE4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AF4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AF8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AFC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B04);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B0C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B14);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B24);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B2C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B34);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B38);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800562CC);
 
 typedef struct {
@@ -10758,6 +9608,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005704C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800572F4);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B0E4);
+
 typedef struct {
     Unk8002A35C pos;
     u8 pad6[0x218];
@@ -10785,6 +9637,12 @@ void func_80057918(Unk80057918 *p, s16 color) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80057A10);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B12C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B144);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B18C);
 
 typedef struct {
     s16 v[5];
@@ -11013,6 +9871,14 @@ void func_800589E8(void *arg0, void *arg1, Unk800584A4 *self) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058C04);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B19C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B250);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B25C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B268);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058E74);
 
@@ -11374,6 +10240,10 @@ void func_8005B5C0(Unk8005B554 *obj) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B6AC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B290);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2A8);
 
 extern void func_8005B6AC(Unk8005B554 *obj);
 
@@ -11788,9 +10658,25 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005CD6C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D170);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B2B8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2EC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2FC);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D1B4);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B310);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D610);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B348);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B3A4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B3B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B3C0);
 
 typedef struct {
     s16 x;
@@ -11895,15 +10781,19 @@ void func_8005D9D4(s16 value, char *out) {
     }
 }
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B58);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005DB40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B3CC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B41C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B42C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B440);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B450);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B464);
 
 typedef struct {
     s16 unk0;
@@ -12266,28 +11156,6 @@ void func_8005F1F0(Unk8005F1F0 *obj) {
     }
 }
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B7C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B80);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B84);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B8C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B90);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B94);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B98);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F438);
 
 typedef struct {
@@ -12375,6 +11243,16 @@ void func_8005F8F0(Unk8005F8F0 *obj) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F92C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F98C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B474);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B48C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B49C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B4AC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B4C0);
 
 extern void SetTile(TILE *p);
 extern void SetSemiTrans(void *p, s32 abe);
@@ -12989,28 +11867,6 @@ void func_80062F8C(s16 angle, s16 height) {
     D_800A2FC4.vy = -D_800A2FC4.vy;
 }
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BBC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BC4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BCC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BD4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BDC);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800630D0);
 
 typedef struct {
@@ -13077,7 +11933,17 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80063E0C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80064088);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B4D0);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80064D80);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B4F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B520);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B52C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B538);
 
 typedef struct {
     u8 pad0[0x16];
@@ -13292,6 +12158,12 @@ void func_80066C6C(Unk80066C6C *obj) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066D40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B550);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B564);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B574);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067670);
 
@@ -13610,6 +12482,1148 @@ void func_80068540(void) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800685FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B584);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B5D4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B5E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B5FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B618);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B634);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B650);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B668);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B674);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B684);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B690);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6A8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6DC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B6FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B708);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B714);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B724);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B758);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B774);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B790);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7AC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7D4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B7FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B80C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B824);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B830);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B83C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B858);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B874);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B880);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B88C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B8C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B8E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B8F4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B90C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B938);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B94C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B968);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B97C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B990);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B99C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9B0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9CC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9D8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B9FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA14);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA28);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BA74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAA8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAC0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAD0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BAEC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB20);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB2C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB44);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB68);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB78);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB84);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BB94);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBA0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBA8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBB4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBC0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBC8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBD4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBE0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBEC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BBF8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC0C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC14);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC1C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC28);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC30);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC3C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC54);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC6C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC88);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BC94);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCB0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCC4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007BCD0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCE4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCEC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BCF8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD10);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD4C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD58);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD64);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD70);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BD8C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDA4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDC0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDE0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDEC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BDFC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE28);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE30);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE60);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BE84);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEA4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEB8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEDC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BEFC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF1C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF20);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF3C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BF8C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFA0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFB8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFC8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFD8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007BFEC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C000);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C020);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C040);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C060);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C080);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C09C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C0AC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C0BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C0E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C11C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C12C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C140);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007C154);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C208);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C20C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C230);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C234);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C23C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C240);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C244);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C250);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C254);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C268);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C270);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C394);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C3BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C3CC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C42C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C434);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C450);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C4FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C500);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C550);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C560);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C570);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C580);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C590);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C6F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C730);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C734);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007F528);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007F9A8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FB14);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FC48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FDB4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FF40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FF9C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007FFB4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080000);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008001C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008008C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008009C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008011C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080254);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008041C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080420);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080424);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800804BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800804C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800804C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008055C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080574);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080594);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080598);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080614);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080618);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008065C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080660);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800806C8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008073C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080740);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080744);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080748);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807D4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800807D8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080994);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800809E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A4C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080A54);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080AEC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080AF0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080AF4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080B8C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080BB8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080C38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080CB8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080CD8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080D38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080DA0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080DB0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E30);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E68);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E78);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080E88);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080EF4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80080F24);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084B64);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084C74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084D84);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084DD0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084E94);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80084FA4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800850B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800851C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800851C8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008523C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085250);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085254);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800852B0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085370);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085388);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80085398);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008539C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800854C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800874C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80087A88);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80087B98);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80087CA8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800896A8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A708);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A808);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A828);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A868);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A8E8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A968);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008A9E8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AA08);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AB18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AC28);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AD38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AE48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008AF58);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B068);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B178);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B288);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B294);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2A4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2D0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2DC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2E8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B2F4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B304);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B314);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B324);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B330);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B33C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B348);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B354);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B360);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B36C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B378);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B37C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B380);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B39C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3A0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3A4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3A8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3AC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3B0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3B8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3E8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008B3F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C41C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C43C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C440);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C444);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C448);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C44C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C450);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C470);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C474);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C478);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C47C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C49C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4A0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4A4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4E8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4EC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4F4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4F8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C4FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C558);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C55C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C560);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C564);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C568);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C56C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C580);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C59C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5A0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5A4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5A8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5C8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5CC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5D0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5D4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5D8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5DC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5E8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5F4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5F8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C600);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C604);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C608);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C60C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C61C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C79C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C7A8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C7AC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008CA2C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008CAAC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090ABC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B3C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B4C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B54);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B58);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090B60);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090BE0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090C00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090C80);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090D00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090D80);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090DE4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E04);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E08);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E0C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E10);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E14);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E1C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E34);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E3C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E44);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E4C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E54);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E58);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E60);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E64);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E68);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E6C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E70);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E78);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E7C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E90);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090E9C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F00);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F08);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F0C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F10);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F14);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F1C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F20);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F30);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F54);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F58);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F60);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F68);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F6C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F70);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090F78);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090FA8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090FAC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80090FB0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913B0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913B8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913BC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913C0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913C4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913C8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913CC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913D0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913D4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913D8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913DC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913E4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913E8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913EC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913F4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800913F8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091408);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8009140C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091410);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091414);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091418);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8009141C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091420);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091470);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091718);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8009189C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800918A0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800918E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091920);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_80091924);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919A4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919A8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919AC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919B0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919B4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919B8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919D4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919D8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800919DC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800921E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A21E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29E0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29EC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29FC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A04);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A08);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A10);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A18);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A1C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A20);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A24);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A30);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A34);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A3C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A44);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A4C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A54);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A58);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A60);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A64);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A68);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A6C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A7C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A80);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A88);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A90);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A98);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AA0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AA8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AB0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AB8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ABC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ACC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ADC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AE0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AE4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AEC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AF4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AF8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AFC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B04);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B0C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B14);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B1C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B24);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B2C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B30);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B34);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B38);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B3C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B40);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B48);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B50);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B58);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B5C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B64);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B6C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B74);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B7C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B80);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B84);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B88);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B8C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B90);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B94);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B98);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B9C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB8);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BBC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BC4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BCC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BD4);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BDC);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BE0);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BE8);
 
 typedef struct {
     u8 pad0[0x3C];
@@ -14206,6 +14220,10 @@ void func_8006A704(s32 arg0, s16 arg1) {
     func_8006A72C(arg0, 0);
 }
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C44);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C4C);
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A72C);
 
 extern long D_800A2EAC;
@@ -14352,6 +14370,8 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C7C);
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C84);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C8C);
+
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C94);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006ADB0);
 

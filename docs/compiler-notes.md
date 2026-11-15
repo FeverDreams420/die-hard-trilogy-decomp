@@ -166,6 +166,15 @@ Three leaves uploaded to decomp.me and compiled under all 24 PS1 compilers there
 - **Open for Phase 5/6:** under `-G8`, GCC 2.5.7 uses `$gp` only for variables it knows are small. A plain `extern` comes out as a `lui` pair, so `$gp` globals have to be defined in (or moved into) the C file that uses them. Those definitions change `.sbss`/`.sdata` layout, so they wait until data is split per file.
 - **To confirm later:** the frame leaves suggest debug prints compiled out with `if (0)`, which would leave their format strings in `.rodata`. Look for unused debug strings near those functions.
 
+## Jump tables and rodata order
+
+A `switch` compiled to a jump table puts the table in `.rodata` right after the function in the compiler's output. `dh1.c` is one translation unit, so its `.rodata` comes out in file order: every `INCLUDE_RODATA` line, plus anything the C functions emit, in the order they appear. For a C function's table to land at its original address, every rodata item below that address has to come before the function in `dh1.c`, and every item above it after.
+
+- **No rodata in function `.s` files.** splat's `migrate_rodata_to_functions` had moved rodata into nine functions' `.s` files (InitPAD's strings at 0x8007C254, small `.sdata` items at 0x800A29FC, 0x800A2B3C and others). Those can't be moved apart from their function, so they blocked every table before them. They are marked `force_not_migration:True` in `config/symbol_addrs.dh1.txt`, together with 14 jump tables that would migrate once those were out of the way. Every rodata item is now its own `INCLUDE_RODATA` line.
+- **Each game jump table sits right after its function** in `dh1.c`, followed by the rodata up to the next table. Table addresses rise with function addresses (all 47 game tables, `main` to 0x800685F0), so this order holds. Matching a jump-table function is then a plain swap: replace the `INCLUDE_ASM` line and delete the table's `INCLUDE_RODATA` line below it.
+- **No `.align 3`.** GCC 2.5.7 writes `.align 3` then `.align 2` before each table. The original tables are only word aligned in absolute terms: `jtbl_8007ACA0` (0 mod 8) is followed directly by `jtbl_8007ACB4` (4 mod 8), and the rodata itself starts at 0x8007A6E4. One C file also can't reproduce the section start of each original source file. The Makefile (`JTBL_ALIGN`) drops the `.align 3`; any padding in the original belongs to the symbol before the table. Look at this again when `dh1.c` is split into files (Phase 8).
+- First table match: 0x8005D610 (`jtbl_8007B348`).
+
 ## Phase 5: matching idioms for GCC 2.5.7
 
 Patterns that turned a near-miss into a match. Each names the DH1 function where it was found.
