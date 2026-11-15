@@ -3564,7 +3564,15 @@ void func_80072DC8(struct Task *task) {
     D_800B604C = saved;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80072E08);
+extern s32 DrawSync(s32 mode);
+extern void FlushCache(void);
+
+void func_80072E08(void) {
+    DrawSync(0);
+    func_8007F2B4();
+    FlushCache();
+    func_8007F53C();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80072E40);
 
