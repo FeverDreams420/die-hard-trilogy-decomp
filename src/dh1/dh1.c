@@ -6496,7 +6496,9 @@ s32 func_80043A90(SVECTOR *a, SVECTOR *b) {
     return SquareRoot0(dx * dx + dy * dy + dz * dz) << 4;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043B0C);
+s32 func_80043B0C(SVECTOR *v) {
+    return SquareRoot0(v->vx * v->vx + v->vy * v->vy + v->vz * v->vz);
+}
 
 typedef struct {
     s16 unk0;
