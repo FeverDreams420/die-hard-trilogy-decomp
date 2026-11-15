@@ -6291,7 +6291,23 @@ void func_8003E47C(void) {
     D_800A2F84 = 20;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E490);
+extern char D_8007ABFC[];
+extern int printf(const char *fmt, ...);
+extern int ResetGraph(int mode);
+extern void PadStop(void);
+extern void StopPAD(void);
+extern void func_80076F04(void);
+extern void func_8006B188(s16);
+
+void func_8003E490(void) {
+    printf(D_8007ABFC);
+    ResetGraph(3);
+    PadStop();
+    StopPAD();
+    func_80076F04();
+    func_800206CC();
+    func_8006B188(1);
+}
 
 typedef struct {
     u8 loc[4];
