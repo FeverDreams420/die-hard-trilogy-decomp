@@ -671,7 +671,15 @@ s32 func_8002881C(s32 value, s32 target, s32 step) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028868);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800288E0);
+extern s32 SquareRoot0(s32 a);
+
+s32 func_800288E0(SVECTOR *a, SVECTOR *b) {
+    s32 dx = (a->vx - b->vx) >> 4;
+    s32 dy = (a->vy - b->vy) >> 4;
+    s32 dz = (a->vz - b->vz) >> 4;
+
+    return SquareRoot0(dx * dx + dy * dy + dz * dz) << 4;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002895C);
 
