@@ -3171,10 +3171,6 @@ s32 func_8002A35C(Unk8002A35C *a, Unk8002A35C *b) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A3C4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A40C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A7BC);
-
 typedef struct {
     u32 tag;
     u8 r0, g0, b0, code;
@@ -3189,19 +3185,93 @@ typedef struct {
 } Unk8002B4C0_Prim;
 
 typedef struct {
-    u8 pad0[0xC];
+    Unk8002A35C *pos;
+    u8 pad4[8];
     s16 timer;
     u8 padE[2];
     u8 r, g, b;
     u8 pad13;
     s16 x;
     s16 y;
-    u8 pad18[4];
+    s16 dx;
+    s16 dy;
     s16 size;
     s16 idx;
 } Unk8002B4C0;
 
 extern Unk8002A35C D_8007C4FC[];
+extern void func_8002A7BC(void);
+
+void func_8002A40C(void) {
+    Unk8002B4C0 *obj = (Unk8002B4C0 *)D_800A317C->vals;
+    Unk8002B4C0_Prim *prim = D_800A3374;
+    Unk8002A35C *pos = obj->pos;
+    SVECTOR v;
+    u16 *tex;
+    s16 found;
+    s16 i;
+
+    if (obj->timer == 0) {
+        found = 0;
+        for (i = 0; i < 4; i++) {
+            if (D_8007C4FC[i].x == 0) {
+                found = 1;
+                obj->idx = i;
+                D_8007C4FC[i].x = found;
+                break;
+            }
+        }
+        if (!found) {
+            func_80021554();
+            return;
+        }
+        SetRotMatrix(&D_801C0B64);
+        SetTransMatrix(&D_801C0B64);
+        v.vx = pos->x;
+        v.vy = pos->y + 0x300;
+        v.vz = pos->z;
+        RotTransPers(&v, (s32 *)&obj->x, &D_800A2EFC, &D_800A3394);
+        obj->r = 0xA0;
+        obj->g = 0xA0;
+        obj->b = 0xFF;
+        obj->dx = (D_8007C4FC[obj->idx].y - obj->x) >> 3;
+        obj->dy = (D_8007C4FC[obj->idx].z - obj->y) >> 3;
+    }
+    prim->x0 = obj->x - obj->size;
+    prim->y0 = obj->y - obj->size;
+    prim->x1 = obj->x + obj->size;
+    prim->y1 = obj->y - obj->size;
+    prim->x2 = obj->x - obj->size;
+    prim->y2 = obj->y + obj->size;
+    prim->x3 = obj->x + obj->size;
+    prim->y3 = obj->y + obj->size;
+    tex = (u16 *)D_800A3154;
+    prim->uv0 = tex[0x84];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 0x86);
+    prim->uv2 = tex[0x88];
+    prim->uv3 = tex[0x8A];
+    prim->clut = tex[0x95];
+    prim->r0 = obj->r;
+    prim->g0 = obj->g;
+    prim->b0 = obj->b;
+    setlen(prim, 9);
+    setcode(prim, 0x2F);
+    addPrim(D_800A32E4, prim);
+    D_800A3374 = prim + 1;
+    obj->x += obj->dx;
+    obj->y += obj->dy;
+    obj->size += 2;
+    obj->timer += 2;
+    if (obj->timer == 0x10) {
+        obj->timer = 0;
+        obj->x = D_8007C4FC[obj->idx].y;
+        obj->y = D_8007C4FC[obj->idx].z;
+        D_800A317C->func = func_8002A7BC;
+    }
+}
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A7BC);
+
 
 void func_8002B4C0(void) {
     Unk8002B4C0 *obj = (Unk8002B4C0 *)D_800A317C->vals;
