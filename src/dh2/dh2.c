@@ -3664,7 +3664,15 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800738C0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073980);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800739C0);
+extern s32 DrawSync(s32 mode);
+extern void FlushCache(void);
+
+void func_800739C0(void) {
+    DrawSync(0);
+    func_8007FD1C();
+    FlushCache();
+    func_8007FFB4();
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800739F8);
 
