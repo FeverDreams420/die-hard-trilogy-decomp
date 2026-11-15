@@ -2156,7 +2156,17 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800351A4);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035384);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800353DC);
+typedef struct {
+    int *p;
+    int pad[3];
+} Entry16;
+
+extern Entry16 *D_800B73F0;
+s32 func_800754C8(s32);
+
+int func_800353DC(int i) {
+    return (s16)func_800754C8(*D_800B73F0[(s16)i].p);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035420);
 
