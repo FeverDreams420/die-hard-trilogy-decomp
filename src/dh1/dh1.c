@@ -1681,8 +1681,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002501C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A86C);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A8A4);
-
 typedef struct {
     s16 x;
     s16 y;
@@ -1877,9 +1875,61 @@ void func_80028F80(Unk8002DB90_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800290D4);
+extern MATRIX D_801FB868;
+extern MATRIX *MulMatrix2(MATRIX *m0, MATRIX *m1);
+extern Vec32 D_801C0954;
+extern Vec32 D_801D2058;
+extern Vec32 D_800A7FD4;
+extern s32 D_801D70F0[];
+extern s32 D_801D723C[];
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8B4);
+typedef struct {
+    u8 pad0[0x12];
+    u16 flags;
+} Unk80032344_Face;
+
+extern void (*D_8007FF9C[])(Unk80032344_Face *f);
+
+s16 func_800290D4(s16 idx, s16 mode) {
+    SVECTOR unused;
+    SVECTOR rot;
+    s16 models[7] = { 0, 0x43, 0x47, 0x46, 0x49, 0x48, 0x45 };
+    Unk80032344_Face *f;
+
+    if (idx <= 0) {
+        return 0;
+    }
+    switch (idx) {
+    case 1:
+    case 3:
+        func_80028F00(&D_801C0954, &D_801D2058, (Vec16 *)&rot);
+        break;
+    case 2:
+    case 4:
+    case 5:
+    case 6:
+        func_80028F00(&D_800A7FD4, &D_801C0954, (Vec16 *)&rot);
+        break;
+    }
+    rot.vy += D_800A2FC4.vy;
+    func_80023660(&rot, &D_801FB868);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, (VECTOR *)&D_801C0954);
+    SetTransMatrix(&D_801FB868);
+    f = (Unk80032344_Face *)(D_801D70F0[models[idx]] + 8);
+    do {
+        D_8007FF9C[f->flags & 0x1F](f);
+    } while (!((f++)->flags & 0x80));
+    if (mode != 0) {
+        f = (Unk80032344_Face *)(D_801D723C[idx] + 8);
+        mode = 0;
+        do {
+            func_80028F80((Unk8002DB90_Face *)f);
+        } while (!((f++)->flags & 0x80));
+    }
+    return mode;
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A8CC);
 
@@ -3674,11 +3724,6 @@ void func_80031ED0(SVECTOR *pos, SVECTOR *rot, s16 color) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003219C);
-
-typedef struct {
-    u8 pad0[0x12];
-    u16 flags;
-} Unk80032344_Face;
 
 typedef struct {
     SVECTOR pos;
