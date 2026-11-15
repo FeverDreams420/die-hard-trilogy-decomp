@@ -15,7 +15,7 @@ import struct
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FILES = {"boot": "BOOT.EXE", "dh1": "DH1.EXE"}
+FILES = {"boot": "BOOT.EXE", "dh1": "DH1.EXE", "dh2": "DH2.EXE", "dh3": "DH3.EXE"}
 LINE = re.compile(r"/\* ([0-9A-F]+) ([0-9A-F]{8}) ([0-9A-F]{8}) \*/")
 
 
