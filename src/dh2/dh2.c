@@ -3214,7 +3214,19 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067138);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067194);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067200);
+extern s16 D_800B7418;
+extern s16 D_800B741C;
+
+s16 func_80067200(SVECTOR *pos) {
+    s16 dx = pos->vx - D_800B7418;
+    s16 dz = pos->vz - D_800B741C;
+    s16 dist = SquareRoot0(dx * dx + dz * dz);
+
+    if (dist > 3000) {
+        dist = 3000;
+    }
+    return 0x1000 - dist;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067298);
 
