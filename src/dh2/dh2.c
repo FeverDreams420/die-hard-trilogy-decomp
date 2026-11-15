@@ -3450,7 +3450,35 @@ s32 func_80070E54(u8 *data, s32 len, u8 *out) {
     return n;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070EF4);
+extern long D_800B6A10;
+extern long D_800B6A18;
+extern long D_800B6A20;
+extern long D_800B6A28;
+extern long EnableEvent(long event);
+extern long OpenEvent(unsigned long desc, long spec, long mode, long (*func)());
+extern void StartCARD(void);
+extern void StopPAD(void);
+extern void _bu_init(void);
+extern void _card_auto(long val);
+extern void func_8007FD1C(void);
+extern void func_8007FFB4(void);
+
+void func_80070EF4(void) {
+    StopPAD();
+    StartCARD();
+    _bu_init();
+    func_8007FD1C();
+    D_800B6A10 = OpenEvent(0xF4000001, 0x0004, 0x2000, NULL);
+    D_800B6A18 = OpenEvent(0xF4000001, 0x8000, 0x2000, NULL);
+    D_800B6A20 = OpenEvent(0xF4000001, 0x0100, 0x2000, NULL);
+    D_800B6A28 = OpenEvent(0xF4000001, 0x2000, 0x2000, NULL);
+    func_8007FFB4();
+    EnableEvent(D_800B6A10);
+    EnableEvent(D_800B6A18);
+    EnableEvent(D_800B6A20);
+    EnableEvent(D_800B6A28);
+    _card_auto(0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070FFC);
 
