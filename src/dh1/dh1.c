@@ -9579,7 +9579,12 @@ void func_8005942C(Unk8005942C *obj, s16 idx, s32 angle) {
     obj->unk2C = speed;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800594E4);
+void func_800594E4(void *arg0, void *arg1, Unk800584A4 *self) {
+    Unk800584A4 *obj = &D_800A3564[self->unkA];
+
+    obj->unkA = (obj->unkA + obj->unk2C) & 0xFFF;
+    func_80032344((Unk80032344 *)obj, 1);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80059540);
 
