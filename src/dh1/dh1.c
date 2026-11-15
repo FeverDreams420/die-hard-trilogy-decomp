@@ -12285,7 +12285,15 @@ void func_8006A468(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A4C4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A6A8);
+void func_8006A6A8(void) {
+    u8 *dst = (u8 *)&D_800A350C->players[D_800A350C->unk1780];
+    u8 *src = D_801C1B9C;
+    u16 i;
+
+    for (i = 0; i < 0x2F0; i++) {
+        *dst++ = *src++;
+    }
+}
 
 extern void func_8006A72C(s32, s32);
 
