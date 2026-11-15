@@ -916,7 +916,18 @@ void *func_8001FE84(s32 size) {
     return (void *)old;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FEBC);
+extern void func_80050758(void);
+extern void func_8004FB38(void);
+extern void func_8004FFE0(int volume, int pan);
+extern s32 func_800504F0(s32, void *);
+extern s32 D_800A32A4;
+
+void func_8001FEBC(void) {
+    func_80050758();
+    func_8004FB38();
+    func_8004FFE0(0x3FFF, 0);
+    D_800A32A4 = func_800504F0(0, func_8003E414(D_800A33E4, 2));
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007C268);
 
