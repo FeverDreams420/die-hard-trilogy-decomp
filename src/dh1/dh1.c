@@ -12225,24 +12225,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060DCC);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061174);
 
 typedef struct {
-    u8 pad0[0x1D0];
-    SVECTOR unk1D0;
-    u8 pad1D8[0x10];
-    SVECTOR unk1E8;
-} Unk80061524;
-
-void func_80061524(Unk80061524 *obj) {
-    obj->unk1E8.vx = 0;
-    obj->unk1E8.vy = 0;
-    obj->unk1E8.vz = 0x20;
-    obj->unk1D0.vx = 0;
-    obj->unk1D0.vy = 0;
-    obj->unk1D0.vz = 0;
-}
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061544);
-
-typedef struct {
     SVECTOR rot;
     u8 pad8[0x16C];
 } Unk80061844_Model;
@@ -12262,7 +12244,24 @@ typedef struct {
     s32 unk200;
 } Unk80061844;
 
-extern void func_80061544(Unk80061844 *obj);
+void func_80061524(Unk80061844 *obj, s32 unused) {
+    obj->v1E8.vx = 0;
+    obj->v1E8.vy = 0;
+    obj->v1E8.vz = 0x20;
+    obj->vel.vx = 0;
+    obj->vel.vy = 0;
+    obj->vel.vz = 0;
+}
+
+void func_80061544(Unk80061844 *obj) {
+    s16 id = func_8001E9DC(0x2E);
+
+    func_80024EA0(&obj->anim, id, 0, 0xF6, 0x10);
+    func_80061524(obj, 0);
+    obj->vel.vx = 0;
+    obj->vel.vz = 0;
+}
+
 extern SVECTOR D_800A2F04;
 extern SVECTOR D_800A34B4;
 extern SVECTOR D_800A3544;
