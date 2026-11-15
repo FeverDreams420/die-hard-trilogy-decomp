@@ -2101,7 +2101,26 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033518);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800336C0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033730);
+void func_80033730(s16 *angle, s16 *speed) {
+    s16 i = 15;
+    s16 n;
+
+    while (1) {
+        *angle += *speed;
+        if (*angle > 0) {
+            (*speed)--;
+            if (*angle > 180) {
+                *angle = 180;
+            }
+        } else {
+            (*speed)++;
+        }
+        angle++;
+        speed++;
+        n = i--;
+        if (n == 0) break;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800337B4);
 
