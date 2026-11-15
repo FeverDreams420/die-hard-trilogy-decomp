@@ -10779,7 +10779,20 @@ void func_80060064(u8 shade) {
     D_800A3374 = mode;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060168);
+typedef struct {
+    u8 pad0[0x32];
+    s16 unk32;
+} Unk80060168;
+
+void func_80060168(void) {
+    Unk80060168 *obj = (Unk80060168 *)D_800A317C->vals;
+
+    func_80060064(obj->unk32);
+    obj->unk32 -= 0x20;
+    if (obj->unk32 < 0) {
+        func_80021554();
+    }
+}
 
 typedef struct {
     u8 pad0[0x32];
