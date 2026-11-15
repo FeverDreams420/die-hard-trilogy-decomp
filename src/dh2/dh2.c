@@ -1767,7 +1767,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025254);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800253D0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025570);
+s32 func_80025570(s32 value, s32 target, s32 step) {
+    s32 d = value - target;
+
+    if (d == 0) {
+        return value;
+    }
+    if (d < 0) {
+        if (-d < step) {
+            return target;
+        }
+        return value + step;
+    }
+    if (d < step) {
+        return target;
+    }
+    return value - step;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800255BC);
 
