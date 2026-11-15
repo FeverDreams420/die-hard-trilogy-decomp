@@ -8114,7 +8114,14 @@ void func_80050844(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800508F0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050974);
+s16 func_80050974(SVECTOR *pos, s32 arg1) {
+    s32 d = func_8002A35C((Unk8002A35C *)pos, (Unk8002A35C *)D_801F7D44->vals) >> 1;
+
+    if (d > 0x1000) {
+        d = 0x1000;
+    }
+    return func_800296F8((s16)arg1, 0, d);
+}
 
 typedef struct {
     s16 unk0;
