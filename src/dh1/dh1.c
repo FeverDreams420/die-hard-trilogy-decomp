@@ -10142,9 +10142,147 @@ void func_800589E8(void *arg0, void *arg1, Unk800584A4 *self) {
     SetTransMatrix(&D_801C0B64);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058C04);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 pad4;
+    s16 unk6;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 pad9;
+    s16 unkC;
+} Unk80058C04_Glow;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B19C);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    u8 pad24[8];
+    Unk80058C04_Glow glow;
+    u8 pad3A[0x42];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    u8 pad82[4];
+    s16 unk86;
+    u8 pad88[0xC];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[6];
+    s16 unkA6;
+} Unk80058C04;
+
+void func_80058C04(Unk80058C04 *obj, s16 type, s16 flags) {
+    s16 idx;
+    s16 on;
+    s16 dir;
+    Unk80058C04_Glow *glow;
+
+    obj->unk2 = (flags & 0x3F) << 6;
+    on = flags & 0x80;
+    dir = (flags & 0xC0) << 4;
+    idx = type - 0x30;
+    glow = &obj->glow;
+    obj->unk2 += D_80080A18[D_800A307C];
+    obj->unkC = 0;
+    obj->unkA = 0;
+    obj->unk8 = 0;
+    obj->unk18 = 0x1000;
+    obj->unk14 = 0x1000;
+    obj->unk10 = 0x1000;
+    obj->unk20 = D_801D70F0[idx];
+    obj->unk7C = obj->unk0;
+    obj->unk7E = obj->unk2 - 0x180;
+    obj->unk80 = obj->unk4;
+    obj->unkA6 = 0;
+    obj->unk86 = 0;
+    obj->unk94 = 0x60;
+    obj->unk98 = 0x800;
+    obj->unk9C = 0x60;
+    obj->glow.unk0 = func_8001E9DC(0x1000);
+    obj->glow.unk6 = 0x2FD4;
+    if (idx == 11) {
+        obj->glow.unk2 = -1;
+    } else {
+        obj->glow.unk2 = 0;
+    }
+    glow->unkC = 0;
+    switch (idx) {
+    case 0:
+        if (on) {
+            glow->r = 0x40;
+            glow->g = 0x40;
+            glow->b = 0x40;
+        } else {
+            glow->r = 0x10;
+            glow->g = 0x10;
+            glow->b = 0x40;
+        }
+        break;
+    case 1:
+        if (on) {
+            glow->r = 0x40;
+            glow->g = 0x10;
+            glow->b = 0x40;
+        } else {
+            glow->r = 0x50;
+            glow->g = 0x10;
+            glow->b = 0x10;
+        }
+        break;
+    case 2:
+        if (on) {
+            glow->r = 0x10;
+            glow->g = 0x40;
+            glow->b = 0x10;
+            break;
+        }
+    case 11:
+        glow->r = 0x40;
+        glow->g = 0x40;
+        glow->b = 0x10;
+        break;
+    case 42:
+        glow->r = 0x10;
+        glow->g = 0x40;
+        glow->b = 0x10;
+        glow->unk6 = 0x4000;
+        obj->unk20 = D_801D70F0[62];
+        obj->unkA = dir;
+        glow->unkC = 999;
+        break;
+    case 43:
+        glow->r = 0x10;
+        glow->g = 0x40;
+        glow->b = 0x10;
+        glow->unk6 = 0x4000;
+        obj->unk20 = D_801D70F0[63];
+        obj->unkA = dir;
+        glow->unkC = 999;
+        break;
+    case 44:
+        glow->r = 0x40;
+        glow->g = 0x10;
+        glow->b = 0x10;
+        glow->unk6 = 0x4000;
+        obj->unk20 = D_801D70F0[64];
+        obj->unkA = dir;
+        glow->unkC = 999;
+        break;
+    }
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B250);
 
