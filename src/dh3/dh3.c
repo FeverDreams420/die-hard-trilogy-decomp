@@ -565,7 +565,12 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027794);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800279E4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027A18);
+extern int func_80071B7C(s32 a, s32 b, s32 t);
+
+void func_80027A18(u8 *a, u8 *b, s16 t, u8 *out) {
+    out[0] = func_80071B7C(a[0], b[0], t);
+    out[1] = func_80071B7C(a[1], b[1], t);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027A88);
 
