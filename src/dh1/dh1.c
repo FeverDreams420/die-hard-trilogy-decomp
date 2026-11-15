@@ -321,9 +321,72 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001ED6C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A734);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F0F8);
+extern u16 D_800A3014;
+extern s32 D_800A30DC;
+extern s16 D_801C1F04[];
+extern volatile u16 D_800A32AC[];
+extern s16 D_800A33A4;
+extern s32 D_800A339C;
+extern s16 D_800A356C;
+extern s16 D_800A303C;
+extern s16 D_800A2F2C;
+extern s16 D_800A2F74;
+extern void func_8001FF14(void);
+extern void func_80031070(void);
+extern void func_80050738(s32 arg0);
+extern void func_80052E18(s32 arg0);
+extern void func_800683E4(void);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A794);
+void func_8001F0F8(void) {
+    D_800A3014 = 12;
+    D_800A30DC++;
+    if (D_801C1F04[0] != 0 && (D_800A32AC[1] & 0x800)) {
+        func_8001FF14();
+    }
+    switch (D_800A2F0C) {
+    case 1:
+        func_8001F37C();
+        if (D_800A2FEC != 0 && *(s32 *)D_800A317C->vals == 0) {
+            func_80052E18(3);
+            *(s32 *)D_800A317C->vals = -1;
+        }
+        break;
+    case 6:
+    case 7:
+    case 8:
+    case 12:
+        func_80031070();
+        func_8001F778();
+        break;
+    case 11:
+        D_800A33A4 = 0;
+        func_8001F37C();
+        if (D_801C1F04[0] != 0 && D_800A307C == D_800A33F4 && (D_800A32AC[1] & 0x100)) {
+            *(s32 *)D_800A317C->vals = 0;
+            func_80050738(D_800A339C);
+            func_80052E18(4);
+            D_801C1F04[0] = 0;
+            D_800A2F2C = 0;
+            D_800A2F74 = 0;
+            D_800A33F4 = D_800A307C - 1;
+        }
+        if (*(s32 *)D_800A317C->vals == 0 && D_800A356C == 2) {
+            *(s32 *)D_800A317C->vals = -1;
+            func_80050738(D_800A339C);
+            func_80052E18(7);
+        }
+        break;
+    case 13:
+        func_8001F37C();
+        if (D_800A2FEC != 0) {
+            D_800A303C = 0;
+            func_800683E4();
+            D_800A2F44 = 1;
+            D_800A2F0C = 12;
+        }
+        break;
+    }
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7C8);
 
