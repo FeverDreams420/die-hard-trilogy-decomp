@@ -4101,6 +4101,7 @@ extern struct {
     s16 unk1788;
     s16 unk178A;
     s16 unk178C;
+    s16 unk178E;
 } *D_800A350C;
 
 typedef struct {
@@ -13348,8 +13349,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067E60);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067EA0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800680A4);
-
 typedef struct {
     u8 pad0[0x18];
     void *unk18;
@@ -13357,11 +13356,106 @@ typedef struct {
     s16 unk3C;
     s16 unk3E;
     s16 unk40;
-    s16 pad42;
+    s16 unk42;
     s16 unk44;
     s16 pad46;
     s16 unk48;
 } Unk800683E4;
+
+extern s16 D_800A34FC;
+extern s16 D_800A303C;
+extern s16 D_800A2FFC;
+extern s16 D_800A30CC;
+extern s16 D_800A329C;
+extern char D_8007B574[];
+extern void func_80052E18(s32);
+extern void func_80055EEC(void *, s32, s32, s32);
+extern void func_8005543C(void *, s32);
+
+void func_800680A4(void) {
+    Unk800683E4 *data = (Unk800683E4 *)D_800A317C->vals;
+    u16 c = 0;
+    s16 hold;
+    s16 draw;
+    s16 text;
+    s16 on;
+    Unk80052E88_Prim *p;
+    s16 h;
+
+    if (D_800A350C->unk178E != 0 && D_800A32AC[0] != 0) {
+        D_800A350C->unk178E = 0;
+    }
+    hold = 0;
+    draw = 0;
+    on = -1;
+    switch (data->unk3C) {
+    case 0:
+        if (D_800A34FC == 3) {
+            data->unk3C++;
+            data->unk40 = 0xFF;
+            data->unk42 = 0;
+            draw = on;
+        }
+        c = 0xFF;
+        break;
+    case 1:
+        func_80052930(0, -1);
+        c = 0xFF;
+        draw = on;
+        data->unk3C++;
+        break;
+    case 2:
+        data->unk40 -= 8;
+        draw = on;
+        if (data->unk40 < 0) {
+            data->unk40 = 0;
+            data->unk3C++;
+        }
+        c = data->unk40;
+        break;
+    case 3:
+        if (D_800A33EC != 0 || data->unk44 == 0) {
+            D_800A30CC = 15;
+            D_800A329C = on;
+            if (D_800A303C != 0) {
+                D_800A2FFC = on;
+            }
+            func_80052E18(3);
+            data->unk3C++;
+        } else {
+            data->unk44--;
+            hold = on;
+        }
+        break;
+    }
+    text = on;
+    if (text) {
+        func_80053864(160, 105, D_8007B574, 0xA28, 0x800, D_800A2A40, D_800A2A3C);
+    }
+    if (hold) {
+        func_80055EEC(data, 0, 0, 0);
+    }
+    func_8005543C(data, 0);
+    if (draw) {
+        p = D_800A3374;
+        h = D_800A33C4;
+        p->r0 = c;
+        p->g0 = c;
+        p->b0 = c;
+        setlen(p, 5);
+        setcode(p, 0x2A);
+        p->x0 = p->x2 = 0;
+        p->y0 = p->y1 = 0;
+        p->x1 = p->x3 = 320;
+        p->y2 = p->y3 = h;
+        addPrim(D_800A32E4 + 0x9FE, p);
+        p++;
+        SetDrawMode((DR_MODE *)p, 1, 1, GetTPage(0, 2, 0, 0x100), NULL);
+        addPrim(D_800A32E4 + 0x9FE, (DR_MODE *)p);
+        D_800A3374 = (DR_MODE *)p + 1;
+    }
+}
+
 
 extern u8 D_80087A88[];
 extern u8 D_80087B98[];
