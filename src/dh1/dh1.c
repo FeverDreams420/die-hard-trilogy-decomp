@@ -957,9 +957,38 @@ struct Task *func_80021454(struct Task *parent, void (*fn)(), s16 flags, s16 siz
     return t;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021554);
+void func_80021554(void) {
+    struct Task *t;
+    struct Task *next;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A848);
+    switch (D_800A317C->unk2E) {
+    case -1:
+        break;
+    case 0:
+    case 1:
+        D_801F75A4[D_800A317C->unk2F] = 0;
+        D_801F759C[0]++;
+        break;
+    case 2:
+        D_801F7624[D_800A317C->unk2F] = 0;
+        D_801F759C[1]++;
+        break;
+    case 3:
+        D_801F76A4[D_800A317C->unk2F] = 0;
+        D_801F759C[2]++;
+        break;
+    }
+    D_800A317C->unk2E = 0xFF;
+    D_800A317C->unk2F = 0xFF;
+    t = D_800A317C;
+    t->vals = (Unk800A317CVals *)3;
+    t->prev->next = t->next;
+    t->next->prev = t->prev;
+    next = D_800A32C4;
+    D_800A32C4 = t;
+    t->next = next;
+    D_800A317C = t->prev;
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A85C);
 
@@ -10680,7 +10709,6 @@ s32 func_8005D170(Unk8005B554 *obj) {
     }
     return 0;
 }
-
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2EC);
 
