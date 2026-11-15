@@ -4943,7 +4943,173 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80033918);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80034194);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003516C);
+typedef struct {
+    SVECTOR *v[3];
+    s32 unkC;
+    u16 unk10;
+    u16 unk12;
+} Unk8003516C_Face;
+
+typedef struct {
+    u8 *data;
+    s16 used[10];
+    s16 count;
+    s16 timer;
+    s16 state;
+    s16 pad1E;
+    s16 left;
+} Unk8003516C_Faces;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 rx;
+    s16 ry;
+    s16 rz;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    u8 pad1C[0x10];
+    Unk8003516C_Faces faces;
+} Unk8003516C;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 rx;
+    s16 ry;
+    s16 rz;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s16 v0[4];
+    s16 v1[4];
+    s16 v2[4];
+    s16 unk38;
+    s16 unk3A;
+    s16 unk3C;
+    s16 pad3E;
+    s16 unk40;
+    s16 unk42;
+    s16 unk44;
+    s16 pad46;
+    s16 unk48;
+    s16 unk4A;
+    s16 unk4C;
+    u8 pad4E[0xA];
+    s16 unk58;
+    s16 unk5A;
+    s16 unk5C;
+    s16 pad5E;
+    s16 unk60;
+    s16 unk62;
+    s16 unk64;
+    s16 pad66;
+    s16 unk68;
+    s16 pad6A;
+    s16 unk6C;
+    u8 pad6E[0xA];
+    s16 unk78[4];
+    s16 unk80[4];
+    u16 unk88;
+    u16 unk8A;
+    s16 unk8C;
+    s16 unk8E;
+    s16 unk90;
+} Unk8003516C_Debris;
+
+extern void func_800354B0();
+
+void func_8003516C(Unk8003516C *obj) {
+    Unk8003516C_Debris *d;
+    Unk8003516C_Faces *faces;
+    Unk8003BA6C_Task *task;
+    Unk8003516C_Face *f;
+    s16 i;
+    s16 found;
+    s16 v;
+
+    obj->faces.state = 9;
+    faces = &obj->faces;
+    if (obj->faces.left == 0 || obj->faces.timer != 0) {
+        return;
+    }
+    task = func_80021264(func_800354B0, 1, 0x94);
+    if (task == NULL) {
+        return;
+    }
+    d = (Unk8003516C_Debris *)task->data;
+    i = func_8001E9DC(obj->faces.count);
+    obj->faces.timer = 10;
+    found = 0;
+    obj->faces.left--;
+    do {
+        if (faces->used[i] != 0) {
+            faces->used[i] = 0;
+            found = 1;
+        } else if (++i >= faces->count) {
+            i = 0;
+        }
+    } while (!found);
+    d->x = obj->x;
+    d->y = obj->y;
+    d->z = obj->z;
+    d->rx = obj->rx;
+    d->ry = obj->ry;
+    d->rz = obj->rz;
+    d->unk10 = obj->unk10;
+    d->unk14 = obj->unk14;
+    d->unk18 = obj->unk18;
+    f = (Unk8003516C_Face *)(faces->data + 8);
+    f += i;
+    d->v0[0] = f->v[0]->vx;
+    d->v0[1] = f->v[0]->vy;
+    d->v0[2] = f->v[0]->vz;
+    d->v1[0] = f->v[1]->vx;
+    d->v1[1] = f->v[1]->vy;
+    d->v1[2] = f->v[1]->vz;
+    d->v2[0] = f->v[2]->vx;
+    d->v2[1] = f->v[2]->vy;
+    d->v2[2] = f->v[2]->vz;
+    d->unk88 = f->unk10;
+    d->unk8A = f->unk12;
+    d->unk38 = d->unk40 = v = func_8001E9DC(30) - 15;
+    d->unk48 = -v;
+    d->unk3C = d->unk44 = d->unk4C = func_8001E9DC(30) - 15;
+    d->unk3A = 20;
+    d->unk42 = 20;
+    d->unk4A = d->unk3A;
+    if (d->unk38 < 0) {
+        d->unk58 = d->unk60 = d->unk68 = 2;
+    } else {
+        d->unk58 = d->unk60 = d->unk68 = -2;
+    }
+    if (d->unk3C < 0) {
+        d->unk5C = d->unk64 = d->unk6C = 2;
+    } else {
+        d->unk5C = d->unk64 = d->unk6C = -2;
+    }
+    d->unk62 = 0;
+    d->unk5A = 0;
+    d->unk8C = 10;
+    d->unk8E = 600;
+    for (i = 0; i < 3; i++) {
+        d->unk78[i] = func_8001E9DC(14) - 7;
+        if (d->unk78[i] < 0) {
+            d->unk80[i] = -1;
+        } else {
+            d->unk80[i] = 1;
+        }
+    }
+    d->unk90 = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800354B0);
 
