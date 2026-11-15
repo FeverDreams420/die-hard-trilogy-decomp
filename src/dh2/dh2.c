@@ -3369,7 +3369,64 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A268);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A350);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A434);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk8003BA6C_Data;
+typedef struct {
+    u8 pad[0x1C];
+    Unk8003BA6C_Data *data;
+    u8 pad20[8];
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+} Unk8003BA6C_Task;
+typedef struct {
+    SVECTOR rot;
+    u8 pad8[0x16C];
+} Unk80061844_Model;
+typedef struct {
+    u16 prevId;
+    u16 id;
+    u8 pad4[2];
+    s16 unk6;
+    u32 prevTime;
+    u32 time;
+    u32 unk10;
+    u16 unk14;
+    u16 unk16;
+    u8 pad18[2];
+    u16 unk1A;
+    u16 unk1C;
+    u16 unk1E;
+} Anim;
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0x26];
+    Unk80061844_Model model;
+    Anim anim;
+    u8 pad1C0[0x10];
+    SVECTOR vel;
+    SVECTOR unk1D8;
+    SVECTOR v1E0;
+    SVECTOR v1E8;
+    u8 pad1F0[0xC];
+    struct Task *unk1FC;
+    s32 unk200;
+} Unk80061844;
+
+extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
+extern void func_8006A268(Unk80061844 *obj);
+extern void func_8006A350(void);
+
+void func_8006A434(void) {
+    Unk8003BA6C_Task *task;
+
+    task = func_8007307C(func_8006A350, 3, 0x2a0);
+    if (task != NULL) {
+        func_8006A268((Unk80061844 *)task->data);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A474);
 
