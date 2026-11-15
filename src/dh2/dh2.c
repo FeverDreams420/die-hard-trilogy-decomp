@@ -1815,7 +1815,9 @@ s32 func_800257F4(Vec32 *a, Vec32 *b) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025860);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025998);
+s32 func_80025998(SVECTOR *v) {
+    return SquareRoot0(v->vx * v->vx + v->vy * v->vy + v->vz * v->vz);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800259F8);
 
