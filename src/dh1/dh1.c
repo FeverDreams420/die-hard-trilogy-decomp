@@ -3893,7 +3893,9 @@ typedef struct {
     s16 x, y, z;
     char pad6[0x12];
     s32 f18;
-    char pad1C[0xE];
+    char pad1C[4];
+    s32 f20;
+    char pad24[6];
     short f2A;
     short f2C;
 } Obj;
@@ -5665,7 +5667,10 @@ void func_8003E1D0(void) {
     D_800A317C->func = func_8003DB38;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E384);
+void func_8003E384(Unk80045164 *obj) {
+    obj->unk94.f18 = func_800437C8(obj->unk94.f18, 200, 2);
+    obj->unk94.f20 = func_800437C8(obj->unk94.f20, 200, 2);
+}
 
 extern int CdSync(int mode, unsigned char *result);
 extern int CdInit(void);
