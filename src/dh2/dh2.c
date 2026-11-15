@@ -1705,7 +1705,11 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024C0C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024C98);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024DE4);
+void func_80024DE4(MATRIX *m, s16 scale) {
+    m->m[2][0] = (m->m[2][0] * scale) >> 12;
+    m->m[2][1] = (m->m[2][1] * scale) >> 12;
+    m->m[2][2] = (m->m[2][2] * scale) >> 12;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024E40);
 
