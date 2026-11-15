@@ -11709,7 +11709,15 @@ void func_80068BA4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80068C80);
+void func_80068C80(void) {
+    Unk8003BA6C_Task *task;
+
+    func_80021698(15);
+    task = func_80021264(func_80068BA4, 1, 4);
+    if (task != NULL) {
+        *(s32 *)task->data = 0x11;
+    }
+}
 
 void func_80068CC8(void) {
     s32 *timer = (s32 *)D_800A317C->vals;
