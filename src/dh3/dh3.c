@@ -651,7 +651,23 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800284CC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028648);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002881C);
+s32 func_8002881C(s32 value, s32 target, s32 step) {
+    s32 d = value - target;
+
+    if (d == 0) {
+        return value;
+    }
+    if (d < 0) {
+        if (-d < step) {
+            return target;
+        }
+        return value + step;
+    }
+    if (d < step) {
+        return target;
+    }
+    return value - step;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028868);
 
