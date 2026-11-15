@@ -6367,7 +6367,28 @@ void func_8003E4E8(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E77C);
+void func_8003E77C(void *dest, s32 arg1) {
+    s32 file;
+
+    D_800A34E4 = 0;
+    D_800A334C = 0;
+    D_800A2F84 = 0;
+    file = arg1;
+    D_800A2FA4 = file;
+    ResetCallback();
+    if (D_800A2F94 != 0) {
+        D_800A345C = 100;
+    } else {
+        D_800A345C = 30;
+    }
+    D_800A3124 = file;
+    D_800A3254 = dest;
+    if (((CdFileEntry *)D_800A2C0C)[(s16)file].size == 0) {
+        func_8003E490();
+    }
+    CdControl(0x15, ((CdFileEntry *)D_800A2C0C)[(s16)file].loc, 0);
+    D_800A2F94 = 0;
+}
 
 typedef struct {
     s16 unk0;
