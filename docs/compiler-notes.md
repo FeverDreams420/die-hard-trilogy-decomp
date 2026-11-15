@@ -243,3 +243,10 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `bne a1,v0` instead of `bne v0,a1` | Swap the comparison operands (`dec->w != sector->width`, 0x800525F8) |
 | `li v0,0` / `li v0,-1` pair in delay slots at the end | `if (a != 'M' \|\| b != 'C') return 0; return -1;` (0x8006A920) |
 | Pointer increment scheduled before the counter increment | `for (...; v++, i++)` rather than `i++, v++` (0x8004FB38) |
+| `j join` with the value set in the delay slot, store at the join | Identical stores in both branches (`if (c) p->f = 2; else p->f = -2;`); GCC cross-jumps the tails. A preset variable gives `li` before the branch instead (0x8003516C, 0x800403C8) |
+| A field compared and then used is reloaded (`lh` twice) | Put a store to the same struct between them in the source (`obj->a = 1; n = obj->b * 18;`); the scheduler moves the store down (0x8005F1F0) |
+| `lhu` + `sll 16`/`sra 16` on a global, or two reloads after `x--` | The global is `volatile`; `x--;` as a statement then `if (x == 0)` gives the double reload (0x8003E4E8) |
+| `lwl`/`lwr` copy of 8 bytes into a local | `RECT r = D_800A2B14;` / `SVECTOR v = D_800A2B50;` from a `.data` global (2-byte alignment); from rodata (0x8007..., 0x8008...) it is an initializer and needs the rodata split (0x80052E88, 0x8005A42C) |
+| Parameter copied to its saved register late, after other stores | Copy it into a local just before first use (`file = arg1;`) (0x8003E77C, 0x8005A42C) |
+| `(u16)v >> 8` as `sll 16`/`srl 24` from the sign-extended value | `s16 v = p->f; hi = (v >> 8) & 0xFF;` (0x800689BC) |
+| Store order wrong in a block of independent stores | Try every order of the few statements involved; a small script finds it in minutes (0x8006937C, 0x80052E88) |
