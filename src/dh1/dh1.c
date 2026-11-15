@@ -12271,7 +12271,17 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A248);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A290);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A468);
+extern u8 D_801C1B9C[];
+
+void func_8006A468(void) {
+    u8 *src = (u8 *)&D_800A350C->players[D_800A350C->unk1780];
+    u8 *dst = D_801C1B9C;
+    u16 i;
+
+    for (i = 0; i < 0x2F0; i++) {
+        *dst++ = *src++;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A4C4);
 
