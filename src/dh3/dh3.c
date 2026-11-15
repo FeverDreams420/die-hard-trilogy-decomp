@@ -3386,7 +3386,14 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007005C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800700A4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800705B0);
+extern s16 D_800B616C;
+extern s16 D_800B63E4;
+extern void func_800706F0(s32, s16);
+
+void func_800705B0(s32 arg0) {
+    D_800B616C = -1;
+    func_800706F0(arg0, D_800B63E4);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800705E4);
 
