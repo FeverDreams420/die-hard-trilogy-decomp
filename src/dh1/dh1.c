@@ -5670,7 +5670,17 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003CB90);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003D280);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003D890);
+s16 func_8003D890(Unk80045164 *obj) {
+    s16 i;
+
+    for (i = 0; i < 0x80; i++) {
+        if (D_801FBDC8[i] == 0) {
+            D_801FBDC8[i] = obj;
+            return i;
+        }
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003D8EC);
 
