@@ -2733,7 +2733,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FD10);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FFCC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006007C);
+int func_8006007C(int a, int b, int c) {
+    int t;
+
+    if (b <= 0) {
+        t = (b * c) >> 12;
+    } else {
+        t = b >> 2;
+    }
+    return a + t;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800600A0);
 
