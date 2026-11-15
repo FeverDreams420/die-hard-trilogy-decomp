@@ -3134,7 +3134,48 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80063ACC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800642A4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80064394);
+typedef struct {
+    u8 pad0[0x32];
+    s16 unk32;
+} Unk80060168;
+typedef struct {
+    s32 pad0;
+    s32 vals[3];
+} Unk800A317CVals;
+
+extern struct Task {
+    void (*func)(void);
+    void (*saved)(void);
+    void (*cleanup)(void);
+    struct Task *next;
+    struct Task *prev;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    char pad1A[2];
+    Unk800A317CVals *vals;
+    s32 id;
+    s32 flags;
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+    u8 unk2B;
+    s16 unk2C;
+    u8 unk2E;
+    u8 unk2F;
+} *D_800B6DE0;
+extern void func_8007345C(void);
+extern void func_800642A4(u8 shade);
+
+void func_80064394(void) {
+    Unk80060168 *obj = (Unk80060168 *)D_800B6DE0->vals;
+
+    func_800642A4(obj->unk32);
+    obj->unk32 -= 0x20;
+    if (obj->unk32 < 0) {
+        func_8007345C();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800643F0);
 
