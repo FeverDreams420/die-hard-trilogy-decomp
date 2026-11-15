@@ -9640,7 +9640,112 @@ void func_80052E18(s32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052E88);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 x1, y1;
+    s16 x2, y2;
+    s16 x3, y3;
+} Unk80052E88_Prim;
+
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} DR_MODE;
+
+typedef struct {
+    s16 state;
+    s16 alpha;
+    s16 next;
+    u8 pad6[2];
+    RECT rect;
+    s16 timer;
+} Unk80052E88;
+
+extern RECT D_800A2B14;
+extern void (*D_80080EF4[])(void);
+extern void *D_800A3094;
+extern s16 D_800A335C;
+extern s16 D_800A327C;
+extern void StoreImage(RECT *rect, u32 *p);
+extern void func_80050044(void);
+extern void func_80050844(void);
+extern void func_800689BC(void);
+extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
+extern void SetDrawMode(DR_MODE *p, s32 dfe, s32 dtd, s32 tpage, RECT *tw);
+
+void func_80052E88(void) {
+    Unk80052E88 *d = (Unk80052E88 *)D_800A317C->vals;
+    RECT unused = D_800A2B14;
+    Unk80052E88_Prim *p;
+
+    switch (d->state) {
+    case 0:
+        d->alpha += 16;
+        if (d->alpha == 0x100) {
+            d->alpha = 0xFF;
+        }
+        if (d->alpha > 0x100) {
+            D_800A327C = 0;
+            d->alpha = 0xFF;
+            d->timer = 2;
+            d->state++;
+        }
+        func_8004FFE0(0x4000 - (d->alpha << 6), 0);
+        break;
+    case 1:
+        if (d->timer != 0) {
+            d->timer--;
+            break;
+        }
+        func_80020340();
+        if (D_800A335C != 0) {
+            DrawSync(0);
+            StoreImage(&d->rect, (u32 *)D_800A30B4);
+            DrawSync(0);
+            D_800A335C = 0;
+            D_800A33E4 = D_800A3094;
+        }
+        if (D_800A2FFC != 0) {
+            func_800689BC();
+            D_800A2FFC = 0;
+        }
+        D_80080EF4[d->next]();
+        d->state++;
+        func_80050044();
+        func_80050844();
+        break;
+    case 2:
+        d->alpha -= 16;
+        if (d->alpha < 0) {
+            d->alpha = 0;
+            D_800A347C = 0;
+            func_80021554();
+        }
+        func_8004FFE0(0x4000 - (d->alpha << 6), 0);
+        break;
+    }
+    p = D_800A3374;
+    p->x0 = 0;
+    p->y0 = 0;
+    p->x1 = 320;
+    p->y1 = 0;
+    p->x2 = 0;
+    p->y2 = D_800A33C4;
+    p->x3 = 320;
+    p->y3 = D_800A33C4;
+    p->r0 = d->alpha;
+    p->g0 = d->alpha;
+    p->b0 = d->alpha;
+    setlen(p, 5);
+    setcode(p, 0x2A);
+    addPrim(D_800A32E4, p);
+    p++;
+    SetDrawMode((DR_MODE *)p, 1, 1, GetTPage(0, 2, 0, 0x100), NULL);
+    addPrim(D_800A32E4, (DR_MODE *)p);
+    D_800A3374 = (DR_MODE *)p + 1;
+}
 
 extern RECT D_800A2B1C;
 extern s32 ClearImage(RECT *rect, u8 r, u8 g, u8 b);
@@ -11990,11 +12095,6 @@ void func_8005F8F0(Unk8005F8F0 *obj) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F92C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F98C);
-
-typedef struct {
-    u32 tag;
-    u32 code[2];
-} DR_MODE;
 
 extern void SetTile(TILE *p);
 extern void SetSemiTrans(void *p, s32 abe);
