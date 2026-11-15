@@ -3032,7 +3032,23 @@ void func_80065060(Unk8005F880 *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800650D0);
+typedef struct {
+    u8 pad0[0x2A];
+    s16 unk2A;
+    u8 pad2C[0xC];
+    u32 unk38;
+    u32 unk3C;
+    u8 pad40[6];
+    s16 unk46;
+} Unk8005F8F0;
+
+void func_800650D0(Unk8005F8F0 *obj) {
+    obj->unk38 = obj->unk2A * obj->unk46;
+    obj->unk3C = obj->unk38 >> 5;
+    if (obj->unk3C == 0) {
+        obj->unk3C = 1;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006510C);
 
