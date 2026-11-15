@@ -13227,7 +13227,70 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067670);
 void func_80067A28(void) {
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067A30);
+typedef struct {
+    u8 pad0[0x12];
+    u16 type;
+} Unk80067A30_Prim;
+
+typedef struct {
+    s16 x, y, z;
+    char pad6[2];
+    s16 rx, ry, rz;
+    char padE[0xA];
+    s32 sx, sy, sz;
+} Unk80067A30_Obj;
+
+extern VECTOR D_8007B564;
+extern SVECTOR D_800A3194;
+extern Unk80067A30_Obj D_800A8000;
+extern s32 D_800A30DC;
+extern void (*D_8008009C[])(Unk80067A30_Prim *);
+
+s32 func_80067A30(Unk80067A30_Prim *p, SVECTOR *pos, SVECTOR *ang) {
+    s16 sxy[2];
+    VECTOR scale = D_8007B564;
+    MATRIX m;
+    SVECTOR rot;
+    s16 z;
+
+    PushMatrix();
+    D_800A349C.vx = pos->vx - D_800A3194.vx;
+    D_800A349C.vy = pos->vy - D_800A3194.vy;
+    D_800A349C.vz = pos->vz - D_800A3194.vz;
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    rot.vx = 0;
+    rot.vz = 0;
+    rot.vy = D_800A30DC * 500;
+    D_800A8000.x = pos->vx;
+    D_800A8000.y = pos->vy - 0x40;
+    D_800A8000.z = pos->vz;
+    D_800A8000.rx = 0;
+    D_800A8000.ry = -rot.vy;
+    D_800A8000.rz = 0;
+    D_800A8000.sx = 0x800;
+    D_800A8000.sy = 0x80;
+    D_800A8000.sz = 0x800;
+    func_80042538((Obj *)&D_800A8000);
+    func_80023660(ang, &m);
+    MulMatrix2(&D_801C0B64, &m);
+    func_8002384C(&rot, &D_801FB868);
+    MulMatrix2(&m, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &scale);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    z = RotTransPers((SVECTOR *)&D_800A2A10, (s32 *)sxy, &D_800A2EFC, &D_800A3394) >> 1;
+    if ((D_800A3394 & ~0x1FFF) || z < 0x20 || z >= 0x980 || sxy[0] < -0x50 || sxy[0] > 0x190 || sxy[1] < -0x50 || sxy[1] > 0x190) {
+        PopMatrix();
+        return -1;
+    }
+    p = (Unk80067A30_Prim *)((u8 *)p + 8);
+    do {
+        D_8008009C[p->type & 0x1F](p);
+    } while (!(p++->type & 0x80));
+    PopMatrix();
+    return 0;
+}
 
 extern s16 D_801C1ED4[];
 
