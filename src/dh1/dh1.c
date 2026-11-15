@@ -11962,7 +11962,13 @@ void func_8005F8F0(Unk8005F8F0 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F92C);
+extern char D_8007B42C[];
+
+void func_8005F92C(void) {
+    if (D_800A30DC & 8) {
+        func_80053864(160, 226, D_8007B42C, 0x320, 0x12C, D_800A2A3C, D_800A2A30);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F98C);
 
