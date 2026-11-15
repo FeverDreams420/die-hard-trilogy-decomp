@@ -7973,7 +7973,56 @@ void func_8004DDB4(u8 *a, u8 *b, s16 t, u8 *out) {
     out[1] = func_800296F8(a[1], b[1], t);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004DE24);
+typedef struct {
+    SVECTOR *v[4];
+    u16 unk10;
+    u16 flags;
+} Unk8004DE24_Face;
+
+typedef struct {
+    SVECTOR *p[4];
+    u16 unk10;
+    u16 unk12;
+} Unk8004DE24_Quad;
+
+extern void RotTransSV(SVECTOR *v, SVECTOR *out, s32 *flag);
+extern void func_8004E570(Unk8004DE24_Quad *q, s16 y, s16 arg2);
+
+void func_8004DE24(Unk80032344 *obj, s16 arg1) {
+    Unk8004DE24_Face *f;
+    Unk8004DE24_Quad q;
+    SVECTOR v[4];
+    SVECTOR unused[2];
+
+    PushMatrix();
+    RotMatrix(&obj->rot, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &obj->scale);
+    SetRotMatrix(&D_801FB868);
+    D_801C1EC4.vx = obj->pos.vx;
+    D_801C1EC4.vy = obj->pos.vy;
+    D_801C1EC4.vz = obj->pos.vz;
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    f = (Unk8004DE24_Face *)(obj->data + 8);
+    q.p[0] = &v[0];
+    q.p[1] = &v[1];
+    q.p[2] = &v[2];
+    q.p[3] = &v[3];
+    do {
+        if ((s32)f->v[3] != -1) {
+            RotTransSV(f->v[0], &v[0], &D_800A3394);
+            RotTransSV(f->v[1], &v[1], &D_800A3394);
+            RotTransSV(f->v[2], &v[2], &D_800A3394);
+            RotTransSV(f->v[3], &v[3], &D_800A3394);
+            q.unk10 = f->unk10;
+            q.unk12 = f->flags;
+            func_8004E570(&q, obj->pos.vy, arg1);
+        }
+    } while (!((f++)->flags & 0x80));
+    PopMatrix();
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+}
 
 typedef struct {
     s16 unk0;
