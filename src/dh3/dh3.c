@@ -2987,7 +2987,18 @@ void func_80065A28(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065A84);
+typedef struct {
+    u8 pad0[0x32];
+    s16 unk32;
+} Unk80060200;
+
+void func_80065A28(void);
+
+void func_80065A84(void) {
+    ((Unk80060200 *)D_800B604C->vals)->unk32 = 0xFF;
+    D_800B604C->func = func_80065A28;
+    func_80065A28();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065AC0);
 
