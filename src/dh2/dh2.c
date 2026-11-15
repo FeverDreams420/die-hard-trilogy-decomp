@@ -2279,7 +2279,21 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003E210);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003E550);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003E6F4);
+typedef struct {
+    SVECTOR *v[4];
+} Unk8004D4A0;
+
+void func_8003E6F4(Unk8004D4A0 *f, SVECTOR *out) {
+    if (f->v[3] != (SVECTOR *)-1) {
+        out->vx = (f->v[0]->vx + f->v[1]->vx + f->v[2]->vx + f->v[3]->vx) >> 2;
+        out->vy = (f->v[0]->vy + f->v[1]->vy + f->v[2]->vy + f->v[3]->vy) >> 2;
+        out->vz = (f->v[0]->vz + f->v[1]->vz + f->v[2]->vz + f->v[3]->vz) >> 2;
+    } else {
+        out->vx = (f->v[0]->vx + f->v[1]->vx + f->v[2]->vx) / 3;
+        out->vy = (f->v[0]->vy + f->v[1]->vy + f->v[2]->vy) / 3;
+        out->vz = (f->v[0]->vz + f->v[1]->vz + f->v[2]->vz) / 3;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003E8A4);
 
