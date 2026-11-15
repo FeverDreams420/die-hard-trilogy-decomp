@@ -3369,7 +3369,18 @@ long func_8006FF3C(s16 chan) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FFF4);
+extern long CloseEvent(long event);
+extern long StartPAD(void);
+extern long StopCARD(void);
+
+void func_8006FFF4(void) {
+    StopCARD();
+    CloseEvent(D_800B5C7C);
+    CloseEvent(D_800B5C84);
+    CloseEvent(D_800B5C8C);
+    CloseEvent(D_800B5C94);
+    StartPAD();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007005C);
 
