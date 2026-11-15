@@ -11450,7 +11450,16 @@ void func_80063C60(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80063D8C);
+void func_80063D8C(void) {
+    Unk80063C60 *p = (Unk80063C60 *)D_800A317C->vals;
+
+    p->unk0 = 0;
+    p->unk8 = 0x500;
+    p->unk4 = 0;
+    p->unk6 = 0x20;
+    p->unkC = func_8001E9DC(0x20);
+    D_800A317C->func = func_80063C60;
+}
 
 extern s16 D_800A3556;
 
