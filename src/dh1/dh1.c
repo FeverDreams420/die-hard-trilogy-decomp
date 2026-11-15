@@ -882,7 +882,53 @@ void func_8001F778(void) {
     func_8006B370(0xF2000001);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F970);
+
+typedef struct {
+    unsigned addr : 24;
+    unsigned len : 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+#define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
+#define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
+#define getcode(p) (u8)(((P_TAG *)(p))->code)
+#define setSemiTrans(p, abe) ((abe) ? setcode(p, getcode(p) | 0x02) : setcode(p, getcode(p) & ~0x02))
+#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
+#define setRGB0(p, _r0, _g0, _b0) ((p)->r0 = _r0, (p)->g0 = _g0, (p)->b0 = _b0)
+#define setPolyFT4(p) setlen(p, 9), setcode(p, 0x2C)
+#define setShadeTex(p, tge) ((tge) ? setcode(p, getcode(p) | 1) : setcode(p, getcode(p) & ~1))
+
+extern s32 D_800A301C;
+
+void func_8001F970(void) {
+    D_800A30A4 = (Unk8002CE64_Prim *)D_800A8078[0].buf;
+    D_800A31C4 = (Unk8002CE64_Prim *)D_800A8078[1].buf;
+    for (D_800A301C = 0; D_800A301C < 0x47E; D_800A301C++) {
+        setRGB0(D_800A30A4, 0x80, 0x80, 0x80);
+        setRGB0(D_800A31C4, 0x80, 0x80, 0x80);
+        setPolyFT4(D_800A30A4);
+        setPolyFT4(D_800A31C4);
+        setShadeTex(D_800A30A4, 0);
+        setShadeTex(D_800A31C4, 0);
+        D_800A30A4++;
+        D_800A31C4++;
+    }
+    D_800A301C = 0;
+    D_800A30A4 = D_800A8078[0].unk2874;
+    D_800A31C4 = D_800A8078[1].unk2874;
+    for (; D_800A301C < 0x1F4; D_800A301C++) {
+        setRGB0(D_800A30A4, 0x80, 0x80, 0x80);
+        setRGB0(D_800A31C4, 0x80, 0x80, 0x80);
+        setPolyFT4(D_800A30A4);
+        setPolyFT4(D_800A31C4);
+        setShadeTex(D_800A30A4, 1);
+        setShadeTex(D_800A31C4, 1);
+        D_800A30A4++;
+        D_800A31C4++;
+    }
+}
 
 extern s16 D_801C0B44[];
 extern s16 D_801C2034[];
@@ -1809,21 +1855,6 @@ void func_800207DC(void) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800209B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020B90);
-
-typedef struct {
-    unsigned addr : 24;
-    unsigned len : 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
-
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
-#define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
-#define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
-#define getcode(p) (u8)(((P_TAG *)(p))->code)
-#define setSemiTrans(p, abe) ((abe) ? setcode(p, getcode(p) | 0x02) : setcode(p, getcode(p) & ~0x02))
-#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
-
 extern u32 *D_800A32E4;
 extern void *D_800A3374;
 extern DRAWENV *SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
