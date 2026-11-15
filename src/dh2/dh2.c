@@ -1831,7 +1831,13 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025B58);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025C30);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025D44);
+extern int func_80072734(s32 a, s32 b, s32 t);
+
+void func_80025D44(s16 *a, s16 *b, s16 t, s16 *out) {
+    out[0] = func_80072734(a[0], b[0], t);
+    out[1] = func_80072734(a[1], b[1], t);
+    out[2] = func_80072734(a[2], b[2], t);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025DC8);
 
