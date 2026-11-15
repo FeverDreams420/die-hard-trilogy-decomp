@@ -9266,7 +9266,107 @@ void func_80051960(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80051AC0);
+typedef struct {
+    s16 state;
+    s16 val;
+    s16 cur;
+    s16 idx;
+    SVECTOR rot;
+    VECTOR scale;
+    u8 *model;
+} Unk80051AC0_Part;
+
+typedef struct {
+    Unk80051AC0_Part part[2];
+} Unk80051AC0;
+
+typedef struct {
+    u8 pad0[0xF6];
+    s16 unkF6;
+    s16 unkF8[3];
+    s16 unkFE;
+} Unk80051AC0_Owner;
+
+typedef struct {
+    u8 r, g, b, a;
+} Unk80051AC0_Color;
+
+typedef struct {
+    s16 v[3];
+} Unk80051AC0_Tbl;
+
+extern Unk80051AC0_Color D_800A2AF8;
+extern Unk80051AC0_Tbl D_800A2AFC;
+extern Unk80051AC0_Tbl D_800A2B04;
+extern s16 D_80080E68[];
+extern s16 D_80080E78[];
+extern void func_800547B0(short x, short y, int value, int d, int a, int b, int c);
+extern void func_80051DF8(u8 *model, SVECTOR *rot, VECTOR *scale);
+extern void func_80070FBC(s32 a, s32 b);
+
+void func_80051AC0(void) {
+    Unk80051AC0 *d = (Unk80051AC0 *)D_800A317C->vals;
+    Unk80051AC0_Color c = D_800A2AF8;
+    Unk80051AC0_Tbl start = D_800A2AFC;
+    Unk80051AC0_Tbl end = D_800A2B04;
+    Unk80051AC0_Owner *o;
+    s16 h;
+
+    if (D_801F7D50 == NULL) {
+        return;
+    }
+    o = (Unk80051AC0_Owner *)D_801F7D50->vals;
+    switch (d->part[0].state) {
+    case 1:
+        d->part[0].val -= 0x400;
+        if (d->part[0].val < 0x400) {
+            d->part[0].val = 0x200;
+            d->part[0].state++;
+            d->part[0].model = (u8 *)D_801D70F0[D_80080E68[d->part[0].idx]];
+            d->part[0].cur = d->part[0].idx;
+        }
+        break;
+    case 2:
+        d->part[0].val += 0x400;
+        if (D_80080E78[d->part[0].idx] < d->part[0].val) {
+            d->part[0].val = D_80080E78[d->part[0].idx];
+            d->part[0].state = 0;
+        }
+        break;
+    }
+    d->part[0].scale.vx = d->part[0].scale.vy = d->part[0].scale.vz = d->part[0].val;
+    switch (d->part[1].state) {
+    case 1:
+        d->part[1].val -= 0x400;
+        if (d->part[1].val < 0x400) {
+            d->part[1].val = 0x200;
+            d->part[1].state++;
+            d->part[1].model = (u8 *)D_801D70F0[start.v[d->part[1].idx]];
+            d->part[1].cur = d->part[1].idx;
+        }
+        break;
+    case 2:
+        d->part[1].val += 0x400;
+        if (end.v[d->part[1].idx] < d->part[1].val) {
+            d->part[1].val = end.v[d->part[1].idx];
+            d->part[1].state = 0;
+        }
+        break;
+    }
+    d->part[1].scale.vx = d->part[1].scale.vy = d->part[1].scale.vz = d->part[1].val;
+    func_800547B0(0x5E, 0x20, o->unkF8[o->unkFE], 0x300, 0x140, (int)&c, (int)&c);
+    func_800547B0(0xE6, 0x20, o->unkF6, 0x300, 0x140, (int)&c, (int)&c);
+    PushMatrix();
+    func_80070FBC(0xE6, 0x22);
+    func_80051DF8(d->part[0].model + 8, &d->part[0].rot, &d->part[0].scale);
+    func_80070FBC(0x5E, 0x22);
+    func_80051DF8(d->part[1].model + 8, &d->part[1].rot, &d->part[1].scale);
+    PopMatrix();
+    h = D_800A33C4;
+    func_80070FBC(0xA0, h >> 1);
+    d->part[0].rot.vy += 0x20;
+    d->part[1].rot.vy -= 0x20;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80051DF8);
 
