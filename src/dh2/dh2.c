@@ -3630,7 +3630,11 @@ s32 func_800727B0(void *data, s16 i) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800727C8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072810);
+extern volatile s16 D_800B6B50;
+
+void func_80072810(void) {
+    D_800B6B50 = 20;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072824);
 
