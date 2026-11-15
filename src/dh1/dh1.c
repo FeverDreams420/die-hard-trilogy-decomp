@@ -4153,7 +4153,8 @@ typedef struct {
     s16 unk28;
     u8 pad2A[2];
     s16 state;
-    u8 pad2E[0x36];
+    u8 pad2E[0x34];
+    s16 unk62;
     Anim anim;
     u8 pad84[0x10];
     Obj unk94;
@@ -5420,7 +5421,7 @@ void func_80039584(Unk80045164 *obj) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800395C0);
 
-extern void func_8003D8EC(Unk80045164 *obj, s32 arg1);
+extern void func_8003D8EC(Unk80045164 *obj, s16 arg1);
 extern void func_8003BAD8(void);
 void func_8003BE8C();
 
@@ -5922,7 +5923,61 @@ s16 func_8003D890(Unk80045164 *obj) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003D8EC);
+extern s16 D_801C1EF6;
+extern s16 D_800A61BC;
+
+void func_8003D8EC(Unk80045164 *obj, s16 arg1) {
+    s32 params[6];
+
+    if (obj->unk62 != -1) {
+        D_801FBDC8[obj->unk62] = NULL;
+    }
+    switch (obj->unk28) {
+    case 13:
+        break;
+    case 4:
+        D_800A31CC--;
+        D_800A32F4--;
+        if (arg1) {
+            D_800A318C++;
+        } else {
+            D_800A2EE8++;
+        }
+        if (D_800A32F4 == 0 && D_800A2F14 != 0 && D_800A2F74 == 0) {
+            if (arg1) {
+                params[0] = 0x33;
+                params[1] = 0x3FFF;
+                params[2] = 0;
+                params[3] = 0x400;
+                params[4] = 0;
+                params[5] = 1;
+                params[3] = D_801C1EF6 + 0x400;
+                func_8004FB78(params);
+            }
+            D_800A61BC = -1;
+        }
+        break;
+    case 18:
+        D_800A31FC--;
+        D_800A3504++;
+    default:
+        D_800A31CC--;
+        D_800A3054--;
+        D_800A2FD4++;
+        if (D_800A3054 == 0 && D_800A2F14 == 0) {
+            params[0] = 0x33;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 1;
+            params[3] = D_801C1EF6 + 0x400;
+            func_8004FB78(params);
+            D_800A61BC = -1;
+        }
+        break;
+    }
+}
 
 extern void func_8003D280(void);
 
