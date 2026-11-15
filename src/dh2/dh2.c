@@ -3616,7 +3616,9 @@ void *func_80072768(void *data, s16 i) {
     return (u8 *)pack + pack->entries[i].offset;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072780);
+u32 func_80072780(void *data, s16 i) {
+    return ((Pack *)data)->entries[i].unk4;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072798);
 
