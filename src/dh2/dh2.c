@@ -2964,7 +2964,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005E3EC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005E6F4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005E828);
+int func_8005E828(int a, int b, int c) {
+    int t;
+
+    if (b <= 0) {
+        t = (b * c) >> 12;
+    } else {
+        t = b >> 2;
+    }
+    return a + t;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005E84C);
 
