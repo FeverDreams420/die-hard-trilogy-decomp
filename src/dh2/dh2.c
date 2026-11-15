@@ -3434,7 +3434,21 @@ u8 func_80070E2C(u8 *data, s32 len) {
     return sum;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070E54);
+u8 func_80070E2C(u8 *data, s32 len);
+
+s32 func_80070E54(u8 *data, s32 len, u8 *out) {
+    s32 n = 0;
+
+    while (len > 0x400) {
+        out[n++] = func_80070E2C(data, 0x400);
+        len -= 0x400;
+        data += 0x400;
+    }
+    if (len != 0) {
+        out[n++] = func_80070E2C(data, len);
+    }
+    return n;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070EF4);
 
