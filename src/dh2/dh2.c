@@ -3925,7 +3925,16 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B67E8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078AE4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078D70);
+extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
+extern int CdSync(int mode, unsigned char *result);
+
+void func_80078D70(void) {
+    u8 result[8];
+
+    CdSync(0, result);
+    CdControl(10, 0, result);
+    CdSync(0, result);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078DB0);
 
