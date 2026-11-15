@@ -10660,9 +10660,27 @@ void func_8005CD64(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005CD6C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D170);
+s32 func_8005D170(Unk8005B554 *obj) {
+    switch (obj->unk2C) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 12:
+        return -1;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+        return 0;
+    }
+    return 0;
+}
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B2B8);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2EC);
 
