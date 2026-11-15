@@ -6335,7 +6335,23 @@ void func_8004379C(short id, SVECTOR *out) {
     out->vz = node->z;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800437C8);
+s32 func_800437C8(s32 value, s32 target, s32 step) {
+    s32 d = value - target;
+
+    if (d == 0) {
+        return value;
+    }
+    if (d < 0) {
+        if (-d < step) {
+            return target;
+        }
+        return value + step;
+    }
+    if (d < step) {
+        return target;
+    }
+    return value - step;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043814);
 
