@@ -5151,14 +5151,14 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80038B00);
 typedef struct {
     s16 x;
     s16 z;
-    u8 pad4[2];
+    s16 unk4;
     s16 links[4];
     s16 unkE[4];
     s16 unk16;
     s16 unk18;
-    u8 pad1A[2];
-    u8 unk1C;
-    u8 pad1D[3];
+    s16 unk1A;
+    s16 unk1C;
+    u8 pad1E[2];
 } Unk80043CC4;
 
 extern Unk80043CC4 *D_800A3084;
@@ -5189,7 +5189,91 @@ void func_800390B8(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800391E0);
+extern s16 D_800A31D4;
+typedef struct {
+    s16 node;
+    s16 dist;
+} PathStep;
+
+extern PathStep D_801FB9C8[];
+
+void func_800391E0(s16 start) {
+    volatile s16 count;
+    PathStep *queue;
+    s32 i;
+    s32 head;
+    s32 tail;
+    s32 cur;
+    s32 dist;
+    s32 next;
+    s16 found;
+
+    queue = D_801FB9C8;
+    D_800A31D4++;
+    for (i = 0; i < D_800A31DC; i++) {
+        queue[i].node = -1;
+        queue[i].dist = -1;
+    }
+    queue[0].node = start;
+    queue[0].dist = 1;
+    count = D_800A31DC;
+    D_800A3084[start].unk1C = start;
+    D_800A3084[start].unk1A = D_800A31D4;
+    D_800A3084[start].unk4 = 1;
+    head = 0;
+    tail = 1;
+    while (tail + 1 < count) {
+        for (i = head; i < tail; i++) {
+            cur = queue[i].node;
+            dist = queue[i].dist;
+            found = 0;
+            head++;
+            next = D_800A3084[cur].links[0];
+            if (next != -1 && D_800A3084[next].unk1A != D_800A31D4) {
+                D_800A3084[next].unk1A = D_800A31D4;
+                D_800A3084[next].unk1C = cur;
+                D_800A3084[next].unk4 = dist + 1;
+                queue[tail].node = next;
+                queue[tail].dist = dist + 1;
+                found = -1;
+                tail++;
+            }
+            next = D_800A3084[cur].links[1];
+            if (next != -1 && D_800A3084[next].unk1A != D_800A31D4) {
+                D_800A3084[next].unk1A = D_800A31D4;
+                D_800A3084[next].unk1C = cur;
+                D_800A3084[next].unk4 = dist + 1;
+                queue[tail].node = next;
+                queue[tail].dist = dist + 1;
+                found = -1;
+                tail++;
+            }
+            next = D_800A3084[cur].links[2];
+            if (next != -1 && D_800A3084[next].unk1A != D_800A31D4) {
+                D_800A3084[next].unk1A = D_800A31D4;
+                D_800A3084[next].unk1C = cur;
+                D_800A3084[next].unk4 = dist + 1;
+                queue[tail].node = next;
+                queue[tail].dist = dist + 1;
+                found = -1;
+                tail++;
+            }
+            next = D_800A3084[cur].links[3];
+            if (next != -1 && D_800A3084[next].unk1A != D_800A31D4) {
+                D_800A3084[next].unk1A = D_800A31D4;
+                D_800A3084[next].unk1C = cur;
+                D_800A3084[next].unk4 = dist + 1;
+                queue[tail].node = next;
+                queue[tail].dist = dist + 1;
+                found = -1;
+                tail++;
+            }
+            if (!found) {
+                count--;
+            }
+        }
+    }
+}
 
 extern s16 *D_800A31B4;
 
