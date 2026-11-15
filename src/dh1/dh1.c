@@ -10203,7 +10203,57 @@ void func_80058898(Unk80058898 *obj, s16 type) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800589E8);
+extern s16 D_801C1EFC;
+extern u16 D_8008523C[];
+
+void func_800589E8(void *arg0, void *arg1, Unk800584A4 *self) {
+    Unk800584A4 *obj = &D_800A3564[self->unkA];
+    Unk8003516C_Faces *faces = &((Unk8003516C *)obj)->faces;
+    Unk80032344_Face *f;
+    s32 params[6];
+    s16 i;
+
+    if (obj->unk2A == 0) {
+        return;
+    }
+    if (obj->unkA6 != 0) {
+        func_8003516C((Unk8003516C *)obj);
+        if (D_801C1EFC != 0) {
+            params[0] = 0x2B;
+            params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+            params[2] = func_800508F0((SVECTOR *)obj) * 4;
+            params[3] = 0x500;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+        }
+    }
+    obj->unkA6 = 0;
+    obj->unk86 = obj->unkA;
+    func_80042538((Obj *)&obj->unk7C);
+    func_80032344((Unk80032344 *)obj, 1);
+    if (faces->state != 0) {
+        obj->unk8 = D_8008523C[faces->state];
+        obj->unkA += 0x10;
+        faces->state--;
+    }
+    if (faces->left == 0) {
+        return;
+    }
+    if (faces->timer != 0) {
+        faces->timer--;
+    }
+    SetRotMatrix(&D_801FB868);
+    SetTransMatrix(&D_801FB868);
+    f = (Unk80032344_Face *)(faces->data + 8);
+    for (i = 0; i < faces->count; i++, f++) {
+        if (faces->used[i] != 0) {
+            D_8007FF9C[f->flags & 0x1F](f);
+        }
+    }
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058C04);
 
