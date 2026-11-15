@@ -3523,7 +3523,33 @@ void func_80071680(s32 arg0) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800716B4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800716D8);
+extern u8 D_800B74F8[];
+extern s32 close(s32 fd);
+extern char *func_800716B4(s16 arg0);
+extern s32 open(char *name, s32 mode);
+extern s32 read(s32 fd, void *buf, s32 n);
+
+s32 func_800716D8(s16 slot) {
+    char *name;
+    s32 fd;
+
+    if (slot == 0) {
+        name = func_800716B4(0);
+    } else {
+        name = func_800716B4(1);
+    }
+    fd = open(name, 1);
+    if (fd == -1) {
+        close(fd);
+        return 0;
+    }
+    if (read(fd, D_800B74F8, 0x200) != 0x200) {
+        close(fd);
+        return 0;
+    }
+    close(fd);
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071778);
 
