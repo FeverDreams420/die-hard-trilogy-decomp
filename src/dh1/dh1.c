@@ -3524,9 +3524,93 @@ void func_80031804(s16 i) {
     D_8007C42C[i] = D_800A2A24;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80031828);
+typedef struct {
+    u8 pad0[0xF0];
+    s16 unkF0;
+    u8 padF2[2];
+    s16 unkF4;
+    s16 unkF6;
+    u8 padF8[0x5E];
+    s16 unk156;
+} Unk80031828;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8DC);
+extern volatile u16 D_800A32AC[];
+extern void func_80051778(s16 id, s16 flag);
+
+void func_80031828(Unk80031828 *p) {
+    u16 pressed = D_800A32AC[0];
+    u16 held = D_800A343C[0];
+
+    if (pressed & 0x1000) {
+        func_80031804(0xB);
+    }
+    if (pressed & 0x20) {
+        func_80031804(9);
+    }
+    if (pressed & 0x1000) {
+        func_80031804(1);
+    }
+    if (pressed & 0x8000) {
+        func_80031804(3);
+    }
+    if (pressed & 0x2000) {
+        func_80031804(4);
+    }
+    if (pressed & 0x4000) {
+        func_80031804(0xF);
+    }
+    if (pressed & 0x2000) {
+        func_80031804(0x11);
+    }
+    if (pressed & 0x8000) {
+        func_80031804(0x10);
+    }
+    switch (p->unkF4) {
+    case 1:
+        if ((held & 0x80) && p->unkF0 >= 3) {
+            func_80031804(5);
+            p->unkF0 = 0;
+            p->unk156 = -1;
+        }
+        break;
+    case 2:
+    case 5:
+        if ((pressed & 0x80) && p->unkF0 >= 0x1F) {
+            func_80031804(5);
+            p->unkF0 = 0;
+            p->unkF6--;
+        }
+        break;
+    case 3:
+        if ((pressed & 0x80) && p->unkF0 >= 3) {
+            func_80031804(5);
+            p->unkF0 = 0;
+            p->unkF6--;
+        }
+        break;
+    case 4:
+    case 6:
+        if ((pressed & 0x80) && p->unkF0 >= 6) {
+            func_80031804(5);
+            p->unkF0 = 0;
+            p->unkF6--;
+        }
+        break;
+    }
+    if (p->unkF6 == 0) {
+        if (p->unkF4 != 1) {
+            func_80051778(1, -1);
+        }
+        p->unkF4 = 1;
+    }
+    if (++p->unkF0 > 0x78) {
+        p->unkF0 = 0x78;
+    }
+    if (pressed & 0x10) {
+        func_80031804(6);
+    }
+    func_80031804(0xA);
+}
 
 void func_80031A5C(Unk80031AB8 *obj) {
     u16 *e = (u16 *)D_800A353C[obj->anim.id].p;
