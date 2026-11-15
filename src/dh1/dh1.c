@@ -894,7 +894,16 @@ void func_8001FD58(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FDE4);
+extern long CloseEvent(long event);
+
+void func_8001FDE4(void) {
+    if (D_800A31AC != 0) {
+        func_8006B3C0();
+        CloseEvent(D_800A31AC);
+        D_800A31AC = 0;
+        func_8006B3D0();
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FE30);
 
