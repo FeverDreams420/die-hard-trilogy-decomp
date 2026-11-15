@@ -2022,7 +2022,11 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021D44);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002214C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800223C8);
+void func_800223C8(MATRIX *m, s16 scale) {
+    m->m[2][0] = (m->m[2][0] * scale) >> 12;
+    m->m[2][1] = (m->m[2][1] * scale) >> 12;
+    m->m[2][2] = (m->m[2][2] * scale) >> 12;
+}
 
 s32 func_80022424(void) {
     return 0;
