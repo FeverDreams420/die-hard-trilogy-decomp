@@ -729,7 +729,23 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029854);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029A7C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029BB8);
+extern unsigned short D_801FADE0[16];
+
+void func_80029BB8(unsigned short *src) {
+    unsigned short *dst = D_801FADE0;
+    unsigned short i;
+    int unused[2];
+
+    for (i = 0; i < 16; i++) {
+        if (*src == 0) {
+            *dst = 0;
+        } else {
+            *dst = 0xFFFF;
+        }
+        dst++;
+        src++;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029C08);
 
