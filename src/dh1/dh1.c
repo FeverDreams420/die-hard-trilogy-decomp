@@ -6297,9 +6297,89 @@ void func_800411E4(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004121C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004161C);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, p1;
+    s16 x1, y1;
+} LINE_G2;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACB4);
+extern void SetLineG2(LINE_G2 *p);
+
+void func_8004161C(SVECTOR *a, SVECTOR *b, s16 color) {
+    LINE_G2 *line = D_800A3374;
+    SVECTOR d;
+    s16 dx;
+    s16 dz;
+    u32 *ot;
+
+    dx = a->vx - D_800A3194.vx;
+    dz = a->vz - D_800A3194.vz;
+    if ((dx < 0 ? -dx : dx) > 0x3000 || (dz < 0 ? -dz : dz) > 0x3000) {
+        return;
+    }
+    PushMatrix();
+    D_800A349C.vx = a->vx - D_800A3194.vx;
+    D_800A349C.vy = a->vy - D_800A3194.vy;
+    D_800A349C.vz = a->vz - D_800A3194.vz;
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    SetRotMatrix(&D_801C0B64);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    RotTransPers((SVECTOR *)&D_800A2A10, (s32 *)&line->x0, &D_800A2EFC, &D_800A3394);
+    d.vx = b->vx - a->vx;
+    d.vy = b->vy - a->vy;
+    d.vz = b->vz - a->vz;
+    RotTransPers(&d, (s32 *)&line->x1, &D_800A2EFC, &D_800A3394);
+    PopMatrix();
+    SetLineG2(line);
+    switch (color) {
+    case 0:
+        line->r0 = 0xFF;
+        line->g0 = 0xFF;
+        line->b0 = 0xFF;
+        break;
+    case 1:
+        line->r0 = 0xFF;
+        line->g0 = 0;
+        line->b0 = 0;
+        break;
+    case 2:
+        line->r0 = 0;
+        line->g0 = 0xFF;
+        line->b0 = 0;
+        break;
+    case 3:
+        line->r0 = 0;
+        line->g0 = 0;
+        line->b0 = 0xFF;
+        break;
+    case 4:
+        line->r0 = 0xFF;
+        line->g0 = 0xFF;
+        line->b0 = 0;
+        break;
+    case 5:
+        line->r0 = 0;
+        line->g0 = 0xFF;
+        line->b0 = 0xFF;
+        break;
+    default:
+        line->r0 = 0xFF;
+        line->g0 = 0;
+        line->b0 = 0xFF;
+        break;
+    }
+    line->r1 = 0x40;
+    line->g1 = 0x40;
+    line->b1 = 0x40;
+    ot = D_800A32E4 + 12;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, line++);
+    }
+    D_800A3374 = line;
+}
 
 typedef struct {
     s16 x;
