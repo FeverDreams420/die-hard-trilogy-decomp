@@ -6285,7 +6285,7 @@ s32 func_8003E45C(void *data, s16 i) {
 void func_8003E474(void) {
 }
 
-extern s16 D_800A2F84;
+extern volatile s16 D_800A2F84;
 
 void func_8003E47C(void) {
     D_800A2F84 = 20;
@@ -6293,7 +6293,79 @@ void func_8003E47C(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E490);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E4E8);
+typedef struct {
+    u8 loc[4];
+    s32 size;
+    u8 pad8[0x10];
+} CdFileEntry;
+
+extern volatile s16 D_800A345C;
+extern volatile s16 D_800A334C;
+extern volatile s16 D_800A34E4;
+extern volatile s16 D_800A3124;
+extern volatile s16 D_800A2F94;
+extern s16 D_800A2FA4;
+extern u32 *D_800A3254;
+extern u8 *D_800A2C0C;
+extern char D_8007AC20[];
+extern char D_8007AC34[];
+extern char D_8007AC48[];
+extern int ResetCallback(void);
+extern void CdReadCallback(void (*func)());
+extern int printf(const char *fmt, ...);
+extern void func_8003E3CC(void);
+extern void func_8003E490(void);
+
+void func_8003E4E8(void) {
+    u8 unused[8];
+    u8 result[8];
+    CdFileEntry *e;
+    s16 r;
+
+    if (D_800A345C != 0) {
+        r = CdSync(1, result);
+        printf(D_8007AC20, result[0]);
+        printf(D_8007AC34, r);
+        if (r == 5) {
+            D_800A334C = 601;
+        } else if (r == 2) {
+            ResetCallback();
+            CdReadCallback(func_8003E47C);
+            CdRead((u32)(((CdFileEntry *)D_800A2C0C)[D_800A3124].size + 0x7FF) >> 11, D_800A3254, 0x80);
+            D_800A345C = 0;
+        }
+    }
+    if (D_800A2F84 != 0) {
+        D_800A2F84--;
+        if (D_800A2F84 == 0) {
+            func_800206CC();
+            D_800A2FA4 = 0;
+            D_800A317C->func = D_800A34A4;
+            return;
+        }
+    }
+    D_800A334C++;
+    if (D_800A334C >= 601) {
+        printf(D_8007AC48);
+        D_800A34E4++;
+        if (D_800A34E4 >= 4) {
+            func_8003E490();
+        }
+        D_800A334C = 0;
+        D_800A2F84 = 0;
+        ResetCallback();
+        CdReadCallback(NULL);
+        if (D_800A2F94 != 0) {
+            D_800A345C = 100;
+            D_800A2F94 = 0;
+        } else {
+            D_800A345C = 25;
+        }
+        e = &((CdFileEntry *)D_800A2C0C)[D_800A3124];
+        func_8003E3CC();
+        CdControl(0x15, e->loc, 0);
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E77C);
 
@@ -6310,7 +6382,7 @@ extern void *D_800A310C;
 extern void *D_800A3154;
 extern s16 D_800809E4[];
 extern struct Unk800584A4 *D_800A3564;
-extern s16 D_800A2F94;
+extern volatile s16 D_800A2F94;
 extern void *func_8001FE84(s32 size);
 extern void CdReadCallback(void (*func)());
 extern void func_8003E47C();
