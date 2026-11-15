@@ -8749,7 +8749,17 @@ void func_8005366C(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053710);
+extern void func_800619C8(void);
+extern void func_80063D8C(void);
+extern s16 D_800A3114;
+
+void func_80053710(void) {
+    func_80021698(0xF);
+    func_80021264(func_800619C8, 1, 0x16);
+    func_80021264(func_80063D8C, 3, 0xE);
+    D_800A3114 = 2;
+    D_800A2F0C = 6;
+}
 
 extern s32 D_80080F24[];
 extern s8 D_801FC098[];
