@@ -4335,7 +4335,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_A90);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", init_ring_status);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007EF34);
+extern s32 D_801985B0;
+extern s32 D_801FA2B8;
+extern s32 D_801FA344;
+
+void func_8007EF34(s32 arg0, s32 arg1, s32 arg2) {
+    D_801FA344 = arg0;
+    D_801985B0 = arg1;
+    D_801FA2B8 = arg2;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StSetRing);
 
