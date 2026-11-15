@@ -3680,7 +3680,59 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077128);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077164);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077270);
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+typedef struct {
+    RECT rect[2];
+    u8 pad10[8];
+    u32 start;
+    u32 end;
+    s16 mode;
+} Unk8005231C_Info;
+typedef struct {
+    u32 *vlcbuf[2];
+    u32 *imgbuf[2];
+    u32 *ring;
+    u8 loc[4];
+    RECT rect[2];
+    RECT slice;
+    s32 unk30;
+    s32 unk34;
+    s32 unk38;
+    s32 unk3C;
+    s32 unk40;
+    s32 unk44;
+    s32 unk48;
+    s32 unk4C;
+    s32 unk50;
+    s32 unk54;
+    s32 unk58;
+    s32 unk5C;
+    s32 unk60;
+    Unk8005231C_Info *info;
+    u8 pad68[8];
+    s16 unk70;
+    u16 unk72;
+    s16 unk74;
+} Unk8005231C;
+
+extern void CdReadCallback(void (*func)());
+extern void DecDCTReset(s32 mode);
+extern void DecDCToutCallback(void (*func)());
+extern void StSetRing(u32 *ring_addr, u32 ring_size);
+extern void StSetStream(u32 mode, u32 start_frame, u32 end_frame, void (*func1)(), void (*func2)());
+extern s16 func_80077164(Unk8005231C *movie);
+
+s16 func_80077270(void (*outFunc)(), void (*endFunc)(), Unk8005231C *movie) {
+    movie->unk4C = 0;
+    CdReadCallback(0);
+    DecDCTReset(0);
+    DecDCToutCallback(outFunc);
+    StSetRing(movie->ring, 0x23);
+    StSetStream(movie->info->mode, movie->info->start, movie->info->end, 0, endFunc);
+    return func_80077164(movie);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077300);
 
