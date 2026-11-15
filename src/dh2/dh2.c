@@ -1751,7 +1751,17 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025098);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002512C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800251C0);
+extern MATRIX *func_80027444(SVECTOR *r, MATRIX *m);
+
+void func_800251C0(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
+    VECTOR tmp;
+
+    func_80027444(rot, &D_801F9644);
+    ApplyMatrix(&D_801F9644, v, &tmp);
+    out->vx = base->vx + tmp.vx;
+    out->vy = base->vy + tmp.vy;
+    out->vz = base->vz + tmp.vz;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025254);
 
