@@ -2748,7 +2748,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800600A0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800606D8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800609F8);
+int func_800609F8(short i) {
+    return *D_800B66AC[i].p - 1;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80060A20);
 
