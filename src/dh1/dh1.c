@@ -14913,7 +14913,15 @@ s32 func_8006A1A8(s16 slot) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A248);
+extern u8 D_8008AC28[];
+
+void func_8006A248(Unk80055074 *obj) {
+    func_8006A6A8();
+    obj->unk18 = (s32)D_8008AC28;
+    func_80054FEC(obj);
+    func_8001FD58();
+    func_80020300();
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A290);
 
