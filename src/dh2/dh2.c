@@ -3600,7 +3600,21 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007270C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072734);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072768);
+typedef struct {
+    s32 offset;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+} PackEntry;
+typedef struct {
+    s32 count;
+    PackEntry entries[1];
+} Pack;
+
+void *func_80072768(void *data, s16 i) {
+    Pack *pack = data;
+    return (u8 *)pack + pack->entries[i].offset;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072780);
 
