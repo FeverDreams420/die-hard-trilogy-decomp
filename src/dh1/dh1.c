@@ -594,7 +594,90 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", check_machine);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", main);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001E80C);
+extern u8 D_801D74C0[], D_801E20A0[], D_801E74C0[], D_801F20A0[];
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
+typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+typedef struct {
+    RECT disp;
+    RECT screen;
+    u8 isinter;
+    u8 isrgb24;
+    u8 pad0;
+    u8 pad1;
+} DISPENV;
+
+typedef struct {
+    DISPENV disp;
+    DRAWENV draw;
+    u32 ot[0xA00];
+    void *prims;
+    void *unk2874;
+    u8 buf[0xB3B0];
+} Unk800A8078;
+
+extern Unk800A8078 D_800A8078[2];
+extern s16 D_800A33C4;
+extern DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h);
+
+void func_8001E80C(void) {
+    SetDefDispEnv(&D_800A8078[0].disp, 0, 0, 0x140, D_800A33C4);
+    D_800A8078[0].draw.clip.x = 0;
+    D_800A8078[0].draw.clip.y = 0;
+    D_800A8078[0].draw.clip.w = 0x140;
+    D_800A8078[0].draw.ofs[0] = 0;
+    D_800A8078[0].draw.ofs[1] = 0;
+    D_800A8078[0].draw.tw.x = 0;
+    D_800A8078[0].draw.tw.y = 0;
+    D_800A8078[0].draw.tw.w = 0xFF;
+    D_800A8078[0].draw.tw.h = 0xFF;
+    D_800A8078[0].draw.dtd = 0xFF;
+    D_800A8078[0].draw.dfe = 0xFF;
+    D_800A8078[0].draw.isbg = 0xFF;
+    D_800A8078[0].draw.r0 = 0;
+    D_800A8078[0].draw.g0 = 0;
+    D_800A8078[0].draw.b0 = 0;
+    D_800A8078[0].prims = D_801D74C0;
+    D_800A8078[0].unk2874 = D_801E20A0;
+    D_800A8078[0].draw.clip.h = D_800A33C4;
+    SetDefDispEnv(&D_800A8078[1].disp, 0x140, 0, 0x140, D_800A33C4);
+    D_800A8078[1].draw.clip.x = 0x140;
+    D_800A8078[1].draw.clip.y = 0;
+    D_800A8078[1].draw.clip.w = 0x140;
+    D_800A8078[1].draw.ofs[0] = 0x140;
+    D_800A8078[1].draw.ofs[1] = 0;
+    D_800A8078[1].draw.tw.x = 0;
+    D_800A8078[1].draw.tw.y = 0;
+    D_800A8078[1].draw.tw.w = 0xFF;
+    D_800A8078[1].draw.tw.h = 0xFF;
+    D_800A8078[1].draw.dtd = 0xFF;
+    D_800A8078[1].draw.dfe = 0xFF;
+    D_800A8078[1].draw.isbg = 0xFF;
+    D_800A8078[1].draw.r0 = 0;
+    D_800A8078[1].draw.g0 = 0;
+    D_800A8078[1].draw.b0 = 0;
+    D_800A8078[1].prims = D_801E74C0;
+    D_800A8078[1].unk2874 = D_801F20A0;
+    D_800A8078[1].draw.clip.h = D_800A33C4;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001E9DC);
 
@@ -749,45 +832,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001ED6C);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F0F8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F37C);
-
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
-
-typedef struct {
-    u32 tag;
-    u32 code[15];
-} DR_ENV;
-
-typedef struct {
-    RECT clip;
-    s16 ofs[2];
-    RECT tw;
-    u16 tpage;
-    u8 dtd;
-    u8 dfe;
-    u8 isbg;
-    u8 r0, g0, b0;
-    DR_ENV dr_env;
-} DRAWENV;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    u8 isinter;
-    u8 isrgb24;
-    u8 pad0;
-    u8 pad1;
-} DISPENV;
-
-typedef struct {
-    DISPENV disp;
-    DRAWENV draw;
-    u32 ot[0xA00];
-    void *prims;
-    void *unk2874;
-    u8 buf[0xB3B0];
-} Unk800A8078;
 
 typedef struct {
     u32 tag;
