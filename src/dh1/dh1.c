@@ -11536,7 +11536,61 @@ void func_8005F098(Unk8005F098 *p) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F1F0);
+typedef struct {
+    u8 pad0[4];
+    Unk8005E91C *subs[6];
+    s16 unk1C;
+    s16 unk1E;
+    u8 pad20[2];
+    s16 unk22;
+    u8 pad24[0x10];
+    s16 unk34;
+    u8 pad36[0xA];
+    s16 unk40;
+    u8 pad42[2];
+    s16 unk44;
+} Unk8005F1F0;
+
+void func_8005F1F0(Unk8005F1F0 *obj) {
+    Unk8005E91C *sub;
+    s32 params[6];
+    s16 n;
+    s16 idx;
+
+    if (obj->unk1E < 0 && obj->unk22 != obj->unk44) {
+        obj->unk1E = 1;
+        n = obj->unk22 * 18 / 100;
+        obj->unk1C = n;
+        sub = obj->subs[n / 6];
+        obj->unk34 = idx = n % 6;
+        if (sub->state[idx] != 3) {
+            params[0] = (s16)func_8001E9DC(3) + 41;
+            params[1] = 0x2000;
+            params[2] = ((s16)func_8001E9DC(5) << 10) - 0x800;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            params[0] = 0x11;
+            params[1] = 0x17D0;
+            params[2] = ((s16)func_8001E9DC(5) << 10) - 0x800;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            sub->state[idx] = 3;
+            sub->unk1F8[idx] = 0x800;
+            sub->unk30[idx].vx = func_8001E9DC(0x40) - 0x20;
+            sub->unk30[idx].vz = func_8001E9DC(0x40) - 0x20;
+            sub->unk30[idx].vy = 0xC0;
+            func_80024DA8(&sub->anim[idx], 0x1C, 0, 0xF6, 8);
+            sub->anim[idx].unk14 = 1;
+            func_80060A80((Unk8002A35C *)&sub->pos[idx], 0, 0);
+        }
+        obj->unk40 = 0;
+        obj->unk22++;
+    }
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B64);
 
