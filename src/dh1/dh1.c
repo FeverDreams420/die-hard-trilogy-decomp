@@ -11509,7 +11509,20 @@ void func_80067D28(s16 i) {
     D_801C1ED4[i] = D_801C1ED4[i] == 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067D50);
+extern s16 D_8007C582;
+extern s16 D_8007C552;
+
+void func_80067D50(void) {
+    s16 *p = &D_8007C582;
+
+    if (*p == 11) {
+        *p = 0x2E;
+        D_8007C552 = 0x29;
+    } else {
+        *p = 11;
+        D_8007C552 = 0;
+    }
+}
 
 void func_80067D98(void) {
     s16 *p = &D_801C1EF6;
