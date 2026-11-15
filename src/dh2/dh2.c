@@ -3480,7 +3480,31 @@ void func_80070EF4(void) {
     _card_auto(0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070FFC);
+extern long TestEvent(long event);
+extern long _card_info(long chan);
+
+long func_80070FFC(s16 chan) {
+    s32 i = 0;
+
+    if (_card_info(chan) != 0) {
+        for (; i < 120; i++) {
+            if (TestEvent(D_800B6A10) == 1) {
+                return -1;
+            }
+            if (TestEvent(D_800B6A18) == 1) {
+                return 0;
+            }
+            if (TestEvent(D_800B6A20) == 1) {
+                return 0;
+            }
+            if (TestEvent(D_800B6A28) == 1) {
+                return -1;
+            }
+            VSync(0);
+        }
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800710B4);
 
