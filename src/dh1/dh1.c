@@ -9764,7 +9764,30 @@ void func_80054F48(void) {
     D_800A350C->unk1780 &= 7;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054FEC);
+typedef struct {
+    u8 pad0[0x1C];
+    s16 unk1C[5];
+    s16 unk26[5];
+    s16 unk30;
+    s16 unk32;
+    s16 unk34;
+    s16 unk36;
+    s16 unk38;
+    s16 unk3A;
+} Unk80054FEC;
+
+void func_80054FEC(Unk80054FEC *obj) {
+    s16 i;
+
+    obj->unk3A = 0;
+    for (i = 0; i < 5; i++) {
+        obj->unk26[i] = 0;
+        obj->unk1C[i] = 0x1000;
+    }
+    obj->unk32 = 0;
+    obj->unk26[0] = 2;
+    obj->unk36 = 0;
+}
 
 typedef struct {
     u8 pad0[0x18];
@@ -13141,7 +13164,7 @@ extern s16 D_801F97BC;
 extern s16 D_800A34FC;
 extern s16 D_800A34BC;
 extern void func_800680A4(void);
-extern void func_80054FEC(Unk800683E4 *);
+extern void func_80054FEC();
 
 void func_800683E4(void) {
     Unk800683E4 *data;
