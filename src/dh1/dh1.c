@@ -5043,7 +5043,9 @@ typedef struct Unk800584A4 {
     s32 unk94;
     s32 unk98;
     s32 unk9C;
-    u8 padA0[0x14];
+    u8 padA0[6];
+    s16 unkA6;
+    u8 padA8[0xC];
 } Unk800584A4;
 
 extern Unk800584A4 *D_800A3564;
@@ -12232,7 +12234,42 @@ void func_800688DC(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800689BC);
+extern void (*D_8008008C[])(Unk800584A4 *, s32, s32);
+
+void func_800689BC(void) {
+    Unk8003BFA8_Entry *e = (Unk8003BFA8_Entry *)D_800A3474;
+    Unk800584A4 *p;
+    s16 v;
+    s32 hi;
+    s32 lo;
+    s16 i;
+
+    for (i = 0; i < D_800A2F6C; e++, i++) {
+        if ((e->used &= 0x3F) == 0 && e->timer != 1) {
+            e->timer /= 30;
+        }
+    }
+    for (i = 0; i < D_800A31DC; i++) {
+        D_800A3084[i].unkE[0] = 0;
+        D_800A3084[i].unkE[1] = 0;
+        D_800A3084[i].unkE[2] = 0;
+        D_800A3084[i].unkE[3] = 0;
+    }
+    func_80058788();
+    for (i = 0; i < D_800A3074; i++) {
+        p = &D_800A3564[i];
+        v = p->unk28;
+        if (v != -1) {
+            hi = (v >> 8) & 0xFF;
+            lo = v & 0xFF;
+            if (hi >= 0x30) {
+                D_8008008C[hi](p, hi, lo);
+            }
+            D_800A3564[i].unk2A = -1;
+            D_800A3564[i].unkA6 = 0;
+        }
+    }
+}
 
 void func_80068BA4(void) {
     s32 *timer = (s32 *)D_800A317C->vals;
