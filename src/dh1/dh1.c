@@ -8577,7 +8577,17 @@ void func_80052C14(void) {
     func_80021554();
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052DB8);
+void func_80052DB8(void) {
+    u8 param[4];
+
+    DecDCTReset(0);
+    param[0] = 0x80;
+    CdControlB(0xE, param, 0);
+    DecDCToutCallback(0);
+    CdDataCallback(0);
+    CdReadyCallback(0);
+    CdControlB(9, 0, 0);
+}
 
 typedef struct {
     s16 unk0;
