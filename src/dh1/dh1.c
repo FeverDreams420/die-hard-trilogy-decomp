@@ -5849,9 +5849,90 @@ void func_8003EF64(void *file) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003F0E4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003F9F8);
+typedef struct {
+    s16 step;
+    s16 unk2;
+    u8 pad4[0x20];
+    void *unk24;
+    u16 *unk28;
+} Unk8003F9F8;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AC64);
+extern void func_80040010(void *file);
+extern s32 SpuIsTransferCompleted(s32 flag);
+extern s16 D_801D72F0[];
+extern void func_8003EAE0(void *file);
+extern s32 *D_800A32B4;
+extern s32 D_800A2FDC;
+extern void func_800418DC(void *file);
+extern s16 D_800A3074;
+extern void func_8003F0E4(void);
+
+void func_8003F9F8(void) {
+    Unk8003F9F8 *d = (Unk8003F9F8 *)D_800A317C->vals;
+    s16 i;
+
+    switch (d->step) {
+    case 0:
+        func_80040010(D_800A33E4);
+        break;
+    case 1:
+        D_800A339C = func_800504F0(0x28, func_8003E414(D_800A33E4, 4));
+        break;
+    case 2:
+        if (SpuIsTransferCompleted(0) == 0) {
+            return;
+        }
+        for (i = 0; i < 32; i++) {
+            D_801D72F0[i] = 0;
+        }
+        d->unk2 = 0;
+        d->unk24 = func_8003E414(D_800A33E4, 3);
+        D_800A317C->func = func_8003E970;
+        break;
+    case 3:
+        func_8003E77C(D_800A33E4, D_800A307C + 0x6E);
+        D_800A34A4 = func_8003F9F8;
+        D_800A317C->func = func_8003E4E8;
+        break;
+    case 4:
+        func_8003EA9C(D_800A33E4);
+        break;
+    case 5:
+        func_8003EAE0(D_800A33E4);
+        break;
+    case 6:
+        func_8003EEA8(D_800A33E4);
+        break;
+    case 7:
+        D_800A32B4 = func_8003E414(D_800A33E4, 6);
+        D_800A2FDC = (s32)func_8003E414(D_800A33E4, 7);
+        func_800418DC(D_800A33E4);
+        break;
+    case 8:
+        func_8003EF64(D_800A33E4);
+        break;
+    case 9:
+        d->unk2 = 0;
+        d->unk28 = func_8003E414(D_800A33E4, 8);
+        D_800A3074 = *d->unk28;
+        if (D_800A3074 != 0) {
+            D_800A301C = 0;
+            d->unk28 += 2;
+            D_800A317C->func = func_8003F0E4;
+        }
+        break;
+    case 10:
+        D_800A31B4 = func_8003E414(D_800A33E4, 5);
+        D_800A33E4 = func_8003E414(D_800A33E4, 8);
+        *(s32 *)((struct Task *)D_801F7D24)->vals = 0;
+        D_800A2FEC = -1;
+        D_800A303C = 0;
+        D_800A2F54 = 6;
+        func_80021554();
+        break;
+    }
+    d->step++;
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AC90);
 
