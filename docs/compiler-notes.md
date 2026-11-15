@@ -259,3 +259,10 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | Parameter copied to its saved register late, after other stores | Copy it into a local just before first use (`file = arg1;`) (0x8003E77C, 0x8005A42C) |
 | `(u16)v >> 8` as `sll 16`/`srl 24` from the sign-extended value | `s16 v = p->f; hi = (v >> 8) & 0xFF;` (0x800689BC) |
 | Store order wrong in a block of independent stores | Try every order of the few statements involved; a small script finds it in minutes (0x8006937C, 0x80052E88) |
+| Loop over a global pointer's elements with the pointer and other globals loaded once before the loop, no extra address register | Index the global directly, `for (i = 0; i < n; i++) G[i].x += dx;` with `u32 i`. An indexed reference counts as a structure access, so GCC hoists the scalar globals out of the loop; a local pointer copy changes the loop (0x800418DC) |
+| Global's full address kept in a saved register (`lui`/`addiu` then `lh 0(s0)`) for a later load and store | Declare it as an array and use `G[0]` (0x8001F0F8, `D_801C1F04`) |
+| `lui`/`addiu` then `lhu 0(v0)` for a pad word | `volatile u16` array element, `D_800A32AC[1]`; a `volatile u16` scalar loads `lhu %lo(sym)` directly (0x8001F0F8) |
+| Jump table entry for a case below the lowest real value (`addiu +1` before the range check) | An explicit empty `case -1: break;` (0x80021554) |
+| Both tests' values computed before the first branch (second subtraction in a delay slot) | Compute both locals first, then one `if (a > N \|\| b > N) return;` (0x8004161C) |
+| Unused 8 bytes below the locals in the frame | An unused local `SVECTOR unused;` declared first (0x800290D4) |
+| Local array copied from rodata with `lwl`/`lwr` | Works now: write the initializer and delete the rodata symbol's `INCLUDE_RODATA` line, as long as it sits right before the function with nothing emitting rodata in between (0x800418DC, 0x800290D4) |
