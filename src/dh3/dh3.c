@@ -685,7 +685,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002895C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028A48);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028AF8);
+s32 func_80028AF8(SVECTOR *v) {
+    return SquareRoot0(v->vx * v->vx + v->vy * v->vy + v->vz * v->vz);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028B58);
 
