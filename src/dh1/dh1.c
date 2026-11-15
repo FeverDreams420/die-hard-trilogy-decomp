@@ -5667,7 +5667,17 @@ void func_8003E1D0(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E384);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003E3CC);
+extern int CdSync(int mode, unsigned char *result);
+extern int CdInit(void);
+
+void func_8003E3CC(void) {
+    u8 result[8];
+
+    CdSync(0, result);
+    CdControl(10, 0, result);
+    CdSync(0, result);
+    CdInit();
+}
 
 typedef struct {
     s32 offset;
