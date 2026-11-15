@@ -4842,7 +4842,15 @@ s16 func_800394B8(SVECTOR *p) {
     return D_800A31B4[z * 64 + x];
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039518);
+extern MATRIX D_801FB868;
+extern MATRIX *func_80023C7C(SVECTOR *r, MATRIX *m);
+
+void func_80039518(Unk80045EF4 *obj) {
+    SVECTOR unused[2];
+
+    func_80023C7C((SVECTOR *)&obj->padE[2], &D_801FB868);
+    ApplyMatrix(&D_801FB868, (SVECTOR *)&obj->unk4C, (VECTOR *)&obj->unk3C);
+}
 
 void func_8003955C(Unk80045164 *obj) {
     obj->anim.unk6 = 0xA4;
