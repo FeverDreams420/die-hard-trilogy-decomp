@@ -11752,7 +11752,15 @@ void func_80068CC8(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80068D88);
+void func_80068D88(void) {
+    Unk8003BA6C_Task *task;
+
+    func_80021698(15);
+    task = func_80021264(func_80068CC8, 1, 4);
+    if (task != NULL) {
+        *(s32 *)task->data = 0x11;
+    }
+}
 
 extern s16 D_801C1ED4[];
 extern s16 D_801C1ED6;
