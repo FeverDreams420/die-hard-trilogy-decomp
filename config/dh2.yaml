@@ -1,0 +1,42 @@
+# splat config for DH2.EXE (Phase 7: zero-C matching build).
+# Layout from the PS-X EXE header and build/ghidra/DH2.funcs.tsv: code from
+# 0x8001D500 to 0x80087F7C (the last BIOS stub, puts, ends with a nop),
+# rodata right after, file ends 0x800B6D00. No bss in the header.
+# The rodata start is not 16-aligned, so sections are not forced to 16.
+name: DH2.EXE
+sha1: b403d7ed6d529c32cebd24a9faed4874aec74715
+options:
+  basename: dh2
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  target_path: disc/DH2.EXE
+  asm_path: asm/dh2
+  src_path: src/dh2
+  asset_path: build/dh2/assets
+  build_path: build
+  ld_script_path: build/dh2.ld
+  symbol_addrs_path:
+    - config/symbol_addrs.txt
+    - config/symbol_addrs.dh2.txt
+  undefined_funcs_auto_path: build/dh2.undefined_funcs_auto.txt
+  undefined_syms_auto_path: build/dh2.undefined_syms_auto.txt
+  gp_value: 0x800B61E4
+  find_file_boundaries: yes
+  use_legacy_include_asm: no
+  generate_asm_macros_files: no  # include/include_asm.h is ours now
+  subalign: 4
+  ld_align_section_vram_end: no
+  section_order: [".text", ".rodata", ".data", ".bss"]
+segments:
+  - name: header
+    type: header
+    start: 0x0
+  - name: dh2
+    type: code
+    start: 0x800
+    vram: 0x8001D500
+    subsegments:
+      - [0x800, c, dh2]
+      - [0x6B27C, .rodata, dh2]
+  - [0x9A000]

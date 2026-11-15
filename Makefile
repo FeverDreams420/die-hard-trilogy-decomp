@@ -6,10 +6,12 @@
 #
 # Each EXE has a config/<exe>.yaml. Add each new EXE to EXES and give it a FILE_<exe> line.
 
-EXES   := boot dh1
+EXES   := boot dh1 dh2 dh3
 # disc file name for each EXE
 FILE_boot := BOOT.EXE
 FILE_dh1  := DH1.EXE
+FILE_dh2  := DH2.EXE
+FILE_dh3  := DH3.EXE
 
 # pipefail, so a cc1 error in the middle of the C pipeline fails the build
 SHELL       := /bin/bash

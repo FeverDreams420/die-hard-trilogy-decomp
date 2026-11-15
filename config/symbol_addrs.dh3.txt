@@ -638,3 +638,6 @@ strlen = 0x80086B4C; // type:func
 memmove = 0x80086B5C; // type:func
 MEMMOVE_OBJ_64 = 0x80086BC0; // type:func
 puts = 0x80086BC8; // type:func
+
+// Four bytes (0xE0C0) that splat would otherwise read as a Shift-JIS string.
+D_800939F4 = 0x800939F4; // type:s32
