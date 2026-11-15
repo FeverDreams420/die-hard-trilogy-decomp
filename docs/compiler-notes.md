@@ -236,3 +236,10 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | Global loaded again right after `G++` | Plain `G++; return G;` with a `u16` global already reloads; no `volatile` needed (0x8004FB10) |
 | Empty function that still makes a stack frame | An unused local array sized to the frame: `u8 unused[24];` (0x80055EE0) |
 | Load of the spawned task's data hoisted above the store of the task pointer | Read the data pointer through a cast, `*(T **)((u8 *)task + 0x1C)`, so it isn't a struct-field load (0x800411E4, as 0x80051960) |
+| Stack slot stored, reloaded and decremented (`sh`/`lhu`/`addiu`/`sh`) | A `volatile s16` local counter (0x800391E0) |
+| Global pointer copied into a `t` register before a loop | Use the global directly in the loop; GCC hoists the load itself. A local copy changes the registers (0x800391E0) |
+| Saved registers numbered in the wrong order for parameters and locals | Assign locals with statements after the parameter-using call instead of initialisers, e.g. `i = 0; flag = 0;` before the loop (0x80023270) |
+| Index-to-pointer fixups all load into one register | One reused `idx` temporary: `idx = (s32)f->v[0]; f->v[0] = &verts[idx];` (0x8003219C/0x80054C70 pattern) |
+| `bne a1,v0` instead of `bne v0,a1` | Swap the comparison operands (`dec->w != sector->width`, 0x800525F8) |
+| `li v0,0` / `li v0,-1` pair in delay slots at the end | `if (a != 'M' \|\| b != 'C') return 0; return -1;` (0x8006A920) |
+| Pointer increment scheduled before the counter increment | `for (...; v++, i++)` rather than `i++, v++` (0x8004FB38) |
