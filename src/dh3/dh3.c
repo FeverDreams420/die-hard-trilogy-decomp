@@ -3514,7 +3514,9 @@ u32 func_80071BC8(void *data, s16 i) {
     return ((Pack *)data)->entries[i].unk4;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071BE0);
+s32 func_80071BE0(void *data, s16 i) {
+    return ((Pack *)data)->entries[i].unk8;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071BF8);
 
