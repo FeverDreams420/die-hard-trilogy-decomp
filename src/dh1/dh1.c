@@ -1572,7 +1572,20 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FF14);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002014C);
+extern s16 D_800A3424;
+extern u8 D_801D7330[][4];
+extern int CdGetToc(u8 (*loc)[4]);
+extern s16 D_800A3404;
+
+int func_8002014C(void) {
+    u8 param[16];
+
+    param[0] = 5;
+    CdControlB(0xE, param, 0);
+    D_800A3404 = CdGetToc(D_801D7330);
+    D_800A3424 = 2;
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800201A0);
 
