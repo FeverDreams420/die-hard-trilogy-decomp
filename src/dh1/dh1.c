@@ -2464,7 +2464,11 @@ s16 blend;
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80024EA0);
+void func_80024EA0(Anim *anim, s16 id, s16 time, s16 arg3, s16 blend) {
+    if (anim->id != (u16)id) {
+        func_80024DA8(anim, id, time, arg3, blend);
+    }
+}
 
 s16 func_80024EF0(Anim *anim) {
     s16 ret = 0;
