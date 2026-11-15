@@ -6616,7 +6616,85 @@ void func_80040010(void *file) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040160);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800403C8);
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR unk10;
+    VECTOR scale;
+    s16 unk28;
+    s16 unk2A;
+    s16 unk2C;
+    s16 unk2E;
+    s16 unk30;
+    s16 unk32;
+    s16 unk34;
+    s16 unk36;
+} Unk800403C8;
+
+typedef struct {
+    u16 unk0;
+    u8 pad2[0xA];
+} Unk8007C268;
+
+extern Unk8007C268 D_8007C268[];
+extern u16 D_80080B8C[];
+extern void func_80040620();
+
+void func_800403C8(void) {
+    Unk800403C8 *d = (Unk800403C8 *)func_80021264(func_80040620, 2, 0x38)->data;
+
+    d->pos.vx = 0;
+    d->pos.vy = 0x56;
+    d->pos.vz = 0;
+    d->rot.vx = 0;
+    d->rot.vy = 0;
+    d->rot.vz = 0;
+    d->unk10.vx = 0;
+    d->unk10.vy = 0;
+    d->unk10.vz = 0;
+    d->scale.vx = 0x2000;
+    d->scale.vy = 0x2000;
+    d->scale.vz = 0x2000;
+    d->unk30 = 0;
+    d->unk32 = 0;
+    d->unk34 = 0;
+    if (D_800A307C == 0) {
+        d->unk28 = 10;
+    } else {
+        d->unk28 = D_8007C268[D_800A307C - 1].unk0;
+    }
+    if (D_800A2F14 != 0) {
+        d->unk2A = 21;
+    } else {
+        d->unk2A = D_8007C268[D_800A307C].unk0;
+    }
+    d->unk2C = 10;
+    d->unk2E = 0;
+    D_800A3194.vx = 0x800;
+    D_800A3194.vy = 0x137C - D_80080B8C[d->unk2A] * 2;
+    if (d->unk2A >= 10) {
+        D_800A3194.vy = D_80080B8C[d->unk2A] * 2 - 0x800;
+    } else {
+        D_800A3194.vy = D_80080B8C[d->unk2A] * 2 + 0x800;
+    }
+    D_800A3194.vz = 0;
+    D_800A34B4.vx = 0;
+    D_800A34B4.vy = D_80080B8C[d->unk2A] * 2;
+    D_800A34B4.vz = 0;
+    func_80028E14((Unk8002A35C *)&D_800A34B4, (Unk8002A35C *)&D_800A3194, (Unk8002A35C *)&D_800A3544);
+    D_800A3194.vx = 0;
+    D_800A3194.vz = -7000;
+    D_800A2A20 = 0x1800;
+    d->unk36 = D_800A3544.vx;
+    D_800A2FC4.vx = 0;
+    D_800A2FC4.vy = 0;
+    D_800A2FC4.vz = 0;
+    D_800A2FC4.vy = 0;
+    D_800A2FC4.vz = 0;
+    func_80021BE4();
+    D_800A2FC4.vy = -D_800A2FC4.vy;
+    D_800A2FC4.vz = -D_800A2FC4.vz;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040620);
 
