@@ -6109,11 +6109,63 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004161C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACB4);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ACCC);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8 pad6[0x32];
+} Unk800418DC;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800418DC);
+extern Unk800418DC *D_800A300C;
+extern s16 D_800A32FC;
+extern u16 D_80080A18[];
+extern s32 *D_800A32B4;
+extern s32 D_800A2FDC;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACEC);
+void func_800418DC(void *file) {
+    s16 corners[8][2] = {
+        { 64, 64 }, { -64, 64 }, { -64, -64 }, { 64, -64 },
+        { 128, 128 }, { -128, 128 }, { -128, -128 }, { 128, -128 },
+    };
+    u8 *hdr;
+    s16 dx, dy, dz;
+    u32 i;
+
+    hdr = func_8003E414(file, 2);
+    D_800A300C = (Unk800418DC *)(hdr + 0x28);
+    D_800A32FC = ((s16 *)hdr)[2];
+    switch (D_800A307C) {
+    case 6:
+    case 17:
+    case 23:
+        dx = 0;
+        dy = 0x600;
+        dz = 0;
+        break;
+    case 4:
+    case 10:
+    case 14:
+    case 20:
+        dx = 0;
+        dy = 0;
+        dz = 0x200;
+        break;
+    default:
+        dx = 0;
+        dy = 0;
+        dz = 0;
+        break;
+    }
+    dy += D_80080A18[D_800A307C];
+    for (i = 0; i < D_800A32FC; i++) {
+        D_800A300C[i].x += dx;
+        D_800A300C[i].y += dy;
+        D_800A300C[i].z += dz;
+    }
+    for (i = 0; i < 0x400; i++) {
+        D_800A32B4[i] += D_800A2FDC;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041AB4);
 
