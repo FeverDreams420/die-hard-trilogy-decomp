@@ -11541,7 +11541,18 @@ void func_80067D98(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067DD8);
+extern s16 D_801C1EF8;
+
+void func_80067DD8(void) {
+    s16 *p = &D_801C1EF8;
+    s16 v = ++*p;
+
+    if (v >= 7) {
+        *p = 1;
+    } else if (v == 1) {
+        *p = 2;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067E20);
 
