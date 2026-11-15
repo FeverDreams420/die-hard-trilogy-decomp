@@ -1858,7 +1858,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80026988);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800269D8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80026B68);
+extern unsigned short D_801F9DCC[16];
+
+void func_80026B68(unsigned short *src) {
+    unsigned short *dst = D_801F9DCC;
+    unsigned short i;
+    int unused[2];
+
+    for (i = 0; i < 16; i++) {
+        if (*src == 0) {
+            *dst = 0;
+        } else {
+            *dst = 0xFFFF;
+        }
+        dst++;
+        src++;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80026BB8);
 
