@@ -3286,7 +3286,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FC14);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FCD0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FD6C);
+u8 func_8006FD6C(u8 *data, s32 len) {
+    s32 sum = 5;
+
+    while (len != 0) {
+        sum = sum + *data++ + 1;
+        len--;
+    }
+    return sum;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FD94);
 
