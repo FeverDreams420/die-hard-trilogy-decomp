@@ -8631,7 +8631,17 @@ void func_80053464(void) {
     func_80052930(1, -1);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800534E0);
+void func_800534E0(void) {
+    Unk8003BA6C_Task *task;
+    Unk8003BA6C_Data *data;
+
+    task = func_80021264(func_80053538, 1, 4);
+    D_800A2F0C = 8;
+    data = task->data;
+    data->unk0 = 0x10;
+    data->unk2 = 1;
+    func_80052930(2, -1);
+}
 
 typedef struct {
     s16 unk0;
