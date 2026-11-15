@@ -7989,7 +7989,15 @@ int func_80050358(int handle) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800503F0);
+int func_800503F0(s32 voice) {
+    s32 ch = voice & 0xFF;
+
+    if (D_801C1F1A[ch].id != ((voice >> 8) & 0xFF)) {
+        return -1;
+    }
+    SpuSetReverbVoice(1, 1 << ch);
+    return 0;
+}
 
 extern long SpuSetReverbVoice(long on_off, unsigned long voice_bit);
 
