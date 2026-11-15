@@ -8400,13 +8400,18 @@ typedef struct {
     s32 unk38;
     s32 unk3C;
     s32 unk40;
-    u8 pad44[8];
+    s32 unk44;
+    s32 unk48;
     s32 unk4C;
     s32 unk50;
-    u8 pad54[0xC];
+    s32 unk54;
+    s32 unk58;
+    s32 unk5C;
     s32 unk60;
     Unk8005231C_Info *info;
-    u8 pad68[0xC];
+    u8 pad68[8];
+    s16 unk70;
+    u16 unk72;
     s16 unk74;
 } Unk8005231C;
 
@@ -8547,7 +8552,64 @@ void func_80052488(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800525F8);
+typedef struct {
+    u16 id;
+    u16 type;
+    u16 secCount;
+    u16 nSectors;
+    u32 frameCount;
+    u32 frameSize;
+    u16 width;
+    u16 height;
+    u32 headm;
+    u32 headv;
+} StHEADER;
+
+extern s32 StGetNext(u32 **addr, u32 **header);
+extern s32 StFreeRing(u32 *base);
+extern s16 D_800A33EC;
+
+u32 *func_800525F8(Unk8005231C *dec) {
+    RECT rect;
+    u32 *addr;
+    StHEADER *sector;
+    s32 cnt = 60000;
+
+    while (StGetNext(&addr, (u32 **)&sector)) {
+        if (--cnt == 0) {
+            return NULL;
+        }
+    }
+    dec->unk72++;
+    if (addr[0] != sector->headm || addr[1] != sector->headv) {
+        StFreeRing(addr);
+        return NULL;
+    }
+    if (!dec->unk54) {
+        dec->unk44 = dec->unk48 / 2048;
+        dec->unk44 = dec->unk44 / sector->nSectors;
+        dec->unk54 = 1;
+    }
+    if (sector->frameCount >= dec->info->end || sector->frameCount < dec->unk70) {
+        dec->unk4C = 1;
+    }
+    if (sector->frameCount >= dec->info->end - 20) {
+        D_800A33EC = -1;
+    }
+    dec->unk70 = sector->frameCount;
+    if (dec->unk58 != sector->width || dec->unk5C != sector->height) {
+        dec->unk58 = sector->width;
+        dec->unk5C = sector->height;
+        rect.x = 0;
+        rect.y = 0;
+        rect.w = dec->unk58;
+        rect.h = dec->unk5C;
+    }
+    dec->rect[0].w = dec->rect[1].w = dec->unk58;
+    dec->rect[0].h = dec->rect[1].h = dec->unk5C;
+    dec->slice.h = dec->unk5C;
+    return addr;
+}
 
 typedef struct {
     u32 *vlcbuf[2];
@@ -8557,14 +8619,14 @@ typedef struct {
 
 extern s32 DecDCTvlc(u32 *bs, u32 *buf);
 extern s32 StFreeRing(u32 *base);
-u32 *func_800525F8(Unk800527E8 *dec);
+u32 *func_800525F8(Unk8005231C *dec);
 
 s32 func_800527E8(Unk800527E8 *dec) {
     u32 *frame;
     s32 tries;
 
     for (tries = 100; tries != 0;) {
-        frame = func_800525F8(dec);
+        frame = func_800525F8((Unk8005231C *)dec);
         tries--;
         if (frame != NULL) {
             dec->vlcid ^= 1;
