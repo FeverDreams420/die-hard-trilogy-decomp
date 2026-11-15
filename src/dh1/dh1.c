@@ -716,6 +716,10 @@ extern struct Task {
     u8 unk28;
     u8 unk29;
     u8 unk2A;
+    u8 unk2B;
+    s16 unk2C;
+    u8 unk2E;
+    u8 unk2F;
 } *D_800A317C;
 
 extern Unk8003BA6C_Task *func_80021264(void (*fn)(), s16, s16);
@@ -1903,7 +1907,112 @@ void func_80020E38(s16 ofsx, s16 ofsy, u8 isbg, s16 x, s16 y, s16 w, s16 h) {
     D_800A3374 = prim;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020F08);
+extern struct {
+    s16 count[3];
+    s16 size[3];
+    s16 total;
+    s16 unk8;
+    s32 left;
+} D_801D20B4;
+extern u8 D_801C2058[];
+extern u8 *D_801F7724[];
+extern u8 *D_801F7924[];
+extern u8 *D_801F7B24[];
+extern u8 D_801F75A4[];
+extern u8 D_801F7624[];
+extern u8 D_801F76A4[];
+extern s16 D_801F759C[3];
+extern struct Task D_800A61F0[];
+extern s16 D_800A31EC;
+extern s16 D_800A3314;
+extern s16 D_800A31BC;
+extern s16 D_800A332C;
+extern s16 D_800A3484;
+extern s16 D_800A330C;
+extern s32 D_800A79CC;
+extern struct Task *D_800A32C4;
+extern s32 D_800A2F7C;
+
+void func_80020F08(void) {
+    s32 left;
+    u8 *p;
+    s16 i;
+
+    D_800A31EC = 0;
+    D_800A3314 = 0;
+    D_800A31BC = 0;
+    D_800A332C = 0x800;
+    D_800A3484 = 0x800;
+    D_800A330C = 0x800;
+    D_801D20B4.count[0] = 0x1C;
+    D_801D20B4.count[1] = 0x10;
+    D_801D20B4.count[2] = 0x10;
+    D_801D20B4.size[0] = 0x400;
+    D_801D20B4.size[1] = 0x200;
+    D_801D20B4.size[2] = 0x168;
+    D_801D20B4.unk8 = 5;
+    left = 0x10000;
+    p = D_801C2058;
+    for (i = 0; i < D_801D20B4.count[0]; i++) {
+        if (left - D_801D20B4.size[0] < 0) {
+            D_801D20B4.count[0] = i;
+            break;
+        }
+        D_801F7724[i] = p;
+        D_801F75A4[i] = 0;
+        p += D_801D20B4.size[0];
+        left -= D_801D20B4.size[0];
+    }
+    if (left > 0) {
+        for (i = 0; i < D_801D20B4.count[1]; i++) {
+            if (left - D_801D20B4.size[1] < 0) {
+                D_801D20B4.count[1] = i;
+                break;
+            }
+            D_801F7924[i] = p;
+            D_801F7624[i] = 0;
+            p += D_801D20B4.size[1];
+            left -= D_801D20B4.size[1];
+        }
+    } else {
+        D_801D20B4.count[1] = 0;
+    }
+    if (left > 0) {
+        for (i = 0; ; i++) {
+            if (left - D_801D20B4.size[2] < 0) {
+                D_801D20B4.count[2] = i;
+                break;
+            }
+            D_801F7B24[i] = p;
+            D_801F76A4[i] = 0;
+            p += D_801D20B4.size[2];
+            left -= D_801D20B4.size[2];
+        }
+        D_801D20B4.count[2] = i;
+    } else {
+        D_801D20B4.count[2] = 0;
+    }
+    D_801D20B4.left = left;
+    D_800A2F7C = 0;
+    D_800A317C = D_800A61F0;
+    D_800A61F0[0].unk2E = 0;
+    D_800A61F0[0].unk2F = 0;
+    D_801F75A4[0] = 0xFF;
+    D_800A32C4 = &D_800A61F0[1];
+    D_800A61F0[0].next = D_800A61F0;
+    D_800A61F0[0].prev = D_800A61F0;
+    D_801D20B4.total = D_801D20B4.count[0] + D_801D20B4.count[1] + D_801D20B4.count[2];
+    D_801F759C[0] = D_801D20B4.count[0];
+    D_801F759C[1] = D_801D20B4.count[1];
+    D_801F759C[2] = D_801D20B4.count[2];
+    D_800A61F0[0].vals = (Unk800A317CVals *)D_801F7724[0];
+    D_801F759C[0] = D_801D20B4.count[0] - 1;
+    for (i = 1; i < 0x80; i++) {
+        D_800A61F0[i].next = &D_800A61F0[i + 1];
+        ((s32 *)&D_801F7D24)[i] = 3;
+    }
+    D_800A79CC = 0;
+}
 
 extern struct Task *D_800A32C4;
 extern s32 D_800A2F7C;
