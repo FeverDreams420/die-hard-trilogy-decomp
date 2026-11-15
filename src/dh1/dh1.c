@@ -9041,9 +9041,71 @@ void func_800531B0(void) {
     ((struct Task *)D_801F7D24)->vals->pad0 = 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800532BC);
+extern s16 D_800A34C4;
+extern s16 D_800A346C;
+extern void func_800534E0(void);
+extern void func_80060370();
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AFE0);
+void func_800532BC(void) {
+    s16 r;
+    Unk8003BA6C_Task *task;
+
+    func_80021698(0xF);
+    func_8001FDE4();
+    D_800A2F14 = 0;
+    switch (D_800A307C) {
+    case 3:
+    case 8:
+    case 13:
+    case 18:
+    case 22:
+        if (D_800A2F74 == 0) {
+            D_800A2EF0 = 0;
+            D_800A307C++;
+            r = 0;
+        } else {
+            D_800A2F14 = -1;
+            D_800A2EF0 = -1;
+            r = 0;
+        }
+        break;
+    case 4:
+    case 9:
+    case 14:
+    case 19:
+    case 23:
+        r = -(D_800A2EF0 != 0);
+        break;
+    default:
+        r = 0;
+        break;
+    }
+    if (D_801D209C >= 0) {
+        if (D_800A34C4 == 0) {
+            D_800A346C = 0;
+        } else {
+            D_800A346C = 4;
+        }
+    } else {
+        D_800A346C = 1;
+    }
+    if (D_800A346C != 1) {
+        if (r == 0) {
+            func_800403C8();
+            D_800A2F0C = 1;
+            D_800A2FEC = 0;
+            func_80021264(func_8003E85C, 1, 0x2C);
+        } else {
+            task = func_80021264(func_80060370, 1, 0x324);
+            if (task != NULL) {
+                D_800A2F0C = 6;
+                task->data->unk0 = 0;
+            }
+        }
+    } else {
+        func_800534E0();
+    }
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B034);
 
