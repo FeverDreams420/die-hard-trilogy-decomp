@@ -1650,7 +1650,30 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002470C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024790);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800247D0);
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVECTOR;
+typedef struct {
+    s32 vx, vy, vz, pad;
+} VECTOR;
+typedef struct {
+    s16 m[3][3];
+    s32 t[3];
+} MATRIX;
+
+extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
+extern MATRIX D_801F9644;
+extern MATRIX *func_8002702C(SVECTOR *r, MATRIX *m);
+
+void func_800247D0(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
+    VECTOR tmp;
+
+    func_8002702C(rot, &D_801F9644);
+    ApplyMatrix(&D_801F9644, v, &tmp);
+    out->vx = base->vx + tmp.vx;
+    out->vy = base->vy + tmp.vy;
+    out->vz = base->vz + tmp.vz;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024864);
 
