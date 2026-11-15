@@ -3926,15 +3926,124 @@ s32 func_80032344(Unk80032344 *obj, s16 mode) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800325DC);
+typedef struct Unk800584A4 {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    s32 pad24;
+    u16 unk28;
+    s16 unk2A;
+    s16 unk2C;
+    s16 unk2E;
+    s16 unk30;
+    u8 pad32[0x30];
+    s16 unk62;
+    u8 pad64[0x18];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    u8 pad82[4];
+    s16 unk86;
+    u8 pad88[0xC];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[6];
+    s16 unkA6;
+    s16 unkA8;
+    u8 padAA[8];
+    u8 unkB2;
+    u8 padB3;
+} Unk800584A4;
+
+extern Unk800584A4 *D_800A3564;
+
+typedef struct {
+    u8 pad0[8];
+    u8 unk8;
+    u8 pad9;
+    s16 unkA;
+} Unk800325DC_Self;
+
+typedef struct {
+    s16 unk0;
+    s16 pad2;
+    s32 unk4;
+    s16 unk8;
+    u8 padA[0x2A];
+    s16 unk34;
+} Unk800308F8;
+
+extern void func_80030154(Unk800308F8 *p);
+extern void func_80032A68(Unk800584A4 *obj);
+
+void func_800325DC(void *arg0, void *arg1, Unk800325DC_Self *self) {
+    Unk800584A4 *obj = &D_800A3564[self->unkA];
+    Unk800308F8 *part = (Unk800308F8 *)&obj->unk2C;
+    Unk800308F8 *first = part;
+    s16 limit;
+    s16 hit;
+
+    switch (obj->unk62) {
+    case 0:
+        limit = 1;
+        break;
+    case 1:
+        limit = 15;
+        break;
+    default:
+        limit = 10000;
+        break;
+    }
+    if (obj->unk2A != 0) {
+        hit = 0;
+        if (obj->unkA6 < 0) {
+            obj->unkA6 = 0;
+        } else if (obj->unkA6 >= limit) {
+            func_80032A68(obj);
+            hit = -1;
+        }
+        if (hit == 0) {
+            func_80042538((Obj *)&obj->unk7C);
+        }
+        if (self->unk8 == 0) {
+            func_80030154(part);
+        } else {
+            func_8003072C((Unk8002DB90_Face *)part);
+        }
+    }
+    obj++;
+    if (first->unk34 == -1 && obj->unk2A != 0) {
+        hit = 0;
+        if (obj->unkA6 < 0) {
+            obj->unkA6 = 0;
+        } else if (obj->unkA6 >= limit) {
+            func_80032A68(obj);
+            hit = -1;
+        }
+        part = (Unk800308F8 *)&obj->unk2C;
+        if (hit == 0) {
+            func_80042538((Obj *)&obj->unk7C);
+        }
+        if (self->unk8 == 0) {
+            func_80030154(part);
+        } else {
+            func_8003072C((Unk8002DB90_Face *)part);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032770);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800328C0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032A68);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032FD8);
 
 typedef struct {
     s16 unk0;
@@ -3983,6 +4092,12 @@ typedef struct {
     u8 padAA[6];
     s16 unkB0;
 } Unk80033490;
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800328C0);
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032A68);
+
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032FD8);
 
 typedef struct {
     s16 x;
@@ -4485,42 +4600,6 @@ void func_800365C0(Unk80036918 *p, s16 type) {
     p->unk20 = D_801D70F0[idx];
 }
 
-typedef struct Unk800584A4 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 pad6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 padE;
-    s32 unk10;
-    s32 unk14;
-    s32 unk18;
-    s32 pad1C;
-    s32 unk20;
-    s32 pad24;
-    u16 unk28;
-    s16 unk2A;
-    s16 unk2C;
-    s16 unk2E;
-    s16 unk30;
-    u8 pad32[0x4A];
-    s16 unk7C;
-    s16 unk7E;
-    s16 unk80;
-    u8 pad82[4];
-    s16 unk86;
-    u8 pad88[0xC];
-    s32 unk94;
-    s32 unk98;
-    s32 unk9C;
-    u8 padA0[6];
-    s16 unkA6;
-    u8 padA8[0xC];
-} Unk800584A4;
-
-extern Unk800584A4 *D_800A3564;
 
 void func_80036644(void *arg0, void *arg1, Unk800584A4 *self) {
     func_80032344((Unk80032344 *)&D_800A3564[self->unkA], 1);
