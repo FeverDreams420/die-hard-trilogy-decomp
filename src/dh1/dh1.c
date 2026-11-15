@@ -5147,7 +5147,15 @@ void func_800390B8(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800391E0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039458);
+extern s16 *D_800A31B4;
+
+s16 func_80039458(Unk80045164 *obj) {
+    SVECTOR *p = (SVECTOR *)obj;
+    s16 x = (p->vx >> 9) + D_800A79F0.x;
+    s16 z = (p->vz >> 9) + D_800A79F0.z;
+
+    return D_800A31B4[z * 64 + x];
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800394B8);
 
