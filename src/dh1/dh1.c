@@ -1647,7 +1647,9 @@ s32 func_80020380(s16 track) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020468);
+void func_80020468(void) {
+    func_80020380(D_800A307C % 3 + 15);
+}
 
 typedef struct {
     u8 val0;
