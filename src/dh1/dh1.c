@@ -4089,9 +4089,12 @@ void func_80031264(Unk8002A35C *from) {
 
 typedef struct {
     s16 x, y, z;
-    char pad6[0x12];
+    char pad6[4];
+    s16 fA;
+    char padC[0xC];
     s32 f18;
-    char pad1C[4];
+    s16 f1C;
+    char pad1E[2];
     s32 f20;
     char pad24[6];
     short f2A;
@@ -4153,7 +4156,7 @@ extern s16 func_8002501C(void *obj, void *model, s16 fade, s32 arg3, Anim *anim)
 extern void AddPrims(void *ot, void *p0, void *p1);
 extern void func_80031ED0(SVECTOR *pos, SVECTOR *rot, s16 color);
 extern s16 func_800290D4(s16 a, s16 b);
-extern void func_800430AC(Obj *o, s32);
+extern void func_800430AC(Obj *o, s16);
 
 void func_80031320(Unk80045164 *obj) {
     SVECTOR unused[2];
@@ -6566,13 +6569,67 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042570);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042DD0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800430AC);
+extern void func_8004161C(SVECTOR *a, SVECTOR *b, s16 c);
+
+void func_800430AC(Obj *obj, s16 arg1) {
+    struct { s32 x; s32 z; } p[4];
+    SVECTOR a;
+    SVECTOR b;
+    SVECTOR c;
+    SVECTOR d;
+    s16 ang;
+    s32 w;
+    s32 h;
+    s16 cs;
+    s16 sn;
+    s32 cw;
+    s32 sh;
+    s32 ch;
+    s32 sw;
+    s32 dx;
+    s32 dz;
+    s16 i;
+
+    ang = obj->fA;
+    w = obj->f18;
+    cs = D_800854C0[(ang + 0x400) & 0xFFF];
+    cw = cs * w;
+    sn = D_800854C0[(ang + 0x800) & 0xFFF];
+    sh = sn * obj->f20;
+    ch = cs * obj->f20;
+    sw = sn * w;
+    dx = (cw + sh) >> 12;
+    p[0].x = obj->x - dx;
+    dz = (sw - ch) >> 12;
+    p[0].z = obj->z - dz;
+    p[2].x = obj->x + dx;
+    p[2].z = obj->z + dz;
+    dx = (cw - sh) >> 12;
+    p[1].x = obj->x - dx;
+    dz = (sw + ch) >> 12;
+    p[1].z = obj->z - dz;
+    p[3].x = obj->x + dx;
+    p[3].z = obj->z + dz;
+    i = 0;
+    do {
+        a.vy = b.vy = obj->y;
+        c.vy = d.vy = obj->y + obj->f1C;
+        a.vx = c.vx = p[i].x;
+        a.vz = c.vz = p[i].z;
+        b.vx = d.vx = p[(i + 1) % 4].x;
+        b.vz = d.vz = p[(i + 1) % 4].z;
+        func_8004161C(&a, &b, arg1);
+        func_8004161C(&a, &c, arg1);
+        func_8004161C(&c, &d, arg1);
+        i++;
+    } while (i < 4);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043308);
 
 extern void SetRotMatrix(MATRIX *m);
 extern void SetTransMatrix(MATRIX *m);
-extern void func_800430AC(Obj *o, s32);
+extern void func_800430AC(Obj *o, s16);
 extern MATRIX D_801C0B64;
 
 void func_800433F4(void) {
