@@ -7861,7 +7861,15 @@ void func_80050080(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005010C);
+void func_8005010C(s32 vol, s32 pan) {
+    SpuCommonAttr attr;
+    s32 d = (vol * pan) >> 14;
+
+    attr.mask = 0xC0;
+    attr.cd.volume.left = vol - d;
+    attr.cd.volume.right = vol + d;
+    SpuSetCommonAttr(&attr);
+}
 
 int func_80050158(int id, int volume, int pan) {
     SpuVoiceAttr attr;
