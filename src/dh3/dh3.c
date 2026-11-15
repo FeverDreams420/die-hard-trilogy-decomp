@@ -3002,7 +3002,12 @@ void func_80065A84(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065AC0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065C2C);
+extern void func_80065AC0(void);
+
+void func_80065C2C(void) {
+    ((Unk80060200 *)D_800B604C->vals)->unk32 = 0;
+    D_800B604C->func = func_80065AC0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065C54);
 
