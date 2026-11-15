@@ -1576,7 +1576,18 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002014C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800201A0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800202B4);
+extern s16 D_800A3424;
+extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+
+void func_800202B4(void) {
+    u8 result[8];
+
+    if (D_800A3424 != 2) {
+        CdControlB(8, 0, result);
+        VSync(0);
+        D_800A3424 = 2;
+    }
+}
 
 extern s16 D_800A3424;
 extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
