@@ -7880,7 +7880,28 @@ u16 func_8004FB10(void) {
     return D_800A33DC;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB38);
+typedef struct {
+    short unk0;
+    short unk2;
+    short unk4;
+    u16 id;
+    short left;
+    short right;
+} VoiceState;
+
+extern VoiceState D_801C1F14[];
+
+void func_8004FB38(void) {
+    VoiceState *v = D_801C1F14;
+    s32 i;
+
+    for (i = 0; i < 24; v++, i++) {
+        v->unk0 = 0;
+        v->unk2 = 0;
+        v->id = 0;
+    }
+    D_800A33DC = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004FB78);
 
@@ -7999,16 +8020,6 @@ int func_800502F0(int handle, short note) {
     return -1;
 }
 
-typedef struct {
-    short unk0;
-    short unk2;
-    short unk4;
-    u16 id;
-    short left;
-    short right;
-} VoiceState;
-
-extern VoiceState D_801C1F14[];
 extern u16 D_800A33DC;
 extern void SpuSetKey(long on_off, unsigned long voice_bit);
 
