@@ -2168,7 +2168,9 @@ int func_800353DC(int i) {
     return (s16)func_800754C8(*D_800B73F0[(s16)i].p);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035420);
+int func_80035420(short i) {
+    return *D_800B73F0[i].p - 1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035448);
 
