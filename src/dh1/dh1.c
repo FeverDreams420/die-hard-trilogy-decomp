@@ -10043,11 +10043,12 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005ABA8);
 typedef struct {
     s16 unk0;
     s16 unk2;
-    s16 pad4;
+    s16 unk4;
     s16 unk6;
     s16 unk8;
-    s16 padA;
+    s16 unkA;
     s16 unkC;
+    s16 unkE;
 } Unk8005B554_114;
 
 typedef struct {
@@ -10058,14 +10059,15 @@ typedef struct {
     u8 pad14[0x18];
     s16 unk2C;
     s16 unk2E;
-    u8 pad30[2];
+    s16 unk30;
     s16 unk32;
     u16 unk34;
     u8 pad36[0x16];
     s16 unk4C;
-    u8 pad4E[2];
+    s16 unk4E;
     s16 unk50;
-    u8 pad52[0x12];
+    u8 pad52[0x10];
+    s16 unk62;
     u8 unk64[2];
     u16 unk66;
     u8 pad68[2];
@@ -10076,7 +10078,9 @@ typedef struct {
     u16 unk78;
     u8 pad7A[0x36];
     s32 unkB0;
-    u8 padB4[0x12];
+    u8 padB4[0xA];
+    s16 unkBE;
+    u8 padC0[6];
     s16 unkC6;
     u8 padC8[6];
     s16 unkCE;
@@ -10668,9 +10672,63 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D1B4);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B310);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D610);
+extern s32 D_800A2EE0;
+extern s32 D_800A3034;
+extern s16 D_800A3174;
+extern s16 D_800A3574;
+extern s16 D_800A336C;
+extern s16 D_801C1EF6;
+extern s32 func_8004FB78(s32 *params);
+extern s16 func_8003A430(void *);
+extern void func_8005D1B4(void);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B348);
+void func_8005D610(void) {
+    Unk8005B554 *obj = (Unk8005B554 *)D_800A317C->vals;
+    s32 params[6];
+
+    D_800A2E84 = 0;
+    D_800A2EE0 = 0;
+    D_800A3034 = 0;
+    obj->unk114.unk2 = 0;
+    obj->unk2C = 0;
+    obj->unk6A = 0;
+    obj->unk4C = 0;
+    obj->unk4E = 0;
+    obj->unk50 = 0;
+    func_80024DA8((Anim *)obj->unk64, D_8007C570[obj->unkF4], 0, 200, 3);
+    obj->unkBE = 0;
+    obj->unk30 = 0;
+    obj->unk2E = 0;
+    obj->unk114.unk4 = -1;
+    obj->unk114.unk6 = 0;
+    obj->unk114.unkA = 0;
+    obj->unk114.unkC = 0;
+    obj->unk114.unkE = 0;
+    func_80031320((Unk80045164 *)obj);
+    D_800A317C->func = func_8005D1B4;
+    D_800A3174 = -1;
+    obj->unkC6 = -1;
+    D_800A3574 = obj->unk62;
+    switch (D_800A307C) {
+    case 0:
+    case 3:
+    case 8:
+    case 13:
+    case 18:
+    case 22:
+        params[0] = 0x35;
+        params[1] = 0x3FFF;
+        params[2] = 0;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 1;
+        params[3] = D_801C1EF6 + 0x400;
+        func_8004FB78(params);
+        break;
+    }
+    D_800A336C = obj->unk62;
+    func_8003A430(obj);
+}
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B3A4);
 
