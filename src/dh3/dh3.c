@@ -793,7 +793,17 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029168);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800291C4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002924C);
+extern VECTOR D_80091BA8;
+extern VECTOR D_801F83D4;
+s32 func_80028648(VECTOR *a, VECTOR *b);
+
+void func_8002924C(VECTOR *from, VECTOR *to, SVECTOR *rot) {
+    rot->vy = -func_80028648(from, to);
+    D_801F83D4.vx = to->vy - from->vy;
+    D_801F83D4.vz = func_80028A48(from, to);
+    rot->vx = func_80028648(&D_80091BA8, &D_801F83D4) - 0x800;
+    rot->vz = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800292D8);
 
