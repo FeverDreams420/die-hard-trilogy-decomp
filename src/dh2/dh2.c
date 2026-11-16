@@ -53,6 +53,19 @@ struct Task {
 };
 extern struct Task *D_800B6DE0;
 
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk8003BA6C_Data;
+typedef struct {
+    u8 pad[0x1C];
+    Unk8003BA6C_Data *data;
+    u8 pad20[8];
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+} Unk8003BA6C_Task;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", GUN_OBJ_0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", GUN_OBJ_18);
@@ -4550,18 +4563,6 @@ typedef struct {
     u8 pad[0x1C];
     Unk8005EA78 *data;
 } Unk8005EA78_Task;
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-} Unk8003BA6C_Data;
-typedef struct {
-    u8 pad[0x1C];
-    Unk8003BA6C_Data *data;
-    u8 pad20[8];
-    u8 unk28;
-    u8 unk29;
-    u8 unk2A;
-} Unk8003BA6C_Task;
 
 extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
 extern void func_80062594();
