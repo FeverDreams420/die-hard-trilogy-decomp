@@ -1736,7 +1736,12 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024EBC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024F08);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024F30);
+s32 func_80024F30(s32 a, s32 b) {
+    if (b < a) {
+        return b;
+    }
+    return a;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024F4C);
 
