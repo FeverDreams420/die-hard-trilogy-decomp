@@ -1631,7 +1631,23 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002D98C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002DA20);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002DC70);
+void func_8002DC70(Unk80030328_Face *f) {
+    Unk80030328_Prim *prim;
+    u16 *tex;
+
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B5E0C->xy0, &D_800B5E0C->xy1, &D_800B5E0C->xy3, &D_800B5E0C->xy2, &D_800B5CFC, &D_800B61CC, &D_800B642C) > 0) {
+        prim = D_800B5E0C;
+        tex = (u16 *)(D_8018CDD4 + f->tex);
+        prim->uv1 = tex[0];
+        prim->uv0 = tex[2];
+        *(s16 *)&prim->uv3 = tex[4];
+        *(s16 *)&prim->uv2 = tex[5];
+        prim->tpage = tex[3];
+        D_800B5E0C = prim + 1;
+        prim->clut = tex[(f->clut >> 8) + 12];
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), prim);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002DD90);
 
@@ -1991,6 +2007,10 @@ void func_80031424(Unk80030328_Face *f) {
 
 void func_80031540(void) {
 }
+
+extern s16 D_800B60CC;
+extern s16 D_800B5696;
+extern s16 D_800BA1E8[];
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80031548);
 
