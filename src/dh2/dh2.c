@@ -25,6 +25,34 @@ typedef struct {
     s16 unk14;
 } Unk800B6F00;
 
+typedef struct {
+    s32 pad0;
+    s32 vals[3];
+} Unk800A317CVals;
+
+struct Task {
+    void (*func)(void);
+    void (*saved)(void);
+    void (*cleanup)(void);
+    struct Task *next;
+    struct Task *prev;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    char pad1A[2];
+    Unk800A317CVals *vals;
+    s32 id;
+    s32 flags;
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+    u8 unk2B;
+    s16 unk2C;
+    u8 unk2E;
+    u8 unk2F;
+};
+extern struct Task *D_800B6DE0;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", GUN_OBJ_0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", GUN_OBJ_18);
@@ -3935,33 +3963,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056178);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800565F0);
 
-typedef struct {
-    s32 pad0;
-    s32 vals[3];
-} Unk800A317CVals;
-
-struct Task {
-    void (*func)(void);
-    void (*saved)(void);
-    void (*cleanup)(void);
-    struct Task *next;
-    struct Task *prev;
-    s16 unk14;
-    s16 unk16;
-    s16 unk18;
-    char pad1A[2];
-    Unk800A317CVals *vals;
-    s32 id;
-    s32 flags;
-    u8 unk28;
-    u8 unk29;
-    u8 unk2A;
-    u8 unk2B;
-    s16 unk2C;
-    u8 unk2E;
-    u8 unk2F;
-};
-extern struct Task *D_800B6DE0;
 
 typedef struct {
     SVECTOR pos[16];
