@@ -3818,11 +3818,32 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B66FC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800634FC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80063748);
-
 typedef struct {
     u8 c[4];
 } Color4;
+
+typedef struct {
+    u8 pad0[0x2A];
+    s16 unk2A;
+    u8 pad2C[0x1E];
+    s16 unk4A;
+} Unk80063748;
+
+extern Color4 D_800B66F4;
+extern Color4 D_800B66F8;
+extern s16 D_800B639E;
+
+void func_80063748(Unk80063748 *p) {
+    Color4 top = D_800B66F4;
+    Color4 bottom = D_800B66F8;
+
+    if (p->unk4A >= 0x30) {
+        p->unk4A -= D_800B639E * 32;
+        if (p->unk4A >= 0x30) {
+            func_80076EF4(160, 127, p->unk2A, 0x300000 / p->unk4A, 0xAF000 / p->unk4A, top.c, bottom.c);
+        }
+    }
+}
 
 typedef struct {
     u8 pad0[0x38];
