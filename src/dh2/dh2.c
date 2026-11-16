@@ -4517,7 +4517,65 @@ int func_8005E828(int a, int b, int c) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005E84C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005EDB8);
+typedef struct {
+    SVECTOR origin;
+    SVECTOR pos[12];
+    s16 unk68;
+    s32 unk6C[12];
+    s32 unk9C[12];
+    s16 unkCC[12];
+    s16 unkE4[12];
+    s16 unkFC[12];
+    s16 unk114[12];
+    u8 pad12C[0x30];
+    s16 unk15C[12];
+    s16 unk174;
+} Unk8005EDB8;
+
+void func_8005E84C();
+
+void func_8005EDB8(SVECTOR *pos) {
+    Unk8003BA6C_Task *task;
+    Unk8005EDB8 *d;
+    s16 i;
+    s16 t;
+    s16 r;
+    s16 ang;
+
+    task = func_8007307C(func_8005E84C, 0x10, 0x17C);
+    if (task == NULL) {
+        return;
+    }
+    i = 11;
+    d = (Unk8005EDB8 *)task->data;
+    d->origin.vx = pos->vx;
+    d->origin.vy = pos->vy;
+    d->origin.vz = pos->vz;
+    d->unk174 = 0x1000;
+    do {
+        if (i < 4) {
+            t = func_800754C8(0x400);
+        } else {
+            t = func_800754C8(3000) + 0x400;
+        }
+        d->unk9C[i] = func_80072734(0x1000, 0x1000, t);
+        d->unkCC[i] = func_80072734(1500, 0x200, t);
+        d->unk15C[i] = func_80072734(0x20, 8, t);
+        d->unk6C[i] = func_80072734(80, 120, t);
+        ang = i * 0x155;
+        r = func_80072734(0, 500, t);
+        d->pos[i].vx = pos->vx + ((D_800982E4[ang] * r) >> 12);
+        d->pos[i].vy = pos->vy;
+        d->pos[i].vz = pos->vz + ((D_800982E4[(ang + 0x400) & 0xFFF] * r) >> 12);
+        d->unkE4[i] = func_800754C8(800) + 100;
+        d->unkFC[i] = func_800754C8(8) + 16;
+        d->unk114[i] = 10;
+        if ((s16)func_800754C8(2)) {
+            d->unkFC[i] = -d->unkFC[i];
+        }
+    } while (i--);
+    d->unk68 = 0xFF;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F00C);
 
