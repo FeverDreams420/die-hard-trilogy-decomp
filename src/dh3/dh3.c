@@ -1751,7 +1751,18 @@ void func_8003C5F0(Unk8003C5F0 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C648);
+extern s16 D_800B64CC;
+extern s16 D_800B6374;
+
+void func_8003C648(void) {
+    if ((s16)func_80074910(2)) {
+        if (func_80074910(13) & 2) {
+            D_800B64CC = func_80074910(2) + 0x30;
+        } else {
+            D_800B6374 = func_80074910(2) + 0x2E;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C6B8);
 
