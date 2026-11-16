@@ -579,7 +579,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EB8C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EC38);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001ED4C);
+extern MATRIX D_80169F78;
+extern void SetRotMatrix(MATRIX *m);
+extern void SetTransMatrix(MATRIX *m);
+extern s16 D_800B70D0;
+
+void func_8001ED4C(void) {
+    SetRotMatrix(&D_80169F78);
+    SetTransMatrix(&D_80169F78);
+    D_800B70D0 = 1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001ED90);
 
