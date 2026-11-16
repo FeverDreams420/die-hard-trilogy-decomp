@@ -604,7 +604,18 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027744);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027794);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800279E4);
+extern s16 D_800B636C;
+extern s16 D_800B645C;
+extern struct { u8 pad0[0x178A]; s16 unk178A; } *D_800B6614;
+
+void func_800279E4(s16 arg0) {
+    D_800B636C = arg0;
+    if (D_800B6614->unk178A == 0) {
+        D_800B645C = 0x100;
+    } else {
+        D_800B645C = 0xF0;
+    }
+}
 
 extern int func_80071B7C(s32 a, s32 b, s32 t);
 
