@@ -1856,7 +1856,9 @@ s32 func_80025998(SVECTOR *v) {
     return SquareRoot0(v->vx * v->vx + v->vy * v->vy + v->vz * v->vz);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800259F8);
+s32 func_800259F8(VECTOR *v) {
+    return SquareRoot0(v->vx * v->vx + v->vy * v->vy + v->vz * v->vz);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025A58);
 
