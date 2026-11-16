@@ -4385,7 +4385,20 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007891C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078980);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078988);
+extern u16 D_800A1F0C[];
+
+u16 func_80078988(u16 bits, s16 idx) {
+    u16 *tbl = &D_800A1F0C[idx * 16];
+    u16 r = 0;
+    s16 i;
+
+    for (i = 0; i < 16; i++) {
+        if ((bits >> i) & 1) {
+            r |= tbl[i];
+        }
+    }
+    return r;
+}
 
 extern char D_80088AC8[];
 extern u8 D_800B6D00[];
