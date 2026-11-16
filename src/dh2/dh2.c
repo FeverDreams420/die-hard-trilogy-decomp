@@ -4276,6 +4276,10 @@ long func_80071B54(s16 chan) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071D74);
 
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071E20);
 
 void func_80071EEC(void) {
@@ -4651,9 +4655,6 @@ s32 func_80077CE0(s32 *buf, u32 size) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077D1C);
 
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
 typedef struct {
     RECT rect[2];
     u8 pad10[8];
