@@ -3771,7 +3771,33 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064CD8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064E40);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064F68);
+typedef struct {
+    u8 c[4];
+} Color4;
+
+typedef struct {
+    u8 pad0[0x38];
+    s32 value;
+} Unk80064F68;
+
+extern Color4 D_800B5988;
+extern Color4 D_800B598C;
+extern Color4 D_800B5970;
+extern Color4 D_800B5974;
+extern char D_800B5638[];
+extern char *func_80077DC8(char *);
+extern void func_800758C0(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
+extern void func_8007633C(s32 x, s32 y, s32 value, s32 a3, s32 a4, u8 *a5, u8 *a6);
+
+void func_80064F68(Unk80064F68 *p) {
+    Color4 top1 = D_800B5988;
+    Color4 bottom1 = D_800B598C;
+    Color4 top2 = D_800B5970;
+    Color4 bottom2 = D_800B5974;
+
+    func_800758C0(90, 190, func_80077DC8(D_800B5638), 0xC00, 1280, top1.c, bottom1.c);
+    func_8007633C(228, 188, p->value, 0xC00, 1280, top2.c, bottom2.c);
+}
 
 typedef struct {
     u8 pad0[0x38];
