@@ -4390,7 +4390,11 @@ void func_80062C94(void) {
     D_800B604C->func = func_80062B88;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80062CF4);
+void func_80062CF4(void) {
+    D_801FAE04.vx = 0;
+    D_801FAE04.vy = 0;
+    D_801FAE04.vz = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80062D14);
 
