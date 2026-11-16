@@ -4314,7 +4314,19 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078980);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078988);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800789FC);
+extern char D_80088AC8[];
+extern u8 D_800B6D00[];
+int CdSync(int mode, u8 *result);
+int CdControl(u8 com, u8 *param, u8 *result);
+int CdInit(void);
+
+void func_800789FC(void) {
+    printf(D_80088AC8);
+    CdSync(0, D_800B6D00);
+    CdControl(0xA, 0, D_800B6D00);
+    CdSync(0, D_800B6D00);
+    CdInit();
+}
 
 extern int CdReadSync(int mode, u8 *result);
 extern char D_80088AD4[];
