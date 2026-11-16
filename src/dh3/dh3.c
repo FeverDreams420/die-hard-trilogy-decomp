@@ -756,7 +756,45 @@ void func_80028438(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     out->vz = base->vz + tmp.vz;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800284CC);
+extern s32 SquareRoot0(s32 a);
+extern s32 func_80028CEC(s32 x);
+extern s16 D_8009AFF4[];
+
+s16 func_800284CC(SVECTOR *a, SVECTOR *b) {
+    s32 dx = a->vx - b->vx;
+    s32 dz = a->vz - b->vz;
+    s32 adx = func_80028CEC(dx);
+    s32 adz = func_80028CEC(dz);
+    s32 dist;
+    s32 s;
+    s32 c;
+    s32 ang;
+
+    dist = (SquareRoot0((adx * adx + adz * adz) >> 4) + 2) << 2;
+    if (dist < 2) {
+        return -1;
+    }
+    s = (adx << 10) / dist;
+    c = (adz << 10) / dist;
+    if (s >= 0x400) {
+        s = 0x3FF;
+    }
+    if (c >= 0x400) {
+        c = 0x3FF;
+    }
+    if (s >= 0x2D5) {
+        ang = 0x400 - D_8009AFF4[c];
+    } else {
+        ang = D_8009AFF4[s];
+    }
+    if (dz < 0) {
+        ang = 0x800 - ang;
+    }
+    if (dx < 0) {
+        ang = 0x1000 - ang;
+    }
+    return 0x1000 - ang;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028648);
 
