@@ -1735,7 +1735,21 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C214);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C5C0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C5F0);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    u8 pad20[0x83];
+    u8 unkA3;
+} Unk8003C5F0;
+
+s32 func_80056B14(VECTOR *pos);
+
+void func_8003C5F0(Unk8003C5F0 *obj) {
+    if ((func_80056B14(&obj->pos) >> 12) == 15 && obj->unkA3 != 5) {
+        obj->unkA3 = 5;
+        obj->pos.vy -= 0x40;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C648);
 
