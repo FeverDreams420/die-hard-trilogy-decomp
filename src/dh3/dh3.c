@@ -4555,7 +4555,47 @@ struct Task *func_80072374(void (*fn)(), s16 size) {
     return t;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800724C4);
+extern void *D_800B65EC;
+
+Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size) {
+    struct Task *t;
+    s16 f;
+
+    if (D_800B623C == NULL) {
+        return NULL;
+    }
+    D_800B6054 = fn;
+    GET_RA(D_800B65EC); // FAKE: caller address store, see GET_RA
+    D_801F8874.flags = f = flags | 1;
+    if (func_8007374C(size, &D_801F8874) == 0) {
+        return NULL;
+    }
+    t = D_800B623C;
+    t->vals = D_801F8874.vals;
+    D_800B623C = t->next;
+    t->unk2E = D_801F8874.unk2E;
+    t->unk2F = D_801F8874.unk2F;
+    t->flags = f;
+    t->func = fn;
+    t->saved = fn;
+    D_800B604C->next->prev = t;
+    t->next = D_800B604C->next;
+    D_800B604C->next = t;
+    t->prev = D_800B604C;
+    t->unk14 = D_800B5EFC[0];
+    t->unk16 = D_800B5EFC[1];
+    t->unk18 = D_800B5EFC[2];
+    t->id = D_800B5D9C++;
+    t->unk28 = 0xFF;
+    t->unk29 = 0xFF;
+    t->unk2A = 0xFF;
+    t->cleanup = NULL;
+    t->unk2C = 0;
+    t->unk28 = 200;
+    t->unk29 = 200;
+    t->unk2A = 200;
+    return (Unk8003BA6C_Task *)t;
+}
 
 extern struct Task *D_801F80AC[];
 
