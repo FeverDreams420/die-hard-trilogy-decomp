@@ -3347,7 +3347,43 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D82C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005DF50);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005E250);
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[4];
+    SVECTOR v[9][5];
+} Unk8005E250;
+
+s16 func_8005E250(Unk8005E250 *obj, s16 dstep, s16 step, s16 y) {
+    s16 i;
+    s16 j;
+    s16 k;
+    s16 r;
+    s16 prev;
+    s32 x;
+    s32 z;
+
+    for (i = 0; i < 5; i++) {
+        r = i * 250 + 0x80;
+        j = 8;
+        do {
+            k = j;
+            if (j == 8) {
+                k = 0;
+            }
+            k *= 2;
+            r -= 0x20;
+            x = D_800982E4[(k * 0x200) & 0xFFF] * r;
+            z = D_800982E4[(k * 0x200 + 0x400) & 0xFFF] * r;
+            obj->v[j][i].vx = (x >> 12) + obj->pos.vx;
+            obj->v[j][i].vz = (z >> 12) + obj->pos.vz;
+            obj->v[j][i].vy = y + func_800754C8(0x40);
+        } while (j-- != 0);
+        prev = y;
+        y -= step;
+        step += dstep;
+    }
+    return prev;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005E3EC);
 
