@@ -4445,7 +4445,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006ED8C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006F7DC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006F8FC);
+extern s16 D_800B571A;
+extern s16 D_800B6304;
+
+void func_8006F8FC(char *text) {
+    if (D_800B571A != 0) {
+        func_800758C0(160, D_800B6304, text, 0x400, 0x200, D_800B56D0, D_800B56D8);
+        D_800B6304 += 20;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006F970);
 
