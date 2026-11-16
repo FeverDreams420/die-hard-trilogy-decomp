@@ -655,3 +655,4 @@ MEMMOVE_OBJ_64 = 0x80087F68; // type:func
 puts = 0x80087F70; // type:func
 func_80078410 = 0x80078410; // type:func
 func_80087280 = 0x80087280; // type:func
+D_801F7868 = 0x801F7868; // size:0x30
