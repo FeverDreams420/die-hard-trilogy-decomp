@@ -2622,7 +2622,63 @@ void func_800282F4(Unk8002B728_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80028408);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1;
+} Unk8002BA84_Prim;
+
+extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
+extern void SetPolyFT3(void *p);
+
+extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
+
+extern u8 *D_800B70A8;
+
+extern s32 D_800B6DA0;
+extern s32 D_800B6DA8;
+extern s32 D_800B6DB0;
+extern void func_80085190(s32 *sz0, s32 *sz1, s32 *sz2);
+
+void func_80028408(Unk8002B728_Face *f) {
+    Unk8002BA84_Prim *prim = D_800B7140;
+    Unk8002BA84_Prim *start = prim;
+    u16 *tex;
+
+    if ((u8 *)prim - D_800B70A8 > 0xD7DF) {
+        return;
+    }
+    if (RotNclip3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
+        func_80085190(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0);
+        tex = (u16 *)(D_8015EB78 + f->tex);
+        prim->uv0 = tex[0];
+        *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+        prim->uv2 = tex[4];
+        prim->clut = tex[(f->clut >> 8) + 22];
+        SetPolyFT3(prim);
+        SetShadeTex(prim, 1);
+        if (D_800B6DA8 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DA8;
+        }
+        if (D_800B6DB0 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB0;
+        }
+        D_800B6F30 = (D_800B6DA0 >> 2) - 0x80;
+        if (D_800B6F30 > 0) {
+            prim++;
+            AddPrim(D_800B7018 + (D_800B6F30 >> 3), start);
+            D_800B7140 = prim;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800285C8);
 
@@ -2784,25 +2840,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002ACD0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B188);
 
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s32 xy0;
-    u16 uv0;
-    u16 clut;
-    s32 xy1;
-    u16 uv1;
-    u16 tpage;
-    s32 xy2;
-    u16 uv2;
-    u16 pad1;
-} Unk8002BA84_Prim;
-
-extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
-extern void SetPolyFT3(void *p);
-
-extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
 
 void func_8002B61C(Unk8002B728_Face *f) {
     Unk8002BA84_Prim *prim = D_800B7140;
