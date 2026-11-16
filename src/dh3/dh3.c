@@ -4791,7 +4791,55 @@ typedef struct {
     s16 unk74;
 } Unk8005231C;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077164);
+extern int CdRead2(long mode);
+extern void func_80077B54(void);
+extern void func_80077E44(void);
+extern int CdControl(u8 com, u8 *param, u8 *result);
+extern s16 D_800B62FC;
+
+s16 func_80077164(Unk8005231C *movie) {
+    s16 fail = -1;
+    s16 i = 59;
+
+    do {
+        if (CdControl(0x15, movie->loc, 0) != 0) {
+            fail = 0;
+            break;
+        }
+    } while (i--);
+
+    if (fail) {
+        func_80077E44();
+        i = 59;
+        do {
+            if (CdControl(0x15, movie->loc, 0) != 0) {
+                fail = 0;
+                break;
+            }
+        } while (i--);
+        if (fail) {
+            D_800B62FC = -1;
+            goto fail;
+        }
+    }
+
+    fail = -1;
+    i = 59;
+    do {
+        if (CdRead2(0x1C0) != 0) {
+            fail = 0;
+            break;
+        }
+    } while (i--);
+
+    if (fail) {
+    fail:
+        func_80077B54();
+        func_80077E44();
+        return 0;
+    }
+    return -1;
+}
 
 extern void CdReadCallback(void (*func)());
 extern void DecDCTReset(s32 mode);
