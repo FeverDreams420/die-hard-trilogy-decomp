@@ -2,6 +2,17 @@
 #include "psyq/libspu.h"
 
 typedef struct {
+    s32 vx, vy, vz, pad;
+} VECTOR;
+typedef struct {
+    s16 m[3][3];
+    s32 t[3];
+} MATRIX;
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVECTOR;
+
+typedef struct {
     s32 pad0;
     s32 vals[3];
 } Unk800A317CVals;
@@ -495,17 +506,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021FC4);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800220D0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80022160);
-
-typedef struct {
-    s32 vx, vy, vz, pad;
-} VECTOR;
-typedef struct {
-    s16 m[3][3];
-    s32 t[3];
-} MATRIX;
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVECTOR;
 
 extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
 extern SVECTOR D_800B6124;
