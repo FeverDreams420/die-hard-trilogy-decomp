@@ -1936,7 +1936,13 @@ s32 func_800255BC(s32 value, s32 target, s32 step) {
     return (value - step) & 0xFFF;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025634);
+s32 func_80025634(SVECTOR *a, SVECTOR *b) {
+    s32 dx = a->vx - b->vx;
+    s32 dy = a->vy - b->vy;
+    s32 dz = a->vz - b->vz;
+
+    return SquareRoot0(dx * dx + dy * dy + dz * dz);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800256A4);
 
