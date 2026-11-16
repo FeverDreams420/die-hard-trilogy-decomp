@@ -4205,7 +4205,26 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800735F8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800736AC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073828);
+extern struct Task *D_801F7540[];
+
+void func_80073828(struct Task *task) {
+    struct Task *saved = D_800B6DE0;
+    s16 i;
+
+    if (task->cleanup != NULL) {
+        task->cleanup();
+    }
+    i = 0x7F;
+    do {
+        if (D_801F7540[i] == task) {
+            D_801F7540[i] = NULL;
+            break;
+        }
+    } while (i-- != 0);
+    D_800B6DE0 = task;
+    func_8007345C();
+    D_800B6DE0 = saved;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800738C0);
 
