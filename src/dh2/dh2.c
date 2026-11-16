@@ -2425,7 +2425,32 @@ typedef struct {
     u16 unk1E;
 } Anim;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035448);
+void func_80035448(anim, id, time, arg3, blend)
+Anim *anim;
+s16 id;
+s16 time;
+s16 arg3;
+s16 blend;
+{
+    if (anim->unk1C != 0) {
+        blend = 0;
+        anim->unk1C = 0;
+    }
+    anim->prevId = anim->id;
+    anim->prevTime = anim->time;
+    if (time != -1) {
+        anim->time = time;
+    }
+    anim->time = anim->time / D_800B73F0[id].p[2] * D_800B73F0[id].p[2];
+    anim->id = id;
+    anim->unk6 = arg3;
+    if (blend != 0) {
+        anim->unk16 = 1;
+        anim->unk1A = 0x1000 / blend;
+    } else {
+        anim->unk16 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003553C);
 
