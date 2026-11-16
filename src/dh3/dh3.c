@@ -3702,7 +3702,15 @@ void func_8006FFF4(void) {
     StartPAD();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007005C);
+extern char D_80086F44[];
+extern char D_800B6A44[];
+int delete(char *name);
+int sprintf(char *buf, const char *fmt, ...);
+
+void func_8007005C(s32 arg0, s32 arg1) {
+    sprintf(D_800B6A44, D_80086F44, arg1, arg0);
+    delete(D_800B6A44);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800700A4);
 
