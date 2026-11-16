@@ -3734,7 +3734,9 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032BAC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032D24);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032D94);
+void func_80032D94(void) {
+    u8 unused[32];
+}
 
 typedef struct {
     u8 pad0[6];
