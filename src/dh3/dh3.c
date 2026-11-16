@@ -8270,7 +8270,9 @@ void func_80077BB4(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077D64);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077DC8);
+char *func_80077DC8(char *arg0) {
+    return arg0;
+}
 
 extern u16 D_8009DD9C[];
 
