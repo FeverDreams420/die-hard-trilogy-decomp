@@ -290,3 +290,7 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | Unused 8 bytes in the frame | `s32 unused[2];` (DH2 0x80065430, DH3 0x80028648) |
 | Two task pointers 0xC apart, second one reloaded after a store | One array `struct Task *D_801F80B0[]`, elements `[0]` and `[3]` (DH3 0x80024088) |
 | `lhu` of the low half of an `s32` global | GCC narrows the load when the result is truncated to `s16`: declare the global `VECTOR` (DH3 `D_801FAE04`, 0x80060A20) |
+| Array element loaded once through `$at` (`lui at`/`addiu at`/`addu at,at,reg`/`lw`) and both stored and compared | Read it into a local first: `p = table[i]; obj->f = p; if (p == X)`. Reading `table[i]` twice gives two loads (DH3 0x80051864) |
+| Call result compared with a field loaded after the call | Put the call on the left: `if (f(...) > d->unkC)`; `d->unkC < f(...)` loads the field first (DH3 0x80044DE8) |
+| `addiu 0x40` on the depth before `sra 3` for the OT index | `ot + ((otz + 64) >> 3)`, not `ot + 16 + (otz >> 3)` (DH2 0x8002B61C, DH3 0x80030B00) |
+| Task pointer reloaded after its own `NULL` test | Declare it `volatile` (DH2 `D_801F7548`, 0x800532A4) |
