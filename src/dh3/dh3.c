@@ -5463,6 +5463,8 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077878);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077B54);
 
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077BB4);
+
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077D64);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077DC8);
