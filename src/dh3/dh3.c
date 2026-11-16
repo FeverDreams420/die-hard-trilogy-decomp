@@ -1313,7 +1313,22 @@ void func_8003A660(s16 n, s32 *a) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A6D8);
+void func_8003A6D8(SVECTOR **v) {
+    s16 mid = (v[0]->vy + v[1]->vy + v[2]->vy + v[3]->vy) >> 2;
+
+    if (v[0]->vy < mid && v[1]->vy < mid) {
+        return;
+    }
+    func_8003A660(1, (s32 *)v);
+    if (v[0]->vy < mid && v[1]->vy < mid) {
+        return;
+    }
+    func_8003A660(1, (s32 *)v);
+    if (v[0]->vy < mid && v[1]->vy < mid) {
+        return;
+    }
+    func_8003A660(1, (s32 *)v);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A7D8);
 
