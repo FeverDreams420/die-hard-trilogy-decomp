@@ -4094,7 +4094,11 @@ void func_8003D51C(s16 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D570);
+extern s32 D_800B6C48;
+
+void func_8003D570(s32 n) {
+    D_800B6C48 += n;
+}
 
 extern s32 D_800B6A6C;
 
