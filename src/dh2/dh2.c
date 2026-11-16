@@ -701,7 +701,14 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800234D8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002359C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002370C);
+extern s16 D_800B6FC0;
+int SetDispMask(int mask);
+
+void func_8002370C(void) {
+    if (D_800B6FC0 != 0 && --D_800B6FC0 == 0) {
+        SetDispMask(1);
+    }
+}
 
 extern s16 D_800B6FC0;
 int SetDispMask(int mask);
