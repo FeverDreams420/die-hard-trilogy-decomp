@@ -4112,7 +4112,18 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6684);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F2D8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F3B0);
+extern char D_800B6690[];
+char *func_8005F4E4(s16 n);
+extern char *strcat(char *, char *);
+
+void func_8005F3B0(char *name, s16 n) {
+    char buf[128];
+
+    strcpy(buf, func_8005F4E4(n));
+    strcat(buf, D_800B6690);
+    strcat(buf, name);
+    delete(buf);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F40C);
 
