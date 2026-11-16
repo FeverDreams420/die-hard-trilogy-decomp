@@ -1946,7 +1946,15 @@ s32 func_80025634(SVECTOR *a, SVECTOR *b) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800256A4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002576C);
+s32 func_8002576C(SVECTOR *a, SVECTOR *b) {
+    s32 dx = a->vx - b->vx;
+    s32 dz = a->vz - b->vz;
+
+    if ((dx < 0 ? -dx : dx) > 0x400 || (dz < 0 ? -dz : dz) > 0x400) {
+        return 0xFFFF;
+    }
+    return SquareRoot0(dx * dx + dz * dz);
+}
 
 typedef struct {
     s32 vx;
