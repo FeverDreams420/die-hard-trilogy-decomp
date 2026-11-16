@@ -3573,7 +3573,20 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047968);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047B48);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047E50);
+void func_8006576C(s32 arg);
+void func_80055298(s32 *obj, s32 x0, s32 x1, s32 z0, s32 z1);
+
+void func_80047E50(s32 *obj) {
+    s16 i;
+    s16 j;
+
+    func_8006576C(obj[0]);
+    for (i = 0; i < 0x1000; i += 0x800) {
+        for (j = 0; j < 0x1000; j += 0x400) {
+            func_80055298(obj, i, i + 0x800, j, j + 0x400);
+        }
+    }
+}
 
 extern SVECTOR D_800B73F8;
 void func_80024914(s32 x, s32 y, s32 z, SVECTOR *out);
