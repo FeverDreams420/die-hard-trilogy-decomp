@@ -873,7 +873,12 @@ void func_80026710(s32 mask) {
     D_800B624C = mask;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026748);
+s32 func_80026748(s32 a, s32 b) {
+    if (a < b) {
+        return a;
+    }
+    return b;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026764);
 
