@@ -1,6 +1,6 @@
 # Compiler notes (Phase 2)
 
-Status: **Phase 4 settled (Oct 25, 2026): GCC 2.5.7 (`gcc-2.5.7-psx`), `-O2 -G8`, ASPSX 2.34 for the games and 2.21 for LOADER.** Details under run 4.
+Status: **Phase 4 settled (Oct 25, 2026): GCC 2.5.7 (`gcc-2.5.7-psx`), `-O2 -G8`, ASPSX 2.34 for DH1 and 2.21 for LOADER; DH2 and DH3 turned out to use 2.21 as well (Phase 7).** Details under run 4.
 
 ## Step 1: PsyQ SDK version
 
@@ -177,10 +177,18 @@ A `switch` compiled to a jump table puts the table in `.rodata` right after the 
 
 ## DH2 and DH3 settings check (Phase 7)
 
-DH2 and DH3 use the same settings as DH1: GCC 2.5.7 `-O2 -G8`, ASPSX 2.34. The check is the
+DH2 and DH3 use the same compiler settings as DH1: GCC 2.5.7 `-O2 -G8`. The check is the
 111 functions (53 DH2, 58 DH3) whose DH1 twin's C rebuilds them to the original bytes with
 only symbol names changed, or with a constant, field offset or type changed where the games
 differ. None needed a different compiler or flag.
+
+The assembler is older, though: **ASPSX 2.21 for DH2 and DH3.** Every symbol+register load or
+store in their game code is the 2.21 expansion `lui at` / `addiu at,at,%lo(sym)` / `addu at,at,reg`
+/ `op rd,0(at)` (155 functions in DH2, 179 in DH3), and none uses the 2.34 form `lui at` /
+`addu at,at,reg` / `op rd,%lo(sym)(at)`; DH1 is the reverse (DH2 0x80065328 reads two volume
+tables this way). In maspsx 2.21 and 2.34 differ only in this expansion, so the twins that
+matched with 2.34 still match. The Makefile sets `ASPSX_VER := 2.21` for `build/src/dh2/` and
+`build/src/dh3/`.
 
 ## Phase 5: matching idioms for GCC 2.5.7
 

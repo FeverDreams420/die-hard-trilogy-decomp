@@ -31,7 +31,7 @@ LDFLAGS := -EL --no-check-sections -nostdlib
 # C pipeline, mirroring the original toolchain:
 #   cpp -> cc1 (GCC) -> maspsx (makes GNU as behave like Sony's ASPSX) -> as
 # Settings from the Phase 4 bake-off (docs/compiler-notes.md): GCC 2.5.7 with -O2 -G8
-# matches 20 of 22 test leaves. ASPSX is 2.34 for the games; LOADER's code fits 2.21.
+# matches 20 of 22 test leaves. ASPSX is 2.34 for DH1, 2.21 for DH2, DH3 and LOADER.
 # A file or EXE can override a setting with a target-specific variable, for example:
 #   build/src/loader/%.c.o: ASPSX_VER := 2.21
 # Ubuntu's cpp, not tools/gcc-*/cpp: the old 32-bit cpp can't open files on
@@ -46,6 +46,10 @@ CFLAGS   := -quiet -O2 $(GFLAG) -w -fno-builtin -fpeephole -ffunction-cse -fpcc-
 # -O1 lets GNU as fill branch delay slots, which ASPSX did for compiled code
 CASFLAGS := $(ASFLAGS) -O1
 ASPSX_VER := 2.34
+# DH2 and DH3 expand symbol+register loads and stores as lui/addiu/addu/op 0(at)
+# (for example lhu in 0x80065328 of DH2), the ASPSX 2.21 form; DH1 has only the
+# 2.34 form (lui/addu/op %lo(at)).
+build/src/dh2/%.c.o build/src/dh3/%.c.o: ASPSX_VER := 2.21
 # Each EXE has a single .rodata segment that also holds its .data and .sdata,
 # so small constants the compiler puts in .sdata (initializers of 8 bytes or
 # less) go to .rodata until data is split into its own segments.
