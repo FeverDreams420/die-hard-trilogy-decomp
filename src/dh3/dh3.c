@@ -51,6 +51,9 @@ typedef struct {
     s16 unk10;
     s16 unk12;
     s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    s16 unk1A;
 } Unk800B61A4;
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GUN_OBJ_0);
@@ -652,7 +655,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80023694);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002391C);
 
 typedef struct {
-    u8 pad0[0xF4];
+    u8 pad0[0x10];
+    VECTOR pos;
+    u8 pad20[0xD4];
     s32 unkF4[4];
     u8 pad104[0x70];
     s16 unk174;
