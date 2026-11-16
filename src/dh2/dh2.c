@@ -4027,7 +4027,25 @@ void func_80072810(void) {
     D_800B6B50 = 20;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072824);
+extern char D_80088A2C[];
+int printf(const char *fmt, ...);
+int ResetGraph(int mode);
+void PadStop(void);
+void StopPAD(void);
+void *ResetCallback(void);
+void func_8007BC3C(void);
+void func_800739C0(void);
+
+void func_80072824(void) {
+    printf(D_80088A2C);
+    ResetGraph(3);
+    PadStop();
+    StopPAD();
+    ResetCallback();
+    func_8007BC3C();
+    func_800739C0();
+    func_80078EBC(1);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072884);
 
