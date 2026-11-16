@@ -4008,7 +4008,18 @@ s32 func_800727B0(void *data, s16 i) {
     return ((Pack *)data)->entries[i].unkC;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800727C8);
+extern s16 D_800B7218;
+extern u8 D_801DA1CC[];
+int CdGetToc(u8 *loc);
+
+s32 func_800727C8(void) {
+    u8 param[16];
+
+    param[0] = 5;
+    CdControlB(0xE, param, 0);
+    D_800B7218 = CdGetToc(D_801DA1CC);
+    return -1;
+}
 
 extern volatile s16 D_800B6B50;
 
