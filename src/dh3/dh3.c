@@ -3508,7 +3508,44 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5940);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80062048);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80062B88);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+} Unk80062B88;
+
+extern VECTOR D_80091BB8;
+
+void func_80062B88(void) {
+    Unk80062B88 *p = (Unk80062B88 *)D_800B604C->vals;
+    SVECTOR v;
+    SVECTOR rot;
+
+    v.vz = p->unk0;
+    v.vy = 0;
+    v.vx = 0;
+    rot.vy = p->unk2;
+    rot.vx = 0;
+    rot.vz = 0;
+    func_80028310(&rot, &v, &D_80091BB8, (VECTOR *)&D_801FAE04);
+    p->unk0 += p->unk4;
+    p->unk2 += p->unk6;
+    if (p->unkC-- < 0) {
+        p->unkC = func_80074910(0x20);
+        p->unkA = func_80074910(0x80) - 0x40;
+        p->unk8 = func_80074910(0x514);
+    }
+    p->unk6 = func_8002881C(p->unk6, p->unkA, 1);
+    if (p->unk0 < p->unk8) {
+        p->unk4 = func_8002881C(p->unk4, 0x40, 2);
+    } else {
+        p->unk4 = func_8002881C(p->unk4, -0x40, 2);
+    }
+}
 
 typedef struct {
     s16 unk0;
