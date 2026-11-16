@@ -1841,7 +1841,45 @@ void func_800251C0(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     out->vz = base->vz + tmp.vz;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025254);
+extern s32 SquareRoot0(s32 a);
+extern s32 func_80025B40(s32 x);
+extern s16 D_8009F164[];
+
+s32 func_80025254(Unk8002A35C *a, Unk8002A35C *b) {
+    s32 dx = a->x - b->x;
+    s32 dz = a->z - b->z;
+    s32 adx = func_80025B40(dx);
+    s32 adz = func_80025B40(dz);
+    s32 dist;
+    s32 s;
+    s32 c;
+    s32 ang;
+
+    dist = (SquareRoot0((adx * adx + adz * adz) >> 4) + 2) << 2;
+    if (dist < 2) {
+        return -1;
+    }
+    s = (adx << 10) / dist;
+    c = (adz << 10) / dist;
+    if (s >= 0x400) {
+        s = 0x3FF;
+    }
+    if (c >= 0x400) {
+        c = 0x3FF;
+    }
+    if (s >= 0x2D5) {
+        ang = 0x400 - D_8009F164[c];
+    } else {
+        ang = D_8009F164[s];
+    }
+    if (dz < 0) {
+        ang = 0x800 - ang;
+    }
+    if (dx < 0) {
+        ang = 0x1000 - ang;
+    }
+    return (s16)(0x1000 - ang);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800253D0);
 
