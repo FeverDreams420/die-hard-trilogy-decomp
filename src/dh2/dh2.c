@@ -2229,7 +2229,22 @@ void func_8002EDC4(POLY_FT4 *p, POLY_FT4 *q) {
     q->v2 = p->v2 = (p->v0 + p->v1 + p->v2 + p->v3) >> 2;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002EEBC);
+void func_8002EEBC(POLY_FT4 *p, POLY_FT4 *q) {
+    *(u32 *)&q->u2 = *(u32 *)&p->u2;
+    *(u32 *)&q->u3 = *(u32 *)&p->u3;
+    q->clut = p->clut;
+    q->tpage = p->tpage;
+    *(u32 *)&q->x2 = *(u32 *)&p->x2;
+    *(u32 *)&q->x3 = *(u32 *)&p->x3;
+    q->x0 = p->x2 = (p->x0 + p->x2 + 1) >> 1;
+    q->y0 = p->y2 = (p->y0 + p->y2 + 1) >> 1;
+    q->x1 = p->x3 = (p->x1 + p->x3 + 1) >> 1;
+    q->y1 = p->y3 = (p->y1 + p->y3 + 1) >> 1;
+    q->u0 = p->u2 = (p->u0 + p->u2) >> 1;
+    q->v0 = p->v2 = (p->v0 + p->v2) >> 1;
+    q->u1 = p->u3 = (p->u1 + p->u3) >> 1;
+    q->v1 = p->v3 = (p->v1 + p->v3) >> 1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002EFF8);
 
