@@ -638,7 +638,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002823C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028258);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002826C);
+s32 func_8002826C(s32 size) {
+    return (size + 3) & ~3;
+}
 
 extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
 extern MATRIX D_801FA428;
