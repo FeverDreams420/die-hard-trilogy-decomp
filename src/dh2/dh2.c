@@ -2813,7 +2813,22 @@ void func_8002BCBC(Unk8002B728_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002BDF4);
+void func_8002BDF4(Unk8002B728_Face *f) {
+    Unk8002B728_Prim *prim;
+    u16 *tex;
+
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
+        prim = D_800B6B90;
+        tex = (u16 *)(D_8015EB78 + f->tex + D_800BD974[f->tex & 7]);
+        prim->uv0 = tex[0];
+        *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
+        *(s16 *)&prim->uv2 = tex[4];
+        *(s16 *)&prim->uv3 = tex[6];
+        D_800B6B90 = prim + 1;
+        prim->clut = tex[(f->clut >> 8) + 22];
+        AddPrim(D_800B7018 + (D_800B6F30 >> 3), prim);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002BF28);
 
