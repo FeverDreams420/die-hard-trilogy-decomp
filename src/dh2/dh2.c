@@ -3386,7 +3386,13 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800663D0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066474);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800665B4);
+extern u32 D_800B6FA8;
+void SpuSetKey(long on_off, unsigned long voice_bit);
+
+void func_800665B4(void) {
+    SpuSetKey(1, D_800B6FA8);
+    D_800B6FA8 = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800665E4);
 
