@@ -3375,7 +3375,15 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80064C6C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800651C8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800652DC);
+extern SpuVoiceAttr D_801F6CB0;
+
+void func_800652DC(void) {
+    D_801F6CB0.volume.left = 0;
+    D_801F6CB0.volume.right = 0;
+    D_801F6CB0.mask = 3;
+    D_801F6CB0.voice = 0xFFFFFF;
+    SpuSetVoiceAttr(&D_801F6CB0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065328);
 
