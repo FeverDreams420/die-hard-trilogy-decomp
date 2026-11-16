@@ -3583,7 +3583,11 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AF80);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AFA0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AFC0);
+extern struct { u8 pad0[0xE]; s16 unkE; } *D_800B6F00;
+
+void func_8006AFC0(void) {
+    D_800B6F00->unkE = D_800B6F00->unkE == 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AFE0);
 
