@@ -812,7 +812,27 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028DC0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028E80);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028F4C);
+s32 func_80028F4C(VECTOR *a, VECTOR *b, VECTOR *p) {
+    s32 ax = a->vx;
+    s32 az = a->vz;
+    s32 bx = b->vx;
+    s32 bz = b->vz;
+    s32 dz = az - p->vz;
+    s32 ux = bx - ax;
+    s32 dx = ax - p->vx;
+    s32 dist = func_80028CEC(dz * ux - dx * (bz - az)) >> 16;
+    s32 vz = az - bz;
+    s32 dot = (dz * vz - dx * ux + 0x800) >> 12;
+    s32 vx = ax - bx;
+
+    if (((vx * vx + vz * vz + 0x800) >> 12) + 0x800 < dot) {
+        return -1;
+    }
+    if (dot < -0x800) {
+        return -1;
+    }
+    return dist;
+}
 
 void func_80029060(s16 *a, s16 *b, s16 t, s16 *out) {
     out[0] = func_80071B7C(a[0], b[0], t);
