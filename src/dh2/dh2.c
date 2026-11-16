@@ -2104,7 +2104,49 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800267F0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80026988);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800269D8);
+extern unsigned short D_801F9DCC[];
+extern void SetFarColor(long rfc, long gfc, long bfc);
+void func_800267F0(unsigned short *src, s16 t);
+
+void func_800269D8(unsigned short *src, s16 t, u8 r, u8 g, u8 b, s16 flag) {
+    unsigned short *dst;
+    u8 col[3];
+    unsigned short i;
+    int semi;
+    unsigned short stp;
+
+    SetFarColor(r, g, b);
+    dst = D_801F9DCC;
+    if (flag) {
+        func_800267F0(src, t);
+        return;
+    }
+    i = 0;
+    semi = 0;
+    for (; i < 16; i++) {
+        stp = 0;
+        if (*src == 0) {
+            col[0] = 0;
+            col[1] = 0;
+            col[2] = 0;
+            src++;
+        } else {
+            if (semi) {
+                stp = (i < 4) << 15;
+            } else {
+                stp = 0x8000;
+            }
+            col[0] = (*src & 0x1F) << 3;
+            col[1] = ((*src >> 5) & 0x1F) << 3;
+            col[2] = ((*src >> 10) & 0x1F) << 3;
+            src++;
+            col[0] = func_80072734(col[0], 0, t);
+            col[1] = func_80072734(col[1], 0, t);
+            col[2] = func_80072734(col[2], 0, t);
+        }
+        *dst++ = stp | (((col[0] >> 3) + ((col[1] >> 3) << 5) + ((col[2] >> 3) << 10)) & 0x7FFF);
+    }
+}
 
 extern unsigned short D_801F9DCC[16];
 
