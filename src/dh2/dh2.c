@@ -1955,7 +1955,11 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024E40);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024EBC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024F08);
+s32 func_80024F08(s32 a, s32 b, s32 t) {
+    s32 d = (b - a) << 20 >> 20;
+
+    return a + (t * d >> 12);
+}
 
 s32 func_80024F30(s32 a, s32 b) {
     if (b < a) {
