@@ -1901,7 +1901,24 @@ s32 func_800257F4(Vec32 *a, Vec32 *b) {
     return SquareRoot0(sum + dz * dz);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025860);
+extern s32 SquareRoot0(s32);
+
+void func_80025860(SVECTOR *v) {
+    s16 x = v->vx;
+    s16 y = v->vy;
+    s16 z = v->vz;
+    s32 len = SquareRoot0(x * x + y * y + z * z);
+
+    if (len != 0) {
+        v->vx = (x << 12) / len;
+        v->vy = (y << 12) / len;
+        v->vz = (z << 12) / len;
+    } else {
+        v->vx = 0;
+        v->vy = 0x1000;
+        v->vz = 0;
+    }
+}
 
 s32 func_80025998(SVECTOR *v) {
     return SquareRoot0(v->vx * v->vx + v->vy * v->vy + v->vz * v->vz);
