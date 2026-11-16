@@ -3158,7 +3158,60 @@ void func_8003553C(Anim *anim, u16 id, s16 time, s16 arg3, s16 blend) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035584);
+typedef struct {
+    SVECTOR v[27];
+} AnimFrame;
+
+typedef struct {
+    s32 len;
+    s32 count;
+    s32 step;
+    s32 scale;
+    s32 unk10;
+    s32 unk14;
+    AnimFrame frames[1];
+} AnimInfo;
+
+extern s16 D_800B639E;
+
+s16 func_80035584(Anim *anim) {
+    AnimInfo *info = (AnimInfo *)D_800B73F0[anim->id].p;
+    s16 t;
+    s16 frame;
+    s16 from;
+    s16 to;
+    s16 a;
+    s16 wrap;
+
+    t = anim->time % info->len;
+    frame = t / info->step;
+    D_800B6A90 = (t % info->step) * info->scale >> 12;
+    if (frame == 0) {
+        from = 0;
+        to = info->frames[0].v[26].vz;
+    } else {
+        from = info->frames[frame - 1].v[26].vz;
+        to = info->frames[frame].v[26].vz;
+    }
+    a = func_80072734(from, to, D_800B6A90);
+    t = anim->time + anim->unk6 * D_800B639E;
+    if (t > info->len) {
+        wrap = info->frames[info->count - 1].v[26].vz;
+        t = t - info->len;
+    } else {
+        wrap = 0;
+    }
+    frame = t / info->step;
+    D_800B6A90 = (t % info->step) * info->scale >> 12;
+    if (frame == 0) {
+        from = 0;
+        to = info->frames[0].v[26].vz;
+    } else {
+        from = info->frames[frame - 1].v[26].vz;
+        to = info->frames[frame].v[26].vz;
+    }
+    return a - (wrap + func_80072734(from, to, D_800B6A90));
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003580C);
 
