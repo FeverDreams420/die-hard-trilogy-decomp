@@ -4101,7 +4101,49 @@ void func_80065A84(void) {
     func_80065A28();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065AC0);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 w, h;
+} TILE;
+
+extern void *D_800B63AC;
+extern u8 *D_800B6334;
+extern u32 *D_800B62CC;
+extern s16 D_800B5FB4;
+extern void SetTile(TILE *p);
+extern void AddPrim(void *ot, void *p);
+extern void func_800728A4(void);
+
+void func_80065AC0(void) {
+    Unk80060200 *data = (Unk80060200 *)D_800B604C->vals;
+    TILE *tile = D_800B63AC;
+    s16 w, h;
+
+    if ((u32)((u8 *)tile - D_800B6334) > 0xD7EF) {
+        func_8005D108();
+        D_800B5FB4 = 2;
+        func_800728A4();
+        return;
+    }
+    data->unk32 += 0x100;
+    w = func_80071B7C(0, D_800B636C / 2, data->unk32);
+    h = func_80071B7C(0, D_800B645C / 2, data->unk32);
+    tile->w = w * 2;
+    tile->h = h * 2;
+    tile->x0 = D_800B636C / 2 - w;
+    tile->y0 = D_800B645C / 2 - h;
+    SetTile(tile);
+    tile->r0 = 0;
+    tile->g0 = 0;
+    tile->b0 = 0;
+    AddPrim(D_800B62CC + 1, tile);
+    D_800B63AC = tile + 1;
+    if (data->unk32 > 0x1068) {
+        D_800B5FB4 = 2;
+    }
+}
 
 extern void func_80065AC0(void);
 
