@@ -2801,7 +2801,43 @@ void func_80028F60(Unk8002B728_Face *f) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80029064);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80029334);
+void func_80029334(Unk8002B728_Face *f) {
+    Unk8002B728_Prim *prim = D_800B7140;
+    Unk8002B728_Prim *start = prim;
+    u16 *tex;
+
+    if ((u8 *)prim - D_800B70A8 > 0xD75F) {
+        return;
+    }
+    RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800B6A90, &D_800B7198);
+    if (!(D_800B7198 & ~0x1FFF)) {
+        func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
+        tex = (u16 *)(D_8015EB78 + f->tex);
+        prim->uv0 = tex[0];
+        *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+        prim->uv2 = tex[4];
+        prim->uv3 = tex[6];
+        prim->clut = tex[(f->clut >> 8) + 22];
+        SetPolyFT4(prim);
+        SetShadeTex(prim, 1);
+        SetSemiTrans(prim, 1);
+        if (D_800B6DA8 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DA8;
+        }
+        if (D_800B6DB0 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB0;
+        }
+        if (D_800B6DB8 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB8;
+        }
+        D_800B6F30 = D_800B6DA0 >> 2;
+        if (D_800B6F30 > 0 && D_800B6F30 < 0x1771) {
+            prim++;
+            AddPrim(D_800B7018 + (D_800B6F30 >> 3), start);
+            D_800B7140 = prim;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80029558);
 
