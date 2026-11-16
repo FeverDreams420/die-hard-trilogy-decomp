@@ -1,6 +1,33 @@
 #include "common.h"
 #include "psyq/libspu.h"
 
+typedef struct {
+    s32 pad0;
+    s32 vals[3];
+} Unk800A317CVals;
+
+struct Task {
+    void (*func)(void);
+    void (*saved)(void);
+    void (*cleanup)(void);
+    struct Task *next;
+    struct Task *prev;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    char pad1A[2];
+    Unk800A317CVals *vals;
+    s32 id;
+    s32 flags;
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+    u8 unk2B;
+    s16 unk2C;
+    u8 unk2E;
+    u8 unk2F;
+};
+
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GUN_OBJ_0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GUN_OBJ_18);
@@ -2568,32 +2595,7 @@ typedef struct {
     u8 pad0[0x32];
     s16 unk32;
 } Unk80060200;
-typedef struct {
-    s32 pad0;
-    s32 vals[3];
-} Unk800A317CVals;
-
-extern struct Task {
-    void (*func)(void);
-    void (*saved)(void);
-    void (*cleanup)(void);
-    struct Task *next;
-    struct Task *prev;
-    s16 unk14;
-    s16 unk16;
-    s16 unk18;
-    char pad1A[2];
-    Unk800A317CVals *vals;
-    s32 id;
-    s32 flags;
-    u8 unk28;
-    u8 unk29;
-    u8 unk2A;
-    u8 unk2B;
-    s16 unk2C;
-    u8 unk2E;
-    u8 unk2F;
-} *D_800B604C;
+extern struct Task *D_800B604C;
 extern void func_800472C4(void);
 
 typedef struct {
