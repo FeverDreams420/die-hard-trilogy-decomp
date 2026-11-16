@@ -4342,7 +4342,20 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077D64);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077DC8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077DD0);
+extern u16 D_8009DD9C[];
+
+u16 func_80077DD0(u16 bits, s16 idx) {
+    u16 *tbl = &D_8009DD9C[idx * 16];
+    u16 r = 0;
+    s16 i;
+
+    for (i = 0; i < 16; i++) {
+        if ((bits >> i) & 1) {
+            r |= tbl[i];
+        }
+    }
+    return r;
+}
 
 int CdControl(u8 com, u8 *param, u8 *result);
 int CdInit(void);
