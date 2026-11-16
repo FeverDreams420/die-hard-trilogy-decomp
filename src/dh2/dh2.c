@@ -3053,7 +3053,56 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80062594);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800628E4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80062A3C);
+typedef struct {
+    u8 pad0[0x1EC];
+    s16 unk1EC;
+    s16 unk1EE;
+    u8 pad1F0[2];
+    s16 unk1F2;
+} Unk8005EA78;
+typedef struct {
+    u8 pad[0x1C];
+    Unk8005EA78 *data;
+} Unk8005EA78_Task;
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk8003BA6C_Data;
+typedef struct {
+    u8 pad[0x1C];
+    Unk8003BA6C_Data *data;
+    u8 pad20[8];
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+} Unk8003BA6C_Task;
+
+extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
+extern void func_80062594();
+extern void func_800628E4();
+
+s32 func_80062A3C(s16 a, s16 b) {
+    Unk8005EA78_Task *task;
+    Unk8005EA78 *obj;
+    s16 i;
+    s16 n;
+
+    task = (Unk8005EA78_Task *)func_8007307C(func_80062594, 9, 0x200);
+    i = 3;
+    if (task != NULL) {
+        obj = task->data;
+        obj->unk1F2 = a;
+        while (1) {
+            func_800628E4(obj, i, b);
+            n = i--;
+            if (n == 0) break;
+        }
+        obj->unk1EE = 0;
+        obj->unk1EC = 0;
+        return (s32)obj;
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80062AD8);
 
@@ -3369,18 +3418,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A268);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A350);
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-} Unk8003BA6C_Data;
-typedef struct {
-    u8 pad[0x1C];
-    Unk8003BA6C_Data *data;
-    u8 pad20[8];
-    u8 unk28;
-    u8 unk29;
-    u8 unk2A;
-} Unk8003BA6C_Task;
 typedef struct {
     SVECTOR rot;
     u8 pad8[0x16C];
