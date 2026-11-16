@@ -3333,7 +3333,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066B1C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066B58);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066C30);
+extern SpuVoiceAttr D_801F76E4;
+
+void func_80066C30(void) {
+    D_801F76E4.volume.left = 0;
+    D_801F76E4.volume.right = 0;
+    D_801F76E4.mask = 3;
+    D_801F76E4.voice = 0xFFFFFF;
+    SpuSetVoiceAttr(&D_801F76E4);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066C7C);
 
