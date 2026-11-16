@@ -4922,7 +4922,13 @@ void func_80072F8C(void) {
     func_80078304(D_800B63CC);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073138);
+extern s16 D_800B5FAC;
+extern void D_80073384(void);
+
+void func_80073138(void) {
+    D_800B5FAC = 0;
+    D_800B604C->func = D_80073384;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073158);
 
