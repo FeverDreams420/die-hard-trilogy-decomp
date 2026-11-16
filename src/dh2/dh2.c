@@ -3452,7 +3452,12 @@ void func_80047EF8(VECTOR *pos, void *obj) {
     func_80056E74(obj, &D_800B73F8, -1);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047F4C);
+extern u8 D_800B72E8[];
+
+void func_80047F4C(void *arg0) {
+    func_8003E6F4(arg0, D_800B72E8);
+    func_80033D4C(D_800B72E8);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047F84);
 
