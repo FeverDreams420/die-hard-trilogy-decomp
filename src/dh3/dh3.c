@@ -2844,7 +2844,30 @@ extern s32 D_800B602C;
 extern void func_80083C68(s32 *sz0, s32 *sz1, s32 *sz2);
 extern void func_80037E70(Unk80030328_Face *f, Unk800307C0_Prim *prim);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80038E58);
+void func_80038E58(Unk80030328_Face *f) {
+    Unk800307C0_Prim *prim = D_800B63AC;
+    u16 *tex;
+
+    D_800B61CC = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B5CFC, &D_800B642C);
+    if (D_800B642C & ~0x1FFF) {
+        func_80037E70(f, prim);
+        return;
+    }
+    func_80083C68(&D_800B6014, &D_800B601C, &D_800B602C);
+    D_800B61CC = (D_800B6014 + D_800B601C + D_800B602C) / 12;
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    *(u32 *)&prim->uv0 = *(u32 *)tex;
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+    prim->uv2 = tex[4];
+    SetPolyFT3(prim);
+    SetShadeTex(prim, 1);
+    if (D_800B61CC > 0x40) {
+        AddPrim(D_800B62CC + ((D_800B61CC - 0x40) >> 3), prim++);
+    } else {
+        AddPrim(D_800B62CC + 3, prim++);
+    }
+    D_800B63AC = prim;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003900C);
 
