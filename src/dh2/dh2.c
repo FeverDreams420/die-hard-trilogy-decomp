@@ -4410,7 +4410,9 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800408FC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040BA4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040D2C);
+s16 func_80040D2C(s32 n) {
+    return (u16)D_800B639E * n;
+}
 
 typedef struct {
     SVECTOR *v[4];
