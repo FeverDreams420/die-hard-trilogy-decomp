@@ -4020,7 +4020,29 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80060C38);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80060D44);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80060E70);
+typedef struct {
+    u8 pad0[0x4A];
+    s16 unk4A;
+    u8 pad4C[2];
+    s16 unk4E;
+    s16 unk50;
+} Unk80060E70;
+
+void func_80060D44(void);
+
+void func_80060E70(s16 a, s16 b, s16 c) {
+    struct Task *t = func_80072374(func_80060D44, 0x54);
+    Unk80060E70 *d;
+
+    if (t != NULL) {
+        d = (Unk80060E70 *)t->vals;
+        func_80048B74(d);
+        func_80048C14(d, 1, 0, 0x52, 8);
+        d->unk4E = b;
+        d->unk50 = c;
+        d->unk4A = a - 0x41;
+    }
+}
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B58E8);
 
