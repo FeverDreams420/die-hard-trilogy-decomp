@@ -4769,7 +4769,42 @@ s32 func_800782E8(Unk800527E8 *dec) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007836C);
+typedef struct {
+    s16 x, y;
+    s32 pad;
+} Unk8005286C_Entry;
+
+typedef struct {
+    u8 pad0[0x18];
+    Unk8005286C_Entry unk18[2];
+    s16 unk28;
+    s16 unk2A;
+    u8 pad2C[8];
+    s32 unk34;
+    s32 unk38;
+    u8 pad3C[0x10];
+    s32 unk4C;
+} Unk8005286C;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk8005286C *unk1C;
+} *D_801F7590;
+
+void func_8007836C(void) {
+    Unk8005286C *p = D_801F7590->unk1C;
+    volatile s32 timeout = 60000;
+
+    while (p->unk38 == 0) {
+        if (--timeout == 0) {
+            p->unk38 = 1;
+            p->unk34 = !p->unk34;
+            p->unk28 = p->unk18[p->unk34].x;
+            p->unk2A = p->unk18[p->unk34].y;
+        }
+    }
+    p->unk38 = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078410);
 
