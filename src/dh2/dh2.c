@@ -5410,7 +5410,46 @@ s16 func_80077E28(void (*outFunc)(), void (*endFunc)(), Unk8005231C *movie) {
     return func_80077D1C(movie);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077EB8);
+typedef struct {
+    u8 pad[0xF0];
+    s16 unkF0;
+} Unk80077300;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk80077300 *unk1C;
+} *D_801F7594;
+
+void func_80077EB8(Unk8005231C *movie) {
+    Unk8005231C_Info *info = movie->info;
+    Unk80077300 *p = D_801F7594->unk1C;
+
+    movie->unk40 = info->mode;
+    movie->unk30 = p->unkF0;
+    movie->unk34 = p->unkF0;
+    movie->unk74 = 0;
+    movie->unk38 = 0;
+    movie->unk3C = -1;
+    movie->rect[0].x = info->rect[0].x;
+    movie->rect[0].y = info->rect[0].y;
+    movie->rect[0].w = info->rect[0].w;
+    movie->rect[0].h = info->rect[0].h;
+    movie->rect[1].x = info->rect[1].x;
+    movie->rect[1].y = info->rect[1].y;
+    movie->rect[1].w = info->rect[1].w;
+    movie->rect[1].h = info->rect[1].h;
+    if (movie->unk34 == 0) {
+        movie->slice.x = info->rect[0].x;
+        movie->slice.y = info->rect[0].y;
+        movie->slice.w = 16;
+        movie->slice.h = info->rect[0].h;
+    } else {
+        movie->slice.x = info->rect[1].x;
+        movie->slice.y = info->rect[1].y;
+        movie->slice.w = 16;
+        movie->slice.h = info->rect[1].h;
+    }
+}
 
 typedef struct {
     s16 x, y;
