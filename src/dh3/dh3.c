@@ -3385,7 +3385,11 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006F970);
 void func_8006F9E4(void) {
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006F9EC);
+extern volatile s16 D_800B5F44;
+
+void func_8006F9EC(void) {
+    D_800B5F44 = 270;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FA00);
 
