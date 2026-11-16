@@ -3553,7 +3553,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055654);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800556D8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055868);
+void func_80055868(void) {
+    s16 i = 3;
+
+    D_800B659C->unk174 = D_800B659C->unk176 = 0xA00;
+    do {
+        if (D_800B659C->unkF4[i] == 0) {
+            D_800B659C->unkF4[i] = -(s16)func_80074910(0x4B);
+        }
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800558FC);
 
