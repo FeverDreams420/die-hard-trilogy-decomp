@@ -2811,7 +2811,11 @@ s16 blend;
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003553C);
+void func_8003553C(Anim *anim, u16 id, s16 time, s16 arg3, s16 blend) {
+    if (anim->id != id) {
+        func_80035448(anim, id, time, arg3, blend);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035584);
 
