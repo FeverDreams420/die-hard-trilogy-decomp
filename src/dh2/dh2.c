@@ -2887,7 +2887,59 @@ void func_80029C74(Unk8002B728_Face *f) {
     AddPrim(D_800B7018 + ((D_800B6F30 + 0x200) >> 3), prim);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80029D84);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad1;
+    s16 x3, y3;
+    u8 u3, v3;
+    u16 pad2;
+} POLY_FT4;
+
+extern u8 D_800B73E0;
+
+void func_80029D84(Unk8002B728_Face *f) {
+    POLY_FT4 *prim;
+    u16 *tex;
+    u8 v;
+
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
+        func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
+        prim = (POLY_FT4 *)D_800B6B90;
+        tex = (u16 *)(D_8015EB78 + f->tex);
+        *(u16 *)&prim->u0 = tex[0];
+        *(u32 *)&prim->u1 = *(u32 *)(tex + 18);
+        *(u16 *)&prim->u2 = tex[4];
+        *(u16 *)&prim->u3 = tex[6];
+        prim->clut = tex[(f->clut >> 8) + 22];
+        v = prim->v1 | D_800B73E0;
+        prim->v1 = v;
+        prim->v0 = v;
+        prim->v3 = v + 0x1F;
+        prim->v2 = v + 0x1F;
+        if (D_800B6DA8 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DA8;
+        }
+        if (D_800B6DB0 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB0;
+        }
+        if (D_800B6DB8 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB8;
+        }
+        D_800B6F30 = D_800B6DA0 >> 2;
+        if (!(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0 && D_800B6F30 < 0x1771) {
+            AddPrim(D_800B7018 + (D_800B6F30 >> 3), D_800B6B90++);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80029F98);
 
@@ -3220,23 +3272,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002E434);
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002E75C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002EA90);
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    s16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    s16 x2, y2;
-    u8 u2, v2;
-    u16 pad1;
-    s16 x3, y3;
-    u8 u3, v3;
-    u16 pad2;
-} POLY_FT4;
 
 void func_8002EDC4(POLY_FT4 *p, POLY_FT4 *q) {
     *(u32 *)&q->u0 = *(u32 *)&p->u0;
