@@ -1124,7 +1124,24 @@ void func_8003A428(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A440);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A660);
+void func_8003A660(s16 n, s32 *a) {
+    s32 t;
+
+    while (n-- != 0) {
+        if (a[3] != -1) {
+            t = a[0];
+            a[0] = a[1];
+            a[1] = a[2];
+            a[2] = a[3];
+            a[3] = t;
+        } else {
+            t = a[0];
+            a[0] = a[1];
+            a[1] = a[2];
+            a[2] = t;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A6D8);
 
