@@ -1848,7 +1848,17 @@ s32 func_80025570(s32 value, s32 target, s32 step) {
     return value - step;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800255BC);
+s32 func_800255BC(s32 value, s32 target, s32 step) {
+    s32 d = (value - target) << 20 >> 20;
+
+    if (func_80025B40(d) <= (s16)step) {
+        return target & 0xFFF;
+    }
+    if (d < 0) {
+        return (value + step) & 0xFFF;
+    }
+    return (value - step) & 0xFFF;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025634);
 
