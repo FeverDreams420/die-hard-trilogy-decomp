@@ -11,6 +11,19 @@ typedef struct {
     s16 m[3][3];
     s32 t[3];
 } MATRIX;
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+} Unk800B6F00;
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", GUN_OBJ_0);
 
@@ -5154,19 +5167,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A538);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AC48);
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 unkE;
-    s16 unk10;
-    s16 unk12;
-    s16 unk14;
-} Unk800B6F00;
 
 extern Unk800B6F00 *D_800B6F00;
 
