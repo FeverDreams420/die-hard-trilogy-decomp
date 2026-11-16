@@ -1729,7 +1729,17 @@ void func_80024B8C(Unk8002A35C *from, Unk8002A35C *to, Unk8002A35C *out) {
     out->z = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024C0C);
+extern VECTOR D_801F7848;
+extern VECTOR D_80093A3C;
+s32 func_800253D0(VECTOR *a, VECTOR *b);
+
+void func_80024C0C(VECTOR *from, VECTOR *to, SVECTOR *rot) {
+    rot->vy = -func_800253D0(from, to);
+    D_801F7848.vx = to->vy - from->vy;
+    D_801F7848.vz = func_800257F4(from, to);
+    rot->vx = func_800253D0(&D_80093A3C, &D_801F7848) - 0x800;
+    rot->vz = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024C98);
 
