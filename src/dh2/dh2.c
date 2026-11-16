@@ -4354,7 +4354,18 @@ void func_8007708C(s16 x, s16 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800770DC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077398);
+s32 func_80077398(Unk8002A35C *a, Unk8002A35C *b) {
+    s32 dx = a->x - b->x;
+    s32 dz = a->z - b->z;
+
+    if ((dx < 0 ? -dx : dx) > 0x4000) {
+        return 0xFFFF;
+    }
+    if ((dz < 0 ? -dz : dz) > 0x4000) {
+        return 0xFFFF;
+    }
+    return SquareRoot0(dx * dx + dz * dz);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077424);
 
