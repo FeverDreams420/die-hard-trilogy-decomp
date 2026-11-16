@@ -4655,7 +4655,10 @@ void func_800518CC(Unk8005185C *obj) {
     obj->unk3A = 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800518D4);
+void func_800518D4(Unk8005185C *obj) {
+    D_800B5D0C = 2;
+    obj->unk3A = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800518E8);
 
