@@ -4515,7 +4515,17 @@ void func_80065564(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800655BC);
+void func_80065C10(s16 arg);
+
+void func_800655BC(void) {
+    struct Task *t = D_800B6DE0;
+
+    t->unk16 -= D_800B639E;
+    if (t->unk16 < 0) {
+        func_80065C10(t->unk14);
+        func_8007345C();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065614);
 
