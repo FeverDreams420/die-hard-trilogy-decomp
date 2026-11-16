@@ -5428,7 +5428,11 @@ s32 func_8005F2A0(s32 i) {
     return D_8009739C[i];
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F2BC);
+extern s32 D_80097368[];
+
+s32 func_8005F2BC(s32 i) {
+    return D_80097368[i];
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6650);
 
