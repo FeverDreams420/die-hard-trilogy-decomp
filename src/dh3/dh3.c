@@ -776,7 +776,11 @@ void func_80024100(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024150);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024428);
+extern s32 D_800B64FC[];
+
+s16 func_80024428(void) {
+    return *(volatile s32 *)D_800B64FC;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024444);
 
