@@ -2412,7 +2412,23 @@ void func_80044C04(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80044C38);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80044DE8);
+typedef struct {
+    u8 pad0[0xC];
+    s16 unkC;
+    u8 padE[2];
+    VECTOR pos;
+    u8 pad20[0x78];
+    s32 unk98;
+} Unk80044DE8;
+
+void func_80044DE8(void) {
+    Unk80044DE8 *d = (Unk80044DE8 *)D_800B604C->vals;
+
+    if (func_80028A48(&d->pos, &D_800B659C->pos) > d->unkC) {
+        func_8004DCC4(d->unk98);
+        func_800728A4();
+    }
+}
 
 typedef struct {
     u8 pad0[0x98];
