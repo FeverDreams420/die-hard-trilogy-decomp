@@ -3923,7 +3923,16 @@ void func_800685C0(s16 arg0, s16 arg1, s16 arg2) {
     func_800691E8(&D_8018CC68, 0);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006862C);
+void func_8006862C(s16 arg0) {
+    s32 unused[2];
+
+    D_8018CC68.unk0 = 0x800;
+    D_8018CC68.unk2 = 0;
+    D_8018CC68.unk4 = 0x3FFF;
+    D_8018CC68.unk6 = func_80074910(0x80) + 0x400;
+    D_8018CC68.unk8 = arg0;
+    func_800691E8(&D_8018CC68, 0);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800686A0);
 
