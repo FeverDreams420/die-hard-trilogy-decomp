@@ -3919,7 +3919,9 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800725EC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007270C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072734);
+s32 func_80072734(s32 a, s32 b, s32 t) {
+    return (a * (0x1000 - t) + t * b) >> 12;
+}
 
 typedef struct {
     s32 offset;
