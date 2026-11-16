@@ -3692,7 +3692,58 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6774);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071A08);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071B54);
+extern long CloseEvent(long event);
+extern long D_800B6A30;
+extern long D_800B6A38;
+extern long D_800B6A40;
+extern long D_800B6A48;
+extern long _card_read(long chan, long block, unsigned char *buf);
+
+long func_80071B54(s16 chan) {
+    unsigned char buf[128];
+    s32 i = 180;
+
+    func_8007FD1C();
+    D_800B6A30 = OpenEvent(0xF0000011, 0x0004, 0x2000, NULL);
+    D_800B6A38 = OpenEvent(0xF0000011, 0x8000, 0x2000, NULL);
+    D_800B6A40 = OpenEvent(0xF0000011, 0x0100, 0x2000, NULL);
+    D_800B6A48 = OpenEvent(0xF0000011, 0x2000, 0x2000, NULL);
+    func_8007FFB4();
+    EnableEvent(D_800B6A30);
+    EnableEvent(D_800B6A38);
+    EnableEvent(D_800B6A40);
+    EnableEvent(D_800B6A48);
+    buf[0] = 0;
+    _card_read(chan, 0, buf);
+    while (i--) {
+        VSync(0);
+    }
+    if (_card_info(chan) != 0) {
+        for (; i < 600; i++) {
+            if (TestEvent(D_800B6A30) == 1) {
+                break;
+            }
+            if (TestEvent(D_800B6A38) == 1) {
+                break;
+            }
+            if (TestEvent(D_800B6A40) == 1) {
+                break;
+            }
+            if (TestEvent(D_800B6A48) == 1) {
+                break;
+            }
+            VSync(0);
+        }
+    }
+    CloseEvent(D_800B6A30);
+    CloseEvent(D_800B6A38);
+    CloseEvent(D_800B6A40);
+    CloseEvent(D_800B6A48);
+    if (buf[0] != 'M' || buf[1] != 'C') {
+        return 0;
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071D74);
 
