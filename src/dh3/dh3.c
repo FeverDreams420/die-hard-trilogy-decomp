@@ -5396,7 +5396,32 @@ extern struct {
     Unk8005286C *unk1C;
 } *D_801F80FC;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800773F0);
+extern void LoadImage(RECT *rect, u32 *p);
+extern void DecDCTout(u32 *buf, s32 size);
+
+void func_800773F0(void) {
+    Unk8005231C *movie = (Unk8005231C *)D_801F80FC->unk1C;
+    int rem;
+
+    LoadImage(&movie->slice, movie->imgbuf[movie->unk74]);
+    movie->unk74 = !movie->unk74;
+    rem = movie->rect[movie->unk34].w % 16;
+    if (movie->unk50 && rem) {
+        movie->slice.x += rem;
+        movie->unk50 = 0;
+    } else {
+        movie->slice.x += 16;
+    }
+    if (movie->slice.x < movie->rect[movie->unk34].x + movie->rect[movie->unk34].w) {
+        DecDCTout(movie->imgbuf[movie->unk74], ((movie->slice.w - 1) / 16 + 1) * (((movie->slice.h - 1) / 16 + 1) << 8) >> 1);
+    } else {
+        movie->unk38 = 1;
+        movie->unk50 = 1;
+        movie->unk34 = !movie->unk34;
+        movie->slice.x = movie->rect[movie->unk34].x;
+        movie->slice.y = 31;
+    }
+}
 
 typedef struct {
     u16 id;
