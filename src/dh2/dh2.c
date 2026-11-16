@@ -4290,7 +4290,14 @@ s32 func_8006704C(s32 base, Unk8006704C *bank) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067138);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067194);
+void func_80067194(void) {
+    D_8015EB3C.unk0 = 0x800;
+    D_8015EB3C.unk2 = 0;
+    D_8015EB3C.unk4 = 0x3000;
+    D_8015EB3C.unk6 = 0x400;
+    D_8015EB3C.unk8 = func_800754C8(8) + 0x42;
+    func_80066B70(&D_8015EB3C, 0);
+}
 
 extern s16 D_800B7418;
 extern s16 D_800B741C;
