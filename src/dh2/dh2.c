@@ -4124,7 +4124,58 @@ void func_800694F8(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80069518);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80069864);
+typedef struct {
+    s16 next;
+    u32 score;
+    char name[12];
+} ScoreEntry;
+
+typedef struct {
+    ScoreEntry e[10];
+    s16 free;
+    s16 head;
+    s16 last;
+} ScoreTable;
+
+extern char *strcpy(char *, char *);
+
+s16 func_80069864(ScoreTable *t, u32 score, char *name) {
+    ScoreEntry *e;
+    s16 ret = 0;
+    s16 prev = -1;
+    s16 n = 9;
+    s16 cur = t->head;
+    s16 i;
+
+    do {
+        e = &t->e[cur];
+        if (e->score <= score) {
+            if (name == NULL) {
+                return -1;
+            }
+            strcpy(t->e[t->free].name, name);
+            t->e[t->free].score = score;
+            t->last = t->free;
+            if (prev == -1) {
+                t->head = t->free;
+                t->e[t->free].next = cur;
+            } else {
+                t->e[prev].next = t->free;
+                t->e[t->free].next = cur;
+            }
+            ret = -1;
+            break;
+        }
+        prev = cur;
+        cur = e->next;
+    } while (n--);
+    cur = t->head;
+    for (i = 0; i < 9; i++) {
+        cur = t->e[cur].next;
+    }
+    t->free = cur;
+    return ret;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800699F4);
 
