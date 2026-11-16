@@ -2859,7 +2859,15 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800319EC);
 void func_80031B94(void) {
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031B9C);
+extern s16 D_800B7260;
+
+void func_80031B9C(void) {
+    if (D_800B7370->unk178E != 0) {
+        D_800B7260 = 0;
+    } else {
+        D_800B7260 = D_800B7370->maps[D_800B7370->unk1780][0xE];
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031C00);
 
