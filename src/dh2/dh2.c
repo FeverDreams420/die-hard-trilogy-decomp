@@ -4822,7 +4822,63 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077424);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800774D8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077BB0);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0x22];
+    s16 unk28[16];
+    s16 unk48[16];
+    s16 unk68[16];
+    s16 unk88[16];
+    s16 unkA8;
+    s16 unkAA;
+    s16 unkAC[16];
+    s16 unkCC[16];
+    s16 unkEC[16];
+    s16 unk10C[16];
+    s16 unk12C;
+    s16 unk12E;
+    s16 unk130;
+    s16 unk132;
+    s16 unk134;
+    s16 unk136;
+} Unk80077BB0;
+
+extern struct Task *func_80074950(void (*func)(void), s16 flags);
+extern void D_800775BC(void);
+
+void func_80077BB0(SVECTOR *pos) {
+    struct Task *t = func_80074950(D_800775BC, 5);
+    Unk80077BB0 *d;
+    s16 i;
+
+    if (t != NULL) {
+        d = (Unk80077BB0 *)t->vals;
+        d->x = pos->vx;
+        d->y = pos->vy;
+        d->z = pos->vz;
+        i = 15;
+        do {
+            func_800754C8(0x1000);
+            d->unk28[i] = func_800754C8(0x1000);
+            d->unk12C = 0;
+            d->unk12E = 32;
+        } while (i--);
+        i = 15;
+        do {
+            d->unk48[i] = func_800754C8(0x1000);
+            d->unkAC[i] = func_800754C8(0x1000);
+            d->unk10C[i] = func_800754C8(0x1000);
+            d->unk68[i] = func_800754C8(0x80) - 0x40;
+            d->unk88[i] = func_800754C8(0x1000);
+        } while (i--);
+        d->unkA8 = 0;
+        d->unkAA = 30;
+        d->unk130 = 16;
+        d->unk132 = 128;
+        d->unk134 = 30;
+        d->unk136 = 0x200;
+    }
+}
 
 s32 func_80077CE0(s32 *buf, u32 size) {
     s32 sum = 0;
