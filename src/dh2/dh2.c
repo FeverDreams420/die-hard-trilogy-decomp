@@ -2156,7 +2156,24 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800321A8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003239C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032584);
+void func_80032584(s16 n, s32 *a) {
+    s32 t;
+
+    while (n-- != 0) {
+        if (a[3] != -1) {
+            t = a[0];
+            a[0] = a[1];
+            a[1] = a[2];
+            a[2] = a[3];
+            a[3] = t;
+        } else {
+            t = a[0];
+            a[0] = a[1];
+            a[1] = a[2];
+            a[2] = t;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800325FC);
 
