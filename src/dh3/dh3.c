@@ -6640,7 +6640,11 @@ void func_8006E57C(void) {
     D_800B61AC = 999;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E590);
+extern s16 D_800B571A;
+
+void func_8006E590(void) {
+    D_800B571A = !D_800B571A;
+}
 
 
 void func_8006E5B0(void) {
