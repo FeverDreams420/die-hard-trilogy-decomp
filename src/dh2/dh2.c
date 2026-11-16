@@ -3820,7 +3820,15 @@ long func_80070FFC(s16 chan) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800710B4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007112C);
+extern char D_800B7818[];
+extern char D_800889D0[];
+int sprintf(char *buf, const char *fmt, ...);
+int delete(char *name);
+
+void func_8007112C(s32 arg0, s32 arg1) {
+    sprintf(D_800B7818, D_800889D0, arg1, arg0);
+    delete(D_800B7818);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071174);
 
