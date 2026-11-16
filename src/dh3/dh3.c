@@ -6610,7 +6610,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E3E4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E494);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E4BC);
+void func_8006E4BC(void) {
+    D_800B61A4->unkC = 1;
+}
 
 void func_8006E4D0(void) {
     D_800B61A4->unk12 = D_800B61A4->unk12 == 0;
