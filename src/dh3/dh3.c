@@ -4311,7 +4311,18 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007633C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80076524);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800767E0);
+s32 func_800767E0(Unk8002A35C *a, Unk8002A35C *b) {
+    s32 dx = a->x - b->x;
+    s32 dz = a->z - b->z;
+
+    if ((dx < 0 ? -dx : dx) > 0x4000) {
+        return 0xFFFF;
+    }
+    if ((dz < 0 ? -dz : dz) > 0x4000) {
+        return 0xFFFF;
+    }
+    return SquareRoot0(dx * dx + dz * dz);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007686C);
 
