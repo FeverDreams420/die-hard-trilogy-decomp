@@ -745,7 +745,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800214A8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021624);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021780);
+typedef struct {
+    u8 pad0[0x16C];
+    s32 unk16C;
+} Unk80021780;
+
+extern struct Task *D_801F7544;
+void func_800214A8(s32 arg);
+void func_80021624(s32 arg);
+
+void func_80021780(void) {
+    s32 p = ((Unk80021780 *)D_801F7544->vals)->unk16C;
+
+    func_80021414(0, 0, 0);
+    func_80021380(0, 0, 0);
+    func_800214A8(p);
+    func_80021624(p);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800217DC);
 
@@ -1814,6 +1830,7 @@ typedef struct {
     u8 pad1788[2];
     s16 unk178A;
     s16 unk178C;
+    s16 unk178E;
 } Unk800B7370;
 
 extern Unk800B7370 *D_800B7370;
