@@ -880,7 +880,12 @@ s32 func_80026748(s32 a, s32 b) {
     return b;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026764);
+s32 func_80026764(s32 a, s32 b) {
+    if (b < a) {
+        return a;
+    }
+    return b;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026780);
 
