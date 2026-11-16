@@ -5461,7 +5461,20 @@ s32 func_80077858(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077878);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077B54);
+extern void CdDataCallback(void (*func)());
+extern void CdReadyCallback(void (*func)());
+
+void func_80077B54(void) {
+    u8 param[4];
+
+    DecDCTReset(0);
+    param[0] = 0x80;
+    CdControlB(0xE, param, 0);
+    DecDCToutCallback(0);
+    CdDataCallback(0);
+    CdReadyCallback(0);
+    CdControlB(9, 0, 0);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077BB4);
 
