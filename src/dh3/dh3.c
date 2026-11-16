@@ -2955,7 +2955,11 @@ void func_8003900C(Unk80030328_Face *f) {
 void func_800391CC(void) {
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800391D4);
+void func_800391F4(void);
+
+void func_800391D4(void) {
+    func_800391F4();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800391F4);
 
