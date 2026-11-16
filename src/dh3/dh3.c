@@ -4595,7 +4595,11 @@ void func_8005119C(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800511D8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051410);
+extern s16 D_800B5DF4;
+
+void func_80051410(void) {
+    D_800B5DF4 = -1;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051424);
 
