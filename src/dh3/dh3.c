@@ -690,7 +690,15 @@ void func_8002827C(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     out->vz = base->vz + tmp.vz;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028310);
+void func_80028310(SVECTOR *rot, SVECTOR *v, VECTOR *base, VECTOR *out) {
+    VECTOR tmp;
+
+    func_8002CCB4(rot, &D_801FA428);
+    ApplyMatrix(&D_801FA428, v, &tmp);
+    out->vx = base->vx + tmp.vx;
+    out->vy = base->vy + tmp.vy;
+    out->vz = base->vz + tmp.vz;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800283A4);
 
