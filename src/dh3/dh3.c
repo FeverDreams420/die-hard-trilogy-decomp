@@ -1553,7 +1553,39 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800305A8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800306B0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800307C0);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1;
+} Unk800307C0_Prim;
+
+extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
+extern void SetPolyFT3(void *p);
+
+void func_800307C0(Unk80030328_Face *f) {
+    Unk800307C0_Prim *prim = D_800B63AC;
+    u16 *tex;
+
+    D_800B61CC = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B5CFC, &D_800B642C);
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+    prim->uv2 = tex[4];
+    prim->clut = tex[(f->clut >> 8) + 12];
+    SetPolyFT3(prim);
+    SetShadeTex(prim, 1);
+    SetSemiTrans(prim, 1);
+    AddPrim(D_800B62CC + (D_800B61CC >> 3), prim++);
+    D_800B63AC = prim;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800308D4);
 
