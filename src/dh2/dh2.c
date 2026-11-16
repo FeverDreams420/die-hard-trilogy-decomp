@@ -3846,7 +3846,71 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004D810);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004DB64);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004DD70);
+typedef struct {
+    SVECTOR pos;
+    SVECTOR vel[16];
+    SVECTOR out[16];
+    s16 angle[16];
+    s16 unk128[16];
+    s16 unk148;
+    u8 unk14A[16];
+    u8 pad15A[0x10];
+    s16 unk16A;
+    s16 unk16C;
+} Unk8004DD70;
+
+extern SVECTOR D_800B65EC;
+extern struct Task *volatile D_801F7548;
+extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
+void func_8004DFC0();
+
+void func_8004DD70(SVECTOR *pos, s32 arg1, s16 arg2) {
+    s32 y;
+    SVECTOR v = D_800B65EC;
+    Unk8004DD70 *d;
+    Unk8003BA6C_Task *task;
+    s16 n;
+    s16 i;
+
+    y = arg1;
+    if (D_800B7370->unk1788 == 0) {
+        return;
+    }
+    if (D_801F7548 == NULL) {
+        return;
+    }
+    n = (arg2 * D_800B7370->unk1788) >> 12;
+    task = func_8007307C(func_8004DFC0, 0x10, 0x16E);
+    if (task == NULL) {
+        return;
+    }
+    d = (Unk8004DD70 *)task->data;
+    d->unk16C = func_80072734(4, 0x10, n);
+    d->unk148 = func_80072734(20, 80, n);
+    d->unk16A = 10;
+    d->pos.vx = pos->vx;
+    d->pos.vy = pos->vy;
+    d->pos.vz = pos->vz;
+    i = 15;
+    do {
+        D_800B72E8.vx = func_800754C8(0x1000);
+        D_800B72E8.vy = func_800754C8(0x1000);
+        D_800B72E8.vz = func_800754C8(0x1000);
+        func_80024F70(&D_800B72E8, &v, (SVECTOR *)&D_800B67D0, &d->out[i]);
+        d->out[i].vx >>= 1;
+        d->out[i].vz >>= 1;
+        d->vel[i].vx = func_800754C8(10) - 5;
+        d->vel[i].vy = func_800754C8(10) - 5 + y;
+        d->vel[i].vz = func_800754C8(10) - 5;
+        d->angle[i] = func_800754C8(0x1000);
+        d->unk128[i] = func_80072734((s16)(func_800754C8(0x200) - 0x100), 0, n);
+        if ((s16)func_800754C8(2)) {
+            d->unk14A[i] = 1;
+        } else {
+            d->unk14A[i] = 4;
+        }
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004DFC0);
 
