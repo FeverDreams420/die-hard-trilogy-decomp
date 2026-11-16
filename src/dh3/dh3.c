@@ -4695,6 +4695,8 @@ s32 func_80077730(Unk800527E8 *dec) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800777B4);
 
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077858);
+
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077878);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077B54);

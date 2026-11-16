@@ -641,3 +641,5 @@ puts = 0x80086BC8; // type:func
 
 // Four bytes (0xE0C0) that splat would otherwise read as a Shift-JIS string.
 D_800939F4 = 0x800939F4; // type:s32
+func_80077858 = 0x80077858; // type:func
+func_80085EE8 = 0x80085EE8; // type:func
