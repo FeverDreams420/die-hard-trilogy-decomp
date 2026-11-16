@@ -4702,7 +4702,21 @@ struct Task *func_80073320(struct Task *parent, void (*fn)(), s16 size) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007345C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800735F8);
+extern void *D_800B7330;
+
+void func_800735F8(s16 mask) {
+    struct Task *cur = D_800B6DE0;
+
+    GET_RA(D_800B7330); // FAKE: caller address store, see GET_RA
+    for (D_800B6DE0 = cur->next; D_800B6DE0 != cur; D_800B6DE0 = D_800B6DE0->next) {
+        if (mask & D_800B6DE0->flags) {
+            if (D_800B6DE0->cleanup != NULL) {
+                D_800B6DE0->cleanup();
+            }
+            func_8007345C();
+        }
+    }
+}
 
 extern s16 D_801D9B1E[3];
 extern void func_80073828(struct Task *task);
