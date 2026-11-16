@@ -4849,7 +4849,78 @@ void func_80072E40(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80072E78);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80072F8C);
+extern void CdSetDebug(int level);
+extern void SetGraphDebug(int level);
+extern void InitGeom(void);
+extern int ClearImage(RECT *rect, u8 r, u8 g, u8 b);
+extern void func_8007F59C(s32 mode);
+extern void func_80084D78(s32 a);
+extern s16 D_800B6394;
+extern s16 D_800B62FC;
+extern s16 D_800B658C;
+extern s16 D_800B629C;
+extern s16 D_800B60F4;
+extern s16 D_800B5E14;
+extern s16 D_800B6314;
+extern s16 D_800B644C;
+extern s16 D_800B63CC;
+extern u8 D_8009B5BC[];
+extern s16 func_800754D4(void *data, s32 a1);
+extern void func_80078304(s16 arg0);
+extern void func_800783A4(void);
+extern void func_800757C4(void);
+extern int CdInit(void);
+
+void func_80072F8C(void) {
+    u8 unused[0x78];
+    RECT rect;
+    u8 unused2[0x28];
+
+    func_800783A4();
+    ResetGraph(0);
+    D_800B6394 = 0;
+    D_800B62FC = 0;
+    D_800B658C = 0;
+    ResetCallback();
+    func_80072E08();
+    D_800B629C = 0;
+    D_800B60F4 = 0;
+    D_800B5E14 = 0;
+    D_800B6614 = (Unk800B6614 *)0x80011000;
+    D_800B6314 = 0;
+    CdInit();
+    CdSetDebug(0);
+    func_80071C10();
+    SetGraphDebug(0);
+    DrawSync(0);
+    VSync(0);
+    SetDispMask(0);
+    InitGeom();
+    if (D_800B6614->unk178A != 0) {
+        D_800B5E5C = 0xA0;
+        D_800B5E64 = 0x78;
+        func_8007F59C(0);
+    } else {
+        D_800B5E5C = 0xA0;
+        D_800B5E64 = 0x80;
+        func_8007F59C(1);
+    }
+    func_80072E40();
+    D_800B644C = 0x200;
+    func_80084D78(0x200);
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 0x3FF;
+    rect.h = 0x100;
+    ClearImage(&rect, 0, 0, 0);
+    func_800754D4(D_8009B5BC, 0);
+    func_800757C4();
+    D_800B5D0C = 0;
+    VSync(0);
+    SetDispMask(1);
+    func_80072D08();
+    func_80078304(D_800B63CC);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073138);
 
