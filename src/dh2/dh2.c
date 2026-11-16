@@ -686,7 +686,13 @@ void func_80021380(s16 x, s16 y, s16 z) {
     D_800B7158.vz = func_80025570(D_800B7158.vz, z, 1);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021414);
+extern SVECTOR D_800B6ED8;
+
+void func_80021414(s16 x, s16 y, s16 z) {
+    D_800B6ED8.vx = func_80025570(D_800B6ED8.vx, x, 1);
+    D_800B6ED8.vy = func_80025570(D_800B6ED8.vy, y, 1);
+    D_800B6ED8.vz = func_80025570(D_800B6ED8.vz, z, 1);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800214A8);
 
