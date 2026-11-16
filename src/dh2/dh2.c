@@ -4607,7 +4607,26 @@ s32 func_800716D8(s16 slot) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071778);
+typedef struct {
+    u8 pad0[0x1C];
+    s32 unk1C;
+} Unk80071778;
+
+extern u8 D_80097F3C[];
+extern s16 D_800B70B8;
+void func_80070D90(void);
+void func_8006C64C(Unk80071778 *obj);
+void func_8001EA84(void);
+void func_8003DDA0(void);
+
+void func_80071778(Unk80071778 *obj) {
+    func_80070D90();
+    obj->unk1C = (s32)D_80097F3C;
+    func_8006C64C(obj);
+    func_8001EA84();
+    D_800B70B8 = 1;
+    func_8003DDA0();
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800717CC);
 
