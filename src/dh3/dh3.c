@@ -5684,7 +5684,66 @@ typedef struct {
 
 extern XF_HDR D_801F834C;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077F2C);
+typedef struct {
+    u8 minute, second, sector, track;
+} CdlLOC;
+
+typedef struct {
+    CdlLOC pos;
+    u32 size;
+    char name[16];
+} CdlFILE;
+
+extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+extern int CdRead(int sectors, u32 *buf, int mode);
+extern int CdPosToInt(CdlLOC *p);
+extern CdlLOC *CdIntToPos(int i, CdlLOC *p);
+extern char D_80087054[];
+extern char D_8008706C[];
+extern char D_80087088[];
+extern char D_800870A0[];
+
+typedef struct {
+    u8 data[sizeof(XF_HDR)];
+} Unk80077F2C;
+
+int func_80077F2C(void) {
+    CdlFILE file = *(CdlFILE *)0x80012804;
+    u32 *p;
+
+    printf(D_80087054, file.pos.minute, file.pos.second, file.pos.track, file.pos.sector);
+    if (CdControlB(2, (u8 *)&file.pos, 0) == 0) {
+        return 0;
+    }
+    if (CdRead(1, (u32 *)0x80013000, 0x80) == 0) {
+        return 0;
+    }
+    if ((s16)func_80077EA8() == 0) {
+        return 0;
+    }
+    *(Unk80077F2C *)&D_801F834C = *(Unk80077F2C *)0x80013000;
+    CdIntToPos(CdPosToInt(&file.pos) + 1, &file.pos);
+    if (D_801F834C.exec.t_addr != 0x80013000) {
+        return 0;
+    }
+    printf(D_8008706C, D_801F834C.exec.t_addr, D_801F834C.exec.s_addr);
+    for (p = (u32 *)D_801F834C.exec.t_addr; p < (u32 *)D_801F834C.exec.s_addr; p++) {
+        *p = 0;
+    }
+    printf(D_80087088);
+    if (CdControlB(2, (u8 *)&file.pos, 0) == 0) {
+        return 0;
+    }
+    printf(D_800870A0);
+    if (CdRead((D_801F834C.exec.t_size + 0x7FF) >> 11, (u32 *)D_801F834C.exec.t_addr, 0x80) == 0) {
+        return 0;
+    }
+    if ((s16)func_80077EA8() == 0) {
+        return 0;
+    }
+    printf("Loaded\n");
+    return 1;
+}
 
 extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
 extern int CdSync(int mode, unsigned char *result);
