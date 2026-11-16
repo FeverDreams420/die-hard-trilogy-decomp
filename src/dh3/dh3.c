@@ -491,7 +491,22 @@ void func_800221C8(void) {
     SetTransMatrix(&D_801981D4);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002228C);
+extern SVECTOR D_800B5EAC;
+extern void func_80028028(MATRIX *m);
+
+void func_8002228C(void) {
+    u8 unused[32];
+
+    D_800B6574.vx = -D_800B5EAC.vx;
+    D_800B6574.vy = -D_800B5EAC.vy;
+    D_800B6574.vz = -D_800B5EAC.vz;
+    func_8002CA84(&D_800B6124, &D_801981D4);
+    ApplyMatrix(&D_801981D4, &D_800B6574, &D_801CA274);
+    func_80084978(&D_801981D4, &D_801CA274);
+    func_80028028(&D_801981D4);
+    SetRotMatrix(&D_801981D4);
+    SetTransMatrix(&D_801981D4);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80022360);
 
