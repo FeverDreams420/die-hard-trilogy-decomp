@@ -3797,6 +3797,22 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E2F4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E358);
 
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+} Unk800B61A4;
+
+extern Unk800B61A4 *D_800B61A4;
+
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E3B0);
 
 extern volatile s16 D_800B5FFC;
@@ -3827,7 +3843,6 @@ void func_8006E57C(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E590);
 
-extern struct { u8 pad0[0xE]; s16 unkE; } *D_800B61A4;
 
 void func_8006E5B0(void) {
     D_800B61A4->unkE = D_800B61A4->unkE == 0;
