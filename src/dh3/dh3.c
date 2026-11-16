@@ -636,7 +636,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028220);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002823C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028258);
+s32 func_80028258(s32 base, s32 size) {
+    return (base + size + 3) & ~3;
+}
 
 s32 func_8002826C(s32 size) {
     return (size + 3) & ~3;
