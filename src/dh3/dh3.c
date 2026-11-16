@@ -5525,7 +5525,14 @@ void func_8006E2F4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E358);
+void func_8003C214(void);
+
+void func_8006E358(void) {
+    if (D_800B61A4->unk18 == 0) {
+        func_80072374(func_8003C214, 0);
+    }
+    D_800B61A4->unk18 = D_800B61A4->unk18 == 0;
+}
 
 
 extern Unk800B61A4 *D_800B61A4;
