@@ -1549,10 +1549,6 @@ void func_80030464(Unk80030328_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800305A8);
-
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800306B0);
-
 typedef struct {
     u32 tag;
     u8 r0, g0, b0, code;
@@ -1570,6 +1566,12 @@ typedef struct {
 extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
 extern void SetPolyFT3(void *p);
 
+extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
+
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800305A8);
+
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800306B0);
+
 void func_800307C0(Unk80030328_Face *f) {
     Unk800307C0_Prim *prim = D_800B63AC;
     u16 *tex;
@@ -1586,8 +1588,6 @@ void func_800307C0(Unk80030328_Face *f) {
     AddPrim(D_800B62CC + (D_800B61CC >> 3), prim++);
     D_800B63AC = prim;
 }
-
-extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
 
 void func_800308D4(Unk80030328_Face *f) {
     Unk800307C0_Prim *prim = D_800B63AC;
