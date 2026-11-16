@@ -6331,7 +6331,10 @@ void func_8006AFC0(void) {
     D_800B6F00->unkE = D_800B6F00->unkE == 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AFE0);
+void func_8006AFE0(void) {
+    D_800B6CC0 = 99;
+    D_800B6E58 = 99;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AFFC);
 
