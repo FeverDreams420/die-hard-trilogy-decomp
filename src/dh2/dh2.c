@@ -2635,7 +2635,22 @@ void func_8002B86C(Unk8002B728_Face *f) {
     D_800B7140 = prim;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B974);
+void func_8002B974(Unk8002B728_Face *f) {
+    Unk8002BA84_Prim *prim = D_800B7140;
+    u16 *tex;
+
+    if (RotNclip3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
+        tex = (u16 *)(D_8015EB78 + f->tex);
+        prim->uv0 = tex[0];
+        *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+        prim->uv2 = tex[4];
+        prim->clut = tex[(f->clut >> 8) + 22];
+        SetPolyFT3(prim);
+        SetShadeTex(prim, 1);
+        AddPrim(D_800B7018 + (D_800B6F30 >> 3), prim++);
+        D_800B7140 = prim;
+    }
+}
 
 void func_8002BA84(Unk8002B728_Face *f) {
     Unk8002BA84_Prim *prim = D_800B7140;
