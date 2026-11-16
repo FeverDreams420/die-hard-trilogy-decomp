@@ -3818,7 +3818,14 @@ long func_80070A14(s16 chan) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80070C34);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80070D00);
+void func_80070D00(void) {
+    SpuCommonAttr attr;
+
+    attr.cd.volume.left = 0x3FFF;
+    attr.cd.volume.right = 0x3FFF;
+    attr.mask = 0xC0;
+    SpuSetCommonAttr(&attr);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80070D34);
 
