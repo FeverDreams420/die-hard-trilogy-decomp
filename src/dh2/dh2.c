@@ -4650,7 +4650,40 @@ struct Task *func_800731DC(void (*fn)(), s16 size) {
     return t;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073320);
+struct Task *func_80073320(struct Task *parent, void (*fn)(), s16 size) {
+    struct Task *t;
+
+    if (D_800B6FB8 == NULL) {
+        return NULL;
+    }
+    D_800B6DE8 = fn;
+    D_801F7868.flags = 1;
+    if (func_80074304(size, &D_801F7868) == 0) {
+        return NULL;
+    }
+    t = D_800B6FB8;
+    t->vals = D_801F7868.vals;
+    D_800B6FB8 = t->next;
+    t->unk2E = D_801F7868.unk2E;
+    t->unk2F = D_801F7868.unk2F;
+    t->func = fn;
+    t->saved = fn;
+    parent->next->prev = t;
+    t->next = parent->next;
+    parent->next = t;
+    t->prev = parent;
+    t->unk14 = D_800B6C60[0];
+    t->unk16 = D_800B6C60[1];
+    t->unk18 = D_800B6C60[2];
+    t->id = D_800B6B48++;
+    t->flags = 1;
+    t->unk2C = 0;
+    t->cleanup = NULL;
+    t->unk28 = 200;
+    t->unk29 = 200;
+    t->unk2A = 200;
+    return t;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007345C);
 
