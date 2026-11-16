@@ -3947,7 +3947,24 @@ void func_80071C58(void) {
     D_800B5DA4 = 20;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071C6C);
+extern char D_80086FA0[];
+void PadStop(void);
+void *ResetCallback(void);
+int ResetGraph(int mode);
+void func_80072E08(void);
+void func_8007B120(void);
+int printf(const char *fmt, ...);
+
+void func_80071C6C(void) {
+    printf(D_80086FA0);
+    ResetGraph(3);
+    PadStop();
+    StopPAD();
+    ResetCallback();
+    func_8007B120();
+    func_80072E08();
+    func_80078304(1);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071CCC);
 
