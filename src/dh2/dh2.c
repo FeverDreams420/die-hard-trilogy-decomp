@@ -2263,7 +2263,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034A18);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034BA0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034C88);
+void func_80034C88(SVECTOR *pos, SVECTOR *vel, s32 count, s32 scale) {
+    s32 unused;
+    s32 i;
+
+    for (i = 0; i < count; i++) {
+        pos[i].vx += (vel[i].vx * scale) >> 12;
+        pos[i].vy += (vel[i].vy * scale) >> 12;
+        pos[i].vz += (vel[i].vz * scale) >> 12;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034D1C);
 
