@@ -3928,7 +3928,16 @@ void func_800650D0(Unk8005F8F0 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006510C);
+extern s32 D_800B5F64;
+extern char D_80091B14[];
+extern u8 D_800B56D0[];
+extern u8 D_800B56D8[];
+
+void func_8006510C(void) {
+    if (D_800B5F64 & 8) {
+        func_800758C0(160, 211, func_80077DC8(D_80091B14), 0x320, 0x12C, D_800B56D8, D_800B56D0);
+    }
+}
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5980);
 
