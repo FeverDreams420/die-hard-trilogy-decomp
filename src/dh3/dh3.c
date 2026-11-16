@@ -4693,7 +4693,42 @@ s32 func_80077730(Unk800527E8 *dec) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800777B4);
+typedef struct {
+    s16 x, y;
+    s32 pad;
+} Unk8005286C_Entry;
+
+typedef struct {
+    u8 pad0[0x18];
+    Unk8005286C_Entry unk18[2];
+    s16 unk28;
+    s16 unk2A;
+    u8 pad2C[8];
+    s32 unk34;
+    s32 unk38;
+    u8 pad3C[0x10];
+    s32 unk4C;
+} Unk8005286C;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk8005286C *unk1C;
+} *D_801F80FC;
+
+void func_800777B4(void) {
+    Unk8005286C *p = D_801F80FC->unk1C;
+    volatile s32 timeout = 60000;
+
+    while (p->unk38 == 0) {
+        if (--timeout == 0) {
+            p->unk38 = 1;
+            p->unk34 = !p->unk34;
+            p->unk28 = p->unk18[p->unk34].x;
+            p->unk2A = p->unk18[p->unk34].y;
+        }
+    }
+    p->unk38 = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077858);
 
