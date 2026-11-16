@@ -285,3 +285,8 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | Error path returns the saved value (`move v0,s2`) instead of `li v0,-1` | Put the success path in an `else` and keep one `return addr;` at the end (DH3 0x800697A8) |
 | `sw $ra` to a global (caller tracking, DH3 0x80072A40, 0x800724C4, DH2 0x800735F8, 0x8007307C) | Not C: `__builtin_return_address(0)` under GCC 2.5.7 loads from the stack frame instead. `GET_RA(global);` in `include/common.h` (a marked fake, one `sw $31` through an `"=m"` operand) at the point of the store; ASPSX expands it to `lui $at` / `sw $ra` |
 | Globals next to each other stay below struct stores (not hoisted above them) | Declare them as one array (`D_800B5EFC[3]`, `D_801DA432[3]` in DH3), like DH1 `D_800A305C` (DH3 0x80072374) |
+| Caller passes an `s16` argument computed in a wider type | GCC 2.5.7 does not truncate to the prototype's `s16`; the original writes `(s16)` casts at the call (DH2 0x80062B38, DH3 0x80064308) |
+| `u16` field set with `ori 0xFFFF` | Write `0xFFFF` into a `u16` field; `-1` gives `addiu` (DH2 0x80035384, DH3 0x80048B74) |
+| Unused 8 bytes in the frame | `s32 unused[2];` (DH2 0x80065430, DH3 0x80028648) |
+| Two task pointers 0xC apart, second one reloaded after a store | One array `struct Task *D_801F80B0[]`, elements `[0]` and `[3]` (DH3 0x80024088) |
+| `lhu` of the low half of an `s32` global | GCC narrows the load when the result is truncated to `s16`: declare the global `VECTOR` (DH3 `D_801FAE04`, 0x80060A20) |
