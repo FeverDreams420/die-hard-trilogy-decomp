@@ -3720,7 +3720,17 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800707D8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070C08);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070C98);
+extern u8 D_80169FD0[];
+
+void func_80070C98(void) {
+    u8 *src = D_800B7370->maps[D_800B7370->unk1780];
+    u8 *dst = D_80169FD0;
+    s16 i = 0x2EF;
+
+    do {
+        dst[i] = src[i];
+    } while (i-- != 0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070CFC);
 
