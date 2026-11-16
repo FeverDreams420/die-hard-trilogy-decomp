@@ -3938,7 +3938,26 @@ void func_80058DC4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80058E28);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8 pad6[2];
+    s16 unk8;
+} Unk80058E28;
+
+void func_80058E28(SVECTOR *pos) {
+    struct Task *t = (struct Task *)func_8007307C(func_80058DC4, 0x10, 0xA);
+    Unk80058E28 *d;
+
+    if (t != NULL) {
+        d = (Unk80058E28 *)t->vals;
+        d->unk8 = 0;
+        d->x = pos->vx;
+        d->y = pos->vy;
+        d->z = pos->vz;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80058E94);
 
