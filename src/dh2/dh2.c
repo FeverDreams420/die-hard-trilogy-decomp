@@ -2762,7 +2762,27 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DAC4);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DBC4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DC78);
+extern s16 D_800B7238;
+extern s16 D_800B6EB0;
+extern u8 D_801DA1CC[][4];
+extern s32 D_800B6D80;
+extern s16 D_800B6C60[3];
+extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
+
+s32 func_8003DC78(s16 track) {
+    u8 unused[56];
+    s16 t;
+
+    D_800B7238 = 0;
+    D_800B6EB0 = t = track + 2;
+    D_800B6D80 = D_801DA1CC[t + 1][1] + D_801DA1CC[t + 1][0] * 90 - 2;
+    CdControlB(2, D_801DA1CC[t], 0);
+    CdControlB(0xE, (unsigned char *)5, 0);
+    CdControl(3, 0, 0);
+    D_800B6C60[0] = track;
+    D_800B6C60[1] = 30;
+    return -1;
+}
 
 extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
 extern s16 D_800B7238;
@@ -4813,8 +4833,8 @@ s32 func_800727B0(void *data, s16 i) {
 }
 
 extern s16 D_800B7218;
-extern u8 D_801DA1CC[];
-int CdGetToc(u8 *loc);
+extern u8 D_801DA1CC[][4];
+int CdGetToc(u8 (*loc)[4]);
 
 s32 func_800727C8(void) {
     u8 param[16];
