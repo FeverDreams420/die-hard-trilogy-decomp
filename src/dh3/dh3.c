@@ -3743,7 +3743,41 @@ void func_80069590(s32 vol, s32 pan) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800695DC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800697A8);
+typedef struct {
+    u8 pad0[8];
+    s32 offset;
+    u8 padC[0x2C];
+} Unk800697A8_Entry;
+
+typedef struct {
+    s32 count;
+    s32 size;
+    Unk800697A8_Entry entries[1];
+} Unk800697A8;
+
+extern int printf(const char *fmt, ...);
+extern char D_80086F1C[];
+extern s32 D_801FA0C4[];
+
+s32 func_800697A8(s32 base, Unk800697A8 *bank) {
+    s32 count = bank->count;
+    Unk800697A8_Entry *e = bank->entries;
+    u8 *data = (u8 *)(e + count);
+    s32 addr = SpuMalloc(bank->size);
+    s32 i;
+
+    if (addr == -1) {
+        printf(D_80086F1C);
+    } else {
+        SpuSetTransferStartAddr(addr);
+        SpuRead(data, bank->size);
+        for (i = count - 1; i != -1; i--) {
+            D_801FA0C4[base++] = addr + e->offset;
+            e++;
+        }
+    }
+    return addr;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80069894);
 
