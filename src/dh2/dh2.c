@@ -2583,7 +2583,21 @@ extern void SetPolyFT3(void *p);
 
 extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B61C);
+void func_8002B61C(Unk8002B728_Face *f) {
+    Unk8002BA84_Prim *prim = D_800B7140;
+    u16 *tex;
+
+    D_800B6F30 = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B7198);
+    tex = (u16 *)(D_8015EB78 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+    prim->uv2 = tex[4];
+    prim->clut = tex[(f->clut >> 8) + 22];
+    SetPolyFT3(prim);
+    SetShadeTex(prim, 1);
+    AddPrim(D_800B7018 + ((D_800B6F30 + 64) >> 3), prim++);
+    D_800B7140 = prim;
+}
 
 void func_8002B728(Unk8002B728_Face *f) {
     Unk8002B728_Prim *prim = D_800B7140;
