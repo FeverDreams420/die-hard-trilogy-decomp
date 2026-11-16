@@ -722,7 +722,12 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028BB8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028BF0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028CEC);
+s32 func_80028CEC(s32 x) {
+    if (x < 0) {
+        x = -x;
+    }
+    return x;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028D04);
 
