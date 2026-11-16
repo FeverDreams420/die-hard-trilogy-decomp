@@ -3315,7 +3315,7 @@ extern s16 D_800B641A;
 extern s16 D_800B6418;
 extern SVECTOR D_800B6F18;
 extern SVECTOR D_800B6F20;
-void func_8006C8E4(SVECTOR *a, SVECTOR *b, s16 c);
+void func_8006C8E4(void *a, void *b, s16 c);
 
 void func_8003D6D4(void) {
     D_800B641A = func_80072734(0x400, 0x1000, D_800B6F00->unk6);
@@ -5564,7 +5564,60 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C730);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C8E4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C9F4);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, pad1;
+    s16 x1, y1;
+    u8 r2, g2, b2, pad2;
+    s16 x2, y2;
+    u8 r3, g3, b3, pad3;
+    s16 x3, y3;
+} POLY_G4;
+
+extern void SetPolyG4(POLY_G4 *p);
+
+void func_8006C9F4(s16 t, s32 y) {
+    POLY_G4 *p = D_800B7140;
+    POLY_G4 *prim = p;
+    s16 c;
+    SVECTOR unused;
+
+    if ((u8 *)p - D_800B70A8 > 0xD7B7) {
+        return;
+    }
+    p->x0 = p->x2 = 0x128;
+    p->x1 = p->x3 = 0x1B4;
+    p->y0 = p->y1 = y - 8;
+    p->y2 = p->y3 = y + 8;
+    func_8006C8E4(&p->r0, &p->r2, t);
+    func_8006C8E4(&p->r1, &p->r3, t);
+    SetPolyG4(p);
+    p++;
+    AddPrim(D_800B7018 + 2, prim);
+    p->x0 = p->x2 = func_80072734(0x128, 0x1A0, t);
+    p->x1 = p->x3 = func_80072734(0x12C, 0x1B4, t);
+    p->y0 = p->y1 = y - 9;
+    p->y2 = p->y3 = y + 9;
+    c = func_80072734(0x78, 0xFF, t);
+    p->r0 = c;
+    p->g0 = c;
+    p->b0 = c;
+    p->r1 = c;
+    p->g1 = c;
+    p->b1 = c;
+    c >>= 1;
+    p->r2 = c;
+    p->g2 = c;
+    p->b2 = c;
+    p->r3 = c;
+    p->g3 = c;
+    p->b3 = c;
+    SetPolyG4(p);
+    AddPrim(D_800B7018 + 1, p++);
+    D_800B7140 = p;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006CB88);
 
