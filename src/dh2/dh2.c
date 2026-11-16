@@ -4453,7 +4453,14 @@ s32 func_8006704C(s32 base, Unk8006704C *bank) {
     return addr;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067138);
+void func_80067138(void) {
+    D_8015EB3C.unk0 = 0x800;
+    D_8015EB3C.unk2 = 0;
+    D_8015EB3C.unk4 = 0x3000;
+    D_8015EB3C.unk6 = 0x400;
+    D_8015EB3C.unk8 = 0x4C;
+    func_80066B70(&D_8015EB3C, 0);
+}
 
 void func_80067194(void) {
     D_8015EB3C.unk0 = 0x800;
