@@ -3232,8 +3232,6 @@ typedef struct {
     u32 unk3C;
 } Unk8005F880;
 
-extern void func_8006DE2C(u32);
-
 void func_80065060(Unk8005F880 *arg0) {
     if (arg0->unk38 != 0) {
         if (arg0->unk38 < arg0->unk3C) {
@@ -3547,7 +3545,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006DC1C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006DE04);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006DE2C);
+extern s32 D_800B5CD0;
+
+void func_8006DE2C(s32 delta) {
+    delta += D_800B5CD0;
+    if (delta < 0) {
+        D_800B5CD0 = 0;
+    } else {
+        D_800B5CD0 = delta;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006DE64);
 
