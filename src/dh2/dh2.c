@@ -5317,7 +5317,19 @@ void func_80071EEC(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071F20);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071FDC);
+extern s16 D_800B6D38;
+void func_80031B9C(void);
+void func_8006DD40(void);
+
+void func_80071FDC(void) {
+    D_800B6D38 = 0;
+    D_800B6AA0 = 2;
+    func_80031B9C();
+    D_800B6DE0->unk14 = 0;
+    DrawSync(0);
+    func_80078430(2, D_800BDB04);
+    func_80072F2C(func_8006DD40, 0x4C);
+}
 
 extern s16 D_800B6D38;
 extern s16 D_800B6AA0;
