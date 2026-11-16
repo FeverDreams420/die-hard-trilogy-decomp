@@ -4079,7 +4079,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80076920);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80076FF8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077128);
+s32 func_80077128(s32 *buf, u32 size) {
+    s32 sum = 0;
+    s32 n = size >> 2;
+
+    while (n-- != 0) {
+        sum += buf[n];
+    }
+    return sum;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077164);
 
