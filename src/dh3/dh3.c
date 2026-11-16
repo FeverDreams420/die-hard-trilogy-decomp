@@ -662,7 +662,14 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80025B8C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80025DA0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80025E18);
+void func_8005CF28(void);
+void func_80025B54(void);
+struct Task *func_80072374(void (*fn)(), s16 size);
+
+void func_80025E18(void) {
+    func_80072374(func_8005CF28, 0x10);
+    D_800B604C->func = func_80025B54;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80025E50);
 
