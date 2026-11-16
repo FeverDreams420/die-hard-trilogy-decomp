@@ -5335,6 +5335,8 @@ s16 func_80077270(void (*outFunc)(), void (*endFunc)(), Unk8005231C *movie) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077300);
 
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800773F0);
+
 typedef struct {
     u16 id;
     u16 type;
