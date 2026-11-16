@@ -456,7 +456,40 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800220D0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80022160);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800221C8);
+typedef struct {
+    s32 vx, vy, vz, pad;
+} VECTOR;
+typedef struct {
+    s16 m[3][3];
+    s32 t[3];
+} MATRIX;
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVECTOR;
+
+extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
+extern SVECTOR D_800B6124;
+extern VECTOR D_801981F4;
+extern SVECTOR D_800B6574;
+extern MATRIX D_801981D4;
+extern VECTOR D_801CA274;
+extern void SetRotMatrix(MATRIX *m);
+extern void SetTransMatrix(MATRIX *m);
+extern MATRIX *func_8002CA84(SVECTOR *r, MATRIX *m);
+extern MATRIX *func_80084978(MATRIX *m, VECTOR *v);
+
+void func_800221C8(void) {
+    u8 unused[32];
+
+    D_800B6574.vx = -D_801981F4.vx;
+    D_800B6574.vy = -D_801981F4.vy;
+    D_800B6574.vz = -D_801981F4.vz;
+    func_8002CA84(&D_800B6124, &D_801981D4);
+    ApplyMatrix(&D_801981D4, &D_800B6574, &D_801CA274);
+    func_80084978(&D_801981D4, &D_801CA274);
+    SetRotMatrix(&D_801981D4);
+    SetTransMatrix(&D_801981D4);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002228C);
 
@@ -578,9 +611,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027A88);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027C84);
 
 typedef struct {
-    s16 vx, vy, vz, pad;
-} SVECTOR;
-typedef struct {
     SVECTOR *v[4];
 } Unk8004D4A0;
 
@@ -609,14 +639,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002823C);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028258);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002826C);
-
-typedef struct {
-    s32 vx, vy, vz, pad;
-} VECTOR;
-typedef struct {
-    s16 m[3][3];
-    s32 t[3];
-} MATRIX;
 
 extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
 extern MATRIX D_801FA428;
