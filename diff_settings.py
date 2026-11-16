@@ -3,7 +3,7 @@
 # tools/match.sh sets it. Compares disc/<EXE> with build/<EXE> using build/<exe>.map.
 import os
 
-FILES = {"boot": "BOOT.EXE", "dh1": "DH1.EXE"}
+FILES = {"boot": "BOOT.EXE", "dh1": "DH1.EXE", "dh2": "DH2.EXE", "dh3": "DH3.EXE"}
 
 
 def apply(config, args):
