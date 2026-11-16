@@ -4651,7 +4651,50 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800645F8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80064C6C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800651C8);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 size[32];
+    s16 rotA[32];
+    s16 life[32];
+    s16 velX[32];
+    s16 velY[32];
+    s16 velZ[32];
+    s16 rotB[32];
+    s16 spin[32];
+    s16 unk208;
+    s16 unk20A;
+    s16 unk20C;
+} Unk800651C8;
+
+void func_80064C6C(void);
+
+void func_800651C8(SVECTOR *pos) {
+    struct Task *t = (struct Task *)func_8007307C(func_80064C6C, 3, 0x218);
+    Unk800651C8 *d;
+    s16 i = 3;
+
+    if (t != NULL) {
+        d = (Unk800651C8 *)t->vals;
+        d->unk208 = 0;
+        d->unk20C = 0x140;
+        d->x = pos->vx;
+        d->y = pos->vy;
+        d->z = pos->vz;
+        do {
+            d->size[i] = func_800754C8(8) + 0x10;
+            d->rotA[i] = func_800754C8(0x1000);
+            d->rotB[i] = func_800754C8(0x1000);
+            d->spin[i] = func_800754C8(0x40) - 0x20;
+            d->life[i] = func_800754C8(3) + 4;
+            d->velX[i] = func_800754C8(0x40) - 0x20;
+            d->velY[i] = func_800754C8(0x40) + 0x30;
+            d->velZ[i] = func_800754C8(2) + 1;
+        } while (i--);
+    }
+}
 
 extern SpuVoiceAttr D_801F6CB0;
 
