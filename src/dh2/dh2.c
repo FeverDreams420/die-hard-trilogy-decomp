@@ -3369,7 +3369,12 @@ void func_8003DDE0(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DE20);
+extern s16 D_800B7430;
+
+void func_8003DE20(void) {
+    func_8003DC78(D_800B7430);
+    func_8003DE50(0x3FF);
+}
 
 typedef struct {
     u8 val0;
