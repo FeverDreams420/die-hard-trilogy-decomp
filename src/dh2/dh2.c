@@ -4869,7 +4869,7 @@ void func_80073828(struct Task *task) {
 }
 
 extern void func_80072BF8(void);
-extern void D_80073CF0(void);
+extern void func_80073CF0(void);
 extern s16 D_800B6CA8;
 extern s16 D_800B6BC0;
 extern s32 D_800B7270;
@@ -4880,7 +4880,7 @@ void func_800738C0(void) {
     func_80072BF8();
     D_800B6CA8 = 0;
     D_800B6BC0 = 0;
-    D_800B6DE0->func = D_80073CF0;
+    D_800B6DE0->func = func_80073CF0;
     while (D_800B6AA0 != 10) {
         D_800B7270++;
         D_800B6C88++;
@@ -4920,6 +4920,8 @@ void func_800739F8(void) {
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073A30);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073B44);
+
+INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073CF0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073D10);
 
