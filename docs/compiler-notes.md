@@ -175,6 +175,13 @@ A `switch` compiled to a jump table puts the table in `.rodata` right after the 
 - **No `.align 3`.** GCC 2.5.7 writes `.align 3` then `.align 2` before each table. The original tables are only word aligned in absolute terms: `jtbl_8007ACA0` (0 mod 8) is followed directly by `jtbl_8007ACB4` (4 mod 8), and the rodata itself starts at 0x8007A6E4. One C file also can't reproduce the section start of each original source file. The Makefile (`JTBL_ALIGN`) drops the `.align 3`; any padding in the original belongs to the symbol before the table. Look at this again when `dh1.c` is split into files (Phase 8).
 - First table match: 0x8005D610 (`jtbl_8007B348`).
 
+## DH2 and DH3 settings check (Phase 7)
+
+DH2 and DH3 use the same settings as DH1: GCC 2.5.7 `-O2 -G8`, ASPSX 2.34. The check is the
+111 functions (53 DH2, 58 DH3) whose DH1 twin's C rebuilds them to the original bytes with
+only symbol names changed, or with a constant, field offset or type changed where the games
+differ. None needed a different compiler or flag.
+
 ## Phase 5: matching idioms for GCC 2.5.7
 
 Patterns that turned a near-miss into a match. Each names the DH1 function where it was found.
