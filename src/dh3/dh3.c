@@ -463,7 +463,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", check_machine);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E470);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E664);
+s32 func_8001E664(void) {
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E66C);
 
