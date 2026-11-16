@@ -678,7 +678,13 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80020AFC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80020E50);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021380);
+extern SVECTOR D_800B7158;
+
+void func_80021380(s16 x, s16 y, s16 z) {
+    D_800B7158.vx = func_80025570(D_800B7158.vx, x, 1);
+    D_800B7158.vy = func_80025570(D_800B7158.vy, y, 1);
+    D_800B7158.vz = func_80025570(D_800B7158.vz, z, 1);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021414);
 
