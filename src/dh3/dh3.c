@@ -655,7 +655,20 @@ void func_80027CAC(Unk8004D4A0 *f, SVECTOR *out) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027E5C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027F94);
+extern s32 *D_800B6464;
+
+void func_80027F94(s32 *src, u32 size) {
+    u32 n = (size + 15) >> 4;
+    s32 *dst = D_800B6464;
+
+    while (n-- != 0) {
+        *dst++ = *src++;
+        *dst++ = *src++;
+        *dst++ = *src++;
+        *dst++ = *src++;
+    }
+    D_800B6464 = (s32 *)func_8002826C((s32)dst);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028028);
 
