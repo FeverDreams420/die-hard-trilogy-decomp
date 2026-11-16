@@ -39,6 +39,20 @@ struct Task {
     u8 unk2F;
 };
 
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+} Unk800B61A4;
+
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GUN_OBJ_0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GUN_OBJ_18);
@@ -4877,19 +4891,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E2F4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E358);
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 unkE;
-    s16 unk10;
-    s16 unk12;
-    s16 unk14;
-} Unk800B61A4;
 
 extern Unk800B61A4 *D_800B61A4;
 
