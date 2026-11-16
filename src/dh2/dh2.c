@@ -4410,7 +4410,16 @@ void func_800653C4(s16 arg0, s16 arg1, s16 arg2) {
     func_80066B70(&D_8015EB3C, 0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065430);
+void func_80065430(s16 arg0) {
+    s32 unused[2];
+
+    D_8015EB3C.unk0 = 0x800;
+    D_8015EB3C.unk2 = 0;
+    D_8015EB3C.unk4 = 0x3FFF;
+    D_8015EB3C.unk6 = 0x400;
+    D_8015EB3C.unk8 = arg0;
+    func_80066B70(&D_8015EB3C, 0);
+}
 
 extern SpuVoiceAttr D_801F6CB0;
 extern SpuVolume D_801F9548[];
