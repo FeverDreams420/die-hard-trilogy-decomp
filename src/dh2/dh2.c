@@ -604,7 +604,13 @@ void func_8001E834(void) {
 void func_8001E83C(void) {
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001E844);
+void func_8006C638(s32 arg0, s32 arg1);
+
+void func_8001E844(void) {
+    if (++D_800B6DE0->unk14 > 330) {
+        func_8006C638(0, 0);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001E890);
 
@@ -5227,7 +5233,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C53C);
 
 extern s16 D_800B6AA0;
 
-void func_8006C638(void) {
+void func_8006C638(s32 arg0, s32 arg1) {
     D_800B6AA0 = 9;
 }
 
