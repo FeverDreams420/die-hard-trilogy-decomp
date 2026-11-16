@@ -3126,7 +3126,18 @@ void func_8003D590(s32 delta) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D5C8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D6D4);
+extern Unk800B6F00 *D_800B6F00;
+extern s16 D_800B641A;
+extern s16 D_800B6418;
+extern SVECTOR D_800B6F18;
+extern SVECTOR D_800B6F20;
+void func_8006C8E4(SVECTOR *a, SVECTOR *b, s16 c);
+
+void func_8003D6D4(void) {
+    D_800B641A = func_80072734(0x400, 0x1000, D_800B6F00->unk6);
+    D_800B6418 = func_80072734(0x200, 0x960, D_800B6F00->unk4);
+    func_8006C8E4(&D_800B6F18, &D_800B6F20, D_800B6F00->unk12);
+}
 
 void func_8003D750(void) {
     SpuCommonAttr attr;
