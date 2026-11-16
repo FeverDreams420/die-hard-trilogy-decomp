@@ -655,7 +655,24 @@ void func_80027CAC(Unk8004D4A0 *f, SVECTOR *out) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027E5C);
+extern s32 SquareRoot0(s32);
+
+void func_80027E5C(SVECTOR *v) {
+    s16 x = v->vx;
+    s16 y = v->vy;
+    s16 z = v->vz;
+    s32 len = SquareRoot0(x * x + y * y + z * z);
+
+    if (len != 0) {
+        v->vx = (x << 12) / len;
+        v->vy = (y << 12) / len;
+        v->vz = (z << 12) / len;
+    } else {
+        v->vx = 0;
+        v->vy = 0x1000;
+        v->vz = 0;
+    }
+}
 
 extern s32 *D_800B6464;
 
