@@ -3138,7 +3138,22 @@ void func_8003101C(Unk8002B728_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031138);
+void func_80031138(Unk8002B728_Face *f) {
+    u16 *tex;
+
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
+        tex = (u16 *)(D_8015EB78 + f->tex);
+        *(u32 *)&D_800B6B90->uv0 = *(u32 *)tex;
+        *(u32 *)&D_800B6B90->uv1 = *(u32 *)(tex + 18);
+        D_800B6B90->uv2 = tex[4];
+        D_800B6B90->uv3 = tex[6];
+        SetPolyFT4(D_800B6B90);
+        SetShadeTex(D_800B6B90, 1);
+        if (D_800B6F30 > 0x40) {
+            AddPrim(D_800B7018 + ((D_800B6F30 - 0x40) >> 3), D_800B6B90++);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031290);
 
