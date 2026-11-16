@@ -2528,8 +2528,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002ACD0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B188);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B61C);
-
 typedef struct {
     u32 tag;
     u8 r0, g0, b0, code;
@@ -2566,6 +2564,27 @@ extern void AddPrim(void *ot, void *p);
 extern void *D_800B7140;
 extern u32 *D_800B7018;
 
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1;
+} Unk8002BA84_Prim;
+
+extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
+extern void SetPolyFT3(void *p);
+
+extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
+
+INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B61C);
+
 void func_8002B728(Unk8002B728_Face *f) {
     Unk8002B728_Prim *prim = D_800B7140;
     Unk8002B728_Prim *q = D_800B6B90;
@@ -2590,23 +2609,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B86C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002B974);
 
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s32 xy0;
-    u16 uv0;
-    u16 clut;
-    s32 xy1;
-    u16 uv1;
-    u16 tpage;
-    s32 xy2;
-    u16 uv2;
-    u16 pad1;
-} Unk8002BA84_Prim;
-
-extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
-extern void SetPolyFT3(void *p);
-
 void func_8002BA84(Unk8002B728_Face *f) {
     Unk8002BA84_Prim *prim = D_800B7140;
     u16 *tex;
@@ -2623,8 +2625,6 @@ void func_8002BA84(Unk8002B728_Face *f) {
     AddPrim(D_800B7018 + (D_800B6F30 >> 3), prim++);
     D_800B7140 = prim;
 }
-
-extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
 
 void func_8002BB98(Unk8002B728_Face *f) {
     Unk8002BA84_Prim *prim = D_800B7140;
