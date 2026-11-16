@@ -2178,7 +2178,36 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002E75C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002EA90);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002EDC4);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad1;
+    s16 x3, y3;
+    u8 u3, v3;
+    u16 pad2;
+} POLY_FT4;
+
+void func_8002EDC4(POLY_FT4 *p, POLY_FT4 *q) {
+    *(u32 *)&q->u0 = *(u32 *)&p->u0;
+    *(u32 *)&q->u1 = *(u32 *)&p->u1;
+    *(u16 *)&q->u3 = *(u16 *)&p->u3;
+    *(u32 *)&q->x0 = *(u32 *)&p->x0;
+    *(u32 *)&q->x3 = *(u32 *)&p->x3;
+    *(u32 *)&q->x1 = *(u32 *)&p->x2;
+    q->x2 = p->x2 = (p->x0 + p->x1 + p->x2 + p->x3) >> 2;
+    q->y2 = p->y2 = (p->y0 + p->y1 + p->y2 + p->y3) >> 2;
+    *(u16 *)&q->u1 = *(u16 *)&p->u2;
+    q->u2 = p->u2 = (p->u0 + p->u1 + p->u2 + p->u3) >> 2;
+    q->v2 = p->v2 = (p->v0 + p->v1 + p->v2 + p->v3) >> 2;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002EEBC);
 
