@@ -4455,7 +4455,12 @@ void func_8006F8FC(char *text) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006F970);
+void func_8006F970(s32 value) {
+    if (D_800B571A != 0) {
+        func_8007633C(160, D_800B6304, value, 0x400, 0x200, D_800B56D0, D_800B56D8);
+        D_800B6304 += 20;
+    }
+}
 
 void func_8006F9E4(void) {
 }
