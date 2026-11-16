@@ -5109,7 +5109,13 @@ void func_80072044(void) {
     func_80078430(4, D_800BDB04);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072094);
+void func_80072094(void) {
+    func_80071F20();
+    D_800B6D38 = 0;
+    D_800B6AA0 = 2;
+    D_800B6DE0->unk14 = 0;
+    func_80078430(3, D_800BDB04);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800720E4);
 
