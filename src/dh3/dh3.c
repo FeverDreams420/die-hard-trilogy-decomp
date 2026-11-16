@@ -5512,7 +5512,18 @@ void func_8006E2C4(void) {
     func_80072374(func_8006E128, 4);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E2F4);
+extern s16 D_800936DC;
+extern s16 D_800B6554;
+
+void func_8006E2F4(void) {
+    D_800B61A4->unk1A = D_800B61A4->unk1A == 0;
+    if (D_800B61A4->unk1A) {
+        D_800B66DC = -1;
+        D_800B6504 = D_800936DC;
+        func_800728A4();
+        D_800B6554 = 3;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E358);
 
