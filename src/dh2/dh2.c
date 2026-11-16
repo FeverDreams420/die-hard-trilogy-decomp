@@ -2689,7 +2689,17 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032F7C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033518);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800336C0);
+extern s16 D_800BD994[];
+extern s16 D_80169F98[];
+
+void func_800336C0(void) {
+    s16 i = 15;
+
+    do {
+        D_800BD994[i] = func_800754C8(0xB4);
+        D_80169F98[i] = 0;
+    } while (i--);
+}
 
 void func_80033730(s16 *angle, s16 *speed) {
     s16 i = 15;
