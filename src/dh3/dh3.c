@@ -3367,7 +3367,26 @@ void func_8005D194(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005D1D4);
+extern s16 D_800B6164;
+extern u8 D_801DAA90[][4];
+extern s32 D_800B5FDC;
+extern s16 D_800B5EFC[3];
+extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
+
+s32 func_8005D1D4(s16 track) {
+    u8 unused[56];
+    s16 t;
+
+    D_800B6164 = t = track + 2;
+    D_800B5FDC = D_801DAA90[t + 1][1] + D_801DAA90[t + 1][0] * 90 - 2;
+    CdControlB(2, D_801DAA90[t], 0);
+    CdControlB(0xE, (unsigned char *)5, 0);
+    CdControl(3, 0, 0);
+    D_800B5EFC[0] = track;
+    D_800B5EFC[1] = 30;
+    D_800B64D4 = 0;
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005D2B0);
 
@@ -4798,9 +4817,9 @@ s32 func_80071BF8(void *data, s16 i) {
     return ((Pack *)data)->entries[i].unkC;
 }
 
-int CdGetToc(u8 *loc);
+int CdGetToc(u8 (*loc)[4]);
 extern s16 D_800B64AC;
-extern u8 D_801DAA90[];
+extern u8 D_801DAA90[][4];
 
 s32 func_80071C10(void) {
     u8 param[16];
