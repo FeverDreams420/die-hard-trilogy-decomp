@@ -1686,7 +1686,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024124);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024274);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800242D4);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 w, h;
+} TILE;
+
+extern TILE D_800934EC;
+extern s32 DrawSync(s32 mode);
+extern void SetTile(TILE *p);
+extern void DrawPrim(void *p);
+
+void func_800242D4(void) {
+    DrawSync(-1);
+    SetTile(&D_800934EC);
+    DrawPrim(&D_800934EC);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024314);
 
