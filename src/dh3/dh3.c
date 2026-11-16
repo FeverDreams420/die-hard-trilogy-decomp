@@ -2619,7 +2619,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80053A64);
 void func_80053AA8(void) {
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80053AB0);
+void func_80053AB0(void) {
+    SpuCommonAttr attr;
+
+    attr.mvol.left = 0x3FFF;
+    attr.mvol.right = 0x3FFF;
+    attr.cd.volume.left = func_80071B7C(0, 0x3FFF, D_800B6614->unk1784);
+    attr.cd.volume.right = func_80071B7C(0, 0x3FFF, D_800B6614->unk1784);
+    attr.mask = 0xC3;
+    SpuSetCommonAttr(&attr);
+}
 
 void func_80053B1C(void) {
     SpuCommonAttr attr;
