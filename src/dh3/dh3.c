@@ -5234,7 +5234,8 @@ s32 func_80077128(s32 *buf, u32 size) {
 
 typedef struct {
     RECT rect[2];
-    u8 pad10[8];
+    s16 file;
+    u8 pad12[6];
     u32 start;
     u32 end;
     s16 mode;
@@ -5260,7 +5261,9 @@ typedef struct {
     s32 unk5C;
     s32 unk60;
     Unk8005231C_Info *info;
-    u8 pad68[8];
+    u8 pad68[4];
+    s16 unk6C;
+    s16 unk6E;
     s16 unk70;
     u16 unk72;
     s16 unk74;
