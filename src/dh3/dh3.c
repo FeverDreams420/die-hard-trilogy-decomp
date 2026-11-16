@@ -4133,7 +4133,11 @@ void func_800781B8(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800781F8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80078304);
+void func_800781F8(s16 arg0);
+
+void func_80078304(s16 arg0) {
+    func_800781F8(arg0);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", start);
 
