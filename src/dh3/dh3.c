@@ -3769,11 +3769,32 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064A7C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064CD8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064E40);
-
 typedef struct {
     u8 c[4];
 } Color4;
+
+typedef struct {
+    u8 pad0[0x2A];
+    s16 unk2A;
+    u8 pad2C[0x1E];
+    s16 unk4A;
+} Unk80064E40;
+
+extern Color4 D_800B5980;
+extern Color4 D_800B5984;
+extern s16 D_800B56A2;
+
+void func_80064E40(Unk80064E40 *p) {
+    Color4 top = D_800B5980;
+    Color4 bottom = D_800B5984;
+
+    if (p->unk4A >= 0x30) {
+        p->unk4A -= D_800B56A2 * 32;
+        if (p->unk4A >= 0x30) {
+            func_8007633C(160, 127, p->unk2A, (0x3E8000 / p->unk4A) * 0xA00 >> 12, 0xAF000 / p->unk4A, top.c, bottom.c);
+        }
+    }
+}
 
 typedef struct {
     u8 pad0[0x38];
