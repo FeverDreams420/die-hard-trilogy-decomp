@@ -2322,7 +2322,14 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80040A8C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80041AE0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80041CD0);
+typedef struct {
+    u8 pad0[0x1A0];
+    s32 unk1A0;
+} Unk80041CD0;
+
+void func_80041CD0(void) {
+    func_8004DCC4(((Unk80041CD0 *)D_800B604C->vals)->unk1A0);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80041D04);
 
