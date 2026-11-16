@@ -4415,7 +4415,27 @@ void func_80073828(struct Task *task) {
     D_800B6DE0 = saved;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800738C0);
+extern void func_80072BF8(void);
+extern void D_80073CF0(void);
+extern s16 D_800B6CA8;
+extern s16 D_800B6BC0;
+extern s32 D_800B7270;
+extern u16 D_800B6C88;
+extern struct Task *D_800B6FA0;
+
+void func_800738C0(void) {
+    func_80072BF8();
+    D_800B6CA8 = 0;
+    D_800B6BC0 = 0;
+    D_800B6DE0->func = D_80073CF0;
+    while (D_800B6AA0 != 10) {
+        D_800B7270++;
+        D_800B6C88++;
+        D_800B6DE0->func();
+        D_800B6FA0 = D_800B6DE0;
+        D_800B6DE0 = D_800B6DE0->next;
+    }
+}
 
 void func_80073980(struct Task *task) {
     struct Task *saved = D_800B6DE0;
