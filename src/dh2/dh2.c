@@ -4503,7 +4503,17 @@ void func_8006548C(s32 left, s32 right, s16 voice) {
     D_801F9548[voice].right = D_801F6CB0.volume.right;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065564);
+void func_80065D58(s16 arg);
+
+void func_80065564(void) {
+    struct Task *t = D_800B6DE0;
+
+    t->unk16 -= D_800B639E;
+    if (t->unk16 < 0) {
+        func_80065D58(t->unk14);
+        func_8007345C();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800655BC);
 
