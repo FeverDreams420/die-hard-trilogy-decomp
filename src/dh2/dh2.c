@@ -2340,7 +2340,23 @@ void func_8003DDE0(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DE20);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DE50);
+typedef struct {
+    u8 val0;
+    u8 val1;
+    u8 val2;
+    u8 val3;
+} CdlATV;
+int CdMix(CdlATV *vol);
+
+void func_8003DE50(void) {
+    CdlATV atv;
+
+    atv.val0 = 0xFF;
+    atv.val2 = 0xFF;
+    atv.val3 = 0;
+    atv.val1 = 0;
+    CdMix(&atv);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DE84);
 
