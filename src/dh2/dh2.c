@@ -1707,7 +1707,20 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024864);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024914);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024AF8);
+extern s32 *D_800B71F0;
+
+void func_80024AF8(s32 *src, u32 size) {
+    u32 n = (size + 15) >> 4;
+    s32 *dst = D_800B71F0;
+
+    while (n-- != 0) {
+        *dst++ = *src++;
+        *dst++ = *src++;
+        *dst++ = *src++;
+        *dst++ = *src++;
+    }
+    D_800B71F0 = (s32 *)func_80024F60((s32)dst);
+}
 
 typedef struct {
     s16 x;
