@@ -451,7 +451,20 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F1DC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F39C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F444);
+extern s16 D_800B6514;
+extern long D_800B617C;
+extern void func_8007F2B4(void);
+extern void func_8007F53C(void);
+extern long CloseEvent(long event);
+
+void func_8001F444(void) {
+    if (D_800B6514 != 0) {
+        func_8007F2B4();
+        CloseEvent(D_800B617C);
+        func_8007F53C();
+        D_800B6514 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F490);
 
