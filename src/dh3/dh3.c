@@ -1047,7 +1047,11 @@ void func_80029060(s16 *a, s16 *b, s16 t, s16 *out) {
     out[2] = func_80071B7C(a[2], b[2], t);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800290E4);
+void func_800290E4(VECTOR *a, VECTOR *b, s16 t, VECTOR *out) {
+    out->vx = func_80071B7C(a->vx, b->vx, t);
+    out->vy = func_80071B7C(a->vy, b->vy, t);
+    out->vz = func_80071B7C(a->vz, b->vz, t);
+}
 
 typedef struct {
     VECTOR pos;
