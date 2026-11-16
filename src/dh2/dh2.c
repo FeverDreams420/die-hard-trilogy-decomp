@@ -3866,7 +3866,9 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AF60);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AF80);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AFA0);
+void func_8006AFA0(void) {
+    D_800B6F00->unkC = D_800B6F00->unkC == 0;
+}
 
 
 void func_8006AFC0(void) {
