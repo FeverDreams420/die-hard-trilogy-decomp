@@ -811,7 +811,54 @@ s16 func_800284CC(SVECTOR *a, SVECTOR *b) {
     return 0x1000 - ang;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028648);
+s32 func_80028648(VECTOR *a, VECTOR *b) {
+    s32 dx = a->vx - b->vx;
+    s32 dz = a->vz - b->vz;
+    s32 adx = func_80028CEC(dx);
+    s32 adz = func_80028CEC(dz);
+    s32 dist;
+    s32 s;
+    s32 c;
+    s32 ang;
+    s32 t;
+    s32 unused[2];
+
+    if (adx > 0x8000 || adz > 0x8000) {
+        adx >>= 8;
+        adz >>= 8;
+    }
+    dist = (SquareRoot0((adx * adx + adz * adz) >> 4) + 2) << 2;
+    if (dist < 2) {
+        return 0;
+    }
+    s = (adx << 10) / dist;
+    c = (adz << 10) / dist;
+    if (c < 0) {
+        c = 0;
+    }
+    if (s < 0) {
+        s = 0;
+    }
+    if (s >= 0x2D5) {
+        if (c >= 0x2D4) {
+            t = D_8009AFF4[0x2D3];
+        } else {
+            t = D_8009AFF4[c];
+        }
+        ang = 0x400 - t;
+    } else if (s >= 0x2D4) {
+        ang = D_8009AFF4[0x2D3];
+    } else {
+        ang = D_8009AFF4[s];
+    }
+    if (dz < 0) {
+        ang = 0x800 - ang;
+    }
+    if (dx < 0) {
+        ang = 0x1000 - ang;
+    }
+    return (s16)(0x1000 - ang);
+}
 
 s32 func_8002881C(s32 value, s32 target, s32 step) {
     s32 d = value - target;
