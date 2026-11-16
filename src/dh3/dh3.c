@@ -611,8 +611,10 @@ typedef struct {
     s16 unk1780;
     u8 pad1782[2];
     s16 unk1784;
-    u8 pad1786[4];
+    s16 unk1786;
+    u8 pad1788[2];
     s16 unk178A;
+    s16 unk178C;
 } Unk800B6614;
 
 extern Unk800B6614 *D_800B6614;
