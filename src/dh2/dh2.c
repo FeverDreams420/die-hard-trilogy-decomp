@@ -2409,6 +2409,22 @@ int func_80035420(short i) {
     return *D_800B73F0[i].p - 1;
 }
 
+typedef struct {
+    u16 prevId;
+    u16 id;
+    u8 pad4[2];
+    s16 unk6;
+    u32 prevTime;
+    u32 time;
+    u32 unk10;
+    u16 unk14;
+    u16 unk16;
+    u8 pad18[2];
+    u16 unk1A;
+    u16 unk1C;
+    u16 unk1E;
+} Anim;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035448);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003553C);
@@ -3952,21 +3968,6 @@ typedef struct {
     SVECTOR rot;
     u8 pad8[0x16C];
 } Unk80061844_Model;
-typedef struct {
-    u16 prevId;
-    u16 id;
-    u8 pad4[2];
-    s16 unk6;
-    u32 prevTime;
-    u32 time;
-    u32 unk10;
-    u16 unk14;
-    u16 unk16;
-    u8 pad18[2];
-    u16 unk1A;
-    u16 unk1C;
-    u16 unk1E;
-} Anim;
 typedef struct {
     Unk8002A35C pos;
     u8 pad6[0x26];
