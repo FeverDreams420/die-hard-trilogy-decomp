@@ -728,7 +728,17 @@ s32 func_8002881C(s32 value, s32 target, s32 step) {
     return value - step;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028868);
+s32 func_80028868(s32 value, s32 target, s32 step) {
+    s32 d = (value - target) << 20 >> 20;
+
+    if (func_80028CEC(d) <= (s16)step) {
+        return target & 0xFFF;
+    }
+    if (d < 0) {
+        return (value + step) & 0xFFF;
+    }
+    return (value - step) & 0xFFF;
+}
 
 extern s32 SquareRoot0(s32 a);
 
