@@ -5047,7 +5047,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055180);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800555EC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055648);
+void func_80055648(void) {
+    u8 unused[24];
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055654);
 
