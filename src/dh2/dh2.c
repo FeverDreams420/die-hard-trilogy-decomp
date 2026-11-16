@@ -8036,7 +8036,9 @@ void func_8007876C(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007891C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078980);
+char *func_80078980(char *arg0) {
+    return arg0;
+}
 
 extern u16 D_800A1F0C[];
 
