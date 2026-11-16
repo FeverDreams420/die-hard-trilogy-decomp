@@ -959,7 +959,22 @@ void func_80029060(s16 *a, s16 *b, s16 t, s16 *out) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800290E4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029168);
+typedef struct {
+    VECTOR pos;
+    u8 pad10[0x24];
+    SVECTOR rot;
+    u8 pad3C[0x138];
+    SVECTOR drot;
+    u8 pad17C[0x10];
+    SVECTOR v;
+} Unk80029168;
+
+void func_80029168(Unk80029168 *obj) {
+    obj->rot.vx += obj->drot.vx;
+    obj->rot.vy += obj->drot.vy;
+    obj->rot.vz += obj->drot.vz;
+    func_80028310(&obj->rot, &obj->v, &obj->pos, &obj->pos);
+}
 
 extern SVECTOR D_800B5A74;
 extern SVECTOR D_800B66BC;
