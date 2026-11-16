@@ -808,7 +808,9 @@ void func_800223A0(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800223BC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022454);
+void func_80022454(void) {
+    u8 unused[16];
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022460);
 
