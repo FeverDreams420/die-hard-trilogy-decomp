@@ -10685,10 +10685,6 @@ void func_80058C04(Unk80058C04 *obj, s16 type, s16 flags) {
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B250);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B25C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B268);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058E74);
 
 typedef struct {
@@ -10744,7 +10740,60 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80059540);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005963C);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80059BC4);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 padE;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+    s32 pad1C;
+    s32 unk20;
+    u8 pad24[0x58];
+    s16 unk7C;
+    s16 unk7E;
+    s16 unk80;
+    s16 pad82[2];
+    s16 unk86;
+    u8 pad88[0xC];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[6];
+    s16 unkA6;
+} Unk80059BC4;
+
+extern s32 D_801D70B8[];
+
+void func_80059BC4(Unk80059BC4 *obj, s16 idx, s32 angle) {
+    s16 scale[5] = { 0x1800, 0x1000, 0x1000, 0x1000, 0x1800 };
+    SVECTOR ofs[5] = {
+        { 0x280, 0x80, 0x80, 0 },
+        { 0x100, 0x80, 0x300, 0 },
+        { 0x100, 0x7E, 0x100, 0 },
+        { 0x90, 0x340, 0x90, 0 },
+        { 0xA0, 0x200, 0xA0, 0 },
+    };
+
+    obj->unkC = 0;
+    obj->unk8 = 0;
+    obj->unkA = angle << 9;
+    obj->unk7C = obj->unk0;
+    obj->unk7E = obj->unk2;
+    obj->unk80 = obj->unk4;
+    obj->unk94 = ofs[idx - 0x5D].vx;
+    obj->unk98 = ofs[idx - 0x5D].vy;
+    obj->unk9C = ofs[idx - 0x5D].vz;
+    obj->unkA6 = 0;
+    obj->unk86 = obj->unkA;
+    obj->unk10 = obj->unk14 = obj->unk18 = scale[idx - 0x5D];
+    obj->unk20 = D_801D70B8[idx];
+}
 
 void func_80059D64(void *arg0, void *arg1, Unk800584A4 *self) {
     Unk800584A4 *obj = &D_800A3564[self->unkA];
