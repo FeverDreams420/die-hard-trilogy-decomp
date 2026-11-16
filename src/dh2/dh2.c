@@ -631,7 +631,9 @@ s32 func_8001EA74(void) {
     return 0x39;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EA7C);
+s32 func_8001EA7C(void) {
+    return 0xB1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EA84);
 
