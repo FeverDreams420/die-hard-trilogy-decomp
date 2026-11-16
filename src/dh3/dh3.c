@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libspu.h"
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GUN_OBJ_0);
 
@@ -3281,7 +3282,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006902C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800691E8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80069590);
+void func_80069590(s32 vol, s32 pan) {
+    SpuCommonAttr attr;
+    s32 d = (vol * pan) >> 14;
+
+    attr.mask = 0x3;
+    attr.mvol.left = vol - d;
+    attr.mvol.right = vol + d;
+    SpuSetCommonAttr(&attr);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800695DC);
 
