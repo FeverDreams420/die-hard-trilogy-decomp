@@ -4834,8 +4834,6 @@ s32 func_80077CE0(s32 *buf, u32 size) {
     return sum;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077D1C);
-
 typedef struct {
     RECT rect[2];
     u8 pad10[8];
@@ -4869,6 +4867,8 @@ typedef struct {
     u16 unk72;
     s16 unk74;
 } Unk8005231C;
+
+INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80077D1C);
 
 extern void CdReadCallback(void (*func)());
 extern void DecDCTReset(s32 mode);
