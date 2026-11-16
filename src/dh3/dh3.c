@@ -1478,7 +1478,23 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003B178);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003B40C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003B540);
+void func_8003B540(s16 *angle, s16 *speed) {
+    s16 i;
+
+    for (i = 0; i < 16; i++) {
+        *angle += *speed;
+        if (*angle > 0) {
+            (*speed)--;
+            if (*angle > 180) {
+                *angle = 180;
+            }
+        } else {
+            (*speed)++;
+        }
+        angle++;
+        speed++;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003B5CC);
 
