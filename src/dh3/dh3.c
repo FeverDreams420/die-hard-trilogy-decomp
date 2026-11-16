@@ -2067,7 +2067,47 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5590);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800472C4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80047CAC);
+typedef struct {
+    u8 pad0[0x32];
+    s16 unk32;
+} Unk80060200;
+typedef struct {
+    s32 pad0;
+    s32 vals[3];
+} Unk800A317CVals;
+
+extern struct Task {
+    void (*func)(void);
+    void (*saved)(void);
+    void (*cleanup)(void);
+    struct Task *next;
+    struct Task *prev;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    char pad1A[2];
+    Unk800A317CVals *vals;
+    s32 id;
+    s32 flags;
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+    u8 unk2B;
+    s16 unk2C;
+    u8 unk2E;
+    u8 unk2F;
+} *D_800B604C;
+extern void func_800472C4(void);
+
+typedef struct {
+    u8 pad0[0xA0];
+    s16 unkA0;
+} Unk80047CAC;
+
+void func_80047CAC(void) {
+    ((Unk80047CAC *)D_800B604C->vals)->unkA0 = 0;
+    D_800B604C->func = func_800472C4;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80047CD4);
 
@@ -2870,32 +2910,7 @@ typedef struct {
     s16 unkA;
     s16 unkC;
 } Unk80063C60;
-typedef struct {
-    s32 pad0;
-    s32 vals[3];
-} Unk800A317CVals;
-
-extern struct Task {
-    void (*func)(void);
-    void (*saved)(void);
-    void (*cleanup)(void);
-    struct Task *next;
-    struct Task *prev;
-    s16 unk14;
-    s16 unk16;
-    s16 unk18;
-    char pad1A[2];
-    Unk800A317CVals *vals;
-    s32 id;
-    s32 flags;
-    u8 unk28;
-    u8 unk29;
-    u8 unk2A;
-    u8 unk2B;
-    s16 unk2C;
-    u8 unk2E;
-    u8 unk2F;
-} *D_800B604C;
+extern struct Task *D_800B604C;
 extern void func_80062B88(void);
 
 void func_80062C94(void) {
@@ -3147,11 +3162,6 @@ void func_80065A28(void) {
         func_800728A4();
     }
 }
-
-typedef struct {
-    u8 pad0[0x32];
-    s16 unk32;
-} Unk80060200;
 
 void func_80065A28(void);
 
