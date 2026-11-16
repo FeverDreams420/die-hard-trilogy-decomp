@@ -1003,7 +1003,9 @@ s32 func_80028220(s32 a, s32 b) {
     return a;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002823C);
+s16 func_8002823C(s16 *v) {
+    return 0xFFF - v[3] * 16;
+}
 
 s32 func_80028258(s32 base, s32 size) {
     return (base + size + 3) & ~3;
