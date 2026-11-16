@@ -3894,7 +3894,14 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071D74);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071E20);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071EEC);
+void func_80071EEC(void) {
+    SpuCommonAttr attr;
+
+    attr.cd.volume.left = 0x3FFF;
+    attr.cd.volume.right = 0x3FFF;
+    attr.mask = 0xC0;
+    SpuSetCommonAttr(&attr);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071F20);
 
