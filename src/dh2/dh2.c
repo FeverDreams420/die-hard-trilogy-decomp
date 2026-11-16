@@ -3461,7 +3461,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047E50);
 
 extern SVECTOR D_800B73F8;
 void func_80024914(s32 x, s32 y, s32 z, SVECTOR *out);
-void func_80056E74(void *obj, SVECTOR *v, s32 arg2);
+void func_80056E74(SVECTOR *a, SVECTOR *b, s16 c);
 
 void func_80047EF8(VECTOR *pos, void *obj) {
     func_80024914(pos->vx, pos->vy, pos->vz, &D_800B73F8);
@@ -3860,7 +3860,32 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056974);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056DD4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056E74);
+typedef struct {
+    u8 pad0[0x100];
+    SVECTOR a;
+    u8 pad108[8];
+    SVECTOR b;
+    u8 pad118[0x16];
+    s16 unk12E;
+} Unk80056E74;
+
+void func_80056DD4(void);
+
+void func_80056E74(SVECTOR *a, SVECTOR *b, s16 c) {
+    struct Task *t = (struct Task *)func_8007307C(func_80056DD4, 0x10, 0x132);
+    Unk80056E74 *d;
+
+    if (t != NULL) {
+        d = (Unk80056E74 *)t->vals;
+        d->a.vx = a->vx;
+        d->a.vy = a->vy;
+        d->a.vz = a->vz;
+        d->b.vx = b->vx;
+        d->b.vy = b->vy;
+        d->b.vz = b->vz;
+        d->unk12E = c;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056F14);
 
