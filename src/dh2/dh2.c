@@ -4068,7 +4068,27 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005EDB8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F00C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F1EC);
+extern long D_800B6F60;
+extern long D_800B6F68;
+extern long D_800B6F70;
+extern long D_800B6F78;
+
+s32 func_8005F1EC(void) {
+    while (1) {
+        if (TestEvent(D_800B6F60) == 1) {
+            return 0;
+        }
+        if (TestEvent(D_800B6F68) == 1) {
+            return 1;
+        }
+        if (TestEvent(D_800B6F70) == 1) {
+            return 2;
+        }
+        if (TestEvent(D_800B6F78) == 1) {
+            return 3;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F26C);
 
