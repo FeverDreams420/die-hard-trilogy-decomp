@@ -4208,7 +4208,33 @@ typedef struct {
     s16 x, y, w, h;
 } RECT;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80070C34);
+extern s32 DrawSync(s32 mode);
+extern void StoreImage(RECT *rect, u32 *p);
+extern RECT D_800B5A30;
+extern RECT D_800B5A38;
+extern s32 *D_800B632C;
+extern s32 D_800B5CF4;
+extern s32 D_800B5E24;
+extern s32 func_80077128(s32 *buf, u32 size);
+
+s32 func_80070C34(void) {
+    RECT rect = D_800B5A30;
+    RECT unused = D_800B5A38;
+    s32 ret;
+
+    DrawSync(0);
+    StoreImage(&rect, (u32 *)D_800B632C);
+    DrawSync(0);
+    D_800B5E24 = func_80077128(D_800B632C, 0x28000);
+    if (D_800B5E24 == D_800B5CF4) {
+        D_800B632C = 0;
+        ret = -1;
+    } else {
+        D_800B632C = 0;
+        ret = 0;
+    }
+    return ret;
+}
 
 void func_80070D00(void) {
     SpuCommonAttr attr;
