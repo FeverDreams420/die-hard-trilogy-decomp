@@ -2991,7 +2991,22 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002CBCC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002CCE8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002CE08);
+void func_8002CE08(Unk8002B728_Face *f) {
+    Unk8002B728_Prim *prim;
+    u16 *tex;
+
+    D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
+    prim = D_800B6B90;
+    tex = (u16 *)(D_8015EB78 + f->tex);
+    prim->uv1 = tex[0];
+    prim->uv0 = tex[2];
+    *(s16 *)&prim->uv3 = tex[4];
+    *(s16 *)&prim->uv2 = tex[6];
+    prim->tpage = tex[3];
+    prim->clut = tex[D_801F635C[(D_800B6F30 >> 7) + (f->clut & 0x700)]];
+    D_800B6B90 = prim + 1;
+    AddPrim(D_800B7018 + ((D_800B6F30 + 0x200) >> 3), prim);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002CF34);
 
