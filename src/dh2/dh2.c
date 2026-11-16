@@ -2277,7 +2277,14 @@ void func_8003D7F4(void) {
     SpuSetCommonAttr(&attr);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D824);
+void func_8003D824(void) {
+    SpuCommonAttr attr;
+
+    attr.mvol.left = 0x3FFF;
+    attr.mvol.right = 0x3FFF;
+    attr.mask = 0x3;
+    SpuSetCommonAttr(&attr);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D858);
 
