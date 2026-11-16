@@ -4274,7 +4274,11 @@ void func_80078D70(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078DB0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078EBC);
+void func_80078DB0(s16 arg0);
+
+void func_80078EBC(s16 arg0) {
+    func_80078DB0(arg0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", start);
 
