@@ -3113,7 +3113,7 @@ typedef struct {
     u16 prevId;
     u16 id;
     u8 pad4[2];
-    s16 unk6;
+    u16 unk6;
     u32 prevTime;
     u32 time;
     u32 unk10;
