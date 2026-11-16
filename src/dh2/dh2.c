@@ -6318,7 +6318,9 @@ void func_8006AF60(void) {
     D_800B6F00->unk0 ^= 1;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AF80);
+void func_8006AF80(void) {
+    D_800B6F00->unk2 ^= 1;
+}
 
 void func_8006AFA0(void) {
     D_800B6F00->unkC = D_800B6F00->unkC == 0;
