@@ -3153,7 +3153,19 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005027C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800504A4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005061C);
+extern VECTOR D_801984F0;
+extern VECTOR D_801CA284;
+void func_8003F57C(void);
+
+void func_8005061C(void) {
+    D_800B650C = 1;
+    D_801CA284.vx = D_801984F0.vx;
+    D_801CA284.vy = D_801984F0.vy;
+    D_801CA284.vz = D_801984F0.vz;
+    func_80072A40(0x20);
+    func_8003F57C();
+    func_80050DFC();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050688);
 
