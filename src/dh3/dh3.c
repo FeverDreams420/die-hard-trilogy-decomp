@@ -505,7 +505,23 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021FC4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800220D0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80022160);
+extern VECTOR D_801981F4;
+extern SVECTOR D_800B5EAC;
+extern SVECTOR D_800B6124;
+void func_800221C8(void);
+
+void func_80022160(void) {
+    D_801981F4.vx = 0;
+    D_801981F4.vy = 0;
+    D_801981F4.vz = 0;
+    D_800B5EAC.vx = 0;
+    D_800B5EAC.vy = 0;
+    D_800B5EAC.vz = 0;
+    D_800B6124.vx = 0;
+    D_800B6124.vy = 0;
+    D_800B6124.vz = 0;
+    func_800221C8();
+}
 
 extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
 extern SVECTOR D_800B6124;
