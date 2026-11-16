@@ -5660,19 +5660,6 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5A84);
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5A8C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077F2C);
-
-extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
-extern int CdSync(int mode, unsigned char *result);
-
-void func_800781B8(void) {
-    u8 result[8];
-
-    CdSync(0, result);
-    CdControl(10, 0, result);
-    CdSync(0, result);
-}
-
 typedef struct {
     u32 pc0;
     u32 gp0;
@@ -5696,6 +5683,20 @@ typedef struct {
 } XF_HDR;
 
 extern XF_HDR D_801F834C;
+
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077F2C);
+
+extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
+extern int CdSync(int mode, unsigned char *result);
+
+void func_800781B8(void) {
+    u8 result[8];
+
+    CdSync(0, result);
+    CdControl(10, 0, result);
+    CdSync(0, result);
+}
+
 extern char D_800870C0[];
 extern char D_800870CC[];
 extern int func_80077F2C(void);
