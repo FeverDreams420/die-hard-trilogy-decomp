@@ -1546,7 +1546,26 @@ extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1
 
 extern s32 RotNclip4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *sxy3, s32 *p, s32 *otz, s32 *flag);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002D358);
+Unk80030328_Face *func_8002D358(u8 n, Unk80030328_Face *f) {
+    Unk80030328_Prim *prim;
+    u16 *tex;
+
+    while (n--) {
+        if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B5E0C->xy0, &D_800B5E0C->xy1, &D_800B5E0C->xy3, &D_800B5E0C->xy2, &D_800B5CFC, &D_800B61CC, &D_800B642C) > 0) {
+            prim = D_800B5E0C;
+            tex = (u16 *)(D_8018CDD4 + f->tex);
+            prim->uv0 = tex[0];
+            *(u32 *)&prim->uv1 = *(u32 *)(tex + 8);
+            *(s16 *)&prim->uv2 = tex[4];
+            *(s16 *)&prim->uv3 = tex[5];
+            prim->clut = tex[(f->clut >> 8) + 12];
+            D_800B5E0C = prim + 1;
+            AddPrim(D_800B62CC + (D_800B61CC >> 3), prim);
+        }
+        f++;
+    }
+    return f;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002D4A8);
 
