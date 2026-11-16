@@ -3701,7 +3701,21 @@ void func_800653C4(s16 arg0, s16 arg1, s16 arg2) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065430);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006548C);
+extern SpuVoiceAttr D_801F6CB0;
+extern SpuVolume D_801F9548[];
+
+void func_8006548C(s32 left, s32 right, s16 voice) {
+    if (D_800B7370->unk178C != 0) {
+        left = (left + right) >> 1;
+        D_801F6CB0.volume.left = (left * D_800B7370->unk1786) >> 12;
+        D_801F6CB0.volume.right = (left * D_800B7370->unk1786) >> 12;
+    } else {
+        D_801F6CB0.volume.left = (left * D_800B7370->unk1786) >> 12;
+        D_801F6CB0.volume.right = (right * D_800B7370->unk1786) >> 12;
+    }
+    D_801F9548[voice].left = D_801F6CB0.volume.left;
+    D_801F9548[voice].right = D_801F6CB0.volume.right;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065564);
 
