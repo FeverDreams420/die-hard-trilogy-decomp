@@ -3200,7 +3200,15 @@ void func_80050D40(s16 *angle, s16 *speed) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050DC4);
+void func_80050688(void);
+void func_80050758(void);
+void func_800511D8(void);
+
+void func_80050DC4(void) {
+    func_80050688();
+    func_80050758();
+    D_800B604C->func = func_800511D8;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050DFC);
 
