@@ -3552,7 +3552,21 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800669C0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066B1C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066B58);
+extern SpuVoiceAttr D_801F76E4;
+extern SpuVolume D_801FA254[];
+
+void func_80066B58(s32 left, s32 right, s16 voice) {
+    if (D_800B6614->unk178C != 0) {
+        left = (left + right) >> 1;
+        D_801F76E4.volume.left = (left * D_800B6614->unk1786) >> 12;
+        D_801F76E4.volume.right = (left * D_800B6614->unk1786) >> 12;
+    } else {
+        D_801F76E4.volume.left = (left * D_800B6614->unk1786) >> 12;
+        D_801F76E4.volume.right = (right * D_800B6614->unk1786) >> 12;
+    }
+    D_801FA254[voice].left = D_801F76E4.volume.left;
+    D_801FA254[voice].right = D_801F76E4.volume.right;
+}
 
 extern SpuVoiceAttr D_801F76E4;
 
