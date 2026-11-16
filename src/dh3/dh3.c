@@ -4830,7 +4830,13 @@ void func_8006E510(void) {
     D_800B61A4->unkA = D_800B61A4->unkA == 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E530);
+extern SVECTOR D_80091DE4;
+
+void func_8006E530(void) {
+    D_80091DE4.vx = func_80074910(0x2000) + 0x1000;
+    D_80091DE4.vy = func_80074910(0x3000);
+    D_80091DE4.vz = func_80074910(0x2000);
+}
 
 extern volatile s16 D_800B61AC;
 
