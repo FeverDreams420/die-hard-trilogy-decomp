@@ -3672,7 +3672,9 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031C00);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031DA8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031F90);
+void func_80031F90(void) {
+    u8 unused[16];
+}
 
 extern s32 D_800BDB04[];
 extern s32 *D_800B71F0;
