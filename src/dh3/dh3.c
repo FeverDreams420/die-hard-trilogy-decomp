@@ -4495,7 +4495,50 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071F48);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80072040);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80072374);
+extern struct Task *D_800B623C;
+extern struct Task D_801F8874;
+extern void (*D_800B6054)();
+extern s32 D_800B5D9C;
+extern s16 D_800B5EFC[3];
+extern s16 func_8007374C(s16 size, struct Task *t);
+
+struct Task *func_80072374(void (*fn)(), s16 size) {
+    struct Task *t;
+
+    if (D_800B623C == NULL) {
+        return NULL;
+    }
+    D_800B6054 = fn;
+    D_801F8874.flags = 1;
+    if (func_8007374C(size, &D_801F8874) == 0) {
+        return NULL;
+    }
+    t = D_800B623C;
+    t->vals = D_801F8874.vals;
+    D_800B623C = t->next;
+    t->unk2E = D_801F8874.unk2E;
+    t->unk2F = D_801F8874.unk2F;
+    t->func = fn;
+    t->saved = fn;
+    D_800B604C->next->prev = t;
+    t->next = D_800B604C->next;
+    D_800B604C->next = t;
+    t->prev = D_800B604C;
+    t->unk14 = D_800B5EFC[0];
+    t->unk16 = D_800B5EFC[1];
+    t->unk18 = D_800B5EFC[2];
+    t->id = D_800B5D9C++;
+    t->unk28 = 0xFF;
+    t->unk29 = 0xFF;
+    t->unk2A = 0xFF;
+    t->flags = 1;
+    t->cleanup = NULL;
+    t->unk2C = 0;
+    t->unk28 = 200;
+    t->unk29 = 200;
+    t->unk2A = 200;
+    return t;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800724C4);
 
