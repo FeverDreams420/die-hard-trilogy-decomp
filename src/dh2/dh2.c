@@ -4413,7 +4413,12 @@ s32 func_8005F1EC(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F26C);
+s32 func_8005F26C(s16 chan) {
+    if (_card_info(chan) == 0) {
+        return 2;
+    }
+    return func_8005F1EC();
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F2A0);
 
