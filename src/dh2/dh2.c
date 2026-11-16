@@ -4560,7 +4560,20 @@ long func_80070FFC(s16 chan) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800710B4);
+extern void StopCARD(void);
+extern void StartPAD(void);
+extern long CloseEvent(long event);
+
+void func_800710B4(void) {
+    StopCARD();
+    func_8007FD1C();
+    CloseEvent(D_800B6A10);
+    CloseEvent(D_800B6A18);
+    CloseEvent(D_800B6A20);
+    CloseEvent(D_800B6A28);
+    func_8007FFB4();
+    StartPAD();
+}
 
 extern char D_800B7818[];
 extern char D_800889D0[];
