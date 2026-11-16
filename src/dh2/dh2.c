@@ -3156,7 +3156,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80035A18);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003BE74);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003CC44);
+extern s32 *D_800B6DF0;
+extern s16 D_800B7430;
+extern s32 D_800B63AC;
+extern s16 D_800B6C10;
+extern s16 D_800B6B08;
+extern s32 func_8007270C(s32 n);
+extern void func_8007345C(void);
+
+void func_8003CC44(void) {
+    D_800B6DF0 = D_800B71F0;
+    D_800B71F0 = (s32 *)((u8 *)D_800B71F0 + func_8007270C(D_800B7430 + 0x35));
+    D_800B63AC = 0;
+    D_800B6C10 = 100;
+    D_800B6B08 = 6;
+    DrawSync(0);
+    func_8007345C();
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003CCC0);
 
