@@ -2257,7 +2257,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D6D4);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D750);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D7BC);
+void func_8003D7BC(void) {
+    SpuCommonAttr attr;
+
+    attr.mvol.left = 0;
+    attr.mvol.right = 0;
+    attr.cd.volume.left = 0;
+    attr.cd.volume.right = 0;
+    attr.mask = 0xC3;
+    SpuSetCommonAttr(&attr);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D7F4);
 
