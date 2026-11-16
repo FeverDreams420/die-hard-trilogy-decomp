@@ -4730,7 +4730,10 @@ void func_800777B4(void) {
     p->unk38 = 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077858);
+s32 func_80077858(void) {
+    D_801F80FC->unk1C->unk4C = -1;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077878);
 
