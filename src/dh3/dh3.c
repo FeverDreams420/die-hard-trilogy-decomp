@@ -4957,7 +4957,50 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065C54);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066030);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006661C);
+typedef struct {
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 padC;
+    s16 size[32];
+    s16 rotA[32];
+    s16 life[32];
+    s16 velX[32];
+    s16 velY[32];
+    s16 velZ[32];
+    s16 rotB[32];
+    s16 spin[32];
+    s16 unk210;
+    s16 unk212;
+    s16 unk214;
+} Unk8006661C;
+
+extern void func_80066030();
+
+void func_8006661C(VECTOR *pos) {
+    Unk8003BA6C_Task *t = func_800724C4(func_80066030, 3, 0x218);
+    Unk8006661C *d;
+    s16 i = 3;
+
+    if (t != NULL) {
+        d = (Unk8006661C *)t->data;
+        d->unk210 = 0;
+        d->unk214 = 0x140;
+        d->x = pos->vx;
+        d->y = pos->vy;
+        d->z = pos->vz;
+        do {
+            d->size[i] = func_80074910(0x10) + 0x10;
+            d->rotA[i] = func_80074910(0x1000);
+            d->rotB[i] = func_80074910(0x1000);
+            d->spin[i] = func_80074910(0x40) - 0x20;
+            d->life[i] = func_80074910(4) + 6;
+            d->velX[i] = func_80074910(0x40) - 0x20;
+            d->velY[i] = func_80074910(0x30) + 0x20;
+            d->velZ[i] = func_80074910(2) + 1;
+        } while (i--);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066730);
 
