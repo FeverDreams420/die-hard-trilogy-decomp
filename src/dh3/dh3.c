@@ -2102,7 +2102,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C014);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C214);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C5C0);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+} Unk8003C5C0;
+
+s32 func_80028A48(VECTOR *a, VECTOR *b);
+
+s32 func_8003C5C0(Unk8003C5C0 *obj) {
+    return -(func_80028A48(&D_800B659C->pos, &obj->pos) < 350);
+}
 
 typedef struct {
     u8 pad0[0x10];
