@@ -1963,7 +1963,26 @@ void func_8002FBA8(Unk80030328_Face *f) {
     AddPrim(D_800B62CC + 0x3FC, prim);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002FCA8);
+void func_8002FCA8(Unk80030328_Face *f) {
+    Unk800307C0_Prim *prim = D_800B63AC;
+    Unk800307C0_Prim *start = prim;
+    u16 *tex;
+
+    if ((u8 *)prim - D_800B6334 > 0xD7DFU) {
+        return;
+    }
+    RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B5CFC, &D_800B642C);
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+    prim->uv2 = tex[4];
+    prim->clut = tex[(f->clut >> 8) + 12];
+    SetPolyFT3(prim);
+    SetShadeTex(prim, 1);
+    prim++;
+    AddPrim(D_800B62CC + 0x3FC, start);
+    D_800B63AC = prim;
+}
 
 void func_8002FDBC(Unk80030328_Face *f) {
     Unk80030328_Prim *prim;
