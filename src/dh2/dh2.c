@@ -3858,7 +3858,9 @@ typedef struct {
 
 extern Unk800B6F00 *D_800B6F00;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AF40);
+void func_8006AF40(void) {
+    D_800B6F00->unk10 = D_800B6F00->unk10 == 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AF60);
 
