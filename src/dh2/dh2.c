@@ -1924,7 +1924,27 @@ s32 func_80025B40(s32 x) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025B58);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025C30);
+s32 func_80025C30(VECTOR *a, VECTOR *b, VECTOR *p) {
+    s32 ax = a->vx;
+    s32 az = a->vz;
+    s32 bx = b->vx;
+    s32 bz = b->vz;
+    s32 dz = az - p->vz;
+    s32 ux = bx - ax;
+    s32 dx = ax - p->vx;
+    s32 dist = func_80025B40(dz * ux - dx * (bz - az)) >> 16;
+    s32 vz = az - bz;
+    s32 dot = (dz * vz - dx * ux + 0x800) >> 12;
+    s32 vx = ax - bx;
+
+    if (((vx * vx + vz * vz + 0x800) >> 12) + 0x800 < dot) {
+        return -1;
+    }
+    if (dot < -0x800) {
+        return -1;
+    }
+    return dist;
+}
 
 extern int func_80072734(s32 a, s32 b, s32 t);
 
