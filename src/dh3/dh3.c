@@ -2736,7 +2736,40 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048830);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004896C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048B74);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[2];
+    s32 unk8;
+    s32 unkC;
+    s32 unk10;
+    s16 unk14;
+    s16 unk16;
+    u8 pad18[2];
+    s16 unk1A;
+    u16 unk1C;
+    u8 pad1E[0xA];
+    s16 unk28;
+    u8 unk2A;
+} Unk80048B74;
+
+void func_8004896C(Unk80048B74 *obj);
+
+void func_80048B74(Unk80048B74 *obj) {
+    obj->unk8 = 0;
+    obj->unk10 = 0;
+    obj->unk4 = 0;
+    obj->unk14 = 0;
+    obj->unk16 = 0;
+    obj->unkC = 0;
+    obj->unk1C = 0xFFFF;
+    obj->unk28 = 3500;
+    obj->unk1A = 0x1000;
+    obj->unk0 = obj->unk2 = 0;
+    obj->unk2A = 0x40;
+    func_8004896C(obj);
+}
 
 typedef struct {
     int *p;
@@ -3962,7 +3995,6 @@ typedef struct {
 
 extern SVECTOR D_800B5960;
 extern void func_80048830(void *anim, s16 idx);
-extern void func_80048B74(void *anim);
 
 void func_800640A8(Unk800640A8 *obj, s16 idx, s16 arg2) {
     SVECTOR v = D_800B5960;
