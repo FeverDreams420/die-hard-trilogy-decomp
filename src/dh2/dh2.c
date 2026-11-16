@@ -3197,7 +3197,28 @@ void func_8005673C(s16 i) {
     d->unk118[i] = 0xFF;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056844);
+void func_80056844(s16 i) {
+    Unk8005673C *d = (Unk8005673C *)D_800B6DE0->vals;
+    s16 j;
+    s16 dx, dy, dz;
+
+    j = func_800754C8(0x10);
+    if (d->unk118[i] != 0) {
+        d->pos[j].vx = d->pos[i].vx;
+        d->pos[j].vy = d->pos[i].vy;
+        d->pos[j].vz = d->pos[i].vz;
+        dx = func_800754C8(0x20) - 0x10;
+        dy = func_800754C8(0x20) - 0x10;
+        dz = func_800754C8(0x20) - 0x10;
+        d->vel[j].vx = dx + d->vel[i].vx;
+        d->vel[j].vy = dy + d->vel[i].vy;
+        d->vel[j].vz = dz + d->vel[i].vz;
+        d->vel[i].vx -= dx;
+        d->vel[i].vy -= dy;
+        d->vel[i].vz -= dz;
+        d->unk118[j] = d->unk118[i];
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056974);
 
