@@ -2715,7 +2715,35 @@ void func_800285C8(Unk8002B728_Face *f) {
 extern s32 D_800B6DB8;
 extern void func_800851B0(s32 *sz0, s32 *sz1, s32 *sz2, s32 *sz3);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800287A8);
+void func_800287A8(Unk8002B728_Face *f) {
+    Unk8002B728_Prim *prim;
+    u16 *tex;
+
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
+        func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
+        prim = D_800B6B90;
+        tex = (u16 *)(D_8015EB78 + f->tex);
+        prim->uv0 = tex[0];
+        *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
+        *(s16 *)&prim->uv2 = tex[4];
+        *(s16 *)&prim->uv3 = tex[6];
+        prim->clut = tex[(f->clut >> 8) + 22];
+        if (D_800B6DA8 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DA8;
+        }
+        if (D_800B6DB0 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB0;
+        }
+        if (D_800B6DB8 < D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB8;
+        }
+        D_800B6F30 = (D_800B6DA0 >> 2) - 0x80;
+        if (D_800B6F30 > 0) {
+            D_800B6B90 = prim + 1;
+            AddPrim(D_800B7018 + (D_800B6F30 >> 3), prim);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80028978);
 
