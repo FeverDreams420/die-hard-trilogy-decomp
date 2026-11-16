@@ -1650,7 +1650,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024314);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024664);
 
-extern struct { u8 pad0[0x178A]; s16 unk178A; } *D_800B7370;
+typedef struct {
+    u8 maps[8][0x2F0];
+    s16 unk1780;
+    u8 pad1782[2];
+    s16 unk1784;
+    u8 pad1786[4];
+    s16 unk178A;
+} Unk800B7370;
+
+extern Unk800B7370 *D_800B7370;
 extern s16 D_800B70E8;
 extern s16 D_800B71C8;
 
