@@ -5422,7 +5422,11 @@ s32 func_8005F26C(s16 chan) {
     return func_8005F1EC();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F2A0);
+extern s32 D_8009739C[];
+
+s32 func_8005F2A0(s32 i) {
+    return D_8009739C[i];
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F2BC);
 
