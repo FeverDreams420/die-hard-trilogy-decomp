@@ -3030,7 +3030,55 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B58A8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80052E70);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80053644);
+typedef struct {
+    u8 pad0[0x18];
+    s16 unk18;
+    u8 pad1A[0x24];
+    s16 unk3E;
+    u8 pad40[2];
+    s16 unk42;
+    s16 unk44;
+} Unk80053644;
+
+extern s16 D_800B6434;
+extern s16 D_800B66D4;
+extern u8 D_800931FC[];
+extern u8 D_80093284[];
+extern u8 D_8009330C[];
+extern u8 D_8009341C[];
+extern u8 D_800934A4[];
+extern u8 D_8009352C[];
+extern u8 *D_800BA6F0;
+extern u8 *D_800BA6F4;
+extern u8 *D_800BA6F8;
+extern u8 *D_800BA6FC;
+extern u8 *D_800BA700;
+extern u8 *D_800BA704;
+extern u8 *D_800BA708;
+void func_80052E70(void);
+
+void func_80053644(void) {
+    Unk80053644 *d;
+
+    d = (Unk80053644 *)D_800B604C->vals;
+    D_800B604C->unk28 = 0xFF;
+    D_800B604C->unk29 = 0;
+    D_800B604C->unk2A = 0;
+    d->unk18 = -1;
+    d->unk3E = 0;
+    d->unk42 = -1;
+    d->unk44 = 0;
+    D_800B6434 = 0;
+    D_800B66D4 = 0;
+    D_800BA6F0 = D_800931FC;
+    D_800BA6F4 = D_800931FC;
+    D_800BA6F8 = D_80093284;
+    D_800BA6FC = D_8009330C;
+    D_800BA700 = D_8009341C;
+    D_800BA704 = D_800934A4;
+    D_800BA708 = D_8009352C;
+    D_800B604C->func = func_80052E70;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80053718);
 
