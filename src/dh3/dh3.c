@@ -4222,12 +4222,11 @@ int func_800609F8(short i) {
     return *D_800B66AC[i].p - 1;
 }
 
-extern s16 D_801FAE04;
-extern s16 D_801FAE0C;
+extern VECTOR D_801FAE04;
 
 s16 func_80060A20(VECTOR *pos) {
-    s16 dx = pos->vx - D_801FAE04;
-    s16 dz = pos->vz - D_801FAE0C;
+    s16 dx = pos->vx - D_801FAE04.vx;
+    s16 dz = pos->vz - D_801FAE04.vz;
     s16 dist = SquareRoot0(dx * dx + dz * dz);
 
     if (dist > 3000) {
@@ -4339,7 +4338,7 @@ void func_80062B88(void) {
     rot.vy = p->unk2;
     rot.vx = 0;
     rot.vz = 0;
-    func_80028310(&rot, &v, &D_80091BB8, (VECTOR *)&D_801FAE04);
+    func_80028310(&rot, &v, &D_80091BB8, &D_801FAE04);
     p->unk0 += p->unk4;
     p->unk2 += p->unk6;
     if (p->unkC-- < 0) {
