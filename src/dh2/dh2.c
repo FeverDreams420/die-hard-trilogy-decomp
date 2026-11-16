@@ -3503,7 +3503,19 @@ void func_800652DC(void) {
     SpuSetVoiceAttr(&D_801F6CB0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065328);
+extern SpuVolume D_801F9548[];
+
+void func_80065328(void) {
+    s16 i = 23;
+
+    do {
+        D_801F6CB0.volume.left = D_801F9548[i].left;
+        D_801F6CB0.volume.right = D_801F9548[i].right;
+        D_801F6CB0.mask = 3;
+        D_801F6CB0.voice = 1 << i;
+        SpuSetVoiceAttr(&D_801F6CB0);
+    } while (i-- != 0);
+}
 
 typedef struct {
     s16 unk0;
