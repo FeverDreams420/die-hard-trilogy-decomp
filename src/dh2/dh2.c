@@ -6381,7 +6381,17 @@ void func_8006C690(Unk8006C690 *obj) {
     func_8006C64C(obj);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C6C4);
+typedef struct {
+    u8 pad0[0x3E];
+    s16 unk3E;
+} Unk8006C714;
+
+extern s16 D_800B6CE0;
+
+void func_8006C6C4(Unk8006C714 *obj) {
+    obj->unk3E = 0;
+    D_800B6CE0 = -1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C6DC);
 
