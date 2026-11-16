@@ -3813,7 +3813,9 @@ typedef struct {
 
 extern Unk800B61A4 *D_800B61A4;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E3B0);
+void func_8006E3B0(void) {
+    D_800B61A4->unk14 = D_800B61A4->unk14 == 0;
+}
 
 extern volatile s16 D_800B5FFC;
 
