@@ -281,3 +281,7 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | Both tests' values computed before the first branch (second subtraction in a delay slot) | Compute both locals first, then one `if (a > N \|\| b > N) return;` (0x8004161C) |
 | Unused 8 bytes below the locals in the frame | An unused local `SVECTOR unused;` declared first (0x800290D4) |
 | Local array copied from rodata with `lwl`/`lwr` | Works now: write the initializer and delete the rodata symbol's `INCLUDE_RODATA` line, as long as it sits right before the function with nothing emitting rodata in between (0x800418DC, 0x800290D4) |
+| Count-down loop `addiu a0,s3,-1` / `beq a0,-1` with the `-1` shared with an earlier `== -1` test, `count` kept intact | `for (i = count - 1; i != -1; i--)` (DH3 0x800697A8, 0x800781F8); `while (count--)` decrements `count` itself and `for (i = 0; i < n; i++)` counts up |
+| Error path returns the saved value (`move v0,s2`) instead of `li v0,-1` | Put the success path in an `else` and keep one `return addr;` at the end (DH3 0x800697A8) |
+| `sw $ra` to a global (caller tracking, DH3 0x80072A40, 0x800724C4) | Not C: `__builtin_return_address(0)` under GCC 2.5.7 loads from the stack frame instead |
+| Globals next to each other stay below struct stores (not hoisted above them) | Declare them as one array (`D_800B5EFC[3]`, `D_801DA432[3]` in DH3), like DH1 `D_800A305C` (DH3 0x80072374) |
