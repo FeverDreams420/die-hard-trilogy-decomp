@@ -1377,7 +1377,13 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002C234);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002C58C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002C640);
+extern struct Task *D_801F80BC;
+
+void func_8002C640(void) {
+    s16 *d = (s16 *)D_801F80BC->vals;
+
+    d[0xB0] = 0;
+}
 
 extern s16 D_80094174[];
 
