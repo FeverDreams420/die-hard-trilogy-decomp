@@ -2136,7 +2136,34 @@ MATRIX *func_80027444(SVECTOR *rot, MATRIX *m) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80027674);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80027898);
+MATRIX *func_80027898(SVECTOR *r, MATRIX *m) {
+    s16 cx, sx, sy, sz;
+    s32 cy, cz;
+    u16 ax, ay, az;
+    s32 cxsy, sxsy;
+
+    ax = r->vx;
+    ay = r->vy;
+    cx = D_800982E4[(ax + 0x400) & 0xFFF];
+    sy = D_800982E4[ay & 0xFFF];
+    cxsy = cx * sy;
+    sx = D_800982E4[ax & 0xFFF];
+    sxsy = sx * sy;
+    az = r->vz;
+    cy = D_800982E4[(ay + 0x400) & 0xFFF];
+    cz = D_800982E4[(az + 0x400) & 0xFFF];
+    sz = D_800982E4[az & 0xFFF];
+    m->m[0][2] = -sy;
+    m->m[0][0] = (u32)(cy * cz) >> 12;
+    m->m[0][1] = (u32)(-cy * sz) >> 12;
+    m->m[1][0] = (u32)(cx * sz - (s16)(sxsy >> 12) * cz) >> 12;
+    m->m[1][1] = (u32)((s16)(sxsy >> 12) * sz + cx * cz) >> 12;
+    m->m[1][2] = (u32)(-sx * cy) >> 12;
+    m->m[2][0] = (u32)((s16)(cxsy >> 12) * cz + sx * sz) >> 12;
+    m->m[2][1] = (u32)(sx * cz - (s16)(cxsy >> 12) * sz) >> 12;
+    m->m[2][2] = (u32)(cx * cy) >> 12;
+    return m;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80027AB4);
 
