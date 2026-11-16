@@ -3979,7 +3979,32 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052E50);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053014);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800532A4);
+typedef struct {
+    u8 pad0[0x268];
+    s16 unk268;
+} Unk800532A4_Data;
+
+typedef struct {
+    u8 pad0[0x13];
+    u8 unk13;
+    u8 pad14[0x232];
+    s16 unk246;
+} Unk800532A4;
+
+extern struct Task *volatile D_801F7548;
+void func_80065E44(s32 id, Unk800532A4 *obj);
+
+void func_800532A4(Unk800532A4 *obj) {
+    Unk800532A4_Data *d;
+
+    if (D_801F7548 != NULL) {
+        d = (Unk800532A4_Data *)D_801F7548->vals;
+        func_80065E44(0x24, obj);
+        if (obj->unk246 == 1) {
+            d->unk268 = obj->unk13;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053310);
 
