@@ -4569,7 +4569,60 @@ s16 func_80077270(void (*outFunc)(), void (*endFunc)(), Unk8005231C *movie) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077300);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077560);
+typedef struct {
+    u16 id;
+    u16 type;
+    u16 secCount;
+    u16 nSectors;
+    u32 frameCount;
+    u32 frameSize;
+    u16 width;
+    u16 height;
+    u32 headm;
+    u32 headv;
+} StHEADER;
+
+extern s16 D_800B646C;
+extern s32 StFreeRing(u32 *base);
+extern s32 StGetNext(u32 **addr, u32 **header);
+
+u32 *func_80077560(Unk8005231C *dec) {
+    RECT rect;
+    u32 *addr;
+    StHEADER *sector;
+    s32 cnt = 60000;
+
+    while (StGetNext(&addr, (u32 **)&sector)) {
+        if (--cnt == 0) {
+            return NULL;
+        }
+    }
+    dec->unk72++;
+    if (addr[0] != sector->headm || addr[1] != sector->headv) {
+        StFreeRing(addr);
+        return NULL;
+    }
+    if (!dec->unk54) {
+        dec->unk44 = dec->unk48 / 2048;
+        dec->unk44 = dec->unk44 / sector->nSectors;
+        dec->unk54 = 1;
+    }
+    if (sector->frameCount >= dec->info->end || sector->frameCount < dec->unk70) {
+        dec->unk4C = 1;
+    }
+    if (sector->frameCount >= dec->info->end - 20) {
+        D_800B646C = -1;
+    }
+    dec->unk70 = sector->frameCount;
+    if (dec->unk58 != sector->width || dec->unk5C != sector->height) {
+        dec->unk58 = sector->width;
+        dec->unk5C = sector->height;
+    }
+    dec->rect[0].w = dec->rect[1].w = dec->unk58;
+    dec->rect[0].h = dec->rect[1].h = dec->unk5C;
+    dec->slice.h = dec->unk5C;
+    return addr;
+}
 
 typedef struct {
     u32 *vlcbuf[2];
