@@ -1904,7 +1904,48 @@ s32 func_80025254(Unk8002A35C *a, Unk8002A35C *b) {
     return (s16)(0x1000 - ang);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800253D0);
+extern s16 D_8009F164[];
+s32 func_80025B40(s32 x);
+
+s32 func_800253D0(VECTOR *a, VECTOR *b) {
+    s32 dx = a->vx - b->vx;
+    s32 dz = a->vz - b->vz;
+    s32 adx = func_80025B40(dx);
+    s32 adz = func_80025B40(dz);
+    s32 dist;
+    s32 s;
+    s32 c;
+    s32 ang;
+
+    if (adx > 0x8000 || adz > 0x8000) {
+        adx >>= 8;
+        adz >>= 8;
+    }
+    dist = (SquareRoot0((adx * adx + adz * adz) >> 4) + 2) << 2;
+    if (dist < 2) {
+        return -1;
+    }
+    s = (adx << 10) / dist;
+    c = (adz << 10) / dist;
+    if (s >= 0x400) {
+        s = 0x3FF;
+    }
+    if (c >= 0x400) {
+        c = 0x3FF;
+    }
+    if (s >= 0x2D5) {
+        ang = 0x400 - D_8009F164[c];
+    } else {
+        ang = D_8009F164[s];
+    }
+    if (dz < 0) {
+        ang = 0x800 - ang;
+    }
+    if (dx < 0) {
+        ang = 0x1000 - ang;
+    }
+    return (s16)(0x1000 - ang);
+}
 
 s32 func_80025570(s32 value, s32 target, s32 step) {
     s32 d = value - target;
