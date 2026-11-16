@@ -6,13 +6,13 @@ This repository contains no game data. You need your own copy of the game.
 
 ## Progress
 
-<h1 align="center">Die Hard 28.3% · Die Harder 2.8% · With a Vengeance 2.9%</h1>
+<h1 align="center">Die Hard 28.6% · Die Harder 7.6% · With a Vengeance 8.0%</h1>
 
 | Game | Code matched | Functions |
 | --- | --- | --- |
-| **DH1** Die Hard | `██████░░░░░░░░░░░░░░` **28.3%** | 461 / 1315 |
-| **DH2** Die Harder | `█░░░░░░░░░░░░░░░░░░░` **2.8%** | 131 / 1465 |
-| **DH3** Die Hard with a Vengeance | `█░░░░░░░░░░░░░░░░░░░` **2.9%** | 152 / 1519 |
+| **DH1** Die Hard | `██████░░░░░░░░░░░░░░` **28.6%** | 464 / 1315 |
+| **DH2** Die Harder | `██░░░░░░░░░░░░░░░░░░` **7.6%** | 227 / 1469 |
+| **DH3** Die Hard with a Vengeance | `██░░░░░░░░░░░░░░░░░░` **8.0%** | 263 / 1523 |
 
 These figures count bytes of each game's code that build from matching C (as of Nov 16, 2026). To update them after a build, run `python3 tools/progress.py --markdown`.
 
