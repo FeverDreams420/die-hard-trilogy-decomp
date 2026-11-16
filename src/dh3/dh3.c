@@ -3905,7 +3905,19 @@ s32 func_8005D1D4(s16 track) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005D2B0);
+typedef struct {
+    s16 v;
+    u8 pad2[10];
+} Unk800936CA;
+
+extern Unk800936CA D_800936CA[];
+extern s16 D_800B640C;
+
+void func_8005D2B0(void) {
+    func_80071C10();
+    func_8005D1D4(D_800936CA[D_800B640C].v + 8);
+    func_8005D308(0x3FF);
+}
 
 typedef struct {
     u8 val0;
