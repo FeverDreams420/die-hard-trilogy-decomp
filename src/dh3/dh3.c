@@ -653,7 +653,17 @@ void func_80024088(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024100);
+extern s16 D_800B56AA;
+s16 func_8004C998(void);
+void func_80024088(void);
+extern void func_800728A4(void);
+
+void func_80024100(void) {
+    if (func_8004C998() != 0 || D_800B56AA != 0) {
+        func_80024088();
+        func_800728A4();
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024150);
 
