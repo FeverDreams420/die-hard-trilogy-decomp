@@ -1691,7 +1691,22 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800310F8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80031200);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80031310);
+void func_80031310(Unk80030328_Face *f) {
+    Unk800307C0_Prim *prim = D_800B63AC;
+    u16 *tex;
+
+    D_800B61CC = RotTransPers3(f->v[0], f->v[1], f->v[2], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B5CFC, &D_800B642C);
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+    prim->uv2 = tex[4];
+    prim->clut = tex[(f->clut >> 8) + 12];
+    SetPolyFT3(prim);
+    SetShadeTex(prim, 1);
+    SetSemiTrans(prim, 1);
+    AddPrim(D_800B62CC + (D_800B61CC >> 3), prim++);
+    D_800B63AC = prim;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80031424);
 
