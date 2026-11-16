@@ -4943,7 +4943,52 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5A68);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80074D48);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80075308);
+typedef struct {
+    u8 u0, v0;
+    u16 clut;
+    u8 u1, v1;
+    u16 tpage;
+    u8 u2, v2;
+    u16 pad0;
+    u8 u3, v3;
+    u16 pad1;
+    u8 unk10[0x10];
+    u8 u4, v4;
+    u16 tpage2;
+    u8 u5, v5;
+    u16 tpage3;
+    u8 unk28[0x14];
+} Unk800B9EA4;
+
+extern Unk800B9EA4 D_800B9EA4[8];
+extern u16 D_800972D4[];
+
+void func_80075308(void) {
+    u16 *clut = D_800972D4;
+    s16 i;
+
+    for (i = 0; i < 8; i++) {
+        s16 u = (i & 7) << 5;
+        s16 v = ((i >> 3) & 7) << 5;
+
+        D_800B9EA4[i].u0 = u;
+        D_800B9EA4[i].v0 = v;
+        D_800B9EA4[i].u1 = u + 0x1F;
+        D_800B9EA4[i].v1 = v;
+        D_800B9EA4[i].u4 = u + 0x1F;
+        D_800B9EA4[i].v4 = v;
+        D_800B9EA4[i].u5 = u + 0x1F;
+        D_800B9EA4[i].v5 = v;
+        D_800B9EA4[i].u2 = u;
+        D_800B9EA4[i].v2 = v | 0x1F;
+        D_800B9EA4[i].u3 = u + 0x1F;
+        D_800B9EA4[i].v3 = v | 0x1F;
+        D_800B9EA4[i].tpage = GetTPage(0, 0, 0x280, 0);
+        D_800B9EA4[i].tpage2 = GetTPage(0, 2, 0x280, 0);
+        D_800B9EA4[i].tpage3 = GetTPage(0, 1, 0x280, 0);
+        D_800B9EA4[i].clut = GetClut(0x2C0, *clut++);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800754D4);
 
