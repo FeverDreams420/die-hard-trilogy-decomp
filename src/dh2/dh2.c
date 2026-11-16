@@ -2183,7 +2183,11 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034154);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800341A4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003456C);
+void func_8003456C(SVECTOR *a, SVECTOR *b, SVECTOR *out) {
+    out->vx = a->vx + b->vx;
+    out->vy = a->vy + b->vy;
+    out->vz = a->vz + b->vz;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800345AC);
 
