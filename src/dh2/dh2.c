@@ -3174,7 +3174,28 @@ struct Task {
 };
 extern struct Task *D_800B6DE0;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005673C);
+typedef struct {
+    SVECTOR pos[16];
+    SVECTOR vel[16];
+    u8 pad100[0x10];
+    SVECTOR dir;
+    u8 unk118[16];
+} Unk8005673C;
+
+void func_8005673C(s16 i) {
+    Unk8005673C *d = (Unk8005673C *)D_800B6DE0->vals;
+
+    d->pos[i].vx = func_800754C8(8) - 4;
+    d->pos[i].vy = func_800754C8(8) - 4;
+    d->pos[i].vz = func_800754C8(8) - 4;
+    d->vel[i].vx = -d->dir.vx >> 7;
+    d->vel[i].vy = -d->dir.vy >> 7;
+    d->vel[i].vz = -d->dir.vz >> 7;
+    d->vel[i].vz = func_800754C8(16) + (s16)(d->vel[i].vz - 8);
+    d->vel[i].vx = func_800754C8(16) + (s16)(d->vel[i].vx - 8);
+    d->vel[i].vy = func_800754C8(16) + (s16)(d->vel[i].vy - 8);
+    d->unk118[i] = 0xFF;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056844);
 
