@@ -4281,7 +4281,20 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B590C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80060F00);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800616B8);
+void func_800616B8(u8 *rgb, s16 x, s16 z) {
+    s32 dx = (x - D_801FAE04.vx) / 4;
+    s32 dz = (z - D_801FAE04.vz) / 4;
+    s32 dist = SquareRoot0(dx * dx + dz * dz);
+    s32 c;
+
+    if (dist > 250) {
+        dist = 250;
+    }
+    c = ((255 - dist) * 3800) >> 12;
+    rgb[0] = c;
+    rgb[1] = c;
+    rgb[2] = 255 - dist;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80061784);
 
