@@ -596,7 +596,20 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80022B38);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80022C50);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800231A8);
+extern Unk800B61A4 *D_800B61A4;
+
+void func_800231A8(void) {
+    Unk800B61A4 *p = D_800B61A4;
+    s16 max = 8;
+
+    p->unk0++;
+    if (p->unkC != 0) {
+        max = 9;
+    }
+    if (p->unk0 == max) {
+        p->unk0 = 5;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800231EC);
 
