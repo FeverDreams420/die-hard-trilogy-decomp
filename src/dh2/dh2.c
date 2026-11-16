@@ -2755,7 +2755,26 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046498);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046658);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800466B4);
+typedef struct {
+    s16 vx;
+    s16 vy;
+} DVECTOR;
+
+void func_800466B4(DVECTOR *p) {
+    s16 dx = 0xA0 - p->vx;
+    s16 dy = 0x78 - p->vy;
+
+    SquareRoot0(dx * dx + dy * dy);
+    if (p->vy < -0x100) {
+        p->vy = -0x100;
+    }
+    if (p->vx < -0x80) {
+        p->vx = -0x80;
+    }
+    if (p->vx > 0x280) {
+        p->vx = 0x280;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046764);
 
