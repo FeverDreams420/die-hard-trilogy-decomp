@@ -4005,7 +4005,16 @@ s16 func_80035584(Anim *anim) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003580C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003594C);
+s32 func_8003594C(s16 a, s16 b) {
+    s32 m;
+
+    if (a <= b) {
+        m = b - 0x100;
+    } else {
+        m = a - 0x100;
+    }
+    return m >> 6;
+}
 
 typedef struct {
     u32 tag;
