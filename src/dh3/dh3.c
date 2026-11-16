@@ -1255,7 +1255,18 @@ MATRIX *func_8002CCB4(SVECTOR *r, MATRIX *m) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002CED0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002CF80);
+extern s32 D_800B8528;
+void func_8002CED0(void);
+
+void func_8002CF80(void) {
+    s16 *d = (s16 *)D_800B604C->vals;
+    s16 i = 0x7F;
+
+    do {
+        d[i] = func_80074910(D_800B8528);
+    } while (i--);
+    D_800B604C->func = func_8002CED0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002CFF8);
 
