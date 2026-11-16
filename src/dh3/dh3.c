@@ -899,7 +899,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800290E4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029168);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800291C4);
+extern SVECTOR D_800B5A74;
+extern SVECTOR D_800B66BC;
+
+void func_800291C4(SVECTOR *from, SVECTOR *to, SVECTOR *out) {
+    out->vy = -func_800284CC(from, to);
+    D_800B66BC.vz = func_800767E0(from, to);
+    D_800B66BC.vx = to->vy - from->vy;
+    out->vx = func_800284CC(&D_800B5A74, &D_800B66BC) - 0x800;
+    out->vz = 0;
+}
 
 extern VECTOR D_80091BA8;
 extern VECTOR D_801F83D4;
