@@ -3731,7 +3731,26 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800540A8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800540F4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80054100);
+typedef struct {
+    u8 pad0[0x20A];
+    s16 unk20A;
+    s16 unk20C;
+    u8 pad20E[0x71];
+    u8 unk27F;
+} Unk80054100;
+
+u8 func_80024864(void);
+void func_80053544(Unk80054100 *obj);
+void func_80051048(void);
+
+void func_80054100(Unk80054100 *obj) {
+    obj->unk27F = func_80024864();
+    func_80053544(obj);
+    if (obj->unk20C-- < 0) {
+        obj->unk20A++;
+        func_80051048();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005415C);
 
