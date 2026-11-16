@@ -467,7 +467,9 @@ s32 func_8001E664(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E66C);
+s32 func_8001E66C(void) {
+    return 0xF0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E674);
 
