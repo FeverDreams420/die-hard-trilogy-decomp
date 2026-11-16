@@ -3035,7 +3035,12 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D474);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D510);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D5D8);
+s16 func_8005D5D8(SVECTOR *v) {
+    if (v == (SVECTOR *)-1) {
+        return -1;
+    }
+    return func_80025998(v);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D608);
 
