@@ -396,9 +396,22 @@ void *func_8007F59C(void *func) {
     return old;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", func_8007F5B4);
+extern void *D_8009EC8C;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", PadInit);
+void *func_8007F5B4(void) {
+    return D_8009EC8C;
+}
+
+extern int D_801DA428;
+extern u32 D_800B6AF4;
+
+void PadInit(int mode) {
+    D_801DA428 = mode;
+    D_800B6AF4 = -1;
+    ResetCallback();
+    PAD_init(0x20000001, &D_800B6AF4);
+    ChangeClearPAD(0);
+}
 
 extern u32 D_800B6AF4;
 
@@ -419,8 +432,8 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", ChangeClearPAD);
 
 extern int (**D_8009FD18)();
 
-int ResetCallback(int a, int b) {
-    return D_8009FD18[3](a, b);
+int ResetCallback(void) {
+    return D_8009FD18[3]();
 }
 
 extern int (**D_8009FD18)();
@@ -598,11 +611,21 @@ void SetTexWindow(u32 *p, void *tw) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetDrawArea);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetDrawOffset);
+void SetDrawOffset(u32 *p, s16 *ofs) {
+    setlen(p, 2);
+    p[1] = get_ofs(ofs[0], ofs[1]);
+    p[2] = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetPriority);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetDrawMode);
+u32 get_mode(int dfe, int dtd, u16 tpage);
+
+void SetDrawMode(u32 *p, int dfe, int dtd, int tpage, void *tw) {
+    setlen(p, 2);
+    p[1] = get_mode(dfe, dtd, tpage);
+    p[2] = get_tw(tw);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetDrawEnv);
 
@@ -648,7 +671,14 @@ int _getctl(int n) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _cwb);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _cwc);
+extern volatile u32 *D_8009FEA8, *D_8009FEAC, *D_8009FEB0, *D_8009FEB4;
+
+void _cwc(u32 addr) {
+    *D_8009FEA8 = 0x04000002;
+    *D_8009FEAC = addr;
+    *D_8009FEB0 = 0;
+    *D_8009FEB4 = 0x01000401;
+}
 
 extern volatile u32 *D_8009FEA8;
 extern volatile u32 *D_8009FEA4;
@@ -816,13 +846,29 @@ void SetLineG2(void *p) {
     setcode(p, 0x50);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetLineF3);
+void SetLineF3(void *p) {
+    setlen(p, 5);
+    setcode(p, 0x48);
+    ((u32 *)p)[5] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetLineG3);
+void SetLineG3(void *p) {
+    setlen(p, 7);
+    setcode(p, 0x58);
+    ((u32 *)p)[7] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetLineF4);
+void SetLineF4(void *p) {
+    setlen(p, 6);
+    setcode(p, 0x4C);
+    ((u32 *)p)[6] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetLineG4);
+void SetLineG4(void *p) {
+    setlen(p, 9);
+    setcode(p, 0x5C);
+    ((u32 *)p)[9] = 0x55555555;
+}
 
 void SetBlockFill(void *p) {
     setlen(p, 3);

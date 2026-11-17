@@ -71,7 +71,16 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SysDeqIntRP);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", ChangeClearRCnt);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", PadInit);
+extern int D_801D20B0;
+extern u32 D_800A391C;
+
+void PadInit(int mode) {
+    D_801D20B0 = mode;
+    D_800A391C = -1;
+    ResetCallback();
+    PAD_init(0x20000001, &D_800A391C);
+    ChangeClearPAD(0);
+}
 
 extern u32 D_800A391C;
 
@@ -98,8 +107,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", puts);
 
 extern int (**D_8008C43C)();
 
-int ResetCallback(int a, int b) {
-    return D_8008C43C[3](a, b);
+int ResetCallback(void) {
+    return D_8008C43C[3]();
 }
 
 extern int (**D_8008C43C)();
@@ -367,13 +376,29 @@ void SetLineG2(void *p) {
     setcode(p, 0x50);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineF3);
+void SetLineF3(void *p) {
+    setlen(p, 5);
+    setcode(p, 0x48);
+    ((u32 *)p)[5] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineG3);
+void SetLineG3(void *p) {
+    setlen(p, 7);
+    setcode(p, 0x58);
+    ((u32 *)p)[7] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineF4);
+void SetLineF4(void *p) {
+    setlen(p, 6);
+    setcode(p, 0x4C);
+    ((u32 *)p)[6] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineG4);
+void SetLineG4(void *p) {
+    setlen(p, 9);
+    setcode(p, 0x5C);
+    ((u32 *)p)[9] = 0x55555555;
+}
 
 void SetBlockFill(void *p) {
     setlen(p, 3);
@@ -464,11 +489,21 @@ void SetTexWindow(u32 *p, void *tw) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetDrawArea);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetDrawOffset);
+void SetDrawOffset(u32 *p, s16 *ofs) {
+    setlen(p, 2);
+    p[1] = get_ofs(ofs[0], ofs[1]);
+    p[2] = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPriority);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetDrawMode);
+u32 get_mode(int dfe, int dtd, u16 tpage);
+
+void SetDrawMode(u32 *p, int dfe, int dtd, int tpage, void *tw) {
+    setlen(p, 2);
+    p[1] = get_mode(dfe, dtd, tpage);
+    p[2] = get_tw(tw);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetDrawEnv);
 
@@ -514,7 +549,14 @@ int _getctl(int n) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _cwb);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _cwc);
+extern volatile u32 *D_8008C5C0, *D_8008C5C4, *D_8008C5C8, *D_8008C5CC;
+
+void _cwc(u32 addr) {
+    *D_8008C5C0 = 0x04000002;
+    *D_8008C5C4 = addr;
+    *D_8008C5C8 = 0;
+    *D_8008C5CC = 0x01000401;
+}
 
 extern volatile u32 *D_8008C5C0;
 extern volatile u32 *D_8008C5BC;

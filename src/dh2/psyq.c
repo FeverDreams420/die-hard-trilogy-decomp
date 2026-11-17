@@ -44,11 +44,30 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_write);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_read);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_FsetRXX);
+extern volatile u16 *D_800A2198;
+extern int D_800A21BC;
+
+void _spu_FsetRXX(int index, u32 value, int mode) {
+    if (mode == 0) {
+        D_800A2198[index] = value;
+    } else {
+        D_800A2198[index] = value >> D_800A21BC;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_FsetRXXa);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_FgetRXXa);
+extern volatile u16 *D_800A2198;
+extern int D_800A21BC;
+
+int _spu_FgetRXXa(int index, int mode) {
+    u16 v = D_800A2198[index];
+
+    if (mode == -1) {
+        return v;
+    }
+    return v << D_800A21BC;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuClearReverbWorkArea);
 
@@ -70,9 +89,46 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", func_8007BC3C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuIsTransferCompleted);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuInitMalloc);
+extern u32 *D_800A265C;
+extern int D_800A2658, D_800A2654;
+extern int D_800A21BC;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuSetTransferMode);
+typedef struct {
+    u32 addr;
+    u32 size;
+} SpuMallocRec;
+
+int SpuInitMalloc(int num, SpuMallocRec *top) {
+    if (num > 0) {
+        top->addr = 0x40001010;
+        D_800A265C = (u32 *)top;
+        D_800A2658 = 0;
+        D_800A2654 = num;
+        top->size = (0x10000 << D_800A21BC) - 0x1010;
+        return num;
+    }
+    return 0;
+}
+
+extern int D_800A21F4, D_800A21B0;
+
+void SpuSetTransferMode(int mode) {
+    int m;
+
+    switch (mode) {
+    case 0:
+        m = 0;
+        break;
+    case 1:
+        m = 1;
+        break;
+    default:
+        m = 0;
+        break;
+    }
+    D_800A21F4 = mode;
+    D_800A21B0 = m;
+}
 
 extern u16 D_800A2194;
 
@@ -87,7 +143,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuSetKey);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuMalloc);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuReserveReverbWorkArea);
+extern int D_800A2200, D_800A21FC;
+
+int SpuReserveReverbWorkArea(int on) {
+    if (on && !_SpuIsInAllocateArea_(D_800A2200)) {
+        D_800A21FC = 1;
+        return 1;
+    }
+    D_800A21FC = 0;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_gcSPU);
 
@@ -147,9 +212,25 @@ int CdSetDebug(int level) {
     return old;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdComstr);
+extern char *D_800A2A2C[];
+extern char D_80088C70[];
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdIntstr);
+char *CdComstr(u8 com) {
+    if (com >= 0x1C) {
+        return D_80088C70;
+    }
+    return D_800A2A2C[com];
+}
+
+extern char *D_800A2AAC[];
+extern char D_80088C70[];
+
+char *CdIntstr(u8 intr) {
+    if (intr >= 7) {
+        return D_80088C70;
+    }
+    return D_800A2AAC[intr];
+}
 
 int CdSync(int a, int b) {
     return CD_sync(a, b);
@@ -264,11 +345,27 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdGetToc2);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StCdInterrupt);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", mem2mem);
+void mem2mem(u32 *dst, u32 *src, u32 n) {
+    u32 i;
+
+    for (i = 0; i < n; i++) {
+        *dst++ = *src++;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", dma_execute);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", init_ring_status);
+extern u32 *D_801F9640;
+
+int init_ring_status(int start, u32 n) {
+    u32 i;
+    u32 *p;
+
+    for (i = 0; i < n; i++) {
+        p = &D_801F9640[(i + start) * 8];
+        *p = 0;
+    }
+}
 
 extern s32 D_80169FBC;
 extern s32 D_801F95AC;
@@ -329,7 +426,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", format);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetRCnt);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", GetRCnt);
+extern volatile u16 *D_800A2DE8;
+
+int GetRCnt(int spec) {
+    int i = spec & 0xFFFF;
+
+    if (i >= 3) {
+        return 0;
+    }
+    return D_800A2DE8[i * 8];
+}
 
 extern volatile u32 *D_800A2DE4;
 extern u32 D_800A2DEC[];
@@ -349,7 +455,17 @@ int StopRCnt(int spec) {
     return 1;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ResetRCnt);
+extern volatile u16 *D_800A2DE8;
+
+int ResetRCnt(int spec) {
+    int i = spec & 0xFFFF;
+
+    if (i >= 3) {
+        return 0;
+    }
+    D_800A2DE8[i * 8] = 0;
+    return 1;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DisableEvent);
 
@@ -394,9 +510,22 @@ void *func_80080024(void *func) {
     return old;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", func_8008003C);
+extern void *D_800A2DFC;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", PadInit);
+void *func_8008003C(void) {
+    return D_800A2DFC;
+}
+
+extern int D_801D9B14;
+extern u32 D_800B78C8;
+
+void PadInit(int mode) {
+    D_801D9B14 = mode;
+    D_800B78C8 = -1;
+    ResetCallback();
+    PAD_init(0x20000001, &D_800B78C8);
+    ChangeClearPAD(0);
+}
 
 extern u32 D_800B78C8;
 
@@ -417,8 +546,8 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ChangeClearPAD);
 
 extern int (**D_800A3E88)();
 
-int ResetCallback(int a, int b) {
-    return D_800A3E88[3](a, b);
+int ResetCallback(void) {
+    return D_800A3E88[3]();
 }
 
 extern int (**D_800A3E88)();
@@ -488,7 +617,11 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", stopIntr);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", restartIntr);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", memclr_80080800);
+void memclr_80080800(u32 *p, int n) {
+    while (n--) {
+        *p++ = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", HookEntryInt);
 
@@ -498,21 +631,57 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _96_remove);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ReturnFromException);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", startIntrDMA);
+extern u32 D_800A3EA0[];
+extern volatile u32 *D_800A3E9C;
+void trapIntrDMA();
+void setIntrDMA();
+
+void *startIntrDMA(void) {
+    memclr_80080AE8(D_800A3EA0, 8);
+    *D_800A3E9C = 0;
+    InterruptCallback(3, trapIntrDMA);
+    return setIntrDMA;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", trapIntrDMA);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", setIntrDMA);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", memclr_80080AE8);
+void memclr_80080AE8(u32 *p, int n) {
+    while (n--) {
+        *p++ = 0;
+    }
+}
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", startIntrVSync);
+extern void *D_800A3EC4[];
+extern volatile u32 *D_800A3EE8;
+extern int D_800A3EE4;
+void trapIntrVSync();
+void setIntrVSync(int index, void *func);
+
+void *startIntrVSync(void) {
+    *D_800A3EE8 = 0x107;
+    D_800A3EE4 = 0;
+    memclr_80080C10(D_800A3EC4, 8);
+    InterruptCallback(0, trapIntrVSync);
+    return setIntrVSync;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", trapIntrVSync);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", setIntrVSync);
+extern void *D_800A3EC4[];
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", memclr_80080C10);
+void setIntrVSync(int index, void *func) {
+    if (func != D_800A3EC4[index]) {
+        D_800A3EC4[index] = func;
+    }
+}
+
+void memclr_80080C10(u32 *p, int n) {
+    while (n--) {
+        *p++ = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", VSync);
 
@@ -538,7 +707,21 @@ int GetGraphDebug(void) {
     return D_800A3F46;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DrawSyncCallback);
+extern u8 D_800A3F46;
+extern int (*D_800A3F40)(char *fmt, ...);
+extern char D_800890A0[];
+extern void *D_800A3F50;
+
+void *DrawSyncCallback(void *func) {
+    void *old;
+
+    if (D_800A3F46 >= 2) {
+        D_800A3F40(D_800890A0, func);
+    }
+    old = D_800A3F50;
+    D_800A3F50 = func;
+    return old;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDispMask);
 
@@ -596,7 +779,11 @@ void SetTexWindow(u32 *p, void *tw) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawArea);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawOffset);
+void SetDrawOffset(u32 *p, s16 *ofs) {
+    setlen(p, 2);
+    p[1] = get_ofs(ofs[0], ofs[1]);
+    p[2] = 0;
+}
 
 void SetPriority(u32 *p, int pbc, int pbw) {
     setlen(p, 2);
@@ -604,7 +791,13 @@ void SetPriority(u32 *p, int pbc, int pbw) {
     p[2] = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawMode);
+u32 get_mode(int dfe, int dtd, u16 tpage);
+
+void SetDrawMode(u32 *p, int dfe, int dtd, int tpage, void *tw) {
+    setlen(p, 2);
+    p[1] = get_mode(dfe, dtd, tpage);
+    p[2] = get_tw(tw);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawEnv);
 
@@ -648,9 +841,24 @@ int _getctl(int n) {
     return D_800B790C[n];
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _cwb);
+extern volatile u32 *D_800A4018, *D_800A4014;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _cwc);
+int _cwb(u32 *p, int n) {
+    *D_800A4018 = 0x04000000;
+    while (n--) {
+        *D_800A4014 = *p++;
+    }
+    return 0;
+}
+
+extern volatile u32 *D_800A4018, *D_800A401C, *D_800A4020, *D_800A4024;
+
+void _cwc(u32 addr) {
+    *D_800A4018 = 0x04000002;
+    *D_800A401C = addr;
+    *D_800A4020 = 0;
+    *D_800A4024 = 0x01000401;
+}
 
 extern volatile u32 *D_800A4018;
 extern volatile u32 *D_800A4014;
@@ -684,7 +892,11 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", get_alarm);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _version);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", memset_80083B40);
+void memset_80083B40(u8 *p, int c, int n) {
+    while (n--) {
+        *p++ = c;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", GPU_cw);
 
@@ -729,9 +941,21 @@ void TermPrim(void *p) {
     setaddr(p, 0xFFFFFF);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetSemiTrans);
+void SetSemiTrans(void *p, int abe) {
+    if (abe) {
+        ((P_TAG *)p)->code |= 2;
+    } else {
+        ((P_TAG *)p)->code &= ~2;
+    }
+}
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetShadeTex);
+void SetShadeTex(void *p, int tge) {
+    if (tge) {
+        ((P_TAG *)p)->code |= 1;
+    } else {
+        ((P_TAG *)p)->code &= ~1;
+    }
+}
 
 void SetPolyF3(void *p) {
     setlen(p, 4);
@@ -818,13 +1042,29 @@ void SetLineG2(void *p) {
     setcode(p, 0x50);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetLineF3);
+void SetLineF3(void *p) {
+    setlen(p, 5);
+    setcode(p, 0x48);
+    ((u32 *)p)[5] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetLineG3);
+void SetLineG3(void *p) {
+    setlen(p, 7);
+    setcode(p, 0x58);
+    ((u32 *)p)[7] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetLineF4);
+void SetLineF4(void *p) {
+    setlen(p, 6);
+    setcode(p, 0x4C);
+    ((u32 *)p)[6] = 0x55555555;
+}
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetLineG4);
+void SetLineG4(void *p) {
+    setlen(p, 9);
+    setcode(p, 0x5C);
+    ((u32 *)p)[9] = 0x55555555;
+}
 
 void SetBlockFill(void *p) {
     setlen(p, 3);
@@ -841,13 +1081,31 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawTPage);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawLoad);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MargePrim);
+int MargePrim(void *p0, void *p1) {
+    int len = ((P_TAG *)p0)->len + ((P_TAG *)p1)->len + 1;
+
+    if (len > 0x20) {
+        return -1;
+    }
+    setlen(p0, len);
+    *(u32 *)p1 = 0;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DumpDrawEnv);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DumpDispEnv);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDumpFnt);
+extern int D_800A41E4, D_800A41E8;
+extern int (*D_800A3F40)(char *fmt, ...);
+int FntPrint(char *fmt, ...);
+
+void SetDumpFnt(int id) {
+    if (id >= 0 && id <= D_800A41E4) {
+        D_800A41E8 = id;
+        D_800A3F40 = FntPrint;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", FntLoad);
 
@@ -1045,7 +1303,12 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SquareSL0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", func_80086B40);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DecDCTReset);
+void DecDCTReset(int mode) {
+    if (mode == 0) {
+        ResetCallback();
+    }
+    MDEC_reset(mode);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DecDCTGetEnv);
 
