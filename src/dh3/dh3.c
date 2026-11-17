@@ -3739,7 +3739,28 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_80091898);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80040534);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004090C);
+void func_8004090C(Unk80040450 *p) {
+    p->unk19E += p->unk1A4;
+    if (p->unk19E > 0) {
+        p->unk1A4 -= 10;
+    } else {
+        p->unk1A4 += 10;
+    }
+    p->unk19E = func_8002881C(p->unk19E, 0, 16);
+    p->unk1A6 += p->unk1A8;
+    if (p->unk1A6 > 0) {
+        p->unk1A8 -= 8;
+    } else {
+        p->unk1A8 += 8;
+    }
+    p->unk1A6 = func_8002881C(p->unk1A6, 0, 10);
+    if (p->unk1A6 > 300) {
+        p->unk1A6 = 300;
+    }
+    if (p->unk1A6 < -300) {
+        p->unk1A6 = -300;
+    }
+}
 
 extern s16 D_800B5F4C;
 extern volatile s16 D_800B61AC;
