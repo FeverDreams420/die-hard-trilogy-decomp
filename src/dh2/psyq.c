@@ -537,7 +537,26 @@ void def_cbread(void) {
     DeliverEvent(0xF0000003, 0x40);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdRead2);
+extern int D_800BD970;
+void data_ready_callback(void);
+void StCdInterrupt2(void);
+
+int CdRead2(int mode) {
+    u8 param[4];
+
+    param[0] = mode;
+    CdControl(0xE, param, 0);
+    if (mode & 0x100) {
+        if (mode & 0x20) {
+            D_800BD970 = 0;
+        } else {
+            D_800BD970 = 1;
+        }
+        CdDataCallback(data_ready_callback);
+        CdReadyCallback(StCdInterrupt2);
+    }
+    return CdControl(0x1B, 0, 0);
+}
 
 void StCdInterrupt2(void) {
     StCdInterrupt();
@@ -685,7 +704,35 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", delete);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", format);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetRCnt);
+extern volatile u16 *D_800A2DE8;
+
+int SetRCnt(int spec, u16 target, int mode) {
+    int i = spec & 0xFFFF;
+    u16 m = 0x48;
+
+    if (i >= 3) {
+        return 0;
+    }
+    D_800A2DE8[i * 8 + 2] = 0;
+    D_800A2DE8[i * 8 + 4] = target;
+    if (i == 0 || i == 1) {
+        if (mode & 0x10) {
+            m = 0x49;
+        }
+        if (!(mode & 1)) {
+            m |= 0x100;
+        }
+    } else if (i == 2) {
+        if (!(mode & 1)) {
+            m = 0x248;
+        }
+    }
+    if (mode & 0x1000) {
+        m |= 0x10;
+    }
+    D_800A2DE8[i * 8 + 2] = m;
+    return 1;
+}
 
 extern volatile u16 *D_800A2DE8;
 
@@ -916,7 +963,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ReturnFromException);
 extern u32 D_800A3EA0[];
 extern volatile u32 *D_800A3E9C;
 void trapIntrDMA();
-void setIntrDMA();
+void *setIntrDMA();
 
 void *startIntrDMA(void) {
     memclr_80080AE8(D_800A3EA0, 8);
@@ -927,7 +974,23 @@ void *startIntrDMA(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", trapIntrDMA);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", setIntrDMA);
+extern u32 D_800A3EA0[];
+extern volatile u32 *D_800A3E9C;
+
+void *setIntrDMA(int ch, void (*func)()) {
+    void *old = (void *)D_800A3EA0[ch];
+
+    if (func != old) {
+        if (func != 0) {
+            D_800A3EA0[ch] = (u32)func;
+            *D_800A3E9C = (*D_800A3E9C & 0xFFFFFF) | 0x800000 | (1 << (ch + 16));
+        } else {
+            D_800A3EA0[ch] = 0;
+            *D_800A3E9C = ((*D_800A3E9C & 0xFFFFFF) | 0x800000) & ~(1 << (ch + 16));
+        }
+    }
+    return old;
+}
 
 void memclr_80080AE8(u32 *p, int n) {
     while (n--) {
@@ -979,7 +1042,21 @@ void memclr_80080C10(u32 *p, int n) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", VSync);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", v_wait);
+extern volatile int D_800A3EE4;
+extern char D_80088FD0[];
+
+void v_wait(int n, int cnt) {
+    volatile int c = cnt << 15;
+
+    while (D_800A3EE4 < n) {
+        if (--c == -1) {
+            puts(D_80088FD0);
+            ChangeClearPAD(0);
+            ChangeClearRCnt(3, 0);
+            return;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ResetGraph);
 
@@ -1489,7 +1566,18 @@ void SetDumpFnt(int id) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", FntLoad);
+extern u32 D_800A41EC[];
+extern u16 D_800BBE10, D_800BBE0C;
+extern int D_800A41E4;
+extern u8 D_800A4064[];
+u16 LoadClut2(u32 *clut, int x, int y);
+
+void FntLoad(int tx, int ty) {
+    D_800BBE10 = LoadClut2(D_800A41EC, tx, ty + 0x80);
+    D_800BBE0C = LoadTPage(D_800A41EC + 0x80, 0, 0, tx, ty, 0x80, 0x20);
+    D_800A41E4 = 0;
+    memset_80087628(D_800A4064, 0, 0x180);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", FntOpen);
 
@@ -1731,7 +1819,29 @@ u32 *DecDCTGetEnv(u32 *env) {
     return env;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DecDCTPutEnv);
+extern u32 D_800A5094[], D_800A5098[], D_800A50D8[], D_800A5118[];
+void MDEC_in(u32 *buf, u32 size);
+
+u32 *DecDCTPutEnv(u32 *env) {
+    int i;
+    u32 *src, *dst;
+
+    src = env;
+    dst = D_800A5098;
+    i = 16;
+    while (i--) {
+        *dst++ = *src++;
+    }
+    dst = D_800A50D8;
+    src = env + 16;
+    i = 16;
+    while (i--) {
+        *dst++ = *src++;
+    }
+    MDEC_in(D_800A5094, 0x20);
+    MDEC_in(D_800A5118, 0x20);
+    return env;
+}
 
 int DecDCTBufSize(u32 *bs) {
     return *(u16 *)bs;
@@ -1795,9 +1905,35 @@ void MDEC_out(u32 *buf, u32 size) {
     *D_800A51B0 = 0x01000200;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MDEC_in_sync);
+extern volatile u32 *D_800A51D0;
+extern char D_8008939C[];
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MDEC_out_sync);
+int MDEC_in_sync(void) {
+    volatile int cnt = 0x100000;
+
+    while (*D_800A51D0 & 0x20000000) {
+        if (--cnt == -1) {
+            timeout(D_8008939C);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+extern volatile u32 *D_800A51B0;
+extern char D_800893AC[];
+
+int MDEC_out_sync(void) {
+    volatile int cnt = 0x100000;
+
+    while (*D_800A51B0 & 0x01000000) {
+        if (--cnt == -1) {
+            timeout(D_800893AC);
+            return -1;
+        }
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", timeout);
 
