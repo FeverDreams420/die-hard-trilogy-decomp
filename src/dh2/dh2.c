@@ -4650,7 +4650,19 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046394);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046498);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046658);
+extern s32 D_800B7258[];
+extern s16 D_800B6B70;
+extern volatile s32 D_800B725C;
+
+s16 func_80046658(void) {
+    if (*(volatile s32 *)D_800B7258 != 0) {
+        return -1;
+    }
+    if (D_800B6B70 == 2 || D_800B6B70 == 4) {
+        return D_800B725C;
+    }
+    return 0;
+}
 
 typedef struct {
     s16 vx;
