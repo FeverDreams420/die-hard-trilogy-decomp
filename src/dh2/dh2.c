@@ -4243,7 +4243,11 @@ void func_8003D858(void) {
     D_800B6C10 = 0x19;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D890);
+void func_8003D890(s16 n) {
+    while (n--) {
+        VSync(0);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D8D4);
 
