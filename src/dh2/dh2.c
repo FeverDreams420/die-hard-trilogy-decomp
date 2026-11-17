@@ -4815,7 +4815,18 @@ void func_8004F7DC(SVECTOR *base, SVECTOR *rot) {
     func_80020030(D_801F9ABC, &out, rot);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F844);
+extern SVECTOR D_800B6604;
+extern void *D_801F9A94;
+extern void func_8001F90C(void *a, SVECTOR *b, SVECTOR *c, s32 d);
+
+void func_8004F844(SVECTOR *base, SVECTOR *rot) {
+    SVECTOR out;
+    SVECTOR v = D_800B6604;
+    SVECTOR unused;
+
+    func_800247D0(rot, &v, base, &out);
+    func_8001F90C(D_801F9A94, &out, rot, 0);
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6558);
 
