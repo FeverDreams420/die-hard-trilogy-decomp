@@ -4067,7 +4067,52 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045410);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045B60);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045CB4);
+extern s16 D_800B622C;
+typedef struct {
+    u8 pad[0xF0];
+    s16 unkF0;
+} Unk80077300;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk80077300 *unk1C;
+} *D_801F8100;
+
+typedef struct {
+    u8 *obj;
+    s16 timer;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+} Unk80045B60;
+
+extern VECTOR D_801984F0;
+void func_80045B60(void);
+
+void func_80045CB4(s16 x, s16 z, u8 *obj) {
+    VECTOR v;
+    struct Task *t;
+    Unk80045B60 *p;
+
+    if (D_800B622C != 0 && D_801F8100 == NULL) {
+        v.vx = (x << 9) + 0x100;
+        v.vz = (z << 9) + 0x100;
+        if (func_80028A48(&v, &D_800B659C->pos) < 0x17D1) {
+            if (func_80028A48(&D_800B659C->pos, &(&D_801984F0)[D_800B650C]) >= 0x2000) {
+                t = func_80072374(func_80045B60, 0xC);
+                if (t != NULL) {
+                    p = (Unk80045B60 *)t->vals;
+                    p->obj = obj;
+                    p->timer = func_80074910(0x3C) + 0x78;
+                    p->unk6 = 0;
+                    p->unk8 = 0;
+                    p->unkA = -1;
+                    obj[4] = 0;
+                }
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045DAC);
 
@@ -10095,16 +10140,6 @@ s16 func_80077270(void (*outFunc)(), void (*endFunc)(), Unk8005231C *movie) {
     StSetStream(movie->info->mode, movie->info->start, movie->info->end, 0, endFunc);
     return func_80077164(movie);
 }
-
-typedef struct {
-    u8 pad[0xF0];
-    s16 unkF0;
-} Unk80077300;
-
-extern struct {
-    u8 pad[0x1C];
-    Unk80077300 *unk1C;
-} *D_801F8100;
 
 void func_80077300(Unk8005231C *movie) {
     Unk8005231C_Info *info = movie->info;
