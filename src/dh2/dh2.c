@@ -377,7 +377,28 @@ void func_8001EB30(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EB8C);
+extern void SetFogNear(s32 a, s32 h);
+extern void SetRotMatrix(MATRIX *m);
+extern void SetTransMatrix(MATRIX *m);
+extern MATRIX D_80169F78;
+extern SVECTOR D_800B6E90;
+extern SVECTOR D_800B6E00;
+extern SVECTOR D_800B6F28;
+extern SVECTOR D_800B6F50;
+extern s16 D_800B70D0;
+
+void func_8001EB8C(void) {
+    SetFogNear(0x7D00, 0x100);
+    SetRotMatrix(&D_80169F78);
+    SetTransMatrix(&D_80169F78);
+    D_800B70D0 = 0;
+    D_800B6F28.vx = D_800B6E90.vx;
+    D_800B6F28.vy = D_800B6E90.vy;
+    D_800B6F28.vz = D_800B6E90.vz;
+    D_800B6F50.vx = D_800B6E00.vx;
+    D_800B6F50.vy = D_800B6E00.vy;
+    D_800B6F50.vz = D_800B6E00.vz;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EC38);
 
