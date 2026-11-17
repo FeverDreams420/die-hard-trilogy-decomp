@@ -341,3 +341,8 @@ The library code linked into DH1, DH2 and DH3 was built with a different compile
 - A `u16` status read through a `volatile` pointer keeps a redundant `andi 0xFFFF` after the `lhu` (`StGetNext`).
 - `while (i--)` with `i = 16` gives the `li 15 ... addiu -1; bne -1` count-down loop; `for (i = 0; i < 16; i++)` stays a count-up `slt` loop (`DecDCTPutEnv`).
 - `i == 0 || i == 1` folds to an unsigned `sltiu 2` (`SetRCnt`).
+- A function pointer as a struct's first member makes GCC keep the struct's address in a saved register across several calls. The libgpu print function at 0x800A3F40 (DH2) is therefore its own global, and the libgpu state struct starts at 0x800A3F44 (`DumpDispEnv`, DH2 0x8008437C). DH1 and DH3 are laid out the same way.
+- `(~st >> 31) & 1` gives `nor`/`srl 31`; `!(st & 0x80000000)` gives `srl 31`/`xori 1` (MDEC `timeout`, DH2 0x80087150).
+- A command packet filled field by field and then passed by address: write the fields in packet order, so GCC keeps `&packet[2]` in a register and passes it minus 8 (`MoveImage`, DH2 0x800815AC).
+- Unresolved: in `CdRead` (DH2 0x8007C910) and the SPU quit routine (0x8007BC3C) the next call's argument is set before the previous result is stored, with the `jal` delay slot left empty. GCC 2.5.7 to 2.8.1, ASPSX 2.08 to 2.79, `-O3` and `-fschedule-insns(2)` all fill the slot instead, so these objects may have been built with other settings.
+- Unresolved: `get_cs`/`get_ce`/`get_dx`/`get_mode`/`get_ofs` load libgpu fields through an unfolded `lui`/`addiu` address, then `lhu` plus `sll`/`sra`. Only a `volatile` struct reproduces that, and it breaks `GetGraphType`.
