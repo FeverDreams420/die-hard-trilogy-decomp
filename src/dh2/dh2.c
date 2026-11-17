@@ -6353,7 +6353,27 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065B0C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065C10);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065CB0);
+typedef struct {
+    u8 pad0[0xC];
+    u32 state;
+    u8 pad10[0x18];
+    s32 unk28;
+} Unk801D9DAC;
+
+extern Unk801D9DAC D_801D9DAC[];
+extern SpuVoiceAttr D_801F6CB0;
+extern s16 D_800B7020;
+void func_800663D0(s16 voice);
+
+void func_80065CB0(s16 voice) {
+    s16 status = SpuGetKeyStatus(1 << voice);
+    Unk801D9DAC *p = &D_801D9DAC[voice];
+
+    if (D_801D9DAC[voice].state >= 6 && (status == 0 || status == 3) && p->state >= 11) {
+        D_800B7020 = 0;
+        func_800663D0(voice);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065D58);
 
