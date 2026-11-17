@@ -6841,7 +6841,19 @@ void func_80070CFC(void) {
     D_80169FDC = D_800B7430 * 100 / 8;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070D90);
+extern u8 D_80169FD0[];
+
+void func_80070D90(void) {
+    u8 *src = D_80169FD0;
+    u8 *dst = (u8 *)D_800B7370 + D_800B7370->unk1780 * 0x2F0;
+    s16 i;
+
+    i = 0x2EF;
+    do {
+        dst[i] = src[i];
+    } while (i--);
+    D_800B6F00 = (Unk800B6F00 *)((u8 *)D_800B7370 + D_800B7370->unk1780 * 0x2F0 + 0x2B0);
+}
 
 u8 func_80070E2C(u8 *data, s32 len) {
     s32 sum = 5;
