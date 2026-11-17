@@ -4403,7 +4403,28 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800405E4);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040718);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040844);
+extern s16 D_800B63C6;
+extern s16 D_800B7118;
+extern s16 D_800B6CF0;
+extern s32 D_800B6CC8;
+void func_800408FC(s32 mode, s32 i);
+
+void func_80040844(void) {
+    s16 i;
+
+    if (D_800B63C6 == 2 || D_800B7118 == 2) {
+        func_800408FC(0, D_800B6CF0);
+        return;
+    }
+    i = 0x3F;
+    do {
+        if (i == D_800B6CF0 && (D_800B6CC8 & 8)) {
+            func_800408FC(0, i);
+        } else {
+            func_800408FC((i & 3) + 1, i);
+        }
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800408FC);
 
