@@ -306,7 +306,29 @@ void func_8001F444(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F490);
+typedef struct {
+    VECTOR pos;
+    u8 pad10[0x10];
+} Unk801F83F8;
+
+extern Unk801F83F8 D_801F83F8[];
+extern MATRIX D_801981D4;
+extern SVECTOR D_800B6574;
+extern SVECTOR D_800B5EAC;
+extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
+
+void func_8001F490(void) {
+    s32 i, j;
+
+    for (i = 5; i != -1; i--) {
+        for (j = 5; j != -1; j--) {
+            D_800B6574.vx = (j << 12) - D_800B5EAC.vx;
+            D_800B6574.vy = -D_800B5EAC.vy;
+            D_800B6574.vz = (i << 12) - D_800B5EAC.vz;
+            ApplyMatrix(&D_801981D4, &D_800B6574, &D_801F83F8[j + i * 6].pos);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F55C);
 
