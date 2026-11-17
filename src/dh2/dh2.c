@@ -1601,7 +1601,22 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023E40);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024124);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024274);
+typedef struct {
+    u8 disp[0x14];
+    u8 draw[0x5C];
+} Unk801D9A20;
+
+extern volatile u16 D_800B7400;
+extern Unk801D9A20 D_801D9A20[];
+extern volatile s16 D_800B6F80;
+extern volatile s16 D_800B6F10;
+extern void PutDispEnv(void *env);
+
+void func_80024274(void) {
+    PutDispEnv(&D_801D9A20[(s16)D_800B7400]);
+    D_800B6F80 = D_800B7400;
+    D_800B6F10 = 0;
+}
 
 typedef struct {
     u32 tag;
