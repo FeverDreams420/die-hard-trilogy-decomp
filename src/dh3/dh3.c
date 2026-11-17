@@ -7273,7 +7273,19 @@ void func_8006FBB0(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FC14);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006FCD0);
+extern u8 D_801985C4[];
+
+void func_8006FCD0(void) {
+    u8 *src = D_801985C4;
+    u8 *dst = (u8 *)D_800B6614 + D_800B6614->unk1780 * 0x2F0;
+    s16 i;
+
+    i = 0x2EF;
+    do {
+        dst[i] = src[i];
+    } while (i--);
+    D_800B61A4 = (Unk800B61A4 *)((u8 *)D_800B6614 + D_800B6614->unk1780 * 0x2F0 + 0x2D0);
+}
 
 u8 func_8006FD6C(u8 *data, s32 len) {
     s32 sum = 5;
