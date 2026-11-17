@@ -8794,7 +8794,27 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80070EBC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800711C0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071308);
+extern char D_80091B38[];
+extern u8 D_800B56E4[];
+
+void func_80071308(void) {
+    func_800279E4(320);
+    func_800266C8();
+    func_800758C0(160, 120, D_80091B38, 0x800, 0x400, D_800B56D8, D_800B56E4);
+    if (D_800B658C == 0) {
+        if (D_800B632C != NULL && !(s16)func_80070C34()) {
+            D_800B66DC = -1;
+        }
+        func_80053AB0();
+        func_80072A40(20);
+        func_80026710(10);
+        D_800B6694 = 0;
+        func_8003A130();
+        D_800B5FB4 = 2;
+        D_800B6554 = 4;
+        func_80026158();
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800713F4);
 
