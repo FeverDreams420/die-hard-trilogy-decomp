@@ -1896,7 +1896,18 @@ s32 func_800246DC(u8 *p, s32 n) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002470C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024790);
+s16 func_80024790(s32 v, s32 lim) {
+    s32 m = ABS(v);
+
+    lim = ABS(lim);
+    if (m < lim) {
+        return v;
+    }
+    if (v < 0) {
+        return -lim;
+    }
+    return lim;
+}
 
 
 extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
