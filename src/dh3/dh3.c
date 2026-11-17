@@ -3958,7 +3958,67 @@ void func_80044E4C(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80044E80);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800451B4);
+typedef struct {
+    u8 pad0[4];
+    u8 unk4;
+} Unk800451B4Src;
+
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    s16 padA;
+    s16 unkC;
+    s16 unkE;
+    VECTOR unk10;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    s16 pad26;
+    s32 unk28;
+    s32 pad2C;
+    s32 unk30;
+    s32 pad34;
+    s16 unk38;
+    s16 pad3A;
+    s16 unk3C;
+    u8 pad3E[0x3A];
+    VECTOR unk78;
+    u8 pad88[0x10];
+    Unk800451B4Src *unk98;
+} Unk800451B4;
+
+void func_80044E80(void);
+
+void func_800451B4(s32 x, s32 z, s32 c, s16 d) {
+    Unk800451B4Src *src = (Unk800451B4Src *)c;
+    struct Task *t;
+    Unk800451B4 *p;
+
+    t = func_80072768(D_801F80BC, func_80044E80, 0xC4);
+    if (t != NULL) {
+        if (src != NULL) {
+            src->unk4 = 0;
+        }
+        p = (Unk800451B4 *)t->vals;
+        t->flags = 0x31;
+        p->unk98 = src;
+        p->unk10.vx = x;
+        p->unk78.vx = x;
+        p->unk10.vz = z;
+        p->unk78.vz = z;
+        p->unk78.vy = p->unk10.vy = (s16)func_80028BF0(&p->unk10) + 200;
+        p->unk22 = func_80074910(0x1000);
+        p->unk20 = 0;
+        p->unk24 = 0;
+        p->unk28 = 0x12C000;
+        p->unk30 = 0x12C000;
+        p->unk38 = 0;
+        p->unk3C = 0;
+        p->unk8 = d;
+        p->unkC = 0;
+        p->unkE = 1;
+    }
+}
 
 void func_800451B4(s32 x, s32 z, s32 c, s16 d);
 
