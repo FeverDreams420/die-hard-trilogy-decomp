@@ -3256,7 +3256,15 @@ void func_8003F540(void) {
     func_800728A4();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F57C);
+extern s32 D_801CA298[];
+
+void func_8003F57C(void) {
+    s16 i = 3;
+
+    do {
+        D_801CA298[i] = 0;
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F5B0);
 
