@@ -1,5 +1,6 @@
 #include "common.h"
 #include "psyq/libgpu.h"
+#include "psyq/libcd.h"
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", start);
 
@@ -214,9 +215,22 @@ int CdDataSync(int a, int b) {
     return CD_datasync(a, b);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CdIntToPos);
+CdlLOC *CdIntToPos(int i, CdlLOC *p) {
+    int sec, min;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CdPosToInt);
+    i += 150;
+    sec = i / 75;
+    p->sector = itob(i % 75);
+    min = sec / 60;
+    sec %= 60;
+    p->second = itob(sec);
+    p->minute = itob(min);
+    return p;
+}
+
+int CdPosToInt(CdlLOC *p) {
+    return (btoi(p->minute) * 60 + btoi(p->second)) * 75 + btoi(p->sector) - 150;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", getintr);
 
@@ -226,7 +240,18 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_ready);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_cw);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_vol);
+extern volatile u8 *D_8009EB5C, *D_8009EB60, *D_8009EB64, *D_8009EB68;
+
+int CD_vol(u8 *vol) {
+    *D_8009EB5C = 2;
+    *D_8009EB64 = vol[0];
+    *D_8009EB68 = vol[1];
+    *D_8009EB5C = 3;
+    *D_8009EB60 = vol[2];
+    *D_8009EB64 = vol[3];
+    *D_8009EB68 = 0x20;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_flush);
 
@@ -268,7 +293,21 @@ void StCdInterrupt2(void) {
     StCdInterrupt();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", StSetStream);
+extern int D_801FA2B4, D_800BA1A0, D_801CA294, D_801984EC, D_800B9EA0;
+extern void *D_8018CB60, *D_8018CB64;
+extern s16 D_800BA19C;
+
+void StSetStream(int mode, int start, int end, void *func1, void *func2) {
+    func_8007EF34(1, start, end);
+    D_801FA2B4 = 0;
+    D_8018CB60 = func1;
+    D_800BA1A0 = mode & 1;
+    D_801CA294 = 0;
+    D_801984EC = 0;
+    D_800BA19C = 0;
+    D_800B9EA0 = 0;
+    D_8018CB64 = func2;
+}
 
 int CdGetToc(void *loc) {
     return CdGetToc2(1, loc);
@@ -650,7 +689,14 @@ void SetTexWindow(u32 *p, void *tw) {
     p[2] = 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetDrawArea);
+u32 get_cs(s16 x, s16 y);
+u32 get_ce(s16 x, s16 y);
+
+void SetDrawArea(u32 *p, RECT *r) {
+    setlen(p, 2);
+    p[1] = get_cs(r->x, r->y);
+    p[2] = get_ce(r->x + r->w - 1, r->y + r->h - 1);
+}
 
 void SetDrawOffset(u32 *p, s16 *ofs) {
     setlen(p, 2);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "psyq/libgpu.h"
+#include "psyq/libcd.h"
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", start);
 
@@ -22,9 +23,58 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuSetReverbModeParam);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_setReverbAttr);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _SpuIsInAllocateArea);
+/* One block of the SPU RAM allocation table set up by SpuInitMalloc. The top
+ * bits of addr flag the entry: 0x80000000 free, 0x40000000 end of table. */
+typedef struct {
+    u32 addr;
+    u32 size;
+} SpuMallocRec;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _SpuIsInAllocateArea_);
+extern SpuMallocRec *D_800A265C;
+
+int _SpuIsInAllocateArea(u32 addr) {
+    int i;
+    u32 a;
+
+    for (i = 0;; i++) {
+        a = D_800A265C[i].addr;
+        if (a & 0x80000000) {
+            continue;
+        }
+        if (a & 0x40000000) {
+            break;
+        }
+        a &= 0x0FFFFFFF;
+        if (a >= addr || addr < a + D_800A265C[i].size) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+extern SpuMallocRec *D_800A265C;
+extern int D_800A21BC;
+
+int _SpuIsInAllocateArea_(u32 addr) {
+    int i;
+    u32 a;
+
+    addr <<= D_800A21BC;
+    for (i = 0;; i++) {
+        a = D_800A265C[i].addr;
+        if (a & 0x80000000) {
+            continue;
+        }
+        if (a & 0x40000000) {
+            break;
+        }
+        a &= 0x0FFFFFFF;
+        if (a >= addr || addr < a + D_800A265C[i].size) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuSetCommonAttr);
 
@@ -81,7 +131,20 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuClearReverbWorkArea);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _SpuInit);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuStart);
+extern int D_800A2650, D_800A21F0, D_800A2248;
+void _spu_FiDMA();
+
+void SpuStart(void) {
+    if (D_800A2650 == 0) {
+        D_800A2650 = 1;
+        func_8007FD1C();
+        D_800A21F0 = 0;
+        _SpuDataCallback(_spu_FiDMA);
+        D_800A2248 = OpenEvent(0xF0000009, 0x20, 0x2000, 0);
+        EnableEvent(D_800A2248);
+        func_8007FFB4();
+    }
+}
 
 void *_SpuDataCallback(void (*func)()) {
     return (void *)DMACallback(4, func);
@@ -97,19 +160,14 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", func_8007BC3C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuIsTransferCompleted);
 
-extern u32 *D_800A265C;
+extern SpuMallocRec *D_800A265C;
 extern int D_800A2658, D_800A2654;
 extern int D_800A21BC;
-
-typedef struct {
-    u32 addr;
-    u32 size;
-} SpuMallocRec;
 
 int SpuInitMalloc(int num, SpuMallocRec *top) {
     if (num > 0) {
         top->addr = 0x40001010;
-        D_800A265C = (u32 *)top;
+        D_800A265C = top;
         D_800A2658 = 0;
         D_800A2654 = num;
         top->size = (0x10000 << D_800A21BC) - 0x1010;
@@ -158,7 +216,26 @@ u32 SpuRead(u8 *addr, u32 size) {
     return size;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuSetKey);
+extern volatile u16 *D_800A2198;
+extern u32 D_800A224C;
+
+void SpuSetKey(int on, u32 voices) {
+    u32 v = voices & 0xFFFFFF;
+    u16 lo = v;
+    u16 hi = v >> 16;
+    switch (on) {
+    case 1:
+        D_800A2198[0xC4] = lo;
+        D_800A2198[0xC5] = hi;
+        D_800A224C |= v;
+        break;
+    case 0:
+        D_800A2198[0xC6] = lo;
+        D_800A2198[0xC7] = hi;
+        D_800A224C &= ~v;
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuMalloc);
 
@@ -312,9 +389,22 @@ int CdDataSync(int a, int b) {
     return CD_datasync(a, b);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdIntToPos);
+CdlLOC *CdIntToPos(int i, CdlLOC *p) {
+    int sec, min;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdPosToInt);
+    i += 150;
+    sec = i / 75;
+    p->sector = itob(i % 75);
+    min = sec / 60;
+    sec %= 60;
+    p->second = itob(sec);
+    p->minute = itob(min);
+    return p;
+}
+
+int CdPosToInt(CdlLOC *p) {
+    return (btoi(p->minute) * 60 + btoi(p->second)) * 75 + btoi(p->sector) - 150;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", getintr);
 
@@ -324,7 +414,18 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_ready);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_cw);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_vol);
+extern volatile u8 *D_800A2CCC, *D_800A2CD0, *D_800A2CD4, *D_800A2CD8;
+
+int CD_vol(u8 *vol) {
+    *D_800A2CCC = 2;
+    *D_800A2CD4 = vol[0];
+    *D_800A2CD8 = vol[1];
+    *D_800A2CCC = 3;
+    *D_800A2CD0 = vol[2];
+    *D_800A2CD4 = vol[3];
+    *D_800A2CD8 = 0x20;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_flush);
 
@@ -366,7 +467,21 @@ void StCdInterrupt2(void) {
     StCdInterrupt();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StSetStream);
+extern int D_801F95A8, D_800BD96C, D_801C99A0, D_80169FB8, D_800BD674;
+extern void *D_8015EB34, *D_8015EB38;
+extern s16 D_800BD968;
+
+void StSetStream(int mode, int start, int end, void *func1, void *func2) {
+    func_8007F99C(1, start, end);
+    D_801F95A8 = 0;
+    D_8015EB34 = func1;
+    D_800BD96C = mode & 1;
+    D_801C99A0 = 0;
+    D_80169FB8 = 0;
+    D_800BD968 = 0;
+    D_800BD674 = 0;
+    D_8015EB38 = func2;
+}
 
 int CdGetToc(void *loc) {
     return CdGetToc2(1, loc);
@@ -709,7 +824,7 @@ void memclr_80080AE8(u32 *p, int n) {
 
 extern void *D_800A3EC4[];
 extern volatile u32 *D_800A3EE8;
-extern int D_800A3EE4;
+extern volatile int D_800A3EE4;
 void trapIntrVSync();
 void setIntrVSync(int index, void *func);
 
@@ -721,7 +836,19 @@ void *startIntrVSync(void) {
     return setIntrVSync;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", trapIntrVSync);
+extern volatile int D_800A3EE4;
+extern void *D_800A3EC4[];
+
+void trapIntrVSync(void) {
+    int i;
+
+    D_800A3EE4++;
+    for (i = 0; i < 8; i++) {
+        if (D_800A3EC4[i]) {
+            ((void (*)())D_800A3EC4[i])();
+        }
+    }
+}
 
 extern void *D_800A3EC4[];
 
@@ -826,7 +953,17 @@ void DrawPrim(void *p) {
     D_800A3F3C[5]((u32 *)p + 1, len);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DrawOTag);
+extern u8 D_800A3F46;
+extern int (*D_800A3F40)(char *fmt, ...);
+extern u32 (**D_800A3F3C)();
+extern char D_80089168[];
+
+void DrawOTag(u32 *p) {
+    if (D_800A3F46 >= 2) {
+        D_800A3F40(D_80089168, p);
+    }
+    D_800A3F3C[2](D_800A3F3C[6], p, 0, 0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", PutDrawEnv);
 
@@ -860,7 +997,14 @@ void SetTexWindow(u32 *p, void *tw) {
     p[2] = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawArea);
+u32 get_cs(s16 x, s16 y);
+u32 get_ce(s16 x, s16 y);
+
+void SetDrawArea(u32 *p, RECT *r) {
+    setlen(p, 2);
+    p[1] = get_cs(r->x, r->y);
+    p[2] = get_ce(r->x + r->w - 1, r->y + r->h - 1);
+}
 
 void SetDrawOffset(u32 *p, s16 *ofs) {
     setlen(p, 2);
@@ -892,7 +1036,18 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", get_ce);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", get_ofs);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", get_tw);
+u32 get_tw(RECT *tw) {
+    int pr[4];
+
+    if (tw) {
+        pr[0] = (tw->x & 0xFF) >> 3;
+        pr[2] = (-tw->w & 0xFF) >> 3;
+        pr[1] = (tw->y & 0xFF) >> 3;
+        pr[3] = (-tw->h & 0xFF) >> 3;
+        return 0xE2000000 | (pr[1] << 15) | (pr[0] << 10) | (pr[3] << 5) | pr[2];
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", get_dx);
 
@@ -1425,7 +1580,19 @@ int DecDCTBufSize(u32 *bs) {
     return *(u16 *)bs;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DecDCTin);
+void DecDCTin(u32 *buf, int mode) {
+    if (mode & 1) {
+        *buf &= ~0x08000000;
+    } else {
+        *buf |= 0x08000000;
+    }
+    if (mode & 2) {
+        *buf |= 0x02000000;
+    } else {
+        *buf &= ~0x02000000;
+    }
+    MDEC_in(buf, *(u16 *)buf);
+}
 
 int DecDCTout(int a, int b) {
     return MDEC_out(a, b);
@@ -1485,6 +1652,17 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", sprintf);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", memchr);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", memmove);
+char *memmove(char *dst, char *src, int n) {
+    if (dst >= src) {
+        while (n-- > 0) {
+            dst[n] = src[n];
+        }
+    } else {
+        while (n-- > 0) {
+            *dst++ = *src++;
+        }
+    }
+    return dst;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", puts);

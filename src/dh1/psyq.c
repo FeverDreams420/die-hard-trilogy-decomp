@@ -1,5 +1,6 @@
 #include "common.h"
 #include "psyq/libgpu.h"
+#include "psyq/libcd.h"
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", start);
 
@@ -512,7 +513,14 @@ void SetTexWindow(u32 *p, void *tw) {
     p[2] = 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetDrawArea);
+u32 get_cs(s16 x, s16 y);
+u32 get_ce(s16 x, s16 y);
+
+void SetDrawArea(u32 *p, RECT *r) {
+    setlen(p, 2);
+    p[1] = get_cs(r->x, r->y);
+    p[2] = get_ce(r->x + r->w - 1, r->y + r->h - 1);
+}
 
 void SetDrawOffset(u32 *p, s16 *ofs) {
     setlen(p, 2);
@@ -910,9 +918,22 @@ int CdDataSync(int a, int b) {
     return CD_datasync(a, b);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdIntToPos);
+CdlLOC *CdIntToPos(int i, CdlLOC *p) {
+    int sec, min;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdPosToInt);
+    i += 150;
+    sec = i / 75;
+    p->sector = itob(i % 75);
+    min = sec / 60;
+    sec %= 60;
+    p->second = itob(sec);
+    p->minute = itob(min);
+    return p;
+}
+
+int CdPosToInt(CdlLOC *p) {
+    return (btoi(p->minute) * 60 + btoi(p->second)) * 75 + btoi(p->sector) - 150;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", getintr);
 
@@ -922,7 +943,18 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_ready);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_cw);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_vol);
+extern volatile u8 *D_80090E00, *D_80090E04, *D_80090E08, *D_80090E0C;
+
+int CD_vol(u8 *vol) {
+    *D_80090E00 = 2;
+    *D_80090E08 = vol[0];
+    *D_80090E0C = vol[1];
+    *D_80090E00 = 3;
+    *D_80090E04 = vol[2];
+    *D_80090E08 = vol[3];
+    *D_80090E0C = 0x20;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_flush);
 
@@ -1007,7 +1039,21 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", data_ready_callback);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", StGetBackloc);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", StSetStream);
+extern int D_801F97CC, D_800A7FE8, D_801C2054, D_801C1B84, D_800A7FD0;
+extern void *D_801C0948, *D_801C094C;
+extern s16 D_800A7FE4;
+
+void StSetStream(int mode, int start, int end, void *func1, void *func2) {
+    func_800750D8(1, start, end);
+    D_801F97CC = 0;
+    D_801C0948 = func1;
+    D_800A7FE8 = mode & 1;
+    D_801C2054 = 0;
+    D_801C1B84 = 0;
+    D_800A7FE4 = 0;
+    D_800A7FD0 = 0;
+    D_801C094C = func2;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", StFreeRing);
 
