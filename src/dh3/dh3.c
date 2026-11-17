@@ -944,6 +944,7 @@ typedef struct {
     u8 pad1788[2];
     s16 unk178A;
     s16 unk178C;
+    s16 unk178E;
 } Unk800B6614;
 
 extern Unk800B6614 *D_800B6614;
@@ -3016,7 +3017,24 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800398E0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80039A78);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A130);
+extern s16 D_800B640C;
+typedef struct {
+    u16 unk0;
+    u8 pad2[0xA];
+} Unk800936C4;
+
+extern Unk800936C4 D_800936C4[];
+
+void func_8003A130(void) {
+    Unk800B6614 *p = D_800B6614;
+
+    if (p->unk178E != 0) {
+        D_800B640C = 0;
+    } else {
+        D_800B640C = p->maps[p->unk1780][0x18];
+    }
+    D_800B6504 = D_800936C4[D_800B640C].unk0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A1C8);
 
@@ -4763,7 +4781,6 @@ u8 *func_8005160C(void) {
     return D_80091A14;
 }
 
-extern u16 D_800936C4;
 extern s16 D_800B5D0C;
 extern s16 D_800B5F54;
 extern s16 D_800B61C4;
@@ -4784,7 +4801,7 @@ void func_80051638(void) {
     D_800B5F8C = 0;
     D_800B61AC = 3;
     D_800B640C = 0;
-    D_800B6504 = D_800936C4;
+    D_800B6504 = D_800936C4[0].unk0;
 }
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800516A0);
@@ -6280,13 +6297,6 @@ void func_80065A84(void) {
     func_80065A28();
 }
 
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    s16 w, h;
-} TILE;
-
 extern void *D_800B63AC;
 extern u8 *D_800B6334;
 extern u32 *D_800B62CC;
@@ -6515,6 +6525,10 @@ typedef struct {
     s16 unk4;
     s16 unk6;
     s16 unk8;
+    u8 padA[0xE];
+    u8 unk18;
+    u8 unk19;
+    u8 unk1A;
 } Unk8015EB3C;
 
 extern Unk8015EB3C D_8018CC68;
