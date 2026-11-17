@@ -6412,7 +6412,13 @@ void func_800665B4(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800665E4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800666F0);
+void func_800666F0(s16 voice) {
+    s16 status = SpuGetKeyStatus(1 << voice);
+
+    if (D_801D9DAC[voice].state >= 11 && (status == 0 || status == 3)) {
+        func_800663D0(voice);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066770);
 
