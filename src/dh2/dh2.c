@@ -7560,7 +7560,8 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073F3C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80074138);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800742C4);
+void func_800742C4(void) {
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800742CC);
 
