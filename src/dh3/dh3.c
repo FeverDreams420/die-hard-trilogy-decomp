@@ -4544,7 +4544,45 @@ void func_800486B4(SVECTOR *pos, SVECTOR *vel, s32 count, s32 scale) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048748);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s32 unk8;
+    s32 unkC;
+    s32 unk10;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    s16 unk1A;
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    u8 pad26[4];
+    u8 unk2A;
+} Unk80048748;
+
+void func_80048748(Unk80048748 *src, Unk80048748 *dst) {
+    dst->unk0 = src->unk0;
+    dst->unk2 = src->unk2;
+    dst->unk4 = src->unk4;
+    dst->unk6 = src->unk6;
+    dst->unk8 = src->unk8;
+    dst->unkC = src->unkC;
+    dst->unk10 = src->unk10;
+    dst->unk14 = src->unk14;
+    dst->unk16 = src->unk16;
+    dst->unk18 = src->unk18;
+    dst->unk1A = src->unk1A;
+    dst->unk1E = src->unk1E;
+    dst->unk20 = src->unk20;
+    dst->unk22 = src->unk22;
+    dst->unk24 = src->unk24;
+    dst->unk2A = src->unk2A;
+}
 
 typedef struct {
     u8 pad0[0x1E];
