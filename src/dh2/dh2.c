@@ -4830,7 +4830,23 @@ void func_80049C9C(Unk80049C9C *p) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049D50);
+typedef struct {
+    u8 pad0[0x24];
+    s16 unk24;
+} Unk80049D50;
+
+void func_80049D50(Unk80049D50 *p) {
+    if (p->unk24 == 2) {
+        D_8015EB3C.unk0 = 0xDAC;
+        D_8015EB3C.unk6 = func_800754C8(50) + 0x3A2;
+        D_8015EB3C.unk4 = 0xFFF;
+        D_8015EB3C.unk2 = 0;
+        D_8015EB3C.unk8 = D_80097032[2].unk0 + 1;
+        func_80066B70(&D_8015EB3C, 0);
+    } else {
+        func_80065C10(D_80097032[p->unk24].unk0 + 1);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049E04);
 
