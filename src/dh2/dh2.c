@@ -4948,7 +4948,7 @@ typedef struct {
 
 void func_80056E74(SVECTOR *a, SVECTOR *b, s16 c);
 void func_8006684C();
-void func_80065E44();
+void func_80065E44(s16 id, void *pos);
 void func_80055ED4();
 void func_800565F0();
 void func_800577F8();
@@ -5621,7 +5621,7 @@ typedef struct {
 } Unk800532A4;
 
 extern struct Task *volatile D_801F7548;
-void func_80065E44(s32 id, Unk800532A4 *obj);
+void func_80065E44(s16 id, void *pos);
 
 void func_800532A4(Unk800532A4 *obj) {
     Unk800532A4_Data *d;
@@ -7145,7 +7145,25 @@ void func_80065D58(s16 voice) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065E44);
+extern s16 D_800B6E92;
+
+void func_80065E44(s16 id, void *pos) {
+    u8 unused[8];
+    s16 dist = func_80077398(pos, (Unk8002A35C *)&D_800B6E00);
+    s32 ang = func_80025254((Unk8002A35C *)&D_800B6E00, pos);
+    s16 pan = (D_800982E4[((u16)D_800B6E92 + ang) & 0xFFF] + 0x1000) >> 1;
+    s16 vol = func_80072734(0x3FFF, 0x2710, dist / 2);
+
+    if (vol < 0x400) {
+        vol = 0x400;
+    }
+    D_8015EB3C.unk0 = pan;
+    D_8015EB3C.unk2 = 0;
+    D_8015EB3C.unk4 = vol;
+    D_8015EB3C.unk6 = 0x400;
+    D_8015EB3C.unk8 = id;
+    func_80066B70(&D_8015EB3C, 0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065F3C);
 
