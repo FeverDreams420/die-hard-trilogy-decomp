@@ -426,7 +426,44 @@ s32 func_80021854(Unk80021854_Prim *p, VECTOR *pos, SVECTOR *ang) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021AFC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021FC4);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+} Unk80021FC4_Src;
+
+typedef struct {
+    u8 pad0[0x1C];
+    SVECTOR rot;
+    SVECTOR vel;
+    u8 pad2C[0x46];
+    s16 unk72;
+} Unk80021FC4;
+
+extern struct Task *D_801F80BC;
+extern SVECTOR D_800B6124;
+void func_80028310(SVECTOR *rot, SVECTOR *v, VECTOR *base, VECTOR *out);
+s32 func_80028BF0(void *p);
+s32 func_8002881C(s32 value, s32 target, s32 step);
+void func_8002924C(VECTOR *from, VECTOR *to, SVECTOR *rot);
+void func_800221C8(void);
+
+void func_80021FC4(void) {
+    Unk80021FC4_Src *src = (Unk80021FC4_Src *)D_801F80BC->vals;
+    Unk80021FC4 *p = (Unk80021FC4 *)D_800B604C->vals;
+    VECTOR v;
+
+    v.vx = src->pos.vx;
+    v.vy = src->pos.vy;
+    v.vz = src->pos.vz;
+    func_80028310(&p->rot, &p->vel, &v, &D_801981F4);
+    p->vel.vz -= D_800B56A2 * 16;
+    p->rot.vy += D_800B56A2 * 3;
+    D_801981F4.vy = (s16)func_80028BF0(&D_801981F4) + p->unk72;
+    p->unk72 = func_8002881C(p->unk72, 0x200, D_800B56A2 * 10);
+    func_8002924C(&v, &D_801981F4, &D_800B6124);
+    func_800221C8();
+    func_8001F86C();
+}
 
 typedef struct {
     u8 pad0[0x1C];
