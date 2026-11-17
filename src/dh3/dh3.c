@@ -901,7 +901,31 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026BDC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026D44);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800272A0);
+typedef struct {
+    s32 x;
+    s32 y;
+    s32 z;
+} Unk800272A0Pos;
+
+typedef struct {
+    u8 pad0[0x22];
+    s16 unk22;
+    u8 pad24[0x2C];
+    Unk800272A0Pos unk50;
+    u8 pad5C[0x1A8];
+    Unk800272A0Pos unk204;
+    u8 pad210[4];
+    s16 unk214;
+} Unk800272A0;
+
+void func_800272A0(Unk800272A0 *p) {
+    if (p == (Unk800272A0 *)D_800B659C) {
+        p->unk50.x = p->unk204.x;
+        p->unk50.y = p->unk204.y;
+        p->unk50.z = p->unk204.z;
+        p->unk22 = p->unk214;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800272DC);
 
