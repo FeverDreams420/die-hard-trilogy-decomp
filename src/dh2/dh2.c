@@ -3403,7 +3403,31 @@ void func_8002EFF8(POLY_FT4 *p, POLY_FT4 *q) {
     q->v2 = p->v3 = (p->v3 + p->v2 + 1) >> 1;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002F144);
+extern s16 D_800B70E8;
+extern s16 D_800B71C8;
+
+void func_8002F144(s16 *out, VECTOR *v) {
+    s32 x, y;
+
+    if (v->vz < 16) {
+        x = D_800B70E8 / 2 + v->vx * 16;
+        y = D_800B71C8 / 2 + v->vy * 16;
+        if (x > 800) {
+            x = 800;
+        }
+        if (x < -300) {
+            x = -300;
+        }
+        if (y > 511) {
+            y = 511;
+        }
+        if (y < -250) {
+            y = -250;
+        }
+        out[0] = x;
+        out[1] = y;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002F1E4);
 
