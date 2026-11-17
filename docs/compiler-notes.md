@@ -299,6 +299,13 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `prim++` lands in the delay slot of the `otz > 0` test | Put `prim++` inside the `if`, before `AddPrim(ot, start)` (DH2 0x80028408) |
 | `tex = base + f->tex + offset` with the offset term added last | Write it in that order; `base + offset + f->tex` reassociates differently (DH3 0x80031548, 0x80031674) |
 | A scalar global read as `lui`/`addiu`/`lw 0(v0)` instead of `lui`/`lw %lo` | Declare it as an array and read `*(volatile s32 *)D_X` (DH3 0x80024428, DH2 0x80046658) |
+| An 8-byte `lwl`/`lwr` copy from a rodata label that disassembles as the string `"d"` | A local `SVECTOR pos = {100, 0, 0};` (0x64 is `'d'`; DH2 0x80075E28, DH3 0x80075270). A `char` array initializer emits `memset` instead |
+| A countdown loop the compiler turns into a pointer compare (`bne a3,t0` against the end address) | `for (i = N; i != -1; i--)`; `i >= 0` keeps the counter and branches with `bgez` (DH2 0x800462F0, DH3 0x80027744) |
+| `p->x = p->x + dx` comes out as `addu v0,v0,t2` but the original has `addu v0,t2,v0` | Write `dx + p->x` (DH2 0x800462F0) |
+| A 16-bit copy loaded with `lh` and stored with `sh` from an address 2 past an `s32` global | Read the upper half: `D_80169FE4 = D_800B6A6C >> 16;` (DH2 0x80070CFC). A plain `s16` copy always loads with `lhu` |
+| `lhu` + `sll`/`sra` for an index read once, and stores after a call kept in source order | `volatile u16` index, `volatile` destinations (DH2 0x80024274). `(s16)` of a plain `u16` folds into `lh` |
+| The next pointer stored back after `AddPrim` is computed before the `jal` | `AddPrim(ot, p++); G = p;` (DH2 0x80075900, 0x80041064) |
+| A field read once through `arr[i].f` and again through a pointer to the same element | Keep both forms: first test `D_801D9DAC[v].state`, later `p->state` with `p = &D_801D9DAC[v]`; CSE doesn't merge them (DH2 0x80065CB0) |
 | An `s32` global returned as `s16` with `lw` + `sll`/`sra` instead of `lh` | Declare it `volatile` (DH2 `D_800B725C`, 0x80046658) |
 | A leaf with an 8-byte frame and no call | An unused `u8 unused[8];`, parameter `s32` when it isn't sign-extended (DH3 0x8006899C) |
 | `move v0,a0` / `slt` / `bnez` / `move v0,a1` (min or max) | `if (a < b) return a; return b;`, not a ternary or a result variable (DH3 0x80026748, 0x80026764) |
