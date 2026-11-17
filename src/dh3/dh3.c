@@ -4675,7 +4675,11 @@ void func_80050730(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050758);
+void func_80050758(void) {
+    if (D_801F80D0 != NULL) {
+        ((s16 *)D_801F80D0->vals)[0x77] = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050780);
 
