@@ -7910,7 +7910,11 @@ typedef struct {
     s32 z;
     u8 padC[4];
     s16 unk10;
-    u8 pad12[0x212];
+    s16 pad12;
+    s32 unk14;
+    s32 unk18;
+    s32 unk1C;
+    u8 pad20[0x204];
     s16 unk224;
     s16 unk226[16];
     s16 unk246;
@@ -7918,7 +7922,8 @@ typedef struct {
     s16 pad24A;
     s16 unk24C;
     s16 unk24E;
-    u8 pad250[0x24];
+    s16 unk250;
+    u8 pad252[0x22];
     struct Task *parent;
     s32 parentId;
 } Unk8006CB7C;
@@ -7985,7 +7990,38 @@ void func_8006CC48(struct Task *parent, s32 arg1) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006CD18);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006CE0C);
+void func_8006C3E8(void);
+
+void func_8006CE0C(struct Task *parent, s32 arg1) {
+    struct Task *t;
+    Unk8006CB7C *p;
+    Unk8006CB7CParent *q;
+    s16 i;
+
+    t = func_80072768(parent, func_8006C3E8, 0x27C);
+    if (t != NULL) {
+        p = (Unk8006CB7C *)t->vals;
+        t->flags = 0x31;
+        p->parent = parent;
+        p->parentId = parent->id;
+        p->unk248 = arg1;
+        i = 15;
+        do {
+            p->unk226[i] = 0;
+        } while (i--);
+        p->unk246 = 0;
+        p->unk224 = 0;
+        p->unk250 = 0;
+        p->unk10 = 0x5528;
+        q = (Unk8006CB7CParent *)parent->vals;
+        p->x = q->x;
+        p->y = q->y;
+        p->z = q->z;
+        p->unk18 = p->y;
+        p->unk14 = p->x;
+        p->unk1C = p->z;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006CEE4);
 
