@@ -5989,7 +5989,27 @@ void func_8006007C(SVECTOR *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80060130);
+extern VECTOR D_801F6C7C;
+typedef struct {
+    u8 pad0[0x38];
+    SVECTOR unk38;
+} Unk800B7398;
+
+extern SVECTOR D_800B6C98;
+extern MATRIX D_801F9644;
+extern Unk800B7398 *D_800B7398;
+extern SVECTOR D_800B72E8;
+extern MATRIX *func_8002702C(SVECTOR *r, MATRIX *m);
+extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
+
+void func_80060130(SVECTOR *pos) {
+    func_8002702C(&D_800B6C98, &D_801F9644);
+    ApplyMatrix(&D_801F9644, &D_800B7398->unk38, &D_801F6C7C);
+    D_800B72E8.vx = D_801F6C7C.vx + pos->vx;
+    D_800B72E8.vy = D_801F6C7C.vy + pos->vy;
+    D_800B72E8.vz = D_801F6C7C.vz + pos->vz;
+    func_8006007C(&D_800B72E8);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800601E4);
 
