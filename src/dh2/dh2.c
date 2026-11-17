@@ -5119,7 +5119,18 @@ void func_80054100(Unk80054100 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005415C);
+extern s16 D_800B6BF0;
+
+typedef struct {
+    u8 pad0[0x291];
+    u8 unk291;
+} Unk8005415C;
+
+void func_8005415C(Unk8005415C *p) {
+    if (p->unk291) {
+        D_800B6BF0--;
+    }
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6614);
 
