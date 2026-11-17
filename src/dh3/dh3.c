@@ -5519,7 +5519,36 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005420C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800545F8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80054A04);
+typedef struct {
+    u8 pad0[0x28];
+    s16 limit[3];
+    u8 pad2E[0x16];
+    s16 step;
+    u8 pad46[0x1E];
+} Unk80092480;
+
+typedef struct {
+    u8 pad0[8];
+    s16 type;
+    u8 padA[0x56];
+    s16 unk60;
+    u8 pad62[0xB4];
+    s16 level;
+} Unk80054A04;
+
+extern Unk80092480 D_80092480[];
+
+void func_80054A04(Unk80054A04 *p) {
+    Unk80092480 *e = &D_80092480[p->type];
+
+    if (p->level < 3 && p->unk60 > e->limit[p->level]) {
+        p->level++;
+        p->unk60 -= e->step;
+    }
+    if (p->level != 0 && p->unk60 < e->limit[p->level - 1] - e->step - 1) {
+        p->level--;
+    }
+}
 
 typedef struct {
     u8 pad0[0x22];
