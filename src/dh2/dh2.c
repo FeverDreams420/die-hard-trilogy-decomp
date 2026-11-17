@@ -8240,7 +8240,14 @@ u8 *func_8007891C(u8 *s) {
     return s;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078944);
+u8 *func_80078944(u8 *s) {
+    for (;;) {
+        if ((u32)(*s - '0') < 10 && s[-1] == ' ') {
+            return s;
+        }
+        s++;
+    }
+}
 
 char *func_80078980(char *arg0) {
     return arg0;
