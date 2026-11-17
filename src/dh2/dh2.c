@@ -5953,7 +5953,20 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D2DC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D474);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D510);
+void func_8005D510(SVECTOR *v, s16 a, s16 b) {
+    s16 n;
+
+    if (v != (SVECTOR *)-1) {
+        n = ((s16)(func_80025998(v) - b) << 2) / (a - b);
+        if (n < 0) {
+            n = 0;
+        }
+        if (n >= 4) {
+            n = 3;
+        }
+        v->pad = n;
+    }
+}
 
 s16 func_8005D5D8(SVECTOR *v) {
     if (v == (SVECTOR *)-1) {
