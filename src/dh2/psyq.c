@@ -311,17 +311,20 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", cb_read);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", cd_read_retry);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdRead);
-
 /* CdRead state at 0x800A295C */
 typedef struct {
-    int status;
-    int unk4[4];
+    int sectors;
+    u32 *buf;
+    int unk8;
+    volatile int mode;
+    int size;
     int remain;
     int last;
     int start;
 } CdReadState;
 extern CdReadState D_800A295C;
+INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdRead);
+
 
 int CdReadSync(int mode, u8 *result) {
     int ret;
@@ -331,7 +334,7 @@ int CdReadSync(int mode, u8 *result) {
             ret = -1;
         } else if (D_800A295C.remain < 0 || VSync(-1) > D_800A295C.last + 60) {
             cd_read_retry(1);
-            ret = D_800A295C.status;
+            ret = D_800A295C.sectors;
         } else {
             ret = D_800A295C.remain;
         }
@@ -428,7 +431,7 @@ int CdReady(int a, int b) {
     return CD_ready(a, b);
 }
 
-extern void *D_800A2A08;
+extern void (*D_800A2A08)();
 
 void *CdSyncCallback(void *func) {
     void *old = D_800A2A08;
@@ -437,7 +440,7 @@ void *CdSyncCallback(void *func) {
     return old;
 }
 
-extern void *D_800A2A0C;
+extern void (*D_800A2A0C)();
 
 void *CdReadyCallback(void *func) {
     void *old = D_800A2A0C;
@@ -544,7 +547,25 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_init);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_datasync);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_getsector);
+extern volatile u8 *D_800A2CCC, *D_800A2CD8;
+extern volatile u32 *D_800A2CDC, *D_800A2D00, *D_800A2D04, *D_800A2D08, *D_800A2D0C, *D_800A2D10;
+
+int CD_getsector(u32 *madr, int size) {
+    *D_800A2CCC = 0;
+    *D_800A2CD8 = 0x80;
+    *D_800A2D00 = 0x20943;
+    *D_800A2CDC = 0x1323;
+    *D_800A2D04 |= 0x8000;
+    *D_800A2D08 = (u32)madr;
+    *D_800A2D0C = size | 0x10000;
+    while (!(*D_800A2CCC & 0x40)) {
+    }
+    *D_800A2D10 = 0x11000000;
+    while (*D_800A2D10 & 0x01000000) {
+    }
+    *D_800A2CDC = 0x1325;
+    return 0;
+}
 
 extern int D_800A2CB0;
 
@@ -1020,7 +1041,9 @@ typedef struct {
     u16 unk2[24];
     u16 mask;
     u32 dmask;
-    int jmpbuf[1];
+    int jmpbuf[12];
+    int stack[1004];
+    int unk1018[20];
 } IntrEnv;
 extern IntrEnv D_800A2E00;
 extern volatile u16 *D_800A3E90;
@@ -2291,7 +2314,24 @@ int MDEC_out_sync(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", timeout);
+extern volatile u32 *D_800A519C, *D_800A51A4, *D_800A51A8, *D_800A51B0, *D_800A51D0;
+extern char D_8008941C[], D_800893BC[], D_800893E4[];
+
+int timeout(char *s) {
+    u32 st;
+
+    printf(D_8008941C, s);
+    st = *D_800A51D0;
+    printf(D_800893BC, (*D_800A51A4 >> 24) & 1, (*D_800A51B0 >> 24) & 1, *D_800A519C, *D_800A51A8);
+    printf(D_800893E4, (~st >> 31) & 1, (st >> 30) & 1, (st >> 29) & 1, (st >> 28) & 1,
+           (st >> 27) & 1, (st >> 25) & 1, (st >> 23) & 1);
+    *D_800A51D0 = 0x80000000;
+    *D_800A51A4 = 0;
+    *D_800A51B0 = 0;
+    *D_800A51B0;
+    *D_800A51D0 = 0x60000000;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", func_80087280);
 

@@ -114,8 +114,11 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CdRead);
 
 /* CdRead state at 0x800A295C */
 typedef struct {
-    int status;
-    int unk4[4];
+    int sectors;
+    u32 *buf;
+    int unk8;
+    volatile int mode;
+    int size;
     int remain;
     int last;
     int start;
@@ -130,7 +133,7 @@ int CdReadSync(int mode, u8 *result) {
             ret = -1;
         } else if (D_8009E7EC.remain < 0 || VSync(-1) > D_8009E7EC.last + 60) {
             cd_read_retry(1);
-            ret = D_8009E7EC.status;
+            ret = D_8009E7EC.sectors;
         } else {
             ret = D_8009E7EC.remain;
         }
@@ -315,7 +318,25 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_init);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_datasync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_getsector);
+extern volatile u8 *D_8009EB5C, *D_8009EB68;
+extern volatile u32 *D_8009EB6C, *D_8009EB90, *D_8009EB94, *D_8009EB98, *D_8009EB9C, *D_8009EBA0;
+
+int CD_getsector(u32 *madr, int size) {
+    *D_8009EB5C = 0;
+    *D_8009EB68 = 0x80;
+    *D_8009EB90 = 0x20943;
+    *D_8009EB6C = 0x1323;
+    *D_8009EB94 |= 0x8000;
+    *D_8009EB98 = (u32)madr;
+    *D_8009EB9C = size | 0x10000;
+    while (!(*D_8009EB5C & 0x40)) {
+    }
+    *D_8009EBA0 = 0x11000000;
+    while (*D_8009EBA0 & 0x01000000) {
+    }
+    *D_8009EB6C = 0x1325;
+    return 0;
+}
 
 extern int D_8009EB40;
 
@@ -1547,7 +1568,24 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", MDEC_in_sync);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", MDEC_out_sync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", timeout);
+extern volatile u32 *D_800A449C, *D_800A44A4, *D_800A44A8, *D_800A44B0, *D_800A44D0;
+extern char D_800878F4[], D_80087894[], D_800878BC[];
+
+int timeout(char *s) {
+    u32 st;
+
+    printf(D_800878F4, s);
+    st = *D_800A44D0;
+    printf(D_80087894, (*D_800A44A4 >> 24) & 1, (*D_800A44B0 >> 24) & 1, *D_800A449C, *D_800A44A8);
+    printf(D_800878BC, (~st >> 31) & 1, (st >> 30) & 1, (st >> 29) & 1, (st >> 28) & 1,
+           (st >> 27) & 1, (st >> 25) & 1, (st >> 23) & 1);
+    *D_800A44D0 = 0x80000000;
+    *D_800A44A4 = 0;
+    *D_800A44B0 = 0;
+    *D_800A44B0;
+    *D_800A44D0 = 0x60000000;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", func_80085EE8);
 
