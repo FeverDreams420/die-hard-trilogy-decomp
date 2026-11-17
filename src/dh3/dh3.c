@@ -565,7 +565,47 @@ void func_8002228C(void) {
     SetTransMatrix(&D_801981D4);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80022360);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    u8 pad20[0x30];
+    VECTOR unk50;
+    u8 pad60[0x44];
+    s16 unkA4;
+    s16 padA6;
+    s16 unkA8;
+    u8 padAA[0x4A];
+    s32 unkF4[4];
+    u8 pad104[0x70];
+    s16 unk174;
+    s16 unk176;
+    u8 pad178[0x1E];
+    s16 unk196;
+    u8 pad198[0x12];
+    s16 unk1AA;
+} Unk800B659C;
+
+extern Unk800B659C *D_800B659C;
+void func_80023310(void);
+
+void func_80022360(void) {
+    VECTOR *pos = (VECTOR *)D_801F80B0[0]->vals;
+
+    if ((D_800B604C->unk14 += D_800B56A2) >= 0x79) {
+        D_801F80B0[0]->func = func_80023310;
+    } else {
+        func_8002924C(&D_800B659C->pos, pos, &D_800B6124);
+        D_801981F4.vx = pos->vx;
+        D_801981F4.vy = pos->vy;
+        D_801981F4.vz = pos->vz;
+        func_800221C8();
+        func_8001F86C();
+        D_800B659C->unk196 = -1;
+    }
+    if (func_80028A48(&D_800B659C->pos, &D_801981F4) < 0x100) {
+        D_800B604C->unk14 = 200;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002246C);
 
@@ -667,26 +707,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80023374);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80023694);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002391C);
-
-typedef struct {
-    u8 pad0[0x10];
-    VECTOR pos;
-    u8 pad20[0x30];
-    VECTOR unk50;
-    u8 pad60[0x44];
-    s16 unkA4;
-    s16 padA6;
-    s16 unkA8;
-    u8 padAA[0x4A];
-    s32 unkF4[4];
-    u8 pad104[0x70];
-    s16 unk174;
-    s16 unk176;
-    u8 pad178[0x32];
-    s16 unk1AA;
-} Unk800B659C;
-
-extern Unk800B659C *D_800B659C;
 
 extern struct Task *D_801F80B0[];
 extern s16 D_800B5D74;
