@@ -4848,6 +4848,12 @@ typedef struct {
     s16 unk4;
     s16 unk6;
     s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
 } Unk8015EB3C;
 
 typedef struct {
@@ -5796,7 +5802,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005BFCC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005C0AC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005C5C0);
+void func_800669A0(void);
+
+void func_8005C5C0(void) {
+    D_8015EB3C.unk0 = 0x1000;
+    D_8015EB3C.unk10 = -0x66;
+    D_8015EB3C.unk2 = 0;
+    D_8015EB3C.unk4 = 0x3FFF;
+    D_8015EB3C.unk12 = -0xCC;
+    D_8015EB3C.unk6 = 0x400;
+    D_8015EB3C.unk14 = -10;
+    D_8015EB3C.unk8 = 0x21;
+    func_80066B70(&D_8015EB3C, (s32)func_800669A0);
+    D_8015EB3C.unk0 = 0;
+    D_8015EB3C.unk10 = 0x66;
+    D_8015EB3C.unk14 = -8;
+    func_80066B70(&D_8015EB3C, (s32)func_800669A0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005C678);
 
