@@ -4675,7 +4675,23 @@ void func_8004FEC0(void) {
     D_800B604C->func = func_8004FF54;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004FF54);
+extern s32 *D_800B62EC;
+extern s32 *D_800B5D3C;
+extern s32 D_800B6544;
+extern s32 D_800B5D04;
+
+void func_8004FF54(void) {
+    u16 i;
+
+    i = 0x3FF;
+    do {
+        *D_800B62EC++ = *D_800B5D3C++;
+    } while (i--);
+    D_800B6544 += 0x1000;
+    if (D_800B6544 >= D_800B5D04) {
+        D_800B604C->func = D_800B604C->saved;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004FFE4);
 
