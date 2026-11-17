@@ -2123,7 +2123,27 @@ void func_80025DC8(u8 *a, u8 *b, s16 t, u8 *out) {
     out[1] = func_80072734(a[1], b[1], t);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025E38);
+extern u8 D_801F635C[];
+
+void func_80025E38(void) {
+    s16 i, j, t;
+
+    i = 7;
+    do {
+        j = 0xFF;
+        do {
+            t = j - 20;
+            if (t < 0) {
+                t = 0;
+            }
+            t += i;
+            if (t > 7) {
+                t = 7;
+            }
+            D_801F635C[i * 256 + j] = t + 0x16;
+        } while (j--);
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80025EC4);
 
