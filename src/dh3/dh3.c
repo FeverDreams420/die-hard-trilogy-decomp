@@ -3636,7 +3636,38 @@ void func_8004206C(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800420C8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80042274);
+extern s32 D_801FAB28[];
+extern s32 D_80092594;
+extern s32 D_800924CC;
+extern s32 D_80092530;
+extern s32 D_800925F8;
+extern s32 D_8009265C;
+extern s32 D_800926C0;
+extern s32 D_800B660C;
+extern s32 D_800B5ED4;
+extern s32 D_800B664C;
+extern s32 D_800B5CE0;
+extern s32 D_800B5F2C;
+extern s32 D_800B6064;
+extern s32 D_800B6624;
+extern s32 D_800B6194;
+
+void func_80042274(void) {
+    D_80092594 = D_801FAB28[20];
+    D_800924CC = D_801FAB28[21];
+    D_80092530 = D_801FAB28[22];
+    D_800925F8 = D_801FAB28[23];
+    D_8009265C = D_801FAB28[20];
+    D_800926C0 = D_801FAB28[21];
+    D_800B660C = D_801FAB28[0];
+    D_800B5ED4 = D_801FAB28[10];
+    D_800B664C = D_801FAB28[45];
+    D_800B5CE0 = D_801FAB28[40];
+    D_800B5F2C = D_801FAB28[41];
+    D_800B6064 = D_801FAB28[44];
+    D_800B6624 = D_801FAB28[42];
+    D_800B6194 = D_801FAB28[43];
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004234C);
 
