@@ -6340,7 +6340,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066730);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800669C0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066B1C);
+extern s16 D_801F76F8;
+extern volatile s16 D_800B5FFC;
+
+void func_80066B1C(s32 v) {
+    if (*(s16 *)&D_800B5FFC != 1) {
+        D_801F76F8 = v;
+    } else {
+        D_801F76F8 = v / 2;
+    }
+}
 
 extern SpuVoiceAttr D_801F76E4;
 extern SpuVolume D_801FA254[];
