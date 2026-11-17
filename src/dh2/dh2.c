@@ -7346,7 +7346,28 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A1CC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A268);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A350);
+void func_8006A1CC();
+
+void func_8006A350(void) {
+    Unk80054100 *p = (Unk80054100 *)D_800B6DE0->vals;
+    s16 scale = 0x1000;
+    s16 d = func_80077398((Unk8002A35C *)p, (Unk8002A35C *)&D_800B63D4);
+
+    if (d > 0x9F0) {
+        scale = 0x1000 - (d - 0x9F0) * 16;
+        if (scale < 0) {
+            scale = 0;
+        }
+    }
+    func_80035A18(p, p->unk34, scale, 0, p->unk1A8);
+    func_80053404(p);
+    if ((s16)func_8003580C(p->unk1A8)) {
+        func_8006A1CC(p);
+    }
+    if (d > 0xAF1) {
+        func_8006A268(p);
+    }
+}
 
 typedef struct {
     SVECTOR rot;
