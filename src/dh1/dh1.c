@@ -5078,7 +5078,19 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039B80);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039F98);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A430);
+extern s32 D_801C08F8[];
+
+s16 func_8003A430(void *obj) {
+    s16 i;
+
+    for (i = 0; i < 0x14; i++) {
+        if (D_801C08F8[i] == 0) {
+            D_801C08F8[i] = (s32)obj;
+            return i;
+        }
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A48C);
 
