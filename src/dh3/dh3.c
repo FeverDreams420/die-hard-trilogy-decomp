@@ -3278,7 +3278,16 @@ s16 func_8003F5B0(void) {
     return n;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F5F8);
+void func_8003F5F8(s32 v) {
+    s16 i = 3;
+
+    do {
+        if (D_801CA298[i] == v) {
+            D_801CA298[i] = 0;
+            break;
+        }
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F63C);
 
