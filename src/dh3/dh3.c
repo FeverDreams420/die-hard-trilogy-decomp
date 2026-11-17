@@ -3539,7 +3539,66 @@ void func_8003F7B4(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F868);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F9A0);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR unk10;
+    s16 pad20;
+    s16 unk22;
+    u8 pad24[0x2C];
+    s32 unk50;
+    s32 unk54;
+    s32 unk58;
+    u8 pad5C[0xF2];
+    u16 unk14E;
+    u8 pad150[0xA];
+    s16 unk15A;
+    s16 unk15C;
+    s16 unk15E;
+    u8 pad160[0xA];
+    s16 unk16A;
+    s16 pad16C;
+    s16 unk16E;
+    u8 pad170[0x2E];
+    s16 unk19E;
+    u8 pad1A0[4];
+    s16 unk1A4;
+    s16 unk1A6;
+    s16 unk1A8;
+    u8 pad1AA[0x22];
+    s16 unk1CC;
+} Unk80040450;
+
+typedef struct {
+    s32 x;
+    s32 z;
+    s32 targetX;
+    s32 targetZ;
+} Unk800B8540;
+
+extern Unk800B8540 *D_800B8540[];
+extern VECTOR D_801F76D0;
+
+void func_8003F9A0(Unk80040450 *p) {
+    Unk800B8540 *e = D_800B8540[p->unk15A];
+
+    p->unk15C = 1;
+    p->unk50 = e->x << 5;
+    p->unk58 = e->z << 5;
+    p->unk10.vx = p->unk50 >> 5;
+    p->unk10.vz = p->unk58 >> 5;
+    p->unk54 = (s16)func_80028BF0(&p->unk10) << 5;
+    p->unk10.vy = p->unk54 >> 5;
+    D_801F76D0.vx = e->targetX;
+    D_801F76D0.vz = e->targetZ;
+    p->unk22 = func_80028648(&D_801F76D0, &p->unk10);
+    p->unk15E = 0;
+    p->unk16A = 0;
+    p->unk16E = 0;
+    p->unk19E = 0;
+    p->unk1A4 = 0;
+    p->unk1A6 = 0;
+    p->unk1A8 = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003FA90);
 
@@ -3584,21 +3643,6 @@ void func_800401D0(void) {
 }
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800401F0);
-
-typedef struct {
-    u8 pad0[0x10];
-    VECTOR unk10;
-    u8 pad20[0x12E];
-    u16 unk14E;
-    u8 pad150[0xA];
-    s16 unk15A;
-    s16 unk15C;
-    s16 unk15E;
-    u8 pad160[0xA];
-    s16 unk16A;
-    u8 pad16C[0x60];
-    s16 unk1CC;
-} Unk80040450;
 
 typedef struct {
     s16 unk0;
