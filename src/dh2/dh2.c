@@ -7070,7 +7070,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065614);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006576C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800658EC);
+void func_800658EC(s16 id) {
+    s32 unused[2];
+
+    D_8015EB3C.unk0 = 0x800;
+    D_8015EB3C.unk10 = func_800754C8(0x40) + 0x40;
+    D_8015EB3C.unk2 = 5;
+    D_8015EB3C.unk4 = 9000;
+    D_8015EB3C.unk12 = 400;
+    D_8015EB3C.unk6 = 0x400;
+    D_8015EB3C.unk14 = -func_800754C8(3) - 3;
+    D_8015EB3C.unk8 = id;
+    func_80066B70(&D_8015EB3C, (s32)func_800669A0);
+    D_8015EB3C.unk10 = -func_800754C8(0x40) - 0x40;
+    D_8015EB3C.unk14 = -func_800754C8(3) - 3;
+    D_8015EB3C.unk8 = id;
+    func_80066B70(&D_8015EB3C, (s32)func_800669A0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800659E0);
 
