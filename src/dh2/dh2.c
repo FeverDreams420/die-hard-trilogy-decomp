@@ -3811,7 +3811,15 @@ void func_80032E50(s32 *p) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032EA8);
+s16 func_80032EA8(s16 v, s16 lim) {
+    if (v > lim) {
+        return lim;
+    }
+    if (v < -lim) {
+        return -lim;
+    }
+    return v;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032EEC);
 
