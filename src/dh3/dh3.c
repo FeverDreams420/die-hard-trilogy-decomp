@@ -6944,7 +6944,41 @@ s32 func_80059744(VECTOR *pos, s16 id) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800597F8);
+typedef struct {
+    u8 pad0[0xC];
+    s16 unkC;
+    u8 padE[2];
+    VECTOR pos;
+} Unk800597F8;
+
+extern VECTOR D_801F76D0;
+
+void func_800597F8(void) {
+    Unk800597F8 *p = (Unk800597F8 *)D_800B604C->vals;
+    s16 s;
+    s16 v;
+    s32 dt = D_800B56A2;
+
+    p->unkC += dt << 5;
+    if (p->unkC >= 0x1000) {
+        p->unkC = 0x1000;
+        D_801F76D0.vx = p->pos.vx;
+        D_801F76D0.vy = p->pos.vy + 0x100;
+        D_801F76D0.vz = p->pos.vz;
+        func_8005A7A4(&D_801F76D0, &D_801981F4, 0x1000);
+    } else {
+        for (s = 0x400; s >= 0; s -= 0x200) {
+            v = s + p->unkC;
+            if (v > 0x1000) {
+                v = 0x1000;
+            }
+            D_801F76D0.vx = p->pos.vx;
+            D_801F76D0.vy = p->pos.vy + 0x100;
+            D_801F76D0.vz = p->pos.vz;
+            func_8005A7A4(&D_801F76D0, &D_801981F4, v);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80059924);
 
