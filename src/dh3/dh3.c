@@ -3254,7 +3254,27 @@ void func_8003F5F8(s32 v) {
     } while (i--);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F63C);
+extern s32 D_801CA298[];
+extern s16 D_800B6204[];
+
+void func_8003F63C(s32 id, s16 val) {
+    s16 i;
+
+    i = 3;
+    do {
+        if (D_801CA298[i] == id) {
+            return;
+        }
+    } while (i--);
+    i = 3;
+    do {
+        if (D_801CA298[i] == 0) {
+            D_801CA298[i] = id;
+            D_800B6204[i] = val;
+            return;
+        }
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F6CC);
 
