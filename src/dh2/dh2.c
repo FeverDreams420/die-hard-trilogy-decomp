@@ -4450,7 +4450,22 @@ void func_80040D54(Unk80040D54 *f, VECTOR *out) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040F04);
+extern s32 D_800B6FEC[];
+extern u16 D_8009B468[];
+extern s16 D_800B7048[];
+
+void func_80040F04(s32 i) {
+    if (D_8009B468[1] & *(volatile s32 *)D_800B6FEC) {
+        if (++D_800B7048[i] == 0x100) {
+            D_800B7048[i] = 0;
+        }
+    }
+    if (D_8009B468[0] & *(volatile s32 *)D_800B6FEC) {
+        if (--D_800B7048[i] == -1) {
+            D_800B7048[i] = 0xFF;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040FB4);
 
