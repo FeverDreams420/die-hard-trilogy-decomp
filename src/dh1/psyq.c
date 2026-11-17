@@ -207,7 +207,26 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", setIntrDMA);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", memclr_8006C308);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", LoadTPage);
+u16 LoadTPage(u32 *pix, int tp, int abr, int x, int y, int w, int h) {
+    RECT rect;
+
+    rect.x = x;
+    rect.y = y;
+    rect.h = h;
+    switch (tp) {
+    case 0:
+        rect.w = w / 4;
+        break;
+    case 1:
+        rect.w = w / 2;
+        break;
+    case 2:
+        rect.w = w;
+        break;
+    }
+    LoadImage(&rect, pix);
+    return GetTPage(tp, abr, x, y);
+}
 
 u16 LoadClut(u32 *clut, int x, int y) {
     RECT rect;
@@ -584,7 +603,23 @@ u32 _status(void) {
     return *D_8008C5C0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _otc);
+extern volatile u32 *D_8008C5D0, *D_8008C5D4, *D_8008C5D8, *D_8008C5DC;
+void set_alarm(void);
+
+int _otc(u32 *ot, int n) {
+    *D_8008C5DC |= 0x08000000;
+    *D_8008C5D8 = 0;
+    *D_8008C5D0 = (u32)&ot[n - 1];
+    *D_8008C5D4 = n;
+    *D_8008C5D8 = 0x11000002;
+    set_alarm();
+    while (*D_8008C5D8 & 0x01000000) {
+        if (get_alarm()) {
+            return -1;
+        }
+    }
+    return n;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _clr);
 
@@ -1005,7 +1040,34 @@ int CD_vol(u8 *vol) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_flush);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_initvol);
+typedef struct {
+    u8 val0, val1, val2, val3;
+} CdlATV;
+
+extern volatile u16 *D_80090E14;
+extern volatile u8 *D_80090E00, *D_80090E04, *D_80090E08, *D_80090E0C;
+
+int CD_initvol(void) {
+    CdlATV vol;
+
+    if (D_80090E14[0x1B8 / 2] == 0 && D_80090E14[0x1BA / 2] == 0) {
+        D_80090E14[0x180 / 2] = 0x3FFF;
+        D_80090E14[0x182 / 2] = 0x3FFF;
+    }
+    D_80090E14[0x1B0 / 2] = 0x3FFF;
+    D_80090E14[0x1B2 / 2] = 0x3FFF;
+    D_80090E14[0x1AA / 2] = 0xC001;
+    vol.val0 = vol.val2 = 0x80;
+    vol.val1 = vol.val3 = 0;
+    *D_80090E00 = 2;
+    *D_80090E08 = vol.val0;
+    *D_80090E0C = vol.val1;
+    *D_80090E00 = 3;
+    *D_80090E04 = vol.val2;
+    *D_80090E08 = vol.val3;
+    *D_80090E0C = 0x20;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_initintr);
 
@@ -1286,7 +1348,32 @@ void *DecDCToutCallback(void (*func)()) {
     return (void *)DMACallback(1, func);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MDEC_reset);
+extern volatile u32 *D_800919AC, *D_800919B8, *D_800919D8;
+extern u32 D_8009189C[], D_80091920[];
+extern char D_8007C080[];
+
+void MDEC_reset(int mode) {
+    switch (mode) {
+    case 0:
+        *D_800919D8 = 0x80000000;
+        *D_800919AC = 0;
+        *D_800919B8 = 0;
+        *D_800919D8 = 0x60000000;
+        MDEC_in(D_8009189C, 32);
+        MDEC_in(D_80091920, 32);
+        break;
+    case 1:
+        *D_800919D8 = 0x80000000;
+        *D_800919AC = 0;
+        *D_800919B8 = 0;
+        *D_800919B8;
+        *D_800919D8 = 0x60000000;
+        break;
+    default:
+        printf(D_8007C080, mode);
+        break;
+    }
+}
 
 extern volatile u32 *D_800919DC, *D_800919A4, *D_800919A8, *D_800919D4, *D_800919AC;
 

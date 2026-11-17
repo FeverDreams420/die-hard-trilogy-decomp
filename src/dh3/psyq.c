@@ -280,7 +280,34 @@ int CD_vol(u8 *vol) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_flush);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_initvol);
+typedef struct {
+    u8 val0, val1, val2, val3;
+} CdlATV;
+
+extern volatile u16 *D_8009EB70;
+extern volatile u8 *D_8009EB5C, *D_8009EB60, *D_8009EB64, *D_8009EB68;
+
+int CD_initvol(void) {
+    CdlATV vol;
+
+    if (D_8009EB70[0x1B8 / 2] == 0 && D_8009EB70[0x1BA / 2] == 0) {
+        D_8009EB70[0x180 / 2] = 0x3FFF;
+        D_8009EB70[0x182 / 2] = 0x3FFF;
+    }
+    D_8009EB70[0x1B0 / 2] = 0x3FFF;
+    D_8009EB70[0x1B2 / 2] = 0x3FFF;
+    D_8009EB70[0x1AA / 2] = 0xC001;
+    vol.val0 = vol.val2 = 0x80;
+    vol.val1 = vol.val3 = 0;
+    *D_8009EB5C = 2;
+    *D_8009EB64 = vol.val0;
+    *D_8009EB68 = vol.val1;
+    *D_8009EB5C = 3;
+    *D_8009EB60 = vol.val2;
+    *D_8009EB64 = vol.val3;
+    *D_8009EB68 = 0x20;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", CD_initintr);
 
@@ -778,7 +805,23 @@ u32 _status(void) {
     return *D_8009FEA8;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _otc);
+extern volatile u32 *D_8009FEB8, *D_8009FEBC, *D_8009FEC0, *D_8009FEC4;
+void set_alarm(void);
+
+int _otc(u32 *ot, int n) {
+    *D_8009FEC4 |= 0x08000000;
+    *D_8009FEC0 = 0;
+    *D_8009FEB8 = (u32)&ot[n - 1];
+    *D_8009FEBC = n;
+    *D_8009FEC0 = 0x11000002;
+    set_alarm();
+    while (*D_8009FEC0 & 0x01000000) {
+        if (get_alarm()) {
+            return -1;
+        }
+    }
+    return n;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _clr);
 
@@ -1050,7 +1093,26 @@ void DumpDispEnv(DISPENV *env) {
     (*D_8009FDD0)(D_8008784C, env->isrgb24);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", LoadTPage);
+u16 LoadTPage(u32 *pix, int tp, int abr, int x, int y, int w, int h) {
+    RECT rect;
+
+    rect.x = x;
+    rect.y = y;
+    rect.h = h;
+    switch (tp) {
+    case 0:
+        rect.w = w / 4;
+        break;
+    case 1:
+        rect.w = w / 2;
+        break;
+    case 2:
+        rect.w = w;
+        break;
+    }
+    LoadImage(&rect, pix);
+    return GetTPage(tp, abr, x, y);
+}
 
 u16 LoadClut(u32 *clut, int x, int y) {
     RECT rect;
@@ -1268,7 +1330,32 @@ void *DecDCToutCallback(void (*func)()) {
     return (void *)DMACallback(1, func);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", MDEC_reset);
+extern volatile u32 *D_800A44A4, *D_800A44B0, *D_800A44D0;
+extern u32 D_800A4394[], D_800A4418[];
+extern char D_80087858[];
+
+void MDEC_reset(int mode) {
+    switch (mode) {
+    case 0:
+        *D_800A44D0 = 0x80000000;
+        *D_800A44A4 = 0;
+        *D_800A44B0 = 0;
+        *D_800A44D0 = 0x60000000;
+        MDEC_in(D_800A4394, 32);
+        MDEC_in(D_800A4418, 32);
+        break;
+    case 1:
+        *D_800A44D0 = 0x80000000;
+        *D_800A44A4 = 0;
+        *D_800A44B0 = 0;
+        *D_800A44B0;
+        *D_800A44D0 = 0x60000000;
+        break;
+    default:
+        printf(D_80087858, mode);
+        break;
+    }
+}
 
 extern volatile u32 *D_800A44D4, *D_800A449C, *D_800A44A0, *D_800A44CC, *D_800A44A4;
 

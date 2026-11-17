@@ -509,7 +509,34 @@ int CD_vol(u8 *vol) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_flush);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_initvol);
+typedef struct {
+    u8 val0, val1, val2, val3;
+} CdlATV;
+
+extern volatile u16 *D_800A2CE0;
+extern volatile u8 *D_800A2CCC, *D_800A2CD0, *D_800A2CD4, *D_800A2CD8;
+
+int CD_initvol(void) {
+    CdlATV vol;
+
+    if (D_800A2CE0[0x1B8 / 2] == 0 && D_800A2CE0[0x1BA / 2] == 0) {
+        D_800A2CE0[0x180 / 2] = 0x3FFF;
+        D_800A2CE0[0x182 / 2] = 0x3FFF;
+    }
+    D_800A2CE0[0x1B0 / 2] = 0x3FFF;
+    D_800A2CE0[0x1B2 / 2] = 0x3FFF;
+    D_800A2CE0[0x1AA / 2] = 0xC001;
+    vol.val0 = vol.val2 = 0x80;
+    vol.val1 = vol.val3 = 0;
+    *D_800A2CCC = 2;
+    *D_800A2CD4 = vol.val0;
+    *D_800A2CD8 = vol.val1;
+    *D_800A2CCC = 3;
+    *D_800A2CD0 = vol.val2;
+    *D_800A2CD4 = vol.val3;
+    *D_800A2CD8 = 0x20;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CD_initintr);
 
@@ -1141,8 +1168,6 @@ void v_wait(int n, int cnt) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ResetGraph);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetGraphReverse);
-
 typedef struct {
     u32 tag;
     u32 code[15];
@@ -1160,28 +1185,46 @@ typedef struct {
     DR_ENV dr_env;
 } DRAWENV;
 
-/* libgpu state at 0x800A3F40 */
+/* libgpu state at 0x800A3F44, after the debug print function */
 typedef struct {
-    int (*printf)(char *fmt, ...);
     u8 type;
     u8 queue;
     u8 debug;
     u8 reverse;
     s16 w, h;
-    u8 unkC[8];
+    u8 unk8[8];
     DRAWENV draw;
     DISPENV disp;
 } GpuEnv;
-extern GpuEnv D_800A3F40;
+extern int (*D_800A3F40)(char *fmt, ...);
+extern GpuEnv D_800A3F44;
+
+extern u32 (**D_800A3F3C)();
+extern char D_80089048[];
+
+int SetGraphReverse(int mode) {
+    u8 old = D_800A3F44.reverse;
+
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_80089048, mode);
+    }
+    D_800A3F44.reverse = mode;
+    D_800A3F3C[4](D_800A3F3C[10](8) | (D_800A3F44.reverse ? 0x08000080 : 0x08000000));
+    if (D_800A3F44.type == 2) {
+        D_800A3F3C[4](D_800A3F44.reverse ? 0x20000501 : 0x20000504);
+    }
+    return old;
+}
+
 
 extern char D_80089060[];
 
 int SetGraphDebug(int level) {
-    u8 old = D_800A3F40.debug;
+    u8 old = D_800A3F44.debug;
 
-    D_800A3F40.debug = level;
+    D_800A3F44.debug = level;
     if (level & 0xFF) {
-        D_800A3F40.printf(D_80089060, D_800A3F40.debug, D_800A3F40.type, D_800A3F40.reverse);
+        (*D_800A3F40)(D_80089060, D_800A3F44.debug, D_800A3F44.type, D_800A3F44.reverse);
     }
     return old;
 }
@@ -1190,26 +1233,26 @@ extern u32 (**D_800A3F3C)();
 extern char D_8008908C[];
 
 int SetGraphQueue(int mode) {
-    u8 old = D_800A3F40.queue;
+    u8 old = D_800A3F44.queue;
 
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_8008908C, mode);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_8008908C, mode);
     }
-    if (mode != D_800A3F40.queue) {
+    if (mode != D_800A3F44.queue) {
         D_800A3F3C[13](1);
-        D_800A3F40.queue = mode;
+        D_800A3F44.queue = mode;
         DMACallback(2, 0);
     }
     return old;
 }
 
 int GetGraphType(void) {
-    return D_800A3F40.type;
+    return D_800A3F44.type;
 }
 
 
 int GetGraphDebug(void) {
-    return D_800A3F40.debug;
+    return D_800A3F44.debug;
 }
 
 extern char D_800890A0[];
@@ -1218,8 +1261,8 @@ extern void *D_800A3F50;
 void *DrawSyncCallback(void *func) {
     void *old;
 
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_800890A0, func);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_800890A0, func);
     }
     old = D_800A3F50;
     D_800A3F50 = func;
@@ -1230,11 +1273,11 @@ extern u32 (**D_800A3F3C)();
 extern char D_800890BC[];
 
 void SetDispMask(int mask) {
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_800890BC, mask);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_800890BC, mask);
     }
     if (mask == 0) {
-        memset_80083B40((u8 *)&D_800A3F40.disp, -1, sizeof(DISPENV));
+        memset_80083B40((u8 *)&D_800A3F44.disp, -1, sizeof(DISPENV));
     }
     D_800A3F3C[4](mask ? 0x03000000 : 0x03000001);
 }
@@ -1243,8 +1286,8 @@ extern u32 (**D_800A3F3C)();
 extern char D_800890D0[];
 
 int DrawSync(int mode) {
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_800890D0, mode);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_800890D0, mode);
     }
     return D_800A3F3C[15](mode);
 }
@@ -1294,8 +1337,8 @@ extern char D_80089138[];
 extern u32 D_800A4000;
 
 u32 *ClearOTag(u32 *ot, int n) {
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_80089138, ot, n);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_80089138, ot, n);
     }
     while (--n) {
         setlen(ot, 0);
@@ -1311,8 +1354,8 @@ extern char D_80089150[];
 extern u32 D_800A4000;
 
 u32 *ClearOTagR(u32 *ot, int n) {
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_80089150, ot, n);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_80089150, ot, n);
     }
     D_800A3F3C[11](ot, n);
     *ot = (u32)&D_800A4000 & 0xFFFFFF;
@@ -1332,8 +1375,8 @@ extern u32 (**D_800A3F3C)();
 extern char D_80089168[];
 
 void DrawOTag(u32 *p) {
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_80089168, p);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_80089168, p);
     }
     D_800A3F3C[2](D_800A3F3C[6], p, 0, 0);
 }
@@ -1342,13 +1385,13 @@ extern u32 (**D_800A3F3C)();
 extern char D_8008917C[];
 
 DRAWENV *PutDrawEnv(DRAWENV *env) {
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_8008917C, env);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_8008917C, env);
     }
     SetDrawEnv(&env->dr_env, env);
     env->dr_env.tag |= 0xFFFFFF;
     D_800A3F3C[2](D_800A3F3C[6], &env->dr_env, 0x40, 0);
-    memcpy(&D_800A3F40.draw, env, sizeof(DRAWENV));
+    memcpy(&D_800A3F44.draw, env, sizeof(DRAWENV));
     return env;
 }
 
@@ -1356,13 +1399,13 @@ extern u32 (**D_800A3F3C)();
 extern char D_80089194[];
 
 void DrawOTagEnv(u32 *p, DRAWENV *env) {
-    if (D_800A3F40.debug >= 2) {
-        D_800A3F40.printf(D_80089194, p, env);
+    if (D_800A3F44.debug >= 2) {
+        (*D_800A3F40)(D_80089194, p, env);
     }
     SetDrawEnv(&env->dr_env, env);
     setaddr(&env->dr_env, p);
     D_800A3F3C[2](D_800A3F3C[6], &env->dr_env, 0x40, 0);
-    memcpy(&D_800A3F40.draw, env, sizeof(DRAWENV));
+    memcpy(&D_800A3F44.draw, env, sizeof(DRAWENV));
 }
 
 extern u8 D_800A3F54[];
@@ -1453,7 +1496,23 @@ u32 _status(void) {
     return *D_800A4018;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _otc);
+extern volatile u32 *D_800A4028, *D_800A402C, *D_800A4030, *D_800A4034;
+void set_alarm(void);
+
+int _otc(u32 *ot, int n) {
+    *D_800A4034 |= 0x08000000;
+    *D_800A4030 = 0;
+    *D_800A4028 = (u32)&ot[n - 1];
+    *D_800A402C = n;
+    *D_800A4030 = 0x11000002;
+    set_alarm();
+    while (*D_800A4030 & 0x01000000) {
+        if (get_alarm()) {
+            return -1;
+        }
+    }
+    return n;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _clr);
 
@@ -1565,9 +1624,9 @@ extern char D_80089214[];
 
 void DumpTPage(u16 tpage) {
     if (GetGraphType() == 1 || GetGraphType() == 2) {
-        D_800A3F40.printf(D_80089214, (tpage >> 9) & 3, (tpage >> 7) & 3, (tpage << 6) & 0x7C0, (tpage << 3) & 0x300);
+        (*D_800A3F40)(D_80089214, (tpage >> 9) & 3, (tpage >> 7) & 3, (tpage << 6) & 0x7C0, (tpage << 3) & 0x300);
     } else {
-        D_800A3F40.printf(D_80089214, (tpage >> 7) & 3, (tpage >> 5) & 3, (tpage << 6) & 0x7C0,
+        (*D_800A3F40)(D_80089214, (tpage >> 7) & 3, (tpage >> 5) & 3, (tpage << 6) & 0x7C0,
                           ((tpage << 4) & 0x100) + ((tpage >> 2) & 0x200));
     }
 }
@@ -1575,7 +1634,7 @@ void DumpTPage(u16 tpage) {
 extern char D_8008922C[];
 
 void DumpClut(u16 clut) {
-    (*D_800A3F40.printf)(D_8008922C, (clut & 0x3F) << 4, clut >> 6);
+    (*D_800A3F40)(D_8008922C, (clut & 0x3F) << 4, clut >> 6);
 }
 
 void *NextPrim(void *p) {
@@ -1769,7 +1828,14 @@ int MargePrim(void *p0, void *p1) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DumpDrawEnv);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DumpDispEnv);
+extern char D_80089294[], D_800892B0[], D_800892CC[], D_800892D8[];
+
+void DumpDispEnv(DISPENV *env) {
+    (*D_800A3F40)(D_80089294, env->disp.x, env->disp.y, env->disp.w, env->disp.h);
+    (*D_800A3F40)(D_800892B0, env->screen.x, env->screen.y, env->screen.w, env->screen.h);
+    (*D_800A3F40)(D_800892CC, env->isinter);
+    (*D_800A3F40)(D_800892D8, env->isrgb24);
+}
 
 extern int D_800A41E4, D_800A41E8;
 int FntPrint(char *fmt, ...);
@@ -1777,7 +1843,7 @@ int FntPrint(char *fmt, ...);
 void SetDumpFnt(int id) {
     if (id >= 0 && id <= D_800A41E4) {
         D_800A41E8 = id;
-        D_800A3F40.printf = FntPrint;
+        D_800A3F40 = FntPrint;
     }
 }
 
@@ -1800,7 +1866,26 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", FntFlush);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", FntPrint);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", LoadTPage);
+u16 LoadTPage(u32 *pix, int tp, int abr, int x, int y, int w, int h) {
+    RECT rect;
+
+    rect.x = x;
+    rect.y = y;
+    rect.h = h;
+    switch (tp) {
+    case 0:
+        rect.w = w / 4;
+        break;
+    case 1:
+        rect.w = w / 2;
+        break;
+    case 2:
+        rect.w = w;
+        break;
+    }
+    LoadImage(&rect, pix);
+    return GetTPage(tp, abr, x, y);
+}
 
 u16 LoadClut(u32 *clut, int x, int y) {
     RECT rect;
@@ -2127,7 +2212,32 @@ void *DecDCToutCallback(void (*func)()) {
     return (void *)DMACallback(1, func);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MDEC_reset);
+extern volatile u32 *D_800A51A4, *D_800A51B0, *D_800A51D0;
+extern u32 D_800A5094[], D_800A5118[];
+extern char D_80089380[];
+
+void MDEC_reset(int mode) {
+    switch (mode) {
+    case 0:
+        *D_800A51D0 = 0x80000000;
+        *D_800A51A4 = 0;
+        *D_800A51B0 = 0;
+        *D_800A51D0 = 0x60000000;
+        MDEC_in(D_800A5094, 32);
+        MDEC_in(D_800A5118, 32);
+        break;
+    case 1:
+        *D_800A51D0 = 0x80000000;
+        *D_800A51A4 = 0;
+        *D_800A51B0 = 0;
+        *D_800A51B0;
+        *D_800A51D0 = 0x60000000;
+        break;
+    default:
+        printf(D_80089380, mode);
+        break;
+    }
+}
 
 extern volatile u32 *D_800A51D4, *D_800A519C, *D_800A51A0, *D_800A51CC, *D_800A51A4;
 
