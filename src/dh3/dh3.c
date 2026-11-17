@@ -8752,7 +8752,14 @@ u8 *func_80077D64(u8 *s) {
     return s;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077D8C);
+u8 *func_80077D8C(u8 *s) {
+    for (;;) {
+        if ((u32)(*s - '0') < 10 && s[-1] == ' ') {
+            return s;
+        }
+        s++;
+    }
+}
 
 char *func_80077DC8(char *arg0) {
     return arg0;
