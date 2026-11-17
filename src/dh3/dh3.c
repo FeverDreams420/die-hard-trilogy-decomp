@@ -5781,7 +5781,38 @@ void func_80051DA4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051E7C);
+typedef struct {
+    s32 vol;
+    u8 pad4[0x10];
+} Unk80051E7C_Ch;
+
+typedef struct {
+    u8 pad0[0x20];
+    Unk80051E7C_Ch ch[1];
+} Unk80051E7C_Chs;
+
+typedef struct {
+    u8 pad0[0x1C];
+    Unk80051E7C_Chs *chs;
+    u8 pad20[0x18];
+    s16 cur;
+} Unk80051E7C;
+
+extern u32 D_800B5FC4[];
+extern u16 D_800972F8;
+
+void func_80051E7C(Unk80051E7C *s) {
+    Unk80051E7C_Chs *chs = s->chs;
+
+    if (D_800972FA & D_800B5FC4[0]) {
+        chs->ch[s->cur].vol = func_8002881C((s16)chs->ch[s->cur].vol, 0x1000, 0x80);
+        func_80053AA8();
+    }
+    if (D_800972F8 & D_800B5FC4[0]) {
+        chs->ch[s->cur].vol = func_8002881C((s16)chs->ch[s->cur].vol, 0, 0x80);
+        func_80053AA8();
+    }
+}
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B568C);
 
