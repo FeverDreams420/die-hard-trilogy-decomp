@@ -4647,7 +4647,25 @@ void func_8004DCC4(s32 arg) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DD0C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DE58);
+extern s32 *D_800B6464;
+extern void *D_800B5E4C;
+extern s32 *D_800B65AC;
+void *func_80071BB0(void *data, s16 i);
+u32 func_80071BC8(void *data, s16 i);
+s32 func_8002826C(s32 size);
+void func_8004FF54(void);
+
+void func_8004DE58(void) {
+    D_800B6464 = (s32 *)func_8002826C((s32)D_800B6464);
+    D_800B5D3C = func_80071BB0(D_800B5E4C, 1);
+    D_800B6544 = 0;
+    D_800B62EC = D_800B6464;
+    D_800B5D04 = func_80071BC8(D_800B5E4C, 1);
+    D_800B65AC = D_800B6464;
+    D_800B6464 = (s32 *)((u8 *)D_800B6464 + D_800B5D04);
+    D_800B604C->saved = D_800B604C->func;
+    D_800B604C->func = func_8004FF54;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DF04);
 
