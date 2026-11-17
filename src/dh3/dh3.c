@@ -1330,7 +1330,8 @@ s32 func_80028B58(VECTOR *v) {
 }
 
 typedef struct {
-    u8 pad0[6];
+    u8 pad0[5];
+    u8 unk5;
     u8 unk6;
     u8 pad7;
 } Unk800B62C4;
@@ -5599,7 +5600,38 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004E1E4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004ED7C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004FB4C);
+extern u8 D_800B63EC;
+extern VECTOR D_801FA448[];
+
+void func_8004FB4C(void) {
+    VECTOR v;
+    s16 i;
+    s16 j;
+    u8 k;
+    s32 d;
+    s32 best;
+    u8 bestk;
+
+    i = 0x7F;
+    do {
+        j = 0x3F;
+        do {
+            k = D_800B63EC;
+            best = 32000;
+            bestk = 0xFF;
+            while (k--) {
+                v.vx = (j << 12) + 0x800;
+                v.vz = (i << 12) + 0x800;
+                d = func_80028A48(&v, &D_801FA448[k]);
+                if (d < best) {
+                    best = d;
+                    bestk = k;
+                }
+            }
+            D_800B62C4[(j & 0x3F) + ((i & 0x7F) << 6)].unk5 = bestk;
+        } while (j--);
+    } while (i--);
+}
 
 extern s32 *D_800B6074;
 extern s16 D_800B66DC;
