@@ -3800,7 +3800,16 @@ void func_80032DA0(Unk80032DA0 *obj) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032DF4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032E50);
+void func_80032DF4(s32);
+
+void func_80032E50(s32 *p) {
+    if (p != NULL) {
+        func_80032DF4(p[0]);
+        func_80032DF4(p[1]);
+        func_80032DF4(p[2]);
+        func_80032DF4(p[3]);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032EA8);
 
