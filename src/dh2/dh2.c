@@ -4459,7 +4459,27 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003EE98);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F134);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F314);
+typedef struct {
+    u8 ft4[0x960][0x28];
+    u8 pad17700[0x1024];
+} Unk8016B318;
+
+extern Unk8016B318 D_8016B318[];
+extern s16 D_800B73C0;
+extern u8 *D_800B7100;
+void func_8005F604();
+
+void func_8003F314(s32 id, s16 from, s32 to) {
+    Unk8016B318 *dst = &D_8016B318[(D_800B73C0 + 1) % 2];
+    u8 *src;
+    s32 size;
+
+    DrawSync(0);
+    src = D_800B7100 + from * 0xC0;
+    size = (s16)(to - from + 1) * 0xC0;
+    memcpy(dst, src, size);
+    func_8005F604(id, dst, size, 0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F408);
 
