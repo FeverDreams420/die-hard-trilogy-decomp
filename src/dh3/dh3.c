@@ -6800,7 +6800,29 @@ void func_80068B48(void) {
     func_800691E8(&D_8018CC68, (s32)func_80068A3C);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068BD4);
+typedef struct {
+    u32 unk0;
+    u8 pad4[0x14];
+    s32 unk18;
+    u8 pad1C[0xC];
+} Unk801DA6DC;
+
+extern Unk801DA6DC D_801DA6DC[];
+extern SpuVoiceAttr D_801F76E4;
+extern void func_80066B58(s32 left, s32 right, s16 voice);
+
+void func_80068BD4(s16 voice) {
+    s32 bit;
+
+    D_801DA6DC[voice].unk18 = 0;
+    D_801DA6DC[voice].unk0 = -1;
+    func_80066B58(0, 0, voice);
+    D_801F76E4.mask = 3;
+    bit = 1 << voice;
+    D_801F76E4.voice = bit;
+    SpuSetVoiceAttr(&D_801F76E4);
+    SpuSetKey(0, bit);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068C70);
 
