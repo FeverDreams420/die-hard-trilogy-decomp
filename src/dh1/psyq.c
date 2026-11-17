@@ -208,23 +208,29 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", memclr_8006C308);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", LoadTPage);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", LoadClut);
+u16 LoadClut(u32 *clut, int x, int y) {
+    RECT rect;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", LoadClut2);
+    rect.x = x;
+    rect.y = y;
+    rect.w = 256;
+    rect.h = 1;
+    LoadImage(&rect, clut);
+    return GetClut(x, y);
+}
+
+u16 LoadClut2(u32 *clut, int x, int y) {
+    RECT rect;
+
+    rect.x = x;
+    rect.y = y;
+    rect.w = 16;
+    rect.h = 1;
+    LoadImage(&rect, clut);
+    return GetClut(x, y);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetDefDrawEnv);
-
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    u8 isinter;
-    u8 isrgb24;
-    u8 pad0, pad1;
-} DISPENV;
 
 DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h) {
     env->disp.x = x;
@@ -451,9 +457,21 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", checkRECT);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", ClearImage);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", LoadImage);
+extern u32 (**D_8008C4E4)();
+extern char D_8007B9C0[];
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", StoreImage);
+int LoadImage(RECT *rect, u32 *p) {
+    checkRECT(D_8007B9C0, rect);
+    return D_8008C4E4[2](D_8008C4E4[8], rect, 8, p);
+}
+
+extern u32 (**D_8008C4E4)();
+extern char D_8007B9CC[];
+
+int StoreImage(RECT *rect, u32 *p) {
+    checkRECT(D_8007B9CC, rect);
+    return D_8008C4E4[2](D_8008C4E4[7], rect, 8, p);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MoveImage);
 
@@ -461,7 +479,14 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", ClearOTag);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", ClearOTagR);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DrawPrim);
+extern u32 (**D_8008C4E4)();
+
+void DrawPrim(void *p) {
+    int len = ((P_TAG *)p)->len;
+
+    D_8008C4E4[15](0);
+    D_8008C4E4[5]((u32 *)p + 1, len);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DrawOTag);
 
@@ -960,7 +985,21 @@ void StCdInterrupt2(void) {
     StCdInterrupt();
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", StClearRing);
+extern int D_801F97B8, D_801F97B0, D_801F97AC, D_801D20EC;
+extern u32 D_801FC0F8;
+extern int D_801C0950, D_800A7FD0;
+extern s16 D_800A7FE4;
+
+void StClearRing(void) {
+    D_801F97B8 = 0;
+    D_801F97B0 = 0;
+    D_801F97AC = 0;
+    D_801D20EC = 0;
+    init_ring_status(0, D_801FC0F8);
+    D_801C0950 = 0;
+    D_800A7FE4 = 0;
+    D_800A7FD0 = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", func_80074D48);
 
@@ -1010,7 +1049,15 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _spu_t);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _spu_write);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _spu_read);
+extern u16 D_800913B8;
+extern int D_800913E0;
+
+int _spu_read(int addr, int size) {
+    _spu_t(2, D_800913B8 << D_800913E0);
+    _spu_t(0);
+    _spu_t(3, addr, size);
+    return size;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _spu_FsetRXX);
 

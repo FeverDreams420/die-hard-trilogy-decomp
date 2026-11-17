@@ -42,7 +42,15 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_t);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_write);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _spu_read);
+extern u16 D_800A2194;
+extern int D_800A21BC;
+
+int _spu_read(int addr, int size) {
+    _spu_t(2, D_800A2194 << D_800A21BC);
+    _spu_t(0);
+    _spu_t(3, addr, size);
+    return size;
+}
 
 extern volatile u16 *D_800A2198;
 extern int D_800A21BC;
@@ -137,7 +145,18 @@ u32 SpuSetTransferStartAddr(u32 addr) {
     return addr;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuRead);
+extern int D_800A21CC, D_800A21C8;
+
+u32 SpuRead(u8 *addr, u32 size) {
+    if (size > 0x7F000) {
+        size = 0x7F000;
+    }
+    _spu_write(addr, size);
+    if (D_800A21CC == 0) {
+        D_800A21C8 = 0;
+    }
+    return size;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SpuSetKey);
 
@@ -197,7 +216,19 @@ u8 *CdLastPos(void) {
     return D_800A2A24;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdReset);
+int CdReset(int mode) {
+    if (mode == 2) {
+        CD_initintr();
+        return 1;
+    }
+    if (CD_init()) {
+        return 0;
+    }
+    if (mode == 1 && CD_initvol()) {
+        return 0;
+    }
+    return 1;
+}
 
 void CdFlush(void) {
     CD_flush();
@@ -386,13 +417,36 @@ void StSetRing(u32 *ring_addr, u32 ring_size) {
     StClearRing();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StClearRing);
+extern int D_801F92B0, D_801F92AC, D_801F92A8, D_801D9D98;
+extern u32 D_801F9DEC;
+extern int D_8015EB64, D_800BD674;
+extern s16 D_800BD968;
+
+void StClearRing(void) {
+    D_801F92B0 = 0;
+    D_801F92AC = 0;
+    D_801F92A8 = 0;
+    D_801D9D98 = 0;
+    init_ring_status(0, D_801F9DEC);
+    D_8015EB64 = 0;
+    D_800BD968 = 0;
+    D_800BD674 = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StGetNext);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", data_ready_callback);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StGetBackloc);
+extern int D_800BD970, D_800B78C4;
+extern u8 D_800B78C0[];
+
+int StGetBackloc(u8 *loc) {
+    if (D_800BD970 != 0) {
+        return -1;
+    }
+    CdIntToPos(CdPosToInt(D_800B78C0) + 1, loc);
+    return D_800B78C4;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StFreeRing);
 
@@ -725,15 +779,37 @@ void *DrawSyncCallback(void *func) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDispMask);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DrawSync);
+extern u8 D_800A3F46;
+extern int (*D_800A3F40)(char *fmt, ...);
+extern u32 (**D_800A3F3C)();
+extern char D_800890D0[];
+
+int DrawSync(int mode) {
+    if (D_800A3F46 >= 2) {
+        D_800A3F40(D_800890D0, mode);
+    }
+    return D_800A3F3C[15](mode);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", checkRECT);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ClearImage);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", LoadImage);
+extern u32 (**D_800A3F3C)();
+extern char D_80089114[];
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StoreImage);
+int LoadImage(RECT *rect, u32 *p) {
+    checkRECT(D_80089114, rect);
+    return D_800A3F3C[2](D_800A3F3C[8], rect, 8, p);
+}
+
+extern u32 (**D_800A3F3C)();
+extern char D_80089120[];
+
+int StoreImage(RECT *rect, u32 *p) {
+    checkRECT(D_80089120, rect);
+    return D_800A3F3C[2](D_800A3F3C[7], rect, 8, p);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MoveImage);
 
@@ -741,7 +817,14 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ClearOTag);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ClearOTagR);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DrawPrim);
+extern u32 (**D_800A3F3C)();
+
+void DrawPrim(void *p) {
+    int len = ((P_TAG *)p)->len;
+
+    D_800A3F3C[15](0);
+    D_800A3F3C[5]((u32 *)p + 1, len);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DrawOTag);
 
@@ -1079,7 +1162,19 @@ void SetDrawMove(u32 *p) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawTPage);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDrawLoad);
+void SetDrawLoad(u32 *p, RECT *r) {
+    int n = (r->w * r->h + 1) / 2;
+    int len = n + 4;
+
+    if (n <= 0 || n > 11) {
+        len = 0;
+    }
+    setlen(p, len);
+    p[1] = 0x01000000;
+    p[2] = 0xA0000000;
+    p[3] = *(u32 *)&r->x;
+    p[4] = *(u32 *)&r->w;
+}
 
 int MargePrim(void *p0, void *p1) {
     int len = ((P_TAG *)p0)->len + ((P_TAG *)p1)->len + 1;
@@ -1117,23 +1212,29 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", FntPrint);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", LoadTPage);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", LoadClut);
+u16 LoadClut(u32 *clut, int x, int y) {
+    RECT rect;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", LoadClut2);
+    rect.x = x;
+    rect.y = y;
+    rect.w = 256;
+    rect.h = 1;
+    LoadImage(&rect, clut);
+    return GetClut(x, y);
+}
+
+u16 LoadClut2(u32 *clut, int x, int y) {
+    RECT rect;
+
+    rect.x = x;
+    rect.y = y;
+    rect.w = 16;
+    rect.h = 1;
+    LoadImage(&rect, clut);
+    return GetClut(x, y);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDefDrawEnv);
-
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    u8 isinter;
-    u8 isrgb24;
-    u8 pad0, pad1;
-} DISPENV;
 
 DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h) {
     env->disp.x = x;
@@ -1253,7 +1354,10 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", RotNclip3);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", RotNclip4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetFogFar);
+void SetFogFar(int a, int h) {
+    SetDQA(-a * 64 / h);
+    SetDQB(0x1400000);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetVertex0);
 
@@ -1287,7 +1391,10 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDQB);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetTransMatrix);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetFogNear);
+void SetFogNear(int a, int h) {
+    SetDQA(-(a * 320) / h);
+    SetDQB(0x1400000);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MulMatrix2);
 

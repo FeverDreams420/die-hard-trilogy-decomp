@@ -17,4 +17,16 @@ typedef struct {
 #define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
+typedef struct {
+    RECT disp;
+    RECT screen;
+    u8 isinter;
+    u8 isrgb24;
+    u8 pad0, pad1;
+} DISPENV;
+
 #endif /* LIBGPU_H */

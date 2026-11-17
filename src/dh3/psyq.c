@@ -42,7 +42,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _spu_t);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _spu_write);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _spu_read);
+extern u16 D_8009E024;
+extern int D_8009E04C;
+
+int _spu_read(int addr, int size) {
+    _spu_t(2, D_8009E024 << D_8009E04C);
+    _spu_t(0);
+    _spu_t(3, addr, size);
+    return size;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", _spu_FsetRXX);
 
@@ -295,7 +303,21 @@ void StSetRing(u32 *ring_addr, u32 ring_size) {
     StClearRing();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", StClearRing);
+extern int D_801FA0BC, D_801FA0B8, D_801FA0B4, D_801DA6BC;
+extern u32 D_801FAE00;
+extern int D_8018CD90, D_800B9EA0;
+extern s16 D_800BA19C;
+
+void StClearRing(void) {
+    D_801FA0BC = 0;
+    D_801FA0B8 = 0;
+    D_801FA0B4 = 0;
+    D_801DA6BC = 0;
+    init_ring_status(0, D_801FAE00);
+    D_8018CD90 = 0;
+    D_800BA19C = 0;
+    D_800B9EA0 = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", StGetNext);
 
@@ -563,9 +585,21 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", checkRECT);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", ClearImage);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", LoadImage);
+extern u32 (**D_8009FDCC)();
+extern char D_80087688[];
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", StoreImage);
+int LoadImage(RECT *rect, u32 *p) {
+    checkRECT(D_80087688, rect);
+    return D_8009FDCC[2](D_8009FDCC[8], rect, 8, p);
+}
+
+extern u32 (**D_8009FDCC)();
+extern char D_80087694[];
+
+int StoreImage(RECT *rect, u32 *p) {
+    checkRECT(D_80087694, rect);
+    return D_8009FDCC[2](D_8009FDCC[7], rect, 8, p);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", MoveImage);
 
@@ -573,7 +607,14 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", ClearOTag);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", ClearOTagR);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DrawPrim);
+extern u32 (**D_8009FDCC)();
+
+void DrawPrim(void *p) {
+    int len = ((P_TAG *)p)->len;
+
+    D_8009FDCC[15](0);
+    D_8009FDCC[5]((u32 *)p + 1, len);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DrawOTag);
 
@@ -893,23 +934,29 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DumpDispEnv);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", LoadTPage);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", LoadClut);
+u16 LoadClut(u32 *clut, int x, int y) {
+    RECT rect;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", LoadClut2);
+    rect.x = x;
+    rect.y = y;
+    rect.w = 256;
+    rect.h = 1;
+    LoadImage(&rect, clut);
+    return GetClut(x, y);
+}
+
+u16 LoadClut2(u32 *clut, int x, int y) {
+    RECT rect;
+
+    rect.x = x;
+    rect.y = y;
+    rect.w = 16;
+    rect.h = 1;
+    LoadImage(&rect, clut);
+    return GetClut(x, y);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetDefDrawEnv);
-
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    u8 isinter;
-    u8 isrgb24;
-    u8 pad0, pad1;
-} DISPENV;
 
 DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h) {
     env->disp.x = x;
