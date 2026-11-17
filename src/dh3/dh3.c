@@ -4363,7 +4363,25 @@ void func_800486B4(SVECTOR *pos, SVECTOR *vel, s32 count, s32 scale) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048748);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048808);
+typedef struct {
+    u8 pad0[0x1E];
+    s16 unk1E;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    s16 unk26;
+    u8 pad28[3];
+    u8 unk2B;
+} Unk80048808;
+
+void func_80048808(Unk80048808 *p) {
+    p->unk2B = 0;
+    p->unk1E = 0x4920;
+    p->unk20 = 0x4A60;
+    p->unk22 = 0x4948;
+    p->unk24 = 0x4948;
+    p->unk26 = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048830);
 
