@@ -643,7 +643,29 @@ void StClearRing(void) {
     D_800BD674 = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StGetNext);
+extern u32 *D_801F9640;
+extern u32 D_801F9DEC;
+extern int D_801F92B0;
+extern s32 D_801F95AC;
+
+int StGetNext(u32 **addr, u32 **header) {
+    volatile u16 *p = (u16 *)&D_801F9640[D_801F92B0 * 8];
+
+    if (*p == 1) {
+        D_801F92B0 = 0;
+        if (D_801F95AC != 0) {
+            *p = 0;
+        }
+        p = (u16 *)&D_801F9640[D_801F92B0 * 8];
+    }
+    if (*p != 2) {
+        return 1;
+    }
+    *p = 4;
+    *addr = (u32 *)((u8 *)&D_801F9640[D_801F9DEC * 8] + D_801F92B0 * 2016);
+    *header = (u32 *)p;
+    return 0;
+}
 
 extern u32 *D_801F9640;
 extern int D_801F92AC, D_801F92A8, D_801D9D98, D_800B78C4;
@@ -674,7 +696,27 @@ int StGetBackloc(u8 *loc) {
     return D_800B78C4;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", StFreeRing);
+extern u32 *D_801F9640;
+extern u32 D_801F9DEC;
+extern int D_801F92B0;
+
+int StFreeRing(u32 *base) {
+    int i, k;
+    s16 n;
+    s16 *p;
+
+    k = (base - &D_801F9640[D_801F9DEC * 8]) / 504;
+    p = (s16 *)&D_801F9640[k * 8];
+    n = p[3];
+    if (p[0] != 4) {
+        return 1;
+    }
+    for (i = 0; i < n; i++) {
+        *(u16 *)&D_801F9640[(i + k) * 8] = 0;
+    }
+    D_801F92B0 = i + k;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _card_info);
 
@@ -921,8 +963,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", trapIntr);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", setIntr);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", stopIntr);
-
 typedef struct {
     u16 started;
     u16 unk2[24];
@@ -933,6 +973,22 @@ typedef struct {
 extern IntrEnv D_800A2E00;
 extern volatile u16 *D_800A3E90;
 extern volatile u32 *D_800A3E94;
+extern volatile u16 *D_800A3E8C;
+void ResetEntryInt();
+
+void *stopIntr(void) {
+    if (D_800A2E00.started == 0) {
+        return 0;
+    }
+    func_8007FD1C();
+    D_800A2E00.mask = *D_800A3E90;
+    D_800A2E00.dmask = *D_800A3E94;
+    *D_800A3E8C = *D_800A3E90 = 0;
+    *D_800A3E94 &= 0x77777777;
+    ResetEntryInt();
+    D_800A2E00.started = 0;
+    return &D_800A2E00;
+}
 
 void *restartIntr(void) {
     if (D_800A2E00.started) {
@@ -1136,7 +1192,23 @@ int StoreImage(RECT *rect, u32 *p) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MoveImage);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ClearOTag);
+extern u8 D_800A3F46;
+extern int (*D_800A3F40)(char *fmt, ...);
+extern char D_80089138[];
+extern u32 D_800A4000;
+
+u32 *ClearOTag(u32 *ot, int n) {
+    if (D_800A3F46 >= 2) {
+        D_800A3F40(D_80089138, ot, n);
+    }
+    while (--n) {
+        setlen(ot, 0);
+        setaddr(ot, ot + 1);
+        ot++;
+    }
+    *ot = (u32)&D_800A4000 & 0xFFFFFF;
+    return ot;
+}
 
 extern u8 D_800A3F46;
 extern int (*D_800A3F40)(char *fmt, ...);
