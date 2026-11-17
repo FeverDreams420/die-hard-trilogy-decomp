@@ -786,7 +786,32 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024444);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024504);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800246B0);
+extern u32 *D_800B62CC;
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 w, h;
+} TILE;
+
+void func_80024504(void);
+
+void func_800246B0(void) {
+    TILE *t = D_800B63AC;
+
+    t->x0 = 0xDF;
+    t->y0 = 4;
+    t->w = 0x52;
+    t->h = 0x66;
+    t->r0 = 0x80;
+    t->g0 = 0;
+    t->b0 = 0;
+    SetTile(t);
+    AddPrim(D_800B62CC, t);
+    t++;
+    D_800B63AC = t;
+    func_80024504();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024730);
 
