@@ -7230,7 +7230,22 @@ void func_80065F3C(s16 id, void *pos) {
     func_80066B70(&D_8015EB3C, 0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066058);
+void func_80066058(s16 id, void *pos) {
+    u8 unused[8];
+    s16 dist = func_80077398(pos, (Unk8002A35C *)&D_800B6E00);
+    s32 ang = func_80025254((Unk8002A35C *)&D_800B6E00, pos);
+    s16 pan = (D_800982E4[((u16)D_800B6E92 + ang) & 0xFFF] + 0x1000) >> 1;
+    s16 vol = func_80072734(0xFFF, 0x1388, dist);
+
+    if (vol >= 0) {
+        D_8015EB3C.unk0 = pan;
+        D_8015EB3C.unk2 = func_800754C8(0x800);
+        D_8015EB3C.unk4 = vol;
+        D_8015EB3C.unk6 = dist / 256 + 0x400;
+        D_8015EB3C.unk8 = id;
+        func_80066B70(&D_8015EB3C, 0);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066168);
 
