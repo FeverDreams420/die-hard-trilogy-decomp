@@ -4798,7 +4798,22 @@ void func_8004F6F4(Unk8004F6F4 *p) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F734);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F7DC);
+extern SVECTOR D_800B65F4;
+extern SVECTOR D_800B65FC;
+extern void *D_801F9ABC;
+extern void func_80020030(void *a, SVECTOR *b, SVECTOR *c);
+
+void func_8004F7DC(SVECTOR *base, SVECTOR *rot) {
+    SVECTOR out;
+    SVECTOR unused;
+
+    if (D_800B7430 == 0) {
+        func_800247D0(rot, &D_800B65F4, base, &out);
+    } else {
+        func_800247D0(rot, &D_800B65FC, base, &out);
+    }
+    func_80020030(D_801F9ABC, &out, rot);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F844);
 
