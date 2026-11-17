@@ -7172,10 +7172,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80063580);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80063924);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800639C0);
-
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80063AA8);
-
 typedef struct {
     s16 x;
     s16 y;
@@ -7199,6 +7195,41 @@ typedef struct {
     struct Task *unk1FC;
     s32 unk200;
 } Unk80061844;
+
+typedef struct {
+    u8 pad0[0x34];
+    SVECTOR rot;
+    u8 pad3C[0x108];
+    Anim anim;
+    u8 pad164[0x3C];
+    s32 unk1A0;
+} Unk800639C0;
+
+extern SVECTOR D_800B6594;
+extern s16 D_80091BD4;
+void func_80063924();
+
+void func_800639C0(Unk80061844 *obj) {
+    Unk800639C0 *p = (Unk800639C0 *)obj;
+
+    D_800B6594.vx = 0;
+    D_800B6594.vz = 0;
+    D_800B6594.vy = func_80074910(0x1000);
+    D_800B66BC.vx = 0;
+    D_800B66BC.vz = -0xAF0;
+    D_800B66BC.vy = 0;
+    func_80028310(&D_800B6594, &D_800B66BC, &D_80091BB8, (VECTOR *)p);
+    p->rot.vx = 0;
+    p->rot.vz = 0;
+    p->rot.vy = D_800B6594.vy + 0x800;
+    p->unk1A0 = 0;
+    func_80048B74(&p->anim);
+    func_80048C14(&p->anim, D_80091BD4, 0, 0x52, 0x10);
+    func_80048830(&p->anim, (s16)func_80074910(12));
+    func_80063924(p);
+}
+
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80063AA8);
 
 extern Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size);
 extern void func_800639C0(Unk80061844 *obj);
