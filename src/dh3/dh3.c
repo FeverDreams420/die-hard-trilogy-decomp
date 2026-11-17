@@ -6135,7 +6135,38 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FA0C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FD10);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FFCC);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    u8 padA[0xE];
+    u8 unk18;
+    u8 unk19;
+    u8 unk1A;
+} Unk8015EB3C;
+
+extern Unk8015EB3C D_8018CC68;
+void func_800691E8(Unk8015EB3C *arg0, s32 arg1);
+void func_80068200(s32 a, void *p);
+void func_80068500(s32 a);
+
+void func_8005FFCC(void *p) {
+    func_80067394(p, 2);
+    func_80068200(0x10, p);
+    func_80068200(0x10, p);
+    func_80068500(0x11);
+    D_8018CC68.unk0 = 0x400;
+    D_8018CC68.unk2 = 0;
+    D_8018CC68.unk4 = 0xFFF;
+    D_8018CC68.unk6 = 0x100;
+    D_8018CC68.unk8 = 0x10;
+    func_800691E8(&D_8018CC68, 0);
+    D_8018CC68.unk0 = 0xC00;
+    D_8018CC68.unk6 = 200;
+    func_800691E8(&D_8018CC68, 0);
+}
 
 int func_8006007C(int a, int b, int c) {
     int t;
@@ -7023,21 +7054,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068304);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800683FC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068500);
-
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    u8 padA[0xE];
-    u8 unk18;
-    u8 unk19;
-    u8 unk1A;
-} Unk8015EB3C;
-
-extern Unk8015EB3C D_8018CC68;
-void func_800691E8(Unk8015EB3C *arg0, s32 arg1);
 
 void func_800685C0(s16 arg0, s16 arg1, s16 arg2) {
     s32 unused[2];
