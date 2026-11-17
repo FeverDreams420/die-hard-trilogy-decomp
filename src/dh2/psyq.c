@@ -1118,6 +1118,23 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", ResetGraph);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetGraphReverse);
 
+typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
 /* libgpu state at 0x800A3F40 */
 typedef struct {
     int (*printf)(char *fmt, ...);
@@ -1125,7 +1142,9 @@ typedef struct {
     u8 queue;
     u8 debug;
     u8 reverse;
-    u8 unk8[0x68];
+    s16 w, h;
+    u8 unkC[8];
+    DRAWENV draw;
     DISPENV disp;
 } GpuEnv;
 extern GpuEnv D_800A3F40;
@@ -1281,9 +1300,32 @@ void DrawOTag(u32 *p) {
     D_800A3F3C[2](D_800A3F3C[6], p, 0, 0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", PutDrawEnv);
+extern u32 (**D_800A3F3C)();
+extern char D_8008917C[];
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DrawOTagEnv);
+DRAWENV *PutDrawEnv(DRAWENV *env) {
+    if (D_800A3F40.debug >= 2) {
+        D_800A3F40.printf(D_8008917C, env);
+    }
+    SetDrawEnv(&env->dr_env, env);
+    env->dr_env.tag |= 0xFFFFFF;
+    D_800A3F3C[2](D_800A3F3C[6], &env->dr_env, 0x40, 0);
+    memcpy(&D_800A3F40.draw, env, sizeof(DRAWENV));
+    return env;
+}
+
+extern u32 (**D_800A3F3C)();
+extern char D_80089194[];
+
+void DrawOTagEnv(u32 *p, DRAWENV *env) {
+    if (D_800A3F40.debug >= 2) {
+        D_800A3F40.printf(D_80089194, p, env);
+    }
+    SetDrawEnv(&env->dr_env, env);
+    setaddr(&env->dr_env, p);
+    D_800A3F3C[2](D_800A3F3C[6], &env->dr_env, 0x40, 0);
+    memcpy(&D_800A3F40.draw, env, sizeof(DRAWENV));
+}
 
 extern u8 D_800A3F54[];
 
@@ -1460,7 +1502,16 @@ u16 GetClut(int x, int y) {
     return (y << 6) | ((x >> 4) & 0x3F);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", DumpTPage);
+extern char D_80089214[];
+
+void DumpTPage(u16 tpage) {
+    if (GetGraphType() == 1 || GetGraphType() == 2) {
+        D_800A3F40.printf(D_80089214, (tpage >> 9) & 3, (tpage >> 7) & 3, (tpage << 6) & 0x7C0, (tpage << 3) & 0x300);
+    } else {
+        D_800A3F40.printf(D_80089214, (tpage >> 7) & 3, (tpage >> 5) & 3, (tpage << 6) & 0x7C0,
+                          ((tpage << 4) & 0x100) + ((tpage >> 2) & 0x200));
+    }
+}
 
 extern char D_8008922C[];
 
@@ -1714,7 +1765,38 @@ u16 LoadClut2(u32 *clut, int x, int y) {
     return GetClut(x, y);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", SetDefDrawEnv);
+#define getTPage(tp, abr, x, y)                                                                     \
+    ((GetGraphType() == 1 || GetGraphType() == 2)                                                   \
+         ? ((((tp) & 3) << 9) | (((abr) & 3) << 7) | (((y) & 0x300) >> 3) | (((x) & 0x3FF) >> 6)) \
+         : ((((tp) & 3) << 7) | (((abr) & 3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3FF) >> 6) | \
+            (((y) & 0x200) << 2)))
+
+DRAWENV *SetDefDrawEnv(DRAWENV *env, int x, int y, int w, int h) {
+    int pal = (int)func_8008003C();
+
+    env->clip.x = x;
+    env->clip.y = y;
+    env->clip.w = w;
+    env->tw.x = 0;
+    env->tw.y = 0;
+    env->tw.w = 0;
+    env->tw.h = 0;
+    env->r0 = 0;
+    env->g0 = 0;
+    env->b0 = 0;
+    env->dtd = 1;
+    env->clip.h = h;
+    if (pal) {
+        env->dfe = h < 289;
+    } else {
+        env->dfe = h < 257;
+    }
+    env->ofs[0] = x;
+    env->ofs[1] = y;
+    env->tpage = getTPage(0, 0, 640, 0);
+    env->isbg = 0;
+    return env;
+}
 
 DISPENV *SetDefDispEnv(DISPENV *env, int x, int y, int w, int h) {
     env->disp.x = x;
