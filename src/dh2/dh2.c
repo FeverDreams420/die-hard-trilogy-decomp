@@ -5315,7 +5315,30 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052640);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052A14);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052CD8);
+typedef struct {
+    u8 pad0[0x38];
+    SVECTOR unk38;
+} Unk800B7398;
+
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[0xB];
+    u8 type;
+} Unk80052CD8;
+
+extern VECTOR D_801F6C7C;
+extern SVECTOR D_800B6C98;
+extern Unk800B7398 *D_800B7398;
+void func_80059118(SVECTOR *pos, s32 type, s32 flag, struct Task *t);
+
+void func_80052CD8(Unk80052CD8 *p) {
+    func_80027898(&D_800B6C98, &D_801F9644);
+    ApplyMatrix(&D_801F9644, &D_800B7398->unk38, &D_801F6C7C);
+    D_800B73F8.vx = D_801F6C7C.vx + p->pos.vx;
+    D_800B73F8.vy = D_801F6C7C.vy + p->pos.vy;
+    D_800B73F8.vz = D_801F6C7C.vz + p->pos.vz;
+    func_80059118(&D_800B73F8, p->type, 0, D_800B6DE0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052D94);
 
@@ -6112,11 +6135,6 @@ void func_8006007C(SVECTOR *pos) {
 }
 
 extern VECTOR D_801F6C7C;
-typedef struct {
-    u8 pad0[0x38];
-    SVECTOR unk38;
-} Unk800B7398;
-
 extern SVECTOR D_800B6C98;
 extern MATRIX D_801F9644;
 extern Unk800B7398 *D_800B7398;
