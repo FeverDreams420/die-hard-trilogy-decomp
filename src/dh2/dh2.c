@@ -5030,8 +5030,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800496B0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049888);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049BBC);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -5050,6 +5048,29 @@ typedef struct {
     s16 unk0;
     u8 pad2[0x28];
 } Unk80097032;
+
+extern Unk8015EB3C D_8015EB3C;
+extern Unk80097032 D_80097032[];
+void func_80065C10(s16 arg);
+void func_800655BC(void);
+
+void func_80049BBC(s16 id) {
+    if (id == 2) {
+        D_8015EB3C.unk0 = 0xDAC;
+        D_8015EB3C.unk6 = func_800754C8(50) + 0x3A2;
+    } else {
+        D_8015EB3C.unk0 = 0x200;
+        D_8015EB3C.unk6 = func_800754C8(50) + 0x406;
+    }
+    if (id == 4) {
+        func_80065C10(0x3E);
+        D_800B6C60[0] = 0x29;
+        D_800B6C60[1] = 0x1A;
+        func_80072F2C(func_800655BC, 0);
+    } else {
+        func_80065C10(D_80097032[id].unk0);
+    }
+}
 
 typedef struct {
     u8 pad0[0x2C];
