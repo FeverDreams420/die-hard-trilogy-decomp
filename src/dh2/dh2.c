@@ -7895,7 +7895,29 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80075A34);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80075BC0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80075E28);
+typedef struct {
+    u8 pad0[0xA];
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+} Unk80075E28;
+
+extern void func_80075BC0(void);
+
+void func_80075E28(void) {
+    Unk80075E28 *p = (Unk80075E28 *)D_800B6DE0->vals;
+    SVECTOR pos = {100, 0, 0};
+
+    p->unkC = 0x7210;
+    p->unkA = 0;
+    p->unkE = 10;
+    p->unk10 = 0;
+    func_80077BB0(&pos);
+    func_80077BB0(&pos);
+    func_80077BB0(&pos);
+    D_800B6DE0->func = func_80075BC0;
+}
 
 void func_80075EC0(void) {
     u16 *clut = D_8009B444;
