@@ -4527,7 +4527,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040FB4);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80041064);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004110C);
+extern s32 D_800B6D60;
+extern u16 D_8009B472;
+extern s16 D_800B7118;
+void func_80041064(s32, s32, s32, s32, s32);
+
+void func_8004110C(void) {
+    if (D_8009B472 & *(volatile s32 *)&D_800B6D60) {
+        func_80041064(0x12, D_800B7118 * 8 + 0x18, 0xFF, 0, 0);
+    }
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6470);
 
