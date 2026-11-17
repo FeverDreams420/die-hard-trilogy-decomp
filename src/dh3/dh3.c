@@ -5110,7 +5110,11 @@ void func_80053644(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80053718);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80053A3C);
+void func_80053718(void);
+
+void func_80053A3C(void) {
+    func_80072374(func_80053718, 2);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80053A64);
 
