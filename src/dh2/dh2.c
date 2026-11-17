@@ -2315,7 +2315,17 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80026464);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800267F0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80026988);
+u8 func_80026988(u8 c, s16 k) {
+    s16 v = ((c - 0x80) * k >> 12) + 0x80;
+
+    if (v < 0) {
+        return 0;
+    }
+    if (v < 0x100) {
+        return v;
+    }
+    return 0xFF;
+}
 
 extern unsigned short D_801F9DCC[];
 extern void SetFarColor(long rfc, long gfc, long bfc);
