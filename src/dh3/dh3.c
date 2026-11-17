@@ -6755,7 +6755,13 @@ void func_8006DB6C(DVECTOR *p) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006DC1C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006DE04);
+extern s32 D_800B5EDC;
+extern s32 D_800B6274;
+
+void func_8006DE04(s32 n) {
+    D_800B6274 = 0x1000;
+    D_800B5EDC += n;
+}
 
 extern s32 D_800B5CD0;
 
