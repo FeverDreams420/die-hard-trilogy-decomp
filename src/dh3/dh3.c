@@ -7505,7 +7505,22 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800672F8);
 void func_8006738C(void) {
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067394);
+extern s16 D_800B64E4;
+s16 func_800672F8();
+void func_800683FC();
+
+void func_80067394(void *p, s16 arg) {
+    if (D_800B64E4 == 0) {
+        func_800683FC(func_800672F8(1), p);
+    } else if (D_800B61A4->unk0 == 5) {
+        func_80068200(func_800672F8(1), p);
+        func_8006862C(5);
+        func_80068500(func_800672F8(1));
+    } else {
+        func_80068200(func_800672F8(1), p);
+        func_800683FC(func_800672F8(1), &D_800B659C->unk50);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067470);
 
