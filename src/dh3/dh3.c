@@ -3430,6 +3430,9 @@ typedef struct {
     s32 unk60;
     s32 unk64;
     s32 unk68;
+    u8 pad6C[4];
+    SVECTOR unk70[32];
+    SVECTOR unk170[32];
 } Unk8003F464;
 
 extern Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size);
@@ -3885,7 +3888,20 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80043704);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80043AF4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80043DCC);
+void func_80043DCC(Unk8003F464 *p) {
+    s16 i = 31;
+
+    do {
+        p->unk70[i].vx = func_80074910(0x40) - 0x20;
+        p->unk70[i].vz = func_80074910(0x40) - 0x20;
+        p->unk70[i].vy = func_80074910(0x30) + 0x20;
+        p->unk170[i].vx = p->unk50 + func_80074910(8) - 4;
+        p->unk170[i].vz = p->unk54 + func_80074910(8) - 4;
+        p->unk170[i].vx = p->unk50 + func_80074910(0x20) - 0x10;
+        p->unk170[i].vz = p->unk54 + func_80074910(0x20) - 0x10;
+        p->unk170[i].vy = func_80074910(0x1E) + 6;
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80043EBC);
 
