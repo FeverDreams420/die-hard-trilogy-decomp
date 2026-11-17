@@ -324,6 +324,9 @@ The library code linked into DH1, DH2 and DH3 was built with a different compile
 
 - **Confirmed: GCC 2.6.3 at `-O2`**, the only version that matches every leaf. The game's GCC 2.5.7 misses all the `P_TAG` bitfield helpers, so library files need their own compiler setting.
 - `-G` and ASPSX 2.08 to 2.34 make no difference on these leaves (2.56 and later do). **Guess:** `-G0`, since only one DH2 library function touches `$gp`.
+- **Confirmed: ASPSX 2.34 for the library code in all three EXEs.** Symbol loads use the 2.34 form (`lui`/`lbu %lo`, for example `CdStatus`, DH2 0x8007CAFC), even in DH2 and DH3, whose game code uses 2.21. The bake-off can't see this because it masks relocations.
+- Hardware register pointers are `volatile` (`StartRCnt`, DH2 0x8007FE74, keeps `sw; jr ra; nop`). Without it GCC moves the store into the delay slot.
+- The library files are `src/<exe>/gun.c` and `src/<exe>/psyq.c`; the Makefile sets their compiler, `-G0` and ASPSX 2.34.
 - `CdIntToPos` keeps `i / 75` in its own variable and does `sec %= 60` after taking the minutes; with `i / 75 / 60` GCC folds the divisions into one by 4500. `memmove` copies backwards with `dst[n] = src[n]`, so the end pointers come from strength reduction after `n--`. Ghidra's length for `memmove` stops before its shared `jr ra` tail, so the bake-off script reports it as a miss.
 - Splat had split many library functions at the signature labels named `*_OBJ_*`. Those reached only by `j`, fall-through or jump tables are labels inside the previous function and have been removed from the symbol files; the remaining `*_OBJ_*` names are real static functions (`jal` targets).
 - About 45 library functions per EXE are BIOS call stubs (`li $t2, 0xA0/0xB0/0xC0; jr $t2`) and about 60 are libgte routines built on GTE instructions. Both were written in assembly and stay as assembly. That leaves about 290 library functions per EXE (about 14,500 instructions) to write in C.
