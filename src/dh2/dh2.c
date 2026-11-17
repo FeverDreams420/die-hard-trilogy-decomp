@@ -679,7 +679,28 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022CA8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002318C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800234D8);
+extern s16 D_800B7430;
+extern struct Task *D_801F759C;
+extern struct Task *D_801F75A0;
+struct Task *func_80072F2C(void (*fn)(), s16 size);
+void func_8006E740(void);
+void func_800469A8(void);
+void func_8006FDB8(void);
+void func_80046498(void);
+
+void func_800234D8(void) {
+    D_801F759C = func_80072F2C(func_8006E740, 0x4C);
+    if (D_800B7430 == 5 || D_800B7430 == 6) {
+        func_80072F2C(func_800469A8, 0);
+    }
+    if (D_800B7430 == 7) {
+        func_80072F2C(func_8006FDB8, 0x164);
+        func_80072F2C(func_8006FDB8, 0x164);
+        func_80072F2C(func_8006FDB8, 0x164);
+        func_80072F2C(func_8006FDB8, 0x164);
+    }
+    D_801F75A0 = func_80072F2C(func_80046498, 0x28);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002359C);
 
