@@ -5369,7 +5369,59 @@ void func_80049D50(Unk80049D50 *p) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049E04);
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    s16 unkA;
+    u8 padC[0x1E];
+    s16 unk2A;
+} Unk80049E04_Src;
+
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    u8 pad8[8];
+    s32 unk10;
+    s32 unk14;
+    u8 pad18[8];
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    s16 unk26;
+    s16 unk28;
+} Unk80049E04;
+
+void func_80049888(void);
+extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
+
+void func_80049E04(Unk80049E04_Src *src, s16 flip) {
+    Unk8003BA6C_Task *t;
+    Unk80049E04 *p;
+
+    t = func_8007307C(func_80049888, 0x10, 0x2C);
+    if (t != NULL) {
+        p = (Unk80049E04 *)t->data;
+        p->unk0 = src->unk8 << 8;
+        if (flip) {
+            p->unk0 += 0x800;
+        }
+        p->unk4 = (src->unkA - 9) << 8;
+        p->unk10 = (s16)func_800754C8(0x200) - 0x100;
+        p->unk14 = -1500 - (s16)func_800754C8(0x200);
+        p->unk20 = 0;
+        p->unk22 = func_800754C8(0x80) - 0x40;
+        p->unk24 = 15;
+        p->unk26 = func_800754C8(0x40) + 0x80;
+        if (src->unk2A == 1) {
+            p->unk28 = -1;
+        } else {
+            p->unk28 = 0;
+        }
+        if ((s16)func_800754C8(2)) {
+            p->unk26 = -p->unk26;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049F28);
 
