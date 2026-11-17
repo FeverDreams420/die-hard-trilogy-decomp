@@ -6836,7 +6836,13 @@ void func_80068DCC(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068DFC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068EE0);
+void func_80068EE0(s16 voice) {
+    s16 status = SpuGetKeyStatus(1 << voice);
+
+    if (D_801DA6DC[voice].unk0 >= 6 && (status == 0 || status == 3)) {
+        func_80068BD4(voice);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068F58);
 
