@@ -3544,7 +3544,7 @@ typedef struct {
 } Unk8003FBDC;
 
 void func_800597F8(void);
-void func_80040450(void);
+s32 func_80040450();
 
 void func_8003FBDC(void) {
     Unk8003FBDC *p = (Unk8003FBDC *)D_800B604C->vals;
@@ -3573,7 +3573,49 @@ void func_800401D0(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800401F0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80040450);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR unk10;
+    u8 pad20[0x12E];
+    u16 unk14E;
+    u8 pad150[0xA];
+    s16 unk15A;
+    s16 unk15C;
+    s16 unk15E;
+    u8 pad160[0xA];
+    s16 unk16A;
+    u8 pad16C[0x60];
+    s16 unk1CC;
+} Unk80040450;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s32 unk4;
+} Unk800B6234;
+
+extern VECTOR D_801F76D0;
+extern u16 D_80097300;
+s16 func_8003FA90();
+
+func_80040450(void) {
+    Unk80040450 *p = (Unk80040450 *)D_800B604C->vals;
+    s16 a = func_8003FA90(p);
+    s32 d = func_80028A48(&p->unk10, &D_801F76D0);
+
+    if ((s16)func_8003FC58(d, a)) {
+        p->unk14E |= D_80097300;
+    }
+    if (d < 0x5E8) {
+        p->unk15C++;
+        p->unk15E = 0;
+        p->unk1CC = 0;
+        if (p->unk15C == ((Unk800B6234 *)D_800B6234)[p->unk15A].unk2) {
+            p->unk15C = 2;
+            p->unk16A = -1;
+        }
+    }
+}
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_80087A40);
 
