@@ -4724,7 +4724,37 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048880);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048B34);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048D40);
+extern struct Task *volatile D_801F7548;
+typedef struct {
+    s16 unk0, unk2, unk4, unk6, unk8, unkA;
+} Unk80048D40_Ent;
+
+typedef struct {
+    u8 pad0[0x2CA];
+    s16 count;
+    Unk80048D40_Ent ent[12];
+    u8 unk35C[12];
+} Unk80048D40;
+
+void func_80048D40(Unk80048D40_Ent *src, s32 id) {
+    Unk80048D40 *p;
+    s16 n;
+
+    if ((u32)D_801F7548 >= 8) {
+        p = (Unk80048D40 *)D_801F7548->vals;
+        n = p->count;
+        if (n != 12) {
+            p->ent[n].unk0 = src->unk0;
+            p->ent[n].unk2 = src->unk2;
+            p->ent[n].unk4 = src->unk4;
+            p->ent[n].unk6 = src->unk6;
+            p->ent[n].unkA = src->unkA;
+            p->ent[n].unk8 = src->unk8;
+            p->unk35C[n] = id;
+            p->count++;
+        }
+    }
+}
 
 extern struct Task *volatile D_801F7548;
 typedef struct {
