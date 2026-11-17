@@ -1885,7 +1885,14 @@ void func_800246A8(s16 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800246DC);
+s32 func_800246DC(u8 *p, s32 n) {
+    s32 sum = 0;
+
+    while (n--) {
+        sum += *p++;
+    }
+    return sum;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002470C);
 
