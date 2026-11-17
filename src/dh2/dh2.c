@@ -6903,7 +6903,34 @@ void func_800621F0(Unk8002A35C *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800622D4);
+s32 func_800622D4(void) {
+    if (D_800B6B70 == 1 && (D_8009B468[11] & *(volatile s32 *)D_800B7258)) {
+        return -1;
+    }
+    if (D_800B6B70 == 4) {
+        if (D_8009B468[15] & *(volatile s32 *)D_800B7258) {
+            return -1;
+        }
+        if (D_8009B468[17] & *(volatile s32 *)D_800B7258) {
+            return -1;
+        }
+        if (D_8009B468[11] & D_800B725C) {
+            return -1;
+        }
+    }
+    if (D_800B6B70 == 2) {
+        if (D_8009B468[12] & *(volatile s32 *)D_800B7258) {
+            return -1;
+        }
+        if (D_8009B468[13] & *(volatile s32 *)D_800B7258) {
+            return -1;
+        }
+        if (D_8009B468[11] & D_800B725C) {
+            return -1;
+        }
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80062400);
 
