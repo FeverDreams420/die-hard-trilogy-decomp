@@ -5379,7 +5379,26 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005B9F0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005BE40);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005BF98);
+typedef struct {
+    u8 pad0[6];
+    s16 unk6;
+} Unk8005BF98Slot;
+
+typedef struct {
+    Unk8005BF98Slot slots[0x24];
+    s16 unk120;
+    s16 unk122;
+} Unk8005BF98;
+
+void func_8005BF98(Unk8005BF98 *p, s16 v) {
+    s16 i = 0x17;
+
+    do {
+        p->slots[i].unk6 = -1;
+    } while (i--);
+    p->unk122 = v;
+    p->unk120 = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005BFCC);
 
