@@ -6,17 +6,19 @@ This repository contains no game data. You need your own copy of the game.
 
 ## Progress
 
-<h1 align="center">Die Hard 28.6% · Die Harder 8.6% · With a Vengeance 9.0%</h1>
+<p align="center">
+  <a href="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp"><img alt="Code matched" src="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp.svg?label=Code%20matched&measure=matched_code_percent&style=for-the-badge"></a>
+  <a href="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp"><img alt="Functions" src="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp.svg?label=Functions&measure=matched_functions&style=for-the-badge"></a>
+</p>
+<p align="center">
+  <a href="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp"><img alt="Die Hard" src="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp.svg?label=Die%20Hard&measure=matched_code_percent&category=dh1&style=for-the-badge"></a>
+  <a href="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp"><img alt="Die Harder" src="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp.svg?label=Die%20Harder&measure=matched_code_percent&category=dh2&style=for-the-badge"></a>
+  <a href="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp"><img alt="With a Vengeance" src="https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp.svg?label=With%20a%20Vengeance&measure=matched_code_percent&category=dh3&style=for-the-badge"></a>
+</p>
 
-| Game | Code matched | Functions |
-| --- | --- | --- |
-| **DH1** Die Hard | `██████░░░░░░░░░░░░░░` **28.6%** | 466 / 1315 |
-| **DH2** Die Harder | `██░░░░░░░░░░░░░░░░░░` **12.5%** | 332 / 1469 |
-| **DH3** Die Hard with a Vengeance | `███░░░░░░░░░░░░░░░░░` **13.5%** | 402 / 1523 |
+The badges count bytes of each game's code that build from matching C, and link to the full breakdown on [bytematch.dev](https://bytematch.dev/FeverDreams420/die-hard-trilogy-decomp). `python3 tools/progress.py` prints the same figures from a local build.
 
-These figures count bytes of each game's code that build from matching C (as of Nov 16, 2026). To update them after a build, run `python3 tools/progress.py --markdown`.
-
-`make report` writes the same figures to `build/report.json` in objdiff's report format, with one unit per C file and one category per game. `make upload-progress` checks the build, then sends that report for the current commit to [bytematch.dev](https://bytematch.dev). It needs the project's upload token in `BYTEMATCH_TOKEN` and no uncommitted changes. Keep the token out of the repo.
+`make report` writes them to `build/report.json` in objdiff's report format, with one unit per C file and one category per game. `make upload-progress` checks the build, then sends that report for the current commit, which updates the badges. It needs the project's upload token, either in `BYTEMATCH_TOKEN` or in `~/.bytematch_token`, and no uncommitted changes. Keep the token out of the repo.
 
 If you want to help, you can see the code map here: [View Code Map](docs/code-map.md)
 

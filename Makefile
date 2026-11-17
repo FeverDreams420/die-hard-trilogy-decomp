@@ -106,8 +106,10 @@ check: all
 	done; exit $$status
 
 # objdiff-format progress report, and its upload to bytematch.dev.
-# The upload needs the project token in BYTEMATCH_TOKEN and a clean tree,
-# so the report always belongs to the commit it is filed under.
+# The upload needs the project token, from BYTEMATCH_TOKEN or else from
+# ~/.bytematch_token (keep it outside the repo, readable only by you), and a
+# clean tree, so the report always belongs to the commit it is filed under.
+# The token reaches curl on stdin, so it never appears in a command line.
 BYTEMATCH_PROJECT ?= FeverDreams420/die-hard-trilogy-decomp
 BYTEMATCH_VERSION ?= SLUS_001.19
 
@@ -115,11 +117,12 @@ report: all
 	$(PYTHON) tools/progress.py --report build/report.json
 
 upload-progress: check report
-	@test -n "$$BYTEMATCH_TOKEN" || { echo "BYTEMATCH_TOKEN is not set"; exit 1; }
 	@git diff --quiet HEAD -- src include asm config Makefile || \
 		{ echo "Commit your changes first: the report is filed under HEAD"; exit 1; }
-	@curl --fail-with-body -sS -X POST \
-		-H "Authorization: Bearer $$BYTEMATCH_TOKEN" \
+	@token="$${BYTEMATCH_TOKEN:-$$(cat ~/.bytematch_token 2>/dev/null)}"; \
+	test -n "$$token" || { echo "No token: set BYTEMATCH_TOKEN or create ~/.bytematch_token"; exit 1; }; \
+	printf 'Authorization: Bearer %s\n' "$$token" | curl --fail-with-body -sS -X POST \
+		-H @- \
 		-H "Content-Type: application/json" \
 		--data-binary @build/report.json \
 		--url-query "version=$(BYTEMATCH_VERSION)" \
