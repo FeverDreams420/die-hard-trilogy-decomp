@@ -4878,7 +4878,32 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B64B8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80041DD8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80042548);
+extern s16 D_800B63CC;
+
+void func_80042548(void) {
+    Unk8003F6D0_Src *src = (Unk8003F6D0_Src *)D_800B6DE0->vals;
+    Unk8003F6D0_Cfg *cfg = (Unk8003F6D0_Cfg *)D_801F7550->vals;
+    SVECTOR *v;
+    Unk800462F0_Obj *o;
+
+    if (D_800B63C6 == 1) {
+        v = &D_800B73B8[D_800B63C8];
+        v->vx = src->x;
+        v->vy = src->y;
+        v->vz = src->z;
+        v[16].vx = src->unk18;
+        v[16].vy = src->unk1A;
+        v[16].vz = src->unk1C;
+    }
+    if (D_800B63C6 == 2 && D_800B63CC != 0) {
+        o = &D_800B6E70[D_800B63C8];
+        o->x = src->x;
+        o->y = src->y;
+        o->z = src->z;
+        o->unk1A = src->unk1A;
+        o->unk10 = cfg->unkC;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004265C);
 
