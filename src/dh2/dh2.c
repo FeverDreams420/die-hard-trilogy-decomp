@@ -4590,7 +4590,35 @@ void func_800462B4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800462F0);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0x16];
+} Unk800462F0_Obj;
+
+typedef struct {
+    SVECTOR v[16];
+    u8 pad80[0x12C];
+} Unk800462F0_Mesh;
+
+extern Unk800462F0_Obj *D_800B6E70;
+extern Unk800462F0_Mesh *D_800B71B8;
+
+void func_800462F0(s32 dx, s32 dy, s32 dz) {
+    s32 i, j;
+
+    for (i = 255; i != -1; i--) {
+        D_800B6E70[i].x = dx + D_800B6E70[i].x;
+        D_800B6E70[i].y = dy + D_800B6E70[i].y;
+        D_800B6E70[i].z = dz + D_800B6E70[i].z;
+    }
+    for (i = 63; i != -1; i--) {
+        for (j = 15; j != -1; j--) {
+            D_800B71B8[i].v[j].vx = dx + D_800B71B8[i].v[j].vx;
+            D_800B71B8[i].v[j].vy = dy + D_800B71B8[i].v[j].vy;
+            D_800B71B8[i].v[j].vz = dz + D_800B71B8[i].v[j].vz;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046394);
 
