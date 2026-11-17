@@ -829,7 +829,25 @@ void func_80025E18(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80025E50);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026158);
+void func_80065C54(void);
+void func_80025764(void);
+void func_80025158(void);
+
+void func_80026158(void) {
+    func_80025E50();
+    if (D_800B6504 != D_800B66DC) {
+        D_800B66DC = D_800B6504;
+        D_800B5D5C = 7;
+        func_80072374(func_8005CF28, 0x10)->flags = 0;
+        func_80072374(func_80065C54, 1000);
+        D_800B604C->func = func_80025764;
+    } else if (D_800B5FB4 == 2) {
+        func_80072374(func_80065C54, 1000);
+        D_800B604C->func = func_80025764;
+    } else {
+        D_800B604C->func = func_80025158;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80026230);
 
