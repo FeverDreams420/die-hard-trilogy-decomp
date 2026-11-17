@@ -8286,7 +8286,10 @@ void func_80076270(short x, short y, unsigned int value, int d, int a, u8 *b, u8
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007633C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80076474);
+void func_80076474(short x, short y, unsigned int value, int d, int a, u8 *b, u8 *c, short len) {
+    D_800B6564 = -1;
+    func_80076270(x, y, value, d, a, b, c, len);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800764D4);
 
