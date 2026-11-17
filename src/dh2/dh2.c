@@ -4467,7 +4467,20 @@ void func_80040F04(s32 i) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040FB4);
+extern s16 D_800B6EC8;
+
+void func_80040FB4(void) {
+    if (D_8009B468[1] & *(volatile s32 *)D_800B6FEC) {
+        if (++D_800B6EC8 == 0x100) {
+            D_800B6EC8 = 0;
+        }
+    }
+    if (D_8009B468[0] & *(volatile s32 *)D_800B6FEC) {
+        if (--D_800B6EC8 == -1) {
+            D_800B6EC8 = 0xFF;
+        }
+    }
+}
 
 typedef struct {
     u32 tag;
