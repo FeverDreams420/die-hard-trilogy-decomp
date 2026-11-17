@@ -6848,7 +6848,20 @@ void func_80068B34(s32 n) {
     D_800B6374 = n;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068B48);
+void func_80068A3C(void);
+
+void func_80068B48(void) {
+    D_8018CC68.unk0 = 0x200;
+    D_8018CC68.unk2 = 0;
+    D_8018CC68.unk4 = 0;
+    D_8018CC68.unk6 = 0x400;
+    D_8018CC68.unk8 = 5;
+    D_8018CC68.unk18 = 80;
+    D_8018CC68.unk19 = 30;
+    D_8018CC68.unk1A = 10;
+    D_800B6374 = 0;
+    func_800691E8(&D_8018CC68, (s32)func_80068A3C);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068BD4);
 
