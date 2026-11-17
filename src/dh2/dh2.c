@@ -8233,7 +8233,12 @@ void func_8007876C(void) {
     func_8007345C();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007891C);
+u8 *func_8007891C(u8 *s) {
+    if ((u32)(*s - '0') >= 10) {
+        return func_8007891C(s + 1);
+    }
+    return s;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80078944);
 
