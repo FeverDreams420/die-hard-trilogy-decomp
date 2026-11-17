@@ -54,6 +54,7 @@ typedef struct {
     s16 unk16;
     s16 unk18;
     s16 unk1A;
+    s16 unk1C;
 } Unk800B61A4;
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_80086BD4);
@@ -5414,7 +5415,33 @@ void func_80051C14(s16 t, s32 y) {
     D_800B63AC = p;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051DA4);
+extern volatile s32 D_800B6284[];
+extern u16 D_80097300;
+extern s16 D_801F7520;
+
+void func_80051DA4(void) {
+    s16 v;
+
+    func_80051500();
+    v = D_801F7520 * 16;
+    if (D_80097300 & D_800B6284[0]) {
+        D_800B61A4->unk1C = v;
+        D_800B61A4->unk8 = v;
+        D_800B61A4->unk10 = v;
+    }
+    if (v < 0) {
+        v = 0;
+    }
+    if (v >= 0xFFF) {
+        v = 0x1000;
+    }
+    if (v < D_800B61A4->unk8) {
+        D_800B61A4->unk8 = v;
+    }
+    if (D_800B61A4->unk10 < v) {
+        D_800B61A4->unk10 = v;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051E7C);
 
