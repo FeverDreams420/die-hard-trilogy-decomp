@@ -5321,7 +5321,12 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80059CF8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80059DAC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80059EE8);
+void func_80059EE8(s16 n) {
+    s16 *d = (s16 *)D_801F7548->vals;
+
+    d[0x1C6] = 1;
+    d[0x1C1] += n * 60;
+}
 
 extern s16 D_800B6CC0;
 void func_8003D570(s32 arg);
