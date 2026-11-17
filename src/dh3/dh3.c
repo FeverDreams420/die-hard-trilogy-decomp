@@ -1239,7 +1239,27 @@ void func_8002924C(VECTOR *from, VECTOR *to, SVECTOR *rot) {
     rot->vz = 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800292D8);
+extern u8 D_801F6C20[];
+
+void func_800292D8(void) {
+    s16 i, j, t;
+
+    i = 7;
+    do {
+        j = 0x3F;
+        do {
+            t = j - 20;
+            if (t < 0) {
+                t = 0;
+            }
+            t += i;
+            if (t > 7) {
+                t = 7;
+            }
+            D_801F6C20[i * 256 + j] = t + 0xC;
+        } while (j--);
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029364);
 
