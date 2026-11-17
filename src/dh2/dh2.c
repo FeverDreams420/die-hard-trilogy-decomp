@@ -867,7 +867,26 @@ void func_800223A0(void) {
     D_800B7088 = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800223BC);
+extern s16 D_800B6FD8;
+void func_8001EB30(void);
+
+void func_800223BC(void) {
+    func_8001EB30();
+    DrawSync(0);
+    VSync(0);
+    ResetGraph(3);
+    ResetCallback();
+    if (D_800B6FD8 != 0) {
+        SelectGun(0, 0);
+        SelectGun(1, 0);
+    }
+    StopGun();
+    ResetGun();
+    StopPAD();
+    PadStop();
+    func_8003DD54();
+    func_800739C0();
+}
 
 void func_80022454(void) {
     u8 unused[16];
