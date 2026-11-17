@@ -7701,7 +7701,21 @@ void func_8006C1B4(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C298);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C3DC);
+extern volatile s32 D_800B6FE8[];
+extern s16 D_800B6DC8;
+extern u16 D_8009B468[];
+
+void func_8006C3DC(void) {
+    if ((D_8009B468[1] & D_800B6FE8[D_800B6DC8]) || (D_8009B468[4] & D_800B6FE8[D_800B6DC8])) {
+        func_80067138();
+        D_800B7370->unk1780++;
+    }
+    if (D_8009B468[0] & D_800B6FE8[D_800B6DC8]) {
+        func_80067138();
+        D_800B7370->unk1780--;
+    }
+    D_800B7370->unk1780 &= 7;
+}
 
 extern s16 D_800B6AA0;
 extern s16 D_800B6CB8;
