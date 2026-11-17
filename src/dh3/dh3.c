@@ -3305,7 +3305,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003FBDC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003FC58);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800401A8);
+s32 func_800401A8(s16 a, s16 b) {
+    return a < 0x200 && b > 0x400;
+}
 
 extern u16 D_80097302;
 
