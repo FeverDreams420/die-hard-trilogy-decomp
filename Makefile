@@ -50,6 +50,11 @@ ASPSX_VER := 2.34
 # (for example lhu in 0x80065328 of DH2), the ASPSX 2.21 form; DH1 has only the
 # 2.34 form (lui/addu/op %lo(at)).
 build/src/dh2/%.c.o build/src/dh3/%.c.o: ASPSX_VER := 2.21
+# The PsyQ libraries (gun.c at the start of each game's code, psyq.c from crt0's
+# start to the end) were built by Sony with GCC 2.6.3 -O2; see "PsyQ library
+# settings" in docs/compiler-notes.md. -G0 is a guess: the library code doesn't use $gp.
+build/src/%/gun.c.o build/src/%/psyq.c.o: CC1 := tools/gcc-2.6.3-psx/cc1
+build/src/%/gun.c.o build/src/%/psyq.c.o: GFLAG := -G0
 # Each EXE has a single .rodata segment that also holds its .data and .sdata,
 # so small constants the compiler puts in .sdata (initializers of 8 bytes or
 # less) go to .rodata until data is split into its own segments.

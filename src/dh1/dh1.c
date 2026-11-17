@@ -1,80 +1,6 @@
 #include "common.h"
 #include "psyq/libspu.h"
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_18);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_8C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_C8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_5D0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_6E4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ResetGun);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", InitGun);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StartGun);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StopGun);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SelectGun);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_970);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_9EC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", InitPAD);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SendPAD);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StartPAD);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StopPAD);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_BAC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GUN_OBJ_BBC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _InitGun);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _ExitGun);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _check_gun_flag);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _clear_gun_flag);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_188);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_198);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_19C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_1A8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", read_gun_v);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", read_gun_h);
-
-void func_8001E294(void) {
-}
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_1CC);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_2EC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_2FC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_328);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NEWGUN_OBJ_338);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", check_machine);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", main);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A6E4);
@@ -442,7 +368,6 @@ void func_8001F778(void) {
     func_8006B370(0xF2000001);
 }
 
-
 typedef struct {
     unsigned addr : 24;
     unsigned len : 8;
@@ -504,7 +429,6 @@ void func_8001FC20(void) {
         D_801C2034[i] = 0;
     }
 }
-
 
 void func_8001FCB0(void) {
     s16 i;
@@ -1652,7 +1576,6 @@ void func_80024BA8(Obj80024D00 *obj) {
     obj->unk2A = 3500;
 }
 
-
 void func_80024BA8(Obj80024D00 *obj);
 
 void func_80024D00(Obj80024D00 *obj) {
@@ -2298,7 +2221,6 @@ void func_8002A40C(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002A7BC);
 
-
 void func_8002B4C0(void) {
     Unk8002B4C0 *obj = (Unk8002B4C0 *)D_800A317C->vals;
     Unk8002B4C0_Prim *prim = D_800A3374;
@@ -2550,7 +2472,6 @@ void func_8002E050(Unk8002DB90_Face *f) {
         }
     }
 }
-
 
 void func_8002E204(Unk8002DB90_Face *f) {
     Unk8002CE64_Prim *prim = D_800A3374;
@@ -4678,7 +4599,6 @@ void func_800365C0(Unk80036918 *p, s16 type) {
     p->unk20 = D_801D70F0[idx];
 }
 
-
 void func_80036644(void *arg0, void *arg1, Unk800584A4 *self) {
     func_80032344((Unk80032344 *)&D_800A3564[self->unkA], 1);
 }
@@ -6376,8 +6296,6 @@ typedef struct {
     s32 xy2;
 } POLY_F3;
 
-
-
 typedef struct {
     u32 tag;
     u8 r0, g0, b0, code;
@@ -6701,7 +6619,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041AB4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041C48);
 
-
 extern short D_800A2F3C;
 extern Obj *D_800A5E90[];
 
@@ -6980,7 +6897,6 @@ s32 func_80043B6C(Unk8002A35C *out, Obj80047314 *obj) {
     return dist;
 }
 
-
 s16 func_80043C60(s16 exclude) {
     s16 idx;
 
@@ -6991,7 +6907,6 @@ s16 func_80043C60(s16 exclude) {
     } while (D_800A3084[idx].unk16 == 3);
     return idx;
 }
-
 
 s16 func_80043CC4(s16 idx) {
     Unk80043CC4 *node;
@@ -7055,7 +6970,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044E9C);
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ADB0);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007ADC8);
-
 
 extern void func_8003E384(Unk80045164 *obj);
 extern void func_80031320(Unk80045164 *obj);
@@ -9912,8 +9826,6 @@ void func_800548E0(short x, short y, unsigned int value, int d, int a, u8 *b, u8
     func_800544F8(x, y, value, d, a, b, c, len);
 }
 
-
-
 void func_80054940(s16 x, s16 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6) {
     D_800A3494 = -1;
     func_800545BC(x, y, text, a3, a4, a5, a6);
@@ -11013,11 +10925,6 @@ void func_8005B198(Unk8005B554 *obj) {
     obj->unkCE = func_800437C8(obj->unkCE, 0, 0x10);
 }
 
-
-
-
-
-
 void func_8005B1CC(Unk8005B554 *obj) {
     obj->unk6A = func_800437C8(obj->unk6A, 200, 24);
     obj->unk50 = func_80031C58((Anim *)obj->unk64) << 1;
@@ -11027,7 +10934,6 @@ void func_8005B210(Unk8005B554 *obj) {
     obj->unk6A = func_800437C8(obj->unk6A, -200, 24);
     obj->unk50 = func_80031C58((Anim *)obj->unk64);
 }
-
 
 void func_8005B250(Unk8005B554 *obj) {
     Unk8005B554_114 *p = &obj->unk114;
@@ -11511,7 +11417,6 @@ void func_8005CA98(Unk8005CA98 *obj) {
         obj->unk114 = 0xFF;
     }
 }
-
 
 void func_8005CB00(Unk8005B554 *obj) {
     Unk8005B554_114 *p = &obj->unk114;
@@ -12545,7 +12450,6 @@ void func_800616AC(Unk80061844 *obj) {
     }
 }
 
-
 extern SVECTOR D_800A2F04;
 extern u8 *D_800A2FAC;
 extern s16 func_8002501C(void *obj, void *model, s16 fade, s32 arg3, Anim *anim);
@@ -13104,7 +13008,6 @@ typedef struct {
     s16 unk11A;
 } Unk80066C6C;
 
-
 void func_80066C6C(Unk80066C6C *obj) {
     s32 step;
     s32 limit;
@@ -13375,7 +13278,6 @@ void func_800680A4(void) {
         D_800A3374 = (DR_MODE *)p + 1;
     }
 }
-
 
 extern u8 D_80087A88[];
 extern u8 D_80087B98[];
@@ -15496,1077 +15398,20 @@ void func_8006B188(s16 arg0) {
     func_8006B07C(arg0);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", start);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B268);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B2D8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B340);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B350);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B360);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B370);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", OpenEvent);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CloseEvent);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", TestEvent);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", EnableEvent);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B3C0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B3D0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006B3E0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", open);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", read);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", write);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", close);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", format);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", delete);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StartCARD);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StopCARD);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _card_read);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _bu_init);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _card_info);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _card_auto);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", strcpy);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", bzero);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", InitHeap);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", printf);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", Exec);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", FlushCache);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SysEnqIntRP);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SysDeqIntRP);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ChangeClearRCnt);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PadInit);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PadRead);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PadStop);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PAD_init);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PAD_dr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ChangeClearPAD);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", VSync);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", v_wait);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", puts);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ResetCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", InterruptCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DMACallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", VSyncCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", VSyncCallbacks);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StopCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RestartCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CheckCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetIntrMask);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetIntrMask);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", startIntr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", trapIntr);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", setIntr);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", stopIntr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", restartIntr);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", memclr_8006BEE8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ReturnFromException);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ResetEntryInt);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", HookEntryInt);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _96_remove);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", setjmp);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", startIntrVSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", trapIntrVSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", setIntrVSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", memclr_8006C060);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", startIntrDMA);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", trapIntrDMA);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", setIntrDMA);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", memclr_8006C308);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadTPage);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadClut);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadClut2);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDefDrawEnv);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDefDispEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006C5FC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006C614);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetTPage);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetClut);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DumpTPage);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DumpClut);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NextPrim);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", IsEndPrim);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", AddPrim);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", AddPrims);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CatPrim);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", TermPrim);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetSemiTrans);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetShadeTex);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyF3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyFT3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyG3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyGT3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyF4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyFT4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyG4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPolyGT4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetSprt8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetSprt16);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetSprt);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetTile1);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetTile8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetTile16);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetTile);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetLineF2);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetLineG2);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetLineF3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetLineG3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetLineF4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetLineG4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetBlockFill);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDrawMove);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDrawTPage);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDrawLoad);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MargePrim);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DumpDrawEnv);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DumpDispEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ResetGraph);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetGraphReverse);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetGraphDebug);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetGraphQueue);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetGraphType);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetGraphDebug);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DrawSyncCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDispMask);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DrawSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", checkRECT);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ClearImage);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadImage);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StoreImage);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MoveImage);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ClearOTag);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ClearOTagR);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DrawPrim);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DrawOTag);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PutDrawEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DrawOTagEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetDrawEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PutDispEnv);
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetDispEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GetODE);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetTexWindow);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDrawArea);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDrawOffset);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetPriority);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDrawMode);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDrawEnv);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", get_mode);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", get_cs);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", get_ce);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", get_ofs);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", get_tw);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", get_dx);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _status);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _otc);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _clr);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _dws);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _drs);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _ctl);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _getctl);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _cwb);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _cwc);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _param);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _addque);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _addque2);
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _exeque);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _reset);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _sync);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", set_alarm);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", get_alarm);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _version);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", memset);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", memcpy_8006FC1C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", GPU_cw);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetFogFar);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetFogNear);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", InitGeom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SquareRoot0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", gteMIMefunc);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadAverage12);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadAverage0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadAverageShort12);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadAverageShort0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadAverageByte);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", LoadAverageCol);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CompMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MulMatrix0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MulRotMatrix0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MulRotMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetMulMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ApplyMatrixLV);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ApplyRotMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ScaleMatrixL);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PushMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", PopMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ReadRotMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ReadLightMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ReadColorMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MulMatrix2);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ApplyMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80070C9C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", ScaleMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetRotMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetTransMatrix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetVertex0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetVertex1);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetVertex2);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetVertexTri);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetRGBfifo);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetIR123);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetIR0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetSZfifo3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetSZfifo4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetSXSYfifo);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetRii);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetMAC123);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetData32);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDQA);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetDQB);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80070F5C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80070F7C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SetFarColor);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80070FBC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80070FDC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTransSV);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SquareSS12);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SquareSS0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SquareSL12);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SquareSL0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTransPers);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTransPers3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTrans);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800711AC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800711DC);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTransPers4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotNclip3);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotNclip4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTransPers_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTransPers3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTrans_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotTransPers4_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotAverage3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotNclip3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotAverageNclip3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotColorDpq_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotColorDpq3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotAverageNclipColorDpq3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotAverageNclipColorCol3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NormalColor_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NormalColor3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NormalColorDpq_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NormalColorDpq3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NormalColorCol_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", NormalColorCol3_nom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", RotMatrix);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _patch_gte);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80071A2C);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StSetRing);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdGetToc);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdGetToc2);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdInit);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", def_cbsync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", def_cbready);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", def_cbread);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DeliverEvent);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdStatus);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdMode);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdLastCom);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdLastPos);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdReset);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdFlush);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdSetDebug);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdComstr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdIntstr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdReady);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdSyncCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdReadyCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdControl);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdControlF);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdControlB);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdMix);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdGetSector);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdDataCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdDataSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdIntToPos);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdPosToInt);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", getintr);
-
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_sync);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_ready);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_cw);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_vol);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_flush);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_initvol);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_initintr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_init);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_datasync);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_getsector);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_set_test_parmnum);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", callback);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdSearchFile);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _cmp);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_newmedia);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_searchdir);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CD_cachefile);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", cd_read);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", memcpy_800745F8);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", strcmp);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", strncmp);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", cb_read);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", cd_read_retry);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdRead);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdReadSync);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdReadCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", CdRead2);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StCdInterrupt2);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StClearRing);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80074D48);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", data_ready_callback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StGetBackloc);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StSetStream);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StFreeRing);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", init_ring_status);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StGetNext);
-
-extern s32 D_801FB85C;
-extern s32 D_801C1B88;
-extern s32 D_801F97D0;
-
-void func_800750D8(s32 arg0, s32 arg1, s32 arg2) {
-    D_801FB85C = arg0;
-    D_801C1B88 = arg1;
-    D_801F97D0 = arg2;
-}
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", StCdInterrupt);
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", mem2mem);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", dma_execute);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _SpuInit);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuStart);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_reset);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_init);
-
-
-
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_writeByIO);
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_FiDMA);
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_r_);
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_t);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_write);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_read);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_FsetRXX);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_FsetRXXa);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_FgetRXXa);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _SpuDataCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SsUtReverbOff);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80076F04);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DisableEvent);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuInitMalloc);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuMalloc);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_gcSPU);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuFree);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetReverb);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _SpuIsInAllocateArea);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _SpuIsInAllocateArea_);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetReverbModeParam);
-
-
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_setReverbAttr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuReserveReverbWorkArea);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetReverbVoice);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _SpuSetAnyVoice);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuClearReverbWorkArea);
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", WaitEvent);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetKey);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetKeyOnWithAttr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetVoiceAttr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _SpuSetVoiceAttr);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuGetKeyStatus);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuRead);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetTransferStartAddr);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetTransferMode);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuIsTransferCompleted);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", SpuSetCommonAttr);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_note2pitch);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", _spu_pitch2note);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTReset);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTGetEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTPutEnv);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTBufSize);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTin);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTout);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTinSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCToutSync);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTinCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCToutCallback);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MDEC_reset);
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MDEC_in);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MDEC_out);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MDEC_in_sync);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", MDEC_out_sync);
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", timeout);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80079AC0);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTvlcSize);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", DecDCTvlc);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80079E58);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", strlen);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8007A6C4);
-
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", memchr);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C9C);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CAC);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CB4);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CB8);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CBC);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CC0);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CC4);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CCC);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CD0);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CD4);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CD8);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CDC);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CE0);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CE4);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CE8);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CEC);
-
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CF0);

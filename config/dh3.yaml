@@ -37,6 +37,8 @@ segments:
     start: 0x800
     vram: 0x8001D500
     subsegments:
-      - [0x800, c, dh3]
+      - [0x800, c, gun]           # gun library (0x8001D500)
+      - [0x1770, c, dh3]          # game code (0x8001E470)
+      - [0x5B628, c, psyq]         # PsyQ libraries from start (0x80078328)
       - [0x69ED4, .rodata, dh3]
   - [0x99000]
