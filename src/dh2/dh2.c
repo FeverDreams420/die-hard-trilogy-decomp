@@ -1844,7 +1844,21 @@ void func_800242D4(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024314);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024664);
+extern s32 D_800B7198;
+extern s32 D_800B6F30;
+
+s32 func_80024664(s16 n) {
+    if (D_800B7198 & 0xFFFFE000) {
+        return -1;
+    }
+    if (D_800B6F30 < n) {
+        return -1;
+    }
+    if (D_800B6F30 > 6000) {
+        return -1;
+    }
+    return 0;
+}
 
 typedef struct {
     u8 maps[8][0x2F0];
