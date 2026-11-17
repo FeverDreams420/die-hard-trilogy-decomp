@@ -3887,7 +3887,45 @@ void func_80033730(s16 *angle, s16 *speed) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800337B4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033D4C);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0xA];
+    SVECTOR v[8];
+    u8 pad50[4];
+    s16 unk54[8];
+    s16 unk64[8];
+    s16 unk74[8];
+    u8 pad84[2];
+    s16 unk86;
+} Unk80033D4C;
+
+void func_800337B4();
+
+void func_80033D4C(Unk8002A35C *pos) {
+    struct Task *t = (struct Task *)func_8007307C(func_800337B4, 0x10, 0x8C);
+    Unk80033D4C *p;
+    s16 i;
+
+    if (t != NULL) {
+        i = 15;
+        p = (Unk80033D4C *)t->vals;
+        p->x = pos->x;
+        p->y = pos->y;
+        p->z = pos->z;
+        do {
+            p->unk64[i] = func_800754C8(0xB4);
+            p->unk74[i] = 0;
+        } while (i--);
+        i = 7;
+        do {
+            p->unk54[i] = 0x80;
+            p->v[i].vx = func_800754C8(0x40) - 0x20;
+            p->v[i].vz = func_800754C8(0x40) - 0x20;
+            p->v[i].vy = i * 16;
+        } while (i--);
+        p->unk86 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033E54);
 
