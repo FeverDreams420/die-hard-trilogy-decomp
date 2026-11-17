@@ -839,7 +839,19 @@ void func_80021B2C(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021BC8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021D70);
+void func_80021D70(void) {
+    Unk800219EC *p = (Unk800219EC *)D_801F7544->vals;
+    s32 buf;
+
+    p->unk16C += func_80077398(&D_800B6E00, &p->unk162) * 3;
+    p->unk162.x = D_800B6E00.vx;
+    buf = p->unk16C;
+    p->unk162.z = D_800B6E00.vz;
+    func_80021414(0x20, 0x20, 0x20);
+    func_80021380(0, 0x20, 0);
+    func_800214A8(buf);
+    func_80021624(buf);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021E10);
 
