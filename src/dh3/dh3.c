@@ -4241,8 +4241,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045DAC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80046084);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800461D0);
-
 typedef struct {
     u8 pad0[8];
     s16 unk8;
@@ -4265,6 +4263,33 @@ typedef struct {
     u8 pad88[0x10];
     u8 *obj;
 } Unk800462E4;
+
+extern s16 D_800B61DC;
+extern s16 D_800B6294;
+void func_8005CC44(s16 x, s16 z, u8 *obj, s16 d);
+void func_80045DAC(void);
+struct Task *func_80072768(struct Task *parent, void (*fn)(), s16 size);
+
+void func_800461D0(s16 x, s16 z, u8 *obj, s16 d) {
+    struct Task *t;
+    Unk800462E4 *p;
+
+    if (D_800B61DC == 0) {
+        if (D_800B5D74 != 0) {
+            func_8005CC44(x, z, obj, d);
+        } else if (D_800B650C == D_800B6294 + 1 && func_8003F5B0() == 0) {
+            t = func_80072768(D_801F80BC, func_80045DAC, 0xC4);
+            if (t != NULL) {
+                obj[4] = 0;
+                p = (Unk800462E4 *)t->vals;
+                p->obj = obj;
+                p->pos.vx = (x << 9) + 0x100;
+                p->pos.vz = (z << 9) + 0x100;
+                p->pos.vy = (s16)func_80028BF0(&p->pos) + 600;
+            }
+        }
+    }
+}
 
 void func_80054D3C(void);
 void func_800570A8();
