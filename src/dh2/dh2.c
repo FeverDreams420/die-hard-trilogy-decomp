@@ -5410,7 +5410,22 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A018);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A0A4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A1A0);
+extern s16 D_801F780C;
+extern s16 D_801F7808;
+extern s16 D_801F7814;
+extern s16 D_801F7816;
+extern s16 D_801F7806;
+
+void func_8005A1A0(s16 a, s16 b) {
+    if (D_801F780C == a) {
+        D_801F7814 = D_801F780C;
+        D_801F7816 = b;
+        D_801F7806 = 1;
+        if (D_801F7808 == 3) {
+            D_801F7808 = 1;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A1FC);
 
