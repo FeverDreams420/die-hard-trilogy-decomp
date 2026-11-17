@@ -263,7 +263,33 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001EECC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F1DC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001F39C);
+extern void func_8007F2B4(void);
+extern void func_8007F53C(void);
+extern long OpenEvent(unsigned long desc, long spec, long mode, long (*func)());
+extern long EnableEvent(long event);
+extern long SetRCnt(unsigned long spec, unsigned short target, long mode);
+extern long StartRCnt(unsigned long spec);
+extern long D_800B617C;
+extern s32 D_800B5F64;
+extern s32 D_800B5F8C;
+extern s16 D_800B56A2;
+extern s16 D_800B6514;
+long func_80026230();
+
+void func_8001F39C(void) {
+    if (D_800B6514 == 0) {
+        func_8007F2B4();
+        D_800B617C = OpenEvent(0xF2000003, 2, 0x1000, func_80026230);
+        EnableEvent(D_800B617C);
+        SetRCnt(0xF2000003, 1, 0x1000);
+        StartRCnt(0xF2000003);
+        func_8007F53C();
+        D_800B5F64 = 0;
+        D_800B5F8C = 0;
+        D_800B56A2 = 1;
+        D_800B6514 = -1;
+    }
+}
 
 extern s16 D_800B6514;
 extern long D_800B617C;
