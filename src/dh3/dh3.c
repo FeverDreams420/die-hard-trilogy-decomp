@@ -5314,7 +5314,22 @@ void func_80051410(void) {
     D_800B5DF4 = -1;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051424);
+extern volatile s32 D_800B6284[];
+extern u16 D_800972F8;
+extern u16 D_800972FA;
+extern u16 D_80097300;
+
+void func_80051424(void) {
+    if ((D_800972FA & D_800B6284[0]) || (D_80097300 & D_800B6284[0])) {
+        func_80069894();
+        D_800B6614->unk1780++;
+    }
+    if (D_800972F8 & D_800B6284[0]) {
+        func_80069894();
+        D_800B6614->unk1780--;
+    }
+    D_800B6614->unk1780 &= 7;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051500);
 
