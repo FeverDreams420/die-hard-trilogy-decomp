@@ -4847,7 +4847,12 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004DFC0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004E3E4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004E6D8);
+s32 func_8004E6D8(SVECTOR *a, SVECTOR *b, SVECTOR *c) {
+    s32 bx = b->vx;
+    s32 by = b->vy;
+
+    return (by - a->vy) * (c->vx - bx) > (bx - a->vx) * (c->vy - by);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004E720);
 
