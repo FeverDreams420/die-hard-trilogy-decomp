@@ -7610,7 +7610,27 @@ void func_80070D00(void) {
     SpuSetCommonAttr(&attr);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80070D34);
+extern s16 D_800B5E64;
+extern s16 D_800B5E5C;
+void func_80026710(s32);
+void func_8001F444(void);
+void func_80073158(void);
+void func_80072E40(void);
+void func_80070D00(void);
+
+void func_80070D34(void) {
+    func_80026710(10);
+    DrawSync(0);
+    func_8001F444();
+    func_80072A40(1);
+    func_80073158();
+    func_80068C70();
+    func_800279E4(0x140);
+    D_800B5E5C = D_800B636C >> 1;
+    D_800B5E64 = D_800B645C >> 1;
+    func_80072E40();
+    func_80070D00();
+}
 
 void func_80052DB4(void);
 struct Task *func_80072374(void (*fn)(), s16 size);
