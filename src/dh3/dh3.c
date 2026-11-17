@@ -5594,7 +5594,18 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005ECD0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005F694);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005F790);
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Unk8005F790;
+
+void func_8005F790(Unk8005F790 *p) {
+    if (p != (Unk8005F790 *)-1) {
+        p->unk6 = (p->unk0 + p->unk2) & 3;
+    }
+}
 
 extern s32 func_80028AF8(SVECTOR *v);
 
