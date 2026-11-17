@@ -51,7 +51,7 @@ Functions that didn't match after a reasonable effort. Each stays `INCLUDE_ASM` 
 | DH2 0x80024EBC (halve six `s16`) | | 19 of 19 | Original loads all six with `lh` first, then `sra 1`/`sh`. | `>>=`, `/2`, s16/s32 locals, two `SVECTOR *` |
 | DH2 0x80032F1C | | 1 of 24 | Final `addu` operand order (`v + f()`). | Both orders, temp, `+=` |
 | DH2 0x8004FA04 | | 2 of 33 | `li v0,-1` placed after a `nop` instead of before. | |
-| DH2 0x80059F58, 0x8005D24C, 0x80065C10 | | 12-26 | Registers/scheduling, first drafts only. | |
+| DH2 0x80059F58, 0x8005D24C | | 12-26 | Registers/scheduling, first drafts only. | |
 | DH3 0x8002B3BC | | 14 of 18 | `addiu sp,-8` sits in a branch delay slot mid-function. | |
 | DH3 0x800452E0, 0x80056B14 (tile lookup), 0x800675D8, 0x8006D908 | | 5-26 | Load order / `srl` vs `sra` / registers, first drafts only. | |
 | DH2 0x800823B0 `get_mode`, 0x800825A4 `get_ofs` (draw mode and offset words, split on the GPU type 1/2) | DH1, DH3 | 2 of 23 / 2 of 18 by shape (GCC 2.6.3 `-O2 -G0`, ASPSX 2.34) | The original loads the GPU type through `la` and `lbu 0(v0)`; one read of the type always comes out as `lui`/`lbu %lo`. In `get_mode` the dither word also lands in `v0` instead of `v1`. Closest: `if (gpu.type == 1 \|\| gpu.type == 2) return 0xE5000000 \| ((y & 0xFFF) << 12) \| (x & 0xFFF);` (the rest of `get_ofs` then matches), and for `get_mode` `page = tpage & 0x27FF; if (dfe) page \|= 0x1000;`. | `switch`, a local struct pointer, the type as a field at +4 of a struct at 0x800A3F40 |
