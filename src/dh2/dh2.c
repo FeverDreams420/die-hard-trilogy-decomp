@@ -5340,7 +5340,14 @@ void func_80052CD8(Unk80052CD8 *p) {
     func_80059118(&D_800B73F8, p->type, 0, D_800B6DE0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052D94);
+void func_80052D94(Unk80052CD8 *p) {
+    func_80027898(&D_800B6C98, &D_801F9644);
+    ApplyMatrix(&D_801F9644, &D_800B7398->unk38, &D_801F6C7C);
+    D_800B73F8.vx = D_801F6C7C.vx + p->pos.vx;
+    D_800B73F8.vy = D_801F6C7C.vy + p->pos.vy;
+    D_800B73F8.vz = D_801F6C7C.vz + p->pos.vz;
+    func_80059118(&D_800B73F8, p->type, 1, D_800B6DE0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052E50);
 
