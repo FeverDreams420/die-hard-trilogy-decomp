@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", start);
 
@@ -102,7 +103,11 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", StopCallback);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", RestartCallback);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CheckCallback);
+extern u16 D_8008B3B6;
+
+int CheckCallback(void) {
+    return D_8008B3B6;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", GetIntrMask);
 
@@ -184,39 +189,90 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetSemiTrans);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetShadeTex);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyF3);
+void SetPolyF3(void *p) {
+    setlen(p, 4);
+    setcode(p, 0x20);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyFT3);
+void SetPolyFT3(void *p) {
+    setlen(p, 7);
+    setcode(p, 0x24);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyG3);
+void SetPolyG3(void *p) {
+    setlen(p, 6);
+    setcode(p, 0x30);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyGT3);
+void SetPolyGT3(void *p) {
+    setlen(p, 9);
+    setcode(p, 0x34);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyF4);
+void SetPolyF4(void *p) {
+    setlen(p, 5);
+    setcode(p, 0x28);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyFT4);
+void SetPolyFT4(void *p) {
+    setlen(p, 9);
+    setcode(p, 0x2C);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyG4);
+void SetPolyG4(void *p) {
+    setlen(p, 8);
+    setcode(p, 0x38);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetPolyGT4);
+void SetPolyGT4(void *p) {
+    setlen(p, 12);
+    setcode(p, 0x3C);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetSprt8);
+void SetSprt8(void *p) {
+    setlen(p, 3);
+    setcode(p, 0x74);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetSprt16);
+void SetSprt16(void *p) {
+    setlen(p, 3);
+    setcode(p, 0x7C);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetSprt);
+void SetSprt(void *p) {
+    setlen(p, 4);
+    setcode(p, 0x64);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetTile1);
+void SetTile1(void *p) {
+    setlen(p, 2);
+    setcode(p, 0x68);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetTile8);
+void SetTile8(void *p) {
+    setlen(p, 2);
+    setcode(p, 0x70);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetTile16);
+void SetTile16(void *p) {
+    setlen(p, 2);
+    setcode(p, 0x78);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetTile);
+void SetTile(void *p) {
+    setlen(p, 3);
+    setcode(p, 0x60);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineF2);
+void SetLineF2(void *p) {
+    setlen(p, 3);
+    setcode(p, 0x40);
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineG2);
+void SetLineG2(void *p) {
+    setlen(p, 4);
+    setcode(p, 0x50);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineF3);
 
@@ -226,7 +282,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineF4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetLineG4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetBlockFill);
+void SetBlockFill(void *p) {
+    setlen(p, 3);
+    setcode(p, 0x2);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetDrawMove);
 
@@ -248,9 +307,17 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetGraphDebug);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", SetGraphQueue);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", GetGraphType);
+extern u8 D_8008C4EC;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", GetGraphDebug);
+int GetGraphType(void) {
+    return D_8008C4EC;
+}
+
+extern u8 D_8008C4EE;
+
+int GetGraphDebug(void) {
+    return D_8008C4EE;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DrawSyncCallback);
 
@@ -324,7 +391,11 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _drs);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _ctl);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _getctl);
+extern u8 D_800A3960[];
+
+int _getctl(int n) {
+    return D_800A3960[n];
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _cwb);
 
@@ -536,13 +607,29 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", def_cbread);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DeliverEvent);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdStatus);
+extern u8 D_80090B4C;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdMode);
+int CdStatus(void) {
+    return D_80090B4C;
+}
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdLastCom);
+extern u8 D_80090B5C;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdLastPos);
+int CdMode(void) {
+    return D_80090B5C;
+}
+
+extern u8 D_80090B5D;
+
+int CdLastCom(void) {
+    return D_80090B5D;
+}
+
+extern u8 D_80090B58[];
+
+u8 *CdLastPos(void) {
+    return D_80090B58;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdReset);
 
@@ -602,7 +689,11 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_datasync);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_getsector);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CD_set_test_parmnum);
+extern int D_80090DE4;
+
+void CD_set_test_parmnum(int n) {
+    D_80090DE4 = n;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", callback);
 
@@ -762,7 +853,9 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DecDCTGetEnv);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DecDCTPutEnv);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DecDCTBufSize);
+int DecDCTBufSize(u32 *bs) {
+    return *(u16 *)bs;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DecDCTin);
 

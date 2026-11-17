@@ -55,6 +55,8 @@ build/src/dh2/%.c.o build/src/dh3/%.c.o: ASPSX_VER := 2.21
 # settings" in docs/compiler-notes.md. -G0 is a guess: the library code doesn't use $gp.
 build/src/%/gun.c.o build/src/%/psyq.c.o: CC1 := tools/gcc-2.6.3-psx/cc1
 build/src/%/gun.c.o build/src/%/psyq.c.o: GFLAG := -G0
+# Symbol loads in the library code use the 2.34 form (lui/op %lo) in all three EXEs.
+build/src/%/gun.c.o build/src/%/psyq.c.o: ASPSX_VER := 2.34
 # Each EXE has a single .rodata segment that also holds its .data and .sdata,
 # so small constants the compiler puts in .sdata (initializers of 8 bytes or
 # less) go to .rodata until data is split into its own segments.
