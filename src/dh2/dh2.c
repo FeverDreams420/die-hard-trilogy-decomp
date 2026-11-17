@@ -400,7 +400,36 @@ void func_8001EB8C(void) {
     D_800B6F50.vz = D_800B6E00.vz;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EC38);
+extern SVECTOR D_800B6E90;
+extern SVECTOR D_800B6E00;
+extern SVECTOR D_800B6F28;
+extern SVECTOR D_800B6F50;
+void func_8001ED90();
+
+void func_8001EC38(void) {
+    SVECTOR rot;
+    SVECTOR pos;
+
+    rot.vx = D_800B6E90.vx;
+    rot.vy = D_800B6E90.vy;
+    rot.vz = D_800B6E90.vz;
+    pos.vx = D_800B6E00.vx;
+    pos.vy = D_800B6E00.vy;
+    pos.vz = D_800B6E00.vz;
+    D_800B6E90.vx = D_800B6F28.vx;
+    D_800B6E90.vy = D_800B6F28.vy;
+    D_800B6E90.vz = D_800B6F28.vz;
+    D_800B6E00.vx = D_800B6F50.vx;
+    D_800B6E00.vy = D_800B6F50.vy;
+    D_800B6E00.vz = D_800B6F50.vz;
+    func_8001ED90();
+    D_800B6E90.vx = rot.vx;
+    D_800B6E90.vy = rot.vy;
+    D_800B6E90.vz = rot.vz;
+    D_800B6E00.vx = pos.vx;
+    D_800B6E00.vy = pos.vy;
+    D_800B6E00.vz = pos.vz;
+}
 
 extern MATRIX D_80169F78;
 extern void SetRotMatrix(MATRIX *m);
