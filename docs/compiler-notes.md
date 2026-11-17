@@ -337,3 +337,7 @@ The library code linked into DH1, DH2 and DH3 was built with a different compile
 - A retry written with `goto` keeps its constants inside the loop (no `loop.c` hoisting into saved registers); a `for`/`do` loop hoists them (`CdInit`, DH2 0x8007E970).
 - A value masked in place (`c &= 0xFFCF;`) keeps its register, so reorg can't use the masked copy to fill a delay slot (`_spu_reset`).
 - About 45 library functions per EXE are BIOS call stubs (`li $t2, 0xA0/0xB0/0xC0; jr $t2`) and about 60 are libgte routines built on GTE instructions. Both were written in assembly and stay as assembly. That leaves about 290 library functions per EXE (about 14,500 instructions) to write in C.
+- A field of a global struct that is read and written several times gets its address in a saved register (`la s1, D_800A3F40+5`, then `lbu`/`sb 0(s1)`); separate `extern u8` variables never do. The libgpu state at 0x800A3F40 (`printf` pointer, `type`, `queue`, `debug`, `reverse`, `DISPENV` at +0x70) is declared as one struct in DH2 `psyq.c` for this (`SetGraphDebug`, `SetGraphQueue`, `SetDispMask`).
+- A `u16` status read through a `volatile` pointer keeps a redundant `andi 0xFFFF` after the `lhu` (`StGetNext`).
+- `while (i--)` with `i = 16` gives the `li 15 ... addiu -1; bne -1` count-down loop; `for (i = 0; i < 16; i++)` stays a count-up `slt` loop (`DecDCTPutEnv`).
+- `i == 0 || i == 1` folds to an unsigned `sltiu 2` (`SetRCnt`).
