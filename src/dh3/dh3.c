@@ -5814,7 +5814,23 @@ void func_8005D308(void) {
     CdMix(&atv);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005D33C);
+extern s16 D_800B64D4;
+extern s16 D_800B5F1C;
+extern u8 D_800B62BC[];
+extern s32 D_800B5FDC;
+extern s16 D_800B6164;
+extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+s32 func_8005D1D4(s16 track);
+
+void func_8005D33C(void) {
+    if (D_800B64D4 == 0 && D_800B5F1C < 0) {
+        CdControlB(0x11, 0, D_800B62BC);
+        D_800B5F1C = 20;
+        if (D_800B62BC[5] * 90 + D_800B62BC[6] >= (u32)D_800B5FDC) {
+            func_8005D1D4(D_800B6164 - 2);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005D3DC);
 
