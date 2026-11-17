@@ -4736,7 +4736,42 @@ void func_8004C828(void) {
     func_8001F86C();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004C8DC);
+typedef struct {
+    u8 pad0[0x1C];
+    SVECTOR rot;
+    SVECTOR v;
+    struct Task *parent;
+    u8 pad30[0x3A];
+    s16 unk6A;
+    u8 pad6C[2];
+    s16 unk6E;
+    s16 unk70;
+    s16 unk72;
+    u8 pad74[0x14];
+    VECTOR base;
+} Unk8004C8DC;
+
+void func_8004C8DC(VECTOR *pos) {
+    Unk8004C8DC *p = (Unk8004C8DC *)D_801F80B0[0]->vals;
+
+    D_801F80B0[0]->saved = D_801F80B0[0]->func;
+    D_801F80B0[0]->func = func_8004C828;
+    p->unk6A = 0x20;
+    p->rot.vx = 0;
+    p->rot.vz = 0;
+    func_80074910(0x1000);
+    p->rot.vy = 0x400;
+    p->base.vx = pos->vx;
+    p->base.vy = pos->vy;
+    p->base.vz = pos->vz;
+    p->unk70 = 0;
+    p->unk72 = 800;
+    p->v.vx = 0;
+    p->v.vy = 0;
+    p->v.vz = -0x800;
+    p->parent = D_800B604C;
+    p->unk6E = 60;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004C998);
 
@@ -4806,16 +4841,15 @@ extern s16 D_800B622C;
 void func_8006CD18(struct Task *t, s32 flag);
 void func_8006CB7C(struct Task *t, s32 flag);
 void func_800669C0(VECTOR *v, s32 arg);
-void func_8004C8DC(s32 arg);
 void func_8002C58C(void);
 
-void func_8004D4A4(s32 arg) {
+void func_8004D4A4(VECTOR *pos) {
     func_8006CD18(D_801F80B0[3], 0x10);
     func_8006CB7C(D_801F80B0[3], 0x20);
     func_800669C0(&D_800B659C->pos, 0);
     D_800B622C = 0;
     func_80050730();
-    func_8004C8DC(arg);
+    func_8004C8DC(pos);
     D_800B659C->unk1AA = -1;
     D_801F80B0[3]->saved = D_801F80B0[3]->func;
     D_801F80B0[3]->func = func_8002C58C;
