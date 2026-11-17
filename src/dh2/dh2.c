@@ -5103,7 +5103,38 @@ void func_8004FA88(Unk8004FA88 *obj) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004FAC4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004FBEC);
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+    u16 pad6;
+    u16 unk8;
+    u16 unkA;
+    u16 unkC;
+    u8 padE[0x12];
+} Unk80095F88;
+
+typedef struct {
+    u8 pad0[0x1D4];
+    u16 unk1D4;
+    u16 unk1D6;
+    u16 unk1D8;
+    u8 pad1DA[0x12];
+    u16 unk1EC;
+    u16 unk1EE;
+    u16 unk1F0;
+} Unk8004FBEC;
+
+extern Unk80095F88 D_80095F88[];
+
+void func_8004FBEC(Unk8004FBEC *p, s16 i) {
+    p->unk1EC = D_80095F88[i].unk0;
+    p->unk1EE = D_80095F88[i].unk2;
+    p->unk1F0 = D_80095F88[i].unk4;
+    p->unk1D4 = D_80095F88[i].unk8;
+    p->unk1D6 = D_80095F88[i].unkA;
+    p->unk1D8 = D_80095F88[i].unkC;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004FC84);
 
