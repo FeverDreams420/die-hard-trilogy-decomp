@@ -4918,7 +4918,36 @@ void func_80047F4C(void *arg0) {
     func_80033D4C(&D_800B72E8);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047F84);
+typedef struct {
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 pad;
+    u16 unk10;
+} Unk80047F84;
+
+void func_80056E74(SVECTOR *a, SVECTOR *b, s16 c);
+void func_8006684C();
+void func_80065E44();
+void func_80055ED4();
+void func_800565F0();
+void func_800577F8();
+
+void func_80047F84(Unk80047F84 *a, void *obj) {
+    func_80024914(a->x, a->y, a->z, &D_800B73F8);
+    if ((s16)func_800754C8(2)) {
+        func_80056E74((SVECTOR *)obj, &D_800B73F8, 0);
+        func_8006684C((s16)func_800754C8(2) + 0x3A, obj);
+    }
+    if ((s16)func_800754C8(2)) {
+        func_80065E44(0x39, obj);
+        func_80055ED4(obj, &D_800B73F8, a->unk10);
+    }
+    if ((s16)func_800754C8(2)) {
+        func_800565F0(obj);
+    }
+    func_800577F8(obj, a);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048064);
 
