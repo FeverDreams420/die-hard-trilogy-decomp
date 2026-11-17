@@ -966,7 +966,9 @@ void func_80027A18(u8 *a, u8 *b, s16 t, u8 *out) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027A88);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027C84);
+s32 func_80027C84(void) {
+    return GetRCnt(0xF2000001) > 0x400;
+}
 
 typedef struct {
     SVECTOR *v[4];
