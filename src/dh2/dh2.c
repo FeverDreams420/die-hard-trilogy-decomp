@@ -332,7 +332,33 @@ s32 func_8001EA7C(void) {
     return 0xB1;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001EA84);
+extern void func_8007FD1C(void);
+extern void func_8007FFB4(void);
+extern long OpenEvent(unsigned long desc, long spec, long mode, long (*func)());
+extern long EnableEvent(long event);
+extern long SetRCnt(unsigned long spec, unsigned short target, long mode);
+extern long StartRCnt(unsigned long spec);
+extern long ResetRCnt(unsigned long spec);
+extern long D_800B6ED0;
+extern s32 D_800B6CC8;
+extern s16 D_800B639E;
+extern s16 D_800B63DC;
+long func_80024314();
+
+void func_8001EA84(void) {
+    if (D_800B63DC == 0) {
+        func_8007FD1C();
+        D_800B6ED0 = OpenEvent(0xF2000003, 2, 0x1000, func_80024314);
+        EnableEvent(D_800B6ED0);
+        SetRCnt(0xF2000003, 1, 0x1000);
+        StartRCnt(0xF2000003);
+        ResetRCnt(0xF2000003);
+        func_8007FFB4();
+        D_800B6CC8 = 0;
+        D_800B639E = 1;
+        D_800B63DC = -1;
+    }
+}
 
 extern s16 D_800B63DC;
 extern long D_800B6ED0;
