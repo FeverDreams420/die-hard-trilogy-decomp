@@ -4667,7 +4667,13 @@ void func_8005061C(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050688);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050730);
+extern struct Task *D_801F80D0;
+
+void func_80050730(void) {
+    if (D_801F80D0 != NULL) {
+        ((s16 *)D_801F80D0->vals)[0x77] = -1;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80050758);
 
