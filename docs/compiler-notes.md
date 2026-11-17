@@ -298,3 +298,13 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A copy of the prim pointer is kept in `s2` (set in the delay slot of the buffer-full check) and passed to `AddPrim` | `prim *start = prim;` then `prim++; AddPrim(ot, start); D_800B63AC = prim;` (DH3 0x8002E864, DH2 0x8006C9F4) |
 | `prim++` lands in the delay slot of the `otz > 0` test | Put `prim++` inside the `if`, before `AddPrim(ot, start)` (DH2 0x80028408) |
 | `tex = base + f->tex + offset` with the offset term added last | Write it in that order; `base + offset + f->tex` reassociates differently (DH3 0x80031548, 0x80031674) |
+| A scalar global read as `lui`/`addiu`/`lw 0(v0)` instead of `lui`/`lw %lo` | Declare it as an array and read `*(volatile s32 *)D_X` (DH3 0x80024428, DH2 0x80046658) |
+| An `s32` global returned as `s16` with `lw` + `sll`/`sra` instead of `lh` | Declare it `volatile` (DH2 `D_800B725C`, 0x80046658) |
+| A leaf with an 8-byte frame and no call | An unused `u8 unused[8];`, parameter `s32` when it isn't sign-extended (DH3 0x8006899C) |
+| `move v0,a0` / `slt` / `bnez` / `move v0,a1` (min or max) | `if (a < b) return a; return b;`, not a ternary or a result variable (DH3 0x80026748, 0x80026764) |
+| `abs(v)` copied into `v0` before the `negu` | `s32 m = ABS(v);` then `lim = ABS(lim);` (DH2 0x80024790) |
+| A count-down loop over an `s16` that tests `n` first and then the old value | `while (n--)` with `s16 n` (DH2 0x80032D24) |
+| A field read again (`lw s1`) after the stores that follow the `+=` | Read it after the first of those stores, not right after the `+=` (DH2 0x800219EC) |
+| `xor` into a new register then `move` back | Declare the accumulator `u8` (DH2 0x8005F40C) |
+| A range check `addiu +1` / `andi 0xFFFF` / `sltiu` on an `s16` | `i >= -1 && i <= 0x1000` (GCC folds it) (DH3 0x8004DC84); `(u16)i < 24` comes from `i < 0 \|\| i >= 0x18` (DH3 0x80054CE4) |
+| A volatile global read without the volatile `lhu`/`sll`/`sra` form | Read it through `*(s16 *)&D_X` (DH3 0x80066B1C) |

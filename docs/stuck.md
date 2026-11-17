@@ -44,3 +44,13 @@ Functions that didn't match after a reasonable effort. Each stays `INCLUDE_ASM` 
 | DH2 0x80071D74 (load save slot: header, then data of the size it names) | DH2 0x800716D8 (matched sibling) | registers (GCC 2.5.7 `-O2 -G8`, ASPSX 2.21) | The original keeps the file handle in `s1` and reloads `&D_800B76F8` into `s0` just before the last `read`. | `s32 slot`, a header pointer declared early or assigned late |
 | DH2 0x80059CF8 (spawn task, copy position, randomise 120 entries) | none | registers (GCC 2.5.7 `-O2 -G8`, ASPSX 2.21) | Loop index and data pointer swap `s1`/`s2`. | Declaration order, index set inside the `if` |
 | DH3 0x8002DFB4 (FT4 face, `NormalClip` picks one of two UV layouts, `otz - 0x80` clamped to 0x58) | DH3 0x8002D84C, 0x8002DC70 (matched) | 26 of 112, registers only (GCC 2.5.7 `-O2 -G8`, ASPSX 2.21) | Texture pointer and prim pointer swap `a0`/`v1` in both branches. `NormalClip` args need `*(u32 *)&prim->xy0` and the clut store `*(s16 *)&prim->clut` to get the order right. | Per-branch `prim = D_800B5E0C` before or after `tex`, `&D_8018CDD4[f->tex]`, direct `D_800B5E0C->` stores |
+| DH1 0x800296F8 (lerp `(t*b + a*(0x1000-t)) >> 12`) | | 1 extra `nop` (GCC 2.5.7 `-O2 -G8`, ASPSX 2.34) | maspsx adds a `nop` after the first `mflo` that ASPSX doesn't. | Operand orders |
+| DH1 0x8002A3C4 (`|dx| + |dz|` of two `SVECTOR`) | | 16 of 18 | Load order a.x, a.z, b.x, b.z and `dz` computed after the first `abs`. | `ABS`, s16/s32 locals, locals for a.x/a.z |
+| DH1 0x80043814 (turn angle toward target by at most `step`) | | 16 of 17 | `from`/`to` must be `s32` but callers declare `s16`, which changes the callers. | Branch orders, `ABS` |
+| DH1 0x8005CA44 | | 3 of 21 | The volatile `D_801F7D50 = NULL` is scheduled before `unk70 = unk6C`. | Statement orders, cast to non-volatile |
+| DH2 0x80024EBC (halve six `s16`) | | 19 of 19 | Original loads all six with `lh` first, then `sra 1`/`sh`. | `>>=`, `/2`, s16/s32 locals, two `SVECTOR *` |
+| DH2 0x80032F1C | | 1 of 24 | Final `addu` operand order (`v + f()`). | Both orders, temp, `+=` |
+| DH2 0x8004FA04 | | 2 of 33 | `li v0,-1` placed after a `nop` instead of before. | |
+| DH2 0x80059F58, 0x8005D24C, 0x80065C10 | | 12-26 | Registers/scheduling, first drafts only. | |
+| DH3 0x8002B3BC | | 14 of 18 | `addiu sp,-8` sits in a branch delay slot mid-function. | |
+| DH3 0x800452E0, 0x80056B14 (tile lookup), 0x800675D8, 0x8006D908 | | 5-26 | Load order / `srl` vs `sra` / registers, first drafts only. | |
