@@ -4210,7 +4210,34 @@ void func_800462E4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800463F0);
+struct Task *func_80072768(struct Task *parent, void (*fn)(), s16 size);
+
+void func_800463F0(s16 x, s16 z, u8 *obj, s16 type) {
+    s16 ang = ((type >> 8) << 9) + 0x400;
+    struct Task *t = func_80072768(D_801F80BC, func_800462E4, 0xC4);
+    Unk800462E4 *p;
+    s32 y;
+
+    if (t != NULL) {
+        obj[4] = 0;
+        t->flags = 0x21;
+        p = (Unk800462E4 *)t->vals;
+        p->obj = obj;
+        p->start.vx = p->pos.vx = (x << 9) + 0x100;
+        p->start.vz = p->pos.vz = (z << 9) + 0x100;
+        y = (s16)func_80028BF0(&p->pos);
+        p->unk8 = type & 0xFF;
+        p->start.vy = p->pos.vy = y;
+        p->unk22 = ang;
+        p->unk20 = 0;
+        p->unk24 = 0;
+        p->unk38 = 0;
+        p->unk3C = 0;
+        p->unkC = 0;
+        p->unkE = 4;
+        func_8006B48C(p->unk8, p->unk28);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800464FC);
 
