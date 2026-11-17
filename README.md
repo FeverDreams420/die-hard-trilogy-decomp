@@ -16,6 +16,8 @@ This repository contains no game data. You need your own copy of the game.
 
 These figures count bytes of each game's code that build from matching C (as of Nov 16, 2026). To update them after a build, run `python3 tools/progress.py --markdown`.
 
+`make report` writes the same figures to `build/report.json` in objdiff's report format, with one unit per C file and one category per game. `make upload-progress` checks the build, then sends that report for the current commit to [bytematch.dev](https://bytematch.dev). It needs the project's upload token in `BYTEMATCH_TOKEN` and no uncommitted changes. Keep the token out of the repo.
+
 If you want to help, you can see the code map here: [View Code Map](docs/code-map.md)
 
 

@@ -70,7 +70,7 @@ asm_of = $(shell find asm/$(1) -name '*.s' -not -path '*/nonmatchings/*' 2>/dev/
 c_of   = $(shell find src/$(1) -name '*.c' 2>/dev/null)
 obj_of = $(patsubst %.s,build/%.s.o,$(call asm_of,$(1))) $(patsubst %.c,build/%.c.o,$(call c_of,$(1)))
 
-.PHONY: all split check clean
+.PHONY: all split check clean report upload-progress
 all: $(foreach e,$(EXES),build/$(FILE_$(e)))
 
 split:
@@ -104,6 +104,29 @@ check: all
 		if [ "$$want" = "$$got" ]; then echo "OK    $$f $$got"; \
 		else echo "FAIL  $$f: $$(cmp build/$$f disc/$$f 2>&1 | head -1)"; status=1; fi; \
 	done; exit $$status
+
+# objdiff-format progress report, and its upload to bytematch.dev.
+# The upload needs the project token in BYTEMATCH_TOKEN and a clean tree,
+# so the report always belongs to the commit it is filed under.
+BYTEMATCH_PROJECT ?= FeverDreams420/die-hard-trilogy-decomp
+BYTEMATCH_VERSION ?= SLUS_001.19
+
+report: all
+	$(PYTHON) tools/progress.py --report build/report.json
+
+upload-progress: check report
+	@test -n "$$BYTEMATCH_TOKEN" || { echo "BYTEMATCH_TOKEN is not set"; exit 1; }
+	@git diff --quiet HEAD -- src include asm config Makefile || \
+		{ echo "Commit your changes first: the report is filed under HEAD"; exit 1; }
+	@curl --fail-with-body -sS -X POST \
+		-H "Authorization: Bearer $$BYTEMATCH_TOKEN" \
+		-H "Content-Type: application/json" \
+		--data-binary @build/report.json \
+		--url-query "version=$(BYTEMATCH_VERSION)" \
+		--url-query "commit=$$(git rev-parse HEAD)" \
+		--url-query "commit_timestamp=$$(git log -1 --format=%cI)" \
+		--url-query "commit_message=$$(git log -1 --format=%s)" \
+		"https://bytematch.dev/api/v1/projects/$(BYTEMATCH_PROJECT)/reports"; echo
 
 clean:
 	rm -rf build/asm build/src $(foreach e,$(EXES),build/$(e).elf build/$(e).map build/$(FILE_$(e)))
