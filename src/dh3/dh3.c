@@ -7017,7 +7017,33 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5998);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80065178);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006595C);
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} DR_MODE;
+
+extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
+extern void SetDrawMode(DR_MODE *p, s32 dfe, s32 dtd, s32 tpage, void *tw);
+
+void func_8006595C(u8 c) {
+    TILE *t = D_800B63AC;
+    DR_MODE *m;
+
+    t->x0 = 0;
+    t->y0 = 0;
+    t->w = 0x1FF;
+    t->h = 0x100;
+    SetTile(t);
+    t->r0 = c;
+    t->g0 = c;
+    t->b0 = c;
+    SetSemiTrans(t, 1);
+    AddPrim(D_800B62CC + 1, t++);
+    m = (DR_MODE *)t;
+    SetDrawMode(m, 1, 1, GetTPage(0, 2, 0, 0), 0);
+    AddPrim(D_800B62CC + 1, m);
+    D_800B63AC = m + 1;
+}
 
 typedef struct {
     u8 pad0[0x32];
