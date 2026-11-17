@@ -449,7 +449,6 @@ void func_8001E294(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", NEWGUN_OBJ_1CC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", NEWGUN_OBJ_2B4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", NEWGUN_OBJ_2EC);
 
@@ -9065,247 +9064,137 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuSetVoiceAttr);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _SpuSetVoiceAttr);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_1C0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_308);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_388);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_484);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_48C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_494);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_49C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_4A4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_4AC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_4B4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_4BC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_4C4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_4F4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_554);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_55C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_564);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_56C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_574);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_57C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_584);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_58C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_594);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_5C4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_63C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SVA_OBJ_650);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuGetKeyStatus);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_GKS_OBJ_2C);
-
-void S_GKS_OBJ_8C(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_note2pitch);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_N2P_OBJ_E8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_pitch2note);
 
-void S_N2P_OBJ_244(void) {
-}
-
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuSetReverbModeParam);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_170);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_180);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_2AC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_340);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_38C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_438);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_45C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SRMP_OBJ_4DC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_setReverbAttr);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _SpuIsInAllocateArea);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_UTIL_OBJ_18);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _SpuIsInAllocateArea_);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_UTIL_OBJ_94);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuSetCommonAttr);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_5C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_64);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_6C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_74);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_7C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_84);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_8C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_94);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_9C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_CC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_124);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_12C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_134);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_13C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_144);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_14C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_154);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_15C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_164);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_194);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_240);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_294);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_330);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SCA_OBJ_384);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_reset);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80079B9C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_58);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_init);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_1CC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_314);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_360);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_3AC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_3F8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_470);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_4BC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_508);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_554);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_writeByIO);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_6DC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_778);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_7B0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_7FC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_8B8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_FiDMA);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_92C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_978);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_9C4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_A6C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_r_);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007A668);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_B24);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007A6D4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_B90);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007A720);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_BDC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_t);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_E64);
-
-void SPU_OBJ_EFC(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_write);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPU_OBJ_F74);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_read);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_FsetRXX);
 
-void SPU_OBJ_1034(void) {
-}
-
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_FsetRXXa);
-
-void SPU_OBJ_10D8(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_FgetRXXa);
 
-void SPU_OBJ_1114(void) {
-}
-
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuClearReverbWorkArea);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_CRWA_OBJ_9C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_CRWA_OBJ_100);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_CRWA_OBJ_174);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _SpuInit);
 
@@ -9321,26 +9210,18 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SsUtReverbOff);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuSetReverb);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SR_OBJ_B0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SR_OBJ_B4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007B120);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuIsTransferCompleted);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_ITC_OBJ_88);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_ITC_OBJ_90);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuInitMalloc);
 
-void S_M_INIT_OBJ_4C(void) {
-}
-
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuSetTransferMode);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_STM_OBJ_1C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuSetTransferStartAddr);
 
@@ -9348,51 +9229,36 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuRead);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuSetKey);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SK_OBJ_68);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuMalloc);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_M_OBJ_54);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_M_OBJ_12C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_M_OBJ_2A8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SpuReserveReverbWorkArea);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_RRWA_OBJ_40);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _spu_gcSPU);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_INT_OBJ_50);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_INT_OBJ_C0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_M_INT_OBJ_270);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _SpuSetAnyVoice);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", S_SAV_OBJ_A0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", cb_read);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CDREAD_OBJ_114);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", cd_read_retry);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CDREAD_OBJ_3DC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CDREAD_OBJ_3E4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdRead);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CDREAD_OBJ_45C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CDREAD_OBJ_468);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdReadSync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CDREAD_OBJ_594);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdReadCallback);
 
@@ -9406,7 +9272,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdLastPos);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdReset);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_98);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdFlush);
 
@@ -9414,13 +9279,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdSetDebug);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdComstr);
 
-void SYS_OBJ_110(void) {
-}
-
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdIntstr);
-
-void SYS_OBJ_144(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdSync);
 
@@ -9436,7 +9295,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdControlF);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdControlB);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_538);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdMix);
 
@@ -9452,43 +9310,27 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdPosToInt);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", getintr);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_64);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_258);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_358);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_3A4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_428);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_4B0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_560);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_sync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_6A4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_6D4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_7CC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_ready);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_92C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_95C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_A94);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_cw);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_D88);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_DB8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_EDC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_vol);
 
@@ -9502,7 +9344,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_init);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_datasync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_14C0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_getsector);
 
@@ -9510,11 +9351,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CD_set_test_parmnum);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", callback);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", BIOS_OBJ_164C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdInit);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", EVENT_OBJ_7C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", def_cbsync);
 
@@ -9524,7 +9363,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", def_cbread);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdRead2);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CDREAD2_OBJ_50);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StCdInterrupt2);
 
@@ -9534,29 +9372,20 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdGetToc);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", CdGetToc2);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", TOC_OBJ_220);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StCdInterrupt);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_270);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_3D0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_7BC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_85C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_900);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_960);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", mem2mem);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", dma_execute);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_A30);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_011_OBJ_A90);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", init_ring_status);
 
@@ -9580,11 +9409,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", data_ready_callback);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StGetBackloc);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_004_OBJ_DC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StFreeRing);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", C_007_OBJ_B0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _card_info);
 
@@ -9616,24 +9443,14 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", format);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetRCnt);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", COUNTER_OBJ_74);
-
-void COUNTER_OBJ_98(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GetRCnt);
-
-void COUNTER_OBJ_D0(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StartRCnt);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StopRCnt);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", ResetRCnt);
-
-void COUNTER_OBJ_170(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DisableEvent);
 
@@ -9705,17 +9522,14 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", startIntr);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", trapIntr);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", INTR_OBJ_428);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", setIntr);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", INTR_OBJ_514);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", stopIntr);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", restartIntr);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", INTR_OBJ_6D0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", memclr_8007FD78);
 
@@ -9733,7 +9547,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", trapIntrDMA);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", setIntrDMA);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", INTR_DMA_OBJ_274);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", memclr_80080060);
 
@@ -9747,21 +9560,16 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", memclr_80080188);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", VSync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", VSYNC_OBJ_84);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", VSYNC_OBJ_130);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", v_wait);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", VSYNC_OBJ_1D4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", ResetGraph);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_140);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetGraphReverse);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1E4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetGraphDebug);
 
@@ -9779,9 +9587,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DrawSync);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", checkRECT);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_5E0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_61C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", ClearImage);
 
@@ -9791,7 +9597,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", StoreImage);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MoveImage);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_834);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", ClearOTag);
 
@@ -9809,15 +9614,10 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GetDrawEnv);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", PutDispEnv);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_CFC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_DE8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_E9C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_EF8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1088);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GetDispEnv);
 
@@ -9835,38 +9635,26 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDrawMode);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDrawEnv);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1454);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1570);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", get_mode);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_15E4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", get_cs);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_16A8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", get_ce);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1774);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", get_ofs);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_17BC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", get_tw);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1844);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", get_dx);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_189C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1900);
-
-void SYS_OBJ_1904(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _status);
 
@@ -9874,27 +9662,18 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _otc);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _clr);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1A68);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1AAC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1BF8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _dws);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1C94);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1CDC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1E50);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _drs);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1EE4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_1F2C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_20F0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _ctl);
 
@@ -9910,40 +9689,27 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _addque);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _addque2);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8008260C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_228C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_23B4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_2470);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_2504);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _exeque);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _reset);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_2924);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _sync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_297C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_2994);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_2A90);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", set_alarm);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", get_alarm);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SYS_OBJ_2C34);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", _version);
-
-void SYS_OBJ_2D18(void) {
-}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", memset_800830B8);
 
@@ -9951,13 +9717,11 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GPU_cw);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GetTPage);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", PRIM_OBJ_A4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", GetClut);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DumpTPage);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", PRIM_OBJ_19C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DumpClut);
 
@@ -9975,11 +9739,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", TermPrim);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetSemiTrans);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", PRIM_OBJ_2FC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetShadeTex);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", PRIM_OBJ_324);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetPolyF3);
 
@@ -10029,26 +9791,19 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDrawMove);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDrawTPage);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", PRIM_OBJ_5C0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDrawLoad);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MargePrim);
 
-void PRIM_OBJ_678(void) {
-}
-
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DumpDrawEnv);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", PRIM_OBJ_7EC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DumpDispEnv);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LoadTPage);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", EXT_OBJ_A8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", EXT_OBJ_AC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LoadClut);
 
@@ -10056,7 +9811,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LoadClut2);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDefDrawEnv);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", EXT_OBJ_234);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDefDispEnv);
 
@@ -10196,11 +9950,8 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetDQB);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", RotMatrix);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", FGO_01_OBJ_64);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", FGO_01_OBJ_CC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", FGO_01_OBJ_160);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SetTransMatrix);
 
@@ -10220,9 +9971,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DecDCTBufSize);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DecDCTin);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LIBPRESS_OBJ_19C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LIBPRESS_OBJ_1C8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DecDCTout);
 
@@ -10236,9 +9985,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", DecDCToutCallback);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MDEC_reset);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LIBPRESS_OBJ_36C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LIBPRESS_OBJ_37C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MDEC_in);
 
@@ -10246,11 +9993,9 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MDEC_out);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MDEC_in_sync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LIBPRESS_OBJ_538);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MDEC_out_sync);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", LIBPRESS_OBJ_5D0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", timeout);
 
@@ -10274,49 +10019,27 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", strcpy);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", sprintf);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_90);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_1C0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_260);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_2A4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_2C8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_2D4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_2E0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_2EC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_30C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_35C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_388);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_474);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_564);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_578);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_588);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_590);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_680);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_6A0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_724);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_758);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_770);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", SPRINTF_OBJ_804);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", memchr);
 
@@ -10324,7 +10047,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", strlen);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", memmove);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", MEMMOVE_OBJ_64);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", puts);
 
