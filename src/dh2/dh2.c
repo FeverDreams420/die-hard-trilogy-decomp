@@ -4490,7 +4490,63 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F530);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F624);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F6D0);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[2];
+    s32 unk8;
+    s32 unkC;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    s16 unk16;
+    s16 unk18;
+    s16 unk1A;
+} Unk800462F0_Obj;
+
+typedef struct {
+    u8 pad0[0x10];
+    s16 x, y, z;
+    u8 pad16[2];
+    s16 unk18;
+    s16 unk1A;
+    s16 unk1C;
+} Unk8003F6D0_Src;
+
+typedef struct {
+    u8 pad0[0xC];
+    s16 unkC;
+} Unk8003F6D0_Cfg;
+
+extern Unk800462F0_Obj *D_800B6E70;
+extern struct Task *D_801F7550;
+extern s16 D_800B63C6;
+extern s16 D_800B63C8;
+extern SVECTOR *D_800B73B8;
+
+void func_8003F6D0(void) {
+    Unk8003F6D0_Src *src = (Unk8003F6D0_Src *)D_800B6DE0->vals;
+    Unk8003F6D0_Cfg *cfg = (Unk8003F6D0_Cfg *)D_801F7550->vals;
+    SVECTOR *v;
+    Unk800462F0_Obj *o;
+
+    if (D_800B63C6 == 1) {
+        v = &D_800B73B8[D_800B63C8];
+        src->x = v->vx;
+        src->y = v->vy;
+        src->z = v->vz;
+        src->unk18 = v[16].vx;
+        src->unk1A = v[16].vy;
+        src->unk1C = v[16].vz;
+    }
+    if (D_800B63C6 == 2) {
+        o = &D_800B6E70[D_800B63C8];
+        src->x = o->x;
+        src->y = o->y;
+        src->z = o->z;
+        src->unk1A = o->unk1A;
+        cfg->unkC = o->unk10;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F7D4);
 
@@ -4821,16 +4877,10 @@ void func_800462B4(void) {
 }
 
 typedef struct {
-    s16 x, y, z;
-    u8 pad6[0x16];
-} Unk800462F0_Obj;
-
-typedef struct {
     SVECTOR v[16];
     u8 pad80[0x12C];
 } Unk800462F0_Mesh;
 
-extern Unk800462F0_Obj *D_800B6E70;
 extern Unk800462F0_Mesh *D_800B71B8;
 
 void func_800462F0(s32 dx, s32 dy, s32 dz) {
