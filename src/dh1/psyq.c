@@ -456,7 +456,13 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DrawSync);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", checkRECT);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", ClearImage);
+extern u32 (**D_8008C4E4)();
+extern char D_8007B9B4[];
+
+int ClearImage(RECT *rect, u8 r, u8 g, u8 b) {
+    checkRECT(D_8007B9B4, rect);
+    return D_8008C4E4[2](D_8008C4E4[3], rect, 8, (b << 16) | (g << 8) | r);
+}
 
 extern u32 (**D_8008C4E4)();
 extern char D_8007B9C0[];
@@ -1216,9 +1222,27 @@ void *DecDCToutCallback(void (*func)()) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MDEC_reset);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MDEC_in);
+extern volatile u32 *D_800919DC, *D_800919A4, *D_800919A8, *D_800919D4, *D_800919AC;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MDEC_out);
+void MDEC_in(u32 *buf, u32 size) {
+    MDEC_in_sync();
+    *D_800919DC |= 0x88;
+    *D_800919A4 = (u32)(buf + 1);
+    *D_800919A8 = (size >> 5) << 16 | 0x20;
+    *D_800919D4 = *buf;
+    *D_800919AC = 0x01000201;
+}
+
+extern volatile u32 *D_800919DC, *D_800919B8, *D_800919B0, *D_800919B4;
+
+void MDEC_out(u32 *buf, u32 size) {
+    MDEC_out_sync();
+    *D_800919DC |= 0x88;
+    *D_800919B8 = 0;
+    *D_800919B0 = (u32)buf;
+    *D_800919B4 = (size >> 5) << 16 | 0x20;
+    *D_800919B8 = 0x01000200;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MDEC_in_sync);
 
