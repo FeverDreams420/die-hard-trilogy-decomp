@@ -1789,7 +1789,19 @@ void func_80024DE4(MATRIX *m, s16 scale) {
     m->m[2][2] = (m->m[2][2] * scale) >> 12;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024E40);
+typedef struct {
+    s16 x, y, z;
+    s16 rx, ry, rz;
+} Unk80024E40;
+
+void func_80024E40(Unk80024E40 *p) {
+    p->x = p->x * 2;
+    p->y = p->y * 2;
+    p->z = p->z * 2;
+    p->rx = p->rx * 381 >> 9;
+    p->ry = p->ry * 381 >> 9;
+    p->rz = p->rz * 381 >> 9;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024EBC);
 
