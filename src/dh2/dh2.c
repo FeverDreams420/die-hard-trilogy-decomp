@@ -5698,7 +5698,15 @@ void func_800576D8(SVECTOR *a, SVECTOR *b, SVECTOR *out) {
     func_80025860(out);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80057734);
+void func_80057734(SVECTOR *out, SVECTOR *base, SVECTOR *dir, s16 n) {
+    s16 k;
+
+    k = func_800754C8(n);
+    k += n;
+    out->vx = base->vx + ((dir->vx * k) >> 12);
+    out->vy = base->vy + ((dir->vy * k) >> 12);
+    out->vz = base->vz + ((dir->vz * k) >> 12);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800577F8);
 
