@@ -6257,7 +6257,45 @@ void func_80054ABC(Unk80054ABC *obj) {
     obj->unk118 = func_8002881C(obj->unk118, 0, 4);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80054B08);
+typedef struct {
+    u8 pad0[0x22];
+    s16 unk22;
+    u8 pad24[0x2C];
+    VECTOR pos;
+    u8 pad60[0x44];
+    SVECTOR vel;
+    u8 padAC[0x68];
+    s16 unk114;
+    u8 pad116[0x36];
+    s16 unk14C;
+} Unk80054B08;
+
+void func_80053BB8();
+void func_8005420C();
+void func_800545F8();
+
+void func_80054B08(void) {
+    Unk80054B08 *p = (Unk80054B08 *)D_800B604C->vals;
+    s16 d;
+
+    if (p->unk14C < 8 || func_80028AF8(&p->vel) < 0x80) {
+        func_80053BB8(p);
+        func_8005420C(p);
+        func_80054ABC((Unk80054ABC *)p);
+        func_800545F8(p);
+        func_80054A04((Unk80054A04 *)p);
+    }
+    p->pos.vx += p->vel.vx;
+    p->pos.vz += p->vel.vz;
+    d = func_80028AF8(&p->vel);
+    if (d >= 0x40) {
+        if (d < 0x400) {
+            p->unk22 += (p->unk114 * (s16)func_80071B7C(0x800, 0x400, d * 4)) >> 12;
+        } else {
+            p->unk22 += p->unk114 >> 2;
+        }
+    }
+}
 
 typedef struct {
     s16 unk0;
