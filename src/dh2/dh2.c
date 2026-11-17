@@ -6901,7 +6901,12 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065B0C);
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065C10);
 
 typedef struct {
-    u8 pad0[0xC];
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 padA;
     u32 state;
     u8 pad10[0x18];
     s32 unk28;
@@ -6967,7 +6972,30 @@ void func_800666F0(s16 voice) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066770);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    u8 padA[0x1E];
+} Unk80066770;
+
+void func_80066770(s16 voice) {
+    Unk80066770 s;
+    Unk801D9DAC *e = &D_801D9DAC[voice];
+
+    if (e->state == 8 && e->unk4 > 0x100) {
+        s.unk0 = 0x1000 - e->unk0;
+        s.unk2 = e->unk2;
+        s.unk4 = e->unk4 >> 1;
+        s.unk6 = e->unk6;
+        s.unk8 = e->unk8;
+        func_80066B70((Unk8015EB3C *)&s, (s32)func_80066770);
+    } else if (e->state > 8) {
+        func_800666F0(voice);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006684C);
 
