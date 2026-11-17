@@ -5250,7 +5250,29 @@ void func_80048DEC(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048E64);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800492A8);
+void func_800492A8(s16 *pos, s16 idx, s16 size) {
+    POLY_FT4 *p;
+    u16 *tex;
+
+    if ((u8 *)D_800B7140 - D_800B70A8 <= 0xD7D7) {
+        p = (POLY_FT4 *)D_800B6B90;
+        p->x0 = pos[0] - size;
+        p->x1 = size + pos[0];
+        p->x2 = pos[0] - size;
+        p->x3 = size + pos[0];
+        p->y0 = pos[1] - size;
+        p->y1 = pos[1] - size;
+        p->y2 = size + pos[1];
+        p->y3 = size + pos[1];
+        tex = (u16 *)(D_8015EB78 + idx * 60);
+        *(u32 *)&p->u0 = *(u32 *)tex;
+        *(u32 *)&p->u1 = *(u32 *)(tex + 18);
+        *(u16 *)&p->u2 = tex[4];
+        *(u16 *)&p->u3 = tex[6];
+        D_800B6B90 = (Unk8002B728_Prim *)(p + 1);
+        AddPrim(D_800B7018 + 20, p);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800493CC);
 
