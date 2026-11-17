@@ -3658,7 +3658,40 @@ void func_800452A4(s16 x, s16 z, s32 c, s16 d) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800452E0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045358);
+typedef struct {
+    u8 pad0[0xA4];
+    s16 unkA4;
+    s16 unkA6;
+    s16 unkA8;
+    u8 padAA[0x138];
+    s16 unk1E2;
+} Unk80045358;
+
+void func_80045358(void) {
+    Unk80045358 *p = (Unk80045358 *)D_800B659C;
+    s16 ax = ABS(p->unkA4);
+    s16 az = ABS(p->unkA8);
+
+    if (ax > az) {
+        p->unkA8 = 0;
+        if (p->unkA4 < 0) {
+            p->unkA4 = -0x800;
+            p->unk1E2 = 0x400;
+        } else {
+            p->unkA4 = 0x800;
+            p->unk1E2 = 0xC00;
+        }
+    } else {
+        p->unkA4 = 0;
+        if (p->unkA8 < 0) {
+            p->unkA8 = -0x800;
+            p->unk1E2 = 0x800;
+        } else {
+            p->unkA8 = 0x800;
+            p->unk1E2 = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045410);
 
