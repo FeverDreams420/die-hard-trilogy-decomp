@@ -6846,7 +6846,37 @@ void func_80064308(s32 b) {
     } while (i--);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800643A8);
+typedef struct {
+    s16 x;
+    s16 y;
+} Unk800643A8;
+
+extern void func_80061E48(s16 x, s16 y);
+extern void func_80061784(void);
+extern void func_8006DE64(void);
+extern void func_80062D14(void);
+extern s16 D_800B6554;
+
+void func_800643A8(void) {
+    Unk800643A8 *p = (Unk800643A8 *)D_800B604C->vals;
+
+    func_80061E48(p->x, p->y);
+    p->x += 8;
+    p->y += 0x40;
+    func_80061784();
+    func_8006DE64();
+    if (D_800B5D5C == 6) {
+        if (D_800B6554 == 1 || D_800B6554 == 4) {
+            func_80072A40(8);
+            D_800B604C->func = func_80062D14;
+        } else {
+            func_80026710(0x14);
+            D_800B5FB4 = 0;
+            func_80072A40(8);
+            func_800728A4();
+        }
+    }
+}
 
 void func_80064478(void) {
 }
