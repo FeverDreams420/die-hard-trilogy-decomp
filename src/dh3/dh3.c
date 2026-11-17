@@ -1248,7 +1248,19 @@ s32 func_800288E0(SVECTOR *a, SVECTOR *b) {
     return SquareRoot0(dx * dx + dy * dy + dz * dz) << 4;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002895C);
+s32 func_8002895C(VECTOR *a, VECTOR *b) {
+    s32 dx = (a->vx - b->vx) / 16;
+    s32 dy = (a->vy - b->vy) / 16;
+    s32 dz = (a->vz - b->vz) / 16;
+
+    if (func_80028CEC(dx) > 0x4000) {
+        return 0xFFFF;
+    }
+    if (func_80028CEC(dz) > 0x4000) {
+        return 0xFFFF;
+    }
+    return SquareRoot0(dx * dx + dy * dy + dz * dz) * 16;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028A48);
 
