@@ -4791,14 +4791,37 @@ void func_800517DC(void) {
     D_800B5D0C = 9;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800517F0);
+typedef struct {
+    u8 pad0[0x20];
+    s16 unk20[6];
+    s16 unk2C[6];
+    s16 unk38;
+    s16 pad3A;
+    s16 unk3C;
+    s16 pad3E;
+    s16 unk40;
+} Unk800517F0;
+
+void func_800517F0(Unk800517F0 *p) {
+    s16 i;
+
+    p->unk40 = 0;
+    i = 5;
+    do {
+        p->unk2C[i] = 0;
+        p->unk20[i] = 0x1000;
+    } while (i--);
+    p->unk38 = 0;
+    p->unk2C[0] = 2;
+    p->unk3C = 0;
+}
 
 typedef struct {
     u8 pad0[0x1C];
     u8 *unk1C;
 } Unk80051864;
 
-void func_800517F0(Unk80051864 *obj);
+void func_800517F0();
 extern u8 D_800931FC[];
 
 void func_80051834(Unk80051864 *obj) {
@@ -4819,7 +4842,7 @@ extern u8 *D_800BA6EC[];
 extern s16 D_800B5DC4;
 extern u8 D_8009330C[];
 extern u8 D_80093394[];
-void func_800517F0(Unk80051864 *obj);
+void func_800517F0();
 
 void func_80051864(Unk80051864 *obj, s16 i) {
     u8 *p = D_800BA6EC[i];
