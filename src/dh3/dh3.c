@@ -7932,7 +7932,23 @@ void func_800683FC(s16 id, void *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068500);
+void func_80068500(s32 id) {
+    u8 unused[8];
+    s32 d;
+
+    D_8018CC68.unk0 = 0;
+    D_8018CC68.unk2 = 10;
+    D_8018CC68.unk4 = 0x3FFF;
+    D_8018CC68.unk6 = func_80074910(100) + 0x400;
+    D_8018CC68.unk8 = id;
+    func_800691E8(&D_8018CC68, 0);
+    D_8018CC68.unk0 = 0x1000;
+    D_8018CC68.unk2 = 0;
+    D_8018CC68.unk4 = 0x3FFF;
+    d = func_80074910(0x20) - 0x10;
+    D_8018CC68.unk6 += d;
+    func_800691E8(&D_8018CC68, 0);
+}
 
 void func_800685C0(s16 arg0, s16 arg1, s16 arg2) {
     s32 unused[2];
