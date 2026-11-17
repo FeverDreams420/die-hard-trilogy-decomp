@@ -6100,7 +6100,22 @@ void func_8005BF98(Unk8005BF98 *p, s16 v) {
     p->unk120 = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005BFCC);
+typedef struct {
+    SVECTOR pts[24];
+    s16 unkC0[24];
+    s16 unkF0[24];
+    s16 idx;
+} Unk8005BFCC;
+
+void func_8005BFCC(Unk8005BFCC *p, SVECTOR *v) {
+    p->idx = (p->idx + 1) % 24;
+    p->pts[p->idx].vx = v->vx;
+    p->pts[p->idx].vy = v->vy;
+    p->pts[p->idx].vz = v->vz;
+    p->pts[p->idx].pad = 0x80;
+    p->unkC0[p->idx] = func_800754C8(0x1000);
+    p->unkF0[p->idx] = func_800754C8(200) - 100;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005C0AC);
 
