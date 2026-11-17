@@ -5274,7 +5274,29 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055018);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055180);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800555EC);
+typedef struct Unk800555EC_Node {
+    s32 id;
+    struct Unk800555EC_Node *next;
+} Unk800555EC_Node;
+
+typedef struct {
+    u8 pad0[0x20];
+    Unk800555EC_Node n[32];
+} Unk800555EC;
+
+extern struct Task *D_801F80DC;
+
+void func_800555EC(void) {
+    Unk800555EC *p = (Unk800555EC *)D_801F80DC->vals;
+    s16 i;
+
+    for (i = 0; i < 32; i++) {
+        p->n[i].next = &p->n[i + 1];
+        p->n[i].id = i;
+    }
+    p->n[31].id = 0xFFFF;
+    p->n[0].id = 1;
+}
 
 void func_80055648(void) {
     u8 unused[24];
