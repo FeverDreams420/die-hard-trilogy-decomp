@@ -6385,7 +6385,20 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066058);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066168);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800663D0);
+extern void func_8006548C(s32 left, s32 right, s16 voice);
+
+void func_800663D0(s16 voice) {
+    s32 bit;
+
+    D_801D9DAC[voice].unk28 = 0;
+    D_801D9DAC[voice].state = -1;
+    func_8006548C(0, 0, voice);
+    D_801F6CB0.mask = 3;
+    bit = 1 << voice;
+    D_801F6CB0.voice = bit;
+    SpuSetVoiceAttr(&D_801F6CB0);
+    SpuSetKey(0, bit);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066474);
 
