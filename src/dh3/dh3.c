@@ -8745,7 +8745,12 @@ void func_80077BB4(void) {
     func_800728A4();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077D64);
+u8 *func_80077D64(u8 *s) {
+    if ((u32)(*s - '0') >= 10) {
+        return func_80077D64(s + 1);
+    }
+    return s;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80077D8C);
 
