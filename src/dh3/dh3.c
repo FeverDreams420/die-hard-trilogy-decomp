@@ -617,7 +617,46 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021AFC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021FC4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800220D0);
+typedef struct {
+    u8 pad0[0x1C];
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+    s16 pad22;
+    s16 unk24;
+    s16 unk26;
+    s16 unk28;
+    s16 pad2A;
+    struct Task *unk2C;
+    u8 pad30[0x3A];
+    s16 unk6A;
+    s16 pad6C;
+    s16 unk6E;
+    s16 unk70;
+    s16 unk72;
+} Unk800220D0;
+
+extern struct Task *D_801F80B0[];
+extern struct Task *D_800B604C;
+void func_80021FC4(void);
+
+void func_800220D0(void) {
+    Unk800220D0 *p = (Unk800220D0 *)D_801F80B0[0]->vals;
+
+    D_801F80B0[0]->saved = D_801F80B0[0]->func;
+    D_801F80B0[0]->func = func_80021FC4;
+    p->unk6A = 0x20;
+    p->unk1C = 0;
+    p->unk20 = 0;
+    p->unk1E = func_80074910(0x1000);
+    p->unk70 = 0;
+    p->unk72 = 0x3FF;
+    p->unk24 = 0;
+    p->unk26 = 0;
+    p->unk28 = -0x400;
+    p->unk6E = 0x3C;
+    p->unk2C = D_800B604C;
+}
 
 extern VECTOR D_801981F4;
 extern SVECTOR D_800B5EAC;
