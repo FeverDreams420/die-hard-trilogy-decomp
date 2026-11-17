@@ -3956,7 +3956,47 @@ void func_80033D4C(Unk8002A35C *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033E54);
+extern u32 D_8015EEFC[];
+extern void SetPolyFT4(void *p);
+extern void SetShadeTex(void *p, s32 tge);
+extern void SetSemiTrans(void *p, s32 abe);
+extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
+extern void func_8007345C(void);
+
+void func_80033E54(void) {
+    s16 *s = (s16 *)D_800B6DE0->vals;
+    POLY_FT4 *p = D_800B7140;
+    u32 *uv = D_8015EEFC;
+    s16 c;
+
+    p->x0 = 0;
+    p->y0 = 0;
+    p->x1 = 320;
+    p->y1 = 0;
+    p->x3 = 320;
+    p->y3 = 240;
+    p->x2 = 0;
+    p->y2 = 240;
+    *(u32 *)&p->u0 = *uv++;
+    *(u32 *)&p->u1 = *uv++;
+    *(u32 *)&p->u2 = *uv++;
+    *(u32 *)&p->u3 = *uv++;
+    p->tpage = GetTPage(0, 1, 320, 0);
+    SetPolyFT4(p);
+    SetShadeTex(p, 0);
+    c = s[0];
+    p->r0 = c;
+    p->g0 = c;
+    p->b0 = c;
+    SetSemiTrans(p, 1);
+    AddPrim(D_800B7018 + 16, p);
+    c = s[0] - 4;
+    D_800B7140 = p + 1;
+    s[0] = c;
+    if (c < 0x20) {
+        func_8007345C();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033F74);
 
