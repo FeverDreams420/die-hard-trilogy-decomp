@@ -6866,7 +6866,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FD10);
 
 extern Unk8015EB3C D_8018CC68;
 void func_800691E8(Unk8015EB3C *arg0, s32 arg1);
-void func_80068200(s32 a, void *p);
+void func_80068200(s16 id, void *pos);
 void func_80068500(s32 a);
 
 void func_8005FFCC(void *p) {
@@ -7872,7 +7872,26 @@ void func_800681F0(void) {
     D_800B622C = 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80068200);
+extern s16 D_800B5D34;
+extern s16 D_800B63DC;
+
+void func_80068200(s16 id, void *pos) {
+    u8 unused[8];
+    s32 dist = func_80028A48(pos, &D_801981F4);
+
+    if (dist < 0x2001) {
+        s32 ang = func_80028648(&D_801981F4, pos);
+
+        D_800B5D34 = (D_80094174[((u16)D_800B6126 + ang) & 0xFFF] + 0x1000) >> 1;
+        D_800B63DC = func_80071B7C(0x3FFF, 0, dist / 2);
+        D_8018CC68.unk0 = D_800B5D34;
+        D_8018CC68.unk2 = 0;
+        D_8018CC68.unk4 = D_800B63DC;
+        D_8018CC68.unk6 = func_80074910(0x100) + 0x400;
+        D_8018CC68.unk8 = id;
+        func_800691E8(&D_8018CC68, 0);
+    }
+}
 
 extern s16 D_800B5D34;
 extern s16 D_800B63DC;
