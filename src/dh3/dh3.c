@@ -1575,7 +1575,36 @@ MATRIX *func_8002CCB4(SVECTOR *r, MATRIX *m) {
     return m;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002CED0);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Unk800B853C_Ent;
+
+typedef struct {
+    Unk800B853C_Ent *ent;
+} Unk800B853C;
+
+extern Unk800B853C D_800B853C;
+extern s32 D_800B8528;
+
+void func_8002CED0(void) {
+    u16 *tbl = (u16 *)D_800B604C->vals;
+    s16 i;
+    Unk800B853C_Ent *e;
+    s16 n;
+
+    i = 0x7F;
+    do {
+        e = &D_800B853C.ent[tbl[i]];
+        if (e->unk2 > 0x200) {
+            e->unk2 -= 2;
+        }
+    } while (i--);
+    n = func_80074910(0x80);
+    tbl[n] = func_80074910(D_800B8528);
+}
 
 extern s32 D_800B8528;
 void func_8002CED0(void);
