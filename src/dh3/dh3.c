@@ -7956,7 +7956,26 @@ void func_8006862C(s16 arg0) {
     func_800691E8(&D_8018CC68, 0);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800686A0);
+void func_80067DEC();
+
+void func_800686A0(s16 id, VECTOR *pos, s16 arg2) {
+    u8 unused[8];
+    s16 dist = func_80028A48(pos, &D_801981F4);
+
+    if (dist < 0x2001) {
+        s32 ang = func_80028648(&D_801981F4, pos);
+        s16 pan = (D_80094174[((u16)D_800B6126 + ang) & 0xFFF] + 0x1000) >> 1;
+        s16 vol = func_80071B7C(0x3FFF, 0, dist / 2);
+
+        D_8018CC68.unk0 = pan;
+        D_8018CC68.unk2 = 0;
+        D_8018CC68.unk4 = vol;
+        D_8018CC68.unk6 = func_80074910(0x200) + 0x300;
+        D_8018CC68.unk8 = id;
+        D_8018CC68.unk16 = arg2;
+        func_800691E8(&D_8018CC68, (s32)func_80067DEC);
+    }
+}
 
 void func_800687A8(id)
 s16 id;
