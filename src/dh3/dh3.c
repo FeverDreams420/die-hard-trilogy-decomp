@@ -8236,7 +8236,33 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5A60);
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5A68);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80074D48);
+extern void *D_800B63AC;
+extern s16 D_800B6394;
+extern u32 *D_800B62CC;
+typedef struct {
+    s16 x, y, w, h;
+} Unk80074D48_Rect;
+
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} Unk80074D48_Area;
+
+extern s16 D_800B5EC4;
+extern void SetDrawArea(Unk80074D48_Area *p, Unk80074D48_Rect *r);
+
+void func_80074D48(s32 top, s32 bottom) {
+    Unk80074D48_Rect r;
+    Unk80074D48_Area *area = D_800B63AC;
+
+    r.w = 320;
+    r.h = bottom - top;
+    r.x = D_800B5EC4;
+    r.y = top + D_800B6394;
+    SetDrawArea(area, &r);
+    AddPrim(D_800B62CC + 0xF9, area++);
+    D_800B63AC = area;
+}
 
 typedef struct {
     u8 u0, v0;
