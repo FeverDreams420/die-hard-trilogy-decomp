@@ -7617,7 +7617,34 @@ void func_8006CB7C(struct Task *parent, s32 arg1) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006CC48);
+void func_8006CC48(struct Task *parent, s32 arg1) {
+    struct Task *t;
+    Unk8006CB7C *p;
+    Unk8006CB7CParent *q;
+    s16 i;
+
+    t = func_80072768(parent, func_8006BDD0, 0x27C);
+    if (t != NULL) {
+        p = (Unk8006CB7C *)t->vals;
+        t->flags = 0x31;
+        p->parent = parent;
+        p->parentId = parent->id;
+        p->unk248 = arg1;
+        i = 15;
+        do {
+            p->unk226[i] = 0;
+        } while (i--);
+        p->unk246 = 0;
+        p->unk224 = 0;
+        p->unk10 = 0x242;
+        p->unk24C = 0x20;
+        p->unk24E = 0x10;
+        q = (Unk8006CB7CParent *)parent->vals;
+        p->x = q->x;
+        p->y = q->y;
+        p->z = q->z;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006CD18);
 
