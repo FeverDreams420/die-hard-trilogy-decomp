@@ -648,29 +648,127 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", v_wait);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", ResetGraph);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetGraphReverse);
+typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetGraphDebug);
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetGraphQueue);
+/* libgpu state at 0x8009FDD4, after the debug print function */
+typedef struct {
+    u8 type;
+    u8 queue;
+    u8 debug;
+    u8 reverse;
+    s16 w, h;
+    u8 unk8[8];
+    DRAWENV draw;
+    DISPENV disp;
+} GpuEnv;
+extern int (*D_8009FDD0)(char *fmt, ...);
+extern GpuEnv D_8009FDD4;
 
-extern u8 D_8009FDD4;
+extern u32 (**D_8009FDCC)();
+extern char D_800875BC[];
+
+int SetGraphReverse(int mode) {
+    u8 old = D_8009FDD4.reverse;
+
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_800875BC, mode);
+    }
+    D_8009FDD4.reverse = mode;
+    D_8009FDCC[4](D_8009FDCC[10](8) | (D_8009FDD4.reverse ? 0x08000080 : 0x08000000));
+    if (D_8009FDD4.type == 2) {
+        D_8009FDCC[4](D_8009FDD4.reverse ? 0x20000501 : 0x20000504);
+    }
+    return old;
+}
+
+extern char D_800875D4[];
+
+int SetGraphDebug(int level) {
+    u8 old = D_8009FDD4.debug;
+
+    D_8009FDD4.debug = level;
+    if (level & 0xFF) {
+        (*D_8009FDD0)(D_800875D4, D_8009FDD4.debug, D_8009FDD4.type, D_8009FDD4.reverse);
+    }
+    return old;
+}
+
+extern u32 (**D_8009FDCC)();
+extern char D_80087600[];
+
+int SetGraphQueue(int mode) {
+    u8 old = D_8009FDD4.queue;
+
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_80087600, mode);
+    }
+    if (mode != D_8009FDD4.queue) {
+        D_8009FDCC[13](1);
+        D_8009FDD4.queue = mode;
+        DMACallback(2, 0);
+    }
+    return old;
+}
 
 int GetGraphType(void) {
-    return D_8009FDD4;
+    return D_8009FDD4.type;
 }
-
-extern u8 D_8009FDD6;
 
 int GetGraphDebug(void) {
-    return D_8009FDD6;
+    return D_8009FDD4.debug;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DrawSyncCallback);
+extern char D_80087614[];
+extern void *D_8009FDE0;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", SetDispMask);
+void *DrawSyncCallback(void *func) {
+    void *old;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DrawSync);
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_80087614, func);
+    }
+    old = D_8009FDE0;
+    D_8009FDE0 = func;
+    return old;
+}
+
+extern u32 (**D_8009FDCC)();
+extern char D_80087630[];
+
+void SetDispMask(int mask) {
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_80087630, mask);
+    }
+    if (mask == 0) {
+        memset_800830B8((u8 *)&D_8009FDD4.disp, -1, sizeof(DISPENV));
+    }
+    D_8009FDCC[4](mask ? 0x03000000 : 0x03000001);
+}
+
+extern u32 (**D_8009FDCC)();
+extern char D_80087644[];
+
+int DrawSync(int mode) {
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_80087644, mode);
+    }
+    return D_8009FDCC[15](mode);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", checkRECT);
 
@@ -713,9 +811,34 @@ int MoveImage(RECT *rect, int x, int y) {
     return D_8009FDCC[2](D_8009FDCC[6], D_8009FE7C, 0x14, 0);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", ClearOTag);
+extern char D_800876AC[];
+extern u32 D_8009FE90;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", ClearOTagR);
+u32 *ClearOTag(u32 *ot, int n) {
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_800876AC, ot, n);
+    }
+    while (--n) {
+        setlen(ot, 0);
+        setaddr(ot, ot + 1);
+        ot++;
+    }
+    *ot = (u32)&D_8009FE90 & 0xFFFFFF;
+    return ot;
+}
+
+extern u32 (**D_8009FDCC)();
+extern char D_800876C4[];
+extern u32 D_8009FE90;
+
+u32 *ClearOTagR(u32 *ot, int n) {
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_800876C4, ot, n);
+    }
+    D_8009FDCC[11](ot, n);
+    *ot = (u32)&D_8009FE90 & 0xFFFFFF;
+    return ot;
+}
 
 extern u32 (**D_8009FDCC)();
 
@@ -726,11 +849,42 @@ void DrawPrim(void *p) {
     D_8009FDCC[5]((u32 *)p + 1, len);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DrawOTag);
+extern u32 (**D_8009FDCC)();
+extern char D_800876DC[];
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", PutDrawEnv);
+void DrawOTag(u32 *p) {
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_800876DC, p);
+    }
+    D_8009FDCC[2](D_8009FDCC[6], p, 0, 0);
+}
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DrawOTagEnv);
+extern u32 (**D_8009FDCC)();
+extern char D_800876F0[];
+
+DRAWENV *PutDrawEnv(DRAWENV *env) {
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_800876F0, env);
+    }
+    SetDrawEnv(&env->dr_env, env);
+    env->dr_env.tag |= 0xFFFFFF;
+    D_8009FDCC[2](D_8009FDCC[6], &env->dr_env, 0x40, 0);
+    memcpy(&D_8009FDD4.draw, env, sizeof(DRAWENV));
+    return env;
+}
+
+extern u32 (**D_8009FDCC)();
+extern char D_80087708[];
+
+void DrawOTagEnv(u32 *p, DRAWENV *env) {
+    if (D_8009FDD4.debug >= 2) {
+        (*D_8009FDD0)(D_80087708, p, env);
+    }
+    SetDrawEnv(&env->dr_env, env);
+    setaddr(&env->dr_env, p);
+    D_8009FDCC[2](D_8009FDCC[6], &env->dr_env, 0x40, 0);
+    memcpy(&D_8009FDD4.draw, env, sizeof(DRAWENV));
+}
 
 extern u8 D_8009FDE4[];
 
@@ -917,7 +1071,17 @@ u16 GetClut(int x, int y) {
     return (y << 6) | ((x >> 4) & 0x3F);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/psyq", DumpTPage);
+extern int (*D_8009FDD0)(char *fmt, ...);
+extern char D_80087788[];
+
+void DumpTPage(u16 tpage) {
+    if (GetGraphType() == 1 || GetGraphType() == 2) {
+        (*D_8009FDD0)(D_80087788, (tpage >> 9) & 3, (tpage >> 7) & 3, (tpage << 6) & 0x7C0, (tpage << 3) & 0x300);
+    } else {
+        (*D_8009FDD0)(D_80087788, (tpage >> 7) & 3, (tpage >> 5) & 3, (tpage << 6) & 0x7C0,
+                          ((tpage << 4) & 0x100) + ((tpage >> 2) & 0x200));
+    }
+}
 
 extern char D_800877A0[];
 extern int (*D_8009FDD0)(char *fmt, ...);
