@@ -3266,7 +3266,17 @@ void func_8003F57C(void) {
     } while (i--);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F5B0);
+s16 func_8003F5B0(void) {
+    s16 n = 0;
+    s16 i = 3;
+
+    do {
+        if (D_801CA298[i] != 0) {
+            n++;
+        }
+    } while (i--);
+    return n;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F5F8);
 
