@@ -4569,7 +4569,19 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004D9A4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DB54);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DC84);
+typedef struct {
+    u8 pad0[4];
+    s16 unk4;
+    s16 unk6;
+} Unk800B615C;
+
+extern Unk800B615C *D_800B615C;
+
+void func_8004DC84(s16 i, s32 v) {
+    if (i != -1 && i >= -1 && i <= 0x1000) {
+        D_800B615C[i].unk4 = v;
+    }
+}
 
 extern u8 *D_800B8530;
 
