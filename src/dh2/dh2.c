@@ -5766,7 +5766,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F9B4);
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004FA04);
 
 typedef struct {
-    u8 pad0[0x29E];
+    u8 pad0[0x10];
+    u8 unk10;
+    u8 unk11;
+    u8 unk12;
+    u8 pad13[0x2C];
+    u8 unk3F;
+    u8 pad40[0x204];
+    s16 unk244;
+    u8 pad246[0x56];
+    s16 unk29C;
     s16 unk29E;
 } Unk8004FA88;
 
@@ -5776,7 +5785,39 @@ void func_8004FA88(Unk8004FA88 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004FAC4);
+s32 func_8004FAC4(void) {
+    Unk8004FA88 *p = (Unk8004FA88 *)D_800B6DE0->vals;
+
+    if ((u32)D_801F7548 < 8) {
+        return 0;
+    }
+    if (p->unk29C != 0) {
+        func_8004FA88(p);
+        p->unk29C--;
+        return 0;
+    }
+    if (p->unk10 != 0) {
+        if (p->unk10 == 2) {
+            p->unk244 -= p->unk11;
+            if (p->unk29E == 0x1000 && p->unk12 == 0) {
+                p->unk29E = 0x1FFF;
+            } else {
+                func_8004FA88(p);
+            }
+            if (p->unk3F != 0) {
+                if (p->unk12 != 0) {
+                    func_8004DD70((SVECTOR *)p, 200, 0x1000);
+                    func_8004DD70((SVECTOR *)p, 600, 0x1000);
+                } else {
+                    func_8004DD70((SVECTOR *)p, 400, 0x200);
+                }
+            }
+            return p->unk244 <= 0;
+        }
+    }
+    func_8004FA88(p);
+    return 0;
+}
 
 typedef struct {
     u16 unk0;
