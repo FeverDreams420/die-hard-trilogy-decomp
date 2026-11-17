@@ -8298,7 +8298,43 @@ typedef struct {
 extern Unk800BD768 D_800BD768[8];
 extern u16 D_8009B444[];
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007597C);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    u8 pad4[8];
+    s16 unkC;
+    u8 padE[2];
+    s16 unk10;
+} Unk8007597C;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 val;
+} Unk8007597C_Arg;
+
+void func_800774D8(s32 level);
+void func_800770DC(u8 *text, Unk8007597C_Arg *arg);
+
+void func_8007597C(void) {
+    Unk8007597C *d = (Unk8007597C *)D_800B6DE0->vals;
+    Unk8007597C_Arg arg;
+
+    arg.x = 0x302;
+    arg.y = 0x4C4;
+    arg.val = d->unkC;
+    if (d->unk10 < 0x1000) {
+        d->unk10 += 0x199;
+        func_800774D8(0x1000 - d->unk10);
+    }
+    if (d->unkC > 0) {
+        d->unkC -= 0x400;
+        func_800770DC(D_8009F72C, &arg);
+    } else {
+        D_800B6AF8 = 3;
+        func_8007345C();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80075A34);
 
