@@ -7014,7 +7014,29 @@ void func_80065CB0(s16 voice) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065D58);
+extern s16 D_800B6E40;
+extern s16 D_800B6F88;
+void func_800666F0(s16 voice);
+
+void func_80065D58(s16 voice) {
+    s32 unused[2];
+
+    if (D_800B7020 == 0 && (D_800B6E40 == 0 || voice != D_800B6F88)) {
+        D_800B6F88 = voice;
+        D_800B6E40 = 300;
+        D_8015EB3C.unk0 = 0;
+        D_8015EB3C.unk2 = 5;
+        D_8015EB3C.unk4 = 0x3FFF;
+        D_8015EB3C.unk6 = 0x400;
+        D_8015EB3C.unk8 = voice;
+        func_80066B70(&D_8015EB3C, (s32)func_800666F0);
+        D_8015EB3C.unk0 = 0x1000;
+        D_8015EB3C.unk2 = 0;
+        D_8015EB3C.unk4 = 0x3FFF;
+        func_80066B70(&D_8015EB3C, (s32)func_80065CB0);
+        D_800B7020 = -1;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80065E44);
 
