@@ -4433,12 +4433,37 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040F04);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040FB4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80041064);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 x1, y1;
+    s16 x2, y2;
+} Unk80041064_PolyF3;
+
+extern void SetPolyF3(Unk80041064_PolyF3 *p);
+
+void func_80041064(s16 x, s32 y, u8 r, u8 g, u8 b) {
+    Unk80041064_PolyF3 *p = D_800B7140;
+
+    p->y0 = y + 1;
+    p->y1 = y + 4;
+    p->y2 = y + 7;
+    p->x0 = x;
+    p->x1 = x + 7;
+    p->x2 = x;
+    SetPolyF3(p);
+    p->r0 = r;
+    p->g0 = g;
+    p->b0 = b;
+    AddPrim(D_800B7018 + 10, p++);
+    D_800B7140 = p;
+}
 
 extern s32 D_800B6D60;
 extern u16 D_8009B472;
 extern s16 D_800B7118;
-void func_80041064(s32, s32, s32, s32, s32);
+void func_80041064(s16, s32, u8, u8, u8);
 
 void func_8004110C(void) {
     if (D_8009B472 & *(volatile s32 *)&D_800B6D60) {
