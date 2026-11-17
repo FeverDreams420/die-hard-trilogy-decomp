@@ -6106,7 +6106,38 @@ void func_80062CF4(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80062D14);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80062F80);
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+    u16 pad6;
+    u16 unk8;
+    u16 unkA;
+    u16 unkC;
+    u16 padE;
+} Unk80091CA8;
+
+typedef struct {
+    u8 pad0[0x174];
+    u16 unk174;
+    u16 unk176;
+    u16 unk178;
+    u8 pad17A[0x12];
+    u16 unk18C;
+    u16 unk18E;
+    u16 unk190;
+} Unk80062F80;
+
+extern Unk80091CA8 D_80091CA8[];
+
+void func_80062F80(Unk80062F80 *p, s16 i) {
+    p->unk18C = D_80091CA8[i].unk0;
+    p->unk18E = D_80091CA8[i].unk2;
+    p->unk190 = D_80091CA8[i].unk4;
+    p->unk174 = D_80091CA8[i].unk8;
+    p->unk176 = D_80091CA8[i].unkA;
+    p->unk178 = D_80091CA8[i].unkC;
+}
 
 typedef struct {
     s16 next;
