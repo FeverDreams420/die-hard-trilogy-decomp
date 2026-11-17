@@ -1688,7 +1688,20 @@ s32 func_800246DC(u8 *p, s32 n) {
     return sum;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002470C);
+extern s16 D_800B639E;
+extern int func_80072734(s32 a, s32 b, s32 t);
+
+s16 func_8002470C(s16 a, s16 b) {
+    s16 t = D_800B639E * 682;
+
+    if (D_800B639E < 3) {
+        return a;
+    }
+    if (t > 0x1000) {
+        t = 0x1000;
+    }
+    return func_80072734(a, b, t);
+}
 
 s16 func_80024790(s32 v, s32 lim) {
     s32 m = ABS(v);
