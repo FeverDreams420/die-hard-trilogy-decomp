@@ -8016,7 +8016,52 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80069F1C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006A368);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006A638);
+typedef struct {
+    u8 pad0[0x28];
+    s32 unk28;
+    s32 pad2C;
+    s32 unk30;
+    u8 pad34[0x24];
+    Unk800451B4Src *unk58;
+    VECTOR unk5C;
+    u8 pad6C[0x40];
+    s16 unkAC;
+    s16 unkAE;
+    s16 unkB0;
+    s16 padB2;
+    s16 unkB4;
+    s16 unkB6;
+    s16 unkB8;
+} Unk8006A638;
+
+extern s16 D_800B61DC;
+void func_8006A368(void);
+
+void func_8006A638(s16 x, s16 z, Unk800451B4Src *src) {
+    struct Task *t;
+    Unk8006A638 *p;
+
+    if (D_800B61DC == 0) {
+        t = func_80072374(func_8006A368, 0xBC);
+        if (t != NULL) {
+            src->unk4 = 0;
+            t->flags = 0x21;
+            p = (Unk8006A638 *)t->vals;
+            p->unkB8 = -1;
+            p->unk58 = src;
+            p->unk28 = 0x12C000;
+            p->unk30 = 0x2BC000;
+            p->unk5C.vx = x << 9;
+            p->unk5C.vz = z << 9;
+            p->unkAE = func_80028BF0(&p->unk5C);
+            p->unk5C.vy = (s16)func_80028BF0(&p->unk5C) + 0xFD0;
+            p->unkAC = 0;
+            p->unkB4 = -1;
+            p->unkB6 = 0;
+            p->unkB0 = 0;
+        }
+    }
+}
 
 extern s16 D_8018CC90[];
 extern s16 D_8018CB68[];
