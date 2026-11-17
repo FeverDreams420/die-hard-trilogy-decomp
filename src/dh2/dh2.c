@@ -5635,16 +5635,20 @@ void func_800532A4(Unk800532A4 *obj) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053310);
-
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053404);
-
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053544);
-
 typedef struct {
-    u8 pad0[0x10];
+    SVECTOR pos;
+    s16 unk8;
+    u8 padA[6];
     u8 unk10;
-    u8 pad11[0x1F7];
+    u8 pad11;
+    u8 unk12;
+    u8 pad13[0x21];
+    SVECTOR unk34;
+    u8 pad3C[0x1A8];
+    SVECTOR unk1E4;
+    u8 pad1EC[0x14];
+    struct Task *unk200;
+    s32 unk204;
     s16 unk208;
     s16 unk20A;
     u8 pad20C[0xA];
@@ -5652,6 +5656,43 @@ typedef struct {
     s16 unk218;
     s16 unk21A;
 } Unk800536A8;
+
+void func_80053310(Unk800536A8 *p) {
+    struct Task *t = p->unk200;
+    Unk800536A8 *q;
+
+    if (t != NULL) {
+        if (p->unk204 == t->id) {
+            q = (Unk800536A8 *)t->vals;
+            if (q->unk8 != 0) {
+                if (p->unk218 == -1) {
+                    p->unk12 = 0;
+                    p->unk216 = 1;
+                } else {
+                    p->unk10 = 0;
+                    p->unk208 = p->unk21A;
+                    p->unk20A = p->unk218;
+                    func_80051048();
+                }
+            } else {
+                p->pos.vx = q->pos.vx;
+                p->pos.vy = q->pos.vy;
+                p->pos.vz = q->pos.vz;
+                p->unk34.vx = q->unk34.vx;
+                p->unk34.vy = q->unk34.vy;
+                p->unk34.vz = q->unk34.vz;
+                func_80024F70(&p->unk34, &p->unk1E4, &p->pos, &p->pos);
+            }
+        } else {
+            p->unk200 = NULL;
+            p->unk204 = -1;
+        }
+    }
+}
+
+INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053404);
+
+INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053544);
 
 extern s32 func_8004FAC4(void);
 extern void func_8004FA04(void);
