@@ -6824,7 +6824,22 @@ void func_80070C98(void) {
     } while (i-- != 0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070CFC);
+extern u8 D_80169FDC;
+extern u8 D_80169FDD;
+extern u8 D_80169FDE;
+extern s16 D_80169FE2;
+extern s16 D_80169FE4;
+extern s16 D_800B6CB0;
+extern s32 D_800B6A6C;
+
+void func_80070CFC(void) {
+    func_80070C98();
+    D_80169FDD = D_800B6CB0;
+    D_80169FE2 = D_800B6A6C;
+    D_80169FE4 = D_800B6A6C >> 16;
+    D_80169FDE = D_800B7430;
+    D_80169FDC = D_800B7430 * 100 / 8;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070D90);
 
