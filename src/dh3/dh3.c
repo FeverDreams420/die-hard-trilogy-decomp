@@ -473,7 +473,27 @@ s32 func_8001E66C(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E674);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E83C);
+extern struct Task *D_800B604C;
+extern s32 *D_800B6464;
+extern void *D_800B5E4C;
+extern s32 *D_800B6344;
+extern s32 *D_800B5D3C;
+extern s32 D_800B6544;
+extern s32 *D_800B62EC;
+extern s32 D_800B5D04;
+u32 func_80071BC8(void *data, s16 i);
+void func_8004FF54(void);
+
+void func_8001E83C(void) {
+    D_800B6344 = D_800B6464;
+    D_800B5D3C = func_80071BB0(D_800B5E4C, 2);
+    D_800B6544 = 0;
+    D_800B62EC = D_800B6464;
+    D_800B5D04 = func_80071BC8(D_800B5E4C, 2);
+    D_800B6464 = (s32 *)((u8 *)D_800B6464 + D_800B5D04);
+    D_800B604C->saved = D_800B604C->func;
+    D_800B604C->func = func_8004FF54;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E8D8);
 
