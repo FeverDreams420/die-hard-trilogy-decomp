@@ -3774,7 +3774,27 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800326FC);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032BAC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032D24);
+typedef struct {
+    s32 unk0;
+    u8 pad4[8];
+} Unk800BD644;
+
+extern u16 D_800BD632;
+extern u16 D_800BD634;
+extern Unk800BD644 *D_800BD644;
+
+s32 func_80032D24(s32 key, Unk800BD644 *skip) {
+    Unk800BD644 *p = D_800BD644;
+    s16 n = D_800BD632 * D_800BD634;
+
+    while (n--) {
+        if (skip != p && key == p->unk0) {
+            return -1;
+        }
+        p++;
+    }
+    return 0;
+}
 
 void func_80032D94(void) {
     u8 unused[32];
@@ -5108,7 +5128,7 @@ typedef struct {
 
 u8 func_80024864(void);
 void func_80053544(Unk80054100 *obj);
-void func_80051048(void);
+void func_80051048();
 
 void func_80054100(Unk80054100 *obj) {
     obj->unk27F = func_80024864();
