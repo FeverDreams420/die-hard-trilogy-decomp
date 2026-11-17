@@ -4571,7 +4571,15 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DB54);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DC84);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DCC4);
+extern u8 *D_800B8530;
+
+void func_8004DCC4(s32 arg) {
+    u8 *p = (u8 *)arg;
+
+    if (p != NULL && ((u32)p & 3) == 0 && p >= D_800B8530 && p <= D_800B8530 + 0x38E00) {
+        p[4] = 0xFF;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DD0C);
 
