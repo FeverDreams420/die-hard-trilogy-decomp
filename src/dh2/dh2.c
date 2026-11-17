@@ -6425,7 +6425,6 @@ void func_80065328(void) {
     } while (i-- != 0);
 }
 
-
 void func_80066B70(Unk8015EB3C *arg0, s32 arg1);
 
 void func_800653C4(s16 arg0, s16 arg1, s16 arg2) {
