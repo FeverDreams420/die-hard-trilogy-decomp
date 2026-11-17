@@ -439,3 +439,4 @@ jtbl_8007A9F0 = 0x8007A9F0; // force_not_migration:True
 
 // Lookup table inside .text read by DecDCTvlcSize and DecDCTvlc
 func_80079AC0 = 0x80079AC0;
+D_8008C594 = 0x8008C594;

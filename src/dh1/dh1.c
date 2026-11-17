@@ -14033,6 +14033,8 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C56C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C580);
 
+INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C594);
+
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C59C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8008C5A0);

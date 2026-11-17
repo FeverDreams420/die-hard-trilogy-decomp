@@ -313,7 +313,32 @@ INCLUDE_ASM("asm/dh2/nonmatchings/psyq", cd_read_retry);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdRead);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", CdReadSync);
+/* CdRead state at 0x800A295C */
+typedef struct {
+    int status;
+    int unk4[4];
+    int remain;
+    int last;
+    int start;
+} CdReadState;
+extern CdReadState D_800A295C;
+
+int CdReadSync(int mode, u8 *result) {
+    int ret;
+
+    do {
+        if (VSync(-1) > D_800A295C.start + 1200) {
+            ret = -1;
+        } else if (D_800A295C.remain < 0 || VSync(-1) > D_800A295C.last + 60) {
+            cd_read_retry(1);
+            ret = D_800A295C.status;
+        } else {
+            ret = D_800A295C.remain;
+        }
+    } while (mode == 0 && ret > 0);
+    CdReady(1, result);
+    return ret;
+}
 
 extern void *D_800A2958;
 
@@ -1250,7 +1275,20 @@ int StoreImage(RECT *rect, u32 *p) {
     return D_800A3F3C[2](D_800A3F3C[7], rect, 8, p);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", MoveImage);
+extern u32 (**D_800A3F3C)();
+extern char D_8008912C[];
+extern u32 D_800A3FEC[5];
+
+int MoveImage(RECT *rect, int x, int y) {
+    checkRECT(D_8008912C, rect);
+    if (rect->w == 0 || rect->h == 0) {
+        return -1;
+    }
+    D_800A3FEC[2] = ((u32 *)rect)[0];
+    D_800A3FEC[3] = (y << 16) | (x & 0xFFFF);
+    D_800A3FEC[4] = ((u32 *)rect)[1];
+    return D_800A3F3C[2](D_800A3F3C[6], D_800A3FEC, 0x14, 0);
+}
 
 extern char D_80089138[];
 extern u32 D_800A4000;
@@ -1486,7 +1524,28 @@ void set_alarm(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/psyq", get_alarm);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/psyq", _version);
+extern volatile u32 *D_800A4018, *D_800A4014;
+
+int _version(int mode) {
+    *D_800A4018 = 0x10000007;
+    if ((*D_800A4014 & 0xFFFFFF) != 2) {
+        *D_800A4014 = (*D_800A4018 & 0x3FFF) | 0xE1001000;
+        *D_800A4014;
+        if (!(*D_800A4018 & 0x1000)) {
+            return 0;
+        }
+        if (!(mode & 8)) {
+            return 1;
+        }
+        *D_800A4018 = 0x20000504;
+        return 2;
+    }
+    if (!(mode & 8)) {
+        return 3;
+    }
+    *D_800A4018 = 0x09000001;
+    return 4;
+}
 
 void memset_80083B40(u8 *p, int c, int n) {
     while (n--) {

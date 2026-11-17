@@ -426,7 +426,14 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MargePrim);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DumpDrawEnv);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", DumpDispEnv);
+extern char D_8007B83C[], D_8007B858[], D_8007B874[], D_8007B880[];
+
+void DumpDispEnv(DISPENV *env) {
+    (*D_8008C4E8)(D_8007B83C, env->disp.x, env->disp.y, env->disp.w, env->disp.h);
+    (*D_8008C4E8)(D_8007B858, env->screen.x, env->screen.y, env->screen.w, env->screen.h);
+    (*D_8008C4E8)(D_8007B874, env->isinter);
+    (*D_8008C4E8)(D_8007B880, env->isrgb24);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", ResetGraph);
 
@@ -480,7 +487,20 @@ int StoreImage(RECT *rect, u32 *p) {
     return D_8008C4E4[2](D_8008C4E4[7], rect, 8, p);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", MoveImage);
+extern u32 (**D_8008C4E4)();
+extern char D_8007B9D8[];
+extern u32 D_8008C594[5];
+
+int MoveImage(RECT *rect, int x, int y) {
+    checkRECT(D_8007B9D8, rect);
+    if (rect->w == 0 || rect->h == 0) {
+        return -1;
+    }
+    D_8008C594[2] = ((u32 *)rect)[0];
+    D_8008C594[3] = (y << 16) | (x & 0xFFFF);
+    D_8008C594[4] = ((u32 *)rect)[1];
+    return D_8008C4E4[2](D_8008C4E4[6], D_8008C594, 0x14, 0);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", ClearOTag);
 
@@ -627,7 +647,28 @@ void set_alarm(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", get_alarm);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", _version);
+extern volatile u32 *D_8008C5C0, *D_8008C5BC;
+
+int _version(int mode) {
+    *D_8008C5C0 = 0x10000007;
+    if ((*D_8008C5BC & 0xFFFFFF) != 2) {
+        *D_8008C5BC = (*D_8008C5C0 & 0x3FFF) | 0xE1001000;
+        *D_8008C5BC;
+        if (!(*D_8008C5C0 & 0x1000)) {
+            return 0;
+        }
+        if (!(mode & 8)) {
+            return 1;
+        }
+        *D_8008C5C0 = 0x20000504;
+        return 2;
+    }
+    if (!(mode & 8)) {
+        return 3;
+    }
+    *D_8008C5C0 = 0x09000001;
+    return 4;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", memset);
 
@@ -1006,7 +1047,32 @@ INCLUDE_ASM("asm/dh1/nonmatchings/psyq", cd_read_retry);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdRead);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/psyq", CdReadSync);
+/* CdRead state at 0x800A295C */
+typedef struct {
+    int status;
+    int unk4[4];
+    int remain;
+    int last;
+    int start;
+} CdReadState;
+extern CdReadState D_80090E54;
+
+int CdReadSync(int mode, u8 *result) {
+    int ret;
+
+    do {
+        if (VSync(-1) > D_80090E54.start + 1200) {
+            ret = -1;
+        } else if (D_80090E54.remain < 0 || VSync(-1) > D_80090E54.last + 60) {
+            cd_read_retry(1);
+            ret = D_80090E54.status;
+        } else {
+            ret = D_80090E54.remain;
+        }
+    } while (mode == 0 && ret > 0);
+    CdReady(1, result);
+    return ret;
+}
 
 extern void *D_80090E50;
 
