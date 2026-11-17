@@ -6822,7 +6822,11 @@ void func_8006E3D0(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E3E4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E494);
+void func_8002CF80(void);
+
+void func_8006E494(void) {
+    func_80072374(func_8002CF80, 0x100);
+}
 
 void func_8006E4BC(void) {
     D_800B61A4->unkC = 1;
