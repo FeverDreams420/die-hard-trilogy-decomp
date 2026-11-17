@@ -315,6 +315,14 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `xor` into a new register then `move` back | Declare the accumulator `u8` (DH2 0x8005F40C) |
 | A range check `addiu +1` / `andi 0xFFFF` / `sltiu` on an `s16` | `i >= -1 && i <= 0x1000` (GCC folds it) (DH3 0x8004DC84); `(u16)i < 24` comes from `i < 0 \|\| i >= 0x18` (DH3 0x80054CE4) |
 | A volatile global read without the volatile `lhu`/`sll`/`sra` form | Read it through `*(s16 *)&D_X` (DH3 0x80066B1C) |
+| `sll`/`sra` on a call result before it is added or stored to a 32-bit field | The callee returns `s32`; cast at the call, `(s16)f(p)`. A callee declared `s16` is trusted to be extended already (DH3 `func_80028BF0`, 0x8004C828, 0x80059744) |
+| A frame larger than the saved registers, nothing stored in it | Unused `VECTOR`/`SVECTOR` locals of the right total size (DH3 0x80022604, 0x8004C828). A leaf with a bare 16-byte frame matched with no local at all (0x80054A04); `if (0) call()` and `u8 unused[16]` gave 32 |
+| A global pointer reloaded on every loop pass from an address hoisted into a register | Wrap it in a struct (`D_800B853C.ent[...]`); struct-to-struct accesses can alias the loop's field stores (DH3 0x8002CED0) |
+| `lhu` of a constant table scheduled after unrelated struct stores | A plain (non-`const`) `u16` array, read as `[2]` and `[0]`; `const` scalars are hoisted above the stores (DH3 0x8002C58C) |
+| `bnez` to the body, fall-through `j` to the epilogue with `v0 = 0` in the delay slot | `if (t != NULL) { ...; return -1; } return 0;` rather than an early `return 0` (DH3 0x80059744, DH2 0x800256A4) |
+| A sum kept in `v0` instead of overwriting the argument's saved register | Split it: `k = f(n); k += n;` (DH2 0x80057734) |
+| `lh` of the upper half of an `s32` global | `x >> 16` (DH3 0x8006FC14) |
+| A struct global's address CSE'd (`la s1, sym+off`) and used at other offsets for neighbouring "globals" | They are elements of one struct array (`Unk8005A018 D_801F77E8[2]`, DH2 0x8004D264, 0x8003D1F8) |
 
 ## PsyQ library settings
 
