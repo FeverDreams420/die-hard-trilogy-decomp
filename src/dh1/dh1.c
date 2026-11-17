@@ -6805,7 +6805,9 @@ int func_800436E4(SVECTOR *pos, s16 arg1) {
     return -(probe.hit != 0);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043770);
+s16 func_80043770(s16 x, s16 z) {
+    return D_800A340C[(x << 8) + z];
+}
 
 void func_8004379C(short id, SVECTOR *out) {
     Unk80043CC4 *node = &D_800A3084[id];
