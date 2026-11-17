@@ -1230,7 +1230,17 @@ s32 func_80028B58(VECTOR *v) {
     return SquareRoot0(v->vx * v->vx + v->vy * v->vy + v->vz * v->vz);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028BB8);
+typedef struct {
+    u8 pad0[6];
+    u8 unk6;
+    u8 pad7;
+} Unk800B62C4;
+
+extern Unk800B62C4 *D_800B62C4;
+
+u8 func_80028BB8(VECTOR *v) {
+    return D_800B62C4[((v->vx >> 12) & 0x3F) + ((v->vz >> 6) & 0x1FC0)].unk6;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028BF0);
 
