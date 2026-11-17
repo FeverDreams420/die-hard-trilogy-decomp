@@ -2189,7 +2189,31 @@ void func_8002EBD0(Unk80030328_Face *f) {
     AddPrim(D_800B62CC + (D_800B61CC >> 3), prim);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002ECD4);
+extern s32 D_800B56AC;
+extern s32 D_800B64F4;
+extern SVECTOR D_800B5A74;
+extern VECTOR D_801F76D0;
+extern VECTOR D_801F83D4;
+extern s16 D_800B5710;
+extern s16 D_800B5712;
+extern s16 D_800B5714;
+extern s16 D_800B5716;
+extern void RotTrans(SVECTOR *v, VECTOR *out, s32 *flag);
+
+void func_8002ECD4(void) {
+    SVECTOR v;
+
+    v.vx = 0;
+    v.vy = -0x400;
+    v.vz = 0;
+    D_800B64F4 = D_800B56AC;
+    RotTrans(&v, &D_801F76D0, &D_800B642C);
+    RotTrans(&D_800B5A74, &D_801F83D4, &D_800B642C);
+    D_800B5710 = D_801F76D0.vx - D_801F83D4.vx;
+    D_800B5712 = D_801F76D0.vy - D_801F83D4.vy;
+    D_800B5714 = -((D_801F76D0.vy - D_801F83D4.vy) * 400) >> 10;
+    D_800B5716 = ((D_801F76D0.vx - D_801F83D4.vx) * 25U) >> 6;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002EDE4);
 
