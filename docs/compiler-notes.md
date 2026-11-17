@@ -308,3 +308,22 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `xor` into a new register then `move` back | Declare the accumulator `u8` (DH2 0x8005F40C) |
 | A range check `addiu +1` / `andi 0xFFFF` / `sltiu` on an `s16` | `i >= -1 && i <= 0x1000` (GCC folds it) (DH3 0x8004DC84); `(u16)i < 24` comes from `i < 0 \|\| i >= 0x18` (DH3 0x80054CE4) |
 | A volatile global read without the volatile `lhu`/`sll`/`sra` form | Read it through `*(s16 *)&D_X` (DH3 0x80066B1C) |
+
+## PsyQ library settings
+
+The library code linked into DH1, DH2 and DH3 was built with a different compiler from the game code. A bake-off on 14 DH2 library leaves (`src/bakeoff/dh2_8007D0EC.c` to `dh2_80087F04.c`: the primitive helpers, `GetClut`, `SetPriority`, `SetDefDispEnv`, `DumpClut`, `CdPosToInt`, `CdIntToPos`, `memmove`) gives:
+
+| Leaf | 2.5.7 | 2.6.3 | 2.7.2 | 2.8.1 |
+| --- | --- | --- | --- | --- |
+| `AddPrim`, `AddPrims`, `CatPrim`, `TermPrim`, `NextPrim`, `IsEndPrim` (P_TAG bitfields) | no | yes | yes | yes |
+| `CdPosToInt` | no | yes | yes | yes |
+| `DumpClut` | no | yes | yes | no |
+| `SetPriority` | yes | yes | no | yes |
+| `GetClut`, `SetPolyF3`, `SetDefDispEnv` | yes | yes | yes | yes |
+| `CdIntToPos`, `memmove` | yes under 2.6.3 after rewriting (below) | | | |
+
+- **Confirmed: GCC 2.6.3 at `-O2`**, the only version that matches every leaf. The game's GCC 2.5.7 misses all the `P_TAG` bitfield helpers, so library files need their own compiler setting.
+- `-G` and ASPSX 2.08 to 2.34 make no difference on these leaves (2.56 and later do). **Guess:** `-G0`, since only one DH2 library function touches `$gp`.
+- `CdIntToPos` keeps `i / 75` in its own variable and does `sec %= 60` after taking the minutes; with `i / 75 / 60` GCC folds the divisions into one by 4500. `memmove` copies backwards with `dst[n] = src[n]`, so the end pointers come from strength reduction after `n--`. Ghidra's length for `memmove` stops before its shared `jr ra` tail, so the bake-off script reports it as a miss.
+- Splat had split many library functions at the signature labels named `*_OBJ_*`. Those reached only by `j`, fall-through or jump tables are labels inside the previous function and have been removed from the symbol files; the remaining `*_OBJ_*` names are real static functions (`jal` targets).
+- About 45 library functions per EXE are BIOS call stubs (`li $t2, 0xA0/0xB0/0xC0; jr $t2`) and about 60 are libgte routines built on GTE instructions. Both were written in assembly and stay as assembly. That leaves about 290 library functions per EXE (about 14,500 instructions) to write in C.
