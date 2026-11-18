@@ -4176,7 +4176,8 @@ typedef struct {
     u32 prevTime;
     u32 time;
     u32 unk10;
-    u16 unk14;
+    u8 unk14;
+    u8 pad15;
     u16 unk16;
     u8 pad18[2];
     u16 unk1A;
@@ -4272,7 +4273,52 @@ s16 func_80035584(Anim *anim) {
     return a - (wrap + func_80072734(from, to, D_800B6A90));
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003580C);
+typedef struct {
+    u8 pad0[0x208];
+    s16 unk208;
+} Unk8003580C_Vals;
+
+extern s16 D_800B641C;
+
+s16 func_8003580C(Anim *a) {
+    AnimInfo *info;
+    s16 ret = 0;
+    u16 spd;
+    s32 t;
+
+    if (a->id >= 0x58) {
+        D_800B641C = ((Unk8003580C_Vals *)D_800B6DE0->vals)->unk208;
+        a->id = 0x55;
+        return 0;
+    }
+    info = (AnimInfo *)D_800B73F0[a->id].p;
+    if (a->unk16 == 2) {
+        a->unk10 += a->unk1A * D_800B639E;
+        if (a->unk10 >= 0x1000) {
+            a->unk16 = 0;
+            a->unk10 = 0x1000;
+        }
+    }
+    spd = a->unk6;
+    t = spd * D_800B639E + a->time;
+    if (a->unk14 & 1) {
+        if (spd == 0) {
+            ret = -1;
+        } else if (t + info->step * 2 >= info->len) {
+            a->unk6 = 0;
+            ret = -1;
+        }
+    }
+    if (t >= info->len) {
+        ret = -1;
+        t -= info->len;
+    }
+    if (t < 0) {
+        t += info->len;
+    }
+    a->time = t;
+    return ret;
+}
 
 s32 func_8003594C(s16 a, s16 b) {
     s32 m;
