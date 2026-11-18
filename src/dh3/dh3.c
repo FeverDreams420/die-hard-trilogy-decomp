@@ -1472,7 +1472,48 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029648);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029854);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029A7C);
+typedef struct {
+    u8 r, g, b, cd;
+} CVECTOR;
+
+extern unsigned short D_801FADE0[16];
+void SetFarColor(s32 r, s32 g, s32 b);
+void DpqColor(CVECTOR *in, s32 p, CVECTOR *out);
+
+void func_80029A7C(unsigned short *src, s16 depth, u8 r, u8 g, u8 b) {
+    unsigned short *dst;
+    unsigned short i;
+    s32 semi;
+    u16 stp;
+    CVECTOR c;
+
+    SetFarColor(r, g, b);
+    dst = D_801FADE0;
+    i = 0;
+    semi = 0;
+    do {
+        stp = 0;
+        if (*src == 0) {
+            c.r = 0;
+            c.g = 0;
+            c.b = 0;
+            src++;
+        } else {
+            if (semi) {
+                stp = (i < 4) << 15;
+            } else {
+                stp = 0x8000;
+            }
+            c.r = (*src & 0x1F) << 3;
+            c.g = ((*src >> 5) & 0x1F) << 3;
+            c.b = ((*src >> 10) & 0x1F) << 3;
+            src++;
+            DpqColor(&c, depth, &c);
+        }
+        i++;
+        *dst++ = stp | (((c.r >> 3) + ((c.g >> 3) << 5) + ((c.b >> 3) << 10)) & 0x7FFF);
+    } while (i < 16);
+}
 
 extern unsigned short D_801FADE0[16];
 
