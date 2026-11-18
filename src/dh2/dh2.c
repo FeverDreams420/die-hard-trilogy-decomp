@@ -5365,7 +5365,37 @@ void func_800492A8(s16 *pos, s16 idx, s16 size) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800493CC);
+extern void SetPolyFT4(void *p);
+extern void SetShadeTex(void *p, s32 tge);
+extern void SetSemiTrans(void *p, s32 abe);
+
+void func_800493CC(s16 *pos, s16 idx, s16 size) {
+    POLY_FT4 *p = D_800B7140;
+    POLY_FT4 *prim = p;
+    u16 *tex;
+
+    if ((u8 *)p - D_800B70A8 <= 0xD7D7) {
+        p->x0 = pos[0] - size;
+        p->x1 = size + pos[0];
+        p->x2 = pos[0] - size;
+        p->x3 = size + pos[0];
+        p->y0 = pos[1] - size;
+        p->y1 = pos[1] - size;
+        p->y2 = size + pos[1];
+        p->y3 = size + pos[1];
+        tex = (u16 *)(D_8015EB78 + idx * 60);
+        *(u32 *)&p->u0 = *(u32 *)tex;
+        *(u32 *)&p->u1 = *(u32 *)(tex + 18);
+        *(u16 *)&p->u2 = tex[4];
+        *(u16 *)&p->u3 = tex[6];
+        SetPolyFT4(p);
+        SetShadeTex(p, 1);
+        SetSemiTrans(p, 1);
+        p++;
+        AddPrim(D_800B7018 + 20, prim);
+        D_800B7140 = p;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049518);
 
