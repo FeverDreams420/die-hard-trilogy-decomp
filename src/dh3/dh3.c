@@ -7577,7 +7577,75 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005B274);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005B7B0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005BA74);
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    u8 padA[4];
+    s16 unkE;
+    u8 pad10[0x10];
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    u8 pad26[2];
+    u8 unk28[0x10];
+    s16 unk38;
+    s16 unk3A;
+    s16 unk3C;
+    u8 pad3E[0x12];
+    VECTOR unk50;
+    u8 pad60[0xFA];
+    s16 unk15A;
+    u8 pad15C[0x14];
+    s16 unk170;
+    u8 pad172[0x66];
+    s16 unk1D8;
+    s16 unk1DA;
+    u8 pad1DC[8];
+    s16 unk1E4;
+    u8 pad1E6[0x12];
+    s32 unk1F8;
+    s16 unk1FC;
+} Unk8005BA74;
+
+extern s16 D_800B618C;
+void func_8005AE34(s32 a, VECTOR *v, s16 b);
+void func_8002C234(s16 a, void *p);
+void func_8005B7B0(void);
+void func_8006738C(void);
+s32 func_800691E8(Unk8015EB3C *arg0, s32 arg1);
+
+void func_8005BA74(void) {
+    struct Task *t = D_800B604C;
+    Unk8005BA74 *p;
+    VECTOR v;
+
+    t->flags = 3;
+    p = (Unk8005BA74 *)t->vals;
+    p->unk15A = D_800B618C + 1;
+    func_8005AE34(0x14, &p->unk50, p->unk15A);
+    func_8005AE34(0x200, &v, p->unk15A);
+    p->unk8 = 2;
+    p->unk20 = 0;
+    p->unk24 = 0;
+    p->unk22 = func_80028648(&v, &p->unk50);
+    p->unk8 = 2;
+    p->unk170 = 100;
+    p->unk38 = 0;
+    p->unk3A = 0;
+    p->unk3C = 0;
+    p->unk1D8 = 100;
+    p->unk1DA = -1;
+    p->unk1F8 = 0;
+    p->unk1E4 = 0;
+    p->unk50.vx <<= 5;
+    p->unk50.vz <<= 5;
+    func_80054C10(p->unk8);
+    p->unk1FC = func_800691E8(&D_8018CC68, (s32)func_8006738C);
+    func_8006B48C(0x1E, p->unk28);
+    func_8002C234(p->unk8, p);
+    p->unkE = 3;
+    D_800B604C->func = func_8005B7B0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005BBA8);
 
@@ -7975,7 +8043,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FD10);
 
 
 extern Unk8015EB3C D_8018CC68;
-void func_800691E8(Unk8015EB3C *arg0, s32 arg1);
+s32 func_800691E8(Unk8015EB3C *arg0, s32 arg1);
 void func_80068200(s16 id, void *pos);
 void func_80068500(s32 a);
 
