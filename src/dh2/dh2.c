@@ -8070,7 +8070,48 @@ void func_80066ECC(s32 vol, s32 pan) {
     SpuSetCommonAttr(&attr);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066F18);
+extern char D_801F95B0[];
+
+void func_80066F18(void) {
+    SpuVoiceAttr v;
+    SpuCommonAttr c;
+    SpuReverbAttr r;
+
+    SpuInitMalloc(16, D_801F95B0);
+    SpuSetTransferMode(0);
+    c.mask = 0x3F3;
+    c.mvol.left = 0x3FFF;
+    c.mvol.right = 0x3FFF;
+    c.mvolx.left = 0x3FFF;
+    c.mvolx.right = 0x3FFF;
+    c.cd.volume.left = func_80072734(0, 0x3FFF, D_800B7370->unk1784);
+    c.cd.volume.right = func_80072734(0, 0x3FFF, D_800B7370->unk1784);
+    c.cd.reverb = 0;
+    c.cd.mix = 1;
+    SpuSetCommonAttr(&c);
+    SpuReserveReverbWorkArea(0);
+    r.mode = 5;
+    r.mask = 0x1F;
+    SpuSetReverbModeParam(&r);
+    r.depth.left = 4000;
+    r.depth.right = 4000;
+    r.mask = 6;
+    SpuSetReverb(0);
+    v.mask = 0xFF93;
+    v.voice = 0xFFFFFF;
+    v.volume.left = 0x3FFF;
+    v.volume.right = 0x3FFF;
+    v.pitch = 0x1000;
+    v.a_mode = 1;
+    v.s_mode = 1;
+    v.r_mode = 3;
+    v.ar = 0;
+    v.dr = 0;
+    v.sr = 0;
+    v.rr = 0;
+    v.sl = 15;
+    SpuSetVoiceAttr(&v);
+}
 
 typedef struct {
     u8 pad0[8];
