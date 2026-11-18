@@ -7308,7 +7308,73 @@ void func_80060130(SVECTOR *pos) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800601E4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80060AEC);
+typedef struct {
+    SVECTOR unk0;
+    SVECTOR unk8;
+    SVECTOR unk10;
+    SVECTOR unk18;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    s16 unk26;
+    void *unk28;
+    struct Task *unk2C;
+    s32 unk30;
+    s32 unk34;
+    struct Task *unk38;
+    s32 unk3C;
+} Unk80060AEC;
+
+void func_800601E4();
+
+void func_80060AEC(SVECTOR *pos, SVECTOR *vel, struct Task *owner, s32 arg3, s16 arg4, s16 arg5, struct Task *arg6) {
+    struct Task *t = (struct Task *)func_8007307C(func_800601E4, 3, 0x40);
+    Unk80060AEC *d;
+
+    if (t != NULL) {
+        d = (Unk80060AEC *)t->vals;
+        if (owner != NULL) {
+            void *v = owner->vals;
+
+            d->unk2C = owner;
+            d->unk28 = v;
+            d->unk30 = owner->id;
+        } else {
+            d->unk28 = NULL;
+        }
+        d->unk38 = arg6;
+        if (arg6 != NULL) {
+            d->unk3C = arg6->id;
+        }
+        d->unk26 = arg5;
+        if (arg5 != -1) {
+            d->unk20 = 1;
+        } else {
+            d->unk20 = 0;
+        }
+        d->unk22 = (arg5 > 0) ? 100 : 0xFF;
+        d->unk34 = arg3;
+        d->unk24 = arg4;
+        d->unk8.vx = pos->vx;
+        d->unk8.vy = pos->vy;
+        d->unk8.vz = pos->vz;
+        d->unk18.vx = pos->vx;
+        d->unk18.vy = pos->vy;
+        d->unk18.vz = pos->vz;
+        d->unk10.vx = vel->vx;
+        d->unk10.vy = vel->vy;
+        d->unk10.vz = vel->vz;
+        d->unk0.vx = pos->vx;
+        d->unk0.vy = pos->vy;
+        d->unk0.vz = pos->vz;
+        d->unk0.vx += d->unk10.vx * 8;
+        d->unk0.vy += d->unk10.vy * 8;
+        d->unk0.vz += d->unk10.vz * 8;
+        d->unk8.vx -= d->unk10.vx * 3;
+        d->unk8.vy -= d->unk10.vy * 3;
+        d->unk8.vz -= d->unk10.vz * 3;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80060CFC);
 
