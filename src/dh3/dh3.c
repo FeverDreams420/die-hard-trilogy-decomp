@@ -3335,7 +3335,82 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80034AC8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80034E24);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800351E8);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u16 uv0;
+    u16 clut;
+    s16 x1, y1;
+    u16 uv1;
+    u16 tpage;
+    s16 x2, y2;
+    u16 uv2;
+    u16 pad1;
+} Unk80036008_Prim;
+
+s16 func_8004ED7C(void);
+void func_800358C0(s32 *xy, VECTOR *v);
+
+void func_800351E8(Unk80030328_Face *f) {
+    Unk80030328_Prim *prim;
+    Unk80036008_Prim *t;
+    u16 *tex;
+    VECTOR v0;
+    VECTOR v1;
+    VECTOR v2;
+    VECTOR v3;
+
+    D_800B61CC = RotTransPers4(f->v[0], f->v[1], f->v[2], f->v[3], &D_800B5E0C->xy2, &D_800B5E0C->xy3, &D_800B5E0C->xy1, &D_800B5E0C->xy0, &D_800B5CFC, &D_800B642C);
+    if (D_800B642C & ~0x1FFF) {
+        RotTrans(f->v[0], &v0, &D_800B642C);
+        RotTrans(f->v[1], &v1, &D_800B642C);
+        RotTrans(f->v[2], &v2, &D_800B642C);
+        RotTrans(f->v[3], &v3, &D_800B642C);
+        if (v0.vz < 0 && v1.vz < 0 && v2.vz < 0 && v3.vz < 0) {
+            return;
+        }
+        func_800358C0(&D_800B5E0C->xy0, &v3);
+        func_800358C0(&D_800B5E0C->xy1, &v2);
+        func_800358C0(&D_800B5E0C->xy3, &v1);
+        func_800358C0(&D_800B5E0C->xy2, &v0);
+        D_800B61CC = v0.vz >> 2;
+        if (D_800B61CC < 0x58) {
+            D_800B61CC = 0x58;
+        }
+    }
+    prim = D_800B5E0C;
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    prim->uv1 = tex[0];
+    prim->uv0 = tex[2];
+    *(s16 *)&prim->uv3 = tex[4];
+    *(s16 *)&prim->uv2 = tex[5];
+    prim->tpage = tex[3];
+    prim->clut = tex[(f->clut >> 8) + 12];
+    switch (func_8004ED7C()) {
+    case 1:
+        t = D_800B63AC;
+        *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
+        *(u32 *)&t->uv1 = *(u32 *)&D_800B5E0C->uv1;
+        *(u32 *)&t->uv2 = *(u32 *)&D_800B5E0C->uv2;
+        *(s32 *)&t->x0 = D_800B5E0C->xy0;
+        *(s32 *)&t->x1 = D_800B5E0C->xy1;
+        *(s32 *)&t->x2 = D_800B5E0C->xy2;
+        SetPolyFT3(t);
+        SetShadeTex(t, 1);
+        if (D_800B61CC < 0x58) {
+            D_800B61CC = 0x58;
+        }
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), t++);
+        D_800B63AC = t;
+        break;
+    case 0:
+        func_80035540((POLY_FT4 *)D_800B5E0C, (POLY_FT4 *)(D_800B5E0C + 1));
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), D_800B5E0C++);
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), D_800B5E0C++);
+        break;
+    }
+}
 
 void func_80035540(POLY_FT4 *p, POLY_FT4 *q) {
     *(u32 *)&q->u0 = *(u32 *)&p->u0;
