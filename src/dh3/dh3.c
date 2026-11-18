@@ -5334,7 +5334,40 @@ void func_80047FF8(SVECTOR *a, SVECTOR *b, SVECTOR *out) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048038);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048360);
+typedef struct {
+    s32 v0;
+    s32 v1;
+    s32 v2;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    u16 unk12;
+    u16 unk14;
+    u16 unk16;
+    u16 unk18;
+    u16 unk1A;
+} Unk80048360;
+
+extern s32 D_800B663C;
+
+void func_80048360(Unk80048360 *f) {
+    s16 i = 0;
+
+    while (f[i].v0 != -1) {
+        f[i].v0 = f[i].v0 * 8 + D_800B663C;
+        f[i].v1 = f[i].v1 * 8 + D_800B663C;
+        f[i].v2 = f[i].v2 * 8 + D_800B663C;
+        f[i].unk12 = f[i].unk12 * 40;
+        f[i].unk14 = f[i].unk14 * 40;
+        f[i].unkC = f[i].unkC * 775 >> 10;
+        f[i].unkE = f[i].unkE * 775 >> 10;
+        f[i].unk10 = f[i].unk10 * 775 >> 10;
+        f[i].unk16 = f[i].unk16;
+        f[i].unk18 = f[i].unk18;
+        f[i].unk1A = f[i].unk1A;
+        i++;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800484A4);
 
