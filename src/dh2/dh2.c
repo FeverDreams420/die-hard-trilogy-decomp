@@ -10016,7 +10016,71 @@ void func_80073F00(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80073F3C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80074138);
+typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+typedef struct {
+    RECT disp;
+    RECT screen;
+    u8 isinter;
+    u8 isrgb24;
+    u8 pad0;
+    u8 pad1;
+} DISPENV;
+
+typedef struct {
+    DISPENV disp[2];
+    DRAWENV draw[2];
+    u32 *prim[2];
+    u32 *ot[2];
+    s16 id;
+} Unk80074138;
+
+
+extern void DrawOTag(u32 *ot);
+extern u32 *ClearOTagR(u32 *ot, s32 n);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+void func_80074DFC(void);
+void func_80074AE4(void);
+extern s16 D_800B6C38;
+
+void func_80074138(void) {
+    Unk80074138 *db = (Unk80074138 *)D_800B6DE0->vals;
+    s16 n = 20;
+
+    DrawOTag(db->ot[db->id] + 0xF9);
+    while (DrawSync(1) != 0) {
+        VSync(0);
+        if (n-- == 0) {
+            D_800B6AA0 = 9;
+            return;
+        }
+    }
+    func_80074DFC();
+    func_80074AE4();
+    D_800B6CC8++;
+    PutDispEnv(&db->disp[db->id]);
+    ClearOTagR(db->ot[db->id], 0xFA);
+    D_800B7018 = db->ot[db->id];
+    D_800B70A8 = D_800B7140 = db->prim[db->id];
+    PutDrawEnv(&db->draw[db->id]);
+    db->id ^= 1;
+    D_800B6C38 = db->draw[db->id].ofs[0];
+}
 
 void func_800742C4(void) {
 }
