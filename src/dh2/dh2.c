@@ -8329,7 +8329,31 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800699F4);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80069DC4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A1CC);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    u8 pad4[0xE];
+} Unk80096104;
+
+extern Unk80096104 D_80096104[];
+
+typedef struct {
+    u8 pad0[0x1A8];
+    Anim anim;
+    u8 pad1C8[0xC];
+    s16 unk1D4;
+    u8 pad1D6[2];
+    s16 unk1D8;
+} Unk8006A1CC;
+
+void func_8006A1CC(Unk8006A1CC *p) {
+    s16 r = func_800754C8(0x57);
+
+    func_8003553C(&p->anim, D_80096104[r].unk0, 0, 0x52, 0x10);
+    func_8004FBEC((Unk8004FBEC *)p, D_80096104[r - 1].unk2);
+    p->unk1D4 = 0;
+    p->unk1D8 = 0;
+}
 
 typedef struct {
     SVECTOR rot;
@@ -8359,8 +8383,6 @@ typedef struct {
     s32 unk200;
 } Unk8006A268;
 
-extern s16 D_80096104;
-
 void func_8006A268(Unk80061844 *obj) {
     Unk8006A268 *p = (Unk8006A268 *)obj;
 
@@ -8376,7 +8398,7 @@ void func_8006A268(Unk80061844 *obj) {
     p->rot.vy = D_800B72E8.vy + 0x800;
     p->unk200 = 0;
     func_80035384(&p->anim);
-    func_80035448(&p->anim, D_80096104, 0, 0x52, 0x10);
+    func_80035448(&p->anim, D_80096104[0].unk0, 0, 0x52, 0x10);
     func_80034DF4(&p->anim, (s16)func_800754C8(20));
     func_8006A1CC(p);
 }
