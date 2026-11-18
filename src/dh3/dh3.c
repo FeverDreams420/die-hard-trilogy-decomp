@@ -4314,6 +4314,8 @@ typedef struct {
     VECTOR unk78;
     u8 pad88[0x10];
     Unk800451B4Src *unk98;
+    u8 pad9C[0x16];
+    s16 unkB2;
 } Unk800451B4;
 
 void func_80044E80(void);
@@ -4445,7 +4447,40 @@ void func_80045CB4(s16 x, s16 z, u8 *obj) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045DAC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80046084);
+void func_80045410(void);
+
+void func_80046084(s16 x, s16 z, Unk800451B4Src *src, s16 type) {
+    struct Task *t;
+    Unk800451B4 *p;
+    s16 kind = type;
+
+    t = func_80072768(D_801F80BC, func_80045410, 0xC4);
+    if (t != NULL) {
+        if (src != NULL) {
+            src->unk4 = 0;
+        }
+        t->flags = 0x31;
+        p = (Unk800451B4 *)t->vals;
+        p->unk98 = src;
+        p->unk78.vx = p->unk10.vx = (x << 9) + 0x100;
+        p->unk78.vz = p->unk10.vz = (z << 9) + 0x100;
+        p->unk78.vy = p->unk10.vy = (s16)func_80028BF0(&p->unk10) + 200;
+        p->unk22 = func_80074910(0x1000);
+        p->unk20 = 0;
+        p->unk24 = 0;
+        p->unk28 = 0x12C000;
+        p->unk30 = 0x12C000;
+        p->unk38 = 0;
+        p->unk3C = 0;
+        if (type == 6 && D_800B5F4C == 9) {
+            kind = 0;
+        }
+        p->unkB2 = kind >> 8;
+        p->unk8 = kind & 0xFF;
+        p->unkC = 0;
+        p->unkE = 1;
+    }
+}
 
 typedef struct {
     u8 pad0[8];
