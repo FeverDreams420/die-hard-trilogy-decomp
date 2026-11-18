@@ -7799,7 +7799,75 @@ void func_8005EBB8(VECTOR *pos) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005ECD0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005F694);
+typedef struct {
+    u8 pad0[4];
+    u8 unk4;
+} Unk8005F694Src;
+
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    u8 padA[2];
+    s16 unkC;
+    s16 unkE;
+    VECTOR unk10;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    u8 pad26[2];
+    s32 unk28;
+    u8 pad2C[4];
+    s32 unk30;
+    u8 pad34[4];
+    s16 unk38;
+    u8 pad3A[2];
+    s16 unk3C;
+    u8 pad3E[0x4A];
+    s16 unk88;
+    u8 pad8A[4];
+    s16 unk8E;
+    u8 pad90[8];
+    Unk8005F694Src *unk98;
+    u8 pad9C[0x1A];
+    s16 unkB6;
+    u8 unkB8;
+    u8 padB9[9];
+    s16 unkC2;
+} Unk8005F694;
+
+void func_8005ECD0(void);
+
+void func_8005F694(s16 x, s16 z, Unk8005F694Src *src) {
+    struct Task *t;
+    Unk8005F694 *p;
+
+    if (D_800B61A4->unk6 >= 0x800) {
+        t = func_80072768(D_801F80BC, func_8005ECD0, 0xC4);
+        if (t != NULL) {
+            src->unk4 = 0;
+            p = (Unk8005F694 *)t->vals;
+            p->unk98 = src;
+            p->unk10.vx = (x << 9) + 0x100;
+            p->unk10.vz = (z << 9) + 0x100;
+            p->unk10.vy = (s16)func_80028BF0(&p->unk10);
+            p->unk22 = 0;
+            p->unk20 = 0;
+            p->unk24 = 0;
+            p->unk28 = 0x1E000;
+            p->unk30 = 0x1E000;
+            p->unk38 = 0;
+            p->unk3C = 0;
+            p->unk8 = 0;
+            p->unkC = 0;
+            p->unkE = 4;
+            p->unk88 = 0;
+            p->unk8E = 0;
+            p->unkC2 = 0;
+            p->unkB8 = 0;
+            p->unkB6 = 0;
+        }
+    }
+}
 
 typedef struct {
     u16 unk0;
