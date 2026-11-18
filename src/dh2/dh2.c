@@ -4393,7 +4393,14 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003CF4C);
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D10C);
 
 typedef struct {
-    u8 pad0[0x1E];
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u16 unk6;
+    u8 pad8[2];
+    s16 unkA;
+    u8 padC[0x10];
+    s16 unk1C;
     s16 unk1E;
     s16 unk20;
     s16 unk22;
@@ -5561,7 +5568,44 @@ s16 func_8004A0A8(s16 hit, Unk80049E04_Src *o) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004A1D4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004A8EC);
+typedef struct {
+    u16 unk0;
+    u8 pad2[8];
+    u16 unkA;
+    u8 padC[2];
+    u16 unkE;
+    u8 pad10[4];
+    u16 unk14;
+    u8 pad16[0x14];
+} Unk8009701C;
+
+extern Unk8009701C D_8009701C[];
+
+void func_8004A8EC(Unk8005A018 *p) {
+    s32 t;
+    s16 e;
+
+    p->unk6 = D_8009701C[p->unk24].unk0;
+    t = D_8009701C[p->unk24].unkA * p->unk6;
+    p->unk2 = 0;
+    e = D_8009701C[p->unk24].unkE;
+    p->unk0 = 0x80;
+    p->unk1E = 0;
+    p->unk22 = -1;
+    p->unk1C = 0;
+    p->unk26 = 4;
+    p->unkA = e;
+    p->unk4 = e + t - 26;
+    p->unk28 = D_8009701C[p->unk24].unk14;
+    switch (p->unk2A) {
+    case 1:
+        p->unk28 *= 2;
+    case 2:
+        p->unk28 = 5;
+    case 3:
+        p->unk28 = 4;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004AA38);
 
