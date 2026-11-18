@@ -3719,7 +3719,45 @@ void func_8003F7B4(void) {
     D_800B604C->func = func_8004FF54;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F868);
+typedef struct {
+    s32 x;
+    s32 z;
+    s32 targetX;
+    s32 targetZ;
+} Unk800B8540;
+
+extern Unk800B8540 *D_800B8540[];
+extern s16 D_800B609C;
+extern s16 D_800BA628[];
+extern s32 *D_801F7540[];
+extern s32 D_8018C990[];
+s32 func_8003F6CC(Unk800B8540 *p, s32 *dst, s16 n);
+
+void func_8003F868(void) {
+    s32 cnt;
+    s16 i;
+    s16 k;
+
+    D_800B609C = 0;
+    i = ((s16 *)D_800B6234)[0] / 4;
+    if (i == 0) {
+        return;
+    }
+    i--;
+    do {
+        k = i << 2;
+        D_800B8540[i] = (Unk800B8540 *)((s16 *)D_800B6234 + ((s16 *)D_800B6234)[k]);
+        cnt = ((u16 *)D_800B6234)[k + 1];
+        D_800BA628[i] = cnt;
+        if ((u32)(cnt - 1) >= 0x200) {
+            D_800B609C = -1;
+            return;
+        }
+        D_801F7540[i] = D_800B6464;
+        D_8018C990[i] = func_8003F6CC(D_800B8540[i], D_800B6464, D_800BA628[i]);
+        D_800B6464 = (s32 *)func_80028258((s32)D_800B6464, D_800BA628[i] * 8);
+    } while (i--);
+}
 
 typedef struct {
     u8 pad0[0x10];
@@ -3750,14 +3788,6 @@ typedef struct {
     s16 unk1CC;
 } Unk80040450;
 
-typedef struct {
-    s32 x;
-    s32 z;
-    s32 targetX;
-    s32 targetZ;
-} Unk800B8540;
-
-extern Unk800B8540 *D_800B8540[];
 extern VECTOR D_801F76D0;
 
 void func_8003F9A0(Unk80040450 *p) {
