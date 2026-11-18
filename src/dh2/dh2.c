@@ -568,7 +568,7 @@ typedef struct {
     s32 unk16C;
 } Unk80021780;
 
-extern struct Task *D_801F7544;
+extern struct Task *volatile D_801F7544;
 void func_800214A8(s32 arg);
 void func_80021624(s32 arg);
 
@@ -8883,7 +8883,67 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006E960);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006EBA0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006F110);
+typedef struct {
+    s16 unk0[16];
+    s16 unk20[16];
+    s16 unk40[16];
+    s16 unk60[16];
+    s16 unk80[16];
+    s16 unkA0;
+    s16 unkA2;
+    s16 unkA4;
+    s16 unkA6;
+} Unk8006F110;
+
+typedef struct {
+    u8 pad0[0x18A];
+    s16 unk18A;
+    s16 unk18C;
+    s16 unk18E;
+    s16 unk190;
+} Unk8006F110_Vals;
+
+struct Task *func_800731DC(void (*fn)(), s16 size);
+void func_8006EBA0();
+
+void func_8006F110(s16 arg0) {
+    Unk8006F110_Vals *v = (Unk8006F110_Vals *)D_801F7544->vals;
+    struct Task *t;
+    Unk8006F110 *d;
+    s16 i;
+    s32 j;
+
+    if (D_801F7544 != NULL) {
+        t = func_800731DC(func_8006EBA0, 0xA8);
+        if (t != NULL) {
+            D_800B6AA0 = 8;
+            d = (Unk8006F110 *)t->vals;
+            i = 15;
+            do {
+                d->unk20[i] = 0;
+                d->unk60[i] = func_800754C8(5) + 2;
+                d->unk40[i] = 0;
+                d->unk80[i] = func_800754C8(8) + 8;
+            } while (i--);
+            i = 15;
+            do {
+                j = i;
+                d->unk0[j] = j << 8;
+            } while (i--);
+            d->unkA4 = 0x1000;
+            d->unkA6 = 0x10;
+            d->unkA0 = func_800754C8(0x1000);
+            d->unkA2 = arg0;
+            v->unk18A = 0x60;
+            v->unk18E = 0x30;
+            if ((s16)func_800754C8(2) != 0) {
+                v->unk18E = -0x30;
+            }
+            v->unk18C = 0;
+            v->unk190 = -1;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006F258);
 
