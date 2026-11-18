@@ -4012,7 +4012,45 @@ void func_8003456C(SVECTOR *a, SVECTOR *b, SVECTOR *out) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800345AC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800348D4);
+typedef struct {
+    u8 pad0[0x38];
+    SVECTOR unk38;
+} Unk800B7398;
+
+extern Unk800B7398 *D_800B7398;
+
+typedef struct {
+    s32 v0;
+    s32 v1;
+    s32 v2;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    u16 unk12;
+    u16 unk14;
+    u16 unk16;
+    u16 unk18;
+    u16 unk1A;
+} Unk800348D4;
+
+void func_800348D4(Unk800348D4 *f) {
+    s16 i = 0;
+
+    while (f[i].v0 != -1) {
+        f[i].v0 = f[i].v0 * 8 + (s32)D_800B7398;
+        f[i].v1 = f[i].v1 * 8 + (s32)D_800B7398;
+        f[i].v2 = f[i].v2 * 8 + (s32)D_800B7398;
+        f[i].unk12 = f[i].unk12 * 60;
+        f[i].unk14 = f[i].unk14 * 60;
+        f[i].unkC = f[i].unkC * 375 >> 8;
+        f[i].unkE = f[i].unkE * 375 >> 8;
+        f[i].unk10 = f[i].unk10 * 375 >> 8;
+        f[i].unk16 = f[i].unk16;
+        f[i].unk18 = f[i].unk18;
+        f[i].unk1A = f[i].unk1A;
+        i++;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034A18);
 
@@ -5987,11 +6025,6 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800524D8);
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052640);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052A14);
-
-typedef struct {
-    u8 pad0[0x38];
-    SVECTOR unk38;
-} Unk800B7398;
 
 typedef struct {
     SVECTOR pos;
