@@ -5892,7 +5892,27 @@ void func_8004DCC4(s32 arg) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DD0C);
+extern u16 D_801F82AC[];
+
+void func_8004DD0C(s16 x, s16 z, void *arg) {
+    void (*fn)();
+    s16 i;
+    s16 cell;
+
+    i = D_801F82AC[((z & 7) << 3) + (x & 7)];
+    cell = ((x >> 3) & 0x3F) + ((z & 0x3F8) << 3);
+    if (D_800B61DC != 0) {
+        return;
+    }
+    while ((fn = D_800B615C[i].func) != NULL) {
+        if (D_800B615C[i].unk4 == cell) {
+            PushMatrix();
+            fn(x, z, arg, D_800B615C[i].unk6, i);
+            PopMatrix();
+        }
+        i++;
+    }
+}
 
 extern s32 *D_800B6464;
 extern void *D_800B5E4C;
