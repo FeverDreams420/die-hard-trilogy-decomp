@@ -323,6 +323,10 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A sum kept in `v0` instead of overwriting the argument's saved register | Split it: `k = f(n); k += n;` (DH2 0x80057734) |
 | `lh` of the upper half of an `s32` global | `x >> 16` (DH3 0x8006FC14) |
 | A struct global's address CSE'd (`la s1, sym+off`) and used at other offsets for neighbouring "globals" | They are elements of one struct array (`Unk8005A018 D_801F77E8[2]`, DH2 0x8004D264, 0x8003D1F8) |
+| Two equality tests (`x == 12`, `x == 13`) instead of one unsigned range check | Two separate `else if` statements; an `\|\|` chain or a `switch` both give `x - 12 < 2` (DH3 0x8002AF48) |
+| `addu` operand order and registers differ in a loop over a struct array | Index directly, `f[i].field`, rather than `e = &f[i]; e->field` (DH2 0x800348D4, DH3 0x80048360) |
+| A pointer copied to a saved register and incremented before a call that takes the old value | A second pointer, `prim = p; p++; AddPrim(ot, prim);` (`AddPrim(ot, p++)` increments after the call) (DH2 0x800493CC) |
+| Store order of `a = b = v` | The inner target `b` is stored first; write the chain in the order the stores appear (DH3 0x80046084) |
 
 ## PsyQ library settings
 
