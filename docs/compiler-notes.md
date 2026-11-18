@@ -329,6 +329,13 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `addu` operand order and registers differ in a loop over a struct array | Index directly, `f[i].field`, rather than `e = &f[i]; e->field` (DH2 0x800348D4, DH3 0x80048360) |
 | A pointer copied to a saved register and incremented before a call that takes the old value | A second pointer, `prim = p; p++; AddPrim(ot, prim);` (`AddPrim(ot, p++)` increments after the call) (DH2 0x800493CC) |
 | Store order of `a = b = v` | The inner target `b` is stored first; write the chain in the order the stores appear (DH3 0x80046084) |
+| A store to a struct field moved below a following load of a plain global (and taken into a branch delay slot) | GCC 2.5.7 assumes an in-struct store can't alias a scalar global; the original wrote it through a cast, `*(u32 *)&t->xy2 = ...` or `*(s16 *)&prim->uv2 = tex[4]`, so the load stays after it (DH2 0x8002D5AC, 0x8002E75C, DH3 0x80034AC8) |
+| A load from one pointer scheduled before a store through another (`lw v0,28(s0)` before `sw s0,44(a2)`) | Load into a temporary first: `void *v = owner->vals; d->unk2C = owner; d->unk28 = v;` (DH2 0x80060AEC) |
+| A local held in `a0` at a call that seems to take no arguments | The callee takes it: check its first instructions for `a0` (`func_8003BE74`, `func_8004ED7C` take the prim; DH2 0x8002D5AC, DH3 0x80034E24) |
+| A timeout counter tested before the decrement (`move v0,s1` / test / `addiu s1,s1,-1` in the delay slot) | `if (n-- == 0)` (DH2 0x80074138) |
+| An `s16` copy kept sign-extended in a saved register across a call | The destination is `s32`: `s32 idx = j;` (DH2 0x8003FA60) |
+| `lhu` where an `s16` field is subtracted | `(u16)p->unk22` (DH3 0x8003FA90) |
+| One shared load hoisted above a sign test that picks a call argument | Two calls, one per sign, instead of `d < 0 ? -k : k` (DH3 0x8003FA90) |
 
 ## PsyQ library settings
 
