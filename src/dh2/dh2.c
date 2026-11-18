@@ -730,7 +730,46 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022974);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022A10);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022B58);
+extern s16 D_800B70B8;
+extern s16 D_800B6B70;
+extern s16 D_800B6CB0;
+extern u8 *D_800B6C40;
+extern u8 *D_800B6C44;
+
+void func_80022B58(void) {
+    if (D_800B70B8 == 1) {
+        if (D_800B6B70 == 4) {
+            if (D_800B6FD8 != 0) {
+                SelectGun(0, 0);
+                SelectGun(1, 0);
+            }
+            StopGun();
+            StopPAD();
+            if (D_800B6FD8 == 0) {
+                ResetCallback();
+                InitGun(D_800B6C40 + 4, D_800B6C44 + 4, 0x12);
+                D_800B6FD8 = -1;
+            }
+            StartPAD();
+            StartGun();
+            SelectGun(0, 1);
+            D_800B70B8 = 0;
+            if (D_800B6CB0 >= 6) {
+                D_800B6CB0 = 5;
+            }
+        } else {
+            D_800B70B8 = 0;
+        }
+    } else if (D_800B70B8 == 2) {
+        if (D_800B6FD8 != 0) {
+            SelectGun(0, 0);
+            SelectGun(1, 0);
+        }
+        StopGun();
+        StopCARD();
+        D_800B70B8 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022CA8);
 
