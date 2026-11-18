@@ -4316,7 +4316,8 @@ typedef struct {
     s16 unk70;
     u8 pad72[6];
     VECTOR start;
-    u8 pad88[0x10];
+    s16 unk88;
+    u8 pad8A[0xE];
     u8 *obj;
 } Unk800462E4;
 
@@ -6806,7 +6807,35 @@ void func_80056E84(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80056F30);
+extern SVECTOR D_800B6594;
+
+s32 func_80056F30(void) {
+    Unk800462E4 *p = (Unk800462E4 *)D_800B604C->vals;
+
+    func_80056E84();
+    D_800B6594.vx = p->unk20;
+    D_800B6594.vy = p->unk22;
+    D_800B6594.vz = p->unk24;
+    if (func_800210B8((void *)D_801FAB28[p->unk8], &p->pos, &D_800B6594.vx) == 0) {
+        p->unk70++;
+        if (p->unk88 < 20) {
+            return 0;
+        }
+        if ((s16)func_80028A48(&p->pos, &D_801981F4) <= 0x800 && p->unk70 <= 60) {
+            return 0;
+        }
+        if (p->unk70 <= 30) {
+            return 0;
+        }
+        p->pos.vx = -0x2000;
+        p->pos.vz = -0x2000;
+        D_800B604C->func = func_80054D3C;
+        return -1;
+    }
+    func_80021AFC(p);
+    p->unk70 = 0;
+    return 0;
+}
 
 typedef struct {
     u8 pad0[0xC2];
