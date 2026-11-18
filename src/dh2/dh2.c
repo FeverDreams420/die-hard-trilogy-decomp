@@ -5531,7 +5531,49 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004BD7C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004C16C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004C490);
+typedef struct {
+    u8 pad0[0x39C];
+    s16 unk39C[9];
+    s16 unk3AE[9];
+} Unk8004C490;
+
+extern s16 D_800B71E0;
+extern s16 D_800B7388;
+extern s16 D_801F6C60[2];
+void func_8004C16C(void);
+
+void func_8004C490(s16 hit, s16 i, s16 reset) {
+    Unk8004C490 *p = (Unk8004C490 *)D_801F7548->vals;
+
+    if ((u32)D_801F7548 < 8) {
+        return;
+    }
+    if (reset) {
+        p->unk3AE[i] = -1;
+    }
+    if (p->unk39C[i] == 0) {
+        if (hit) {
+            p->unk39C[i] = 4;
+            D_800B71E0 = -1;
+        }
+        if (p->unk39C[i] == 0) {
+            return;
+        }
+    }
+    p->unk39C[i]--;
+    if (D_800B7388 == 0) {
+        return;
+    }
+    if (func_8004A0A8(-1, (Unk80049E04_Src *)&D_801F77E8[i])) {
+        D_800B6C60[2] = 0;
+        D_800B6C60[0] = D_801F6C60[0];
+        D_800B6C60[1] = D_801F6C60[1];
+        func_80072F2C(func_8004C16C, 4);
+    }
+    D_800B71E0 = 0;
+    p->unk3AE[i] = 0;
+    p->unk39C[i] = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004C5C4);
 
