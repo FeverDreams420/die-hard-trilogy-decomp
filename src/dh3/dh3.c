@@ -10557,7 +10557,35 @@ void func_80070E6C(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80070EBC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800711C0);
+extern char D_80091B5C[];
+extern u16 D_8009730E;
+extern u16 D_80097300;
+s32 func_80070C34(void);
+void func_80053AB0(void);
+void func_8003A130(void);
+
+void func_800711C0(void) {
+    func_800279E4(0x140);
+    func_800266C8();
+    func_800758C0(0xA0, 0x78, func_80077DC8(D_80091B5C), 0x800, 0x400, D_800B56D8, D_800B56E4);
+    func_80051500();
+    if ((D_8009730E & ((volatile s32 *)D_800B64FC)[0]) || (D_80097300 & ((volatile s32 *)D_800B64FC)[0])) {
+        D_800B5F54 = 1;
+    }
+    if (D_800B658C == 0) {
+        if (D_800B632C != NULL && (s16)func_80070C34() == 0) {
+            D_800B66DC = -1;
+        }
+        func_80053AB0();
+        func_80072A40(0x14);
+        func_80026710(0xA);
+        D_800B6694 = 0;
+        func_8003A130();
+        D_800B5FB4 = 2;
+        D_800B6554 = 1;
+        func_80026158();
+    }
+}
 
 extern char D_80091B38[];
 extern u8 D_800B56E4[];
