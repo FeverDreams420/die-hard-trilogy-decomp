@@ -4815,7 +4815,77 @@ void func_8003F6D0(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F7D4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003FA60);
+typedef struct {
+    SVECTOR v[16];
+    u8 pad80[0x88];
+    s16 unk108[16];
+    u8 pad128[0x84];
+} Unk800462F0_Mesh;
+
+typedef struct {
+    u8 pad0[0x10];
+    SVECTOR unk10;
+} Unk8003FA60;
+
+extern Unk800462F0_Mesh *D_800B71B8;
+extern Unk800462F0_Obj *D_800B6E70;
+extern s16 D_800B6CF0;
+extern s16 D_800B63D0;
+extern s16 D_800B63C6;
+extern s16 D_800B63C8;
+extern SVECTOR *D_800B73B8;
+
+void func_8003FA60(void) {
+    s32 best = 0x8000;
+    s32 type = 0;
+    s32 idx = 0;
+    Unk8003FA60 *p = (Unk8003FA60 *)D_800B6DE0->vals;
+    Unk800462F0_Mesh *m;
+    Unk800462F0_Obj *o;
+    s16 i;
+    s16 j;
+    s16 mi;
+    s32 d;
+
+    i = 0x3F;
+    do {
+        m = &D_800B71B8[i];
+        for (j = 0; j < 15; j++) {
+            if (m->unk108[j] == 0) {
+                break;
+            }
+            d = func_8002576C(&m->v[j], &p->unk10);
+            if (d < best) {
+                best = d;
+                type = 1;
+                idx = j;
+                mi = i;
+            }
+        }
+    } while (i--);
+    i = 0xFF;
+    do {
+        if (D_800B6CF0 == -1 || D_800B6E70[i].unk14 == D_800B6CF0) {
+            o = &D_800B6E70[i];
+            if (o->unk12 == D_800B63D0 && o->unk16 != 0) {
+                d = func_8002576C((SVECTOR *)o, &p->unk10);
+                if (d < best) {
+                    best = d;
+                    type = 2;
+                    idx = i;
+                }
+            }
+        }
+    } while (i--);
+    if (best != 0x8000) {
+        D_800B63C6 = type;
+        D_800B63C8 = idx;
+        if (type == 1) {
+            D_800B6CF0 = mi;
+            D_800B73B8 = D_800B71B8[mi].v;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003FC9C);
 
@@ -5165,11 +5235,6 @@ void func_800462B4(void) {
         func_80042908(i, 0);
     }
 }
-
-typedef struct {
-    SVECTOR v[16];
-    u8 pad80[0x12C];
-} Unk800462F0_Mesh;
 
 extern Unk800462F0_Mesh *D_800B71B8;
 
