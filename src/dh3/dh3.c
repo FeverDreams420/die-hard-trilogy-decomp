@@ -1533,7 +1533,77 @@ void func_80029BB8(unsigned short *src) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029C08);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad1;
+    s16 x3, y3;
+    u8 u3, v3;
+    u16 pad2;
+} POLY_FT4;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1;
+    s32 xy3;
+    u16 uv3;
+    u16 pad2;
+} Unk80030328_Prim;
+
+typedef struct {
+    u32 uv0;
+    u32 uv1;
+    u16 uv2;
+    u16 uv3;
+    u8 padC[0x1C];
+} Unk8018CDD4;
+
+extern Unk80030328_Prim *D_800B5E0C;
+extern u8 D_8018CDD4[];
+extern u32 *D_800B62CC;
+void AddPrim(void *ot, void *p);
+
+void func_80029C08(void) {
+    POLY_FT4 *p;
+    Unk8018CDD4 *t;
+    s16 idx = 0x200;
+    s16 y;
+    s16 x;
+
+    for (y = 0; y < 8; y++) {
+        for (x = 0; x < 8; x++) {
+            p = (POLY_FT4 *)D_800B5E0C;
+            p->x0 = p->x2 = x * 17 + 16;
+            p->x1 = p->x3 = x * 17 + 32;
+            p->y0 = p->y1 = y * 17 + 16;
+            p->y2 = p->y3 = y * 17 + 32;
+            t = &((Unk8018CDD4 *)D_8018CDD4)[idx++];
+            *(u32 *)&p->u0 = t->uv0;
+            *(u32 *)&p->u1 = t->uv1;
+            *(u16 *)&p->u2 = t->uv2;
+            *(u16 *)&p->u3 = t->uv3;
+            D_800B5E0C = (Unk80030328_Prim *)(p + 1);
+            AddPrim(D_800B62CC + 5, p);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029D54);
 
@@ -1855,23 +1925,6 @@ void func_8002CF80(void) {
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002CFF8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002D190);
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s32 xy0;
-    u16 uv0;
-    u16 clut;
-    s32 xy1;
-    u16 uv1;
-    u16 tpage;
-    s32 xy2;
-    u16 uv2;
-    u16 pad1;
-    s32 xy3;
-    u16 uv3;
-    u16 pad2;
-} Unk80030328_Prim;
 
 typedef struct {
     SVECTOR *v[4];
@@ -3071,23 +3124,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80034AC8);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80034E24);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800351E8);
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    s16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    s16 x2, y2;
-    u8 u2, v2;
-    u16 pad1;
-    s16 x3, y3;
-    u8 u3, v3;
-    u16 pad2;
-} POLY_FT4;
 
 void func_80035540(POLY_FT4 *p, POLY_FT4 *q) {
     *(u32 *)&q->u0 = *(u32 *)&p->u0;
