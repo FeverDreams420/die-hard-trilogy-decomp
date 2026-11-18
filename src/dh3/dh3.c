@@ -1840,7 +1840,47 @@ void func_8002AC94(Unk8002AC94 *p, s16 on) {
     D_800B5DEC = 0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002AD34);
+typedef struct {
+    s32 x0;
+    s32 z0;
+    s32 x1;
+    s32 z1;
+} Unk8002AD34;
+
+extern u16 D_800B6024;
+extern u16 D_800B64C4;
+extern Unk8002AD34 D_801F7724[];
+extern Unk8002AD34 D_8018C780[];
+extern s16 D_800B571A;
+extern void func_8007633C(s32 x, s32 y, s32 value, s32 a3, s32 a4, u8 *a5, u8 *a6);
+extern u8 D_800B56D4[];
+
+s32 func_8002AD34(s32 x, s32 z) {
+    s16 i;
+
+    if (D_800B5D0C == 5) {
+        return 0;
+    }
+    i = D_800B6024;
+    while (i--) {
+        if (D_801F7724[i].x0 < x && x < D_801F7724[i].x1 && D_801F7724[i].z0 < z && z < D_801F7724[i].z1) {
+            if (D_800B571A != 0) {
+                func_8007633C(0x122, 0x28, i, 0x7D0, 0x7D0, D_800B56D4, D_800B56D4);
+            }
+            return 1;
+        }
+    }
+    i = D_800B64C4;
+    while (i--) {
+        if (D_8018C780[i].x0 < x && x < D_8018C780[i].x1 && D_8018C780[i].z0 < z && z < D_8018C780[i].z1) {
+            if (D_800B571A != 0) {
+                func_8007633C(0x122, 0x28, i, 0x7D0, 0x7D0, D_800B56D4, D_800B56D4);
+            }
+            return 2;
+        }
+    }
+    return 0;
+}
 
 typedef struct {
     SVECTOR *v[3];
