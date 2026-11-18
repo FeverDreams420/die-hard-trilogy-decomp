@@ -3595,7 +3595,44 @@ void func_8002D5AC(Unk8002B728_Face *f) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002D920);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002DCA0);
+void func_8002DCA0(Unk8002B728_Face *f) {
+    Unk8002B728_Prim *prim;
+    u16 *tex;
+    VECTOR v0;
+    VECTOR v1;
+    VECTOR v2;
+    VECTOR v3;
+
+    D_800B6F30 = RotTransPers4(f->v[2], f->v[3], f->v[0], f->v[1], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
+    if (D_800B7198 & ~0x1FFF) {
+        RotTrans(f->v[0], &v0, &D_800B7198);
+        RotTrans(f->v[1], &v1, &D_800B7198);
+        RotTrans(f->v[2], &v2, &D_800B7198);
+        RotTrans(f->v[3], &v3, &D_800B7198);
+        if (v0.vz < 0 && v1.vz < 0 && v2.vz < 0 && v3.vz < 0) {
+            return;
+        }
+        func_8002F144((s16 *)&D_800B6B90->xy0, &v3);
+        func_8002F144((s16 *)&D_800B6B90->xy1, &v2);
+        func_8002F144((s16 *)&D_800B6B90->xy3, &v1);
+        func_8002F144((s16 *)&D_800B6B90->xy2, &v0);
+        D_800B6F30 = 0x58;
+    }
+    prim = D_800B6B90;
+    tex = (u16 *)(D_8015EB78 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
+    *(s16 *)&prim->uv2 = tex[4];
+    *(s16 *)&prim->uv3 = tex[6];
+    prim->clut = tex[D_801F635C[(D_800B6F30 >> 7) + (f->clut & 0x700)]];
+    func_8002EDC4((POLY_FT4 *)prim, (POLY_FT4 *)(prim + 1));
+    D_800B6F30 += 0x40;
+    if (D_800B6F30 < 0x58) {
+        D_800B6F30 = 0x58;
+    }
+    AddPrim(D_800B7018 + (D_800B6F30 >> 3), D_800B6B90++);
+    AddPrim(D_800B7018 + (D_800B6F30 >> 3), D_800B6B90++);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002DF34);
 
