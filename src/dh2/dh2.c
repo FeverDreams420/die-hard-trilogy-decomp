@@ -8736,7 +8736,29 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006D640);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006D80C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006DC08);
+extern char D_8009361C[];
+extern char D_8009380C[];
+extern u8 D_800B63F0[];
+extern s32 D_800B6D64;
+s16 func_8006DE18(void);
+void func_8006D80C(void *p, s32 a, s32 b, s32 c);
+void func_8006CD80(void *p, s32 a);
+
+void func_8006DC08(void) {
+    void *p = D_800B6DE0->vals;
+
+    if (D_800B6AA0 != 9) {
+        func_800665B4();
+        D_800B6DC8 = func_8006DE18();
+        func_80076478(0xA0, 0x4B, func_80078980(D_8009361C), 0xA28, 0x800, D_800B63F0, D_800B63E8);
+        func_80076478(0xA0, 0x87, func_80078980(D_8009380C), 0xC80, 0x400, D_800B63E8, D_800B63F0);
+        func_8006D80C(p, 0, 0, 0);
+        func_8006CD80(p, 0);
+        if (*(volatile s32 *)&D_800B6D60 != 0 || D_800B6D64 != 0) {
+            D_800B7370->unk178E = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006DD40);
 
