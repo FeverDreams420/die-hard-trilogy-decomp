@@ -6779,7 +6779,32 @@ void func_80052818(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80052824);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80052C70);
+extern u8 D_800B56E4[];
+extern u8 D_800B56D8[];
+extern char D_80091A3C[];
+extern char D_80091A5C[];
+extern s32 D_800B5FC8;
+void func_80068DCC(void);
+void func_80052824(void *p, s32 a, s32 b, s32 c);
+void func_80051F74(void *p, s32 a, s32 b);
+
+void func_80052C70(void) {
+    void *p = D_800B604C->vals;
+
+    func_80051500();
+    func_80068DCC();
+    if (D_800B5D0C == 9) {
+        func_800728A4();
+        return;
+    }
+    func_800758C0(0xA0, 0x4B, func_80077DC8(D_80091A3C), 0xA28, 0x800, D_800B56E4, D_800B56D8);
+    func_800758C0(0xA0, 0x87, func_80077DC8(D_80091A5C), 0x800, 0x400, D_800B56D8, D_800B56E4);
+    func_80052824(p, 0, 0, 0);
+    func_80051F74(p, 0, 0);
+    if (*(volatile u32 *)D_800B5FC4 != 0 || D_800B5FC8 != 0) {
+        D_800B6614->unk178E = 0;
+    }
+}
 
 typedef struct {
     u8 pad0[0x1C];
