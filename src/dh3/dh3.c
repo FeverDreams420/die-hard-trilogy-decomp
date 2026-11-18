@@ -3324,7 +3324,62 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003AD48);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003B178);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003B40C);
+typedef struct {
+    VECTOR pos;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    s16 pad16;
+    s16 unk18;
+    s16 unk1A;
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+    s16 pad22;
+    u8 *unk24;
+    VECTOR unk28;
+    VECTOR unk38;
+    s16 unk48;
+    s16 unk4A;
+} Unk8003B40C;
+
+extern VECTOR D_801F76D0;
+void func_8003B178(void);
+struct Task *func_80072768(struct Task *parent, void (*fn)(), s16 size);
+s32 func_80074910(s32);
+
+void func_8003B40C(s16 x, s16 z, u8 *obj) {
+    struct Task *t;
+    Unk8003B40C *p;
+
+    D_801F76D0.vx = (x << 9) + 0x100;
+    D_801F76D0.vz = (z << 9) + 0x100;
+    t = func_80072768(D_801F80BC, func_8003B178, 0x4C);
+    if (t != NULL) {
+        obj[4] = 0;
+        p = (Unk8003B40C *)t->vals;
+        p->unk1E = func_80074910(100) + 50;
+        p->unk20 = (s16)func_80074910(2) * 0x800;
+        p->unk24 = obj;
+        p->unk4A = 0;
+        p->pos.vx = D_801F76D0.vx;
+        p->pos.vz = D_801F76D0.vz;
+        p->pos.vy = (s16)func_80028BF0(&p->pos);
+        p->unk28.vx = p->pos.vx;
+        p->unk28.vy = p->pos.vy;
+        p->unk28.vz = p->pos.vz;
+        p->unk38.vx = p->pos.vx;
+        p->unk38.vy = p->pos.vy;
+        p->unk38.vz = p->pos.vz;
+        p->unk48 = 0;
+        p->unk12 = 0;
+        p->unk10 = 0;
+        p->unk14 = 0;
+        p->unk18 = 200;
+        p->unk1A = 0;
+        p->unk1C = func_80074910(0x40);
+    }
+}
 
 void func_8003B540(s16 *angle, s16 *speed) {
     s16 i;
