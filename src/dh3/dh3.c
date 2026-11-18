@@ -9596,7 +9596,63 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006A7A4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006AB3C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006B170);
+typedef struct {
+    u8 pad0[0x80];
+    s32 unk80;
+    s32 unk84;
+    s32 unk88;
+    u8 pad8C[8];
+    s32 unk94[16];
+    s16 unkD4[16];
+    s16 unkF4[16];
+    s16 unk114[16];
+    s16 unk134[16];
+    s16 unk154[16];
+    s16 unk174[16];
+    s16 unk194[16];
+    s16 unk1B4[16];
+    s16 unk1D4;
+    s16 unk1D6;
+    s16 unk1D8;
+    s16 unk1DA;
+    s16 unk1DC;
+} Unk8006B170;
+
+void func_8006AB3C();
+
+void func_8006B170(SVECTOR *pos) {
+    struct Task *t = func_80072768(D_801F80B0[0], func_8006AB3C, 0x1E0);
+    Unk8006B170 *d;
+    s16 i;
+    s16 r;
+    s32 j;
+    s32 x;
+
+    if (t != NULL) {
+        t->flags = 3;
+        d = (Unk8006B170 *)t->vals;
+        d->unk80 = pos->vx;
+        d->unk84 = pos->vy;
+        d->unk88 = pos->vz;
+        i = 15;
+        do {
+            r = func_80074910(0x1000);
+            x = func_80071B7C(0x32, 0x32, r);
+            j = i;
+            d->unk94[j] = x;
+            d->unk174[j] = 1;
+            d->unk1DA = 0xC;
+            d->unkF4[j] = 0x100;
+            d->unk154[j] = func_80071B7C(6, 10, r);
+            d->unkD4[j] = j << 8;
+            d->unk114[j] = 0xF0;
+            d->unk194[j] = func_80074910(0x1000);
+            d->unk1B4[j] = func_80074910(10) + 10;
+            d->unk1D4 = 9;
+            d->unk1DC = 2;
+        } while (i--);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006B2B4);
 
