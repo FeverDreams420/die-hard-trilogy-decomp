@@ -6775,7 +6775,32 @@ void func_8005A018(s16 id, s16 arg) {
     p->unk1E = 1;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A0A4);
+void func_8005A0A4(s16 a) {
+    Unk8005A018 *p = &D_801F77E8[0];
+
+    p->unk2C = p->unk24;
+    if (a == D_800B7290) {
+        if (p->unk1E == 2) {
+            p->unk2C = p->unk24;
+            p->unk22 = -1;
+            p->unk1E = 1;
+            p->unk2E = p->unk2A;
+            if (p->unk20 == 3) {
+                p->unk20 = 1;
+            }
+        }
+    } else if (a != 1 || p->unk24 != 4) {
+        if (a == -1) {
+            p->unk2E = p->unk2A;
+        } else {
+            p->unk2E = a;
+        }
+        p->unk1E = 1;
+        if (p->unk20 != 0) {
+            p->unk20 = 1;
+        }
+    }
+}
 
 extern s16 D_801F780C;
 extern s16 D_801F7808;
