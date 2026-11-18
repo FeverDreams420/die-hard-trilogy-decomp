@@ -1600,7 +1600,50 @@ void func_8002AC94(Unk8002AC94 *p, s16 on) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002AD34);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002AF48);
+typedef struct {
+    SVECTOR *v[3];
+    u8 padC[6];
+    u16 unk12;
+    void (*unk14)(void);
+    u8 pad18[4];
+} Unk8002AF48_Face;
+
+typedef struct {
+    SVECTOR *verts;
+    u16 nverts;
+    u16 pad6;
+    Unk8002AF48_Face faces[1];
+} Unk8002AF48_Level;
+
+extern u8 D_800B8730[];
+void func_800391CC(void);
+
+s16 func_8002AF48(s16 step) {
+    Unk8002AF48_Face *f;
+    SVECTOR *v;
+    s16 n;
+    s16 ret = 0;
+
+    n = ((Unk8002AF48_Level *)D_800B8730)->nverts;
+    v = ((Unk8002AF48_Level *)D_800B8730)->verts;
+    while (n--) {
+        v->vy = func_8002881C(v->vy, 0, step);
+        if (v->vy > 0) {
+            ret = -1;
+        }
+        v++;
+    }
+    for (f = ((Unk8002AF48_Level *)D_800B8730)->faces; f->unk14 != NULL; f++) {
+        if (f->v[0]->vy == 0 && f->v[1]->vy == 0 && f->v[2]->vy == 0) {
+            f->unk14 = func_800391CC;
+        } else if ((f->unk12 & 0x3F) == 12) {
+            f->unk14 = func_800391CC;
+        } else if ((f->unk12 & 0x3F) == 13) {
+            f->unk14 = func_800391CC;
+        }
+    }
+    return ret;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002B08C);
 
