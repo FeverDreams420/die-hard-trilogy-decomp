@@ -3422,7 +3422,85 @@ void func_80034414(Unk80030328_Face *f) {
     D_800B63AC = prim;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80034768);
+void func_80034768(Unk80030328_Face *f) {
+    Unk80036008_Prim *prim = D_800B63AC;
+    u16 *tex;
+    VECTOR v0;
+    VECTOR v1;
+    VECTOR v2;
+    VECTOR v3;
+
+    if ((u32)((u8 *)prim - D_800B6334) > 0xD7DF) {
+        return;
+    }
+    if (RotNclip3(f->v[2], f->v[1], f->v[0], (s32 *)&prim->x0, (s32 *)&prim->x1, (s32 *)&prim->x2, &D_800B5CFC, &D_800B61CC, &D_800B642C) <= 0) {
+        return;
+    }
+    if (D_800B642C & ~0x1FFF) {
+        RotTrans(f->v[0], &v0, &D_800B642C);
+        RotTrans(f->v[1], &v1, &D_800B642C);
+        RotTrans(f->v[2], &v2, &D_800B642C);
+        if (v0.vz < 0 && v1.vz < 0 && v2.vz < 0) {
+            return;
+        }
+        func_800358C0((s32 *)&prim->x0, &v2);
+        func_800358C0((s32 *)&prim->x1, &v1);
+        func_800358C0((s32 *)&prim->x2, &v0);
+        D_800B61CC = v0.vz >> 2;
+        if (D_800B61CC < 0) {
+            D_800B61CC = 0;
+        }
+    } else {
+        if (prim->y0 > 0x1FE) {
+            prim->y0 = 0x1FE;
+        }
+        if (prim->y0 < -0x1F4) {
+            prim->y0 = -0x1F4;
+        }
+        if (prim->y1 > 0x1FE) {
+            prim->y1 = 0x1FE;
+        }
+        if (prim->y1 < -0x1F4) {
+            prim->y1 = -0x1F4;
+        }
+        if (prim->y2 > 0x1FE) {
+            prim->y2 = 0x1FE;
+        }
+        if (prim->y2 < -0x1F4) {
+            prim->y2 = -0x1F4;
+        }
+        if (prim->x0 > 0x26C) {
+            prim->x0 = 0x26C;
+        }
+        if (prim->x0 < -0x12C) {
+            prim->x0 = -0x12C;
+        }
+        if (prim->x1 > 0x26C) {
+            prim->x1 = 0x26C;
+        }
+        if (prim->x1 < -0x12C) {
+            prim->x1 = -0x12C;
+        }
+        if (prim->x2 > 0x26C) {
+            prim->x2 = 0x26C;
+        }
+        if (prim->x2 < -0x12C) {
+            prim->x2 = -0x12C;
+        }
+    }
+    if (D_800B61CC < 0x20 || D_800B61CC > 0x1770 || (D_800B642C & ~0x1FFF)) {
+        return;
+    }
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+    prim->uv2 = tex[4];
+    prim->clut = tex[D_801F6C20[(D_800B61CC >> 7) + (f->clut & 0x700)]];
+    SetPolyFT3(prim);
+    SetShadeTex(prim, 1);
+    AddPrim(D_800B62CC + (D_800B61CC >> 3), prim++);
+    D_800B63AC = prim;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80034AC8);
 
