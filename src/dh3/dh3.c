@@ -745,7 +745,33 @@ s16 func_80024428(void) {
     return *(volatile s32 *)D_800B64FC;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024444);
+typedef struct {
+    u8 data[0x28];
+} Unk8019990C_Poly;
+
+typedef struct {
+    u32 unk0;
+    Unk8019990C_Poly polys[2000];
+    u8 pad[0x1020];
+} Unk80199908;
+
+extern Unk80199908 D_80199908[2];
+
+void func_80024444(void) {
+    s16 i;
+    s16 j;
+    Unk8019990C_Poly *p;
+
+    i = 1;
+    do {
+        j = 1999;
+        do {
+            p = &D_80199908[i].polys[j];
+            SetPolyFT4(p);
+            SetShadeTex(p, 1);
+        } while (j--);
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024504);
 
