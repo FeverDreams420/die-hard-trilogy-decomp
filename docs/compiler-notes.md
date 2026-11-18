@@ -318,6 +318,8 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `sll`/`sra` on a call result before it is added or stored to a 32-bit field | The callee returns `s32`; cast at the call, `(s16)f(p)`. A callee declared `s16` is trusted to be extended already (DH3 `func_80028BF0`, 0x8004C828, 0x80059744) |
 | A frame larger than the saved registers, nothing stored in it | Unused `VECTOR`/`SVECTOR` locals of the right total size (DH3 0x80022604, 0x8004C828). A leaf with a bare 16-byte frame matched with no local at all (0x80054A04); `if (0) call()` and `u8 unused[16]` gave 32 |
 | A global pointer reloaded on every loop pass from an address hoisted into a register | Wrap it in a struct (`D_800B853C.ent[...]`); struct-to-struct accesses can alias the loop's field stores (DH3 0x8002CED0) |
+| A frame 8 bytes larger than the original | `(SVECTOR *)&scalar` makes the scalar addressable; some nested `if`s also cost 8. Use real locals and early returns (DH3 0x8003E25C) |
+| An `s16` argument passed on without `sll`/`sra` where the original extends it | Cast at the call, `f((s16)(k * 85))` (DH2 0x8004FC84) |
 | `lhu` of a constant table scheduled after unrelated struct stores | A plain (non-`const`) `u16` array, read as `[2]` and `[0]`; `const` scalars are hoisted above the stores (DH3 0x8002C58C) |
 | `bnez` to the body, fall-through `j` to the epilogue with `v0 = 0` in the delay slot | `if (t != NULL) { ...; return -1; } return 0;` rather than an early `return 0` (DH3 0x80059744, DH2 0x800256A4) |
 | A sum kept in `v0` instead of overwriting the argument's saved register | Split it: `k = f(n); k += n;` (DH2 0x80057734) |
