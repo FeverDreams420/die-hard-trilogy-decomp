@@ -3581,9 +3581,75 @@ void func_80034AC8(Unk80030328_Face *f) {
     D_800B63AC = prim;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80034E24);
+s32 func_800857A8(s32 xy0, s32 xy1, s32 xy2);
+s16 func_8004ED7C(Unk80030328_Prim *p);
 
-s16 func_8004ED7C(void);
+void func_80034E24(Unk80030328_Face *f) {
+    Unk80030328_Prim *prim;
+    Unk80036008_Prim *t;
+    u16 *tex;
+    VECTOR v0;
+    VECTOR v1;
+    VECTOR v2;
+    VECTOR v3;
+
+    D_800B61CC = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B5E0C->xy0, &D_800B5E0C->xy1, &D_800B5E0C->xy3, &D_800B5E0C->xy2, &D_800B5CFC, &D_800B642C);
+    if (D_800B642C & ~0x1FFF) {
+        RotTrans(f->v[0], &v0, &D_800B642C);
+        RotTrans(f->v[1], &v1, &D_800B642C);
+        RotTrans(f->v[2], &v2, &D_800B642C);
+        RotTrans(f->v[3], &v3, &D_800B642C);
+        if (v0.vz < 0 && v1.vz < 0 && v2.vz < 0 && v3.vz < 0) {
+            return;
+        }
+        func_800358C0(&D_800B5E0C->xy0, &v3);
+        func_800358C0(&D_800B5E0C->xy1, &v2);
+        func_800358C0(&D_800B5E0C->xy3, &v1);
+        func_800358C0(&D_800B5E0C->xy2, &v0);
+        D_800B61CC = v0.vz >> 2;
+        if (D_800B61CC < 0) {
+            D_800B61CC = 0;
+        }
+    }
+    if (D_800B61CC < 0x20 || D_800B61CC > 0x1770 || (D_800B642C & ~0x1FFF)) {
+        return;
+    }
+    if (func_800857A8(D_800B5E0C->xy0, D_800B5E0C->xy1, D_800B5E0C->xy3) <= 0) {
+        return;
+    }
+    prim = D_800B5E0C;
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 8);
+    *(s16 *)&prim->uv2 = tex[4];
+    *(s16 *)&prim->uv3 = tex[5];
+    prim->clut = tex[D_801F6C20[(D_800B61CC >> 7) + (f->clut & 0x700)]];
+    switch (func_8004ED7C(prim)) {
+    case 1:
+        t = D_800B63AC;
+        *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
+        *(u32 *)&t->uv1 = *(u32 *)&D_800B5E0C->uv1;
+        *(u32 *)&t->uv2 = *(u32 *)&D_800B5E0C->uv2;
+        *(s32 *)&t->x0 = D_800B5E0C->xy0;
+        *(s32 *)&t->x1 = D_800B5E0C->xy1;
+        *(s32 *)&t->x2 = D_800B5E0C->xy2;
+        SetPolyFT3(t);
+        SetShadeTex(t, 1);
+        if (D_800B61CC < 0x58) {
+            D_800B61CC = 0x58;
+        }
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), t++);
+        D_800B63AC = t;
+        break;
+    case 0:
+        func_80035540((POLY_FT4 *)D_800B5E0C, (POLY_FT4 *)(D_800B5E0C + 1));
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), D_800B5E0C++);
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), D_800B5E0C++);
+        break;
+    }
+}
+
+s16 func_8004ED7C(Unk80030328_Prim *p);
 void func_800358C0(s32 *xy, VECTOR *v);
 
 void func_800351E8(Unk80030328_Face *f) {
@@ -3621,7 +3687,7 @@ void func_800351E8(Unk80030328_Face *f) {
     *(s16 *)&prim->uv2 = tex[5];
     prim->tpage = tex[3];
     prim->clut = tex[(f->clut >> 8) + 12];
-    switch (func_8004ED7C()) {
+    switch (func_8004ED7C(prim)) {
     case 1:
         t = D_800B63AC;
         *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
@@ -4112,7 +4178,7 @@ void func_80036A80(Unk80030328_Face *f) {
     AddPrim(D_800B62CC + (D_800B61CC >> 3), D_800B5E0C++);
 }
 
-s16 func_8004ED7C(void);
+s16 func_8004ED7C(Unk80030328_Prim *p);
 
 void func_80036CFC(Unk80030328_Face *f) {
     Unk80030328_Prim *prim;
@@ -4148,7 +4214,7 @@ void func_80036CFC(Unk80030328_Face *f) {
     *(s16 *)&prim->uv2 = tex[4];
     *(s16 *)&prim->uv3 = tex[5];
     prim->clut = tex[(f->clut >> 8) + 12];
-    switch (func_8004ED7C()) {
+    switch (func_8004ED7C(prim)) {
     case 1:
         t = D_800B63AC;
         *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
@@ -4208,7 +4274,7 @@ void func_80037048(Unk80030328_Face *f) {
     *(s16 *)&prim->uv2 = tex[5];
     prim->tpage = tex[3];
     prim->clut = tex[(f->clut >> 8) + 12];
-    switch (func_8004ED7C()) {
+    switch (func_8004ED7C(prim)) {
     case 1:
         t = D_800B63AC;
         *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
@@ -4272,7 +4338,7 @@ void func_800373A0(Unk80030328_Face *f) {
     *(s16 *)&prim->uv2 = tex[4];
     *(s16 *)&prim->uv3 = tex[5];
     prim->clut = tex[(f->clut >> 8) + 12];
-    switch (func_8004ED7C()) {
+    switch (func_8004ED7C(prim)) {
     case 1:
         t = D_800B63AC;
         *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
@@ -4370,7 +4436,7 @@ void func_80037984(Unk80030328_Face *f) {
     *(s16 *)&prim->uv2 = tex[4];
     *(s16 *)&prim->uv3 = tex[5];
     prim->clut = tex[(f->clut >> 8) + 12];
-    switch (func_8004ED7C()) {
+    switch (func_8004ED7C(prim)) {
     case 1:
         t = D_800B63AC;
         *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
