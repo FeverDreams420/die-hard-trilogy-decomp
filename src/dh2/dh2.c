@@ -7789,7 +7789,49 @@ void func_800663D0(s16 voice) {
     SpuSetKey(0, bit);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066474);
+extern s16 D_800B72A8;
+extern s16 D_800B6C50;
+extern u8 D_800B7228;
+extern u32 D_800B6FA8;
+extern SpuVolume D_801F9548[];
+void SpuSetKey(long on_off, unsigned long voice_bit);
+void SpuSetVoiceAttr(SpuVoiceAttr *arg);
+
+void func_80066474(void) {
+    SpuVoiceAttr attr;
+    s16 i;
+
+    D_800B72A8 = -1;
+    D_800B6C50 = 0;
+    D_800B6FA8 = 0;
+    D_800B7228 = 0;
+    D_800B6F88 = -1;
+    D_800B6E40 = 0;
+    i = 0x17;
+    do {
+        D_801D9DAC[i].state = -1;
+        D_801D9DAC[i].unk28 = 0;
+        D_801F9548[i].left = 0;
+        D_801F9548[i].right = 0;
+    } while (i--);
+    D_800B7020 = 0;
+    SpuSetKey(0, 0xFFFFFF);
+    attr.mask = 0xFF93;
+    attr.voice = 0xFFFFFF;
+    attr.volume.left = 0x3FFF;
+    attr.volume.right = 0x3FFF;
+    attr.pitch = 0x1000;
+    attr.a_mode = 1;
+    attr.s_mode = 1;
+    attr.r_mode = 3;
+    attr.ar = 0;
+    attr.dr = 0;
+    attr.sr = 0;
+    attr.rr = 0;
+    attr.sl = 15;
+    SpuSetVoiceAttr(&attr);
+    D_800B72A8 = 0;
+}
 
 extern u32 D_800B6FA8;
 void SpuSetKey(long on_off, unsigned long voice_bit);
