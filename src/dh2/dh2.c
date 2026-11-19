@@ -6889,10 +6889,29 @@ void func_8003F314(s32 id, s16 from, s32 to) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F408);
 
-void func_8003F528(void) {
+void func_8003F528(void *addr, s32 size, char *name) {
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F530);
+typedef struct {
+    char s[9];
+} Unk8003F530_Name;
+
+extern Unk8003F530_Name D_8008818C;
+extern Unk8003F530_Name D_80088198;
+extern Unk8003F530_Name D_800881A4;
+
+void func_8003F530(s32 n) {
+    Unk8003F530_Name a = D_8008818C;
+    Unk8003F530_Name b = D_80088198;
+    Unk8003F530_Name c = D_800881A4;
+
+    a.s[3] = n + '0';
+    b.s[3] = n + '0';
+    c.s[3] = n + '0';
+    func_8003F528(D_800B71B8, 0x6B00, a.s);
+    func_8003F528(D_800B7100, 0x6000, b.s);
+    func_8003F528(D_800B6E70, 0x1C00, c.s);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F624);
 
