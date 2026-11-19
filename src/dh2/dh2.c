@@ -5445,7 +5445,26 @@ typedef struct {
     s16 unk0;
 } Unk80034BA0;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034BA0);
+void func_80034BA0(void) {
+    s16 i = 9;
+    Unk80034BA0 *p = (Unk80034BA0 *)D_800B6DE0->vals;
+
+    do {
+        func_800341A4(D_800B7288);
+        func_800345AC(D_800B7288);
+        if (++D_800B7288 == (s32)D_800B7038) {
+            p->unk0 = 0;
+            func_80072B00(D_800B6BC8, D_800B7430 + 0x2D);
+            D_800B72C8 = func_8003CF4C;
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_80072884;
+            }
+            return;
+        }
+    } while (i--);
+}
 
 void func_80034C88(SVECTOR *pos, SVECTOR *vel, s32 count, s32 scale) {
     s32 unused;
