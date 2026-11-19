@@ -52,6 +52,7 @@ struct Task {
     u8 unk2F;
 };
 extern struct Task *D_800B6DE0;
+extern void (*D_800B7350)(void);
 
 typedef struct {
     s16 unk0;
@@ -1780,7 +1781,25 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6374);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023920);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023A68);
+extern s16 D_800B6B08;
+extern s16 D_800B6AF8;
+void func_8002378C(void);
+
+void func_80023A68(void) {
+    struct Task *t;
+
+    if (D_800B6B08 == 6) {
+        D_800B6AF8 = 1;
+        t = D_800B6DE0;
+        if (t->func == D_800B7350) {
+            TRAP();
+        } else {
+            t->func = func_8002378C;
+        }
+    }
+}
+
+void func_8003DAC4(void);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023AC0);
 
@@ -5115,7 +5134,6 @@ void func_80033E54(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033F74);
 
-extern void (*D_800B7350)(void);
 void func_80033F74(void);
 
 void func_80034154(void) {
@@ -7207,6 +7225,13 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6604);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F8B8);
 
+void func_8004F8B8(void);
+
+typedef struct {
+    u8 pad0[0x40];
+    s32 unk40;
+} Unk8004F9B4;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F9B4);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004FA04);
@@ -7711,6 +7736,8 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B661C);
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B662C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005418C);
+
+void func_8005418C(void);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005472C);
 
@@ -8904,6 +8931,13 @@ void func_80064394(void) {
     }
 }
 
+void func_80064394(void);
+
+typedef struct {
+    u8 pad0[0x32];
+    s16 unk32;
+} Unk800643F0;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800643F0);
 
 typedef struct {
@@ -8945,6 +8979,13 @@ void func_80064454(void) {
         func_8003DD54();
     }
 }
+
+void func_80064454(void);
+
+typedef struct {
+    u8 pad0[0x32];
+    s16 unk32;
+} Unk800645A8;
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800645A8);
 
