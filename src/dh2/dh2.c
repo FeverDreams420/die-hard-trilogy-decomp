@@ -9909,7 +9909,39 @@ void func_8006B800(SVECTOR *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006B95C);
+void func_8006B95C(SVECTOR *pos) {
+    Unk8003BA6C_Task *t = func_8007307C(func_8006B2C4, 3, 0x168);
+    Unk8006B800 *d;
+    s16 i;
+    s16 r;
+    s32 j;
+    s32 x;
+
+    if (t != NULL) {
+        d = (Unk8006B800 *)t->data;
+        func_800658EC(0x3E);
+        d->pos.vx = pos->vx;
+        d->pos.vy = pos->vy;
+        d->pos.vz = pos->vz;
+        i = 11;
+        do {
+            r = func_800754C8(0x1000);
+            x = func_80072734(6, 8, r);
+            j = i;
+            d->unk114[j] = x;
+            d->unk164 = 6;
+            d->unk6C[j] = func_80072734(0x28, 0x28, r);
+            d->unkFC[j] = func_80072734(0xF, 0x1E, r);
+            d->unk9C[j] = j * 341;
+            d->unkCC[j] = 0xF0;
+            d->unkB4[j] = 0x80;
+            d->unk12C[j] = func_800754C8(0x1000);
+            d->unk144[j] = func_800754C8(10) + 10;
+            d->unk15C = 7;
+            d->unk162 = 0x28;
+        } while (i--);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006BAC0);
 
