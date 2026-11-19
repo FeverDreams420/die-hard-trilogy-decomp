@@ -8004,7 +8004,23 @@ typedef struct {
     s16 unk130;
 } Unk80056DD4;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056DD4);
+void func_80056DD4(void) {
+    s16 i = 15;
+    Unk80056DD4 *p = (Unk80056DD4 *)D_800B6DE0->vals;
+
+    do {
+        func_8005673C(i);
+    } while (i--);
+    p->unk128 = 1;
+    p->unk12A = 0;
+    p->unk12C = -0x400;
+    p->unk130 = 1;
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_80056974;
+    }
+}
 
 typedef struct {
     u8 pad0[0x100];
