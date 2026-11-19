@@ -378,7 +378,7 @@ extern s16 D_800B6FD8;
 extern s16 D_800B63DC;
 extern s16 D_800B6E68;
 extern s16 D_800B6D38;
-extern s16 D_800B6C30;
+extern u16 D_800B6C30;
 extern s16 D_800B6C68;
 extern s16 D_800B7030;
 extern Unk800B7370 *D_800B7370;
@@ -6312,7 +6312,61 @@ void func_8003D890(s16 n) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003D8D4);
+typedef struct {
+    s16 unk0;
+    u8 pad2[0xA];
+    s16 unkC;
+} Unk8003D8D4;
+
+extern long SpuIsTransferCompleted(long flag);
+void func_80066F18(void);
+void func_80066ECC(s32 vol, s32 pan);
+s32 func_8006704C();
+
+void func_8003D8D4(void) {
+    Unk8003D8D4 *p = (Unk8003D8D4 *)D_800B6DE0->vals;
+
+    D_800B73C8 = 1;
+    if (p->unk0 == 0) {
+        func_80066474();
+        func_80066F18();
+        D_800B6C10 = 15;
+        func_80066ECC(0x3FFF, 0);
+        func_8006704C(0, D_800B71F0);
+        p->unk0 = 1;
+    } else if (SpuIsTransferCompleted(0)) {
+        D_800B6C30 = 0xFFFF;
+        p->unk0 = 0;
+        D_800B73C8 = 2;
+        if (D_800B6E68) {
+            func_80072B00(D_800B6BC8, D_800B7430 + 0x2D);
+            D_800B72C8 = func_8003CF4C;
+        } else {
+            func_80072B00(D_8019B140, 0x45);
+            D_800B72C8 = func_8003D858;
+        }
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_80072884;
+        }
+    } else if (++p->unkC > 60) {
+        D_800B6C30 = 0xFFFF;
+        p->unk0 = 0;
+        if (D_800B6E68) {
+            func_80072B00(D_800B6BC8, D_800B7430 + 0x2D);
+            D_800B72C8 = func_8003CF4C;
+        } else {
+            func_80072B00(D_8019B140, 0x45);
+            D_800B72C8 = func_8003D858;
+        }
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_80072884;
+        }
+    }
+}
 
 extern s16 D_800B6C10;
 extern s16 D_800B73D0;
@@ -6320,7 +6374,7 @@ extern s32 D_800B63AC;
 extern s16 D_800B6B18;
 extern s32 D_800BDB04[];
 extern s32 D_800BDF04[];
-extern s16 D_800B6C30;
+extern u16 D_800B6C30;
 void func_800336C0(void);
 void func_8003D8D4(void);
 
