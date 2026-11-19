@@ -5115,7 +5115,19 @@ void func_80033E54(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033F74);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034154);
+extern void (*D_800B7350)(void);
+void func_80033F74(void);
+
+void func_80034154(void) {
+    struct Task *t = D_800B6DE0;
+
+    *(s16 *)t->vals = 0x20;
+    if (t->func == D_800B7350) {
+        TRAP();
+    } else {
+        t->func = func_80033F74;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800341A4);
 
