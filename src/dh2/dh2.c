@@ -354,7 +354,98 @@ void func_8001E844(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001E890);
+typedef struct {
+    u8 maps[8][0x2F0];
+    s16 unk1780;
+    u8 pad1782[2];
+    s16 unk1784;
+    s16 unk1786;
+    s16 unk1788;
+    s16 unk178A;
+    s16 unk178C;
+    s16 unk178E;
+} Unk800B7370;
+
+extern void SetFogFar(long a, long h);
+extern void SetGraphDebug(int level);
+void func_80066474(void);
+void func_80070C98(void);
+void func_8003D6D4(void);
+void func_80025E38(void);
+void func_80031B9C(void);
+void func_80023AC0(void);
+extern s16 D_800B6FD8;
+extern s16 D_800B63DC;
+extern s16 D_800B6E68;
+extern s16 D_800B6D38;
+extern s16 D_800B6C30;
+extern s16 D_800B6C68;
+extern s16 D_800B7030;
+extern Unk800B7370 *D_800B7370;
+extern Unk800B6F00 *D_800B6F00;
+extern s16 D_800B6AA0;
+extern s16 D_800B6CE0;
+extern s32 D_800B6CC8;
+extern s32 D_800B6D08;
+extern s32 D_800B6A6C;
+extern s32 D_800B6C48;
+extern u8 D_800B71D0;
+extern s16 D_800B72A0;
+extern s16 D_800B6AD8;
+extern s16 D_800B7238;
+extern s16 D_800B7250;
+extern s16 D_800B6E48;
+extern s16 D_800B7430;
+extern s16 D_800B7260;
+extern s16 D_800B73A0;
+extern s16 D_800B67DE;
+extern s16 D_800B7110;
+extern s16 D_800B70C8;
+
+void func_8001E890(void) {
+    SVECTOR unused;
+
+    D_800B6FD8 = 0;
+    D_800B63DC = 0;
+    SsUtReverbOff();
+    func_80066474();
+    SetFogFar(0x10400, 0xFF);
+    D_800B6E68 = 0;
+    D_800B6D38 = 0;
+    D_800B6C30 = 0;
+    D_800B6C68 = 0;
+    D_800B7030 = 0;
+    D_800B7370 = (Unk800B7370 *)0x80011000;
+    func_80070C98();
+    D_800B6F00 = (Unk800B6F00 *)&D_800B7370->maps[D_800B7370->unk1780][0x2B0];
+    func_8003D6D4();
+    D_800B6AA0 = 2;
+    D_800B6CE0 = 0;
+    D_800B6CC8 = 0;
+    D_800B6D08 = 0;
+    D_800B6A6C = 0;
+    D_800B6C48 = 0;
+    D_800B71D0 = 0;
+    func_80025E38();
+    SetGraphDebug(0);
+    D_800B72A0 = 0;
+    D_800B6AD8 = 0;
+    D_800B7238 = 2;
+    D_800B7250 = 1;
+    D_800B7350 = (void (*)(void))-1;
+    func_80031B9C();
+    D_800B6E48 = -1;
+    D_800B7430 = D_800B7260;
+    D_800B70C8 = D_800B7370->maps[D_800B7370->unk1780][0xF];
+    D_800B73A0 = 2;
+    D_800B67DE = 0;
+    D_800B7110 = 0;
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_80023AC0;
+    }
+}
 
 s32 func_8001EA74(void) {
     return 0x39;
@@ -2205,18 +2296,6 @@ s32 func_80024664(s16 n) {
     }
     return 0;
 }
-
-typedef struct {
-    u8 maps[8][0x2F0];
-    s16 unk1780;
-    u8 pad1782[2];
-    s16 unk1784;
-    s16 unk1786;
-    s16 unk1788;
-    s16 unk178A;
-    s16 unk178C;
-    s16 unk178E;
-} Unk800B7370;
 
 extern Unk800B7370 *D_800B7370;
 extern s16 D_800B70E8;
