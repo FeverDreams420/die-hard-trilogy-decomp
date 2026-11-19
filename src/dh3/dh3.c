@@ -8310,7 +8310,8 @@ void func_800517DC(void) {
 }
 
 typedef struct {
-    u8 pad0[0x20];
+    u8 pad0[0x1C];
+    void *menu;
     s16 unk20[6];
     s16 unk2C[6];
     s16 unk38;
@@ -12517,11 +12518,11 @@ void func_800706A8(Unk80055074 *obj) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800706F0);
 
-extern void func_800708F0(s32, s32);
+s32 func_800708F0(Unk800517F0 *obj, s32 arg1);
 
-void func_800708C8(s32 arg0, s16 arg1) {
+void func_800708C8(Unk800517F0 *obj, s16 arg1) {
     D_800B63E4 = arg1;
-    func_800708F0(arg0, 0);
+    func_800708F0(obj, 0);
 }
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B59A4);
@@ -12552,7 +12553,50 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B59FC);
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B5A0C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800708F0);
+extern u8 D_80093F54[];
+extern u8 D_80093D34[];
+extern u8 D_80093FDC[];
+extern long format(char *fs);
+
+s32 func_800708F0(Unk800517F0 *obj, s32 arg1) {
+    char unused[128];
+    s16 a;
+    s16 b;
+
+    func_8001F444();
+    func_8006FE34();
+    a = func_8006FF3C(0);
+    b = func_8006FF3C(0x10);
+    if (D_800B63E4 == 1) {
+        b = 0;
+    } else if (D_800B63E4 == 2) {
+        a = 0;
+    }
+    if (a == 0 && b == 0) {
+        func_8006FFF4();
+        obj->menu = D_80093F54;
+        func_800517F0(obj);
+        func_8001F39C();
+        return 0;
+    }
+    if (a != 0 && b != 0) {
+        func_8006FFF4();
+        obj->menu = D_80093D34;
+        func_800517F0(obj);
+        func_8001F39C();
+        return 0;
+    }
+    if (a != 0) {
+        format("bu00:");
+    } else {
+        format("bu10:");
+    }
+    obj->menu = D_80093FDC;
+    func_800517F0(obj);
+    func_8001F39C();
+    func_8006FFF4();
+    return -1;
+}
 
 extern long D_800B5C9C;
 extern long D_800B5CA4;
