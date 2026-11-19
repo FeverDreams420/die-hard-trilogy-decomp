@@ -8622,7 +8622,55 @@ void func_80059394(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80059440);
+typedef struct {
+    u8 pad0[0x124];
+    SVECTOR pos;
+    s16 unk12C;
+    s16 unk12E;
+    SVECTOR unk130;
+    SVECTOR vel;
+    s16 unk140;
+    s16 unk142;
+    u8 pad144[4];
+    s16 unk148;
+    s16 unk14A;
+} Unk80059440;
+
+extern void *D_801F9A68;
+void func_80033518(SVECTOR *v);
+void func_8005BFCC();
+
+void func_80059440(void) {
+    Unk80059440 *p = (Unk80059440 *)D_800B6DE0->vals;
+    s16 n;
+
+    if ((u32)D_801F7548 >= 8) {
+        D_800B72E8.vx = p->pos.vx;
+        D_800B72E8.vz = p->pos.vz;
+        D_800B72E8.vy = p->pos.vy + (p->unk12E * p->unk14A >> 12);
+        func_8001F90C(D_801F9A68, &D_800B72E8, &p->unk130, 0);
+        func_8005BFCC(p, &D_800B72E8);
+        func_8005B9F0((Unk80059394 *)p);
+        n = D_800B639E;
+        while (n--) {
+            p->unk12E += p->unk148;
+            p->unk148--;
+            p->pos.vx += p->vel.vx;
+            p->pos.vy += p->vel.vy;
+            p->pos.vz += p->vel.vz;
+            p->unk130.vx += p->unk140;
+            p->unk130.vy += p->unk142;
+            if (--p->unk12C == 0) {
+                func_80033518(&p->pos);
+                if (D_800B6DE0->func == D_800B7350) {
+                    TRAP();
+                } else {
+                    D_800B6DE0->func = func_80059394;
+                }
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800595DC);
 
