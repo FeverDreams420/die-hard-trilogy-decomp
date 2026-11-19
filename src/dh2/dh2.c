@@ -3752,7 +3752,60 @@ void func_8002DF34(Unk8002B728_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002E2A8);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    u8 r1, g1, b1, p1;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    u8 r2, g2, b2, p2;
+    s32 xy2;
+    u16 uv2;
+    u16 pad2;
+    u8 r3, g3, b3, p3;
+    s32 xy3;
+    u16 uv3;
+    u16 pad3;
+} Unk8002E2A8_Prim;
+
+extern void SetPolyGT4(void *p);
+
+void func_8002E2A8(Unk8002B728_Face *f) {
+    Unk8002E2A8_Prim *prim = D_800B7140;
+    Unk8002E2A8_Prim *start = prim;
+    u16 *tex;
+
+    if ((u8 *)prim - D_800B70A8 > 0xD7CB) {
+        return;
+    }
+    D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800B6A90, &D_800B7198);
+    tex = (u16 *)(D_8015EB78 + f->tex);
+    prim->uv0 = tex[0];
+    *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
+    prim->uv2 = tex[4];
+    prim->uv3 = tex[6];
+    prim->clut = tex[D_801F635C[(D_800B6F30 >> 7) + (f->clut & 0x700)]];
+    prim->r0 = 0;
+    prim->g0 = 0;
+    prim->b0 = 0;
+    prim->r1 = 0;
+    prim->g1 = 0;
+    prim->b1 = 0;
+    prim->r2 = 0x80;
+    prim->g2 = 0x80;
+    prim->b2 = 0x80;
+    prim->r3 = 0x80;
+    prim->g3 = 0x80;
+    prim->b3 = 0x80;
+    SetPolyGT4(prim);
+    prim++;
+    AddPrim(D_800B7018 + (D_800B6F30 >> 3), start);
+    D_800B7140 = prim;
+}
 
 typedef struct {
     u32 tag;
