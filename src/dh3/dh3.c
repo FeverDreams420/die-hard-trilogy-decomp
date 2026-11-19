@@ -6818,7 +6818,67 @@ void func_80047FF8(SVECTOR *a, SVECTOR *b, SVECTOR *out) {
     out->vz = a->vz + b->vz;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048038);
+typedef struct {
+    int *p;
+    int pad[3];
+} Entry16;
+
+extern Entry16 *D_800B66AC;
+
+typedef struct {
+    u8 pad[0x20];
+    SVECTOR pt[8];
+    u8 pad60[0x78];
+} Unk80048038_Ent;
+
+typedef struct {
+    u8 pad[4];
+    u16 count;
+    u8 pad6[0x12];
+    Unk80048038_Ent ent[1];
+} Unk80048038_Obj;
+
+void func_80048038(s16 id) {
+    Unk80048038_Obj *obj = (Unk80048038_Obj *)D_800B66AC[id].p;
+    SVECTOR d;
+    s16 n = obj->count;
+
+    while (n--) {
+        SVECTOR *pt = obj->ent[n].pt;
+
+        func_80029060((s16 *)&pt[0], (s16 *)&pt[1], 0x800, (s16 *)&d);
+        func_80029060((s16 *)&pt[0], (s16 *)&d, 0x200, (s16 *)&pt[0]);
+        func_80029060((s16 *)&pt[1], (s16 *)&d, 0x200, (s16 *)&pt[1]);
+        func_80029060((s16 *)&pt[2], (s16 *)&pt[3], 0x800, (s16 *)&d);
+        func_80029060((s16 *)&pt[2], (s16 *)&d, 0x200, (s16 *)&pt[2]);
+        func_80029060((s16 *)&pt[4], (s16 *)&pt[5], 0x800, (s16 *)&d);
+        func_80029060((s16 *)&pt[4], (s16 *)&d, 0x200, (s16 *)&pt[4]);
+        func_80029060((s16 *)&pt[5], (s16 *)&d, 0x200, (s16 *)&pt[5]);
+        func_80029060((s16 *)&pt[6], (s16 *)&pt[7], 0x800, (s16 *)&d);
+        func_80029060((s16 *)&pt[6], (s16 *)&d, 0x200, (s16 *)&pt[6]);
+        func_80029060((s16 *)&pt[0], (s16 *)&pt[4], 0x400, (s16 *)&d);
+        d.vx = pt[0].vx - d.vx;
+        d.vy = pt[0].vy - d.vy;
+        d.vz = pt[0].vz - d.vz;
+        func_80047FF8(&d, &pt[0], &pt[0]);
+        func_80047FF8(&d, &pt[1], &pt[1]);
+        func_80047FF8(&d, &pt[2], &pt[2]);
+        func_80047FF8(&d, &pt[3], &pt[3]);
+        d.vx = -d.vx;
+        d.vy = -d.vy;
+        d.vz = -d.vz;
+        func_80047FF8(&d, &pt[4], &pt[4]);
+        func_80047FF8(&d, &pt[5], &pt[5]);
+        func_80047FF8(&d, &pt[6], &pt[6]);
+        func_80047FF8(&d, &pt[7], &pt[7]);
+        func_80029060((s16 *)&pt[2], (s16 *)&pt[3], 0x800, (s16 *)&d);
+        func_80029060((s16 *)&pt[2], (s16 *)&d, 0x400, (s16 *)&pt[2]);
+        func_80029060((s16 *)&pt[3], (s16 *)&d, 0x400, (s16 *)&pt[3]);
+        func_80029060((s16 *)&pt[6], (s16 *)&pt[7], 0x800, (s16 *)&d);
+        func_80029060((s16 *)&pt[6], (s16 *)&d, 0x400, (s16 *)&pt[6]);
+        func_80029060((s16 *)&pt[7], (s16 *)&d, 0x400, (s16 *)&pt[7]);
+    }
+}
 
 typedef struct {
     s32 v0;
@@ -6856,12 +6916,6 @@ void func_80048360(Unk80048360 *f) {
 }
 
 extern s16 D_800B60F4;
-typedef struct {
-    int *p;
-    int pad[3];
-} Entry16;
-
-extern Entry16 *D_800B66AC;
 extern u8 D_801FA350[];
 extern s32 D_801C1A34[];
 extern Unk80048360 D_80092C88;
