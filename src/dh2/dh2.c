@@ -7970,7 +7970,21 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80057298);
 
 void func_80057298(void);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80057660);
+void func_80057660(void) {
+    Unk80057220 *p = (Unk80057220 *)D_800B6DE0->vals;
+    s16 i = 29;
+
+    do {
+        p->a[i].unk6 = 0;
+        p->b[i].unk6 = 0;
+    } while (i--);
+    p->unk3C0 = 0;
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_80057298;
+    }
+}
 
 void func_800576D8(SVECTOR *a, SVECTOR *b, SVECTOR *out) {
     out->vx = b->vx - a->vx;
