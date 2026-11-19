@@ -80,6 +80,12 @@ typedef struct {
 } Unk800462F0_Mesh;
 
 typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+} Unk8002A35C;
+
+typedef struct {
     s16 unk0;
     s16 unk2;
 } Unk8003BA6C_Data;
@@ -482,7 +488,41 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80020030);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80020278);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80020444);
+extern s32 D_801F9A5C[];
+extern s32 *D_800B71F0;
+s32 func_80024F60(s32 size);
+s32 func_80020278(void *, s16);
+u32 func_80072780(void *data, s16 i);
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s32 unk4;
+    void *unk8;
+} Unk80020444;
+
+void func_80020444(void) {
+    Unk80020444 *p = (Unk80020444 *)D_800B6DE0->vals;
+    s16 n = 0;
+
+    do {
+        if (func_80072780(p->unk8, p->unk2) < 8) {
+            D_801F9A5C[p->unk2] = 0;
+        } else {
+            n++;
+            D_801F9A5C[p->unk2] = func_80020278(p->unk8, p->unk2);
+        }
+        if (++p->unk2 == *(s32 *)p->unk8) {
+            D_800B71F0 = (s32 *)func_80024F60((s32)D_800B71F0);
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = D_800B6DE0->saved;
+                return;
+            }
+        }
+    } while (n < 20);
+}
 
 extern u8 D_801F9664[];
 extern s32 *D_800B71F0;
@@ -766,6 +806,42 @@ void func_80021E10(void) {
 }
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80021EDC);
+
+extern s16 D_800B6AA0;
+extern s16 D_800B6C90;
+extern s16 D_800B6F98;
+extern Unk8002A35C D_800B67D0;
+extern SVECTOR D_800B7158;
+extern SVECTOR D_800B6ED8;
+s32 func_800754C8(s32);
+void func_80020E50(void *);
+void func_8002090C(void *);
+void func_80021EDC(void);
+
+typedef struct {
+    u8 pad0[0x10];
+    u8 unk10[0x134];
+    s32 unk144;
+    s16 unk148;
+    s16 unk14A;
+    u8 pad14C[8];
+    s32 unk154;
+    u8 pad158[8];
+    s16 unk160;
+    u8 pad162[0xE];
+    s16 unk170;
+    s16 unk172;
+    s16 unk174;
+    s16 pad176;
+    s16 unk178;
+    s16 unk17A;
+    u8 pad17C[8];
+    s16 unk184;
+    s16 unk186;
+    s16 unk188;
+    u8 pad18A[6];
+    s16 unk190;
+} Unk8002225C;
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002225C);
 
@@ -1986,6 +2062,10 @@ void func_80023DA0(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023E40);
 
+void func_800645F8(void);
+void func_8002359C(void);
+void func_8002318C(void);
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024124);
 
 typedef struct {
@@ -2135,12 +2215,6 @@ void func_80024AF8(s32 *src, u32 size) {
     }
     D_800B71F0 = (s32 *)func_80024F60((s32)dst);
 }
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-} Unk8002A35C;
 
 extern Unk8002A35C D_800B67D0;
 s32 func_80025254(Unk8002A35C *a, Unk8002A35C *b);
@@ -9287,6 +9361,24 @@ void func_80062B38(s32 b) {
         d->objs[i] = func_80062A3C((s16)(i * 500 - 750), (s16)b);
     } while (i--);
 }
+
+extern s16 D_800B72A0;
+extern s16 D_800B70E8;
+extern s16 D_800B71C8;
+extern s16 D_800B6BD8;
+extern s16 D_800B6BE0;
+extern void func_8007345C(void);
+void func_8006851C(s16, s16);
+void func_80067E08(void);
+void func_8003D5C8(void);
+void func_800246A8(s16 arg0);
+void func_800739F8(void);
+void func_80069518(void);
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+} Unk80062BD0;
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80062BD0);
 
