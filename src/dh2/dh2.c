@@ -12713,7 +12713,37 @@ void func_80071EEC(void) {
     SpuSetCommonAttr(&attr);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071F20);
+extern s16 D_800B70B8;
+extern s16 D_800B70E8;
+extern s16 D_800B71C8;
+extern s16 D_800B6BD8;
+extern s16 D_800B6BE0;
+void func_80023754(s32 mask);
+void func_800735F8(s16 mask);
+void func_80073D10(void);
+void func_80066474(void);
+void func_800246A8(s16 arg0);
+void func_800739F8(void);
+void func_80071EEC(void);
+
+void func_80071F20(void) {
+    func_800739C0();
+    func_8003DD54();
+    func_80023754(10);
+    DrawSync(0);
+    func_8001EB30();
+    func_800735F8(1);
+    func_80073D10();
+    func_80066474();
+    D_800B70B8 = 2;
+    func_80022B58();
+    ResetCallback();
+    func_800246A8(0x140);
+    D_800B6BD8 = D_800B70E8 >> 1;
+    D_800B6BE0 = D_800B71C8 >> 1;
+    func_800739F8();
+    func_80071EEC();
+}
 
 extern s16 D_800B6D38;
 void func_80031B9C(void);
