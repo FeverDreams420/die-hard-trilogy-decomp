@@ -912,7 +912,29 @@ void func_80022B58(void);
 void func_80071FDC(void);
 void func_800720E4(void);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002378C);
+void func_8002378C(void) {
+    s16 i;
+
+    if (D_800B6AF8 == 2) {
+        D_800B6AA0 = 2;
+        i = 19;
+        func_800789FC();
+        CdControlB(8, 0, 0);
+        do {
+            VSync(0);
+        } while (i--);
+        func_800739C0();
+        func_80071EEC();
+        D_800B70B8 = 2;
+        func_80022B58();
+        func_80071FDC();
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_800720E4;
+        }
+    }
+}
 
 extern s16 D_800B72E0;
 extern s16 D_800B6AF8;
