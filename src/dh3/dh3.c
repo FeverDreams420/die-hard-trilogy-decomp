@@ -11250,7 +11250,39 @@ void func_8006B170(SVECTOR *pos) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006B2B4);
+void func_8006B2B4(VECTOR *pos, s16 c, s16 size) {
+    struct Task *t = func_80072768(D_801F80B0[0], func_8006AB3C, 0x1E0);
+    Unk8006B170 *d;
+    s16 i;
+    s16 r;
+    s32 j;
+    s32 x;
+
+    if (t != NULL) {
+        t->flags = 3;
+        d = (Unk8006B170 *)t->vals;
+        d->unk80 = pos->vx;
+        d->unk84 = pos->vy;
+        d->unk88 = pos->vz;
+        i = 15;
+        do {
+            r = func_80074910(0x1000);
+            x = func_80071B7C(1, 2, r);
+            j = i;
+            d->unk174[j] = x;
+            d->unk1DA = size / 2;
+            d->unkF4[j] = 0xA0;
+            d->unk1B4[j] = func_80074910(10) + 10;
+            d->unk1DC = 6;
+            d->unk94[j] = func_80071B7C(0x28, 0x28, r);
+            d->unk154[j] = func_80071B7C(0xF, 0x1E, r);
+            d->unkD4[j] = j << 8;
+            d->unk114[j] = c;
+            d->unk194[j] = func_80074910(0x1000);
+            d->unk1D4 = 0x261;
+        } while (i--);
+    }
+}
 
 void func_8006B424(void) {
 }
