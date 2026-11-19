@@ -7139,7 +7139,41 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040054);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040248);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800405E4);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 x1, y1;
+} LINE_F2;
+
+extern SVECTOR D_800B6490;
+extern void SetLineF2(LINE_F2 *p);
+
+void func_800405E4(s16 *pos, u8 c) {
+    SVECTOR unused = D_800B6490;
+    LINE_F2 *l = D_800B7140;
+
+    l->x0 = pos[0] - 4;
+    l->y0 = pos[1] - 4;
+    l->x1 = pos[0] + 4;
+    l->y1 = pos[1] + 4;
+    l->r0 = c;
+    l->g0 = c;
+    l->b0 = c;
+    SetLineF2(l);
+    AddPrim(D_800B7018 + 18, l);
+    l++;
+    l->x0 = pos[0] + 4;
+    l->y0 = pos[1] - 4;
+    l->x1 = pos[0] - 4;
+    l->y1 = pos[1] + 4;
+    l->r0 = c;
+    l->g0 = c;
+    l->b0 = c;
+    SetLineF2(l);
+    AddPrim(D_800B7018 + 18, l++);
+    D_800B7140 = l;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040718);
 
