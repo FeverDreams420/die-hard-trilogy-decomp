@@ -9333,7 +9333,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FA0C);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FD10);
 
 
-
 extern Unk8015EB3C D_8018CC68;
 s32 func_800691E8(Unk8015EB3C *arg0, s32 arg1);
 void func_80068200(s16 id, void *pos);
@@ -12374,17 +12373,6 @@ void func_80073138(void) {
     D_800B604C->func = func_80073384;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073158);
-
-void func_80073348(void) {
-    if (D_800B5D4C == 1) {
-        D_800B5D4C = 2;
-        func_800728A4();
-    }
-}
-
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073384);
-
 typedef struct {
     u32 tag;
     u32 code[15];
@@ -12418,6 +12406,62 @@ typedef struct {
     u32 *ot[2];
     s16 id;
 } Unk80074138;
+
+void func_80073580(void);
+void func_8007370C(void);
+extern u8 D_801DAC20[];
+extern u8 D_801E8C20[];
+extern DISPENV *SetDefDispEnv(DISPENV *env, s32 x, s32 y, s32 w, s32 h);
+extern DRAWENV *SetDefDrawEnv(DRAWENV *env, s32 x, s32 y, s32 w, s32 h);
+
+void func_80073158(void) {
+    struct Task *t;
+    Unk80074138 *db;
+
+    t = func_80073D98(func_80073580, 5);
+    D_801F8100 = (void *)t;
+    db = *(Unk80074138 **)((u8 *)t + 0x1C);
+    db->prim[0] = (u32 *)D_801DAC20;
+    db->prim[1] = (u32 *)D_801E8C20;
+    if (D_800B6614->unk178A != 0) {
+        SetDefDispEnv(&db->disp[0], 0, 0, 0x13A, 0xF0);
+        SetDefDrawEnv(&db->draw[0], 0x140, 0, 0x140, 0xF0);
+        SetDefDispEnv(&db->disp[1], 0x140, 0, 0x13A, 0xF0);
+        SetDefDrawEnv(&db->draw[1], 0, 0, 0x140, 0xF0);
+        db->disp[0].screen.y = 0;
+        db->disp[1].screen.y = 0;
+        db->disp[0].screen.h = 0xF0;
+        db->disp[1].screen.h = 0xF0;
+    } else {
+        SetDefDrawEnv(&db->draw[0], 0x140, 0, 0x140, 0x100);
+        SetDefDrawEnv(&db->draw[1], 0, 0, 0x140, 0x100);
+        SetDefDispEnv(&db->disp[1], 0x140, 0, 0x13A, 0x100);
+        SetDefDispEnv(&db->disp[0], 0, 0, 0x13A, 0x100);
+        db->disp[0].screen.y = 0x12;
+        db->disp[1].screen.y = 0x12;
+        db->disp[0].screen.h = 0x100;
+        db->disp[1].screen.h = 0x100;
+    }
+    db->draw[0].isbg = 0xFF;
+    db->draw[1].isbg = 0xFF;
+    db->id = 1;
+    db->ot[0] = (u32 *)((Unk8003BA6C_Task *)func_800724C4(func_8007370C, 5, 0x400))->data;
+    db->ot[1] = (u32 *)((Unk8003BA6C_Task *)func_800724C4(func_8007370C, 5, 0x400))->data;
+    ClearOTagR(db->ot[0], 0xFA);
+    ClearOTagR(db->ot[1], 0xFA);
+    D_800B62CC = db->ot[0];
+    D_800B6334 = D_800B63AC = db->prim[0];
+    func_80072DC8((struct Task *)D_801F8100);
+}
+
+void func_80073348(void) {
+    if (D_800B5D4C == 1) {
+        D_800B5D4C = 2;
+        func_800728A4();
+    }
+}
+
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073384);
 
 extern void DrawOTag(u32 *ot);
 extern u32 *ClearOTagR(u32 *ot, s32 n);
