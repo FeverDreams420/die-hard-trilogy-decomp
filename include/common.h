@@ -17,4 +17,12 @@
  * the line. */
 #define GET_RA(var) __asm__ volatile("sw $31, %0" : "=m"(var))
 
+/* FAKE: debug trap. Several DH2 task functions end in a bare `break 7`
+ * with no division next to it, which no GCC 2.5.7 C construct produces, so
+ * the original most likely wrote it as inline asm. The PC port replaces it
+ * with abort(). maspsx reads a single `break` operand as a 20-bit code and
+ * splits it into two fields, so 7 << 10 is what yields the original
+ * encoding (0x0007000D, the same word ASPSX emits for `break 7`). */
+#define TRAP() __asm__ volatile("break 0x1C00")
+
 #endif /* COMMON_H */
