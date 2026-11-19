@@ -15131,7 +15131,92 @@ void func_80069C3C(s32 arg0, s32 arg1) {
     delete(D_800A389C);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80069C84);
+typedef struct {
+    char d[64];
+} McTitle;
+
+typedef struct {
+    char d[32];
+} McClut;
+
+typedef struct {
+    char d[128];
+} McIcon;
+
+typedef struct {
+    u8 id0;
+    u8 id1;
+    u8 type;
+    u8 blocks;
+    McTitle title;
+    u8 pad44[0x1C];
+    McClut clut;
+    McIcon icon[3];
+} McHeader;
+
+typedef struct {
+    s32 size;
+    u8 sum[0xFC];
+} McData;
+
+extern McHeader D_800A357C;
+extern McData D_800A377C;
+extern char D_8008A828[];
+extern McClut D_8008A9E8;
+extern McIcon D_8008A868;
+extern McIcon D_8008A8E8;
+extern McIcon D_8008A968;
+extern s32 open(char *name, s32 mode);
+extern s32 close(s32 fd);
+extern s32 write(s32 fd, void *buf, s32 n);
+extern char *strcpy(char *dst, const char *src);
+
+s32 func_80069C84(s32 arg0, u8 *data, s32 size, s32 arg3) {
+    s32 n;
+    s32 fd;
+
+    func_80020340();
+    D_800A357C.id0 = 'S';
+    D_800A357C.id1 = 'C';
+    D_800A357C.type = 0x13;
+    strcpy(D_800A357C.title.d, D_8008A828);
+    D_800A357C.clut = D_8008A9E8;
+    D_800A357C.icon[0] = D_8008A868;
+    D_800A357C.icon[1] = D_8008A8E8;
+    D_800A357C.icon[2] = D_8008A968;
+    n = size + 0x300;
+    n = n / 0x2000 * 0x2000 + ((n & 0x1FFF) ? 0x2000 : 0);
+    D_800A357C.blocks = n / 0x2000 + ((n & 0x1FFF) != 0);
+    D_800A377C.size = size;
+    func_80069974(data, size, D_800A377C.sum);
+    func_80079E58(D_800A389C, D_8007B5D4, arg3, arg0);
+    fd = open(D_800A389C, 2);
+    if (fd >= 0) {
+        close(fd);
+        func_80020300();
+        return 0;
+    }
+    fd = open(D_800A389C, (D_800A357C.blocks << 16) | 0x200);
+    if (fd == -1) {
+        func_80020300();
+        return 0;
+    }
+    close(fd);
+    fd = open(D_800A389C, 2);
+    if (fd == -1) {
+        func_80020300();
+        return 0;
+    }
+    if (write(fd, &D_800A357C, 0x200) == 0x200 && write(fd, &D_800A377C, 0x100) == 0x100 && write(fd, data, size) == size) {
+        close(fd);
+        func_80020300();
+        return -1;
+    }
+    close(fd);
+    delete(D_800A389C);
+    func_80020300();
+    return 0;
+}
 
 extern s16 D_800A323C;
 extern s16 D_800A337C;
@@ -15163,7 +15248,6 @@ char *func_8006A13C(s16 arg0) {
 extern s32 open(char *name, s32 mode);
 extern s32 read(s32 fd, void *buf, s32 n);
 extern s32 close(s32 fd);
-extern u8 D_800A357C[];
 
 s32 func_8006A1A8(s16 slot) {
     char *name;
@@ -15179,7 +15263,7 @@ s32 func_8006A1A8(s16 slot) {
         close(fd);
         return 0;
     }
-    if (read(fd, D_800A357C, 0x200) != 0x200) {
+    if (read(fd, &D_800A357C, 0x200) != 0x200) {
         close(fd);
         return 0;
     }
