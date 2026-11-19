@@ -7793,7 +7793,35 @@ void func_800493CC(s16 *pos, s16 idx, s16 size) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049518);
+extern u8 *D_800B6B28;
+extern s16 D_800982E4[];
+
+void func_80049518(s16 *pos, s16 idx, s16 z, s16 size, s16 ang) {
+    POLY_FT4 *p;
+    u16 *tex;
+    s32 c = (D_800982E4[(ang + 0x9CA) & 0xFFF] * size) >> 12;
+    s32 s = (D_800982E4[(ang + 0xDCA) & 0xFFF] * size) >> 12;
+
+    p = (POLY_FT4 *)D_800B6B90;
+    if ((u8 *)p - D_800B6B28 > 0x162D7) {
+        return;
+    }
+    p->x1 = pos[0] - c;
+    p->y1 = s + pos[1];
+    p->x2 = c + pos[0];
+    p->y2 = pos[1] - s;
+    p->x3 = pos[0] - s;
+    p->y3 = pos[1] - c;
+    p->x0 = s + pos[0];
+    p->y0 = c + pos[1];
+    tex = (u16 *)(D_8015EB78 + idx * 60);
+    *(u32 *)&p->u0 = *(u32 *)tex;
+    *(u32 *)&p->u1 = *(u32 *)(tex + 18);
+    *(u16 *)&p->u2 = tex[4];
+    *(u16 *)&p->u3 = tex[6];
+    D_800B6B90 = (Unk8002B728_Prim *)(p + 1);
+    AddPrim(D_800B7018 + z, p);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800496B0);
 
