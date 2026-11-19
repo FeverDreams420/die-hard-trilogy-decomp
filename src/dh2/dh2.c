@@ -956,7 +956,59 @@ void func_800234D8(void) {
     D_801F75A0 = func_80072F2C(func_80046498, 0x28);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002359C);
+void func_8003DBC4(void);
+void func_80022CA8(void);
+void func_800665E4(void);
+void func_80023858(void);
+void func_80024124(void);
+void func_800643F0(void);
+void func_80071F20(void);
+void func_80071FDC(void);
+void func_800720E4(void);
+void func_8002318C(void);
+void func_8003D1F8(s16 arg);
+extern s32 DrawSync(s32 mode);
+extern int VSync(int mode);
+extern s16 D_800B6B08;
+extern s16 D_800B6D38;
+extern s16 D_800B7040;
+extern s16 D_800B7260;
+
+void func_8002359C(void) {
+    func_8003DBC4();
+    DrawSync(0);
+    func_80022CA8();
+    func_80024314();
+    func_80024314();
+    func_800665E4();
+    if (D_800B6AA0 == 9) {
+        func_80023858();
+    } else if (D_800B6B08 == 6 && D_800B6D38 == 0) {
+        D_800B7040 = 0;
+        DrawSync(0);
+        VSync(0);
+        func_8001EA84();
+        func_80024124();
+        func_80072F2C(func_800643F0, 0x58);
+        func_8001EA84();
+        if (D_800B6AA0 == 2) {
+            func_80071F20();
+            func_80071FDC();
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_800720E4;
+            }
+        } else {
+            func_8003D1F8(D_800B7260);
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_8002318C;
+            }
+        }
+    }
+}
 
 extern s16 D_800B6FC0;
 int SetDispMask(int mask);
