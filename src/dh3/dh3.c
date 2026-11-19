@@ -1467,7 +1467,21 @@ s32 func_80028B58(VECTOR *v) {
 }
 
 typedef struct {
-    u8 pad0[5];
+    s16 h0;
+    s16 h1;
+    s16 h2;
+    s16 h3;
+    s16 unk8;
+} Unk800B62C4_Cell;
+
+typedef struct {
+    u8 pad0[0x300];
+    Unk800B62C4_Cell cells[1];
+} Unk800B62C4_Block;
+
+typedef struct {
+    Unk800B62C4_Block *block;
+    u8 pad4;
     u8 unk5;
     u8 unk6;
     u8 pad7;
@@ -1488,7 +1502,21 @@ s32 func_80028CEC(s32 x) {
     return x;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028D04);
+s16 func_80028D04(SVECTOR *v) {
+    Unk800B62C4_Cell *c = &D_800B62C4[((v->vx >> 12) & 0x3F) + ((v->vz >> 6) & 0x1FC0)].block->cells[(v->vx >> 8) + (v->vz >> 8) * 16];
+    s16 m = c->h0;
+
+    if (m < c->h1) {
+        m = c->h1;
+    }
+    if (m < c->h2) {
+        m = c->h2;
+    }
+    if (m < c->h3) {
+        return c->h3;
+    }
+    return m;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028DC0);
 
