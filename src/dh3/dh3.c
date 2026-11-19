@@ -7985,7 +7985,23 @@ void func_8004FF54(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004FFE4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005017C);
+extern SVECTOR D_800B5880;
+extern s16 D_800B635C;
+void func_8001FAF4(void);
+
+void func_8005017C(void) {
+    Unk80021FC4 *p = (Unk80021FC4 *)D_800B604C->vals;
+    Unk80021FC4_Src *src = (Unk80021FC4_Src *)D_801F80BC->vals;
+    VECTOR unused;
+    SVECTOR vel = D_800B5880;
+
+    func_80028310(&p->rot, &vel, &src->pos, &D_801981F4);
+    func_8002924C(&src->pos, &D_801981F4, &D_800B6124);
+    D_800B635C = -1;
+    p->rot.vy += D_800B56A2 * 4;
+    func_800221C8();
+    func_8001FAF4();
+}
 
 void func_8005017C(void);
 
