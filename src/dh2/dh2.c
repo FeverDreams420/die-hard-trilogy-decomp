@@ -5798,7 +5798,21 @@ void func_8003CD9C(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003CE70);
+void func_8003CE70(void) {
+    D_800B71F0 = (s32 *)func_80024F60((s32)D_800B71F0);
+    D_800B6AE8 = func_80072768(D_800B6BC8, 1);
+    D_800B7288 = 0;
+    D_800B7038 = D_800B71F0;
+    D_800B6A88 = func_80072780(D_800B6BC8, 1) + 0x80;
+    D_800B6E70 = (Unk800462F0_Obj *)D_800B71F0;
+    D_800B71F0 = (s32 *)func_80024F4C((s32)D_800B71F0, D_800B6A88);
+    D_800B6DE0->saved = D_800B6DE0->func;
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_8003D10C;
+    }
+}
 
 void func_8003CF44(void) {
 }
