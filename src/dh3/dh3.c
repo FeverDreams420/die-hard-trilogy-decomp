@@ -9113,7 +9113,44 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005727C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80057400);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800576E8);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x14];
+    s16 unk3C;
+    u8 pad3E[0x12];
+    s16 unk50;
+    u8 pad52[2];
+    s16 unk54;
+    u8 pad56[0x1C];
+    s16 unk72;
+    u8 pad74[4];
+    VECTOR prev;
+} Unk800576E8;
+
+extern SVECTOR D_800B58C0;
+extern VECTOR D_801F76D0;
+
+void func_800576E8(Unk800576E8 *p) {
+    SVECTOR v = D_800B58C0;
+
+    if (p->unk72 != 0) {
+        D_801F76D0.vx = p->unk50 * 8 + p->pos.vx;
+        D_801F76D0.vz = p->unk54 * 8 + p->pos.vz;
+    } else {
+        func_80028310(&p->rot, &v, &p->pos, &D_801F76D0);
+    }
+    if ((s16)func_80028BF0(&D_801F76D0) - p->pos.vy > 0x30) {
+        p->unk50 = 0;
+        p->unk54 = 0;
+        p->unk3C = 0;
+        p->pos.vx = p->prev.vx;
+        p->pos.vz = p->prev.vz;
+    }
+    p->prev.vx = p->pos.vx;
+    p->prev.vz = p->pos.vz;
+}
 
 void func_80057400(void);
 
