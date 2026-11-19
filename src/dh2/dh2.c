@@ -9643,7 +9643,64 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005C678);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005CB50);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D0E0);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 size[32];
+    s16 rotA[32];
+    s16 life[32];
+    s16 velX[32];
+    s16 velY[32];
+    s16 unk148[32];
+    s16 rotB[32];
+    s16 spin[32];
+    s16 unk208;
+    s16 pad20A[3];
+    Unk8002A35C ground;
+} Unk8005D0E0_Data;
+
+extern void func_8005CB50();
+extern s32 D_800B6434;
+void func_800658EC(s16 id);
+void func_80065C10(s16 arg);
+
+void func_8005D0E0(Unk8002A35C *pos) {
+    Unk8003BA6C_Task *t;
+    Unk8005D0E0_Data *d;
+    s16 i;
+
+    t = func_8007307C(func_8005CB50, 3, 0x218);
+    if (t == NULL) {
+        return;
+    }
+    d = (Unk8005D0E0_Data *)t->data;
+    d->unk208 = 0;
+    d->x = pos->x;
+    d->y = pos->y;
+    d->z = pos->z;
+    i = 31;
+    D_800B6434 = 0x3FFF;
+    do {
+        d->size[i] = func_800754C8(0x20) + 0x40;
+        d->rotA[i] = func_800754C8(0x1000);
+        d->rotB[i] = func_800754C8(0x1000);
+        d->spin[i] = func_800754C8(0x40) - 0x20;
+        d->life[i] = func_800754C8(6) + 5;
+        d->velX[i] = func_800754C8(0x40) - 0x20;
+        d->velY[i] = func_800754C8(0x80) + 0x10;
+    } while (i--);
+    d->ground.x = pos->x;
+    d->ground.y = pos->y;
+    d->ground.z = pos->z;
+    func_8003EB60(&d->ground);
+    if (d->ground.y > pos->y - 0x100) {
+        d->ground.y -= 0x200;
+    }
+    func_800658EC(0x40);
+    func_80065C10(0x3F);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D24C);
 
