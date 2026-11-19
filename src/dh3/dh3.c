@@ -12649,9 +12649,10 @@ extern u16 D_800972D4[];
 typedef struct {
     s16 unk0;
     s16 unk2;
-    u8 pad4[8];
+    u8 pad4[6];
+    s16 unkA;
     s16 unkC;
-    u8 padE[2];
+    s16 unkE;
     s16 unk10;
 } Unk80074DC4;
 
@@ -12684,7 +12685,42 @@ void func_80074DC4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80074E7C);
+extern SVECTOR D_800B5A48;
+extern SVECTOR D_800B5A50;
+extern SVECTOR D_800B5A58;
+extern SVECTOR D_800B5A60;
+extern CVECTOR D_800B5A68;
+void func_80074BF0(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out);
+void func_80074C84(void);
+
+void func_80074E7C(void) {
+    Unk80074DC4 *d = (Unk80074DC4 *)D_800B604C->vals;
+    SVECTOR a = D_800B5A48;
+    SVECTOR v = D_800B5A50;
+    SVECTOR base = D_800B5A58;
+    Unk80074DC4_Arg arg;
+    SVECTOR unused;
+    SVECTOR e = D_800B5A60;
+
+    D_800B6124.vz = 0;
+    D_800B6124.vy = d->unk2;
+    D_800B6124.vx = 0;
+    v.vz = -1000;
+    v.vy = -40;
+    v.vx = 0;
+    func_80074BF0(&D_800B6124, &v, &base, &D_800B5E2C);
+    func_80074C84();
+    arg.x = 0x302;
+    arg.y = 0x4C4;
+    arg.val = d->unkC;
+    func_80076524(D_8009B5BC, &arg);
+    d->unk10 -= 0x200;
+    func_80076920(0x1000 - d->unk10);
+    if (d->unk10 < 0) {
+        D_800B5D4C = 2;
+        D_800B604C->func = func_80074DC4;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80075008);
 
