@@ -10851,7 +10851,24 @@ typedef struct {
     s16 unk4A;
 } Unk8006DD40;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006DD40);
+void func_8006DD40(void) {
+    Unk8006DD40 *p = (Unk8006DD40 *)D_800B6DE0->vals;
+
+    func_8003D824();
+    func_80066474();
+    if (D_800B7370->maps[D_800B7370->unk1780][0xE] != 0) {
+        p->unk1C = D_80097ABC;
+    } else {
+        p->unk1C = D_80097A20;
+    }
+    p->unk4A = 1;
+    func_8006C64C(p);
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_8006DC08;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006DE18);
 
