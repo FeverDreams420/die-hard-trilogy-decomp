@@ -7347,7 +7347,26 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800434A4);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B64D8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800435FC);
+typedef struct {
+    u8 pad0[0x80];
+    s16 name[0x20];
+} Unk800435FC;
+
+extern u8 *D_800B7100;
+
+void func_800435FC(s32 id, s16 row, s16 len) {
+    s16 i;
+    u16 ch;
+
+    for (i = 0; i < len; i++) {
+        ch = ((Unk800435FC *)D_800B7100)[row].name[i];
+        if (((Unk800435FC *)D_800B7100)[row].name[i] == 0) {
+            ((Unk800435FC *)D_800B7100)[row].name[i] = ' ';
+            ch = ' ';
+        }
+        FntPrint(id, "%c", (u8)ch);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800436BC);
 
