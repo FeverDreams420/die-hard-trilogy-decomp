@@ -2281,7 +2281,81 @@ void func_8002D84C(Unk80030328_Face *f) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002D98C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002DA20);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, pad1;
+    s16 x1, y1;
+    u8 r2, g2, b2, pad2;
+    s16 x2, y2;
+    u8 r3, g3, b3, pad3;
+    s16 x3, y3;
+} POLY_G4;
+
+typedef struct {
+    SVECTOR *v[4];
+} Unk8002DA20_Face;
+
+extern s32 D_800B6014;
+extern s32 D_800B601C;
+extern s32 D_800B602C;
+extern s32 D_800B6034;
+extern s32 D_800B5CFC;
+extern void func_80083C88(s32 *sz0, s32 *sz1, s32 *sz2, s32 *sz3);
+extern u8 func_8002D98C(s32 z);
+extern void SetPolyG4(POLY_G4 *p);
+
+void func_8002DA20(Unk8002DA20_Face *f) {
+    POLY_G4 *prim = D_800B63AC;
+    POLY_G4 *start = prim;
+    s32 c;
+    s16 sum;
+
+    if ((u8 *)prim - D_800B6334 > 0xD7D7U) {
+        return;
+    }
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], (s32 *)&prim->x0, (s32 *)&prim->x1, (s32 *)&prim->x3, (s32 *)&prim->x2, &D_800B5CFC, &D_800B61CC, &D_800B642C) <= 0) {
+        return;
+    }
+    if (D_800B642C & ~0x1FFF) {
+        return;
+    }
+    func_80083C88(&D_800B6014, &D_800B601C, &D_800B602C, &D_800B6034);
+    c = func_8002D98C(D_800B601C);
+    prim->g1 = prim->r1 = c >> 1;
+    prim->b1 = c;
+    sum = c;
+    c = func_8002D98C(D_800B602C);
+    prim->g3 = prim->r3 = c >> 1;
+    prim->b3 = c;
+    sum += c;
+    c = func_8002D98C(D_800B6014);
+    prim->g0 = prim->r0 = c >> 1;
+    prim->b0 = c;
+    sum += c;
+    c = func_8002D98C(D_800B6034);
+    prim->g2 = prim->r2 = c >> 1;
+    prim->b2 = c;
+    sum += c;
+    if (sum == 0) {
+        return;
+    }
+    SetPolyG4(prim);
+    if (D_800B601C < D_800B6014) {
+        D_800B6014 = D_800B601C;
+    }
+    if (D_800B602C < D_800B6014) {
+        D_800B6014 = D_800B602C;
+    }
+    if (D_800B6034 < D_800B6014) {
+        D_800B6014 = D_800B6034;
+    }
+    prim++;
+    D_800B61CC = (D_800B6014 >> 2) + 0x10C;
+    AddPrim(D_800B62CC + (D_800B61CC >> 3), start);
+    D_800B63AC = prim;
+}
 
 void func_8002DC70(Unk80030328_Face *f) {
     Unk80030328_Prim *prim;
@@ -8132,18 +8206,6 @@ void func_800518D4(Unk8005185C *obj) {
 }
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800518E8);
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u8 r1, g1, b1, pad1;
-    s16 x1, y1;
-    u8 r2, g2, b2, pad2;
-    s16 x2, y2;
-    u8 r3, g3, b3, pad3;
-    s16 x3, y3;
-} POLY_G4;
 
 extern void SetPolyG4(POLY_G4 *p);
 extern void *D_800B63AC;
