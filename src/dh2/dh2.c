@@ -634,7 +634,76 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001FB8C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001FD90);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80020030);
+typedef struct {
+    u8 pad[0x14];
+    s32 unk14;
+    s32 unk18;
+} Unk80020030_Prim;
+
+extern VECTOR D_80087F80;
+extern void *D_800B7140;
+extern u8 *D_800B70A8;
+extern SVECTOR D_800B6E00;
+extern SVECTOR D_800B72C0;
+extern MATRIX D_80169F78;
+extern VECTOR D_801C9980;
+extern s32 D_800B63A8;
+extern MATRIX D_801F9644;
+extern Unk8002A35C D_800B67D0;
+extern s32 D_800B6A90;
+extern s32 D_800B7198;
+extern s32 D_800B6F30;
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
+extern MATRIX *MulMatrix2(MATRIX *m0, MATRIX *m1);
+extern MATRIX *ScaleMatrix(MATRIX *m, VECTOR *v);
+extern void SetRotMatrix(MATRIX *m);
+extern void SetTransMatrix(MATRIX *m);
+extern s32 RotTransPers(SVECTOR *v0, s32 *sxy, s32 *p, s32 *flag);
+extern MATRIX *func_8002702C(SVECTOR *r, MATRIX *m);
+extern MATRIX *func_80027444(SVECTOR *r, MATRIX *m);
+extern MATRIX *func_80085EA0(MATRIX *m, VECTOR *v);
+extern void func_80030E08(Unk80020030_Prim *p);
+
+s32 func_80020030(Unk80020030_Prim *p, SVECTOR *pos, SVECTOR *ang) {
+    s16 sxy[2];
+    VECTOR scale = D_80087F80;
+    MATRIX m;
+    SVECTOR rot;
+
+    if ((u8 *)D_800B7140 - D_800B70A8 > 0xD66F) {
+        return 0;
+    }
+    PushMatrix();
+    D_800B72C0.vx = pos->vx - D_800B6E00.vx;
+    D_800B72C0.vy = pos->vy - D_800B6E00.vy;
+    D_800B72C0.vz = pos->vz - D_800B6E00.vz;
+    ApplyMatrix(&D_80169F78, &D_800B72C0, &D_801C9980);
+    rot.vx = 0;
+    rot.vz = 0;
+    rot.vy = D_800B63A8 * 300;
+    func_8002702C(ang, &m);
+    MulMatrix2(&D_80169F78, &m);
+    func_80027444(&rot, &D_801F9644);
+    MulMatrix2(&m, &D_801F9644);
+    ScaleMatrix(&D_801F9644, &scale);
+    SetRotMatrix(&D_801F9644);
+    func_80085EA0(&D_801F9644, &D_801C9980);
+    SetTransMatrix(&D_801F9644);
+    D_800B6F30 = RotTransPers((SVECTOR *)&D_800B67D0, (s32 *)sxy, &D_800B6A90, &D_800B7198);
+    if ((D_800B7198 & ~0x1FFF) || D_800B6F30 < 0x20 || D_800B6F30 >= 0x1771) {
+        PopMatrix();
+        return -1;
+    }
+    p = (Unk80020030_Prim *)((u8 *)p + 8);
+    while (p->unk14 != 0) {
+        func_80030E08(p);
+        p++;
+    }
+    PopMatrix();
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80020278);
 
@@ -8164,7 +8233,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F734);
 extern SVECTOR D_800B65F4;
 extern SVECTOR D_800B65FC;
 extern void *D_801F9ABC;
-extern void func_80020030(void *a, SVECTOR *b, SVECTOR *c);
+extern s32 func_80020030(Unk80020030_Prim *p, SVECTOR *pos, SVECTOR *ang);
 
 void func_8004F7DC(SVECTOR *base, SVECTOR *rot) {
     SVECTOR out;
