@@ -10083,6 +10083,11 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B667C);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6684);
 
+typedef struct {
+    char name[8];
+    s32 chan;
+} McPort;
+
 struct DIRENTRY {
     char name[20];
     s32 attr;
@@ -10092,7 +10097,7 @@ struct DIRENTRY {
     char system[4];
 };
 
-extern char D_80097350[][12];
+extern McPort D_80097350[2];
 extern char D_801F92B8[][16];
 extern char *strcpy(char *, char *);
 extern char *strcat(char *, char *);
@@ -10104,7 +10109,7 @@ void func_8005F2D8(s16 port) {
     char path[128];
     s16 n = 0;
 
-    strcpy(path, D_80097350[port]);
+    strcpy(path, D_80097350[port].name);
     strcat(path, ":*");
     if (firstfile(path, &de) != NULL) {
         do {
@@ -10140,7 +10145,34 @@ u8 func_8005F40C(u8 *p, s32 n) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F440);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F4E4);
+extern char D_800888F4[];
+
+char *func_8005F4E4(s16 n) {
+    s32 st[2];
+    s32 a;
+    s32 b;
+
+    st[0] = func_8005F26C(D_80097350[0].chan);
+    st[1] = func_8005F26C(D_80097350[1].chan);
+    a = func_8005F2A0(st[0]);
+    b = func_8005F2A0(st[1]);
+    printf(D_800888F4, a, b);
+    if (n < 2) {
+        if (n >= 0) {
+            if (st[n] == 0 || st[n] == 3) {
+                return D_80097350[n].name;
+            }
+            return NULL;
+        }
+    }
+    if (st[0] == 0 || st[0] == 3) {
+        return D_80097350[0].name;
+    }
+    if (st[1] == 0 || st[1] == 3) {
+        return D_80097350[1].name;
+    }
+    return NULL;
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6690);
 
