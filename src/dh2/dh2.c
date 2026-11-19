@@ -10538,7 +10538,36 @@ void func_80072094(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800720E4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072484);
+extern char D_800939D8[];
+extern u16 D_8009B47E;
+extern u16 D_8009B470;
+extern s16 D_800B73D8;
+extern s16 D_800B72A0;
+extern void func_80024124(void);
+
+void func_80072484(void) {
+    RECT unused = D_800B678C;
+
+    func_800246A8(0x140);
+    func_8002370C();
+    func_80076478(0xA0, 0x78, func_80078980(D_800939D8), 0x800, 0x400, D_800B63E8, D_800B63F0);
+    if ((D_8009B47E & ((volatile s32 *)D_800B7258)[0]) || (D_8009B470 & ((volatile s32 *)D_800B7258)[0])) {
+        D_800B6CB8 = 1;
+    }
+    if (D_800B72E0 == 0) {
+        if (D_800B7088 != NULL && (s16)func_80071E20() == 0) {
+            D_800B7430 = -1;
+        }
+        func_8003D750();
+        func_800735F8(0x14);
+        func_80023754(0xA);
+        D_800B73D8 = 0;
+        D_800B6D38 = 2;
+        D_800B72A0 = 1;
+        func_80031B9C();
+        func_80024124();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800725EC);
 
