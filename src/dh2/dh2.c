@@ -10582,7 +10582,24 @@ typedef struct {
     s16 unkFC;
 } Unk80070C08;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80070C08);
+void func_80070C08(void) {
+    struct Task *t = D_800B6DE0;
+    Unk80070C08 *p = (Unk80070C08 *)t->vals;
+
+    p->unk88 = 0;
+    p->unkAA = 0;
+    p->unkAC = 0;
+    p->unkB0 = -1;
+    p->unkFC = 0;
+    p->unk0 = D_800B6E00.vx;
+    p->unk2 = D_800B6E00.vy;
+    p->unk4 = D_800B6E00.vz;
+    if (t->func == D_800B7350) {
+        TRAP();
+    } else {
+        t->func = func_800707D8;
+    }
+}
 
 extern u8 D_80169FD0[];
 
