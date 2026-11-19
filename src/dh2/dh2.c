@@ -1081,7 +1081,103 @@ void func_80022B58(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80022CA8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002318C);
+extern RECT D_800B6214;
+extern volatile s32 D_800B725C;
+extern u16 D_8009B47C;
+extern s32 D_800B7258[];
+extern s16 D_800B6C60[3];
+extern s16 D_800B6390;
+extern s16 D_800B72F8;
+extern s16 D_800B63A6;
+extern s16 D_800BD994[];
+extern s16 D_80169F98[];
+extern u8 D_801F9A57;
+extern u8 D_80169FDC;
+struct Task *func_80072F2C(void (*fn)(), s16 size);
+void func_80033730(s16 *angle, s16 *speed);
+void func_80072044(void);
+void func_80072484(void);
+void func_80070CFC(void);
+void func_80070D90(void);
+void func_80072094(void);
+void func_800725EC(void);
+void func_800645A8(void);
+void func_8003DBC4(void);
+void func_800665E4(void);
+void func_80071F20(void);
+void func_80023858(void);
+void func_80024124(void);
+extern s32 DrawSync(s32 mode);
+
+void func_8002318C(void) {
+    RECT r = D_800B6214;
+    u8 *flag;
+
+    func_8003DBC4();
+    if (D_800B6F00->unk0 != 0 && (D_8009B47C & *(volatile s32 *)&D_800B725C)) {
+        D_800B7260 = (D_800B7430 + 1) % 8;
+        D_800B72A0 = 0;
+    }
+    D_800B6C60[0] = 100;
+    D_800B6390 = 12;
+    D_800B72F8 = 0;
+    D_800B63A6 = *(volatile s32 *)D_800B7258 & D_8009B47C;
+    DrawSync(0);
+    func_80022CA8();
+    func_800665E4();
+    func_80033730(D_800BD994, D_80169F98);
+    flag = &D_801F9A57;
+    if (*flag) {
+        *flag = 0;
+        if (D_800B7430 == 7) {
+            D_800B6AA0 = 11;
+        } else {
+            D_800B7260 = (D_800B7430 + 1) % 8;
+            D_800B72A0 = 0;
+        }
+    }
+    if (D_800B6AA0 == 2) {
+        func_80071F20();
+        func_80071FDC();
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_800720E4;
+        }
+    } else if (D_800B6AA0 == 4) {
+        func_80072044();
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_80072484;
+        }
+    } else if (D_800B6AA0 == 11) {
+        func_80070CFC();
+        D_80169FDC = 100;
+        func_80070D90();
+        func_80072094();
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_800725EC;
+        }
+    } else {
+        if (D_800B7260 != D_800B7430 && D_800B6D38 == 0) {
+            func_80072F2C(func_800645A8, 0x3FF);
+            D_800B6D38 = 1;
+        }
+        if (D_800B6D38 == 2) {
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_80024124;
+            }
+        }
+        if (D_800B6AA0 == 9) {
+            func_80023858();
+        }
+    }
+}
 
 extern s16 D_800B7430;
 extern struct Task *D_801F759C;
