@@ -6821,17 +6821,26 @@ void func_8003E6F4(Unk8004D4A0 *f, SVECTOR *out) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003E8A4);
+void func_8003E8A4(SVECTOR *pos, s16 *sxy) {
+    PushMatrix();
+    D_800B72C0.vx = pos->vx - D_800B6E00.vx;
+    D_800B72C0.vy = pos->vy - D_800B6E00.vy;
+    D_800B72C0.vz = pos->vz - D_800B6E00.vz;
+    ApplyMatrix(&D_80169F78, &D_800B72C0, &D_801C9980);
+    SetRotMatrix(&D_80169F78);
+    func_80085EA0(&D_801F9644, &D_801C9980);
+    SetTransMatrix(&D_801F9644);
+    D_800B6F30 = RotTransPers((SVECTOR *)&D_800B67D0, (s32 *)sxy, &D_800B6A90, &D_800B7198);
+    PopMatrix();
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003E9A4);
 
-extern void func_8003E8A4(s32 id, s16 *pos);
-
-void func_8003EA90(s32 id, s16 value, u8 *col) {
+void func_8003EA90(SVECTOR *obj, s16 value, u8 *col) {
     s16 pos[2];
     s16 v;
 
-    func_8003E8A4(id, pos);
+    func_8003E8A4(obj, pos);
     v = value < 0 ? -value : value;
     if (pos[0] < 0) {
         pos[0] = 0;
