@@ -845,7 +845,39 @@ void func_80023754(s32 mask) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002378C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023858);
+extern s16 D_800B72E0;
+extern s16 D_800B6AF8;
+extern s16 D_800B6AA0;
+extern s32 DrawSync(s32 mode);
+extern void StopPAD(void);
+extern s16 D_800B6D38;
+void func_8003D7BC(void);
+void func_80023754(s32 mask);
+void func_800735F8(s16 mask);
+void func_80073D10(void);
+void func_80023920(void);
+
+void func_80023858(void) {
+    D_800B6DE0->unk14 = 0;
+    if (D_800B72E0 == 0) {
+        func_8003D7BC();
+        D_800B6AF8 = 1;
+        D_800B6D38 = 0;
+        D_800B6AA0 = 2;
+        func_80023754(2);
+        DrawSync(0);
+        func_8001EB30();
+        StopPAD();
+        func_800735F8(1);
+        func_80073D10();
+    }
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_80023920;
+    }
+    func_80023920();
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800897A4);
 
@@ -1838,6 +1870,13 @@ void func_80023AC0(void) {
 }
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023B20);
+
+extern s16 D_800B7260;
+extern s16 D_800B6A64;
+extern s16 D_800B6C10;
+extern s16 D_800B6430;
+void func_80023E40(void);
+void func_80023B20(void);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023DA0);
 
@@ -6339,6 +6378,21 @@ void func_80042548(void) {
     }
 }
 
+extern struct Task *D_801F7550;
+extern s16 D_800B6CE0;
+extern s16 D_800B63C6;
+extern s16 D_800B63CA;
+extern s16 D_800B63D0;
+extern s16 D_800B6EC8;
+extern s16 D_800B7118;
+void func_80066474(void);
+void func_80042AD8(void);
+
+typedef struct {
+    u8 pad0[0x14];
+    s16 unk14;
+} Unk8004265C;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004265C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80042728);
@@ -7904,6 +7958,18 @@ void func_80056844(s16 i) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056974);
 
+void func_8005673C(s16);
+void func_80056974(void);
+
+typedef struct {
+    u8 pad0[0x128];
+    s16 unk128;
+    s16 unk12A;
+    s16 unk12C;
+    s16 pad12E;
+    s16 unk130;
+} Unk80056DD4;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80056DD4);
 
 typedef struct {
@@ -8350,6 +8416,17 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D0E0);
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D24C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D2DC);
+
+void func_8005D24C(s16);
+void func_8005D2DC(void);
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[0x102];
+    s16 unk108;
+} Unk8005D474;
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D474);
 
@@ -10074,6 +10151,26 @@ void func_8006A434(void) {
         func_8006A268((Unk80061844 *)task->data);
     }
 }
+
+extern s16 D_800B7238;
+extern s16 D_800B73C8;
+extern s16 D_800B6AA0;
+void func_8003DE20(void);
+void func_80069DC4(void);
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+} Unk8006A474;
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A474);
 
