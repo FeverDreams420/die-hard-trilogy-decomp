@@ -8986,7 +8986,90 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80057F88);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80058154);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80058418);
+extern void func_80057F88();
+
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    u8 padA[2];
+    s16 unkC;
+    s16 unkE;
+    VECTOR pos;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    u8 pad26[2];
+    u8 unk28[0x10];
+    s16 unk38;
+    s16 unk3A;
+    s16 unk3C;
+    u8 pad3E[0x1A];
+    s16 unk58;
+    u8 pad5A[0x16];
+    s16 unk70;
+    s16 unk72;
+    s16 unk74;
+    u8 pad76[2];
+    VECTOR prev;
+    s16 unk88;
+    u8 pad8A[4];
+    s16 unk8E;
+    s16 unk90;
+    s16 unk92;
+    u8 pad94[4];
+    u8 *obj;
+    u8 pad9C[0x10];
+    s16 unkAC;
+    s16 unkAE;
+    u8 padB0[0xC];
+    s16 unkBC;
+    u8 padBE[4];
+    s16 unkC2;
+} Unk80058418;
+
+struct Task *func_80058418(s16 x, s16 z, u8 *obj, s32 type, s16 slot) {
+    s16 ang = (((s16)type >> 8) << 9) + 0x400;
+    struct Task *t = func_80072768(D_801F80BC, func_80057F88, 0xC4);
+    Unk80058418 *p;
+
+    if (t != NULL) {
+        p = (Unk80058418 *)t->vals;
+        t->flags = 0x21;
+        if (obj != NULL) {
+            obj[4] = 0;
+        }
+        p->obj = obj;
+        p->unkC2 = 0;
+        p->unk8 = type & 0xFF;
+        p->unkAC = slot;
+        p->prev.vx = p->pos.vx = (x << 9) + 0x80;
+        p->prev.vz = p->pos.vz = (z << 9) + 0x80;
+        p->prev.vy = p->pos.vy = (s16)func_80028BF0(&p->pos);
+        p->unk22 = ang;
+        p->unk20 = 0;
+        p->unk24 = 0;
+        p->unkC = 0;
+        p->unkE = 0;
+        p->unk38 = 0;
+        p->unk3A = 0;
+        p->unk3C = 0;
+        p->unk70 = 0;
+        p->unk88 = 0;
+        p->unk58 = 0;
+        p->unkAE = p->pos.vy = (s16)func_80028BF0(&p->pos);
+        p->unk8E = 0;
+        p->unk90 = 0;
+        p->unk92 = 0;
+        p->unk72 = 0;
+        p->unk74 = 0;
+        p->unkBC = -1;
+        p->prev.vx = p->pos.vx;
+        p->prev.vz = p->pos.vz;
+        p->prev.vy = p->pos.vy;
+        func_8006B48C(p->unk8, p->unk28);
+    }
+    return t;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800585A4);
 
