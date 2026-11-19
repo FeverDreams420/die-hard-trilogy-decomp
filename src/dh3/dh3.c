@@ -3454,7 +3454,66 @@ void func_800337E4(Unk80030328_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80033B50);
+void func_80033B50(Unk80030328_Face *f) {
+    Unk80030328_Prim *prim;
+    Unk80036008_Prim *t;
+    u16 *tex;
+    VECTOR v0;
+    VECTOR v1;
+    VECTOR v2;
+    VECTOR v3;
+
+    D_800B61CC = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B5E0C->xy0, &D_800B5E0C->xy1, &D_800B5E0C->xy3, &D_800B5E0C->xy2, &D_800B5CFC, &D_800B642C);
+    if (D_800B642C & ~0x1FFF) {
+        RotTrans(f->v[0], &v0, &D_800B642C);
+        RotTrans(f->v[1], &v1, &D_800B642C);
+        RotTrans(f->v[2], &v2, &D_800B642C);
+        RotTrans(f->v[3], &v3, &D_800B642C);
+        if (v0.vz < 0 && v1.vz < 0 && v2.vz < 0 && v3.vz < 0) {
+            return;
+        }
+        func_800358C0(&D_800B5E0C->xy0, &v3);
+        func_800358C0(&D_800B5E0C->xy1, &v2);
+        func_800358C0(&D_800B5E0C->xy3, &v1);
+        func_800358C0(&D_800B5E0C->xy2, &v0);
+        D_800B61CC = v0.vz >> 2;
+        if (D_800B61CC < 0x58) {
+            D_800B61CC = 0x58;
+        }
+    }
+    prim = D_800B5E0C;
+    tex = (u16 *)(D_8018CDD4 + f->tex);
+    prim->uv1 = tex[0];
+    prim->uv0 = tex[2];
+    *(s16 *)&prim->uv3 = tex[4];
+    *(s16 *)&prim->uv2 = tex[5];
+    prim->tpage = tex[3];
+    prim->clut = tex[D_801F6C20[(D_800B61CC >> 7) + (f->clut & 0x700)]];
+    D_800B61CC += 0x12C;
+    switch (func_8004ED7C(prim)) {
+    case 1:
+        t = D_800B63AC;
+        *(u32 *)&t->uv0 = *(u32 *)&D_800B5E0C->uv0;
+        *(u32 *)&t->uv1 = *(u32 *)&D_800B5E0C->uv1;
+        *(u32 *)&t->uv2 = *(u32 *)&D_800B5E0C->uv2;
+        *(s32 *)&t->x0 = D_800B5E0C->xy0;
+        *(s32 *)&t->x1 = D_800B5E0C->xy1;
+        *(s32 *)&t->x2 = D_800B5E0C->xy2;
+        SetPolyFT3(t);
+        SetShadeTex(t, 1);
+        if (D_800B61CC < 0x58) {
+            D_800B61CC = 0x58;
+        }
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), t++);
+        D_800B63AC = t;
+        break;
+    case 0:
+        func_80035540((POLY_FT4 *)D_800B5E0C, (POLY_FT4 *)(D_800B5E0C + 1));
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), D_800B5E0C++);
+        AddPrim(D_800B62CC + (D_800B61CC >> 3), D_800B5E0C++);
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80033ECC);
 
