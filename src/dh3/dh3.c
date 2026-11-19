@@ -967,7 +967,36 @@ void func_800258A4(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002593C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80025A98);
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
+extern RECT D_800B5578;
+extern void func_80077E44(void);
+extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+void func_80072E08(void);
+void func_80070D00(void);
+void func_80070DC4(void);
+void func_80070EBC(void);
+
+void func_80025A98(void) {
+    RECT rect = D_800B5578;
+    s16 i;
+
+    if (D_800B5D4C == 2) {
+        D_800B5D0C = 2;
+        func_80077E44();
+        CdControlB(8, 0, 0);
+        i = 0x13;
+        do {
+            VSync(0);
+        } while (i--);
+        func_80072E08();
+        func_80070D00();
+        func_80070DC4();
+        D_800B604C->func = func_80070EBC;
+    }
+}
 
 extern s16 D_800B5D5C;
 extern s16 D_800B5D4C;
@@ -12392,10 +12421,6 @@ long func_80070A14(s16 chan) {
     }
     return -1;
 }
-
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
 
 extern s32 DrawSync(s32 mode);
 extern void StoreImage(RECT *rect, u32 *p);
