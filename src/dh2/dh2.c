@@ -1878,7 +1878,20 @@ extern s16 D_800B6430;
 void func_80023E40(void);
 void func_80023B20(void);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023DA0);
+void func_80023DA0(void) {
+    D_800B6B08 = 7;
+    D_800B6A64 = 0;
+    D_800B6C10 = 0;
+    D_800B6430 = -1;
+    D_800B7430 = D_800B7260;
+    func_80023E40();
+    func_80072F2C(func_8003DAC4, 0x10);
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_80023B20;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023E40);
 
