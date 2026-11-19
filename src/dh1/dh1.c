@@ -9853,7 +9853,103 @@ void func_80054940(s16 x, s16 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6) {
     func_800545BC(x, y, text, a3, a4, a5, a6);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054990);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 val;
+} Unk800692B4_Arg;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+} Unk80054990_F3;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+    s32 xy3;
+} Unk80054990_F4;
+
+typedef struct {
+    SVECTOR *v[4];
+    u16 unk10;
+    s16 tri;
+} Unk80054990_Face;
+
+typedef struct {
+    u8 pad[0xC];
+    u16 count;
+    u8 padE[6];
+    Unk80054990_Face face[1];
+} Unk80054990_Model;
+
+extern SVECTOR D_800A2B24;
+extern VECTOR D_8007B060;
+extern void SetPolyF3(void *p);
+extern void SetPolyF4(void *p);
+
+s32 func_80054990(void *data, Unk800692B4_Arg *arg) {
+    Unk80054990_Model *m = (Unk80054990_Model *)data;
+    SVECTOR unused;
+    SVECTOR rot = D_800A2B24;
+    VECTOR scale = D_8007B060;
+    Unk80054990_Face *f;
+    u32 *ot;
+    s16 n;
+
+    if (m == NULL) {
+        return 0;
+    }
+    D_801C1EC4.vx = arg->x - 0xA0;
+    D_801C1EC4.vy = arg->y - 0xB4;
+    D_801C1EC4.vz = arg->val;
+    PushMatrix();
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    func_8002384C(&rot, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &scale);
+    SetRotMatrix(&D_801FB868);
+    f = m->face;
+    n = m->count;
+    while (n--) {
+        if (f->tri != 0) {
+            Unk80054990_F3 *p = D_800A3374;
+
+            D_800A326C = RotTransPers3(f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy2, &D_800A2EFC, &D_800A3394);
+            if (!(D_800A3394 & ~0x1FFF)) {
+                SetPolyF3(p);
+                p->b0 = p->g0 = p->r0 = 0;
+                ot = D_800A32E4;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, p++);
+                }
+                D_800A3374 = p;
+            }
+        } else {
+            Unk80054990_F4 *p = D_800A3374;
+
+            D_800A326C = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy3, &p->xy2, &D_800A2EFC, &D_800A3394);
+            if (!(D_800A3394 & ~0x1FFF)) {
+                SetPolyF4(p);
+                p->b0 = p->g0 = p->r0 = 0;
+                ot = D_800A32E4;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, p++);
+                }
+                D_800A3374 = p;
+            }
+        }
+        f++;
+    }
+    PopMatrix();
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80054C70);
 
@@ -14811,17 +14907,11 @@ typedef struct {
     s16 unk10;
 } Unk800692B4;
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 val;
-} Unk800692B4_Arg;
-
 extern char D_80087CA8[];
 extern s16 D_800A2F44;
 void func_80070FDC(s32 mask);
 void func_8004C19C(s32 level);
-void func_80054990(char *text, Unk800692B4_Arg *arg);
+s32 func_80054990(void *data, Unk800692B4_Arg *arg);
 
 void func_800692B4(void) {
     Unk800692B4 *d = (Unk800692B4 *)D_800A317C->vals;
