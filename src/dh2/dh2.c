@@ -5920,7 +5920,7 @@ typedef struct {
     u32 time;
     u32 unk10;
     u8 unk14;
-    u8 pad15;
+    u8 unk15;
     u16 unk16;
     u8 pad18[2];
     u16 unk1A;
@@ -8205,7 +8205,131 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80051048);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800511BC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80051820);
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[0xA];
+    u8 unk12;
+    u8 pad13[3];
+    s16 unk16;
+    u8 pad18[2];
+    s16 unk1A;
+    u8 pad1C[0x20];
+    s16 unk3C;
+    u8 pad3E;
+    u8 unk3F;
+    s32 unk40;
+    s16 unk44;
+    u8 pad46[0x162];
+    Anim anim;
+    u8 pad1C8[0xB];
+    u8 unk1D3;
+    s16 unk1D4;
+    s16 unk1D6;
+    s16 unk1D8;
+    u8 pad1DA[0x12];
+    s16 unk1EC;
+    s16 unk1EE;
+    s16 unk1F0;
+    u8 pad1F2[0xE];
+    s32 unk200;
+    s32 unk204;
+    u8 pad208[4];
+    s16 unk20C;
+    u8 pad20E[0x12];
+    s16 unk220;
+    u8 pad222[4];
+    s16 unk226;
+    s16 unk228;
+    u8 pad22A[6];
+    s16 unk230;
+    u8 pad232[0x12];
+    s16 unk244;
+    u8 pad246[0xA];
+    s16 unk250;
+    u8 pad252[0x34];
+    u8 unk286;
+    u8 pad287[2];
+    u8 unk289;
+    u8 pad28A[0x10];
+    s16 unk29A;
+} Unk80051B9C;
+
+extern s16 D_800B6B88;
+extern s16 D_800B6DF8;
+extern u8 D_800B6424[];
+extern s16 D_800B6D28;
+extern SVECTOR D_800B72E8;
+extern void func_8004F734(void *p);
+extern void func_800524D8(void *p, s16 arg1);
+void func_8003EB60(void *);
+void func_800511BC(void);
+
+void func_80051820(void) {
+    Unk80051B9C *p = (Unk80051B9C *)D_800B6DE0->vals;
+
+    if (D_800B7370->unk1788 > 0xC00 && p->unk12 == 0xFF && (s16)func_800754C8(8) == 0) {
+        p->unk1D3 = 6;
+    }
+    if (p->unk3F != 0xFF) {
+        func_8007345C();
+        return;
+    }
+    func_8004F734(p);
+    if (p->unk286 == 6) {
+        D_800B6B88++;
+    } else {
+        D_800B6DF8++;
+    }
+    if (p->unk289 != 0xFF) {
+        func_800524D8(p, p->unk3C);
+    }
+    if (p->unk20C > 0) {
+        D_800B72E8.vx = p->pos.vx;
+        D_800B72E8.vy = p->pos.vy;
+        D_800B72E8.vz = p->pos.vz;
+        func_8003EB60(&D_800B72E8);
+        p->unk44 = D_800B72E8.vy;
+    } else {
+        p->unk44 = p->pos.vy + p->unk20C * 10;
+    }
+    if (p->unk12 != 0) {
+        p->unk228 = func_800754C8(10) + 0x30;
+        p->pos.vy++;
+    }
+    p->unk3F = 0;
+    p->unk228 = 0;
+    func_80035448(&p->anim, D_800B6424[D_800B6D28 & 7], 0, 0x52, 4);
+    p->unk40 = 200;
+    p->unk244 = 1;
+    p->unk230 = 0;
+    p->unk220 = 0;
+    p->unk226 = 0;
+    D_800B6D28++;
+    p->anim.unk15 = 0xFF;
+    p->anim.unk14 = 1;
+    p->unk250 = func_800754C8(5);
+    p->unk1D4 = 0;
+    p->unk1D6 = 0;
+    p->unk1D8 = 0;
+    p->unk1EC = 0;
+    p->unk1EE = 0;
+    p->unk1F0 = -20;
+    p->unk16 = -100;
+    p->unk1A = 100;
+    p->unk200 = 0;
+    p->unk204 = -1;
+    if (D_800B7370->unk1788 != 0) {
+        p->unk29A = 120;
+    } else {
+        p->unk29A = 40;
+    }
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_800511BC;
+    }
+    func_800511BC();
+}
 
 typedef struct {
     u8 pad0[0x3C];
@@ -8241,50 +8365,6 @@ void func_80051ACC(void) {
     }
     func_8007345C();
 }
-
-typedef struct {
-    SVECTOR pos;
-    u8 pad8[0xE];
-    s16 unk16;
-    u8 pad18[2];
-    s16 unk1A;
-    u8 pad1C[0x23];
-    u8 unk3F;
-    s32 unk40;
-    s16 unk44;
-    u8 pad46[0x162];
-    Anim anim;
-    u8 pad1C8[0xC];
-    s16 unk1D4;
-    s16 unk1D6;
-    s16 unk1D8;
-    u8 pad1DA[0x12];
-    s16 unk1EC;
-    s16 unk1EE;
-    s16 unk1F0;
-    u8 pad1F2[0xE];
-    s32 unk200;
-    s32 unk204;
-    u8 pad208[0x18];
-    s16 unk220;
-    u8 pad222[4];
-    s16 unk226;
-    u8 pad228[8];
-    s16 unk230;
-    u8 pad232[0x12];
-    s16 unk244;
-    u8 pad246[0xA];
-    s16 unk250;
-    u8 pad252[0x34];
-    u8 unk286;
-    u8 pad287[0x13];
-    s16 unk29A;
-} Unk80051B9C;
-
-extern u8 D_800B6424[];
-extern s16 D_800B6D28;
-void func_8003EB60(void *);
-void func_800511BC(void);
 
 void func_80051B9C(void) {
     Unk80051B9C *p = (Unk80051B9C *)D_800B6DE0->vals;
