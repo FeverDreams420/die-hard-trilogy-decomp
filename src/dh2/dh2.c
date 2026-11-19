@@ -11389,7 +11389,55 @@ void func_80075A34(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80075BC0);
+void func_80075BC0(void) {
+    Unk8007597C *d = (Unk8007597C *)D_800B6DE0->vals;
+    SVECTOR a = D_800B67A4;
+    SVECTOR v = D_800B67AC;
+    SVECTOR base = D_800B67B4;
+    Unk8007597C_Arg arg;
+    SVECTOR unused;
+    SVECTOR e = D_800B67BC;
+    CVECTOR col = D_800B67C4;
+    s16 t;
+
+    D_800B6E90.vz = 0;
+    D_800B6E90.vy = d->unk2;
+    D_800B6E90.vx = 0;
+    t = d->unkA;
+    v.vz = func_80072734(-1000, -1000, t);
+    v.vy = func_80072734(-120, -40, t);
+    v.vz = -2000;
+    v.vy = -50;
+    v.vx = 0;
+    if (d->unkE != 0) {
+        d->unkE--;
+    } else if (d->unkA < 0x1000) {
+        d->unkA += 0x40;
+    }
+    func_800757A8(&D_800B6E90, &v, &base, &D_800B6BB0);
+    func_8007583C();
+    arg.x = 0x302;
+    arg.y = 0x4C4;
+    arg.val = d->unkC;
+    func_800770DC(D_8009F72C, &arg);
+    if (D_800B6AF8 == 1) {
+        d->unk10 = 0x1000;
+        D_800B6DE0->func = func_80075A34;
+    }
+    if (d->unk10 != 0) {
+        d->unk10 -= 0x3E;
+        func_800774D8(0x1000 - d->unk10);
+        if (d->unk10 < 0) {
+            D_800B6DE0->func = func_8007597C;
+            return;
+        }
+        if (d->unk10 >= 0x7D) {
+            func_80075900(0x60, 0xA8);
+        }
+    } else if (d->unkC >= 0xC80) {
+        func_80075900(0x60, 0xA8);
+    }
+}
 
 typedef struct {
     u8 pad0[0xA];
