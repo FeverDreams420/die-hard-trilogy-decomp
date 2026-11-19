@@ -7175,7 +7175,31 @@ void func_800405E4(s16 *pos, u8 c) {
     D_800B7140 = l;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040718);
+void func_80040718(s16 *pos) {
+    SVECTOR unused = D_800B6490;
+    LINE_F2 *l = D_800B7140;
+
+    l->x0 = pos[0] - 5;
+    l->y0 = pos[1];
+    l->x1 = pos[0] + 5;
+    l->y1 = pos[1];
+    l->r0 = 100;
+    l->g0 = 100;
+    l->b0 = 255;
+    SetLineF2(l);
+    AddPrim(D_800B7018 + 18, l);
+    l++;
+    l->x0 = pos[0];
+    l->y0 = pos[1] - 5;
+    l->x1 = pos[0];
+    l->y1 = pos[1] + 5;
+    l->r0 = 100;
+    l->g0 = 100;
+    l->b0 = 255;
+    SetLineF2(l);
+    AddPrim(D_800B7018 + 18, l++);
+    D_800B7140 = l;
+}
 
 extern s16 D_800B63C6;
 extern s16 D_800B7118;
