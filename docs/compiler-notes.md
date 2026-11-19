@@ -259,6 +259,8 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A global store stays above the `D_800B7350` load of a trap check, while other stores sink below it | Both globals are `volatile`; GCC 2.5.7's scheduler keeps two volatile accesses in order. `D_800B7350` is `volatile` in `dh2.c` (DH2 0x80046498 with `D_801F7548` and `D_801F9A56`) |
 | A global store stays above a later load through a struct pointer | Write the global as an array element (`D_801F7540[4]`, not `D_801F7550`). A store to a plain fixed scalar may be reordered past a varying struct access; a store to an array element may not (DH2 0x80046498) |
 | `li v1,0xffff` where the C gives `li v1,-1` | The global is `u16`, not `s16` (DH2 0x8003D8D4, `D_800B6C30`) |
+| A global's address loaded once (`addiu v1`) and used for both `lbu 0(v1)` and `sb zero,0(v1)` | A local pointer: `flag = &G; if (*flag) { *flag = 0; ... }` (DH2 0x8002318C) |
+| Rodata (strings, tables) inside a function's `.s` file | Write it as `const` data right above the function, in address order; write a backslash as `\\`, since `"\ "` silently drops the backslash (DH2 0x8001E6EC, credit tables at 0x80089568) |
 | A short-lived value lands in `a0` where ours uses `v1` | It shares a variable with a later value that ends up in `a0` (the colour and the depth `z`, DH2 0x80033F74) |
 | `move a3,v1` of a constant address before a loop's entry test, where ours puts it after | Assign the base to a named local after the code that also uses the address (DH2 0x80034A18) |
 | Pool slot found, then `ptr` loaded before the two byte stores | Assign `t->vals = ptr[i]` before `t->unk2E`/`t->unk2F`; the scheduler can't hoist the load above possibly aliasing stores (DH2 0x80074304) |
