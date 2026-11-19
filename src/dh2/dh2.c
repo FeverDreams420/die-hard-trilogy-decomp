@@ -12415,7 +12415,95 @@ void func_80072094(void) {
     func_80078430(3, D_800BDB04);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800720E4);
+extern s32 D_800B6C00;
+
+void func_800720E4(void) {
+    RECT r = D_800B678C;
+
+    if (D_800B6AA0 == 9) {
+        func_80023858();
+        return;
+    }
+    func_80022B58();
+    func_800246A8(0x140);
+    D_800B6CC8++;
+    D_800B6D08++;
+    D_800B6DE0->unk14++;
+    func_8002370C();
+    if (D_800B6AA0 == 3 || D_800B6AA0 == 5) {
+        if (D_800B72E0 != 0) {
+            return;
+        }
+        D_800B70B8 = 1;
+        func_80022B58();
+        if (D_800B6AA0 == 3) {
+            D_800B6D08 = 0;
+            D_800B6C00 = 0x4650;
+            D_800B6AD8++;
+        }
+        if (D_800B7088 != NULL && (s16)func_80071E20() == 0) {
+            D_800B7430 = -1;
+        }
+        func_8003D750();
+        func_800735F8(0x14);
+        func_80066474();
+        D_800B7040 = 0;
+        DrawSync(0);
+        func_80023754(0x14);
+        func_800246A8(0x200);
+        D_800B6BD8 = D_800B70E8 >> 1;
+        D_800B6BE0 = D_800B71C8 >> 1;
+        func_800739F8();
+        D_800B61FC = D_8009348C;
+        D_800B73D8 = 0;
+        if (D_800B7260 != D_800B7430) {
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_80023DA0;
+            }
+        } else {
+            func_8001EA84();
+            func_80024124();
+            func_8001EA84();
+            func_8003D1F8(D_800B7260);
+            func_8003DE20();
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_8002318C;
+            }
+        }
+    } else {
+        if (D_800B72E0 != 0) {
+            return;
+        }
+        if (D_800B7430 != 0) {
+            if (D_800B7088 != NULL && (s16)func_80071E20() == 0) {
+                D_800B7430 = -1;
+            }
+            D_800B6D38 = 2;
+            D_800B6430 = -1;
+            D_800B72A0 = 2;
+            D_800B6AA0 = 2;
+            D_800B6B08 = 6;
+            func_80072F2C(func_800645F8, 1000);
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_8002359C;
+            }
+        } else {
+            D_800B6AA0 = 5;
+            func_8004D264();
+            D_800B6CB0 = 5;
+            D_800B7260 = 0;
+            D_800B6A6C = 0;
+            D_800B6C48 = 0;
+            D_800B6D08 = 0;
+        }
+    }
+}
 
 extern char D_800939D8[];
 extern u16 D_8009B47E;
