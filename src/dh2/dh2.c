@@ -7758,7 +7758,16 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005418C);
 
 void func_8005418C(void);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005472C);
+void func_8005472C(void) {
+    struct Task *t = D_800B6DE0;
+
+    if (t->func == D_800B7350) {
+        TRAP();
+    } else {
+        t->func = func_8005418C;
+    }
+    func_80051048();
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80054784);
 
