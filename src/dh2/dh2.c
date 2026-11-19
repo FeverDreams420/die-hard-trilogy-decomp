@@ -5547,7 +5547,59 @@ void func_80033E54(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033F74);
+void func_80033F74(void) {
+    POLY_FT4 *p = D_800B7140;
+    s16 *s = (s16 *)D_800B6DE0->vals;
+    s16 i;
+    s16 z;
+    u32 *uv;
+    s16 c;
+
+    for (i = 0; i < 0x800; i += 0x100) {
+        p->x0 = 0;
+        p->y0 = 0;
+        p->x1 = 320;
+        p->y1 = 0;
+        p->x3 = 320;
+        p->y3 = 240;
+        p->x2 = 0;
+        p->y2 = 240;
+        uv = D_8015EEFC;
+        *(u32 *)&p->u0 = *uv++;
+        *(u32 *)&p->u1 = *uv++;
+        *(u32 *)&p->u2 = *uv++;
+        *(u32 *)&p->u3 = *uv++;
+        p->tpage = GetTPage(0, 1, 320, 0);
+        SetPolyFT4(p);
+        SetShadeTex(p, 0);
+        z = (u8)s[0] >> 2;
+        if (i != 0) {
+            p->r0 = z;
+            p->g0 = z;
+            p->b0 = z;
+        } else {
+            p->r0 = 0xFF;
+            p->g0 = 0xFF;
+            p->b0 = 0xFF;
+        }
+        SetSemiTrans(p, 1);
+        z = 0x1000 - (i + ((u8)s[0] << 5));
+        if (z < 16) {
+            z = 16;
+        }
+        AddPrim(D_800B7018 + z, p++);
+    }
+    c = s[0] + 4;
+    D_800B7140 = p;
+    s[0] = c;
+    if (c > 0x80) {
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_80033E54;
+        }
+    }
+}
 
 void func_80033F74(void);
 
