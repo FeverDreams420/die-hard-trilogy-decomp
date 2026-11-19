@@ -12663,7 +12663,7 @@ typedef struct {
 } Unk80074DC4_Arg;
 
 void func_80076920(s32 level);
-void func_80076524(u8 *text, Unk80074DC4_Arg *arg);
+s32 func_80076524(u8 *data, Unk80074DC4_Arg *arg);
 
 void func_80074DC4(void) {
     Unk80074DC4 *d = (Unk80074DC4 *)D_800B604C->vals;
@@ -12882,7 +12882,91 @@ void func_800764D4(short x, short y, s32 value, s32 a3, s32 a4, u8 *a5, u8 *a6) 
     func_8007633C(x, y, value, a3, a4, a5, a6);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80076524);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+} Unk80076524_F3;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+    s32 xy3;
+} Unk80076524_F4;
+
+typedef struct {
+    SVECTOR *v[4];
+    u16 unk10;
+    u16 tri;
+} Unk80076524_Face;
+
+typedef struct {
+    u8 pad[0xC];
+    u16 count;
+    u8 padE[6];
+    Unk80076524_Face face[1];
+} Unk80076524_Model;
+
+extern SVECTOR D_800B5A84;
+extern VECTOR D_8008702C;
+extern void SetPolyF3(void *p);
+extern void SetPolyF4(void *p);
+
+s32 func_80076524(u8 *data, Unk80074DC4_Arg *arg) {
+    Unk80076524_Model *m = (Unk80076524_Model *)data;
+    SVECTOR unused;
+    SVECTOR rot = D_800B5A84;
+    VECTOR scale = D_8008702C;
+    Unk80076524_Face *f;
+    s16 n;
+
+    if (m == NULL) {
+        return 0;
+    }
+    D_801CA274.vx = arg->x - 0xA0;
+    D_801CA274.vy = arg->y - 0xB4;
+    D_801CA274.vz = arg->val;
+    PushMatrix();
+    func_80084978(&D_801FA428, &D_801CA274);
+    SetTransMatrix(&D_801FA428);
+    func_800749C0(&rot, &D_801FA428);
+    ScaleMatrix(&D_801FA428, &scale);
+    SetRotMatrix(&D_801FA428);
+    f = m->face;
+    n = m->count;
+    while (n--) {
+        if (f->tri != 0) {
+            Unk80076524_F3 *p = D_800B63AC;
+
+            D_800B61CC = RotTransPers3(f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy2, &D_800B5CFC, &D_800B642C);
+            if (!(D_800B642C & ~0x1FFF)) {
+                SetPolyF3(p);
+                p->b0 = p->g0 = p->r0 = 0;
+                AddPrim(D_800B62CC, p);
+                p++;
+                D_800B63AC = p;
+            }
+        } else {
+            Unk80076524_F4 *p = D_800B63AC;
+
+            D_800B61CC = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy3, &p->xy2, &D_800B5CFC, &D_800B642C);
+            if (!(D_800B642C & ~0x1FFF)) {
+                SetPolyF4(p);
+                p->b0 = p->g0 = p->r0 = 0;
+                AddPrim(D_800B62CC, p);
+                p++;
+                D_800B63AC = p;
+            }
+        }
+        f++;
+    }
+    PopMatrix();
+}
 
 s32 func_800767E0(Unk8002A35C *a, Unk8002A35C *b) {
     s32 dx = a->x - b->x;
