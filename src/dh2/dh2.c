@@ -635,7 +635,9 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001FB8C);
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001FD90);
 
 typedef struct {
-    u8 pad[0x14];
+    SVECTOR *v[4];
+    u16 tex;
+    u16 pad12;
     s32 unk14;
     s32 unk18;
 } Unk80020030_Prim;
@@ -5336,7 +5338,39 @@ void func_80030AB4(Unk8002B728_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80030E08);
+extern s32 D_800B6DA0;
+extern s32 D_800B6DA8;
+extern s32 D_800B6DB0;
+
+void func_80030E08(Unk80020030_Prim *f) {
+    Unk8002B728_Prim *prim = D_800B7140;
+    u16 *tex;
+
+    RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800B6A90, &D_800B7198);
+    if (!(D_800B7198 & ~0x1FFF) && D_800B6F30 >= 0x40 && (u8 *)D_800B7140 - D_800B70A8 <= 0xD7D7) {
+        tex = (u16 *)(D_8015EB78 + f->tex);
+        *(u32 *)&prim->uv0 = *(u32 *)tex;
+        *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
+        prim->uv2 = tex[4];
+        prim->uv3 = tex[6];
+        func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
+        if (D_800B6DA8 > D_800B6DA0) {
+            D_800B6DA0 = D_800B6DA8;
+        }
+        if (D_800B6DB0 > D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB0;
+        }
+        if (D_800B6DB8 > D_800B6DA0) {
+            D_800B6DA0 = D_800B6DB8;
+        }
+        D_800B6F30 = D_800B6DA0 >> 2;
+        SetPolyFT4(prim);
+        SetShadeTex(prim, 1);
+        SetSemiTrans(prim, 1);
+        AddPrim(D_800B7018 + (D_800B6F30 >> 3), prim++);
+        D_800B7140 = prim;
+    }
+}
 
 void func_8003101C(Unk8002B728_Face *f) {
     Unk8002B728_Prim *prim;
