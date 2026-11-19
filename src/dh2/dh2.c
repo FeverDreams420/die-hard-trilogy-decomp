@@ -52,7 +52,7 @@ struct Task {
     u8 unk2F;
 };
 extern struct Task *D_800B6DE0;
-extern void (*D_800B7350)(void);
+extern void (*volatile D_800B7350)(void);
 
 typedef struct {
     u8 pad0[0x38];
@@ -7007,7 +7007,97 @@ void func_800462F0(s32 dx, s32 dy, s32 dz) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046394);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046498);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[0xA];
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    u8 pad16[2];
+    s16 unk18;
+    s16 unk1A;
+    s16 unk1C;
+    u8 pad1E[8];
+    s16 unk26;
+} Unk80046498;
+
+extern s16 D_800B71C0;
+extern u8 D_8009348C[];
+extern u8 *D_800B61FC;
+extern s16 D_800B73D8;
+extern s16 D_800B6E98;
+extern s16 D_800B6B88;
+extern s16 D_800B70F0;
+extern s16 D_800B6DF8;
+extern s16 D_800B63D0;
+extern s32 D_800B7368;
+extern s16 D_800B6EC8;
+extern s16 D_800B7118;
+extern s16 D_800B6CA0;
+extern s16 D_800B71A8;
+extern s16 D_800B7048[];
+extern struct Task *D_801F7540[];
+extern s16 D_800B6CF0;
+extern SVECTOR *D_800B73B8;
+extern volatile u8 D_801F9A56;
+extern struct Task *volatile D_801F7548;
+extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
+void func_80046224(void);
+void func_80042AD8(void);
+void func_8004D31C(void);
+void func_8004265C(void);
+
+void func_80046498(void) {
+    Unk80046498 *p;
+
+    D_800B71C0 = 0x100;
+    D_800B61FC = D_8009348C;
+    D_800B73D8 = 0;
+    D_800B6E98 = 0;
+    D_800B6B88 = 0;
+    D_800B70F0 = 0;
+    D_800B6DF8 = 0;
+    D_800B63D0 = 0;
+    D_800B7368 = 0;
+    D_800B6EC8 = 0;
+    D_800B7118 = 0;
+    D_800B6CA0 = 0x40;
+    D_800B71A8 = 0;
+    p = (Unk80046498 *)D_800B6DE0->vals;
+    D_800B7048[0] = 0;
+    D_800B7048[1] = 1;
+    p->unk0 = 0;
+    p->unk4 = 0;
+    p->unk2 = 0x1000;
+    p->unk12 = 0;
+    p->unk10 = 0;
+    p->unk14 = 0;
+    p->unk18 = 0;
+    p->unk1A = 0;
+    p->unk1C = 0;
+    p->unk26 = 0;
+    D_801F7540[4] = func_80072F2C(func_80046224, 0x20);
+    D_800B6CF0 = 0;
+    D_800B73B8 = (SVECTOR *)D_800B71B8;
+    if (D_800B6F00->unk0 != 0) {
+        D_801F9A56 = 0xFF;
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_80042AD8;
+        }
+    } else {
+        func_8007307C(func_8001EC38, 3, 4);
+        D_801F7548 = (struct Task *)func_8007307C(func_8004D31C, 3, 0x3B4);
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_8004265C;
+        }
+    }
+}
 
 extern s32 D_800B7258[];
 extern s16 D_800B6B70;
