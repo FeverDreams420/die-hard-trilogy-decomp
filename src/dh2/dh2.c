@@ -338,7 +338,66 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80089554);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001E470);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001E6EC);
+typedef struct {
+    s16 x, y, w, h;
+} RECT;
+
+typedef struct {
+    char text[32];
+    u8 r, g, b, pad;
+    s32 time;
+    s16 unk28;
+    s16 unk2A;
+} CreditLine;
+
+const CreditLine D_80089568[] = {
+    { "DIE HARD TRILOGY FROM", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
+    { "FOX INTERACTIVE", 0xFF, 0x40, 0x40, 0, 200, 0x800, 0x400 },
+    { "3 EXPLOSIVE ADVENTURES", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
+    { "ON 1 DISC \\ TAKE AIM AND", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
+    { "PLAY A SEGMENT FROM", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
+    { "DIE HARD 2 ^ DIE HARDER", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
+    { "", 0xFF, 0xFF, 0xFF, 0, 255, 0x640, 0x3E8 },
+};
+
+const CreditLine D_8008969C[] = {
+    { " ", 0xFF, 0x40, 0x40, 0, 200, 0x708, 0x800 },
+    { "DIE HARD TRILOGY", 0xFF, 0x40, 0x40, 0, 200, 0x708, 0x400 },
+    { "e AND f  1996", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
+    { "FOX INTERACTIVE", 0xFF, 0x40, 0x40, 0, 200, 0x800, 0x400 },
+    { "ALL RIGHTS RESERVED", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
+    { "", 0xFF, 0xFF, 0xFF, 0, 255, 0x640, 0x3E8 },
+};
+
+extern RECT D_800B61E4;
+extern int ClearImage(RECT *rect, u8 r, u8 g, u8 b);
+void func_8001E470(const CreditLine *lines, s16 t);
+s32 func_80025570(s32 value, s32 target, s32 step);
+void func_80071FDC(void);
+void func_800720E4(void);
+
+void func_8001E6EC(void) {
+    RECT r = D_800B61E4;
+
+    if (D_800B6DE0->unk14 == 0) {
+        func_8001E470(D_80089568, D_800B6DE0->unk16);
+    } else if (D_800B6DE0->unk14 == 1) {
+        func_8001E470(D_8008969C, D_800B6DE0->unk16);
+    } else if (D_800B6DE0->unk16 >= 6) {
+        ClearImage(&r, 0, 0, 0);
+        func_80071FDC();
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_800720E4;
+        }
+    }
+    D_800B6DE0->unk16 = func_80025570(D_800B6DE0->unk16, 0xF0, 1);
+    if (D_800B6DE0->unk16 == 0xF0) {
+        D_800B6DE0->unk16 = 0;
+        D_800B6DE0->unk14++;
+    }
+}
 
 void func_8001E834(void) {
 }
@@ -12184,10 +12243,6 @@ long func_80071B54(s16 chan) {
 }
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071D74);
-
-typedef struct {
-    s16 x, y, w, h;
-} RECT;
 
 extern s32 DrawSync(s32 mode);
 extern void StoreImage(RECT *rect, u32 *p);
