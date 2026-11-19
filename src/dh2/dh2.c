@@ -8259,7 +8259,19 @@ typedef struct {
     s16 unk44;
 } Unk8005A9B0;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A9B0);
+void func_8005A9B0(void) {
+    Unk8005A9B0 *p = (Unk8005A9B0 *)D_800B6DE0->vals;
+
+    if (--p->unk40 < 0) {
+        p->unk44 = 0;
+        func_8003EB60(p);
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_8005A4CC;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005AA2C);
 
