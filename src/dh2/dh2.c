@@ -10622,7 +10622,28 @@ void func_80072484(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800725EC);
+extern char D_800939E4[];
+
+void func_800725EC(void) {
+    RECT unused = D_800B678C;
+
+    func_800246A8(0x140);
+    func_8002370C();
+    func_80076478(0xA0, 0x78, func_80078980(D_800939E4), 0x800, 0x400, D_800B63E8, D_800B63F0);
+    if (D_800B72E0 == 0) {
+        if (D_800B7088 != NULL && (s16)func_80071E20() == 0) {
+            D_800B7430 = -1;
+        }
+        func_8003D750();
+        func_800735F8(0x14);
+        func_80023754(0xA);
+        D_800B73D8 = 0;
+        func_80031B9C();
+        D_800B6D38 = 2;
+        D_800B72A0 = 4;
+        func_80024124();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007270C);
 
