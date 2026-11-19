@@ -9883,7 +9883,20 @@ typedef struct {
     s16 unkC;
 } Unk80069474;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80069474);
+void func_80069474(void) {
+    Unk80069474 *p = (Unk80069474 *)D_800B6DE0->vals;
+
+    p->unk0 = 0;
+    p->unk8 = 0x500;
+    p->unk4 = 0;
+    p->unk6 = 0x20;
+    p->unkC = func_800754C8(0x20);
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_80069368;
+    }
+}
 
 extern s16 D_800B741A;
 
