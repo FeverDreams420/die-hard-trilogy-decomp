@@ -10000,7 +10000,72 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800618D0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80061A44);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80061F6C);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 size[32];
+    s16 rotA[32];
+    s16 life[32];
+    s16 velX[32];
+    s16 velY[32];
+    s16 velZ[32];
+    s16 rotB[32];
+    s16 spin[32];
+    s16 unk208;
+    s16 pad20A;
+    s16 unk20C;
+    s16 unk20E;
+} Unk80061F6C_Data;
+
+typedef struct {
+    u8 pad0[0x24E];
+    s16 unk24E;
+    s16 unk250;
+    s16 unk252;
+} Unk80061F6C_Owner;
+
+extern void func_80061A44();
+extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
+extern struct Task *volatile D_801F7548;
+extern s32 D_800B6434;
+void func_800658EC(s16 id);
+
+void func_80061F6C(Unk8002A35C *pos, s16 arg1) {
+    struct Task *t;
+    Unk80061F6C_Data *d;
+    Unk80061F6C_Owner *o;
+    s16 i;
+
+    t = (struct Task *)func_8007307C(func_80061A44, 3, 0x218);
+    o = (Unk80061F6C_Owner *)D_801F7548->vals;
+    if (D_801F7548 != NULL && t != NULL) {
+        d = (Unk80061F6C_Data *)t->vals;
+        d->unk208 = 0;
+        d->unk20C = 0x140;
+        d->unk20E = arg1;
+        d->x = pos->x;
+        d->y = pos->y;
+        d->z = pos->z;
+        i = 15;
+        D_800B6434 = 0x305F;
+        do {
+            d->size[i] = func_800754C8(0x10) + 0x10;
+            d->rotA[i] = func_800754C8(0x1000);
+            d->rotB[i] = func_800754C8(0x1000);
+            d->spin[i] = func_800754C8(0x40) - 0x20;
+            d->life[i] = func_800754C8(4) + 6;
+            d->velX[i] = func_800754C8(0x40) - 0x20;
+            d->velY[i] = func_800754C8(0x30) + 0x20;
+            d->velZ[i] = func_800754C8(2) + 1;
+        } while (i--);
+        o->unk24E = func_800754C8(0x30) - 0x18;
+        o->unk250 = func_800754C8(0x30) - 0x18;
+        o->unk252 = func_800754C8(0x30) - 0x18;
+        func_800658EC(0x3E);
+    }
+}
 
 typedef struct {
     s16 unk0;
