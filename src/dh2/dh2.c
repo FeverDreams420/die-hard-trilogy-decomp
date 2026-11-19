@@ -2066,7 +2066,40 @@ void func_800645F8(void);
 void func_8002359C(void);
 void func_8002318C(void);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024124);
+void func_80024124(void) {
+    struct Task *t;
+
+    func_80023E40();
+    if (D_800B7260 != D_800B7430) {
+        t = func_80072F2C(func_8003DAC4, 0x10);
+        if (t != NULL) {
+            D_800B6B08 = 7;
+            t->flags = 0;
+            D_800B7430 = D_800B7260;
+            func_80072F2C(func_800645F8, 0x3FF);
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_8002359C;
+            }
+        }
+    } else if (D_800B6D38 == 2) {
+        func_800735F8(1);
+        if (func_80072F2C(func_800645F8, 0x3FF) != NULL) {
+            if (D_800B6DE0->func == D_800B7350) {
+                TRAP();
+            } else {
+                D_800B6DE0->func = func_8002359C;
+            }
+        }
+    } else {
+        if (D_800B6DE0->func == D_800B7350) {
+            TRAP();
+        } else {
+            D_800B6DE0->func = func_8002318C;
+        }
+    }
+}
 
 typedef struct {
     u8 disp[0x14];
