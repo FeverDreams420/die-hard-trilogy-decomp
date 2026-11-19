@@ -7589,7 +7589,58 @@ void func_80048D08(Anim *anim, s16 id, s16 time, s16 arg3, s16 blend) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80048D54);
+typedef struct {
+    s32 len;
+    s32 pad4;
+    s32 step;
+} Unk80048D54_Seq;
+
+typedef struct {
+    u16 pad0;
+    u16 seq;
+    u16 pad4;
+    u16 speed;
+    u8 pad8[4];
+    s32 frame;
+    u32 blend;
+    u16 flags;
+    u16 state;
+    u16 pad18;
+    u16 blendSpeed;
+} Unk80048D54_Anim;
+
+s16 func_80048D54(void *obj) {
+    Unk80048D54_Anim *a = obj;
+    Unk80048D54_Seq *seq = (Unk80048D54_Seq *)D_800B66AC[a->seq].p;
+    s16 ret = 0;
+    s32 t;
+
+    if (a->state == 2) {
+        a->blend += a->blendSpeed * D_800B56A2;
+        if (a->blend >= 0x1000) {
+            a->state = 0;
+            a->blend = 0x1000;
+        }
+    }
+    t = a->speed * D_800B56A2 + a->frame;
+    if (a->flags & 1) {
+        if (a->speed == 0) {
+            ret = -1;
+        } else if (t + seq->step * 2 >= seq->len) {
+            a->speed = 0;
+            ret = -1;
+        }
+    }
+    if (t >= seq->len) {
+        ret = -1;
+        t -= seq->len;
+    }
+    if (t < 0) {
+        t += seq->len;
+    }
+    a->frame = t;
+    return ret;
+}
 
 s32 func_80048E50(s16 a, s16 b) {
     return (a + b - 0x100) >> 6;
@@ -10098,7 +10149,7 @@ extern SVECTOR D_800B6594;
 extern VECTOR D_80091BB8;
 extern s16 D_800B638C;
 void func_80048E70(VECTOR *v, SVECTOR *rot, int a, int b, void *obj);
-void func_80048D54(void *obj);
+s16 func_80048D54(void *obj);
 void func_80060F00(VECTOR *v, int a, int b, int c, int d);
 
 void func_80060D44(void) {
