@@ -2006,7 +2006,45 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002B404);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002B5A8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002BFF4);
+typedef struct {
+    u8 data[6000];
+} Unk8002BFF4_Buf;
+
+typedef struct {
+    s32 v[4];
+    s32 tex;
+    s32 next;
+    s32 unk18;
+} Unk8002BFF4_Prim;
+
+typedef struct {
+    s32 base;
+    u16 unk4;
+    u16 pad6;
+    Unk8002BFF4_Prim prims[1];
+} Unk8002BFF4_Model;
+
+void func_8002BFF4(Unk8002BFF4_Model *src, Unk8002BFF4_Model *dst) {
+    Unk8002BFF4_Prim *p;
+    s32 delta;
+    s32 base;
+
+    dst->unk4 = src->unk4;
+    *(Unk8002BFF4_Buf *)dst = *(Unk8002BFF4_Buf *)src;
+    p = dst->prims;
+    base = dst->base;
+    delta = (u8 *)dst - (u8 *)src;
+    dst->base = base + delta;
+    while (p->next != 0) {
+        p->v[0] += delta;
+        p->v[1] += delta;
+        p->v[2] += delta;
+        if (p->v[3] != -1) {
+            p->v[3] += delta;
+        }
+        p++;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002C118);
 
