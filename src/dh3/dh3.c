@@ -9716,7 +9716,85 @@ int func_8006007C(int a, int b, int c) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800600A0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800606D8);
+typedef struct {
+    VECTOR base;
+    SVECTOR pos[12];
+    s16 unk70;
+    s16 pad72;
+    s32 unk74[12];
+    s32 unkA4[12];
+    s16 unkD4[12];
+    s16 unkEC[12];
+    s16 unk104[12];
+    s16 unk11C[12];
+    s16 unk134[12];
+    s16 unk14C[12];
+    u8 unk164[12];
+} Unk800606D8;
+
+extern void func_800600A0();
+extern Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size);
+extern int func_80071B7C(s32 a, s32 b, s32 t);
+extern s16 D_80094174[];
+extern s16 D_800B5732;
+s32 func_80028BF0(void *p);
+
+void func_800606D8(VECTOR *pos) {
+    Unk8003BA6C_Task *task;
+    Unk800606D8 *d;
+    s16 i;
+    s16 t;
+    s16 r;
+    s16 ang;
+
+    task = func_800724C4(func_800600A0, 3, 0x174);
+    if (task == NULL) {
+        return;
+    }
+    d = (Unk800606D8 *)task->data;
+    D_800B5732 = 0x4000;
+    func_8005FFCC(pos);
+    pos->vy = (s16)func_80028BF0(pos);
+    i = 11;
+    do {
+        if (i < 4) {
+            t = func_80074910(0x400);
+        } else {
+            t = func_80074910(3000) + 0x400;
+        }
+        ang = i * 0x155;
+        r = func_80071B7C(0, 600, t);
+        d->unkA4[i] = func_80071B7C(0x1000, 0x1000, t);
+        if (t < 0x800) {
+            d->unk74[i] = func_80071B7C(60, 200, t);
+            d->unk14C[i] = 0;
+            d->unkD4[i] = func_80071B7C(1000, 800, t) * 2;
+            d->unk104[i] = func_80074910(8) + 16;
+            d->unk164[i] = 0xFF;
+            d->pos[i].vy = pos->vy;
+        } else {
+            d->unk74[i] = func_80071B7C(300, 300, t);
+            d->unkA4[i] = 0x800;
+            d->unkD4[i] = func_80071B7C(4, 8, t) * 2;
+            d->unk14C[i] = func_80071B7C(0x12, 0x18, t) * 2;
+            d->unk104[i] = func_80074910(8) + 32;
+            d->unk164[i] = 0;
+            d->pos[i].vy = pos->vy + 220;
+        }
+        d->unk11C[i] = func_80071B7C(0x50, 0x50, t);
+        d->base.vx = pos->vx;
+        d->base.vy = pos->vy;
+        d->base.vz = pos->vz;
+        d->pos[i].vx = (D_80094174[ang] * r) >> 12;
+        d->pos[i].vz = (D_80094174[(ang + 0x400) & 0xFFF] * r) >> 12;
+        d->pos[i].vy = 0;
+        d->unkEC[i] = func_80074910(800) + 100;
+        if ((s16)func_80074910(2)) {
+            d->unk104[i] = -d->unk104[i];
+        }
+    } while (i--);
+    d->unk70 = 0xFF;
+}
 
 int func_800609F8(short i) {
     return *D_800B66AC[i].p - 1;
