@@ -9025,7 +9025,16 @@ typedef struct {
     s16 unk32;
 } Unk800645A8;
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800645A8);
+void func_800645A8(void) {
+    struct Task *t = D_800B6DE0;
+
+    ((Unk800645A8 *)t->vals)->unk32 = 0;
+    if (t->func == D_800B7350) {
+        TRAP();
+    } else {
+        t->func = func_80064454;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800645F8);
 
