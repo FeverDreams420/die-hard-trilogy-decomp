@@ -8057,7 +8057,96 @@ void func_80051ACC(void) {
     func_8007345C();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80051B9C);
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[0xE];
+    s16 unk16;
+    u8 pad18[2];
+    s16 unk1A;
+    u8 pad1C[0x23];
+    u8 unk3F;
+    s32 unk40;
+    s16 unk44;
+    u8 pad46[0x162];
+    Anim anim;
+    u8 pad1C8[0xC];
+    s16 unk1D4;
+    s16 unk1D6;
+    s16 unk1D8;
+    u8 pad1DA[0x12];
+    s16 unk1EC;
+    s16 unk1EE;
+    s16 unk1F0;
+    u8 pad1F2[0xE];
+    s32 unk200;
+    s32 unk204;
+    u8 pad208[0x18];
+    s16 unk220;
+    u8 pad222[4];
+    s16 unk226;
+    u8 pad228[8];
+    s16 unk230;
+    u8 pad232[0x12];
+    s16 unk244;
+    u8 pad246[0xA];
+    s16 unk250;
+    u8 pad252[0x34];
+    u8 unk286;
+    u8 pad287[0x13];
+    s16 unk29A;
+} Unk80051B9C;
+
+extern u8 D_800B6424[];
+extern s16 D_800B6D28;
+void func_8003EB60(void *);
+void func_800511BC(void);
+
+void func_80051B9C(void) {
+    Unk80051B9C *p = (Unk80051B9C *)D_800B6DE0->vals;
+
+    func_8004F734(p);
+    D_800B72E8.vx = p->pos.vx;
+    D_800B72E8.vy = p->pos.vy;
+    D_800B72E8.vz = p->pos.vz;
+    func_8003EB60(&D_800B72E8);
+    p->unk44 = D_800B72E8.vy;
+    p->unk3F = 0;
+    func_80035448(&p->anim, D_800B6424[D_800B6D28 & 7], 0, 0x52, 4);
+    p->unk40 = 200;
+    p->unk244 = 1;
+    p->unk230 = 0;
+    p->unk220 = 0;
+    p->unk226 = 0;
+    D_800B6D28++;
+    p->anim.unk14 = 1;
+    p->unk250 = func_800754C8(5);
+    p->unk1D4 = 0;
+    p->unk1D6 = 0;
+    p->unk1D8 = 0;
+    p->unk1EC = 0;
+    p->unk1EE = 0;
+    p->unk1F0 = 0;
+    p->unk16 = -150;
+    p->unk1A = 150;
+    p->unk200 = 0;
+    p->unk204 = -1;
+    if (D_800B7370->unk1788 != 0) {
+        p->unk29A = 120;
+    } else {
+        p->unk29A = 40;
+    }
+    if (p->unk286 == 6) {
+        D_800B6B88++;
+    } else {
+        D_800B6DF8++;
+    }
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_800511BC;
+    }
+    func_800511BC();
+}
 
 typedef struct {
     u8 pad0[0x40];
