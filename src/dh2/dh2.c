@@ -7223,7 +7223,36 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6488);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6490);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80041168);
+typedef struct {
+    u8 pad0[0xC];
+    s16 unkC;
+} Unk80041168;
+
+extern int FntPrint();
+extern char D_800881C8[];
+extern char D_800881D4[];
+extern char D_800881E0[];
+extern char D_800881EC[];
+extern char D_80094C0C[][16];
+extern struct Task *D_801F7550;
+extern s16 D_800B6CF0;
+extern u16 D_800B71A8;
+extern s16 D_800B6CA0;
+
+void func_80041168(void) {
+    Unk80041168 *d = (Unk80041168 *)D_801F7550->vals;
+
+    FntPrint("FREE
+");
+    FntPrint(D_800881C8, D_800B6CF0);
+    FntPrint(D_800881D4, d->unkC);
+    FntPrint(D_800881E0, D_80094C0C[D_800B71A8]);
+    FntPrint("CARD 
+");
+    FntPrint("GROUP
+");
+    FntPrint(D_800881EC, D_800B6CA0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80041228);
 
@@ -7362,7 +7391,6 @@ extern s32 D_800B63B0;
 extern char D_8008839C[];
 extern char D_800B64D8[];
 extern char D_801F92B8[][16];
-extern int FntPrint(s32 id, char *fmt, ...);
 
 void func_80044A04(void) {
     s16 i;
@@ -7488,7 +7516,7 @@ extern s32 D_800B7368;
 extern s16 D_800B6EC8;
 extern s16 D_800B7118;
 extern s16 D_800B6CA0;
-extern s16 D_800B71A8;
+extern u16 D_800B71A8;
 extern s16 D_800B7048[];
 extern struct Task *D_801F7540[];
 extern s16 D_800B6CF0;
