@@ -2371,7 +2371,42 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B636C);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6374);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023920);
+extern SVECTOR D_800B621C;
+extern s32 D_800B6CC8;
+extern s32 D_800B6D08;
+extern s16 D_800B72E0;
+extern s16 D_800B72A0;
+extern u8 D_800B63E0[];
+extern u8 D_800B63F4[];
+extern void func_8007870C(void);
+extern char *func_80078980(char *);
+extern void func_80076478(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
+void func_800246A8(s16 arg0);
+void func_8002370C(void);
+void func_800223BC(void);
+
+void func_80023920(void) {
+    SVECTOR unused = D_800B621C;
+
+    D_800B6DE0->unk14++;
+    func_800246A8(0x140);
+    D_800B6CC8++;
+    D_800B6D08++;
+    func_8002370C();
+    if (D_800B6DE0->unk14 >= 5) {
+        if (D_800B72E0 != 0) {
+            func_8007870C();
+        }
+        func_800223BC();
+        if (D_800B72A0 == 4) {
+            func_80078EBC(5);
+        } else {
+            func_80078EBC(1);
+        }
+    } else {
+        func_80076478(0xA0, 0x78, func_80078980("LOADING"), 0x800, 0x400, D_800B63E0, D_800B63F4);
+    }
+}
 
 extern s16 D_800B6B08;
 extern s16 D_800B6AF8;
