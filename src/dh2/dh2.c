@@ -5072,7 +5072,67 @@ void func_8003456C(SVECTOR *a, SVECTOR *b, SVECTOR *out) {
     out->vz = a->vz + b->vz;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800345AC);
+typedef struct {
+    int *p;
+    int pad[3];
+} Entry16;
+
+extern Entry16 *D_800B73F0;
+
+typedef struct {
+    u8 pad[0x20];
+    SVECTOR pt[8];
+    u8 pad60[0x78];
+} Unk800345AC_Ent;
+
+typedef struct {
+    u8 pad[4];
+    u16 count;
+    u8 pad6[0x12];
+    Unk800345AC_Ent ent[1];
+} Unk800345AC_Obj;
+
+void func_800345AC(s16 id) {
+    Unk800345AC_Obj *obj = (Unk800345AC_Obj *)D_800B73F0[id].p;
+    SVECTOR d;
+    s16 n = obj->count;
+
+    while (n--) {
+        SVECTOR *pt = obj->ent[n].pt;
+
+        func_80025D44((s16 *)&pt[0], (s16 *)&pt[1], 0x800, (s16 *)&d);
+        func_80025D44((s16 *)&pt[0], (s16 *)&d, 0x200, (s16 *)&pt[0]);
+        func_80025D44((s16 *)&pt[1], (s16 *)&d, 0x200, (s16 *)&pt[1]);
+        func_80025D44((s16 *)&pt[2], (s16 *)&pt[3], 0x800, (s16 *)&d);
+        func_80025D44((s16 *)&pt[2], (s16 *)&d, 0x200, (s16 *)&pt[2]);
+        func_80025D44((s16 *)&pt[4], (s16 *)&pt[5], 0x800, (s16 *)&d);
+        func_80025D44((s16 *)&pt[4], (s16 *)&d, 0x200, (s16 *)&pt[4]);
+        func_80025D44((s16 *)&pt[5], (s16 *)&d, 0x200, (s16 *)&pt[5]);
+        func_80025D44((s16 *)&pt[6], (s16 *)&pt[7], 0x800, (s16 *)&d);
+        func_80025D44((s16 *)&pt[6], (s16 *)&d, 0x200, (s16 *)&pt[6]);
+        func_80025D44((s16 *)&pt[0], (s16 *)&pt[4], 0x400, (s16 *)&d);
+        d.vx = pt[0].vx - d.vx;
+        d.vy = pt[0].vy - d.vy;
+        d.vz = pt[0].vz - d.vz;
+        func_8003456C(&d, &pt[0], &pt[0]);
+        func_8003456C(&d, &pt[1], &pt[1]);
+        func_8003456C(&d, &pt[2], &pt[2]);
+        func_8003456C(&d, &pt[3], &pt[3]);
+        d.vx = -d.vx;
+        d.vy = -d.vy;
+        d.vz = -d.vz;
+        func_8003456C(&d, &pt[4], &pt[4]);
+        func_8003456C(&d, &pt[5], &pt[5]);
+        func_8003456C(&d, &pt[6], &pt[6]);
+        func_8003456C(&d, &pt[7], &pt[7]);
+        func_80025D44((s16 *)&pt[2], (s16 *)&pt[3], 0x800, (s16 *)&d);
+        func_80025D44((s16 *)&pt[2], (s16 *)&d, 0x400, (s16 *)&pt[2]);
+        func_80025D44((s16 *)&pt[3], (s16 *)&d, 0x400, (s16 *)&pt[3]);
+        func_80025D44((s16 *)&pt[6], (s16 *)&pt[7], 0x800, (s16 *)&d);
+        func_80025D44((s16 *)&pt[6], (s16 *)&d, 0x400, (s16 *)&pt[6]);
+        func_80025D44((s16 *)&pt[7], (s16 *)&d, 0x400, (s16 *)&pt[7]);
+    }
+}
 
 typedef struct {
     u8 pad0[0x38];
@@ -5214,12 +5274,6 @@ void func_80035384(Unk80035384 *obj) {
     func_800351A4(obj);
 }
 
-typedef struct {
-    int *p;
-    int pad[3];
-} Entry16;
-
-extern Entry16 *D_800B73F0;
 s32 func_800754C8(s32);
 
 int func_800353DC(int i) {
