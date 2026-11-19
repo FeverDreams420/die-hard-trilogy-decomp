@@ -10457,7 +10457,90 @@ void func_8007112C(s32 arg0, s32 arg1) {
     delete(D_800B7818);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071174);
+typedef struct {
+    char d[64];
+} McTitle;
+
+typedef struct {
+    char d[32];
+} McClut;
+
+typedef struct {
+    char d[128];
+} McIcon;
+
+typedef struct {
+    u8 id0;
+    u8 id1;
+    u8 type;
+    u8 blocks;
+    McTitle title;
+    u8 pad44[0x1C];
+    McClut clut;
+    McIcon icon[3];
+} McHeader;
+
+typedef struct {
+    s32 size;
+    u8 sum[0xFC];
+} McData;
+
+extern McHeader D_800B74F8;
+extern McData D_800B76F8;
+extern McTitle D_80097DC4;
+extern McClut D_80097DA4;
+extern McIcon D_80097C24;
+extern McIcon D_80097CA4;
+extern McIcon D_80097D24;
+extern s32 open(char *name, s32 mode);
+extern s32 close(s32 fd);
+extern s32 write(s32 fd, void *buf, s32 n);
+s32 func_80070E54(u8 *data, s32 len, u8 *out);
+
+s32 func_80071174(s32 arg0, u8 *data, s32 size, s32 arg3) {
+    s32 n;
+    s32 fd;
+
+    D_800B74F8.id0 = 'S';
+    D_800B74F8.id1 = 'C';
+    if (D_800B7370->unk178A != 0) {
+        D_800B74F8.type = 0x13;
+    } else {
+        D_800B74F8.type = 0x11;
+    }
+    D_800B74F8.title = D_80097DC4;
+    D_800B74F8.clut = D_80097DA4;
+    D_800B74F8.icon[0] = D_80097C24;
+    D_800B74F8.icon[1] = D_80097CA4;
+    D_800B74F8.icon[2] = D_80097D24;
+    n = size + 0x300;
+    n = n / 0x2000 * 0x2000 + ((n & 0x1FFF) ? 0x2000 : 0);
+    D_800B74F8.blocks = n / 0x2000 + ((n & 0x1FFF) != 0);
+    D_800B76F8.size = size;
+    func_80070E54(data, size, D_800B76F8.sum);
+    sprintf(D_800B7818, D_800889D0, arg3, arg0);
+    fd = open(D_800B7818, 2);
+    if (fd >= 0) {
+        close(fd);
+        return 0;
+    }
+    fd = open(D_800B7818, (D_800B74F8.blocks << 16) | 0x200);
+    if (fd == -1) {
+        return 0;
+    }
+    close(fd);
+    fd = open(D_800B7818, 2);
+    if (fd == -1) {
+        return 0;
+    }
+    if (write(fd, &D_800B74F8, 0x200) == 0x200 && write(fd, &D_800B76F8, 0x100) == 0x100 && write(fd, data, size) == size) {
+        close(fd);
+        return -1;
+    }
+    close(fd);
+    delete(D_800B7818);
+    return 0;
+}
 
 extern s16 D_800B6EB8;
 extern s16 D_800B7170;
@@ -10470,10 +10553,7 @@ void func_80071680(s32 arg0) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800716B4);
 
-extern u8 D_800B74F8[];
-extern s32 close(s32 fd);
 extern char *func_800716B4(s16 arg0);
-extern s32 open(char *name, s32 mode);
 extern s32 read(s32 fd, void *buf, s32 n);
 
 s32 func_800716D8(s16 slot) {
@@ -10490,7 +10570,7 @@ s32 func_800716D8(s16 slot) {
         close(fd);
         return 0;
     }
-    if (read(fd, D_800B74F8, 0x200) != 0x200) {
+    if (read(fd, &D_800B74F8, 0x200) != 0x200) {
         close(fd);
         return 0;
     }
