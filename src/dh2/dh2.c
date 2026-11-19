@@ -11447,7 +11447,81 @@ void func_8006A474(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006A538);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AC48);
+typedef struct {
+    SVECTOR pos[12];
+    s16 unk60;
+    s16 pad62;
+    s32 unk64[12];
+    s32 unk94[12];
+    s16 unkC4[12];
+    s16 unkDC[12];
+    s16 unkF4[12];
+    s16 unk10C[12];
+    s16 unk124[12];
+    s16 unk13C[12];
+    u8 unk154[12];
+} Unk8006AC48;
+
+extern void func_8006A538();
+extern Unk8003BA6C_Task *func_8007307C(void (*fn)(), s16 flags, s16 size);
+extern int func_80072734(s32 a, s32 b, s32 t);
+extern s16 D_800982E4[];
+extern s32 D_800B6434;
+void func_800658EC(s16 id);
+void func_80065C10(s16 arg);
+
+void func_8006AC48(SVECTOR *pos) {
+    Unk8003BA6C_Task *task;
+    Unk8006AC48 *d;
+    s16 i;
+    s16 t;
+    s16 r;
+    s16 ang;
+
+    task = func_8007307C(func_8006A538, 3, 0x164);
+    if (task == NULL) {
+        return;
+    }
+    D_800B6434 = 0x3FFF;
+    i = 11;
+    d = (Unk8006AC48 *)task->data;
+    do {
+        if (i < 4) {
+            t = func_800754C8(0x400);
+        } else {
+            t = func_800754C8(3000) + 0x400;
+        }
+        ang = i * 0x155;
+        r = func_80072734(0, 400, t);
+        d->unk94[i] = func_80072734(0x1000, 0x1000, t);
+        if (t < 0x800) {
+            d->unk64[i] = func_80072734(30, 150, t);
+            d->unk13C[i] = 0;
+            d->unkC4[i] = func_80072734(0x5A8, 1000, t);
+            d->unkF4[i] = func_800754C8(8) + 16;
+            d->unk154[i] = 0xFF;
+            d->pos[i].vy = pos->vy;
+        } else {
+            d->unk64[i] = func_80072734(200, 200, t);
+            d->unk94[i] = 0x800;
+            d->unkC4[i] = func_80072734(4, 8, t);
+            d->unk13C[i] = func_80072734(0x28, 0x30, t);
+            d->unkF4[i] = func_800754C8(8) + 32;
+            d->unk154[i] = 0;
+            d->pos[i].vy = pos->vy + 120;
+        }
+        d->unk10C[i] = func_80072734(0x30, 0x30, t);
+        d->pos[i].vx = pos->vx + ((D_800982E4[ang] * r) >> 12);
+        d->pos[i].vz = pos->vz + ((D_800982E4[(ang + 0x400) & 0xFFF] * r) >> 12);
+        d->unkDC[i] = func_800754C8(800) + 100;
+        if ((s16)func_800754C8(2)) {
+            d->unkF4[i] = -d->unkF4[i];
+        }
+    } while (i--);
+    d->unk60 = 0xFF;
+    func_800658EC(0x40);
+    func_80065C10(0x3F);
+}
 
 extern Unk800B6F00 *D_800B6F00;
 
