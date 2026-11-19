@@ -10010,7 +10010,38 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B667C);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6684);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F2D8);
+struct DIRENTRY {
+    char name[20];
+    s32 attr;
+    s32 size;
+    struct DIRENTRY *next;
+    s32 head;
+    char system[4];
+};
+
+extern char D_80097350[][12];
+extern char D_801F92B8[][16];
+extern char *strcpy(char *, char *);
+extern char *strcat(char *, char *);
+extern struct DIRENTRY *firstfile(char *name, struct DIRENTRY *dir);
+extern struct DIRENTRY *nextfile(struct DIRENTRY *dir);
+
+void func_8005F2D8(s16 port) {
+    struct DIRENTRY de;
+    char path[128];
+    s16 n = 0;
+
+    strcpy(path, D_80097350[port]);
+    strcat(path, ":*");
+    if (firstfile(path, &de) != NULL) {
+        do {
+            strcpy(D_801F92B8[n], de.name);
+            D_801F92B8[n][12] = 0;
+            n++;
+        } while (nextfile(&de) != NULL);
+    }
+    D_801F92B8[n][0] = 0;
+}
 
 extern char D_800B6690[];
 char *func_8005F4E4(s16 n);
