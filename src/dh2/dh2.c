@@ -5765,7 +5765,22 @@ void *func_80072768(void *data, s16 i);
 u32 func_80072780(void *data, s16 i);
 void func_8003D10C(void);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003CCC0);
+void func_8003CCC0(void) {
+    D_800B71F0 = (s32 *)func_80024F60((s32)D_800B71F0);
+    D_800B6AE8 = func_80072768(D_800B6BC8, 3);
+    D_800B7288 = 0;
+    D_800B7038 = D_800B71F0;
+    func_80072780(D_800B6BC8, 3);
+    D_800B6A88 = 0x6B80;
+    D_800B71B8 = (Unk800462F0_Mesh *)D_800B7038;
+    D_800B71F0 = (s32 *)func_80024F4C((s32)D_800B71F0, 0x6B80);
+    D_800B6DE0->saved = D_800B6DE0->func;
+    if (D_800B6DE0->func == D_800B7350) {
+        TRAP();
+    } else {
+        D_800B6DE0->func = func_8003D10C;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003CD9C);
 
