@@ -12449,7 +12449,12 @@ extern u8 *D_801F7EAC[];
 extern u8 D_801F792C[];
 extern u8 D_801F79AC[];
 extern u8 D_801F7A2C[];
-extern s16 D_801F7924[3];
+extern struct {
+    s16 free[3];
+    s16 pad6;
+    u8 used[3][0x80];
+    u8 *ptr[3][0x80];
+} D_801F7924;
 extern struct Task D_800B6D18[];
 extern struct Task *D_800B623C;
 extern struct Task *D_801F80AC[];
@@ -12519,11 +12524,11 @@ void func_80072040(void) {
     D_800B6D18[0].next = D_800B6D18;
     D_800B6D18[0].prev = D_800B6D18;
     D_801DA42C.total = D_801DA42C.count[0] + D_801DA42C.count[1] + D_801DA42C.count[2];
-    D_801F7924[0] = D_801DA42C.count[0];
-    D_801F7924[1] = D_801DA42C.count[1];
-    D_801F7924[2] = D_801DA42C.count[2];
+    D_801F7924.free[0] = D_801DA42C.count[0];
+    D_801F7924.free[1] = D_801DA42C.count[1];
+    D_801F7924.free[2] = D_801DA42C.count[2];
     D_800B6D18[0].vals = (Unk800A317CVals *)D_801F7AAC[0];
-    D_801F7924[0] = D_801DA42C.count[0] - 1;
+    D_801F7924.free[0] = D_801DA42C.count[0] - 1;
     for (i = 1; i < 0x80; i++) {
         D_800B6D18[i].next = &D_800B6D18[i + 1];
         D_801F80AC[i] = NULL;
@@ -13031,7 +13036,67 @@ void func_80073714(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007374C);
+s16 func_8007374C(s16 size, struct Task *t) {
+    s16 i;
+    s16 freed = 0;
+
+    do {
+        if (size == 0) {
+            t->vals = NULL;
+            t->unk2E = 0xFF;
+            t->unk2F = 0xFF;
+            return -1;
+        }
+        if (D_801DA42C.size[2] >= size && D_801F7924.free[2] != 0) {
+            for (i = 0; i < D_801DA42C.count[2]; i++) {
+                if (D_801F7924.used[2][i] == 0) {
+                    D_801F7924.used[2][i] = 0xFF;
+                    D_801F7924.free[2]--;
+                    t->vals = (Unk800A317CVals *)D_801F7924.ptr[2][i];
+                    t->unk2E = 3;
+                    t->unk2F = i;
+                    return -1;
+                }
+            }
+        }
+        if (D_801DA42C.size[1] >= size && D_801F7924.free[1] != 0) {
+            for (i = 0; i < D_801DA42C.count[1]; i++) {
+                if (D_801F7924.used[1][i] == 0) {
+                    D_801F7924.used[1][i] = 0xFF;
+                    D_801F7924.free[1]--;
+                    t->vals = (Unk800A317CVals *)D_801F7924.ptr[1][i];
+                    t->unk2E = 2;
+                    t->unk2F = i;
+                    return -1;
+                }
+            }
+        }
+        if (D_801DA42C.size[0] >= size && D_801F7924.free[0] != 0) {
+            for (i = D_801DA42C.count[0] - 1; i > 0; i--) {
+                if (D_801F7924.used[0][i] == 0) {
+                    D_801F7924.used[0][i] = 0xFF;
+                    D_801F7924.free[0]--;
+                    t->vals = (Unk800A317CVals *)D_801F7924.ptr[0][i];
+                    t->unk2E = 1;
+                    t->unk2F = i;
+                    return -1;
+                }
+            }
+        }
+        if (D_800B604C->flags & 0x10) {
+            return 0;
+        }
+        if (!(t->flags & 0x10)) {
+            freed = func_80072AF4(size);
+            if (freed == 0) {
+                break;
+            }
+            D_800B5F3C++;
+        }
+    } while (freed);
+    D_800B5E3C++;
+    return 0;
+}
 
 void func_80073AA0(void) {
     s32 left;
@@ -13097,9 +13162,9 @@ void func_80073AA0(void) {
     }
     D_801DA42C.left = left;
     D_801DA42C.total = D_801DA42C.count[0] + D_801DA42C.count[1] + D_801DA42C.count[2];
-    D_801F7924[2] = D_801DA42C.count[2];
-    D_801F7924[1] = D_801DA42C.count[1];
-    D_801F7924[0] = D_801DA42C.count[0] - D_801F7924[0];
+    D_801F7924.free[2] = D_801DA42C.count[2];
+    D_801F7924.free[1] = D_801DA42C.count[1];
+    D_801F7924.free[0] = D_801DA42C.count[0] - D_801F7924.free[0];
 }
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073D98);
