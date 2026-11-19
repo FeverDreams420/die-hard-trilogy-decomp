@@ -12564,7 +12564,74 @@ void func_80073714(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8007374C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073AA0);
+void func_80073AA0(void) {
+    s32 left;
+    u8 *p;
+    s16 i;
+
+    if (D_801DA42C.count[0] < D_801DA42C.unkE) {
+        D_801DA42C.count[0] = D_801DA42C.unkE + 1;
+    }
+    if (D_801DA42C.size[0] & 3) {
+        D_801DA42C.size[0] = (D_801DA42C.size[0] + 3) & ~3;
+    }
+    if (D_801DA42C.size[1] & 3) {
+        D_801DA42C.size[1] = (D_801DA42C.size[1] + 3) & ~3;
+    }
+    if (D_801DA42C.size[2] & 3) {
+        D_801DA42C.size[2] = (D_801DA42C.size[2] + 3) & ~3;
+    }
+    left = 0x10000;
+    p = D_801CA2C8;
+    left -= D_801DA42C.size[0] * D_801DA42C.unkE;
+    p += D_801DA42C.size[0] * D_801DA42C.unkE;
+    for (i = 0; i < D_801DA42C.count[0]; i++) {
+        if (i >= D_801DA42C.unkE) {
+            if (left - D_801DA42C.size[0] < 0) {
+                D_801DA42C.count[0] = i;
+                break;
+            }
+            D_801F7AAC[i] = p;
+            D_801F792C[i] = 0;
+            p += D_801DA42C.size[0];
+            left -= D_801DA42C.size[0];
+        }
+    }
+    if (left > 0) {
+        for (i = 0; i < D_801DA42C.count[1]; i++) {
+            if (left - D_801DA42C.size[1] < 0) {
+                D_801DA42C.count[1] = i;
+                break;
+            }
+            D_801F7CAC[i] = p;
+            D_801F79AC[i] = 0;
+            p += D_801DA42C.size[1];
+            left -= D_801DA42C.size[1];
+        }
+    } else {
+        D_801DA42C.count[1] = 0;
+    }
+    if (left > 0) {
+        for (i = 0; ; i++) {
+            if (left - D_801DA42C.size[2] < 0) {
+                D_801DA42C.count[2] = i;
+                break;
+            }
+            D_801F7EAC[i] = p;
+            D_801F7A2C[i] = 0;
+            p += D_801DA42C.size[2];
+            left -= D_801DA42C.size[2];
+        }
+        D_801DA42C.count[2] = i;
+    } else {
+        D_801DA42C.count[2] = 0;
+    }
+    D_801DA42C.left = left;
+    D_801DA42C.total = D_801DA42C.count[0] + D_801DA42C.count[1] + D_801DA42C.count[2];
+    D_801F7924[2] = D_801DA42C.count[2];
+    D_801F7924[1] = D_801DA42C.count[1];
+    D_801F7924[0] = D_801DA42C.count[0] - D_801F7924[0];
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80073D98);
 
