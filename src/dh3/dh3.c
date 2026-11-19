@@ -1518,7 +1518,21 @@ s16 func_80028D04(SVECTOR *v) {
     return m;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028DC0);
+s16 func_80028DC0(SVECTOR *v) {
+    Unk800B62C4_Cell *c = &D_800B62C4[((v->vx >> 12) & 0x3F) + ((v->vz >> 6) & 0x1FC0)].block->cells[(v->vx >> 8) + (v->vz >> 8) * 16];
+    s16 m = c->h0;
+
+    if (c->h1 < m) {
+        m = c->h1;
+    }
+    if (c->h2 < m) {
+        m = c->h2;
+    }
+    if (c->h3 < m) {
+        return c->h3;
+    }
+    return m;
+}
 
 s32 func_80028E80(VECTOR *p, VECTOR *a, VECTOR *b) {
     s32 dot;
