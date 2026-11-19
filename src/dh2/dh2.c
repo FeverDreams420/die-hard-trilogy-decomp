@@ -1801,7 +1801,17 @@ void func_80023A68(void) {
 
 void func_8003DAC4(void);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023AC0);
+void func_80023AC0(void) {
+    struct Task *t;
+
+    func_80072F2C(func_8003DAC4, 0x10);
+    t = D_800B6DE0;
+    if (t->func == D_800B7350) {
+        TRAP();
+    } else {
+        t->func = func_80023A68;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80023B20);
 
