@@ -356,6 +356,12 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | An `s16` copy kept sign-extended in a saved register across a call | The destination is `s32`: `s32 idx = j;` (DH2 0x8003FA60) |
 | `lhu` where an `s16` field is subtracted | `(u16)p->unk22` (DH3 0x8003FA90) |
 | One shared load hoisted above a sign test that picks a call argument | Two calls, one per sign, instead of `d < 0 ? -k : k` (DH3 0x8003FA90) |
+| A branch delay slot left empty although the target's first instruction writes `v0` | The function returns a value (old-style implicit `int`) and falls off the end, so `v0` is live at exit (DH3 0x80026A74 family) |
+| Frame 8 or 16 bytes larger than the original with nothing stored there | An unused local of that size, declared where its slot falls (`SVECTOR unused;`, `VECTOR unused;`; DH3 0x8006D988, 0x800224B4) |
+| Each field of a global table read through its own `lui`/`addiu sym+off` plus the index | The table is a global array of structs (`extern VECTOR D_801984F0[]`, `D_801984F0[n - 1].vx`); a pointer cast or `&scalar` indexing shares one base register (DH3 0x800504A4) |
+| An error path placed after the success path's `return 0` | `goto error;` with the error code at the end; GCC 2.5.7 keeps source order and threads each failing branch to the right block (DH2 0x80071A08) |
+| `move s1,v0` after a computed value that is compared right away | The variable is `s16` (DH2 0x8006684C, DH3 0x80045B60) |
+| A store placed between a call and the read-modify-write that uses its result | Keep the result in an `s32` temporary: `d = f() - 0x40; x.a = r; x.b += d;` (DH3 0x800669C0) |
 
 ## PsyQ library settings
 
