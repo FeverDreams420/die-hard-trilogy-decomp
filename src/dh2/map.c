@@ -446,7 +446,67 @@ void func_8001F744(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001F90C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001FB8C);
+extern SVECTOR D_800B72C0;
+extern VECTOR D_801C9980;
+extern MATRIX D_801F9644;
+extern s32 D_800B6A90;
+extern Unk8002A35C D_800B67D0;
+extern VECTOR D_801F6C7C;
+extern s16 D_800B6F58;
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
+extern MATRIX *MulMatrix2(MATRIX *m0, MATRIX *m1);
+extern void RotTrans(SVECTOR *v0, VECTOR *v1, s32 *flag);
+extern MATRIX *func_8002702C(SVECTOR *r, MATRIX *m);
+extern MATRIX *func_80085EA0(MATRIX *m, VECTOR *v);
+s32 func_80025B40(s32 x);
+void func_80048E64(void);
+
+s32 func_8001FB8C(void *p, SVECTOR *pos, SVECTOR *ang, s16 flag) {
+    u8 unused[8];
+    s32 dx = pos->vx - D_800B6E00.vx;
+    s32 dz = pos->vz - D_800B6E00.vz;
+
+    if (dx < -0x7FFF || dx > 0x7FFF) {
+        return 3;
+    }
+    if (dz < -0x7FFF || dz > 0x7FFF) {
+        return 3;
+    }
+    D_800B72C0.vx = dx;
+    D_800B72C0.vy = pos->vy - D_800B6E00.vy;
+    D_800B72C0.vz = dz;
+    PushMatrix();
+    ApplyMatrix(&D_80169F78, &D_800B72C0, &D_801C9980);
+    func_8002702C(ang, &D_801F9644);
+    MulMatrix2(&D_80169F78, &D_801F9644);
+    SetRotMatrix(&D_801F9644);
+    func_80085EA0(&D_801F9644, &D_801C9980);
+    SetTransMatrix(&D_801F9644);
+    RotTrans((SVECTOR *)&D_800B67D0, &D_801F6C7C, &D_800B6A90);
+    if (D_801F6C7C.vz < -0x1000) {
+        PopMatrix();
+        return 1;
+    }
+    if (D_801F6C7C.vz > 0x4000) {
+        PopMatrix();
+        return 3;
+    }
+    if (func_80025B40(D_801F6C7C.vx) > D_801F6C7C.vz * 2) {
+        PopMatrix();
+        return 2;
+    }
+    if (flag) {
+        func_80048E64();
+    }
+    D_800B6F58 = D_801F6C7C.vz >> 2;
+    if (D_800B6F58 < 0) {
+        D_800B6F58 = 0;
+    }
+    PopMatrix();
+    return 6;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001FD90);
 
