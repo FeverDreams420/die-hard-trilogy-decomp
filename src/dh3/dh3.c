@@ -9251,7 +9251,65 @@ void func_80054D5C(Unk80054D5C *p) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80054EB0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055018);
+typedef struct {
+    u8 pad0[0xC];
+    s32 unkC;
+    u8 pad10[4];
+    s32 unk14;
+    u8 pad18[4];
+    s16 unk1C;
+} Unk80055018;
+
+extern struct Task *D_801F80DC;
+extern s16 D_800B5E84;
+s16 func_80054EB0(VECTOR *pos, s16 angle);
+extern struct Task *D_801F80BC;
+struct Task *func_80072768(struct Task *parent, void (*fn)(), s16 size);
+void func_80058154(void);
+extern void func_8005648C(s32 a, struct Task *t);
+
+s16 func_80055018(u16 type, u16 x, u16 z) {
+    char buf[200];
+    VECTOR v;
+    Unk80055018 *d = (Unk80055018 *)D_801F80DC->vals;
+    VECTOR *pl = (VECTOR *)((u8 *)D_801F80BC->vals + 0x10);
+    struct Task *t;
+    VECTOR *q;
+    s32 vx;
+    s32 vz;
+
+    if ((type >> 12) != 0xD) {
+        return 0;
+    }
+    if (D_800B5E84 >= 0x15) {
+        return 0;
+    }
+    vx = x << 8;
+    v.vx = vx + 0x80;
+    vz = z << 8;
+    v.vz = vz + 0x80;
+    if ((s16)func_8002AD34(v.vx, v.vz) == 1) {
+        return 0;
+    }
+    if (func_80054EB0(&v, -1) != 0) {
+        return 0;
+    }
+    t = func_80072768(D_801F80BC, func_80058154, 0xC4);
+    if (t == NULL) {
+        return 0;
+    }
+    q = (VECTOR *)((u8 *)t->vals + 0x10);
+    t->flags = 0x21;
+    q->vx = vx;
+    q->vz = vz;
+    q->vy = (s16)func_80028BF0(q);
+    func_8005648C(0x100, t);
+    d->unkC = pl->vx;
+    d->unk14 = pl->vz;
+    d->unk1C = func_80074910(100) + 0x200;
+    D_800B5E84++;
+    return -1;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055180);
 
