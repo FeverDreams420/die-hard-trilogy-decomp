@@ -12275,7 +12275,8 @@ void func_8006C638(s32 arg0, s32 arg1) {
 }
 
 typedef struct {
-    u8 pad0[0x20];
+    u8 pad0[0x1C];
+    void *unk1C;
     s16 unk20[7];
     s16 unk2E[7];
     s16 unk3C;
@@ -12953,7 +12954,7 @@ void func_80071778(Unk80071778 *obj) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800717CC);
 
-extern void func_80071A08(s32, s32);
+extern s32 func_80071A08(Unk8006C64C *, s32);
 
 void func_800719E0(s32 arg0, s16 arg1) {
     D_800B7170 = arg1;
@@ -12970,7 +12971,54 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6770);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6774);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80071A08);
+extern s16 D_800B70B8;
+extern u8 D_80098074[];
+extern u8 D_80097E04[];
+extern u8 D_80098110[];
+extern long format(char *fs);
+
+s32 func_80071A08(Unk8006C64C *p, s32 arg1) {
+    char buf[128];
+    s16 a;
+    s16 b;
+
+    D_800B70B8 = 2;
+    func_80022B58();
+    func_8001EB30();
+    func_80070EF4();
+    a = func_80070FFC(0);
+    b = func_80070FFC(0x10);
+    if (D_800B7170 == 1) {
+        b = 0;
+    } else if (D_800B7170 == 2) {
+        a = 0;
+    }
+    if (a == 0 && b == 0) {
+        func_800710B4();
+        p->unk1C = D_80098074;
+    } else if (a != 0 && b != 0) {
+        func_800710B4();
+        p->unk1C = D_80097E04;
+    } else {
+        goto error;
+    }
+    func_8006C64C(p);
+    func_8001EA84();
+    D_800B70B8 = 1;
+    return 0;
+
+error:
+    if (a != 0) {
+        format("bu00:");
+    } else {
+        format("bu10:");
+    }
+    p->unk1C = D_80098110;
+    func_8006C64C(p);
+    func_8001EA84();
+    D_800B70B8 = 1;
+    func_800710B4();
+}
 
 extern long CloseEvent(long event);
 extern long D_800B6A30;
