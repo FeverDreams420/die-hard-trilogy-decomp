@@ -5479,7 +5479,31 @@ void func_8003F314(s32 id, s16 from, s32 to) {
     func_8005F604(id, dst, size, 0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003F408);
+/* Double-buffered frame: ordering tables and primitive memory. */
+typedef struct {
+    u32 ot[0x400];
+    u32 ot2[7];
+    u8 *prim;
+    u8 data[0x17704];
+} FrameBuf;
+
+extern FrameBuf D_8016A2F8[2];
+extern u32 D_800B72F0;
+extern void *memcpy(void *dst, const void *src, u32 n);
+void func_8005FBB0(void *src, u8 *dst, s32 a2);
+
+void func_8003F408(void *src, s16 first, s16 last) {
+    u8 *buf = D_8016A2F8[(D_800B73C0 + 1) % 2].data;
+    s32 n;
+
+    DrawSync(0);
+    n = last - first + 1;
+    func_8005FBB0(src, buf, 0);
+    if (D_800B72F0 < n * 192) {
+        n = D_800B72F0 / 192;
+    }
+    memcpy(D_800B7100 + first * 192, buf, n * 192);
+}
 
 void func_8003F528(void *addr, s32 size, char *name) {
 }
