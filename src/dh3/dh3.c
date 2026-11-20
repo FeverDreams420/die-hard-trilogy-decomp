@@ -10531,7 +10531,9 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5998);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B599C);
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B59A4);
+s16 D_800B59A4 = 6000;
+
+s16 D_800B59A6 = 100;
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064884);
 
@@ -11011,7 +11013,27 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B59A8);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B59B0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067630);
+extern s16 D_800B59A4;
+extern s16 D_800B5748;
+extern u16 D_800B5764[];
+
+void func_80067630(void) {
+    D_8018CC68.unk2 = 0;
+    if (D_800B659C->unk196 != 0) {
+        D_8018CC68.unk0 = 0x800;
+        D_8018CC68.unk4 = D_800B59A4 / 2;
+    } else {
+        D_8018CC68.unk0 = 0;
+        D_8018CC68.unk6 = 0x41A;
+        D_8018CC68.unk4 = D_800B59A4;
+        D_8018CC68.unk8 = D_800B5764[D_800B5748];
+        func_800691E8(&D_8018CC68, 0);
+        D_8018CC68.unk0 = 0x1000;
+    }
+    D_8018CC68.unk6 = 0x418;
+    D_8018CC68.unk8 = D_800B5764[D_800B5748];
+    func_800691E8(&D_8018CC68, 0);
+}
 
 extern s16 D_800B5736;
 extern s16 D_800B5738;
