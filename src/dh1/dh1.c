@@ -5,7 +5,9 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", main);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A6E4);
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29EC);
+u16 D_800A29EC = 0xF676;
+
+u16 D_800A29EE = 0x8770;
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F0);
 
@@ -114,7 +116,22 @@ void func_8001E80C(void) {
     D_800A8078[1].draw.clip.h = D_800A33C4;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001E9DC);
+extern u16 D_800A29EC;
+extern u16 D_800A29EE;
+
+s32 func_8001E9DC(s32 n) {
+    u16 t, u;
+
+    D_800A29EC = (D_800A29EC ^ D_800A29EE) + 7;
+    t = D_800A29EC >> 15;
+    D_800A29EC <<= 1;
+    D_800A29EE = (D_800A29EE + 0xACB9) ^ 0x7C9F;
+    u = D_800A29EE << 15;
+    D_800A29EE >>= 1;
+    D_800A29EC |= t;
+    D_800A29EE |= u;
+    return (s16)((D_800A29EC & 0x7FFF) % (s16)n);
+}
 
 typedef struct {
     s16 unk0;
