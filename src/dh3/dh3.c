@@ -10115,7 +10115,61 @@ void func_8005CD78(void) {
     D_800B5EA4 = 0x19;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005CDB0);
+typedef struct {
+    s16 state;
+    u8 pad2[0xA];
+    s16 timer;
+} Unk8005CDB0;
+
+extern s16 D_800B5EB4;
+extern void (*D_800B657C)(void);
+extern s32 *D_800B6464;
+extern void *D_800B5E4C;
+extern s32 D_801C1A34[];
+void func_800695DC(void);
+void func_80071F48();
+void func_8004FCD8(void);
+void func_8005CD78(void);
+void func_80071CCC(void);
+
+void func_8005CDB0(void) {
+    Unk8005CDB0 *p = (Unk8005CDB0 *)D_800B604C->vals;
+
+    D_800B6674 = 2;
+    if (p->state == 0) {
+        func_80068C70();
+        func_800695DC();
+        D_800B5EA4 = 0xF;
+        func_80068C70();
+        func_800697A8(0, D_800B6464);
+        p->state = 1;
+        return;
+    }
+    if (SpuIsTransferCompleted(0)) {
+        func_80053AB0();
+        D_800B5EB4 = -1;
+        p->state = 0;
+        if (D_800B60F4 != 0) {
+            func_80071F48(D_800B5E4C, D_800B66DC + 0x13);
+            D_800B657C = func_8004FCD8;
+        } else {
+            func_80071F48(D_801C1A34, 0x12);
+            D_800B657C = func_8005CD78;
+        }
+        D_800B604C->func = func_80071CCC;
+    } else if (++p->timer > 0x3C) {
+        D_800B5EB4 = -1;
+        p->state = 0;
+        if (D_800B60F4 != 0) {
+            func_80071F48(D_800B5E4C, D_800B66DC + 0x13);
+            D_800B657C = func_8004FCD8;
+        } else {
+            func_80071F48(D_801C1A34, 0x12);
+            D_800B657C = func_8005CD78;
+        }
+        D_800B604C->func = func_80071CCC;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005CF28);
 
