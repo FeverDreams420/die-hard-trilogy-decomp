@@ -805,7 +805,72 @@ void func_80021780(void) {
     func_80021624(p);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_800217DC);
+typedef struct {
+    s16 unk0;
+    s16 y0;
+    u8 pad4[6];
+    s16 y1;
+    u8 padC[6];
+    s16 unk12;
+    u8 pad14[0xEC];
+    s32 len;
+} Unk800B7318;
+
+typedef struct {
+    u8 pad0[0x24];
+    s32 unk24;
+    u8 pad28[0x10];
+    SVECTOR trail[16];
+    u8 padB8[0x9C];
+    u32 unk154;
+    u8 pad158[0xA];
+    s16 unk162;
+    s16 unk164;
+    s16 unk166;
+    u8 pad168[4];
+    s32 unk16C;
+} Unk800217DC;
+
+extern Unk800B7318 *D_800B7318;
+s16 func_80072734(s16 a, s16 b, s32 t);
+
+void func_800217DC(void) {
+    Unk800217DC *p = (Unk800217DC *)D_801F7544->vals;
+    s32 t = p->unk154;
+    s32 n = D_800B7318->len;
+    s32 d = -2;
+    s32 h = t / 2 * (n * 2 + (t - 1) * d);
+    s32 den;
+    s32 i;
+
+    if (n == 0) {
+        return;
+    }
+    if (t >= n) {
+        t = p->unk16C;
+        func_80021414(0, 0, 0);
+    } else {
+        den = n / 2 * (n * 2 + (n / 2 - 1) * d);
+        p->unk162 = D_800B6E00.vx;
+        p->unk166 = D_800B6E00.vz;
+        h = h * (D_800B7318->y1 - D_800B7318->y0) / den;
+        if (h < 0) {
+            h = 0;
+        }
+        t = (p->unk154 << 12) / D_800B7318->len;
+        D_800B6E00.vy = func_80072734(D_800B7318->y0, D_800B7318->unk12, t) + h;
+        i = 16;
+        while (i-- != 0) {
+            p->trail[i].vy = D_800B6E00.vy;
+        }
+        p->unk24 = D_800B6E00.vy * 16;
+        t = p->unk16C += 0x40;
+        func_80021414(0, 0x20, 0x20);
+    }
+    func_80021380(0, 0, 0);
+    func_800214A8(t);
+    func_80021624(t);
+}
 
 typedef struct {
     s16 x;
