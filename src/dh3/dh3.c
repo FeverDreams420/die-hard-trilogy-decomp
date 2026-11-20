@@ -9982,11 +9982,11 @@ s32 D_800B592C = 0x128;
 
 s32 D_800B5930 = -0x38;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5934);
+s32 D_800B5934 = -0x806;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5938);
+s32 D_800B5938 = 0x328;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B593C);
+s32 D_800B593C = -0x18;
 
 extern s32 D_800B5928;
 extern s32 D_800B592C;
@@ -10029,7 +10029,25 @@ void func_80061E48(s16 y, s16 unused) {
     func_800221C8();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80061F48);
+void func_80061F48(s16 y, s16 unused) {
+    s16 vy = D_800B5938;
+    s16 vz = D_800B5934;
+
+    D_800B6594.vx = 0;
+    D_800B6594.vz = 0;
+    D_800B6594.vy = y;
+    D_800B66BC.vx = 0;
+    D_800B66BC.vz = vz;
+    D_800B66BC.vy = vy;
+    func_80028310(&D_800B6594, &D_800B66BC, &D_80091BB8, &D_801981F4);
+    func_8002924C(&D_80091BB8, &D_801981F4, &D_800B6124);
+    D_800B6124.vx -= D_800B593C;
+    func_80084EA8(D_800B636C / 2, D_800B645C / 2);
+    SetFogNear(0x7D00, 0x100);
+    func_80084D78(0x100);
+    D_800B644C = 0x100;
+    func_800221C8();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80062048);
 
