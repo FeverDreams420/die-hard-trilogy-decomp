@@ -7055,7 +7055,24 @@ void func_8004F6F4(Unk8004F6F4 *p) {
     p->unk1A = 700;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004F734);
+typedef struct {
+    u8 pad0[0x1C6];
+    u16 unk1C6;
+} Unk8004F734;
+
+extern s16 D_800B6A74;
+
+void func_8004F734(Unk8004F734 *p) {
+    s16 r;
+
+    if (p->unk1C6 == 0x9240) {
+        func_80065E44(0x42, p);
+    } else {
+        r = func_800754C8(2);
+        D_800B6A74 = (D_800B6A74 + r + 1) % 7;
+        func_80065E44(D_800B6A74 + 0x43, p);
+    }
+}
 
 extern SVECTOR D_800B65F4;
 extern SVECTOR D_800B65FC;
@@ -7300,7 +7317,7 @@ extern s16 D_800B6DF8;
 extern u8 D_800B6424[];
 extern s16 D_800B6D28;
 extern SVECTOR D_800B72E8;
-extern void func_8004F734(void *p);
+extern void func_8004F734(Unk8004F734 *p);
 extern void func_800524D8(SVECTOR *pos, s16 id);
 Unk8002B728_Face *func_8003EB60(SVECTOR *);
 void func_800511BC(void);
@@ -7315,7 +7332,7 @@ void func_80051820(void) {
         func_8007345C();
         return;
     }
-    func_8004F734(p);
+    func_8004F734((Unk8004F734 *)p);
     if (p->unk286 == 6) {
         D_800B6B88++;
     } else {
@@ -7385,14 +7402,14 @@ typedef struct {
 
 extern s16 D_800B6B88;
 extern s16 D_800B6DF8;
-extern void func_8004F734(void *p);
+extern void func_8004F734(Unk8004F734 *p);
 extern void func_800524D8(SVECTOR *pos, s16 id);
 
 void func_80051ACC(void) {
     Unk80051ACC *p = (Unk80051ACC *)D_800B6DE0->vals;
 
     if (p->unk3F == 0xFF) {
-        func_8004F734(p);
+        func_8004F734((Unk8004F734 *)p);
         if (p->unk286 == 6) {
             D_800B6B88++;
         } else {
@@ -7410,7 +7427,7 @@ void func_80051ACC(void) {
 void func_80051B9C(void) {
     Unk80051B9C *p = (Unk80051B9C *)D_800B6DE0->vals;
 
-    func_8004F734(p);
+    func_8004F734((Unk8004F734 *)p);
     D_800B72E8.vx = p->pos.vx;
     D_800B72E8.vy = p->pos.vy;
     D_800B72E8.vz = p->pos.vz;
