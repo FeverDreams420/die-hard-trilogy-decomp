@@ -711,7 +711,16 @@ void func_80021414(s16 x, s16 y, s16 z) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_800214A8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80021624);
+extern s16 D_800982E4[];
+extern s16 D_800B71C0;
+
+void func_80021624(s32 angle) {
+    s16 scale = 0x1000 - ((D_800B71C0 - 0x100) << 12) / 0x300;
+
+    D_800B6E00.vy += ABS(D_800982E4[angle & 0xFFF] * (s16)((D_800B6ED8.vy * (scale / 2)) >> 12)) >> 12;
+    D_800B6E00.vx += ABS(D_800982E4[angle & 0xFFF] * (s16)((D_800B6ED8.vx * (scale / 2)) >> 12)) >> 12;
+    D_800B6E00.vz += ABS(D_800982E4[angle & 0xFFF] * (s16)((D_800B6ED8.vz * (scale / 2)) >> 12)) >> 12;
+}
 
 typedef struct {
     u8 pad0[0x16C];
