@@ -594,3 +594,4 @@ D_800B677C = 0x800B677C; // in C, written by func_80071A08
 D_800B6784 = 0x800B6784; // in C, written by func_80071A08
 D_800B67C8 = 0x800B67C8; // in C, written by func_80075E28
 D_800B67F0 = 0x800B67F0; // in C, written by func_80078AE4
+D_8009735C = 0x8009735C; // force_not_migration:True

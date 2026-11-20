@@ -534,3 +534,7 @@ D_800918A4 = 0x800918A4; // force_not_migration:True
 jtbl_80086D10 = 0x80086D10; // force_not_migration:True
 jtbl_80086D68 = 0x80086D68; // force_not_migration:True
 jtbl_80086D8C = 0x80086D8C; // force_not_migration:True
+D_80091A14 = 0x80091A14; // force_not_migration:True
+D_80091A28 = 0x80091A28; // force_not_migration:True
+D_80091B14 = 0x80091B14; // force_not_migration:True
+D_80091B38 = 0x80091B38; // force_not_migration:True
