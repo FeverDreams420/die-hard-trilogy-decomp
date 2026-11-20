@@ -6920,7 +6920,39 @@ void func_8003EA90(SVECTOR *obj, s16 value, u8 *col) {
     func_80076EF4(pos[0], pos[1], v, 1500, 500, col, col);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003EB60);
+extern u16 D_800BD62E;
+extern u16 D_800BD630;
+
+Unk8002B728_Face *func_8003EB60(SVECTOR *p) {
+    Unk8002B728_Face *best = NULL;
+    s32 min = 0x8000;
+    u16 x = D_800BD62E + (p->vx >> 9);
+    u16 z = D_800BD630 + (p->vz >> 9);
+    Unk8002B728_Face *f;
+    Unk800BD644 *row;
+    SVECTOR c;
+
+    if (x < D_800BD632 && z < D_800BD634) {
+        row = D_800BD644 + D_800BD632 * z;
+        row += x;
+        f = (Unk8002B728_Face *)row->unk0;
+        if (f != NULL) {
+            do {
+                if (f->v[3] != (SVECTOR *)-1) {
+                    func_8003E6F4((Unk8004D4A0 *)f, &c);
+                    if (c.vy < min) {
+                        min = c.vy;
+                        best = f;
+                    }
+                }
+            } while (!((f++)->clut & 0x80));
+        }
+    }
+    if (min != 0x8000) {
+        p->vy = min;
+    }
+    return best;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003ECAC);
 
@@ -8769,7 +8801,7 @@ extern s16 D_800B6D28;
 extern SVECTOR D_800B72E8;
 extern void func_8004F734(void *p);
 extern void func_800524D8(void *p, s16 arg1);
-void func_8003EB60(void *);
+Unk8002B728_Face *func_8003EB60(SVECTOR *);
 void func_800511BC(void);
 
 void func_80051820(void) {
@@ -9789,7 +9821,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A2F0);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005A4CC);
 
-void func_8003EB60(void *);
+Unk8002B728_Face *func_8003EB60(SVECTOR *);
 void func_8005A4CC(void);
 
 typedef struct {
