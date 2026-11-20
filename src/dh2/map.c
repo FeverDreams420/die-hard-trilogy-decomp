@@ -870,6 +870,8 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/map", jtbl_80087FA0);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/map", D_80088098);
 
+INCLUDE_RODATA("asm/dh2/nonmatchings/map", D_800880B8);
+
 extern SVECTOR D_800B7158;
 
 void func_80021380(s16 x, s16 y, s16 z) {

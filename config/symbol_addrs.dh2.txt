@@ -423,6 +423,7 @@ D_80096828 = 0x80096828; // force_not_migration:True
 D_80096A80 = 0x80096A80; // force_not_migration:True
 D_80087F90 = 0x80087F90; // force_not_migration:True
 D_80088098 = 0x80088098; // force_not_migration:True
+D_800880B8 = 0x800880B8; // force_not_migration:True
 D_800880E0 = 0x800880E0; // force_not_migration:True
 D_800880F4 = 0x800880F4; // force_not_migration:True
 D_80088100 = 0x80088100; // force_not_migration:True
