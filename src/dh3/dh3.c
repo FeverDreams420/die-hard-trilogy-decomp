@@ -17,6 +17,12 @@ typedef struct {
     s32 vals[3];
 } Unk800A317CVals;
 
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    u8 unk8[0x10];
+} Entry18;
+
 struct Task {
     void (*func)(void);
     void (*saved)(void);
@@ -12471,12 +12477,6 @@ s32 func_800708F0(Unk800517F0 *obj, s32 arg1) {
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5A30);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5A38);
-
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    u8 unk8[0x10];
-} Entry18;
 
 Entry18 *D_800B5A40 = (Entry18 *)0x80010000;
 
