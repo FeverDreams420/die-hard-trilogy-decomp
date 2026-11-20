@@ -58,9 +58,12 @@ build/src/%/gun.c.o build/src/%/psyq.c.o: GFLAG := -G0
 # Symbol loads in the library code use the 2.34 form (lui/op %lo) in all three EXEs.
 build/src/%/gun.c.o build/src/%/psyq.c.o: ASPSX_VER := 2.34
 # Each EXE has a single .rodata segment that also holds its .data and .sdata,
-# so small constants the compiler puts in .sdata (initializers of 8 bytes or
-# less) go to .rodata until data is split into its own segments.
-SDATA_TO_RODATA := sed 's/^\t\.sdata$$/\t.rdata/'
+# so everything the compiler puts in .sdata goes to .rodata. Compiler constants
+# ($LC) are renamed before maspsx (the original reaches them with lui pairs);
+# named small variables defined in C are renamed after it, so maspsx gives
+# them $gp access (tools/sdata.py).
+SDATA_TO_RODATA := $(PYTHON) tools/sdata.py pre
+SDATA_POST      := $(PYTHON) tools/sdata.py post
 # GCC puts ".align 3" before each jump table. In the original EXEs the tables
 # are only word aligned in absolute terms (jtbl_8007ACA0 at 0 mod 8 is followed
 # directly by jtbl_8007ACB4 at 4 mod 8), and one big C file can't reproduce the
@@ -89,7 +92,7 @@ build/%.s.o: %.s
 
 build/src/%.c.o: src/%.c
 	@mkdir -p $(dir $@)
-	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(SDATA_TO_RODATA) | $(JTBL_ALIGN) | $(MASPSX) | $(AS) $(CASFLAGS) -o $@
+	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(SDATA_TO_RODATA) | $(JTBL_ALIGN) | $(MASPSX) | $(SDATA_POST) | $(AS) $(CASFLAGS) -o $@
 
 define exe_rules
 $(patsubst %.c,build/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \
