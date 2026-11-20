@@ -109,19 +109,24 @@ typedef struct {
     u8 unk8[0x10];
 } Entry18;
 
+typedef struct {
+    char text[32];
+    u8 r, g, b, pad;
+    u8 r2, g2, b2, pad2;
+    s16 unk28;
+    s16 unk2A;
+} CreditLine;
+
+extern s16 D_800982E4[];
+s16 func_80072734(s16 a, s16 b, s32 t);
+extern void func_80076478(s32 x, s32 y, const char *text, s32 a3, s32 a4, u8 *c0, u8 *c1);
+
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001E470);
 
 typedef struct {
     s16 x, y, w, h;
 } RECT;
 
-typedef struct {
-    char text[32];
-    u8 r, g, b, pad;
-    s32 time;
-    s16 unk28;
-    s16 unk2A;
-} CreditLine;
 
 extern CreditLine D_80089568[];
 
@@ -1585,21 +1590,21 @@ void func_8002318C(void) {
 }
 
 CreditLine D_80089568[] = {
-    { "DIE HARD TRILOGY FROM", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
-    { "FOX INTERACTIVE", 0xFF, 0x40, 0x40, 0, 200, 0x800, 0x400 },
-    { "3 EXPLOSIVE ADVENTURES", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
-    { "ON 1 DISC \\ TAKE AIM AND", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
-    { "PLAY A SEGMENT FROM", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
-    { "DIE HARD 2 ^ DIE HARDER", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
-    { "", 0xFF, 0xFF, 0xFF, 0, 255, 0x640, 0x3E8 },
+    { "DIE HARD TRILOGY FROM", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x600, 0x400 },
+    { "FOX INTERACTIVE", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x800, 0x400 },
+    { "3 EXPLOSIVE ADVENTURES", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x600, 0x400 },
+    { "ON 1 DISC \\ TAKE AIM AND", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x600, 0x400 },
+    { "PLAY A SEGMENT FROM", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x600, 0x400 },
+    { "DIE HARD 2 ^ DIE HARDER", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x600, 0x400 },
+    { "", 0xFF, 0xFF, 0xFF, 0, 255, 0, 0, 0, 0x640, 0x3E8 },
 };
 CreditLine D_8008969C[] = {
-    { " ", 0xFF, 0x40, 0x40, 0, 200, 0x708, 0x800 },
-    { "DIE HARD TRILOGY", 0xFF, 0x40, 0x40, 0, 200, 0x708, 0x400 },
-    { "e AND f  1996", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
-    { "FOX INTERACTIVE", 0xFF, 0x40, 0x40, 0, 200, 0x800, 0x400 },
-    { "ALL RIGHTS RESERVED", 0xFF, 0x40, 0x40, 0, 200, 0x600, 0x400 },
-    { "", 0xFF, 0xFF, 0xFF, 0, 255, 0x640, 0x3E8 },
+    { " ", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x708, 0x800 },
+    { "DIE HARD TRILOGY", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x708, 0x400 },
+    { "e AND f  1996", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x600, 0x400 },
+    { "FOX INTERACTIVE", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x800, 0x400 },
+    { "ALL RIGHTS RESERVED", 0xFF, 0x40, 0x40, 0, 200, 0, 0, 0, 0x600, 0x400 },
+    { "", 0xFF, 0xFF, 0xFF, 0, 255, 0, 0, 0, 0x640, 0x3E8 },
 };
 INCLUDE_DATA("asm/dh2/nonmatchings/map", D_800897A4);
 INCLUDE_DATA("asm/dh2/nonmatchings/map", D_800897F4);
