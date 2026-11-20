@@ -261,6 +261,14 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `li v1,0xffff` where the C gives `li v1,-1` | The global is `u16`, not `s16` (DH2 0x8003D8D4, `D_800B6C30`) |
 | A global's address loaded once (`addiu v1`) and used for both `lbu 0(v1)` and `sb zero,0(v1)` | A local pointer: `flag = &G; if (*flag) { *flag = 0; ... }` (DH2 0x8002318C) |
 | Rodata (strings, tables) inside a function's `.s` file | Write it as `const` data right above the function, in address order; write a backslash as `\\`, since `"\ "` silently drops the backslash (DH2 0x8001E6EC, credit tables at 0x80089568) |
+| Short strings (8 bytes or less) inside a function's `.s` file | Plain string literals in the call land at the right address (DH2 0x80041168 `"FREE
+"`, 0x8004F8B8, 0x80023920) |
+| Two separate tests `slti x,2` / `bltz x` where ours has one `sltiu` | GCC folds `n < 2 && n >= 0` into an unsigned compare; nest them as `if (n < 2) { if (n >= 0) ...` (DH2 0x8005F4E4) |
+| `addu v0,v0,a0` (field first) where ours has `addu v0,a0,v0` | For `+` GCC puts a register before a memory operand; load the field into a local first, `base = d->base; d->base = base + delta;` (DH3 0x8002BFF4) |
+| Leaf function with a stack frame (`addiu sp,-0x18`) and no stores | The frame is unused spill slots, so its size tracks how many temporaries the C creates; try shapes until it matches, e.g. `if (m < h3) return h3; return m;` instead of a ternary (DH3 0x80028D04) |
+| Inline block-move loop with an `or`/`andi 3` alignment test | The copied type has no 4-byte fields; copy through a `u8 data[N]` struct (DH3 0x8002BFF4) |
+| A call result promoted with `andi 0xFF` and kept in one register | Callee returns `u8` and the local is `s32` (DH3 0x8002DA20) |
+| Two loads of the same global pointer around a NULL test | Declare it `struct Task *volatile` (DH2 0x80061F6C `D_801F7548`, 0x80067298 `D_801F758C`) |
 | A short-lived value lands in `a0` where ours uses `v1` | It shares a variable with a later value that ends up in `a0` (the colour and the depth `z`, DH2 0x80033F74) |
 | `move a3,v1` of a constant address before a loop's entry test, where ours puts it after | Assign the base to a named local after the code that also uses the address (DH2 0x80034A18) |
 | Pool slot found, then `ptr` loaded before the two byte stores | Assign `t->vals = ptr[i]` before `t->unk2E`/`t->unk2F`; the scheduler can't hoist the load above possibly aliasing stores (DH2 0x80074304) |
