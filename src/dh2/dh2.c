@@ -12871,17 +12871,71 @@ void func_80072824(void) {
     func_80078EBC(1);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072884);
-
-extern s16 D_800B7338;
-extern s32 D_800B7120;
+extern volatile s16 D_800B7338;
+extern u32 D_800B7120;
 extern s16 D_800B6B78;
-extern s16 D_800B7278;
-extern s16 D_800B6D48;
+extern volatile s16 D_800B7278;
+extern volatile s16 D_800B6D48;
 extern void *D_800B6EC0;
 extern Entry18 *D_800B72D0;
 extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
 void func_80072824(void);
+extern char D_80088A50[];
+extern char D_80088A64[];
+extern char D_80088A78[];
+extern void (*D_800B72C8)(void);
+extern void func_800789FC(void);
+void func_800739C0(void);
+void func_80072810(void);
+
+void func_80072884(void) {
+    u8 unused[8];
+    u8 result[8];
+    s16 status;
+
+    if (D_800B7278 != 0) {
+        status = CdSync(1, result);
+        printf(D_80088A50, result[0]);
+        printf(D_80088A64, status);
+        if (status == 5) {
+            D_800B7120 = 601;
+        } else if (status == 2) {
+            ResetCallback();
+            CdReadCallback(func_80072810);
+            CdRead(((u32)D_800B679C[D_800B6D48].unk4 + 0x7FF) >> 11, D_800B6EC0, 0x80);
+            D_800B7278 = 0;
+        }
+    }
+    if (D_800B6B50 != 0) {
+        D_800B6B50--;
+        if (D_800B6B50 == 0) {
+            func_800739C0();
+            D_800B6B78 = 0;
+            D_800B6DE0->func = D_800B72C8;
+            return;
+        }
+    }
+    if (++D_800B7120 >= 601) {
+        printf(D_80088A78);
+        D_800B7338++;
+        if (D_800B7338 >= 4) {
+            func_80072824();
+        }
+        D_800B7120 = 0;
+        D_800B6B50 = 0;
+        ResetCallback();
+        CdReadCallback(0);
+        if (D_800B6B18 != 0) {
+            D_800B7278 = 100;
+            D_800B6B18 = 0;
+        } else {
+            D_800B7278 = 30;
+        }
+        D_800B72D0 = &D_800B679C[D_800B6D48];
+        func_800789FC();
+        CdControl(0x15, (unsigned char *)D_800B72D0, 0);
+    }
+}
 
 void func_80072B00(buf, track)
 void *buf;
