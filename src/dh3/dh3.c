@@ -5003,7 +5003,33 @@ void func_80037984(Unk80030328_Face *f) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80037CD0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80037E70);
+void func_80037E70(Unk80030328_Face *f, Unk800307C0_Prim *prim) {
+    VECTOR a;
+    VECTOR b;
+    VECTOR c;
+
+    RotTrans(f->v[0], &a, &D_800B642C);
+    RotTrans(f->v[1], &b, &D_800B642C);
+    RotTrans(f->v[2], &c, &D_800B642C);
+    if (a.vz < 0 && b.vz < 0 && c.vz < 0) {
+        return;
+    }
+    func_800358C0(&prim->xy0, &c);
+    func_800358C0(&prim->xy1, &b);
+    func_800358C0(&prim->xy2, &a);
+    if (func_800857A8(prim->xy0, prim->xy1, prim->xy2) > 0) {
+        D_800B61CC = a.vz >> 2;
+        if (D_800B61CC < 0x58) {
+            D_800B61CC = 0x58;
+        }
+        if (D_800B61CC <= 0x2000) {
+            SetPolyFT3(prim);
+            SetShadeTex(prim, 1);
+            AddPrim(D_800B62CC + (D_800B61CC >> 3), prim++);
+            D_800B63AC = prim;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80037FC8);
 
