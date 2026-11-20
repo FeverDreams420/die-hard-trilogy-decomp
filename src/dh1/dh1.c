@@ -13356,7 +13356,7 @@ INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BF8);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C00);
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C08);
+u8 D_800A2C08 = 0;
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C0C);
 
@@ -13492,7 +13492,17 @@ void func_80067DD8(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067E20);
+extern u8 D_800A2C08;
+extern u8 D_800A7FF0[];
+
+void func_80067E20(void) {
+    s16 i;
+
+    for (i = 0; i < 16; i++) {
+        D_800A7FF0[i] = 0;
+    }
+    D_800A2C08 = 0;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067E60);
 
