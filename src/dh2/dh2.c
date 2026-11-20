@@ -11454,7 +11454,9 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006F258);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006F9B0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006FD28);
+s16 func_8006FD28(SVECTOR *v) {
+    return 0x1000 - (SquareRoot0((v->vx * v->vx + v->vz * v->vz) >> 4) << 14) / 16000;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006FDB8);
 
