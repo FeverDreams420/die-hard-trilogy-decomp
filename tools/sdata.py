@@ -22,7 +22,13 @@ at the end of the file as a label in .sbss or .bss; `post` removes those
 labels for named addresses (`D_XXXXXXXX`), so each reference resolves to the
 address in build/<exe>.undefined_syms_auto.txt instead.
 
-usage: python sdata.py pre|post split|rodata  (stdin to stdout)
+DH1 (ASPSX 2.34) is the exception: its loads from compiler constants go
+through `$gp` (DH1 0x80041AB4 copies two bytes of "\r\n" with `lb`/`sb`
+from `%gp_rel`), so `pre ... lc-gp` leaves `$LC` visible to maspsx. Taking
+the address of a constant (`la`) still gives a `lui` pair under 2.34.
+
+usage: python sdata.py pre split|rodata [lc-gp]  (stdin to stdout)
+       python sdata.py post split|rodata
 """
 import re
 import sys
@@ -30,7 +36,9 @@ import sys
 NAMED_ADDRESS = re.compile(r"D_[0-9A-F]{8}$")
 
 
-def pre(lines, mode):
+def pre(lines, mode, lc_gp=False):
+    if lc_gp:
+        return lines
     # `.section .sdata` is the same section to the assembler, but maspsx only
     # treats a bare `.sdata` as small data
     hidden = "\t.section\t.sdata\n" if mode == "split" else "\t.rdata\n"
@@ -87,4 +95,8 @@ if __name__ == "__main__":
     sys.stdout.reconfigure(newline="\n")
     step, mode = sys.argv[1], sys.argv[2]
     lines = sys.stdin.readlines()
-    sys.stdout.writelines({"pre": pre, "post": post}[step](lines, mode))
+    if step == "pre":
+        lines = pre(lines, mode, lc_gp="lc-gp" in sys.argv[3:])
+    else:
+        lines = post(lines, mode)
+    sys.stdout.writelines(lines)

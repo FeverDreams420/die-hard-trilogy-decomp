@@ -64,7 +64,10 @@ build/src/%/gun.c.o build/src/%/psyq.c.o: ASPSX_VER := 2.34
 # have one .rodata segment for all data, so both go there.
 SDATA_SPLIT := dh1 dh2 dh3
 SDATA_MODE   = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_SPLIT)),split,rodata)
-SDATA_TO_RODATA = $(PYTHON) tools/sdata.py pre $(SDATA_MODE)
+# DH1 reaches compiler constants through $gp too (see tools/sdata.py).
+SDATA_LC_GP := dh1
+SDATA_LC     = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_LC_GP)),lc-gp)
+SDATA_TO_RODATA = $(PYTHON) tools/sdata.py pre $(SDATA_MODE) $(SDATA_LC)
 SDATA_POST      = $(PYTHON) tools/sdata.py post $(SDATA_MODE)
 # GCC puts ".align 3" before each jump table. In the original EXEs the tables
 # are only word aligned in absolute terms (jtbl_8007ACA0 at 0 mod 8 is followed
