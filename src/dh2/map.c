@@ -902,7 +902,42 @@ void func_80022454(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80022460);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80022528);
+typedef struct {
+    RECT r;
+    u8 pad8[0xC];
+} MapView;
+
+extern MapView D_800932D4[];
+extern MapView D_800933B0[];
+extern volatile s16 D_800B73D8;
+extern u32 *D_800B7018;
+extern void SetDrawArea(void *p, RECT *r);
+extern void SetDrawOffset(void *p, u16 *ofs);
+extern void AddPrim(void *ot, void *p);
+
+void func_80022528(void) {
+    u8 *p;
+
+    if ((u8 *)D_800B7140 - D_800B70A8 > 0xD7FF) {
+        return;
+    }
+    p = D_800B7140;
+    if (D_800B7370->unk178A != 0) {
+        SetDrawArea(p, &D_800932D4[D_800B61FC[D_800B73D8].unk0].r);
+    } else {
+        SetDrawArea(p, &D_800933B0[D_800B61FC[D_800B73D8].unk0].r);
+    }
+    AddPrim(D_800B7018, p);
+    p += 0xC;
+    if (D_800B7370->unk178A != 0) {
+        SetDrawOffset(p, (u16 *)&D_800932D4[D_800B61FC[D_800B73D8].unk0]);
+    } else {
+        SetDrawOffset(p, (u16 *)&D_800933B0[D_800B61FC[D_800B73D8].unk0]);
+    }
+    AddPrim(D_800B7018, p);
+    p += 0xC;
+    D_800B7140 = p;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_800226B0);
 
@@ -912,7 +947,7 @@ typedef struct {
     u8 pad4[0x6C];
 } Unk801F9888;
 
-extern s16 D_800B73D8;
+extern volatile s16 D_800B73D8;
 extern Unk801F9888 D_801F9888[];
 void func_800863D0(s32 a, s32 b);
 
