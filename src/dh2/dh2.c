@@ -11089,11 +11089,11 @@ s32 D_800B673C = 0x508;
 
 s32 D_800B6740 = -0x38;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6744);
+s32 D_800B6744 = -0xDC4;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6748);
+s32 D_800B6748 = 0x688;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B674C);
+s32 D_800B674C = -0x28;
 
 extern s32 D_800B6738;
 extern s32 D_800B673C;
@@ -11133,7 +11133,25 @@ void func_8006851C(s16 y, s16 unused) {
     func_8002069C();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006861C);
+void func_8006861C(s16 y, s16 unused) {
+    s16 vy = D_800B6748;
+    s16 vz = D_800B6744;
+
+    D_800B72E8.vx = 0;
+    D_800B72E8.vz = 0;
+    D_800B72E8.vy = y;
+    D_800B73F8.vx = 0;
+    D_800B73F8.vz = vz;
+    D_800B73F8.vy = vy;
+    func_80024F70(&D_800B72E8, &D_800B73F8, &D_800B63D4, &D_800B6E00);
+    func_80024B8C((Unk8002A35C *)&D_800B63D4, (Unk8002A35C *)&D_800B6E00, (Unk8002A35C *)&D_800B6E90);
+    D_800B6E90.vx -= D_800B674C;
+    func_800863D0(D_800B70E8 / 2, D_800B71C8 / 2);
+    SetFogNear(0x7D00, 0x100);
+    func_800862A0(0x100);
+    D_800B71C0 = 0x100;
+    func_8002069C();
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006871C);
 
