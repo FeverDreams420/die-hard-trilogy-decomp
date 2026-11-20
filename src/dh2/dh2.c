@@ -8833,7 +8833,7 @@ extern u8 D_800B6424[];
 extern s16 D_800B6D28;
 extern SVECTOR D_800B72E8;
 extern void func_8004F734(void *p);
-extern void func_800524D8(void *p, s16 arg1);
+extern void func_800524D8(SVECTOR *pos, s16 id);
 Unk8002B728_Face *func_8003EB60(SVECTOR *);
 void func_800511BC(void);
 
@@ -8918,7 +8918,7 @@ typedef struct {
 extern s16 D_800B6B88;
 extern s16 D_800B6DF8;
 extern void func_8004F734(void *p);
-extern void func_800524D8(void *p, s16 arg1);
+extern void func_800524D8(SVECTOR *pos, s16 id);
 
 void func_80051ACC(void) {
     Unk80051ACC *p = (Unk80051ACC *)D_800B6DE0->vals;
@@ -9027,7 +9027,61 @@ void func_800521B8(Unk800521B8 *obj) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052208);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800524D8);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8 pad6[0xA];
+    u8 unk10;
+    u8 pad11[0x23];
+    s16 unk34;
+    s16 unk36;
+    s16 unk38;
+    s16 pad3A;
+    s16 unk3C;
+    u8 unk3E;
+    u8 unk3F;
+    u8 pad40[0x1AC];
+    s16 unk1EC;
+    s16 unk1EE;
+    s16 unk1F0;
+    u8 pad1F2[0x50];
+    s16 unk242;
+} Unk800524D8;
+
+void func_80052208();
+extern SVECTOR D_800B6C98;
+
+void func_800524D8(SVECTOR *pos, s16 id) {
+    struct Task *t;
+    Unk800524D8 *o;
+    VECTOR v;
+
+    if (id != -1 && D_801F9A5C[id] != 0) {
+        t = (struct Task *)func_8007307C(func_80052208, 0x10, 0x2A0);
+        if (t != NULL) {
+            o = (Unk800524D8 *)t->vals;
+            func_8002702C(&D_800B6C98, &D_801F9644);
+            ApplyMatrix(&D_801F9644, &D_800B7398->unk38, &v);
+            o->unk10 = 0;
+            o->x = v.vx + pos->vx;
+            o->y = v.vy + pos->vy;
+            o->z = v.vz + pos->vz;
+            o->unk34 = func_800754C8(0x1000);
+            o->unk36 = func_800754C8(0x1000);
+            o->unk38 = func_800754C8(0x1000);
+            func_800521B8((Unk800521B8 *)o);
+            o->unk1EC = func_800754C8(0x20) - 0x10;
+            o->unk1EE = func_800754C8(8) + 0x10;
+            o->unk1F0 = func_800754C8(0x20) - 0x10;
+            o->unk3F = 0;
+            o->unk3E = 0;
+            o->unk3C = id;
+            o->unk242 = 1;
+            func_80031C00(o);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052640);
 
