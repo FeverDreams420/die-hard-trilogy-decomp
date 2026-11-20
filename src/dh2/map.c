@@ -960,7 +960,69 @@ void func_80022974(void) {
     func_800863D0(D_801F9888[D_800B61FC[i].unk2].x >> 1, D_801F9888[D_800B61FC[i].unk2].y >> 1);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80022A10);
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} DR_AREA;
+
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} DR_OFFSET;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad;
+} POLY_FT3;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 w, h;
+} TILE;
+
+extern u16 D_8015EB9E;
+extern TILE D_800934EC;
+extern void SetPolyFT3(POLY_FT3 *p);
+extern void SetTile(TILE *p);
+extern void SetSemiTrans(void *p, s32 abe);
+extern void DrawPrim(void *p);
+
+void func_80022A10(void) {
+    DR_AREA area;
+    DR_OFFSET ofs;
+    POLY_FT3 tp;
+
+    VSync(0);
+    if (D_800B7370->unk178A != 0) {
+        SetDrawArea(&area, &D_800932D4[D_800B61FC[D_800B73D8].unk0].r);
+        SetDrawOffset(&ofs, (u16 *)&D_800932D4[D_800B61FC[D_800B73D8].unk0]);
+    } else {
+        SetDrawArea(&area, &D_800933B0[D_800B61FC[D_800B73D8].unk0].r);
+        SetDrawOffset(&ofs, (u16 *)&D_800933B0[D_800B61FC[D_800B73D8].unk0]);
+    }
+    SetPolyFT3(&tp);
+    tp.x0 = 0;
+    tp.x1 = 0;
+    tp.x2 = 0;
+    tp.tpage = D_8015EB9E;
+    DrawPrim(&tp);
+    DrawPrim(&area);
+    DrawPrim(&ofs);
+    SetTile(&D_800934EC);
+    SetSemiTrans(&D_800934EC, 1);
+    DrawPrim(&D_800934EC);
+}
 
 extern s16 D_800B70B8;
 extern s16 D_800B6B70;
