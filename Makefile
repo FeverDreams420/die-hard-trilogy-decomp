@@ -101,7 +101,7 @@ build/src/%.c.o: src/%.c
 
 define exe_rules
 $(patsubst %.c,build/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \
-	$(wildcard include/*.h include/*.inc)
+	$(wildcard include/*.h include/*/*.h include/*.inc)
 
 build/$(1).elf: $(call obj_of,$(1)) build/$(1).ld
 	$(LD) $(LDFLAGS) -Map build/$(1).map -T build/$(1).ld \

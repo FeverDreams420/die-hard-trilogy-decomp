@@ -40,8 +40,10 @@ segments:
     subsegments:
       - [0x800, c, gun]           # gun library (0x8001D500)
       - [0x1770, c, dh2]          # game code (0x8001E470)
+      - [0x5B01C, c, movie]       # movie player and EXE loader (0x80077D1C)
       - [0x5C1E0, c, psyq]         # PsyQ libraries from start (0x80078EE0)
       - [0x6B27C, .rodata, dh2]
+      - [0x6BDC8, .rodata, movie]    # (0x80088AC8)
       - [0x6BE64, .rodata, psyq]     # PsyQ library strings (0x80088B64)
       - [0x6C808, .data, gun]        # pad library data (0x80089508)
       - [0x6C868, .data, dh2]        # initialised tables (0x80089568)
