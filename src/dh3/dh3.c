@@ -11420,7 +11420,47 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067754);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067CA8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067DEC);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 padA;
+    u32 unkC;
+    u8 pad10[6];
+    s16 unk16;
+    u8 pad18[0x10];
+} Unk801DA6D0;
+
+extern Unk801DA6D0 D_801DA6D0[];
+void func_80068BD4(s16);
+
+void func_80067DEC(s16 voice) {
+    Unk801DA6D0 *e = &D_801DA6D0[voice];
+    s16 st;
+
+    if (e->unkC > 10) {
+        st = SpuGetKeyStatus(1 << voice);
+        if (st == 0 || st == 3) {
+            func_80068BD4(voice);
+            return;
+        }
+    }
+    if (e->unk16 < e->unkC) {
+        e->unk4 -= 0x100;
+        if (e->unk4 < 0) {
+            e->unk4 = 0;
+        }
+        func_80066B58((s16)((e->unk4 * (u16)e->unk0) >> 12), (s16)((e->unk4 * (0x1000 - (u16)e->unk0)) >> 12), voice);
+        D_801F76E4.mask = 3;
+        D_801F76E4.voice = 1 << voice;
+        SpuSetVoiceAttr(&D_801F76E4);
+    }
+    if (e->unk4 == 0) {
+        func_80068BD4(voice);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067F3C);
 
@@ -11707,17 +11747,6 @@ void func_80068EE0(s16 voice) {
         func_80068BD4(voice);
     }
 }
-
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 padA;
-    u32 unkC;
-    u8 pad10[0x18];
-} Unk801DA6D0;
 
 extern Unk801DA6D0 D_801DA6D0[];
 
