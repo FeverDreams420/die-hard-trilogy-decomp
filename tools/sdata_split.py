@@ -33,7 +33,7 @@ c_defs = set(re.findall(r"^(?!extern\b|return\b)[A-Za-z_][\w \t*]*?[\s*](D_[0-9A
 # Data that matched C functions write themselves (`$LC` strings): tagged
 # "// in C" in config/symbol_addrs.<exe>.txt. An item stops where one starts.
 c_owned = set(
-    re.findall(r"^(D_[0-9A-F]{8}) = [^;]*; // in C\b", open(f"config/symbol_addrs.{exe}.txt").read(), re.M)
+    re.findall(r"^(D_[0-9A-F]{8}) = [^;]*; //[^\n]*\bin C, written by\b", open(f"config/symbol_addrs.{exe}.txt").read(), re.M)
 )
 c_defs |= c_owned
 
