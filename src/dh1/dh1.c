@@ -591,7 +591,36 @@ int func_8002014C(void) {
     return -1;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800201A0);
+extern s16 D_800A3234;
+extern s16 D_800A3024;
+extern u32 D_800A314C;
+extern s16 D_800A2A68;
+extern s16 D_800A3424;
+extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+s32 func_80020380(s16 track);
+
+/* CdlGetlocP result: track, index, min, sec, frame, amin, asec, aframe */
+static u8 D_800A2E7C[8];
+
+int func_800201A0(void) {
+    s16 track = D_800A3234;
+
+    if (track == -1 || D_800A2A68 >= 0) {
+        return;
+    }
+    D_800A2A68 = 20;
+    if (D_800A3424 != 0) {
+        return;
+    }
+    if (track != D_800A3024) {
+        D_800A3234 = D_800A3024;
+        D_800A314C = D_801D7330[D_800A3024 + 1][1] + D_801D7330[D_800A3024 + 1][0] * 90 - 2;
+    }
+    CdControlB(0x11, 0, D_800A2E7C);
+    if (D_800A2E7C[5] * 90 + D_800A2E7C[6] >= D_800A314C) {
+        func_80020380(D_800A3234 - 2);
+    }
+}
 
 extern s16 D_800A3424;
 extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
@@ -629,7 +658,7 @@ void func_80020340(void) {
 
 extern s16 D_800A3234;
 extern s16 D_800A3024;
-extern s32 D_800A314C;
+extern u32 D_800A314C;
 extern s16 D_800A305C[3];
 extern s16 D_800A2A68;
 extern u8 D_801D7330[][4];
