@@ -721,7 +721,6 @@ void func_800214A8(s32 angle) {
     D_800B6E90.vx += func_80025B40(D_800982E4[(angle + 0x400) & 0xFFF] * (s16)((D_800B6ED8.vx * (scale / 2)) >> 12)) >> 12;
 }
 
-
 void func_80021624(s32 angle) {
     s16 scale = 0x1000 - ((D_800B71C0 - 0x100) << 12) / 0x300;
 
@@ -805,7 +804,50 @@ void func_80021B2C(void) {
     func_80021624(buf);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80021BC8);
+typedef struct {
+    u8 pad0[0x170];
+    s16 unk170;
+    s16 unk172;
+    s16 unk174;
+    s16 unk176;
+} Unk80021BC8;
+
+extern s16 D_800B639E;
+s16 func_800754C8(s32 n);
+
+void func_80021BC8(void) {
+    Unk80021BC8 *p = (Unk80021BC8 *)D_801F7544->vals;
+    u8 unused[8];
+    s32 old;
+    s32 y;
+    s32 angle;
+
+    D_800B6E00.vy += p->unk170;
+    p->unk170 += p->unk172;
+    p->unk172 -= D_800B639E * 3;
+    if (p->unk170 < 0) {
+        p->unk170 = 0;
+        if (p->unk172 >= -3) {
+            p->unk172 = 0;
+        } else {
+            p->unk172 = ABS(p->unk172 / 2);
+        }
+        if (p->unk174-- < 0) {
+            p->unk172 = func_800754C8(0x20) + 0x20;
+            p->unk174 = func_800754C8(0x32);
+        }
+    }
+    angle = (p->unk172 * 12) & 0xFFF;
+    if (p->unk170 != 0) {
+        D_800B6E90.vx -= D_800982E4[angle] >> 7;
+    }
+    old = p->unk176;
+    y = D_800B6E90.vy;
+    p->unk176 = y;
+    D_800B6E90.vz -= (old - y) * 4;
+    D_800B6E90.vy += func_800754C8(8) - 4;
+    D_800B6E90.vx += func_800754C8(8) - 4;
+}
 
 void func_80021D70(void) {
     Unk800219EC *p = (Unk800219EC *)D_801F7544->vals;
