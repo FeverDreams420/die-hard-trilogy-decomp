@@ -508,15 +508,69 @@ s32 func_8001FB8C(void *p, SVECTOR *pos, SVECTOR *ang, s16 flag) {
     return 6;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001FD90);
-
 typedef struct {
     SVECTOR *v[4];
     u16 tex;
     u16 pad12;
-    s32 unk14;
+    void (*draw)(void *p);
     s32 unk18;
 } Unk80020030_Prim;
+
+extern s16 D_800982E4[];
+
+s32 func_8001FD90(Unk80020030_Prim *p, SVECTOR *pos, SVECTOR *ang, s16 flag) {
+    u8 unused[8];
+    s32 dx = pos->vx - D_800B6E00.vx;
+    s32 dz = pos->vz - D_800B6E00.vz;
+
+    if (dx < -0x7FFF || dx > 0x7FFF) {
+        return 3;
+    }
+    if (dz < -0x7FFF || dz > 0x7FFF) {
+        return 3;
+    }
+    D_800B72C0.vx = dx;
+    D_800B72C0.vy = pos->vy - D_800B6E00.vy;
+    D_800B72C0.vz = dz;
+    PushMatrix();
+    ApplyMatrix(&D_80169F78, &D_800B72C0, &D_801C9980);
+    func_8002702C(ang, &D_801F9644);
+    D_801F9644.m[1][0] = 0;
+    D_801F9644.m[1][1] = 0;
+    D_801F9644.m[1][2] = 0;
+    D_801F9644.m[0][1] = D_800982E4[(-ang->vy + 0x400) & 0xFFF] * 2;
+    D_801F9644.m[2][1] = D_800982E4[(-ang->vy + 0x800) & 0xFFF] * 2;
+    MulMatrix2(&D_80169F78, &D_801F9644);
+    SetRotMatrix(&D_801F9644);
+    func_80085EA0(&D_801F9644, &D_801C9980);
+    SetTransMatrix(&D_801F9644);
+    RotTrans((SVECTOR *)&D_800B67D0, &D_801F6C7C, &D_800B6A90);
+    if (D_801F6C7C.vz < -0x1000) {
+        PopMatrix();
+        return 1;
+    }
+    if (D_801F6C7C.vz > 0x4000) {
+        PopMatrix();
+        return 3;
+    }
+    if (func_80025B40(D_801F6C7C.vx) > D_801F6C7C.vz * 2) {
+        return 2;
+    }
+    if (flag) {
+        func_80048E64();
+    }
+    D_800B6F58 = D_801F6C7C.vz >> 2;
+    if (D_800B6F58 < 0) {
+        D_800B6F58 = 0;
+    }
+    p = (Unk80020030_Prim *)((u8 *)p + 8);
+    while (p->draw != NULL) {
+        p->draw(p);
+        p++;
+    }
+    PopMatrix();
+    return 6;
+}
 
 extern VECTOR D_80087F80;
 extern void *D_800B7140;
@@ -575,7 +629,7 @@ s32 func_80020030(Unk80020030_Prim *p, SVECTOR *pos, SVECTOR *ang) {
         return -1;
     }
     p = (Unk80020030_Prim *)((u8 *)p + 8);
-    while (p->unk14 != 0) {
+    while (p->draw != NULL) {
         func_80030E08(p);
         p++;
     }
