@@ -9097,7 +9097,50 @@ void func_80054D3C(void) {
     func_800728A4();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80054D5C);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    u8 pad20[0x30];
+    s16 unk50;
+    s16 unk52;
+    s16 unk54;
+    u8 pad56[0x1C];
+    s16 unk72;
+    u8 pad74[0x16];
+    s16 unk8A;
+    s16 unk8C;
+} Unk80054D5C;
+
+extern s16 D_800B605C;
+extern VECTOR D_801FA648;
+extern s16 D_800B5DD4;
+extern SVECTOR D_800B5D54;
+extern void func_8003C6B8(VECTOR *pos);
+void func_800606D8(VECTOR *pos);
+void func_80057400(void);
+
+void func_80054D5C(Unk80054D5C *p) {
+    if (D_800B605C != 0 && func_80028A48(&p->pos, &D_801FA648) < D_800B605C) {
+        func_800606D8(&p->pos);
+        p->unk72 = 0x60;
+        p->unk8A = func_80074910(0x20) + 0x40;
+        p->unk8C = 0x40;
+        p->unk50 = func_80074910(0x10) - 8;
+        p->unk54 = func_80074910(0x10) - 8;
+        func_8003C6B8(&p->pos);
+        D_800B604C->flags = 0x21;
+        D_800B604C->func = func_80057400;
+    }
+    if (D_800B5DD4 != 0 && func_80028A48(&p->pos, &D_801981F4) > D_800B5DD4) {
+        p->unk72 = 0x60;
+        p->unk8A = func_80074910(0x20) + 0x40;
+        p->unk8C = 0x40;
+        p->unk50 = D_800B5D54.vx;
+        p->unk54 = D_800B5D54.vz;
+        p->unk52 = 0;
+        D_800B604C->func = func_80057400;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80054EB0);
 
