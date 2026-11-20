@@ -11422,7 +11422,46 @@ void func_80066D18(s16 id) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066E0C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800670B8);
+extern s16 D_800B5748;
+void func_80066E0C();
+
+void func_800670B8(void) {
+    D_8018CC68.unk0 = 0;
+    D_8018CC68.unk2 = 0;
+    D_8018CC68.unk4 = 0;
+    D_8018CC68.unk6 = 0x400;
+    D_8018CC68.unk14 = 0;
+    switch (D_800B5748) {
+    case 0:
+        D_8018CC68.unk12 = 0x3000;
+        D_8018CC68.unk8 = 0x28;
+        D_8018CC68.unk16 = 0x800;
+        break;
+    case 2:
+        D_8018CC68.unk14 = 1;
+        D_8018CC68.unk12 = 0x2710;
+        D_8018CC68.unk8 = 0x36;
+        D_8018CC68.unk16 = 0x4C8;
+        break;
+    case 3:
+        D_8018CC68.unk14 = 1;
+        D_8018CC68.unk12 = 0x2FA8;
+        D_8018CC68.unk8 = 0x35;
+        D_8018CC68.unk16 = 0x384;
+        break;
+    default:
+        D_8018CC68.unk14 = 1;
+        D_8018CC68.unk12 = 0x2710;
+        D_8018CC68.unk8 = 0x35;
+        D_8018CC68.unk16 = 0x4C8;
+        break;
+    }
+    D_8018CC68.unk10 = 0x200;
+    func_800691E8(&D_8018CC68, (s32)func_80066E0C);
+    D_8018CC68.unk10 = 0xE00;
+    D_8018CC68.unk14 = 0;
+    func_800691E8(&D_8018CC68, (s32)func_80066E0C);
+}
 
 void func_80067210(void) {
     D_800B6374 = func_80074910(4) + 0x24;
