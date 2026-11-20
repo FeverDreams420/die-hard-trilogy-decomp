@@ -7823,7 +7823,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047968);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047B48);
 
-void func_8006576C(s32 arg);
+void func_8006576C(Unk8002A35C *pos);
 void func_80055298(s32 *obj, s32 x0, s32 x1, s32 z0, s32 z1);
 
 void func_80047E50(s32 *obj) {
@@ -11310,7 +11310,38 @@ void func_80065614(s16 voice) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006576C);
+extern s16 D_800B6E92;
+extern s16 D_800982E4[];
+void func_800666F0(s16 voice);
+
+void func_8006576C(Unk8002A35C *pos) {
+    s16 dist;
+    s16 pan;
+    s16 vol;
+    SVECTOR unused;
+
+    dist = func_80077398(pos, (Unk8002A35C *)&D_800B6E00);
+    pan = (D_800982E4[((u16)D_800B6E92 + func_80025254((Unk8002A35C *)&D_800B6E00, pos)) & 0xFFF] + 0x1000) >> 1;
+    vol = func_80072734(0x3FFF, 10000, dist / 2);
+    if (vol < 0x400) {
+        vol = 0x400;
+    }
+    D_8015EB3C.unk4 = vol;
+    D_8015EB3C.unk0 = pan;
+    D_8015EB3C.unk2 = 0;
+    D_8015EB3C.unk6 = 0x400;
+    D_8015EB3C.unk8 = 0x41;
+    D_8015EB3C.unk20 = 20;
+    func_80066B70(&D_8015EB3C, (s32)func_80065614);
+    D_8015EB3C.unk0 = pan - 0x200;
+    D_8015EB3C.unk2 = func_800754C8(0x200);
+    D_8015EB3C.unk6 = func_800754C8(0x3F) + 0x4B0;
+    func_80066B70(&D_8015EB3C, (s32)func_800666F0);
+    D_8015EB3C.unk0 = pan + 0x200;
+    D_8015EB3C.unk2 = func_800754C8(0x200);
+    D_8015EB3C.unk6 = func_800754C8(0x109) + 0x384;
+    func_80066B70(&D_8015EB3C, (s32)func_800666F0);
+}
 
 void func_800658EC(s16 id) {
     s32 unused[2];
