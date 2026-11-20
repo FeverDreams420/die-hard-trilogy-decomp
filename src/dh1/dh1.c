@@ -13504,7 +13504,10 @@ void func_80067E20(void) {
     D_800A2C08 = 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067E60);
+void func_80067E60(u8 c) {
+    D_800A2C08 = (D_800A2C08 + 1) % 16;
+    D_800A7FF0[D_800A2C08] = c;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067EA0);
 
