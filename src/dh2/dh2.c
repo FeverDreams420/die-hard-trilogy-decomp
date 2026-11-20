@@ -11413,7 +11413,30 @@ void func_80066770(s16 voice) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006684C);
+void func_8006684C(s32 vol, Unk8002A35C *pos) {
+    s16 pan;
+    s32 dir;
+    s16 dist;
+
+    pan = (D_800982E4[((u16)D_800B6E92 + func_80025254((Unk8002A35C *)&D_800B6E00, pos)) & 0xFFF] + 0x1000) >> 1;
+    dir = (pan < 0x800) ? 0x100 : -0x100;
+    dist = func_80077398(pos, (Unk8002A35C *)&D_800B6E00);
+    if (dist < 0) {
+        dist = 0;
+    }
+    if (dist > 0x1000) {
+        dist = 0x1000;
+    }
+    D_8015EB3C.unk0 = pan;
+    D_8015EB3C.unk2 = 0;
+    D_8015EB3C.unk4 = func_80072734(0x3FFF, 0x400, dist / 2);
+    D_8015EB3C.unk6 = func_800754C8(0x200) + 0x300;
+    D_8015EB3C.unk8 = vol;
+    D_8015EB3C.unk14 = -func_800754C8(0x10);
+    D_8015EB3C.unk10 = dir;
+    D_8015EB3C.unk12 = 0;
+    func_80066B70(&D_8015EB3C, (s32)func_800669A0);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800669A0);
 
