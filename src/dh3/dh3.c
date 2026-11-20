@@ -6545,7 +6545,7 @@ extern struct {
     Unk80077300 *unk1C;
 } *D_801F8100;
 
-extern VECTOR D_801984F0;
+extern VECTOR D_801984F0[];
 void func_80045B60(void);
 
 void func_80045CB4(s16 x, s16 z, u8 *obj) {
@@ -6557,7 +6557,7 @@ void func_80045CB4(s16 x, s16 z, u8 *obj) {
         v.vx = (x << 9) + 0x100;
         v.vz = (z << 9) + 0x100;
         if (func_80028A48(&v, &D_800B659C->pos) < 0x17D1) {
-            if (func_80028A48(&D_800B659C->pos, &(&D_801984F0)[D_800B650C]) >= 0x2000) {
+            if (func_80028A48(&D_800B659C->pos, &D_801984F0[D_800B650C]) >= 0x2000) {
                 t = func_80072374(func_80045B60, 0xC);
                 if (t != NULL) {
                     p = (Unk80045B60 *)t->vals;
@@ -8409,17 +8409,41 @@ void func_80050274(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005027C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800504A4);
+extern VECTOR D_801CA284;
+extern s16 D_800B6294;
 
-extern VECTOR D_801984F0;
+void func_800504A4(void) {
+    s16 n = D_800B650C;
+
+    if (n == D_800B6294 + 1) {
+        D_800B66DC = -1;
+        D_800B640C++;
+        D_800B6504 = D_800936C4[D_800B640C].unk0;
+    }
+    if (D_801984F0[n].vy != 0) {
+        D_801CA284.vx = D_801984F0[n - 1].vx;
+        D_801CA284.vy = D_801984F0[n - 1].vy;
+        D_801CA284.vz = D_801984F0[n - 1].vz;
+    } else {
+        D_801CA284.vx = D_801984F0[n].vx;
+        D_801CA284.vy = D_801984F0[n].vy;
+        D_801CA284.vz = D_801984F0[n].vz;
+    }
+    func_80072A40(0x20);
+    func_8003F57C();
+    D_800B650C++;
+    func_80050DFC();
+}
+
+extern VECTOR D_801984F0[];
 extern VECTOR D_801CA284;
 void func_8003F57C(void);
 
 void func_8005061C(void) {
     D_800B650C = 1;
-    D_801CA284.vx = D_801984F0.vx;
-    D_801CA284.vy = D_801984F0.vy;
-    D_801CA284.vz = D_801984F0.vz;
+    D_801CA284.vx = D_801984F0[0].vx;
+    D_801CA284.vy = D_801984F0[0].vy;
+    D_801CA284.vz = D_801984F0[0].vz;
     func_80072A40(0x20);
     func_8003F57C();
     func_80050DFC();
