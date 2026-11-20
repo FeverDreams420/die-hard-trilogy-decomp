@@ -6319,7 +6319,57 @@ void func_80045358(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045410);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80045B60);
+typedef struct {
+    u8 *obj;
+    s16 timer;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+} Unk80045B60;
+
+extern s16 D_800B65C4;
+
+void func_80045B60(void) {
+    Unk80045B60 *p = (Unk80045B60 *)D_800B604C->vals;
+    s16 dir;
+
+    if (p->timer-- < 0) {
+        func_8004DCC4((s32)p->obj);
+        func_800728A4();
+        return;
+    }
+    if (p->unk6 != 0) {
+        return;
+    }
+    dir = ((D_800B65C4 + 0x200) & 0xFFF) / 1024;
+    if (p->unkA == dir) {
+        p->unk8++;
+    } else {
+        p->unk8 = 0;
+        p->unkA = dir;
+    }
+    if (p->unk8 < 9) {
+        return;
+    }
+    switch (p->unkA) {
+    case 0:
+        D_800B6374 = 0x15;
+        break;
+    case 1:
+        D_800B6374 = 0x16;
+        break;
+    case 2:
+        if ((s16)func_80074910(5) >= 4) {
+            D_800B6374 = 0x17;
+        }
+        break;
+    case 3:
+        D_800B6374 = 0x14;
+        break;
+    }
+    p->timer = 0x78;
+    p->unk6 = -1;
+}
 
 extern s16 D_800B622C;
 typedef struct {
@@ -6331,14 +6381,6 @@ extern struct {
     u8 pad[0x1C];
     Unk80077300 *unk1C;
 } *D_801F8100;
-
-typedef struct {
-    u8 *obj;
-    s16 timer;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-} Unk80045B60;
 
 extern VECTOR D_801984F0;
 void func_80045B60(void);
