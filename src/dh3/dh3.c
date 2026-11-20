@@ -598,11 +598,14 @@ void func_8002228C(void) {
 }
 
 typedef struct {
-    u8 pad0[0x10];
+    u8 pad0[8];
+    s16 unk8;
+    u8 padA[6];
     VECTOR pos;
     u8 pad20[2];
     u16 unk22;
-    u8 pad24[0x2C];
+    u8 pad24[4];
+    u8 unk28[0x28];
     VECTOR unk50;
     u8 pad60[0x44];
     s16 unkA4;
@@ -7978,7 +7981,40 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_800B567C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004CBB0);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004CE18);
+extern VECTOR D_801F76D0;
+extern struct Task *D_801F80BC;
+extern void *D_801FAB78[];
+extern u8 D_800B8730[];
+void func_8006B48C(s16 id, void *p);
+void func_8002C234(s16 a, void *p);
+
+void func_8004CE18(void) {
+    struct Task *t = D_800B604C;
+    Unk800B659C *pl = D_800B659C;
+    Unk800B659C *v = (Unk800B659C *)t->vals;
+    s16 tmp;
+
+    D_801F76D0.vx = pl->pos.vx;
+    D_801F76D0.vy = pl->pos.vy;
+    D_801F76D0.vz = pl->pos.vz;
+    pl->pos.vx = v->pos.vx;
+    pl->pos.vy = v->pos.vy;
+    pl->pos.vz = v->pos.vz;
+    v->pos.vx = D_801F76D0.vx;
+    v->pos.vy = D_801F76D0.vy;
+    v->pos.vz = D_801F76D0.vz;
+    pl->unk50.vx = pl->pos.vx << 5;
+    pl->unk50.vy = pl->pos.vy << 5;
+    pl->unk50.vz = pl->pos.vz << 5;
+    tmp = v->unk8;
+    v->unk8 = pl->unk8;
+    pl->unk8 = tmp;
+    D_800B604C = D_801F80BC;
+    func_8006B48C(pl->unk8 + 0x14, pl->unk28);
+    func_8002C234(D_800B659C->unk8, D_800B659C);
+    func_8002BFF4(D_801FAB78[D_800B659C->unk8], (void *)D_800B8730);
+    D_800B604C = t;
+}
 
 typedef struct {
     u8 pad0[8];
