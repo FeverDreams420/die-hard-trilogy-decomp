@@ -9709,7 +9709,38 @@ void func_8005BA74(void) {
     D_800B604C->func = func_8005B7B0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005BBA8);
+typedef struct {
+    u8 pad0[0x214];
+    s16 unk214;
+    u8 pad216[0x2A];
+    s16 unk240;
+    u8 pad242[0xA];
+    s16 unk24C[5];
+    s16 unk256[5];
+} Unk8005BBA8;
+
+void func_8005BBA8(s16 idx) {
+    Unk8005BBA8 *p = (Unk8005BBA8 *)D_800B604C->vals;
+
+    p->unk24C[idx] += p->unk256[idx];
+    if (p->unk24C[idx] > 100) {
+        p->unk24C[idx] = 100;
+        p->unk256[idx] = -func_80074910(6) - 4;
+    } else if (p->unk24C[idx] < -100) {
+        p->unk24C[idx] = -100;
+        p->unk256[idx] = func_80074910(6) - 4;
+    }
+    if (p->unk24C[idx] > 0) {
+        p->unk256[idx]--;
+    } else {
+        p->unk256[idx]++;
+    }
+    if (p->unk240 != 3 || p->unk214 < 0x20) {
+        p->unk24C[idx] = func_8002881C(p->unk24C[idx], 0, 2);
+    } else if ((s16)func_80074910(10) == 0) {
+        p->unk256[idx] = func_80074910(16) - 8;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005BCF8);
 
