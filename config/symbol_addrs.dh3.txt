@@ -409,6 +409,7 @@ jtbl_80086CBC = 0x80086CBC; // force_not_migration:True
 jtbl_80086CE4 = 0x80086CE4; // force_not_migration:True
 D_8009FE7C = 0x8009FE7C; // force_not_migration:True
 D_800B54E4 = 0x800B54E4; // first .sdata item, at $gp
+D_800B5508 = 0x800B5508; // in C, written by func_8002246C
 D_800B5A20 = 0x800B5A20; // in C, written by func_800708F0
 D_800B5A28 = 0x800B5A28; // in C, written by func_800708F0
 D_800B5A6C = 0x800B5A6C; // in C, written by func_80075270
