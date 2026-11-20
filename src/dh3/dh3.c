@@ -9976,11 +9976,11 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80061A64);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5920);
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5928);
+s32 D_800B5928 = -0x6E4;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B592C);
+s32 D_800B592C = 0x128;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5930);
+s32 D_800B5930 = -0x38;
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5934);
 
@@ -9988,7 +9988,46 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5938);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B593C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80061E48);
+extern s32 D_800B5928;
+extern s32 D_800B592C;
+extern s32 D_800B5930;
+extern s32 D_800B5934;
+extern s32 D_800B5938;
+extern s32 D_800B593C;
+extern SVECTOR D_800B6594;
+extern SVECTOR D_800B66BC;
+extern VECTOR D_80091BB8;
+extern VECTOR D_801981F4;
+extern SVECTOR D_800B6124;
+extern s16 D_800B636C;
+extern s16 D_800B645C;
+extern s16 D_800B644C;
+extern void SetFogNear(s32 a, s32 h);
+extern void func_80084D78(s32 a);
+void func_80084EA8(s32 a, s32 b);
+void func_80028310(SVECTOR *rot, SVECTOR *v, VECTOR *base, VECTOR *out);
+void func_8002924C(VECTOR *from, VECTOR *to, SVECTOR *rot);
+void func_800221C8(void);
+
+void func_80061E48(s16 y, s16 unused) {
+    s16 vy = D_800B592C;
+    s16 vz = D_800B5928;
+
+    D_800B6594.vx = 0;
+    D_800B6594.vz = 0;
+    D_800B6594.vy = y;
+    D_800B66BC.vx = 0;
+    D_800B66BC.vz = vz;
+    D_800B66BC.vy = vy;
+    func_80028310(&D_800B6594, &D_800B66BC, &D_80091BB8, &D_801981F4);
+    func_8002924C(&D_80091BB8, &D_801981F4, &D_800B6124);
+    D_800B6124.vx -= D_800B5930;
+    func_80084EA8(D_800B636C / 2, D_800B645C / 2);
+    SetFogNear(0x7D00, 0x100);
+    func_80084D78(0x100);
+    D_800B644C = 0x100;
+    func_800221C8();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80061F48);
 
