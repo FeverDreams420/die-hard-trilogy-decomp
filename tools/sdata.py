@@ -14,9 +14,20 @@ EXEs whose data is split (a `.sdata` subsegment in config/<exe>.yaml, mode
 still have one .rodata segment for all data, so both go to .rodata: `$LC`
 before maspsx, named variables after it.
 
+Uninitialised variables past the end of the EXE (.sbss and .bss) are not in
+the file, but a function may still reach one through `$gp`. Declare it in C
+without a value (`static u8 D_800A2E7C[8];`), so GCC emits `.lcomm` (or
+`.comm`) and maspsx writes `%gp_rel` for it under -G8. maspsx then defines it
+at the end of the file as a label in .sbss or .bss; `post` removes those
+labels for named addresses (`D_XXXXXXXX`), so each reference resolves to the
+address in build/<exe>.undefined_syms_auto.txt instead.
+
 usage: python sdata.py pre|post split|rodata  (stdin to stdout)
 """
+import re
 import sys
+
+NAMED_ADDRESS = re.compile(r"D_[0-9A-F]{8}$")
 
 
 def pre(lines, mode):
@@ -35,7 +46,36 @@ def pre(lines, mode):
     return out
 
 
+def strip_bss(lines):
+    # maspsx writes each bss entry as optional `.align`/`.globl` lines, the
+    # label and `.space`, after a `.section .sbss` or `.section .bss` line
+    out, entry, in_bss = [], [], False
+    for line in lines:
+        s = line.strip()
+        if s in (".section .sbss", ".section .bss"):
+            in_bss = True
+            out.append(line)
+            continue
+        if not in_bss:
+            out.append(line)
+            continue
+        if s.startswith(".section"):
+            in_bss = False
+            out += entry
+            entry = []
+            out.append(line)
+            continue
+        entry.append(line)
+        if s.startswith(".space"):
+            label = next((e.strip()[:-1] for e in entry if e.strip().endswith(":")), "")
+            if not NAMED_ADDRESS.match(label):
+                out += entry
+            entry = []
+    return out + entry
+
+
 def post(lines, mode):
+    lines = strip_bss(lines)
     if mode == "split":
         return lines
     # the MIPS .rdata directive means .rodata; ".section .rdata" would not
