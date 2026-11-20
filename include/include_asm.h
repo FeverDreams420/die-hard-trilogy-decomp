@@ -38,12 +38,23 @@
         ); \
     }
 
+/* An item of the EXE's .sdata section (files written by tools/sdata_split.py). */
+#define INCLUDE_SDATA(FOLDER, NAME) \
+    void __maspsx_include_asm_hack_sdata_##NAME() { \
+        __asm__( \
+            ".section .sdata # maspsx-keep\n" \
+            ".include \"" FOLDER "/" #NAME ".s\" # maspsx-keep\n" \
+            ".text # maspsx-keep\n" \
+        ); \
+    }
+
 __asm__(".include \"include/macro.inc\"\n");
 
 #else
 
 #define INCLUDE_ASM(FOLDER, NAME)
 #define INCLUDE_RODATA(FOLDER, NAME)
+#define INCLUDE_SDATA(FOLDER, NAME)
 
 #endif /* !defined(M2CTX) && !defined(PERMUTER) */
 

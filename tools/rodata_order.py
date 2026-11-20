@@ -1,24 +1,27 @@
-"""Reorder the rodata in a one-file EXE so jump tables can be matched in C.
+"""Order the data includes in a one-file EXE so rodata lands at its address.
 
-Each EXE is one C file, so its .rodata comes out in file order: every
-INCLUDE_RODATA line and every C data definition where it stands, plus the
-unnamed rodata GCC writes next to a C function (`$LC` constants just before
-it, jump tables just after it). For a function's own rodata to land at its
-original address, every rodata item below that address has to come before
-the function in the file, and every item above it after.
+Each EXE is one C file, so each data section comes out in file order: every
+INCLUDE_RODATA/INCLUDE_SDATA line and every C data definition where it
+stands, plus the unnamed data GCC writes next to a C function (`$LC`
+constants just before it, jump tables just after it). For a function's own
+data to land at its original address, every item of that section below the
+address has to come before the function in the file, and every item above it
+after. Sections are independent: .rodata (jump tables, long strings) and
+.sdata (short strings, small variables) each rise with the functions on
+their own. An EXE without a .sdata subsegment has only the .rodata stream.
 
-This script lays the file out that way (the DH1 layout, see "Jump tables and
-rodata order" in docs/compiler-notes.md):
+The layout (the DH1 layout, see "Jump tables and rodata order" in
+docs/compiler-notes.md):
 
-- Anchors are functions whose rodata is tied to their place in the file:
-  C functions that emit unnamed rodata (found in GCC's output), and
-  INCLUDE_ASM functions that use a jump table or carry rodata in their .s
-  file. Each anchor has an address: its first table, or for a C function the
-  first rodata item that follows it now.
-- Anchors must rise with the file; an INCLUDE_ASM anchor that would break that
-  is dropped and reported (it stays blocked).
-- Every rodata item goes right after the last anchor whose address is at or
-  below it, in address order.
+- Anchors are functions whose data is tied to their place in the file:
+  C functions that write unnamed data (found in GCC's output; for .sdata the
+  address comes from the "// in C, written by" tags in
+  config/symbol_addrs.<exe>.txt), and INCLUDE_ASM functions that use a jump
+  table, or reach a .sdata item with a lui pair (a short string).
+- Anchors of one section must rise with the file; an INCLUDE_ASM anchor that
+  would break that is dropped and reported (it stays blocked).
+- Every item goes right after the last anchor of its section whose address
+  is at or below it, in address order.
 - A C data definition that moves further down leaves an extern declaration in
   its old place, so the code above it still sees it.
 
@@ -44,14 +47,29 @@ def addr_of(name):
     return int(m.group(1), 16) if m else None
 
 
+cfg = open(f"config/{exe}.yaml").read()
+m = re.search(r"- \[(0x[0-9A-Fa-f]+), \.sdata, \w+\]", cfg)
+if m:
+    code = re.search(rf"name: {exe}\s*\n\s*type: code\s*\n\s*start: (0x[0-9A-Fa-f]+)\s*\n\s*vram: (0x[0-9A-Fa-f]+)", cfg)
+    to_vram = lambda off: off - int(code.group(1), 16) + int(code.group(2), 16)
+    SDATA = to_vram(int(m.group(1), 16))
+    SDATA_END = to_vram(int(re.search(r"\.sdata, \w+\][^\n]*\n\s*- \[(0x[0-9A-Fa-f]+)", cfg).group(1), 16))
+else:
+    SDATA = 1 << 40  # no .sdata section: everything is one .rodata stream
+
+
+def stream_of(addr):
+    return "sdata" if addr >= SDATA else "rodata"
+
+
 # ---- split the file into top-level statements --------------------------------
 stmts = []  # dicts: kind, name, lines
 i = 0
 while i < len(lines):
     l = lines[i]
-    m = re.match(r'INCLUDE_(ASM|RODATA)\("[^"]*", (\w+)\);', l)
+    m = re.match(r'INCLUDE_(ASM|RODATA|SDATA)\("[^"]*", (\w+)\);', l)
     if m:
-        kind = "asm" if m.group(1) == "ASM" else "rodata"
+        kind = "asm" if m.group(1) == "ASM" else "data"
         stmts.append(dict(kind=kind, name=m.group(2), lines=[l]))
         i += 1
         continue
@@ -96,82 +114,112 @@ while i < len(lines):
     stmts.append(dict(kind=kind, name=name, lines=block))
     i = j + 1
 
+DATA = ("data", "cdata")
+items = [s for s in stmts if s["kind"] in DATA]
+for s in items:
+    s["addr"] = addr_of(s["name"])
+    assert s["addr"] is not None, s["name"]
+    s["stream"] = stream_of(s["addr"])
+
 # ---- anchors ------------------------------------------------------------------
-# C functions with unnamed rodata, from GCC's output
+# C functions that write unnamed data, per section, from GCC's output
 gl = open(gcc_out).read().split("\n")
-anon_c = set()
+anon_c = {}  # function -> set of streams
 cur = None
+HACK = "__maspsx_include_asm_hack"
 for k, l in enumerate(gl):
     m = re.match(r"\s*\.ent\s+(\S+)", l)
     if m:
         cur = m.group(1)
         continue
-    if re.match(r"^\s*(\.rdata|\.sdata)\s*$", l):
-        lab = next((x.strip() for x in gl[k + 1 : k + 6] if x.strip().endswith(":")), "")
-        if lab.startswith("$LC"):  # written before the function that uses it
-            nxt = next(
-                (re.match(r"\s*\.ent\s+(\S+)", x).group(1) for x in gl[k:] if re.match(r"\s*\.ent\s", x)),
-                None,
-            )
-            if nxt and not nxt.startswith("__maspsx_include_asm_hack"):
-                anon_c.add(nxt)
-        elif lab.startswith("$L") and cur and not cur.startswith("__maspsx_include_asm_hack"):
-            anon_c.add(cur)  # jump table, written after its function
+    m = re.match(r"^\s*(\.rdata|\.sdata)\s*$", l)
+    if not m:
+        continue
+    stream = "sdata" if m.group(1) == ".sdata" and SDATA < (1 << 40) else "rodata"
+    lab = next((x.strip() for x in gl[k + 1 : k + 6] if x.strip().endswith(":")), "")
+    if lab.startswith("$LC"):  # written before the function that uses it
+        nxt = next((re.match(r"\s*\.ent\s+(\S+)", x).group(1) for x in gl[k:] if re.match(r"\s*\.ent\s", x)), None)
+        if nxt and not nxt.startswith(HACK):
+            anon_c.setdefault(nxt, set()).add(stream)
+    elif lab.startswith("$L") and cur and not cur.startswith(HACK):
+        anon_c.setdefault(cur, set()).add(stream)  # jump table, after its function
 
-rod_items = [s for s in stmts if s["kind"] in ("rodata", "cdata")]
-for s in rod_items:
-    s["addr"] = addr_of(s["name"])
-    assert s["addr"] is not None, s["name"]
+# .sdata data written by C functions, from the symbol file tags
+c_sdata = {}
+for name, fn in re.findall(r"^(D_[0-9A-F]{8}) = [^;]*; // in C, written by (\w+)", open(f"config/symbol_addrs.{exe}.txt").read(), re.M):
+    c_sdata[fn] = min(c_sdata.get(fn, 1 << 40), addr_of(name))
 
-anchors = []  # (stmt index, addr, label, required)
+# which INCLUDE_ASM functions reach each symbol with a lui pair, and which
+# symbols the C code names (those are variables, not strings)
+hi_users = {}
+SYM = re.compile(r"\b(D_[0-9A-F]{8})\b")
+c_names = set(SYM.findall(" ".join(l for s in stmts if s["kind"] not in DATA for l in s["lines"])))
+for s in stmts:
+    if s["kind"] == "asm":
+        try:
+            t = open(asm_dir + s["name"] + ".s").read()
+        except FileNotFoundError:
+            continue
+        for d in set(SYM.findall(t)):
+            hi_users.setdefault(d, set()).add(s["name"] if f"%hi({d})" in t else "")
+for d in c_names:
+    hi_users.setdefault(d, set()).add("")
+
+anchors = []  # (stmt index, addr, label, required, stream)
 for idx, s in enumerate(stmts):
     if s["kind"] == "cfunc" and s["name"] in anon_c:
-        nxt = next((t for t in stmts[idx + 1 :] if t["kind"] in ("rodata", "cdata")), None)
-        if nxt:
-            anchors.append((idx, nxt["addr"], s["name"] + " (C)", True))
+        for stream in anon_c[s["name"]]:
+            if stream == "sdata":
+                assert s["name"] in c_sdata, f'{s["name"]} writes .sdata: tag it "// in C, written by" in symbol_addrs'
+                anchors.append((idx, c_sdata[s["name"]], s["name"] + " (C)", True, stream))
+            else:
+                nxt = next((t for t in stmts[idx + 1 :] if t["kind"] in DATA and t["stream"] == stream), None)
+                if nxt:
+                    anchors.append((idx, nxt["addr"], s["name"] + " (C)", True, stream))
     elif s["kind"] == "asm":
         try:
             t = open(asm_dir + s["name"] + ".s").read()
         except FileNotFoundError:
             continue
-        addrs = [addr_of(j) for j in re.findall(r"%hi\((jtbl_[0-9A-F]{8})\)", t)]
-        if ".section .rodata" in t:
-            addrs += [int(a, 16) for a in re.findall(r"/\* [0-9A-F]+ ([0-9A-F]{8}) ", t.split(".section .rodata", 1)[1])][:1]
-        if addrs:
-            anchors.append((idx, min(addrs), s["name"], False))
+        jt = [addr_of(j) for j in re.findall(r"%hi\((jtbl_[0-9A-F]{8})\)", t)]
+        if ".section .rodata" in t:  # rodata kept in the function's file
+            jt += [int(a, 16) for a in re.findall(r"/\* [0-9A-F]+ ([0-9A-F]{8}) ", t.split(".section .rodata", 1)[1])][:1]
+        if jt:
+            anchors.append((idx, min(jt), s["name"], False, "rodata"))
+        # a short string: a .sdata item only this function reaches, with a lui pair
+        lc = [a for d in re.findall(r"%hi\((D_[0-9A-F]{8})\)", t)
+              if SDATA <= (a := addr_of(d)) < SDATA_END and hi_users.get(d) == {s["name"]}]
+        if lc:
+            anchors.append((idx, min(lc), s["name"], False, "sdata"))
 
-# keep anchors rising: required ones always, optional ones only if they fit
-req = [a for a in anchors if a[3]]
-for a, b in zip(req, req[1:]):
-    assert b[1] > a[1], f"C anchors out of order: {a} {b}"
-kept = list(req)
-dropped = []
-for a in sorted([a for a in anchors if not a[3]], key=lambda a: a[0]):
-    trial = sorted(kept + [a], key=lambda a: a[0])
-    if all(y[1] > x[1] for x, y in zip(trial, trial[1:])):
-        kept = trial
-    else:
-        dropped.append(a)
-kept.sort(key=lambda a: a[0])
+kept, dropped = [], []
+for stream in ("rodata", "sdata"):
+    mine = [a for a in anchors if a[4] == stream]
+    req = sorted([a for a in mine if a[3]], key=lambda a: a[0])
+    for a, b in zip(req, req[1:]):
+        assert b[1] > a[1], f"C anchors out of order: {a} {b}"
+    keep = list(req)
+    for a in sorted([a for a in mine if not a[3]], key=lambda a: a[0]):
+        trial = sorted(keep + [a], key=lambda a: a[0])
+        if all(y[1] > x[1] for x, y in zip(trial, trial[1:])):
+            keep = trial
+        else:
+            dropped.append(a)
+    kept += keep
 
-# ---- place every rodata item after its anchor ---------------------------------
-slot_of = {}
-for s in rod_items:
+# ---- place every item after its anchor ----------------------------------------
+by_slot = {}
+for s in sorted(items, key=lambda s: s["addr"]):
     owner = None
     for a in kept:
-        if a[1] <= s["addr"]:
+        if a[4] == s["stream"] and a[1] <= s["addr"] and (owner is None or a[0] > owner):
             owner = a[0]
-    slot_of[id(s)] = owner  # None: top of file, where the first item is now
+    by_slot.setdefault(owner, []).append(s)
 
-first_rod = next(k for k, s in enumerate(stmts) if s["kind"] in ("rodata", "cdata"))
-by_slot = {}
-for s in sorted(rod_items, key=lambda s: s["addr"]):
-    by_slot.setdefault(slot_of[id(s)], []).append(s)
-
+first_data = next(k for k, s in enumerate(stmts) if s["kind"] in DATA)
 old_pos = {id(s): k for k, s in enumerate(stmts)}
 new_pos = {}
 out = []
-moved_down = []
 
 
 def emit_slot(key, at):
@@ -183,24 +231,23 @@ def emit_slot(key, at):
 
 
 for k, s in enumerate(stmts):
-    if k == first_rod:
+    if k == first_data:
         emit_slot(None, k)
-    if s["kind"] in ("rodata", "cdata"):
+    if s["kind"] in DATA:
         continue
     out.append(s)
     if k in by_slot:
         emit_slot(k, k)
 
 # C definitions that move down leave an extern declaration behind
-for s in rod_items:
+moved_down = []
+for s in items:
     if s["kind"] == "cdata" and new_pos[id(s)] > old_pos[id(s)]:
         moved_down.append(s["name"])
         decl = " ".join(s["lines"]).split("=")[0].strip()
         decl = re.sub(r"\[[^\]]*\]", "[]", decl)
         ext = dict(kind="other", name=None, lines=["extern " + decl + ";"])
-        k = next(i for i, t in enumerate(out) if t is s)
-        # put it where the definition used to be: before the statement that followed it
-        follow = next((t for t in stmts[old_pos[id(s)] + 1 :] if t["kind"] not in ("rodata", "cdata")), None)
+        follow = next((t for t in stmts[old_pos[id(s)] + 1 :] if t["kind"] not in DATA), None)
         at = next(i for i, t in enumerate(out) if t is follow)
         out.insert(at, ext)
 
@@ -212,10 +259,9 @@ for s in out:
             continue
         res.append(l)
 
-for a in kept: print("  kept", a[2], hex(a[1]), "stmt", a[0])
-print(f"{exe}: {len(kept)} anchors kept ({len(req)} from C), {len(dropped)} dropped")
+print(f"{exe}: {len(kept)} anchors kept, {len(dropped)} dropped")
 for a in dropped:
-    print("  still blocked:", a[2], hex(a[1]))
+    print(f"  still blocked ({a[4]}): {a[2]} {a[1]:08X}")
 if moved_down:
     print("  C data moved down (extern left in place):", ", ".join(moved_down))
 if write:

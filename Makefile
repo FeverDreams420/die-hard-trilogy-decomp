@@ -57,13 +57,15 @@ build/src/%/gun.c.o build/src/%/psyq.c.o: CC1 := tools/gcc-2.6.3-psx/cc1
 build/src/%/gun.c.o build/src/%/psyq.c.o: GFLAG := -G0
 # Symbol loads in the library code use the 2.34 form (lui/op %lo) in all three EXEs.
 build/src/%/gun.c.o build/src/%/psyq.c.o: ASPSX_VER := 2.34
-# Each EXE has a single .rodata segment that also holds its .data and .sdata,
-# so everything the compiler puts in .sdata goes to .rodata. Compiler constants
-# ($LC) are renamed before maspsx (the original reaches them with lui pairs);
-# named small variables defined in C are renamed after it, so maspsx gives
-# them $gp access (tools/sdata.py).
-SDATA_TO_RODATA := $(PYTHON) tools/sdata.py pre
-SDATA_POST      := $(PYTHON) tools/sdata.py post
+# Small data (tools/sdata.py): compiler constants ($LC) are hidden from maspsx
+# (the original reaches them with lui pairs); named small variables defined in
+# C stay visible, so maspsx gives them $gp access. EXEs with a .sdata
+# subsegment in their yaml (SDATA_SPLIT) keep both in .sdata; the others still
+# have one .rodata segment for all data, so both go there.
+SDATA_SPLIT := dh2
+SDATA_MODE   = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_SPLIT)),split,rodata)
+SDATA_TO_RODATA = $(PYTHON) tools/sdata.py pre $(SDATA_MODE)
+SDATA_POST      = $(PYTHON) tools/sdata.py post $(SDATA_MODE)
 # GCC puts ".align 3" before each jump table. In the original EXEs the tables
 # are only word aligned in absolute terms (jtbl_8007ACA0 at 0 mod 8 is followed
 # directly by jtbl_8007ACB4 at 4 mod 8), and one big C file can't reproduce the
@@ -84,7 +86,7 @@ obj_of = $(patsubst %.s,build/%.s.o,$(call asm_of,$(1))) $(patsubst %.c,build/%.
 all: $(foreach e,$(EXES),build/$(FILE_$(e)))
 
 split:
-	@for e in $(EXES); do $(PYTHON) -m splat split config/$$e.yaml || exit 1; done
+	@for e in $(EXES); do $(PYTHON) -m splat split config/$$e.yaml && $(PYTHON) tools/sdata_split.py $$e || exit 1; done
 
 build/%.s.o: %.s
 	@mkdir -p $(dir $@)

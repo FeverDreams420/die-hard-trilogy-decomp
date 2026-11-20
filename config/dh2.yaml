@@ -1,7 +1,8 @@
 # splat config for DH2.EXE (Phase 7: zero-C matching build).
 # Layout from the PS-X EXE header and build/ghidra/DH2.funcs.tsv: code from
 # 0x8001D500 to 0x80087F7C (the last BIOS stub, puts, ends with a nop),
-# rodata right after, file ends 0x800B6D00. No bss in the header.
+# rodata right after, small data (.sdata) from $gp 0x800B61E4, file ends
+# 0x800B6D00. No bss in the header.
 # The rodata start is not 16-aligned, so sections are not forced to 16.
 name: DH2.EXE
 sha1: b403d7ed6d529c32cebd24a9faed4874aec74715
@@ -27,7 +28,7 @@ options:
   generate_asm_macros_files: no  # include/include_asm.h is ours now
   subalign: 4
   ld_align_section_vram_end: no
-  section_order: [".text", ".rodata", ".data", ".bss"]
+  section_order: [".text", ".rodata", ".data", ".sdata", ".bss"]
 segments:
   - name: header
     type: header
@@ -41,4 +42,5 @@ segments:
       - [0x1770, c, dh2]          # game code (0x8001E470)
       - [0x5C1E0, c, psyq]         # PsyQ libraries from start (0x80078EE0)
       - [0x6B27C, .rodata, dh2]
+      - [0x994E4, .sdata, dh2]      # small data from $gp (0x800B61E4); tools/sdata_split.py
   - [0x9A000]
