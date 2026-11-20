@@ -6125,7 +6125,7 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B582C);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5834);
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B583C);
+s32 D_800B583C = 0;
 
 void func_8004090C(Unk80040450 *p) {
     p->unk19E += p->unk1A4;
@@ -6192,7 +6192,51 @@ void func_8004206C(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800420C8);
+extern s32 D_800B583C;
+extern s32 D_801FAB28[];
+extern s32 *D_800B6464;
+u32 func_80071BC8(void *data, s16 i);
+void *func_80071BB0(void *data, s16 i);
+s32 func_80071BE0(void *data, s16 i);
+s32 *func_8003A440(void *src, s32 *dst, s32 size);
+void func_8003A1C8(s32 *p);
+
+s32 func_800420C8(void *bank, s16 n) {
+    s16 i;
+    s16 same;
+    u32 size;
+    s32 *a;
+    s32 *b;
+    s32 *p;
+
+    for (i = 0; i < n; i++) {
+        if (func_80071BC8(bank, i) == func_80071BC8(bank, n)) {
+            size = func_80071BC8(bank, n) & 0xFFFC;
+            if (size == 0) {
+                return D_801FAB28[0];
+            }
+            a = func_80071BB0(bank, n);
+            b = func_80071BB0(bank, i);
+            same = -1;
+            for (size -= 4; size != 0; size -= 4) {
+                if (*a != *b) {
+                    same = 0;
+                    break;
+                }
+                a++;
+                b++;
+            }
+            if (same) {
+                return D_801FAB28[i];
+            }
+        }
+    }
+    D_800B583C++;
+    p = D_800B6464;
+    D_800B6464 = func_8003A440(func_80071BB0(bank, n), p, func_80071BE0(bank, n));
+    func_8003A1C8(p);
+    return (s32)p;
+}
 
 extern s32 D_801FAB28[];
 extern s32 D_80092594;
