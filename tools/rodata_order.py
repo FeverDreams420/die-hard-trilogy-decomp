@@ -259,6 +259,7 @@ for s in out:
             continue
         res.append(l)
 
+for a in sorted(kept): print("  kept", a[4], a[2], f"{a[1]:08X}", "stmt", a[0]) if "-v" in sys.argv else None
 print(f"{exe}: {len(kept)} anchors kept, {len(dropped)} dropped")
 for a in dropped:
     print(f"  still blocked ({a[4]}): {a[2]} {a[1]:08X}")

@@ -62,7 +62,7 @@ build/src/%/gun.c.o build/src/%/psyq.c.o: ASPSX_VER := 2.34
 # C stay visible, so maspsx gives them $gp access. EXEs with a .sdata
 # subsegment in their yaml (SDATA_SPLIT) keep both in .sdata; the others still
 # have one .rodata segment for all data, so both go there.
-SDATA_SPLIT := dh2
+SDATA_SPLIT := dh2 dh3
 SDATA_MODE   = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_SPLIT)),split,rodata)
 SDATA_TO_RODATA = $(PYTHON) tools/sdata.py pre $(SDATA_MODE)
 SDATA_POST      = $(PYTHON) tools/sdata.py post $(SDATA_MODE)
