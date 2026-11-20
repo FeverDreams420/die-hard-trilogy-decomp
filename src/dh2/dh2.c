@@ -202,6 +202,12 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B636C);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6374);
 
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    u8 unk8[0x10];
+} Entry18;
+
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8001E470);
 
 typedef struct {
@@ -5510,7 +5516,6 @@ void func_8003CF4C(void) {
     }
     (*p)++;
 }
-
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_8008817C);
 
@@ -12404,12 +12409,6 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B678C);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6794);
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    u8 unk8[0x10];
-} Entry18;
-
 Entry18 *D_800B679C = (Entry18 *)0x80010000;
 
 extern long CloseEvent(long event);
@@ -13060,9 +13059,47 @@ struct Task *func_80073320(struct Task *parent, void (*fn)(), s16 size) {
     return t;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007345C);
+void func_8007345C(void) {
+    struct Task *t;
+    struct Task *next;
+    s16 i;
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", jtbl_80088A94);
+    switch (D_800B6DE0->unk2E) {
+    case -1:
+        break;
+    case 0:
+    case 1:
+        D_801F6DC0[D_800B6DE0->unk2F] = 0;
+        D_801F6DB8.free[0]++;
+        break;
+    case 2:
+        D_801F6E40[D_800B6DE0->unk2F] = 0;
+        D_801F6DB8.free[1]++;
+        break;
+    case 3:
+        D_801F6EC0[D_800B6DE0->unk2F] = 0;
+        D_801F6DB8.free[2]++;
+        break;
+    }
+    D_800B6DE0->unk2E = 0xFF;
+    D_800B6DE0->unk2F = 0xFF;
+    D_800B6DE0->vals = NULL;
+    D_800B6DE0->id = -1;
+    i = 0x7F;
+    do {
+        if (D_801F7540[i] == D_800B6DE0) {
+            D_801F7540[i] = NULL;
+            break;
+        }
+    } while (i--);
+    t = D_800B6DE0;
+    t->prev->next = t->next;
+    t->next->prev = t->prev;
+    next = D_800B6FB8;
+    D_800B6FB8 = t;
+    t->next = next;
+    D_800B6DE0 = t->prev;
+}
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088AA8);
 
