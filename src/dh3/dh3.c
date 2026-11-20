@@ -741,7 +741,7 @@ typedef struct {
     u8 pad1782[2];
     s16 unk1784;
     s16 unk1786;
-    u8 pad1788[2];
+    s16 unk1788;
     s16 unk178A;
     s16 unk178C;
     s16 unk178E;
@@ -5427,7 +5427,69 @@ void func_8003C648(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C6B8);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x38];
+    s16 unk60;
+    s16 unk62;
+    s16 unk64;
+    u8 pad66[6];
+    s16 unk6C;
+    u8 pad6E[2];
+    s32 unk70;
+    s16 unk74;
+    u8 pad76[2];
+    u8 unk78[0x2B];
+    u8 unkA3;
+    u8 padA4[0xE];
+    s16 unkB2;
+    s16 unkB4;
+    s16 padB6;
+    s16 unkB8;
+    u8 padBA[6];
+    VECTOR unkC0;
+} Unk8003C6B8;
+
+struct Unk8003BA6C_Task;
+extern struct Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size);
+void func_8003D9F8(void);
+void func_80048B74();
+void func_80048C14();
+
+void func_8003C6B8(VECTOR *pos) {
+    struct Task *t = (struct Task *)func_800724C4(func_8003D9F8, 0x31, 0xD0);
+    Unk8003C6B8 *p;
+
+    if (t == NULL) {
+        return;
+    }
+    p = (Unk8003C6B8 *)t->vals;
+    p->unkB8 = -1;
+    p->unk70 = 0;
+    p->pos.vx = (s16)func_80074910(0x100) + pos->vx - 0x80;
+    p->unkB4 = p->pos.vz = (s16)func_80074910(0x100) + pos->vz - 0x80;
+    p->pos.vy = (s16)func_80028BF0(&p->pos);
+    p->rot.vx = 0;
+    p->rot.vz = 0;
+    p->unkC0.vx = p->pos.vx;
+    p->unkC0.vy = p->pos.vy;
+    p->unkC0.vz = p->pos.vz;
+    p->rot.vy = func_80074910(0x1000);
+    p->unk74 = 0;
+    func_80048B74(p->unk78);
+    func_80048830(p->unk78, 0);
+    if (D_800B6614->unk1788 != 0) {
+        p->unkA3 = 4;
+    }
+    p->unk60 = func_80074910(0x80) - 0x40;
+    p->unk64 = func_80074910(0x80) - 0x40;
+    p->unk62 = func_80074910(0x10) + 0x20;
+    func_80048C14(p->unk78, (s16)func_80074910(3) + 6, 0, 0x54, 2);
+    p->unkB2 = -1;
+    p->unk6C = 30;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C838);
 
@@ -5649,7 +5711,7 @@ typedef struct {
     s16 unk0;
     s16 unk2;
 } Unk8003BA6C_Data;
-typedef struct {
+typedef struct Unk8003BA6C_Task {
     u8 pad[0x1C];
     Unk8003BA6C_Data *data;
     u8 pad20[8];
