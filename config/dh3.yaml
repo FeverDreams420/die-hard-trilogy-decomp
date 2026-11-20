@@ -41,5 +41,8 @@ segments:
       - [0x1770, c, dh3]          # game code (0x8001E470)
       - [0x5B628, c, psyq]         # PsyQ libraries from start (0x80078328)
       - [0x69ED4, .rodata, dh3]
+      - [0x6A3D8, .rodata, psyq]     # PsyQ library strings (0x800870D8)
+      - [0x6ACE0, .data, gun]        # pad library data (0x800879E0)
+      - [0x6AD40, .data, dh3]        # initialised tables (0x80087A40)
       - [0x987E4, .sdata, dh3]      # small data from $gp (0x800B54E4); tools/sdata_split.py
   - [0x99000]

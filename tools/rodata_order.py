@@ -25,16 +25,22 @@ docs/compiler-notes.md):
 - A C data definition that moves further down leaves an extern declaration in
   its old place, so the code above it still sees it.
 
-usage: python -I tools/rodata_order.py <exe> <gcc-output.s> [--write]
-  <gcc-output.s> is cc1's output for src/<exe>/<exe>.c (before maspsx).
+Each C file of an EXE has its own streams; --file picks one (default: the
+file named after the EXE). Items of a .data subsegment (initialised tables,
+INCLUDE_DATA lines and their C definitions) are not in code order, so they
+stay where they are.
+
+usage: python -I tools/rodata_order.py <exe> <gcc-output.s> [--write] [--file <name>]
+  <gcc-output.s> is cc1's output for src/<exe>/<name>.c (before maspsx).
 """
 import re
 import sys
 
 exe, gcc_out = sys.argv[1], sys.argv[2]
 write = "--write" in sys.argv
-path = f"src/{exe}/{exe}.c"
-asm_dir = f"asm/{exe}/nonmatchings/{exe}/"
+name = sys.argv[sys.argv.index("--file") + 1] if "--file" in sys.argv else exe
+path = f"src/{exe}/{name}.c"
+asm_dir = f"asm/{exe}/nonmatchings/{name}/"
 text = open(path, newline="").read()
 nl = "\r\n" if "\r\n" in text else "\n"
 lines = text.split(nl)
@@ -48,18 +54,24 @@ def addr_of(name):
 
 
 cfg = open(f"config/{exe}.yaml").read()
-m = re.search(r"- \[(0x[0-9A-Fa-f]+), \.sdata, \w+\]", cfg)
-if m:
-    code = re.search(rf"name: {exe}\s*\n\s*type: code\s*\n\s*start: (0x[0-9A-Fa-f]+)\s*\n\s*vram: (0x[0-9A-Fa-f]+)", cfg)
-    to_vram = lambda off: off - int(code.group(1), 16) + int(code.group(2), 16)
-    SDATA = to_vram(int(m.group(1), 16))
-    SDATA_END = to_vram(int(re.search(r"\.sdata, \w+\][^\n]*\n\s*- \[(0x[0-9A-Fa-f]+)", cfg).group(1), 16))
+code = re.search(rf"name: {exe}\s*\n\s*type: code\s*\n\s*start: (0x[0-9A-Fa-f]+)\s*\n\s*vram: (0x[0-9A-Fa-f]+)", cfg)
+to_vram = lambda off: off - int(code.group(1), 16) + int(code.group(2), 16)
+entries = re.findall(r"^\s*- \[(0x[0-9A-Fa-f]+)(?:, ([.\w]+), (\w+))?\]", cfg[code.end():], re.M)
+ranges = {}  # section -> [(start, end)] over all files
+for k, (off, typ, _) in enumerate(entries[:-1]):
+    ranges.setdefault(typ, []).append((to_vram(int(off, 16)), to_vram(int(entries[k + 1][0], 16))))
+if ".sdata" in ranges:
+    SDATA, SDATA_END = min(a for a, _ in ranges[".sdata"]), max(b for _, b in ranges[".sdata"])
 else:
-    SDATA = 1 << 40  # no .sdata section: everything is one .rodata stream
+    SDATA = SDATA_END = 1 << 40  # no .sdata section: everything is one .rodata stream
+
+
+def in_data(addr):
+    return any(a <= addr < b for a, b in ranges.get(".data", []))
 
 
 def stream_of(addr):
-    return "sdata" if addr >= SDATA else "rodata"
+    return "sdata" if SDATA <= addr < SDATA_END else "rodata"
 
 
 # ---- split the file into top-level statements --------------------------------
@@ -115,6 +127,9 @@ while i < len(lines):
     i = j + 1
 
 DATA = ("data", "cdata")
+for s in stmts:
+    if s["kind"] == "cdata" and in_data(addr_of(s["name"])):
+        s["kind"] = "other"  # an initialised table stays where it is
 items = [s for s in stmts if s["kind"] in DATA]
 for s in items:
     s["addr"] = addr_of(s["name"])

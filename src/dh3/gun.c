@@ -72,3 +72,21 @@ INCLUDE_ASM("asm/dh3/nonmatchings/gun", NEWGUN_OBJ_328);
 INCLUDE_ASM("asm/dh3/nonmatchings/gun", NEWGUN_OBJ_338);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/gun", check_machine);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_800879E0);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_800879E4);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_80087A08);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_80087A0C);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_80087A14);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_80087A18);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_80087A1C);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_80087A28);
+
+INCLUDE_DATA("asm/dh3/nonmatchings/gun", D_80087A2C);

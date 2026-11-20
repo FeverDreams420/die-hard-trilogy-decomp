@@ -1614,3 +1614,227 @@ INCLUDE_ASM("asm/dh3/nonmatchings/psyq", strlen);
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", memmove);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/psyq", puts);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", jtbl_800870D8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", jtbl_800870F8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", jtbl_80087118);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", jtbl_80087138);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087158);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087168);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087178);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008718C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800871A0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800871B8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800871D0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800871E4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800871EC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800871F8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087204);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087210);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008721C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087228);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087234);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087240);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087244);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087250);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087260);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008726C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087274);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087280);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008728C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087294);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872A0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872AC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872B8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872C4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872CC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872D8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872E0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872E8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872F4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800872FC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087308);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087314);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087320);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087328);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087338);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087354);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087360);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008737C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087390);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", jtbl_8008739C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800873B0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800873B8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800873C4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800873CC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800873DC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800873E4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087418);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087424);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087430);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008743C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087454);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087464);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087480);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087494);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800874AC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800874E0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800874FC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087518);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087534);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087544);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087554);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087588);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800875A8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800875BC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800875D4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087600);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087614);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087630);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087644);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087658);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087664);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087678);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008767C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087688);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087694);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800876A0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800876AC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800876C4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800876DC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800876F0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087708);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087724);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008773C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087770);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087788);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800877A0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800877B0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800877C8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800877D8);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800877F0);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800877FC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087808);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087824);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087840);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_8008784C);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087858);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087874);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087884);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087894);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800878BC);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_800878F4);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087904);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", D_80087918);
+
+INCLUDE_RODATA("asm/dh3/nonmatchings/psyq", jtbl_8008792C);
