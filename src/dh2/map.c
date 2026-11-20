@@ -384,7 +384,65 @@ void func_8001ED4C(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001ED90);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001F744);
+typedef struct {
+    u8 pad0[0x12];
+    u16 flags;
+} MapObj;
+
+typedef struct {
+    MapObj *objs;
+    u8 pad4[8];
+} MapCell;
+
+typedef struct {
+    s16 unk0;
+    u16 x;
+    u16 y;
+    u16 w;
+    u16 h;
+    u8 padA[0xE];
+    MapCell *cells;
+} MapGrid;
+
+extern MapGrid D_800BD62C;
+extern void (*D_80093A58[])(MapObj *o);
+extern u8 *D_800B6B90;
+extern u8 *D_800B6B28;
+
+void func_8001F744(void) {
+    s16 i;
+    s16 j;
+    u16 x;
+    u16 y;
+    u16 cx;
+    u16 cy;
+    MapCell *row;
+    MapObj *o;
+
+    SetRotMatrix(&D_80169F78);
+    SetTransMatrix(&D_80169F78);
+    x = D_800BD62C.x + ((D_800B6E00.vx + 0x100) >> 9);
+    y = D_800BD62C.y + ((D_800B6E00.vz + 0x100) >> 9);
+    for (i = -12; i < 12; i++) {
+        if (D_800B6B90 - D_800B6B28 > 0x13AFF) {
+            return;
+        }
+        for (j = -8; j < 8; j++) {
+            cx = x + i;
+            cy = y + j;
+            if (cx < D_800BD62C.w && cy < D_800BD62C.h) {
+                row = D_800BD62C.cells + D_800BD62C.w * cy;
+                row += cx;
+                o = row->objs;
+                if (o != NULL) {
+                    do {
+                        D_80093A58[o->flags & 0x3F](o);
+                    } while (!((o++)->flags & 0x80));
+                }
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8001F90C);
 
