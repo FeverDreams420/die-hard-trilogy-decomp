@@ -12472,7 +12472,13 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5A30);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5A38);
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5A40);
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    u8 unk8[0x10];
+} Entry18;
+
+Entry18 *D_800B5A40 = (Entry18 *)0x80010000;
 
 extern long D_800B5C9C;
 extern long D_800B5CA4;
@@ -12711,7 +12717,11 @@ void func_80071A98(void) {
     D_800B604C->func = func_800713F4;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071B54);
+extern Entry18 *D_800B5A40;
+
+s32 func_80071B54(s32 i) {
+    return D_800B5A40[(s16)i].unk4;
+}
 
 s32 func_80071B7C(s32 a, s32 b, s32 t) {
     return (a * (0x1000 - t) + t * b) >> 12;
