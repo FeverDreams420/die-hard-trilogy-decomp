@@ -709,10 +709,18 @@ void func_80021414(s16 x, s16 y, s16 z) {
     D_800B6ED8.vz = func_80025570(D_800B6ED8.vz, z, 1);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_800214A8);
-
 extern s16 D_800982E4[];
 extern s16 D_800B71C0;
+s32 func_80025B40(s32 x);
+
+void func_800214A8(s32 angle) {
+    s16 scale = 0x1000 - ((D_800B71C0 - 0x100) << 12) / 0x300;
+
+    D_800B6E90.vy += (D_800982E4[angle & 0xFFF] * (s16)((D_800B6ED8.vy * (scale / 2)) >> 12)) >> 12;
+    D_800B6E90.vz += (D_800982E4[(angle + 0x400) & 0xFFF] * (s16)((D_800B6ED8.vz * (scale / 2)) >> 12)) >> 12;
+    D_800B6E90.vx += func_80025B40(D_800982E4[(angle + 0x400) & 0xFFF] * (s16)((D_800B6ED8.vx * (scale / 2)) >> 12)) >> 12;
+}
+
 
 void func_80021624(s32 angle) {
     s16 scale = 0x1000 - ((D_800B71C0 - 0x100) << 12) / 0x300;
