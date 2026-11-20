@@ -5888,10 +5888,27 @@ void func_8003DAC4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003DBC4);
-
 extern s16 D_800B7238;
 extern s16 D_800B6EB0;
+extern s16 D_800B6420;
+extern s16 D_800B639E;
+extern u8 D_800B69E0[8];
+extern s32 D_800B6D80;
+extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+s32 func_8003DC78(s16 track);
+
+void func_8003DBC4(void) {
+    if (D_800B7238 == 0) {
+        D_800B6420 -= D_800B639E;
+        if (D_800B6420-- < 0) {
+            CdControlB(0x11, 0, D_800B69E0);
+            D_800B6420 = 20;
+            if ((u32)(D_800B69E0[5] * 90 + D_800B69E0[6]) >= D_800B6D80) {
+                func_8003DC78(D_800B6EB0 - 2);
+            }
+        }
+    }
+}
 extern u8 D_801DA1CC[][4];
 extern s32 D_800B6D80;
 extern s16 D_800B6C60[3];
@@ -15863,7 +15880,7 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B69D0);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B69D4);
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B69E0);
+u8 D_800B69E0[8] = {0};
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B69E8);
 
