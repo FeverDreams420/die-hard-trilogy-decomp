@@ -643,7 +643,37 @@ void func_80022360(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002246C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800224B4);
+typedef struct {
+    u8 pad0[0x1C];
+    SVECTOR rot;
+} Unk800224B4;
+
+extern s16 func_80022B38(VECTOR *a, VECTOR *b);
+
+void func_800224B4(void) {
+    Unk800224B4 *v = (Unk800224B4 *)D_800B604C->vals;
+    VECTOR unused;
+    SVECTOR s;
+
+    s.vz = 0x400;
+    s.vx = 0;
+    s.vy = 0;
+    func_80028310(&v->rot, &s, &D_800B659C->pos, &D_801981F4);
+    D_801981F4.vy += D_800B604C->unk14 * 8;
+    if (func_80022B38(&D_801981F4, &D_800B659C->pos) == 0) {
+        func_80022360();
+        D_800B604C->func = func_80022360;
+        return;
+    }
+    v->rot.vy += D_800B56A2 * 16;
+    func_8002924C(&D_800B659C->pos, &D_801981F4, &D_800B6124);
+    D_800B659C->unk196 = -1;
+    func_800221C8();
+    func_8001F86C();
+    if ((D_800B604C->unk14 += D_800B56A2) >= 0x47) {
+        D_800B604C->func = func_80022360;
+    }
+}
 
 typedef struct {
     u8 pad0[0x196];
