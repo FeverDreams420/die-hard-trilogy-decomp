@@ -10,7 +10,6 @@ extern void printf(char *fmt, ...);
 void func_8001E984(Obj *o) {
     o->f58 = 0;
     if (0) {
-        printf("debug
-");
+        printf("debug\n");
     }
 }

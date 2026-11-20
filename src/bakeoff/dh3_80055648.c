@@ -6,7 +6,6 @@ void func_80055648(void) {
     int unused[2];
 
     if (0) {
-        printf("debug
-");
+        printf("debug\n");
     }
 }

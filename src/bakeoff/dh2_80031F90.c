@@ -4,7 +4,6 @@ extern void printf(char *fmt, ...);
 
 void func_80031F90(void) {
     if (0) {
-        printf("debug
-");
+        printf("debug\n");
     }
 }

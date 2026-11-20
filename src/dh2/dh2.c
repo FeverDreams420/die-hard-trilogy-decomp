@@ -5837,15 +5837,12 @@ extern s16 D_800B6CA0;
 void func_80041168(void) {
     Unk80041168 *d = (Unk80041168 *)D_801F7550->vals;
 
-    FntPrint("FREE
-");
+    FntPrint("FREE\n");
     FntPrint(D_800881C8, D_800B6CF0);
     FntPrint(D_800881D4, d->unkC);
     FntPrint(D_800881E0, D_80094C0C[D_800B71A8]);
-    FntPrint("CARD 
-");
-    FntPrint("GROUP
-");
+    FntPrint("CARD \n");
+    FntPrint("GROUP\n");
     FntPrint(D_800881EC, D_800B6CA0);
 }
 
