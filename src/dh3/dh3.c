@@ -347,7 +347,39 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800210B8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021518);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021704);
+extern VECTOR D_801981F4;
+extern VECTOR D_801CA274;
+extern MATRIX D_801FA428;
+extern s32 **D_800B6104;
+extern void (*D_80091E98[])(void *);
+
+typedef struct {
+    SVECTOR *v[4];
+    u16 unk10;
+    u16 flags;
+} Unk80021704_Face;
+
+void func_80021704(s16 idx, s32 draw, VECTOR *pos) {
+    Unk80021704_Face *f;
+
+    if (draw) {
+        D_800B6574.vx = pos->vx - D_801981F4.vx;
+        D_800B6574.vy = pos->vy - D_801981F4.vy;
+        D_800B6574.vz = pos->vz - D_801981F4.vz;
+        PushMatrix();
+        ApplyMatrix(&D_801981D4, &D_800B6574, &D_801CA274);
+        SetRotMatrix(&D_801981D4);
+        func_80084978(&D_801FA428, &D_801CA274);
+        SetTransMatrix(&D_801FA428);
+        f = (Unk80021704_Face *)D_800B6104[idx];
+        if (f != (Unk80021704_Face *)-1) {
+            do {
+                D_80091E98[f->flags & 0x1F](f);
+            } while (!((f++)->flags & 0x80));
+        }
+        PopMatrix();
+    }
+}
 
 typedef struct {
     u8 pad[0x14];
