@@ -11223,7 +11223,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80069DC4);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6760);
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6768);
+u8 D_800B6768 = 0;
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B676C);
 
@@ -11489,7 +11489,13 @@ void func_8006AFE0(void) {
     D_800B6E58 = 99;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006AFFC);
+extern u8 D_800B6768;
+extern u8 D_800BD984[];
+
+void func_8006AFFC(u8 c) {
+    D_800B6768 = (D_800B6768 + 1) % 16;
+    D_800BD984[D_800B6768] = c;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006B040);
 
