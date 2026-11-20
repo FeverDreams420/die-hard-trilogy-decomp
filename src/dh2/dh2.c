@@ -10458,7 +10458,20 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6720);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6724);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067CF8);
+void func_80067CF8(u8 *col, s16 x, s16 y) {
+    s32 dx = (x - D_800B7418) / 6;
+    s32 dy = (y - D_800B741C) / 6;
+    s32 d = SquareRoot0(dx * dx + dy * dy);
+    s32 v;
+
+    if (d > 250) {
+        d = 250;
+    }
+    v = ((255 - d) * 3800) >> 12;
+    col[0] = v;
+    col[1] = v;
+    col[2] = 255 - d;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80067E08);
 
