@@ -50,7 +50,9 @@ typedef struct {
 
 typedef struct {
     SVECTOR v[16];
-    u8 pad80[0x88];
+    u8 pad80[0x80];
+    u32 len;
+    u8 pad104[4];
     s16 unk108[16];
     u8 pad128[0x84];
 } Unk800462F0_Mesh;
@@ -862,7 +864,68 @@ void func_8002087C(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_8002090C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80020AFC);
+typedef struct {
+    s16 x, y, z;
+    s16 pad6;
+    SVECTOR vel;
+    s32 X, Y, Z;
+    u8 pad1C[4];
+    SVECTOR ang;
+    SVECTOR hist[16];
+    SVECTOR rhist[16];
+    SVECTOR rot;
+    s16 idx;
+    s16 pad132;
+    u32 t;
+    s16 mesh;
+} Unk80020AFC;
+
+extern struct Task *volatile D_801F7544;
+extern SVECTOR D_800B61F4;
+extern Unk800462F0_Mesh *D_800B71B8;
+extern SVECTOR D_800B72E8;
+void func_8003E550(Unk800462F0_Mesh *m, u32 t, s32 a, SVECTOR *pos, SVECTOR *ang);
+void func_80025004(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out);
+void func_80024B8C(Unk8002A35C *from, Unk8002A35C *to, Unk8002A35C *out);
+
+void func_80020AFC(Unk80020AFC *p, SVECTOR *d) {
+    u8 unused[8];
+    SVECTOR v = D_800B61F4;
+
+    if (D_801F7544 == NULL) {
+        return;
+    }
+    if (p->t > D_800B71B8[p->mesh].len) {
+        p->t = D_800B71B8[p->mesh].len;
+    }
+    func_8003E550(&D_800B71B8[p->mesh], p->t, 1, &p->vel, &p->ang);
+    p->vel.vx += d->vx;
+    p->vel.vz += d->vz;
+    p->X -= p->hist[p->idx].vx;
+    p->Y -= p->hist[p->idx].vy;
+    p->Z -= p->hist[p->idx].vz;
+    p->hist[p->idx].vx = p->vel.vx;
+    p->hist[p->idx].vy = p->vel.vy;
+    p->hist[p->idx].vz = p->vel.vz;
+    p->X += p->vel.vx;
+    p->Y += p->vel.vy;
+    p->Z += p->vel.vz;
+    func_80025004(&p->ang, &v, (SVECTOR *)&D_800B67D0, &D_800B72E8);
+    p->rot.vx -= p->rhist[p->idx].vx;
+    p->rot.vy -= p->rhist[p->idx].vy;
+    p->rot.vz -= p->rhist[p->idx].vz;
+    p->rhist[p->idx].vx = D_800B72E8.vx;
+    p->rhist[p->idx].vy = D_800B72E8.vy;
+    p->rhist[p->idx].vz = D_800B72E8.vz;
+    p->rot.vx += D_800B72E8.vx;
+    p->rot.vy += D_800B72E8.vy;
+    p->rot.vz += D_800B72E8.vz;
+    p->idx = (p->idx + 1) % 16;
+    p->x = p->X / 16;
+    p->y = p->Y / 16;
+    p->z = p->Z / 16;
+    func_80024B8C((Unk8002A35C *)&p->rot, &D_800B67D0, (Unk8002A35C *)&p->ang);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80020E50);
 
