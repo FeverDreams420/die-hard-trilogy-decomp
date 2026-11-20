@@ -13542,7 +13542,19 @@ void func_800725EC(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8007270C);
+typedef struct {
+    s32 unk0;
+    s32 unk4;
+    u8 unk8[0x10];
+} Entry18;
+
+extern Entry18 *D_800B679C;
+
+s32 func_8007270C(n)
+s16 n;
+{
+    return D_800B679C[n].unk4;
+}
 
 s32 func_80072734(s32 a, s32 b, s32 t) {
     return (a * (0x1000 - t) + t * b) >> 12;
@@ -14435,7 +14447,7 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B678C);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B6794);
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B679C);
+Entry18 *D_800B679C = (Entry18 *)0x80010000;
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800B67A0);
 
