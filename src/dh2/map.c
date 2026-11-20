@@ -89,7 +89,10 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/map", D_800B61F4);
 typedef struct {
     s16 unk0;
     s16 unk2;
-    u8 pad4[0xC];
+    s32 unk4;
+    void (*unk8)(void);
+    s16 unkC;
+    s16 unkE;
 } PathNode;
 
 extern PathNode D_8009348C[];
@@ -942,13 +945,30 @@ void func_80022528(void) {
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_800226B0);
 
 typedef struct {
-    s16 x;
-    s16 y;
-    u8 pad4[0x6C];
-} Unk801F9888;
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+/* One draw environment per map view, picked by PathNode.unk2. */
+typedef struct {
+    DRAWENV env;
+    u8 pad5C[0x14];
+} MapScreen;
 
 extern volatile s16 D_800B73D8;
-extern Unk801F9888 D_801F9888[];
+extern MapScreen D_801F9884[];
 void func_800863D0(s32 a, s32 b);
 
 void func_80022974(void) {
@@ -957,7 +977,7 @@ void func_80022974(void) {
     if (D_800B61FC[i].unk0 == -1) {
         i = 0;
     }
-    func_800863D0(D_801F9888[D_800B61FC[i].unk2].x >> 1, D_801F9888[D_800B61FC[i].unk2].y >> 1);
+    func_800863D0(D_801F9884[D_800B61FC[i].unk2].env.clip.w >> 1, D_801F9884[D_800B61FC[i].unk2].env.clip.h >> 1);
 }
 
 typedef struct {
@@ -1065,7 +1085,110 @@ void func_80022B58(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80022CA8);
+/* Double-buffered frame: ordering tables and primitive memory. */
+typedef struct {
+    u32 ot[0x400];
+    u32 ot2[7];
+    u8 *prim;
+    u8 data[0x17704];
+} FrameBuf;
+
+extern volatile u8 D_801F9A56;
+extern s16 D_800B7058;
+extern s16 D_800B6F08;
+extern s32 D_800B6B68;
+extern s16 D_800B7078;
+extern s16 D_800B7380;
+extern s16 D_800B71E0;
+extern s16 D_800B7388;
+extern volatile s16 D_800B6F80;
+extern volatile s16 D_800B7400;
+extern s16 D_800B7308;
+extern s16 D_800B6EA0;
+extern u16 D_800B73C0;
+extern FrameBuf D_8016A2F8[2];
+extern u32 *D_800B7060;
+extern u8 *D_800B6B90;
+extern u8 *D_800B6B28;
+extern s32 D_800B63A0;
+extern s32 D_800B63C0;
+extern void FntFlush(s32 id);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+extern void DrawOTag(u32 *ot);
+extern u32 *ClearOTagR(u32 *ot, s32 n);
+void func_80074AE4(void);
+
+void func_80022CA8(void) {
+    u8 unused[8];
+    s16 next;
+    s16 n;
+    s32 i;
+    s32 id;
+
+    func_80022B58();
+    D_800B7058 = 100;
+    D_800B6F08 = 120;
+    if (D_801F9A56 != 0) {
+        FntFlush(D_800B6B68);
+    }
+    D_800B7078 = 1;
+    D_800B7380 = 0x20;
+    func_80074AE4();
+    next = D_800B61FC[D_800B73D8].unk0;
+    D_800B73D8 += 1;
+    if (D_800B61FC[D_800B73D8].unk0 == -1) {
+        D_800B73D8 = 0;
+    }
+    if (next != D_800B61FC[D_800B73D8].unk0) {
+        if (D_800B6B70 == 4 && D_800B71E0 != 0 && D_800B6AA0 == 3 && D_800B6D38 == 0 && D_800B7388 == 0) {
+            func_80022A10();
+            D_800B71E0 = 0;
+        }
+        if (D_800B63DC != 0) {
+            n = 4;
+            while (D_800B6F80 != D_800B7400 && n--) {
+                VSync(0);
+            }
+            D_800B7400 = next;
+            while (D_800B6F80 != D_800B7400 && n--) {
+                VSync(0);
+            }
+        } else {
+            D_800B7400 = next;
+            VSync(0);
+        }
+    }
+    PutDrawEnv(&D_801F9884[D_800B61FC[D_800B73D8].unk2].env);
+    D_800B7308 = D_801F9884[D_800B61FC[D_800B73D8].unk2].env.clip.x;
+    i = D_800B73D8 + 1;
+    if (D_800B61FC[i].unk0 == -1) {
+        i = 0;
+    }
+    D_800B6EA0 = D_800B61FC[i].unkC;
+    if (D_800B61FC[D_800B73D8].unk8 != NULL) {
+        D_800B61FC[D_800B73D8].unk8();
+    }
+    func_80022974();
+    DrawOTag(D_800B7018 + 0x3FF);
+    id = (D_800B73C0 + 1) & 1;
+    D_800B73C0 = id;
+    D_800B63A8++;
+    D_800B7018 = D_8016A2F8[id].ot;
+    D_800B7060 = D_8016A2F8[id].ot2;
+    D_800B6B28 = D_800B6B90 = D_8016A2F8[id].data;
+    D_800B70A8 = D_800B7140 = D_8016A2F8[id].prim;
+    ClearOTagR(D_800B7018, 0x400);
+    ClearOTagR(D_800B7060, 5);
+    D_800B63C0 = D_800B639E;
+    D_800B639E = D_800B6CC8 - D_800B63A0;
+    D_800B63A0 = D_800B6CC8;
+    if (D_800B639E > 8) {
+        D_800B639E = 8;
+    }
+    if (D_800B639E < 0) {
+        D_800B639E = 1;
+    }
+}
 
 extern RECT D_800B6214;
 extern volatile s32 D_800B725C;
