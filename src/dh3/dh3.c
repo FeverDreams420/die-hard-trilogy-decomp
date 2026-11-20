@@ -8071,7 +8071,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004D2D0);
 extern s16 D_800B622C;
 void func_8006CD18(struct Task *t, s32 flag);
 void func_8006CB7C(struct Task *t, s32 flag);
-void func_800669C0(VECTOR *v, s32 arg);
+void func_800669C0(Unk800B659C *obj, s16 side);
 void func_8002C58C(void);
 
 void func_8004D4A4(VECTOR *pos) {
@@ -11314,7 +11314,39 @@ void func_8006661C(VECTOR *pos) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80066730);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800669C0);
+void func_800686A0(s16 id, VECTOR *pos, s16 arg2);
+void func_80067DEC(s16 voice);
+
+void func_800669C0(Unk800B659C *obj, s16 side) {
+    s16 l;
+    s16 r;
+    s32 d;
+
+    if (D_800B61A4->unk0 == 5 && obj == D_800B659C) {
+        if (side > 0) {
+            l = 0x10;
+            r = 0xA;
+        } else {
+            l = 0xA;
+            r = 0x10;
+        }
+        D_8018CC68.unk0 = 0;
+        D_8018CC68.unk2 = 0;
+        D_8018CC68.unk4 = 0x1FFF;
+        D_8018CC68.unk6 = func_80074910(0x100) + 0x400;
+        D_8018CC68.unk8 = func_80074910(2) + 3;
+        D_8018CC68.unk16 = l;
+        func_800691E8(&D_8018CC68, (s32)func_80067DEC);
+        D_8018CC68.unk0 = 0x1000;
+        D_8018CC68.unk2 = func_80074910(0x100);
+        d = func_80074910(0x80) - 0x40;
+        D_8018CC68.unk16 = r;
+        D_8018CC68.unk6 += d;
+        func_800691E8(&D_8018CC68, (s32)func_80067DEC);
+    } else {
+        func_800686A0((s16)func_80074910(2) + 3, &obj->pos, (s16)func_80074910(8) + 0xC);
+    }
+}
 
 extern s16 D_801F76F8;
 extern volatile s16 D_800B5FFC;
