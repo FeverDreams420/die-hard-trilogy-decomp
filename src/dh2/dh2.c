@@ -12873,7 +12873,40 @@ void func_80072824(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072884);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80072B00);
+extern s16 D_800B7338;
+extern s32 D_800B7120;
+extern s16 D_800B6B78;
+extern s16 D_800B7278;
+extern s16 D_800B6D48;
+extern void *D_800B6EC0;
+extern Entry18 *D_800B72D0;
+extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
+void func_80072824(void);
+
+void func_80072B00(buf, track)
+void *buf;
+s16 track;
+{
+    D_800B6EB0 = -1;
+    D_800B7338 = 0;
+    D_800B7120 = 0;
+    D_800B6B50 = 0;
+    D_800B6B78 = -1;
+    ResetCallback();
+    if (D_800B6B18 != 0) {
+        D_800B7278 = 100;
+        D_800B6B18 = 0;
+    } else {
+        D_800B7278 = 30;
+    }
+    D_800B6D48 = track;
+    D_800B6EC0 = buf;
+    if (D_800B679C[track].unk4 == 0) {
+        func_80072824();
+    }
+    D_800B72D0 = &D_800B679C[track];
+    CdControl(0x15, (unsigned char *)&D_800B679C[track], 0);
+}
 
 extern struct {
     s16 count[3];
