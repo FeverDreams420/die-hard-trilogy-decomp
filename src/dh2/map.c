@@ -86,7 +86,17 @@ s32 D_800B61F0 = 0;
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/map", D_800B61F4);
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/map", D_800B61FC);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    u8 pad4[0xC];
+} PathNode;
+
+extern PathNode D_8009348C[];
+
+PathNode *D_800B61FC = D_8009348C;
+
+INCLUDE_SDATA("asm/dh2/nonmatchings/map", D_800B6200);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/map", D_800B6214);
 
@@ -896,7 +906,24 @@ INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80022528);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_800226B0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80022974);
+typedef struct {
+    s16 x;
+    s16 y;
+    u8 pad4[0x6C];
+} Unk801F9888;
+
+extern s16 D_800B73D8;
+extern Unk801F9888 D_801F9888[];
+void func_800863D0(s32 a, s32 b);
+
+void func_80022974(void) {
+    s16 i = D_800B73D8 + 1;
+
+    if (D_800B61FC[i].unk0 == -1) {
+        i = 0;
+    }
+    func_800863D0(D_801F9888[D_800B61FC[i].unk2].x >> 1, D_801F9888[D_800B61FC[i].unk2].y >> 1);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/map", func_80022A10);
 
