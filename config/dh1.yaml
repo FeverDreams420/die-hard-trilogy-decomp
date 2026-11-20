@@ -27,7 +27,7 @@ options:
   generate_asm_macros_files: no  # include/include_asm.h is ours now
   subalign: 4
   ld_align_section_vram_end: no
-  section_order: [".text", ".rodata", ".data", ".bss"]
+  section_order: [".text", ".rodata", ".data", ".sdata", ".bss"]
 segments:
   - name: header
     type: header
@@ -41,4 +41,5 @@ segments:
       - [0x1770, c, dh1]          # game code (0x8001E470)
       - [0x4E4C0, c, psyq]         # PsyQ libraries from start (0x8006B1C0)
       - [0x5D9E4, .rodata, dh1]
+      - [0x85CEC, .sdata, dh1]      # small data from $gp (0x800A29EC); tools/sdata_split.py
   - [0x86000]

@@ -5,6 +5,30 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", main);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A6E4);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29EC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F8);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29FC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A04);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A08);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A10);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A18);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A1C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A20);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A24);
+
 extern u8 D_801D74C0[], D_801E20A0[], D_801E74C0[], D_801F20A0[];
 typedef struct {
     s16 x, y, w, h;
@@ -245,6 +269,36 @@ void func_8001ECC8(void) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001ED6C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A734);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A30);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A34);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A38);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A3C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A40);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A44);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A48);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A4C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A50);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A54);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A58);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A5C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A60);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A64);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A68);
 
 extern u16 D_800A3014;
 extern s32 D_800A30DC;
@@ -1692,6 +1746,16 @@ s32 func_80024FFC(s16 a, s16 b) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002501C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A86C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A6C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A74);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A7C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A80);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A88);
 
 typedef struct {
     s16 x;
@@ -4516,6 +4580,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80035B38);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8F4);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A90);
+
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -4717,6 +4783,8 @@ void func_80036F28(void) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036FAC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A98);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800371CC);
 
@@ -5018,6 +5086,10 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AA38);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039B80);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039F98);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AA0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AA8);
 
 extern s32 D_801C08F8[];
 
@@ -5482,6 +5554,18 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003D280);
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AB40);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB8C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AB0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AB8);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2ABC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AC0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AC4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AC8);
 
 s16 func_8003D890(Unk80045164 *obj) {
     s16 i;
@@ -7700,6 +7784,14 @@ void func_800499A4(u8 *c0, u8 *c1) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80049C9C);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2ACC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AD0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AD4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AD8);
+
 int func_8004A7C4(int a, int b, int c) {
     int t;
 
@@ -8314,6 +8406,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004E04C);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004E570);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2ADC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AE0);
+
 void func_8004ED2C(s16 *angle, s16 *speed) {
     s16 i = 15;
     s16 n;
@@ -8811,6 +8907,18 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AF38);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800514D8);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF48);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AE4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AEC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AF4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AF8);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AFC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B04);
 
 typedef struct {
     s16 unk0;
@@ -9326,6 +9434,18 @@ s32 func_80052910(void) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80052930);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B0C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B14);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B1C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B24);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B2C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B30);
 
 extern s16 D_800A34BC;
 extern s16 D_800A30CC;
@@ -10201,6 +10321,12 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055EEC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800562CC);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B34);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B38);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B3C);
+
 typedef struct {
     u8 pad0[0x30];
     s16 unk30;
@@ -10875,6 +11001,14 @@ void func_80059D64(void *arg0, void *arg1, Unk800584A4 *self) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80059DB8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A22C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B40);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B48);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B50);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B58);
 
 typedef struct {
     SVECTOR pos;
@@ -11791,6 +11925,8 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B450);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B464);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B5C);
+
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -11888,6 +12024,20 @@ void func_8005E478(SVECTOR *pos) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005E55C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B64);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B6C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B74);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B7C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B80);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B84);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B88);
 
 typedef struct {
     u8 pad0[0x14];
@@ -12061,6 +12211,14 @@ void func_8005ED94(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005ED9C);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B8C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B90);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B94);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B98);
+
 typedef struct {
     u8 c[4];
 } Color4;
@@ -12153,6 +12311,14 @@ void func_8005F1F0(Unk8005F1F0 *obj) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F438);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B9C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BA0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BA4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BA8);
 
 typedef struct {
     u8 pad0[0x2A];
@@ -12255,6 +12421,12 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B49C);
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B4AC);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B4C0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BB0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BB4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BB8);
 
 extern void SetTile(TILE *p);
 extern void SetSemiTrans(void *p, s32 abe);
@@ -12466,6 +12638,8 @@ s16 func_80060C3C(Unk80060C3C_Table *t, u32 score, char *name) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80060DCC);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80061174);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BBC);
 
 typedef struct {
     SVECTOR rot;
@@ -12835,6 +13009,10 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800627B8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80062A78);
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BC4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BCC);
+
 extern SVECTOR D_800A34B4;
 extern SVECTOR D_800A3544;
 extern SVECTOR D_800A2FC4;
@@ -12868,6 +13046,12 @@ void func_80062F8C(s16 angle, s16 height) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800630D0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BD4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BDC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BE0);
 
 typedef struct {
     s16 unk0;
@@ -12934,6 +13118,8 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80063E0C);
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80064088);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B4D0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BE8);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80064D80);
 
@@ -13163,6 +13349,28 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B550);
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B564);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B574);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BF0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BF8);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C00);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C08);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C0C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C10);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C18);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C20);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C28);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C30);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C38);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80067670);
 
@@ -14439,192 +14647,6 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A21E0);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29E0);
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29EC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29F8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A29FC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A04);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A08);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A10);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A20);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A24);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A34);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A44);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A4C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A60);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A68);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A7C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A80);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A90);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2A98);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ABC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AC8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ACC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AD8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2ADC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AE4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AEC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AF4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AF8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2AFC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B04);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B0C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B14);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B1C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B24);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B2C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B34);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B38);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B3C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B40);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B48);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B50);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B58);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B7C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B80);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B84);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B88);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B8C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B90);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B94);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B98);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2B9C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BA8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BB8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BBC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BC4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BCC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BD4);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BDC);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BE0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BE8);
-
 typedef struct {
     u8 pad0[0x3C];
     s16 timer;
@@ -15018,28 +15040,6 @@ void func_80069520(void) {
     func_80070FDC(0x100);
 }
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BF0);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2BF8);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C00);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C08);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C0C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C10);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C18);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C20);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C28);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C30);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C38);
-
 typedef struct {
     u8 pad[0xA];
     s16 unkA;
@@ -15358,11 +15358,27 @@ void func_8006A704(s32 arg0, s16 arg1) {
     func_8006A72C(arg0, 0);
 }
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C44);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C4C);
-
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A72C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C44);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C4C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C54);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C5C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C64);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C6C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C74);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C7C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C84);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C8C);
 
 extern long D_800A2EAC;
 extern long D_800A2EB4;
@@ -15493,22 +15509,6 @@ retry:
     return 0;
 }
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C54);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C5C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C64);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C6C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C74);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C7C);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C84);
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C8C);
-
 typedef struct {
     u32 pc0;
     u32 gp0;
@@ -15584,6 +15584,40 @@ int func_8006ADB0(void) {
     return 1;
 }
 
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C9C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CAC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CB4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CB8);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CBC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CC0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CC4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CCC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CD0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CD4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CD8);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CDC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CE0);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CE4);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CE8);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CEC);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2CF0);
+
 extern int CdSync(int mode, unsigned char *result);
 
 void func_8006B03C(void) {
@@ -15639,21 +15673,3 @@ void func_8006B188(s16 arg0) {
     func_8006B3E0(0x801FFF00);
     func_8006B07C(arg0);
 }
-
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2C9C);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CAC);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CB4);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CB8);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CBC);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CC0);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CC4);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CCC);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CD0);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CD4);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CD8);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CDC);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CE0);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CE4);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CE8);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CEC);
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_800A2CF0);

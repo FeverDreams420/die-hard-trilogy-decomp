@@ -197,11 +197,12 @@ for stream in ("rodata", "sdata"):
     mine = [a for a in anchors if a[4] == stream]
     req = sorted([a for a in mine if a[3]], key=lambda a: a[0])
     for a, b in zip(req, req[1:]):
-        assert b[1] > a[1], f"C anchors out of order: {a} {b}"
+        assert b[1] >= a[1], f"C anchors out of order: {a} {b}"
     keep = list(req)
     for a in sorted([a for a in mine if not a[3]], key=lambda a: a[0]):
         trial = sorted(keep + [a], key=lambda a: a[0])
-        if all(y[1] > x[1] for x, y in zip(trial, trial[1:])):
+        # a C rodata anchor is an upper bound (its data lies below the next item), so a later anchor may equal it
+        if all(y[1] > x[1] or (x[3] and y[1] == x[1]) for x, y in zip(trial, trial[1:])):
             keep = trial
         else:
             dropped.append(a)
