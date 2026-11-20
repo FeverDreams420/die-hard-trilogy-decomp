@@ -9187,7 +9187,75 @@ void func_80053404(Unk80053404 *p) {
     func_80053310((Unk800536A8 *)p);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053544);
+typedef struct {
+    u8 pad0[0x34];
+    u8 unk34[8];
+    u8 pad3C[2];
+    u8 unk3E;
+    u8 unk3F;
+    u8 pad40[0x168];
+    u8 unk1A8[0x62];
+    s16 unk20A;
+    s16 unk20C;
+    u8 pad20E[8];
+    s16 unk216;
+    u8 pad218[0x36];
+    s16 unk24E;
+    u8 pad250[0x2F];
+    u8 unk27F;
+    u8 unk280;
+    u8 unk281;
+    u8 pad282[7];
+    u8 unk289;
+    u8 pad28A;
+    u8 unk28B;
+    u8 pad28C[6];
+    u8 unk292;
+    u8 pad293[3];
+    u16 unk296;
+    u8 pad298[6];
+    s16 unk29E;
+} Unk80054100;
+
+void func_80053544(Unk80054100 *p) {
+    if (D_800B7430 == 7 && (p->unk292 != 0 || p->unk281 == 2)) {
+        p->unk24E = -1;
+        p->unk296 = 0;
+        return;
+    }
+    if (p->unk280 != 0) {
+        if (p->unk27F < 4) {
+            p->unk296++;
+            if (p->unk296 > 300) {
+                if (D_800B7430 == 7 && (p->unk292 != 0 || p->unk281 == 2)) {
+                    p->unk24E = 0;
+                    p->unk296 = 0;
+                    return;
+                }
+                p->unk216 = 2;
+            }
+        } else {
+            p->unk296 = 0;
+        }
+        if (p->unk27F == 6) {
+            p->unk24E = -1;
+        } else {
+            p->unk24E = 0;
+        }
+        return;
+    }
+    if (p->unk27F == 6) {
+        p->unk24E = -1;
+        p->unk296 = 0;
+    }
+    if (p->unk24E != 0 && D_800B71C0 == 0x100) {
+        if (p->unk27F == 1 || p->unk27F == 2 || p->unk27F == 4) {
+            p->unk216 = 2;
+            return;
+        }
+        p->unk296 = 0;
+    }
+}
 
 extern s32 func_8004FAC4(void);
 extern void func_8004FA04(void);
@@ -9228,26 +9296,6 @@ void func_8005371C(Unk8005371C *p) {
 }
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053794);
-
-typedef struct {
-    u8 pad0[0x34];
-    u8 unk34[8];
-    u8 pad3C[2];
-    u8 unk3E;
-    u8 unk3F;
-    u8 pad40[0x168];
-    u8 unk1A8[0x62];
-    s16 unk20A;
-    s16 unk20C;
-    u8 pad20E[0x71];
-    u8 unk27F;
-    u8 pad280[9];
-    u8 unk289;
-    u8 pad28A;
-    u8 unk28B;
-    u8 pad28C[0x12];
-    s16 unk29E;
-} Unk80054100;
 
 void func_80053544(Unk80054100 *obj);
 void func_80051DD0();
