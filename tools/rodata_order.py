@@ -146,7 +146,7 @@ for k, l in enumerate(gl):
 
 # .sdata data written by C functions, from the symbol file tags
 c_sdata = {}
-for name, fn in re.findall(r"^(D_[0-9A-F]{8}) = [^;]*; // in C, written by (\w+)", open(f"config/symbol_addrs.{exe}.txt").read(), re.M):
+for name, fn in re.findall(r"^(D_[0-9A-F]{8}) = [^;]*; //[^\n]*\bin C, written by (\w+)", open(f"config/symbol_addrs.{exe}.txt").read(), re.M):
     c_sdata[fn] = min(c_sdata.get(fn, 1 << 40), addr_of(name))
 
 # which INCLUDE_ASM functions reach each symbol with a lui pair, and which
