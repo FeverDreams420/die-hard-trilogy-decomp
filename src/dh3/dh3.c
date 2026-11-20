@@ -12872,18 +12872,72 @@ void func_80071C6C(void) {
     func_80078304(1);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80071CCC);
-
 extern s16 D_800B5D64;
-extern s16 D_800B65F4;
-extern s32 D_800B639C;
+extern volatile s16 D_800B65F4;
+extern u32 D_800B639C;
 extern s16 D_800B5DCC;
-extern s16 D_800B6524;
-extern s16 D_800B5FBC;
+extern volatile s16 D_800B6524;
+extern volatile s16 D_800B5FBC;
 extern void *D_800B6174;
 extern Entry18 *D_800B6584;
 extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
 void func_80071C6C(void);
+extern char D_80086FC4[];
+extern char D_80086FD8[];
+extern char D_80086FEC[];
+extern void (*D_800B657C)(void);
+extern void func_80077E44(void);
+void func_80072E08(void);
+void func_80071C58(void);
+
+void func_80071CCC(void) {
+    u8 unused[8];
+    u8 result[8];
+    s16 status;
+
+    if (D_800B6524 != 0) {
+        status = CdSync(1, result);
+        printf(D_80086FC4, result[0]);
+        printf(D_80086FD8, status);
+        if (status == 5) {
+            D_800B639C = 601;
+        } else if (status == 2) {
+            ResetCallback();
+            CdReadCallback(func_80071C58);
+            CdRead(((u32)D_800B5A40[D_800B5FBC].unk4 + 0x7FF) >> 11, D_800B6174, 0x80);
+            D_800B6524 = 0;
+        }
+    }
+    if (D_800B5DA4 != 0) {
+        D_800B5DA4--;
+        if (D_800B5DA4 == 0) {
+            func_80072E08();
+            D_800B5DCC = 0;
+            D_800B604C->func = D_800B657C;
+            return;
+        }
+    }
+    if (++D_800B639C >= 601) {
+        printf(D_80086FEC);
+        D_800B65F4++;
+        if (D_800B65F4 >= 4) {
+            func_80071C6C();
+        }
+        D_800B639C = 0;
+        D_800B5DA4 = 0;
+        ResetCallback();
+        CdReadCallback(0);
+        if (D_800B5D64 != 0) {
+            D_800B6524 = 100;
+            D_800B5D64 = 0;
+        } else {
+            D_800B6524 = 30;
+        }
+        D_800B6584 = &D_800B5A40[D_800B5FBC];
+        func_80077E44();
+        CdControl(0x15, (unsigned char *)D_800B6584, 0);
+    }
+}
 
 void func_80071F48(buf, track)
 void *buf;
