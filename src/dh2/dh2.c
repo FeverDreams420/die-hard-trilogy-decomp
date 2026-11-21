@@ -9501,7 +9501,7 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80059A68);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80059CF8);
 
-void func_800669A0(void);
+void func_800669A0(s16 v);
 
 void func_80059DAC(void) {
     struct Task *t = D_800B6DE0;
@@ -9808,7 +9808,7 @@ void func_8005BFCC(Unk8005BFCC *p, SVECTOR *v) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005C0AC);
 
-void func_800669A0(void);
+void func_800669A0(s16 v);
 
 void func_8005C5C0(void) {
     D_8015EB3C.unk0 = 0x1000;
@@ -11249,7 +11249,15 @@ typedef struct {
     s16 unk8;
     s16 padA;
     u32 state;
-    u8 pad10[0x10];
+    union {
+        s32 any;
+        struct {
+            s16 pan;
+            s16 vol;
+        } d;
+    } fade;
+    s16 bend;
+    u8 pad16[0xA];
     s16 unk20;
     u8 pad22[6];
     s32 unk28;
@@ -11607,7 +11615,51 @@ void func_8006684C(s32 vol, Unk8002A35C *pos) {
     func_80066B70(&D_8015EB3C, (s32)func_800669A0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800669A0);
+void func_800663D0(s16 v);
+void func_8006548C(s32 left, s32 right, s16 voice);
+void func_800666F0(s16 v);
+
+void func_800669A0(s16 v) {
+    Unk801D9DAC *e = &D_801D9DAC[v];
+    s32 n;
+
+    D_801F6CB0.mask = 0;
+    if (e->fade.d.vol != 0) {
+        e->unk4 += e->fade.d.vol;
+        if (e->unk4 <= 0) {
+            func_800663D0(v);
+            return;
+        }
+        if (e->unk4 >= 0x4000) {
+            e->unk4 = 0x3FFF;
+        }
+    }
+    if (e->fade.any != 0) {
+        e->unk0 += e->fade.d.pan;
+        if (e->unk0 > 0x1000) {
+            e->unk0 = 0x1000;
+            e->fade.d.pan = 0;
+        } else if (e->unk0 < 0) {
+            e->unk0 = 0;
+            e->fade.d.pan = 0;
+        }
+        func_8006548C((s16)((e->unk4 * e->unk0) >> 12), (s16)((e->unk4 * (0x1000 - e->unk0)) >> 12), v);
+        D_801F6CB0.mask |= 3;
+    }
+    if (e->bend != 0) {
+        n = (u16)e->unk6 + e->bend;
+        D_801F6CB0.pitch = e->unk6;
+        D_801F6CB0.mask |= 0x10;
+        if (n <= 0) {
+            func_800663D0(v);
+            return;
+        }
+        e->unk6 = n;
+    }
+    D_801F6CB0.voice = 1 << v;
+    SpuSetVoiceAttr(&D_801F6CB0);
+    func_800666F0(v);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80066B70);
 
