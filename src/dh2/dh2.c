@@ -11161,7 +11161,53 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B66F4);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B66F8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80063004);
+typedef struct {
+    u8 pad0[0x48];
+    s16 size;
+    u8 pad4A[2];
+    s16 kind;
+} Unk80063004;
+
+extern Color4 D_800B66DC;
+extern Color4 D_800B66E0;
+extern Color4 D_800B66E4;
+extern Color4 D_800B66E8;
+extern char D_8009396C[];
+extern char D_80093980[];
+extern char D_80093990[];
+extern char *func_80078980(char *);
+extern void func_80076478(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
+
+void func_80063004(Unk80063004 *p) {
+    Color4 top1 = D_800B66DC;
+    Color4 bottom1 = D_800B66E0;
+    Color4 top2 = D_800B66E4;
+    Color4 bottom2 = D_800B66E8;
+    s16 n;
+    s32 w;
+    s32 h;
+    u8 *t1 = top1.c;
+    u8 *b1 = bottom1.c;
+
+    if (p->size > 0x300) {
+        return;
+    }
+    n = p->size + D_800B639E * 32;
+    w = 0x80000 / n;
+    h = 0x38400 / n;
+    p->size = n;
+    switch (p->kind) {
+    case 0:
+        func_80076478(0xA0, 0x34, func_80078980(D_8009396C), (s16)w, (s16)h, t1, b1);
+        break;
+    case 1:
+        func_80076478(0xA0, 0x34, func_80078980(D_80093980), (s16)w, (s16)h, t1, b1);
+        break;
+    case 2:
+        func_80076478(0xA0, 0x34, func_80078980(D_80093990), (s16)w, (s16)h, t1, b1);
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800631EC);
 
