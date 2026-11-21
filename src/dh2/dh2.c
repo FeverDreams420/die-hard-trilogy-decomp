@@ -6432,9 +6432,50 @@ void func_80047F84(Unk80047F84 *a, void *obj) {
     func_800577F8(obj, a);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048064);
+typedef struct {
+    u8 pad0[0x12];
+    u16 type;
+} Unk80048064;
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", jtbl_80088408);
+extern void func_8005E6F4(Unk80048064 *p);
+
+func_80048064(p, obj)
+Unk80048064 *p;
+void *obj;
+{
+    switch ((s16)(p->type & 0x7F)) {
+    case 12:
+        break;
+    case 24:
+    case 25:
+        func_80047F4C(p);
+        break;
+    case 26:
+        func_80047EF8(p, obj);
+        break;
+    case 27:
+    case 43:
+        func_80047E50(p);
+        break;
+    case 31:
+        func_80047EF8(p, obj);
+        p->type = (p->type & 0xFF80) + (func_800754C8(2) + 0x20);
+        break;
+    case 34:
+        func_80047EF8(p, obj);
+        p->type = (p->type & 0xFF80) + 0x23;
+        break;
+    case 36:
+        func_80047F4C(p);
+        p->type = (p->type & 0xFF80) + 0x25;
+        break;
+    case 38:
+        func_8005E6F4(p);
+        break;
+    }
+}
+
+
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004816C);
 
