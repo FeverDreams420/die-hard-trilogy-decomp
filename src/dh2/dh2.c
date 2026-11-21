@@ -7070,7 +7070,66 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6588);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B658C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047968);
+typedef struct {
+    u8 pad0[0x36];
+    u16 count;
+    u8 pad38[0x144];
+    struct Task *tasks[24];
+    s32 ids[24];
+} Unk80047968;
+
+typedef struct {
+    u8 pad0[0x10];
+    u8 unk10;
+    u8 unk11;
+    u8 unk12;
+    u8 pad13[9];
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+} Unk80047968_Obj;
+
+void func_80046FE0(s16 *box, s32 a, s32 b, s32 c);
+
+void func_80047968(s16 *box, s16 mode) {
+    Unk80047968 *d;
+    Unk80047968_Obj *o;
+    struct Task *t;
+    s16 i;
+
+    if ((u32)D_801F7548 < 8) {
+        return;
+    }
+    d = (Unk80047968 *)D_801F7548->vals;
+    i = d->count;
+    while (i--) {
+        t = d->tasks[i];
+        if (t->id != d->ids[i]) {
+            continue;
+        }
+        D_800B6E50 = (s32)t;
+        D_800B7268 = d->tasks[i]->vals;
+        if ((u32)D_800B7268 > 0x80200000 || (s32)D_800B7268 >= 0) {
+            continue;
+        }
+        o = (Unk80047968_Obj *)d->tasks[i]->vals;
+        if (o->unk20 < box[4] || box[5] < o->unk20 || o->unk1C < box[0] || box[2] < o->unk1C || o->unk1E < box[1] || box[3] < o->unk1E) {
+            continue;
+        }
+        if (D_801F9A56 != 0) {
+            func_80046FE0(box, 0, 0xFF, 0);
+        }
+        o->unk11 = 1;
+        o->unk10 = 2;
+        if (mode == 3) {
+            o->unk12 = 1;
+        } else if (mode == 2) {
+            o->unk12 = 0xFF;
+        } else {
+            o->unk12 = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80047B48);
 
