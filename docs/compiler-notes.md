@@ -378,6 +378,11 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | An error path placed after the success path's `return 0` | `goto error;` with the error code at the end; GCC 2.5.7 keeps source order and threads each failing branch to the right block (DH2 0x80071A08) |
 | `move s1,v0` after a computed value that is compared right away | The variable is `s16` (DH2 0x8006684C, DH3 0x80045B60) |
 | A store placed between a call and the read-modify-write that uses its result | Keep the result in an `s32` temporary: `d = f() - 0x40; x.a = r; x.b += d;` (DH3 0x800669C0) |
+| `divu` on a `u16` field | `p->tile / 60U`; a plain `/ 60` divides the promoted `int` signed (DH2 0x8004816C) |
+| A wait loop that reloads a scalar global with `lw %lo(sym)` | Declare the global `volatile` file-wide (`D_800A31F4` in `dh1.c`, 0x8001F37C); the `*(volatile s32 *)&x` cast gives `addiu`/`lw 0` |
+| A global read again for its last uses although a copy was taken earlier | Use the global directly there; a local that only copies a global can be replaced by the memory read (DH1 0x8001F37C) |
+| `sll 7`/`sra 13` kept instead of one `sra 6` | GCC drops the pair when it knows the value is sign-extended; `x -= k; ABS(x) << 7 >> 13` on an `s32 x = (s16)z` keeps it (DH3 0x8002D98C) |
+| `$gp` stores to a small global and `lui`/`addiu` for its address in one function | Normal: ASPSX expands `la` to `lui`/`addiu` even for `.sdata` (DH3 0x80027794 `SVECTOR D_800B5588`) |
 
 ## PsyQ library settings
 
