@@ -50,7 +50,9 @@ typedef struct {
 
 typedef struct {
     SVECTOR v[16];
-    u8 pad80[0x88];
+    u8 pad80[0x80];
+    s32 unk100;
+    u8 pad104[4];
     s16 unk108[16];
     u8 pad128[0x84];
 } Unk800462F0_Mesh;
@@ -5601,7 +5603,65 @@ void func_8003FA60(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003FC9C);
+extern volatile s32 D_800B6FE8[];
+extern s32 D_800B6D60;
+extern u16 D_8009B468[];
+extern u16 D_8009B464;
+extern u16 D_8009B466;
+extern u16 D_8009B46A;
+extern u16 D_8009B46C;
+extern s16 D_800B69E8;
+extern s16 D_800B63C6;
+extern s16 D_800B63C8;
+extern s16 D_800B63D0;
+extern s32 D_800B7368;
+
+void func_8003FC9C(void) {
+    s32 step;
+    s32 max;
+
+    if (D_8009B46C & D_800B6FE8[0]) {
+        func_8003FA60();
+        func_8003F6D0();
+        if (D_800B63C6 == 2) {
+            D_800B7368 = D_800B6E70[D_800B63C8].unk8;
+        }
+        D_800B69E8 = -1;
+    }
+    if (D_8009B46C & *(volatile s32 *)&D_800B6D60) {
+        if (D_800B63D0 != 0) {
+            step = 0x1D4C;
+            max = 0x3A980;
+        } else {
+            step = D_800B71B8[D_800B6CF0].unk100 / 32;
+            max = D_800B71B8[D_800B6CF0].unk100;
+        }
+        if (D_8009B46A & D_800B6FE8[0]) {
+            D_800B7368 += step / 4;
+        }
+        if (D_8009B468[0] & D_800B6FE8[0]) {
+            D_800B7368 -= step / 4;
+        }
+        if (D_8009B464 & *(volatile s32 *)&D_800B6D60) {
+            D_800B7368 += step;
+        }
+        if (D_8009B466 & *(volatile s32 *)&D_800B6D60) {
+            D_800B7368 -= step;
+        }
+        if (D_800B7368 < 0) {
+            D_800B7368 = 0;
+        }
+        if (D_800B7368 >= max) {
+            D_800B7368 = max - 1;
+        }
+        if (D_800B63C6 == 2) {
+            D_800B6E70[D_800B63C8].unk8 = D_800B7368;
+        }
+    } else if (D_800B69E8 != 0) {
+        D_800B69E8 = 0;
+        D_800B63C6 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003FF64);
 
@@ -14922,7 +14982,9 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B69D4);
 
 u8 D_800B69E0[8] = {0};
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B69E8);
+s16 D_800B69E8 = 0;
+
+INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B69EA);
 
 s16 D_800B69F0 = 0;
 
