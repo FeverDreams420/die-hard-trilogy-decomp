@@ -5834,7 +5834,8 @@ extern s16 D_800B640C;
 typedef struct {
     u16 unk0;
     u16 unk2;
-    u8 pad4[8];
+    u8 pad4[6];
+    s16 unkA;
 } Unk800936C4;
 
 extern Unk800936C4 D_800936C4[];
@@ -11184,7 +11185,43 @@ void func_8005CDB0(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005CF28);
+typedef struct {
+    s16 unk0;
+    u8 pad2[0xA];
+    s16 unkC;
+} Unk8005CF28;
+
+extern s32 D_800BAB80[];
+extern s16 D_800B65CC;
+extern s16 D_800B5D64;
+void func_80071CCC(void);
+void func_80071F48();
+
+void func_8005CF28(void) {
+    Unk8005CF28 *p = (Unk8005CF28 *)D_800B604C->vals;
+    s16 n;
+
+    D_800B5EA4 = 0;
+    D_800B6684 = 0;
+    D_800B5D64 = -1;
+    D_800B5E4C = (void *)func_8002826C((s32)D_800BA780);
+    D_800B6464 = (s32 *)func_8002826C((s32)D_800BAB80);
+    D_800B6674 = 1;
+    p->unk0 = 0;
+    p->unkC = 0;
+    if (D_800B65CC == 1 && D_800B640C == 0) {
+        D_800B65CC = (D_800B65CC + (s16)func_80074910(2) + 1) % 5;
+    }
+    if (D_800936C4[D_800B640C].unkA != 0) {
+        D_800B65CC = 5;
+    }
+    func_80071F48(D_800B6464, D_800B65CC + 12);
+    n = (D_800B65CC + (s16)func_80074910(2) + 1) % 5;
+    D_800B5EB4 = 0;
+    D_800B657C = func_8005CDB0;
+    D_800B604C->func = func_80071CCC;
+    D_800B65CC = n;
+}
 
 extern int CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
 extern s16 D_800B64D4;
