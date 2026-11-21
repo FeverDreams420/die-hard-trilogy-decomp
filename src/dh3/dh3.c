@@ -13010,7 +13010,38 @@ void func_8006DE2C(s32 delta) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006DE64);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006E128);
+extern u16 D_8009730C;
+extern char D_80086F34[];
+extern char D_80091A84[];
+extern char D_80091A90[];
+extern char *func_80077D64(char *s);
+
+void func_8006E128(void) {
+    struct Task *t = D_800B604C;
+    s16 y = 100;
+
+    if (t->unk14++ > 0x32 || (D_8009730C & ((volatile s32 *)D_800B64FC)[0]) || D_800B5D0C == 5) {
+        func_800728A4();
+        return;
+    }
+    if (D_800B613C == 7) {
+        return;
+    }
+    if (D_800B66DC == 5) {
+        y = 140;
+    }
+    if (D_800B61A4->unk2 != 0) {
+        func_800758C0(0xA0, y, D_80086F34, 0x800, 0x400, D_800B56D8, D_800B56E4);
+    } else {
+    
+        if (D_800B5F4C >= 2) {
+            func_80077D64(func_80077DC8(D_80091A90))[0] = D_800B5F4C + '0';
+            func_800758C0(0xA0, y, func_80077DC8(D_80091A90), 0x800, 0x400, D_800B56D8, D_800B56E4);
+        } else {
+            func_800758C0(0xA0, y, func_80077DC8(D_80091A84), 0x800, 0x400, D_800B56D8, D_800B56E4);
+        }
+    }
+}
 
 void func_8006E128(void);
 
