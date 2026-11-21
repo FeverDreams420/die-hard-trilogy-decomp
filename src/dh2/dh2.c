@@ -4521,7 +4521,59 @@ void func_80034D1C(Unk80034D1C *src, Unk80034D1C *dst) {
     dst->unk15 = src->unk15;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034DF4);
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+    u16 unk6;
+    u16 unk8;
+    u8 unkA;
+    u8 padB[0xF];
+} Unk80096CB0;
+
+typedef struct {
+    u8 pad0[0x15];
+    u8 unk15;
+    u8 pad16[8];
+    s16 unk1E;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    s16 unk26;
+    u8 pad28[3];
+    u8 unk2B;
+} Unk80034DF4;
+
+extern Unk80096CB0 D_80096CB0[];
+extern s16 D_80093A4C[];
+extern s16 D_800B6438;
+
+void func_80034DF4(void *anim, s16 arg) {
+    Unk80034DF4 *p = anim;
+    s16 i;
+    int v;
+    int j;
+
+    if (D_800B7370->unk1788 < 0x400) {
+        i = arg % 21;
+    } else {
+        i = arg % 24;
+    }
+    p->unk2B = D_80096CB0[i].unkA;
+    if (D_80096CB0[i].unk0 != 0) {
+        p->unk1E = D_80096CB0[i].unk0 * 60;
+    } else {
+        j = (D_800B6438 + 1) % 6;
+        v = D_80093A4C[j];
+        D_800B6438 = j;
+        p->unk1E = v * 60;
+    }
+    p->unk20 = D_80096CB0[i].unk2 * 60;
+    p->unk22 = D_80096CB0[i].unk4 * 60;
+    p->unk24 = D_80096CB0[i].unk6 * 60;
+    p->unk26 = D_80096CB0[i].unk8 * 60;
+    p->unk15 = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034FD8);
 
