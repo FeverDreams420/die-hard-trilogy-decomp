@@ -10500,7 +10500,61 @@ s16 func_80060A20(VECTOR *pos) {
     return 0x1000 - dist;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80060AB8);
+typedef struct {
+    u8 pad0[0x30];
+    VECTOR pos;
+    SVECTOR rot;
+    s16 unk48;
+    s16 unk4A;
+    s16 unk4C;
+    u8 pad4E[4];
+    s16 unk52;
+} Unk80060AB8;
+
+typedef struct {
+    u8 pad0[0x292];
+    u8 unk292[1];
+} Unk80060AB8_Owner;
+
+extern struct Task *volatile D_801F80F8;
+extern s16 D_800B638C;
+s16 func_80048E70(VECTOR *v, SVECTOR *rot, int a, int b, void *obj);
+void func_80060F00(VECTOR *v, int a, int b, int c, int d);
+
+void func_80060AB8(void) {
+    Unk80060AB8 *d = (Unk80060AB8 *)D_800B604C->vals;
+    s16 vol = func_80060A20(&d->pos);
+    Unk80060AB8_Owner *o;
+    VECTOR v;
+
+    if (D_801F80F8 != NULL) {
+        o = (Unk80060AB8_Owner *)D_801F80F8->vals;
+        if (d->unk52-- > 0) {
+            return;
+        }
+        v.vx = d->pos.vx;
+        v.vy = d->pos.vy;
+        v.vz = d->pos.vz;
+        v.vy += d->unk4C;
+        SetRotMatrix(&D_801981D4);
+        SetTransMatrix(&D_801981D4);
+        func_80048E70(&v, &d->rot, vol, 0, d);
+        func_80060F00(&v, d->unk4A + 0x41, -0x200, D_800B638C, 0);
+        d->unk4C += d->unk48;
+        d->unk48 -= 8;
+        if (d->unk4C >= 0) {
+            return;
+        }
+        D_8018CC68.unk0 = 0x800;
+        D_8018CC68.unk2 = 0;
+        D_8018CC68.unk4 = 0x1000;
+        D_8018CC68.unk6 = 0x807;
+        D_8018CC68.unk8 = 0xF;
+        func_800691E8(&D_8018CC68, 0);
+        o->unk292[d->unk4A] = 0;
+    }
+    func_800728A4();
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80060C38);
 
