@@ -5618,7 +5618,30 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A7D8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003AA90);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003ABF0);
+typedef struct {
+    s16 v[6];
+} Unk80086C78;
+
+typedef struct {
+    SVECTOR *p0;
+    SVECTOR *p1;
+    u8 pad8[8];
+    s16 unk10;
+} Unk8003ABF0_Obj;
+
+extern Unk80086C78 D_80086C78;
+
+void func_8003ABF0(Unk8003ABF0_Obj *o) {
+    Unk80086C78 t = D_80086C78;
+    s32 q;
+
+    func_8003A6D8((SVECTOR **)o);
+    o->p0->vx = (o->p0->vx + o->p1->vx) >> 1;
+    o->p0->vy = (o->p0->vy + o->p1->vy) >> 1;
+    o->p0->vz = (o->p0->vz + o->p1->vz) >> 1;
+    q = (s16)((o->p0->vx + o->p0->vz) / 33);
+    o->unk10 = (q < 0 ? -q : q) % 6 + 314;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003AD48);
 
