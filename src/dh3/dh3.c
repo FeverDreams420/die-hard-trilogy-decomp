@@ -6906,7 +6906,58 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80042D10);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80042F0C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80043560);
+typedef struct {
+    VECTOR pos;
+    SVECTOR vel[16];
+    u8 *owner;
+    s16 unk94[16];
+    s16 unkB4[16];
+    s16 unkD4[16];
+    u8 padF4[2];
+    s16 unkF6;
+    u8 padF8[6];
+    s16 unkFE;
+} Unk80043560;
+
+extern s32 D_800B5F0C;
+extern s32 GetRCnt(s32 spec);
+extern struct Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size);
+void func_80042F0C(void);
+
+void func_80043560(s16 x, s16 z, u8 *owner, s32 unused) {
+    struct Task *t = (struct Task *)func_800724C4(func_80042F0C, 0x10, 4);
+    Unk80043560 *d;
+    s16 i;
+    s32 r;
+
+    if (t == NULL) {
+        return;
+    }
+    d = (Unk80043560 *)t->vals;
+    t->cleanup = func_80042610;
+    d->unkFE = 0;
+    d->owner = owner;
+    if (owner != NULL) {
+        owner[4] = 0;
+    }
+    d->pos.vx = (x << 9) + 0x80;
+    d->pos.vz = (z << 9) + 0x80;
+    d->pos.vy = (s16)func_80028BF0(d) + 0x80;
+    i = 15;
+    do {
+        D_800B5F0C = GetRCnt(0xF2000000) * 39 + D_800B5F0C;
+        d->unkD4[i] = 0;
+        d->unkB4[i] = D_800B5F0C % 180;
+    } while (i--);
+    i = 15;
+    do {
+        d->unk94[i] = r = (s16)func_80074910(0x10) << 2;
+        d->vel[i].vx = func_80074910(0x40) - 0x20;
+        d->vel[i].vz = func_80074910(0x40) - 0x20;
+        d->vel[i].vy = r;
+    } while (i--);
+    d->unkF6 = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80043704);
 
