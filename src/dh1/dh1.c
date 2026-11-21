@@ -4917,7 +4917,113 @@ void func_8003516C(Unk8003516C *obj) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800354B0);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800358F0);
+typedef struct {
+    SVECTOR *parts[4];
+    u8 pad10[4];
+    SVECTOR part[4];
+    u8 pad34[0x12];
+    s16 unk46;
+    s16 unk48;
+    s16 type;
+} Unk800358F0_Parts;
+
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    s32 scale[3];
+    u8 pad1C[4];
+    s32 unk20;
+    u8 pad24[4];
+    u16 unk28;
+    u8 pad2A[2];
+    Unk800358F0_Parts sub;
+    u8 pad78[4];
+    SVECTOR unk7C;
+    SVECTOR unk84;
+    u8 pad8C[8];
+    s32 unk94;
+    s32 unk98;
+    s32 unk9C;
+    u8 padA0[6];
+    s16 unkA6;
+    s16 unkA8;
+    u8 padAA[0xA];
+} Unk800358F0_Body;
+
+typedef struct {
+    s16 v[4];
+} Unk800358F0_Tbl;
+
+typedef struct {
+    Unk800358F0_Body a;
+    Unk800358F0_Body b;
+} Unk800358F0;
+
+extern Unk800358F0_Tbl D_800A2A88;
+extern s16 D_800A2FFC;
+extern s32 D_800A301C;
+extern s16 D_800A3074;
+
+void func_800358F0(Unk800358F0 *obj, s16 type, s32 dir) {
+    Unk800358F0_Tbl tbl = D_800A2A88;
+    Unk800358F0_Parts *s;
+    Unk800358F0_Body *b;
+    s16 k;
+    s16 r;
+    s32 sn;
+    s32 cs;
+
+    s = &obj->a.sub;
+    b = &obj->b;
+    s->unk46 = 0;
+    s->unk48 = 0;
+    s->parts[0] = &s->part[0];
+    s->parts[1] = &s->part[1];
+    s->parts[2] = &s->part[2];
+    s->parts[3] = &s->part[3];
+    if (type == 0x62) {
+        k = 3;
+    } else {
+        k = type - 0x3E;
+    }
+    s->type = k;
+    b->pos.vx = obj->a.pos.vx;
+    b->pos.vy = obj->a.pos.vy;
+    b->pos.vz = obj->a.pos.vz;
+    obj->a.rot.vx = b->rot.vx = 0;
+    obj->a.rot.vy = b->rot.vy = dir << 9;
+    obj->a.rot.vz = b->rot.vz = 0;
+    obj->a.scale[0] = b->scale[0] = 0x3000;
+    obj->a.scale[1] = b->scale[1] = 0x3000;
+    obj->a.scale[2] = b->scale[2] = 0x3000;
+    obj->a.unk20 = D_801D70F0[tbl.v[k]];
+    b->unk20 = D_801D70F0[59];
+    obj->a.unk7C.vx = b->unk7C.vx = obj->a.pos.vx;
+    obj->a.unk7C.vy = b->unk7C.vy = obj->a.pos.vy;
+    obj->a.unk7C.vz = b->unk7C.vz = obj->a.pos.vz;
+    obj->a.unk84.vx = b->unk84.vx = obj->a.rot.vx;
+    obj->a.unk84.vy = b->unk84.vy = obj->a.rot.vy;
+    obj->a.unk84.vz = b->unk84.vz = obj->a.rot.vz;
+    obj->a.unkA6 = b->unkA6 = 0;
+    obj->a.unkA8 = b->unkA8 = 0;
+    obj->a.unk94 = 0x180;
+    obj->a.unk98 = 0x180;
+    obj->a.unk9C = 0x460;
+    b->unk94 = 0x180;
+    b->unk98 = 0x100;
+    b->unk9C = 0x180;
+    b->unk7C.vy += obj->a.unk98;
+    if (D_800A2FFC == 0) {
+        D_800A301C++;
+        D_800A3074++;
+    }
+    r = obj->a.rot.vy;
+    sn = D_800854C0[r & 0xFFF];
+    cs = D_800854C0[(r + 0x400) & 0xFFF];
+    b->unk28 = 0xFFFF;
+    b->unk7C.vx -= (sn * 128) >> 12;
+    b->unk7C.vz -= (cs * 128) >> 12;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80035B38);
 
