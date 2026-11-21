@@ -5427,7 +5427,7 @@ extern s16 D_800B73C0;
 extern u8 *D_800B7100;
 void func_8005F604();
 
-void func_8003F314(s32 id, s16 from, s32 to) {
+void func_8003F314(char *name, s16 from, s32 to) {
     Unk8016B318 *dst = &D_8016B318[(D_800B73C0 + 1) % 2];
     u8 *src;
     s32 size;
@@ -5436,7 +5436,7 @@ void func_8003F314(s32 id, s16 from, s32 to) {
     src = D_800B7100 + from * 0xC0;
     size = (s16)(to - from + 1) * 0xC0;
     memcpy(dst, src, size);
-    func_8005F604(id, dst, size, 0);
+    func_8005F604(name, dst, size, 0);
 }
 
 /* Double-buffered frame: ordering tables and primitive memory. */
@@ -6192,9 +6192,131 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80044AA0);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", jtbl_800883AC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80044E08);
+typedef struct {
+    u8 pad0[4];
+    s16 unk4;
+    s16 unk6;
+    u8 pad8[4];
+    s16 unkC;
+    u8 padE[4];
+    s16 unk12;
+    s16 unk14;
+    s16 unk16;
+    u8 pad18[4];
+    s16 unk1C;
+    s16 unk1E;
+} Unk80044E08;
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", jtbl_800883C4);
+extern void FntFlush();
+void func_800436BC(void);
+void func_8003ECAC(char *name);
+void func_8005F3B0(char *name, s16 n);
+void func_8005F2D8(s16 port);
+extern u16 D_8009B470;
+
+void func_80044E08(void) {
+    Unk80044E08 *p = (Unk80044E08 *)D_800B6DE0->vals;
+    char name[8];
+
+    strcpy(name, "GROUP");
+    name[5] = p->unk12 + 'A';
+    name[6] = '\0';
+    func_80044844();
+    if (p->unk4 != 5 && p->unk4 != 6) {
+        func_80044A04();
+    }
+    if (p->unk4 == 5) {
+        p->unk6 = 0;
+        p->unkC = p->unk1C;
+        func_800436BC();
+    }
+    if (p->unk4 == 6) {
+        p->unk6 = 0;
+        p->unkC = p->unk1E;
+        func_800436BC();
+    }
+    FntFlush(D_800B63AC);
+    FntFlush(D_800B63B0);
+    if (D_8009B46A & D_800B6FE8[0]) {
+        if (p->unk4 == 5) {
+            if (p->unk1C < p->unk1E) {
+                p->unk1C++;
+            }
+        } else if (p->unk4 == 6) {
+            if (p->unk1E < 0x80) {
+                p->unk1E++;
+            }
+        } else if (p->unk4 == 0 || p->unk4 == 3) {
+            p->unk16++;
+            if (D_801F92B8[p->unk16][0] == 0) {
+                p->unk16--;
+            }
+        } else {
+            p->unk12++;
+            if (p->unk12 == 26) {
+                p->unk12 = 0;
+            }
+        }
+    }
+    if (D_8009B468[0] & D_800B6FE8[0]) {
+        if (p->unk4 == 5) {
+            if (p->unk1C > 0) {
+                p->unk1C--;
+            }
+        } else if (p->unk4 == 6) {
+            if (p->unk1C < p->unk1E) {
+                p->unk1E--;
+            }
+        } else if (p->unk4 == 0 || p->unk4 == 3) {
+            if (p->unk16 != 0) {
+                p->unk16--;
+            }
+        } else {
+            p->unk12--;
+            if (p->unk12 < 0) {
+                p->unk12 = 25;
+            }
+        }
+    }
+    if (D_8009B466 & D_800B6FE8[0]) {
+        if (p->unk4 < 7) {
+            p->unk4++;
+        }
+    }
+    if (D_8009B464 & D_800B6FE8[0]) {
+        if (p->unk4 > 0) {
+            p->unk4--;
+        }
+    }
+    if (D_8009B470 & D_800B6FE8[0]) {
+        switch (p->unk4) {
+        case 0:
+            func_8003F408(D_801F92B8[p->unk16], p->unk1C, p->unk1E);
+            p->unk14 = 0;
+            break;
+        case 1:
+            p->unk16 = 0;
+            func_8003F314(name, p->unk1C, p->unk1E);
+            func_8005F2D8(0);
+            break;
+        case 2:
+            func_8003ECAC(name);
+            break;
+        case 3:
+            p->unk16 = 0;
+            func_8005F2D8(0);
+            break;
+        case 4:
+            func_8005F3B0(D_801F92B8[p->unk16], 0);
+            func_8005F2D8(0);
+            break;
+        case 7:
+            p->unk14 = 0;
+            break;
+        }
+    }
+}
+
 
 typedef struct {
     u16 r[32];
