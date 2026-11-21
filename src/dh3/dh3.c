@@ -10092,7 +10092,60 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B58D0);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80057CE4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80057F88);
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    u8 padA[6];
+    VECTOR pos;
+    s16 unk20;
+    s16 unk22;
+    u8 pad24[0x2C];
+    s16 unk50;
+    u8 pad52[2];
+    s16 unk54;
+    u8 pad56[0x1A];
+    s16 unk70;
+    s16 unk72;
+    s16 unk74;
+    u8 pad76[0x22];
+    u8 *unk98;
+} Unk80057F88;
+
+extern s16 D_800B5E84;
+extern s16 D_800B56A2;
+
+void func_80057F88(void) {
+    Unk80057F88 *p = (Unk80057F88 *)D_800B604C->vals;
+
+    func_800576E8(p);
+    func_8005727C(p);
+    func_80057064((Unk80057064 *)p);
+    if (!func_800210B8((void *)D_801FAB28[p->unk8], &p->pos, &p->unk20)) {
+        if (p->unk70 > 0xF0) {
+            if (p->unk98 != NULL) {
+                p->unk98[4] = 0xFF;
+            } else {
+                D_800B5E84--;
+            }
+            D_800B604C->func = func_80054D3C;
+        }
+        p->unk70 += D_800B56A2;
+        return;
+    }
+    p->unk70 = 0;
+    func_80021AFC(p);
+    if (func_800564EC(D_800B61F4, p)) {
+        func_800570A8(p);
+    }
+    if (p->unk72 != 0) {
+        p->unk72--;
+        p->pos.vx += (p->unk50 * p->unk72) >> 5;
+        p->pos.vz += (p->unk54 * p->unk72) >> 5;
+        p->pos.vy = (s16)func_80028BF0(&p->pos);
+        p->unk22 += (p->unk74 * p->unk72) >> 5;
+    }
+    func_80054D5C((Unk80054D5C *)p);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80058154);
 
