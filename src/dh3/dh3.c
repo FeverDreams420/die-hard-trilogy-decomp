@@ -448,7 +448,9 @@ typedef struct {
     s16 unkA8;
     u8 padAA[0x4A];
     s32 unkF4[4];
-    u8 pad104[0x70];
+    u8 pad104[0x48];
+    s16 unk14C;
+    u8 pad14E[0x26];
     s16 unk174;
     s16 unk176;
     u8 pad178[0x1E];
@@ -723,9 +725,7 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5578);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5580);
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5588);
-
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B558C);
+SVECTOR D_800B5588 = {0, 0, 0, 0};
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5590);
 
@@ -1350,7 +1350,79 @@ void func_80027744(Unk80027744 *p) {
     p->unk1BC = p->unk58;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027794);
+typedef struct {
+    u8 pad0[0x20];
+    SVECTOR rot;
+    u8 pad28[0x7C];
+    SVECTOR unkA4;
+    u16 unkAC;
+    u8 padAE[2];
+    u16 unkB0;
+} Unk80027794;
+
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
+extern SVECTOR D_800B5588;
+extern SVECTOR D_800B6594;
+extern MATRIX D_801FA428;
+extern VECTOR D_801F76D0;
+extern s16 D_800B66DC;
+MATRIX *func_8002C658(SVECTOR *r, MATRIX *m);
+void func_8002827C(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out);
+extern int func_80071B7C(s32 a, s32 b, s32 t);
+
+void func_80027794(Unk80027794 *p) {
+    s16 d;
+    s16 e;
+    s16 t;
+    s16 r;
+
+    D_800B6594.vx = 0;
+    D_800B6594.vz = 0;
+    D_800B6594.vy = -p->rot.vy;
+    func_8002C658(&p->rot, &D_801FA428);
+    ApplyMatrix(&D_801FA428, &p->unkA4, &D_801F76D0);
+    if (D_800B659C->unk14C < 9) {
+        D_800B5588.vx = 0;
+        D_800B5588.vz = 0;
+        d = ABS((p->unkAC << 20) >> 20);
+        if (d > 0x80 && ABS(D_801F76D0.vz) < 0x200) {
+            t = (d - 0x80) * 4;
+            if (D_800B66DC == 4 || D_800B66DC == 10) {
+                r = func_80071B7C(0, 0x200, t);
+            } else {
+                r = func_80071B7C(0, 0x100, t);
+            }
+            if (p->unkAC & 0x800) {
+                D_800B5588.vz = -r;
+            } else {
+                D_800B5588.vz = r;
+            }
+        }
+        if (ABS(D_801F76D0.vx) < 0x200) {
+            e = ABS((p->unkB0 << 20) >> 20);
+            if (e > 0x80) {
+                t = (e - 0x80) * 4;
+                if (t > 0x1000) {
+                    t = 0x1000;
+                }
+                r = func_80071B7C(0, 0x180, t);
+                if (p->unkB0 & 0x800) {
+                    D_800B5588.vx = r;
+                } else {
+                    D_800B5588.vx = -r;
+                }
+                D_800B5588.vz = 0;
+            }
+        }
+        if (D_800B5588.vx != 0 || D_800B5588.vz != 0) {
+            D_800B6594.vx = 0;
+            D_800B6594.vz = 0;
+            D_800B6594.vy = p->rot.vy;
+            func_8002827C(&D_800B6594, &D_800B5588, (SVECTOR *)&D_800B659C->unkA4, (SVECTOR *)&D_800B659C->unkA4);
+        }
+    }
+}
 
 extern s16 D_800B636C;
 extern s16 D_800B645C;
