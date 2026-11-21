@@ -5863,7 +5863,44 @@ void func_80040844(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800408FC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040BA4);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+} Unk80040BA4_Vals;
+
+extern SVECTOR D_800B72E8;
+extern SVECTOR D_800B73F8;
+void func_8003E9A4();
+void func_8003E550(SVECTOR *a, s32 b, s32 c, SVECTOR *d, SVECTOR *e);
+void func_80040054();
+void func_80040248();
+
+void func_80040BA4(void) {
+    Unk80040BA4_Vals *p;
+    s16 sxy[4];
+    s16 i;
+    s16 r;
+
+    p = (Unk80040BA4_Vals *)D_800B6DE0->vals;
+    i = 0xFF;
+    do {
+        if (D_800B6E70[i].unk16 != 0 && D_800B6CF0 == D_800B6E70[i].unk14 && D_800B63D0 == D_800B6E70[i].unk12) {
+            func_8003E8A4((SVECTOR *)&D_800B6E70[i], sxy);
+            func_80040718(sxy);
+            func_8003E9A4(&D_800B6E70[i], 0x100 - i);
+        }
+    } while (i--);
+    if ((D_8009B46C & *(volatile s32 *)&D_800B6D60) && D_800B63D0 == 0) {
+        func_8003E550(D_800B73B8, D_800B7368, 1, &D_800B72E8, &D_800B73F8);
+        p->unk0 = D_800B72E8.vx;
+        p->unk4 = D_800B72E8.vz;
+        func_8003E8A4(&D_800B72E8, sxy);
+        r = D_800B73F8.vy;
+        func_80040054(sxy, r);
+        func_80040248(sxy, r);
+    }
+}
 
 s16 func_80040D2C(s32 n) {
     return (u16)D_800B639E * n;
