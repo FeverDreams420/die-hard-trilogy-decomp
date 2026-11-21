@@ -5682,14 +5682,6 @@ INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AB0);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AB8);
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2ABC);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AC0);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AC4);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AC8);
-
 s16 func_8003D890(Unk80045164 *obj) {
     s16 i;
 
@@ -6935,7 +6927,63 @@ void func_800433F4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80043498);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[4];
+    s16 angle;
+    u8 padC[0xC];
+    s32 w;
+    s32 h;
+    s32 d;
+    u8 pad24[0x14];
+} Unk80043498_Box;
+
+extern Unk80043CC4 *D_800A3084;
+extern u8 D_800A2A34[];
+extern u8 D_800A2A38[];
+extern u8 D_800A2A3C[];
+extern u8 D_800A2A4C[];
+extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
+extern void func_800545BC(short x, short y, int value, int d, int a, u8 *b, u8 *c);
+
+void func_80043498(s16 n, s16 side) {
+    Unk80043498_Box box;
+    SVECTOR from;
+    s16 x[2] = {280, 40};
+    u8 *col[2] = {D_800A2A3C, D_800A2A4C};
+    s16 kind[2] = {1, 4};
+    s32 tmp;
+    s16 i;
+    s16 k;
+
+    box.x = from.vx = D_800A3084[n].x;
+    box.y = 0x400;
+    box.z = from.vz = D_800A3084[n].z;
+    box.y = from.vy = func_80023E80(&box, &tmp, &tmp);
+    box.w = 0x40 << side;
+    box.h = 0x400;
+    box.d = 0x40 << side;
+    box.angle = 0;
+    from.vy += 0x200;
+    func_800430AC((Obj *)&box, kind[side]);
+    func_800545BC(x[side], 0x40, n, 0x600, 0x200, col[side], D_800A2A34);
+    if (side == 0) {
+        for (i = 0; i < 4; i++) {
+            k = D_800A3084[n].links[i];
+            if (k != -1) {
+                func_800545BC(x[side], i * 16 + 0x50, k, 0x600, 0x200, D_800A2A38, D_800A2A34);
+                box.x = D_800A3084[k].x;
+                box.y = 0x400;
+                box.z = D_800A3084[k].z;
+                box.y = func_80023E80(&box, &tmp, &tmp);
+                box.angle = 0;
+                func_800430AC((Obj *)&box, 2);
+                box.y += 0x200;
+                func_8004161C(&from, (SVECTOR *)&box, 0);
+            }
+        }
+    }
+}
 
 int func_800436E4(SVECTOR *pos, s16 arg1) {
     Unk800436E4_Probe probe;
