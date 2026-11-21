@@ -45,11 +45,11 @@ CFLAGS   := -quiet -O2 $(GFLAG) -w -fpeephole -ffunction-cse -fpcc-struct-return
 	-fcommon -msoft-float
 # -O1 lets GNU as fill branch delay slots, which ASPSX did for compiled code
 CASFLAGS := $(ASFLAGS) -O1
-# Builtins: DH2 expands strcpy of a constant string inline (DH2 0x80044844
-# copies "GROUP" with lw/lh); the other files keep -fno-builtin until one
-# of them shows the same.
+# Builtins: the game code expands strcpy of a constant string inline (DH2
+# 0x80044844 copies "GROUP" with lw/lh, DH1 0x800204F0 a 7-byte string);
+# the other files keep -fno-builtin until one of them shows the same.
 BUILTIN  := -fno-builtin
-build/src/dh2/dh2.c.o: BUILTIN :=
+build/src/dh1/dh1.c.o build/src/dh2/dh2.c.o build/src/dh3/dh3.c.o: BUILTIN :=
 ASPSX_VER := 2.34
 # DH2 and DH3 expand symbol+register loads and stores as lui/addiu/addu/op 0(at)
 # (for example lhu in 0x80065328 of DH2), the ASPSX 2.21 form; DH1 has only the

@@ -10236,7 +10236,7 @@ typedef struct {
     s16 last;
 } ScoreTable;
 
-extern char *strcpy(char *, char *);
+extern char *strcpy(char *, const char *);
 
 s16 func_80063018(ScoreTable *t, u32 score, char *name) {
     ScoreEntry *e;
