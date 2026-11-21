@@ -6177,7 +6177,32 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80042AD8);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80043368);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800434A4);
+typedef struct {
+    char name[0x10];
+    char lines[10][18];
+} Unk80095620;
+
+typedef struct {
+    u8 pad0[0xE];
+    s16 unkE;
+} Unk800434A4_Vals;
+
+extern Unk80095620 D_80095620[];
+extern char D_800B64D0[];
+extern char D_800B64D8[];
+extern s16 D_800B6B40;
+
+void func_800434A4(void) {
+    Unk800434A4_Vals *v;
+    s16 i;
+
+    v = (Unk800434A4_Vals *)D_800B6DE0->vals;
+    FntPrint(D_800B63AC, D_800B64D0, D_80095620[v->unkE].name);
+    for (i = 0; D_80095620[v->unkE].lines[i][0] != 0; i++) {
+        FntPrint(D_800B63AC, D_800B64D8, D_80095620[v->unkE].lines[i]);
+    }
+    D_800B6B40 = i - 2;
+}
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B64D0);
 
