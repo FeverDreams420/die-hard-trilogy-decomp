@@ -867,7 +867,8 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024730);
 typedef struct {
     s16 unk0;
     s16 unk2;
-    u8 pad4[8];
+    s16 unk4;
+    u8 pad6[6];
 } Unk800B5F34;
 
 typedef struct {
@@ -1499,7 +1500,27 @@ void func_80027F94(s32 *src, u32 size) {
     D_800B6464 = (s32 *)func_8002826C((s32)dst);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80028028);
+extern SVECTOR D_80091DE4[];
+
+void func_80028028(MATRIX *m) {
+    s16 n;
+    s32 k;
+
+    n = D_800B6694 + 1;
+    if (D_800B5F34[n].unk0 == -1) {
+        n = 0;
+    }
+    k = D_800B5F34[n].unk4;
+    m->m[0][0] = (m->m[0][0] * D_80091DE4[k].vx) >> 12;
+    m->m[0][1] = (m->m[0][1] * D_80091DE4[k].vx) >> 12;
+    m->m[0][2] = (m->m[0][2] * D_80091DE4[k].vx) >> 12;
+    m->m[1][0] = (m->m[1][0] * D_80091DE4[k].vy) >> 12;
+    m->m[1][1] = (m->m[1][1] * D_80091DE4[k].vy) >> 12;
+    m->m[1][2] = (m->m[1][2] * D_80091DE4[k].vy) >> 12;
+    m->m[2][0] = (m->m[2][0] * D_80091DE4[k].vz) >> 12;
+    m->m[2][1] = (m->m[2][1] * D_80091DE4[k].vz) >> 12;
+    m->m[2][2] = (m->m[2][2] * D_80091DE4[k].vz) >> 12;
+}
 
 s32 func_80028220(s32 a, s32 b) {
     if (b < a) {
@@ -12398,12 +12419,10 @@ void func_8006E510(void) {
     D_800B61A4->unkA = D_800B61A4->unkA == 0;
 }
 
-extern SVECTOR D_80091DE4;
-
 void func_8006E530(void) {
-    D_80091DE4.vx = func_80074910(0x2000) + 0x1000;
-    D_80091DE4.vy = func_80074910(0x3000);
-    D_80091DE4.vz = func_80074910(0x2000);
+    D_80091DE4[0].vx = func_80074910(0x2000) + 0x1000;
+    D_80091DE4[0].vy = func_80074910(0x3000);
+    D_80091DE4[0].vz = func_80074910(0x2000);
 }
 
 extern volatile s16 D_800B61AC;
