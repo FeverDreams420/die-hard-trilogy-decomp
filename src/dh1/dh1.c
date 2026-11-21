@@ -12375,19 +12375,76 @@ void func_8005EC74(void) {
 void func_8005ED94(void) {
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005ED9C);
+typedef struct {
+    u8 c[4];
+} Color4;
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B8C);
+extern Color4 D_800A2B7C;
+extern Color4 D_800A2B80;
+extern Color4 D_800A2B84;
+extern Color4 D_800A2B88;
+extern char D_8007B41C[];
+extern char D_800A2B8C[];
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B90);
+typedef struct {
+    u8 pad0[0x22];
+    s16 unk22;
+    u8 pad24[6];
+    s16 unk2A;
+    s16 unk2C;
+    u8 pad2E[0x18];
+    s16 unk46;
+    s16 unk48;
+} Unk8005ED9C;
+
+void func_8005ED9C(Unk8005ED9C *p) {
+    Color4 top = D_800A2B7C;
+    Color4 bottom = D_800A2B80;
+    Color4 top2 = D_800A2B84;
+    Color4 bottom2 = D_800A2B88;
+    s16 w;
+    s16 h;
+    s32 n;
+
+    n = p->unk46 / 100;
+    if (n < 10) {
+        D_800A2B8C[1] = n + '0';
+        D_800A2B8C[4] = '\0';
+    } else {
+        D_800A2B8C[1] = p->unk46 / 1000 + '0';
+        D_800A2B8C[2] = p->unk46 / 100 % 10 + '0';
+        D_800A2B8C[4] = '0';
+        D_800A2B8C[5] = '\0';
+    }
+    if (p->unk48 < 0x100) {
+        p->unk48 += 20;
+        if (p->unk48 >= 0x100) {
+            top.c[0] = 0xFF;
+            top.c[1] = 0xFF;
+            top.c[2] = 0xFF;
+            bottom.c[0] = 0xFF;
+            bottom.c[1] = 0xFF;
+            bottom.c[2] = 0xFF;
+            p->unk48 = 0x100;
+            func_80053864(160, 96, D_800A2B8C, 0xEA6, 600, top.c, bottom.c);
+        }
+    } else {
+        p->unk48 = 0x100;
+        func_80053864(160, 96, D_800A2B8C, 0xEA6, 600, top2.c, bottom2.c);
+    }
+    w = 0x75300 / p->unk48;
+    h = 0x38400 / p->unk48;
+    if (p->unk2C == 1) {
+        func_80053864(160, 72, D_8007B41C, w, h, top.c, bottom.c);
+        p->unk2A = 100 - p->unk22;
+    }
+}
+
+char D_800A2B8C[8] = "X100";
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B94);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2B98);
-
-typedef struct {
-    u8 c[4];
-} Color4;
 
 typedef struct {
     u8 pad0[0x48];
@@ -12396,11 +12453,6 @@ typedef struct {
     s16 unk4C;
 } Unk8005F098;
 
-extern Color4 D_800A2B7C;
-extern Color4 D_800A2B80;
-extern Color4 D_800A2B84;
-extern Color4 D_800A2B88;
-extern char D_8007B41C[];
 
 void func_8005F098(Unk8005F098 *p) {
     Color4 top = D_800A2B7C;
