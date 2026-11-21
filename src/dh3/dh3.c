@@ -10005,13 +10005,18 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800558FC);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055A9C);
 
 typedef struct {
-    u8 pad0[0xC];
+    u8 pad0[0xA];
+    s16 unkA;
     s16 unkC;
     s16 unkE;
     VECTOR pos;
     u8 pad20[2];
     s16 unk22;
-    u8 pad24[0x18];
+    u8 pad24[4];
+    u32 unk28;
+    u8 pad2C[4];
+    u32 unk30;
+    u8 pad34[8];
     s16 unk3C;
     u8 pad3E[0x2A];
     s16 unk68;
@@ -10164,7 +10169,50 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80056B74);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80056BCC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80056C24);
+extern s32 D_800B5D94;
+extern s16 D_800B62D4;
+extern s16 D_800B6324;
+
+s16 func_80056C24(Unk800562F8 *a, Unk800562F8 *b, s32 c) {
+    s16 d;
+    s16 s;
+    u32 ra, rb, r, sum;
+    VECTOR unused;
+
+    D_800B5D94 = func_80028A48(&a->pos, &b->pos);
+    if (D_800B5D94 > 0xC00) {
+        return 0;
+    }
+    D_800B62D4 = func_80028648(&a->pos, &b->pos);
+    d = D_800B62D4 - a->unk22;
+    s = D_80094174[d & 0x7FF];
+    ra = s != 0 ? a->unk28 / s : 0x200;
+    s = D_80094174[(d + 0x400) & 0x7FF];
+    r = s != 0 ? a->unk30 / s : 0x200;
+    if (r < ra) {
+        ra = r;
+        a->unkA = ((d + 0x400) & 0x7FF) - 0x400;
+    } else {
+        a->unkA = (d & 0x7FF) - 0x400;
+    }
+    d = D_800B62D4 - b->unk22;
+    s = D_80094174[d & 0x7FF];
+    rb = s != 0 ? b->unk28 / s : 0x4000;
+    s = D_80094174[(d + 0x400) & 0x7FF];
+    r = s != 0 ? b->unk30 / s : 0x4000;
+    if (r < rb) {
+        rb = r;
+        b->unkA = ((d + 0x400) & 0x7FF) - 0x400;
+    } else {
+        b->unkA = (d & 0x7FF) - 0x400;
+    }
+    sum = ra + rb;
+    if (D_800B5D94 < sum) {
+        return sum - D_800B5D94;
+    }
+    D_800B6324 = sum;
+    return 0;
+}
 
 typedef struct {
     u8 pad0[0x9E];
