@@ -9774,7 +9774,52 @@ void func_8005D0E0(Unk8002A35C *pos) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D24C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005D2DC);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+} TILE_1;
+
+typedef struct {
+    SVECTOR pts[33];
+    s16 unk108;
+} Unk8005D2DC;
+
+extern void SetTile1(TILE_1 *p);
+void func_8005D24C(s16);
+
+void func_8005D2DC(void) {
+    Unk8005D2DC *d = (Unk8005D2DC *)D_800B6DE0->vals;
+    TILE_1 *t = D_800B7140;
+    s32 sxy;
+    s16 i;
+
+    if ((u8 *)t - D_800B70A8 > 0xD67F) {
+        return;
+    }
+    SetRotMatrix(&D_80169F78);
+    func_80085EA0(&D_801F9644, &D_80093A3C);
+    SetTransMatrix(&D_801F9644);
+    RotTransPers(&d->pts[0], &sxy, &D_800B6A90, &D_800B7198);
+    i = 31;
+    do {
+        RotTransPers(&d->pts[i + 1], (s32 *)&t->x0, &D_800B6A90, &D_800B7198);
+        if (D_800B7198 & ~0x1FFF) {
+            func_8005D24C(i);
+        } else {
+            SetTile1(t);
+            t->r0 = 0x40;
+            t->g0 = 0x40;
+            t->b0 = 0x80;
+            AddPrim(D_800B7018 + 0x3FE, t++);
+        }
+    } while (i--);
+    D_800B7140 = t;
+    if (--d->unk108 < 0) {
+        d->unk108 = 20;
+        func_8005D24C((s16)func_800754C8(0x20));
+    }
+}
 
 void func_8005D24C(s16);
 void func_8005D2DC(void);
