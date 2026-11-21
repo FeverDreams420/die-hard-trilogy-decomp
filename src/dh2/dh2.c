@@ -11,6 +11,9 @@ typedef struct {
     s32 vx, vy, vz, pad;
 } VECTOR;
 typedef struct {
+    u8 r, g, b, cd;
+} CVECTOR;
+typedef struct {
     s16 m[3][3];
     s32 t[3];
 } MATRIX;
@@ -1402,7 +1405,40 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8002625C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80026464);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800267F0);
+extern void DpqColor(CVECTOR *v0, long p, CVECTOR *v1);
+
+extern unsigned short D_801F9DCC[];
+
+void func_800267F0(u16 *src, s16 depth) {
+    u16 *dst = D_801F9DCC;
+    CVECTOR c;
+    u16 i;
+    s32 stp;
+    u16 l;
+
+    SetFarColor(0, 0, 0);
+    for (i = 0; i < 16; i++) {
+        if (*src == 0) {
+            stp = 0;
+            c.r = 0;
+            c.g = 0;
+            c.b = 0;
+            src++;
+        } else {
+            stp = 0x8000;
+            c.r = (*src & 0x1F) << 3;
+            c.g = (*src >> 2) & 0xF8;
+            c.b = (*src >> 7) & 0xF8;
+            src++;
+            l = SquareRoot0(c.r * c.r + c.g * c.g + c.b * c.b);
+            c.r = (l * 39) >> 7;
+            c.g = (u32)(l * 5) >> 4;
+            c.b = l >> 1;
+            DpqColor(&c, depth, &c);
+        }
+        *dst++ = stp | (((c.r >> 3) + ((c.g >> 3) << 5) + ((c.b >> 3) << 10)) & 0x7FFF);
+    }
+}
 
 u8 func_80026988(u8 c, s16 k) {
     s16 v = ((c - 0x80) * k >> 12) + 0x80;
@@ -1418,6 +1454,8 @@ u8 func_80026988(u8 c, s16 k) {
 
 extern unsigned short D_801F9DCC[];
 extern void SetFarColor(long rfc, long gfc, long bfc);
+extern unsigned short D_801F9DCC[];
+
 void func_800267F0(unsigned short *src, s16 t);
 
 void func_800269D8(unsigned short *src, s16 t, u8 r, u8 g, u8 b, s16 flag) {
@@ -15369,9 +15407,6 @@ extern SVECTOR D_800B67A4;
 extern SVECTOR D_800B67AC;
 extern SVECTOR D_800B67B4;
 extern SVECTOR D_800B67BC;
-typedef struct {
-    u8 r, g, b, cd;
-} CVECTOR;
 
 extern CVECTOR D_800B67C4;
 
