@@ -6072,7 +6072,72 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003E67C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003E92C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003EAA4);
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+    u16 unk6;
+    u16 unk8;
+    u8 unkA;
+    u8 padB;
+} Unk800928CC;
+
+extern Unk800928CC D_800928CC[];
+
+typedef struct {
+    s16 v[4];
+} Unk800B5804;
+
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x48];
+    s32 unk70;
+    s16 unk74;
+    u8 pad76[2];
+    u8 unk78[0x1E];
+    s16 unk96;
+    u8 pad98[0x1E];
+    s16 unkB6;
+    s16 unkB8;
+    u8 padBA[6];
+    s32 unkC0[3];
+} Unk8003EAA4_Obj;
+
+extern Unk800B5804 D_800B5804;
+void func_8004896C(void *obj);
+void func_8003E92C(void);
+
+void func_8003EAA4(VECTOR *src) {
+    Unk800B5804 v = D_800B5804;
+    struct Task *t;
+    Unk8003EAA4_Obj *o;
+
+    t = (struct Task *)func_800724C4(func_8003E92C, 0x31, 0xD0);
+    if (t == NULL) {
+        return;
+    }
+    o = (Unk8003EAA4_Obj *)t->vals;
+    o->unkB8 = -1;
+    o->unk70 = 0;
+    o->pos.vx = src->vx;
+    o->pos.vz = src->vz;
+    o->pos.vy = (s16)func_80028BF0(&o->pos);
+    o->rot.vx = 0;
+    o->rot.vz = 0;
+    o->rot.vy = 0x800;
+    o->unkB6 = 0;
+    o->unkC0[0] = o->pos.vx;
+    o->unkC0[1] = o->pos.vy;
+    o->unkC0[2] = o->pos.vz;
+    func_80028310(&o->rot, (SVECTOR *)&v, &o->pos, &o->pos);
+    o->unk74 = 0;
+    func_80048B74(o->unk78);
+    func_8004896C(o->unk78);
+    o->unk96 = D_800928CC[(s16)func_80074910(16)].unk0 * 40;
+    func_80048C14(o->unk78, 15, 0, 0x54, 4);
+}
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5804);
 
@@ -7497,17 +7562,6 @@ void func_80048808(Unk80048808 *p) {
     p->unk26 = 0;
 }
 
-typedef struct {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
-    u16 unk6;
-    u16 unk8;
-    u8 unkA;
-    u8 padB;
-} Unk800928CC;
-
-extern Unk800928CC D_800928CC[];
 
 void func_80048830(void *anim, s16 idx) {
     Unk80048808 *p = anim;
@@ -7545,7 +7599,7 @@ typedef struct {
     u8 unk2A;
 } Unk80048B74;
 
-void func_8004896C(Unk80048B74 *obj);
+void func_8004896C(void *obj);
 
 void func_80048B74(Unk80048B74 *obj) {
     obj->unk8 = 0;
