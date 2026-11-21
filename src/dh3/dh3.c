@@ -9378,11 +9378,29 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80058724);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B58D8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80058AEC);
+extern VECTOR D_80091BA8;
+extern void func_800585A4(s16 *sxy, s32 a, s32 b, s32 c, s32 d, CVECTOR *col);
+extern void func_80058724(s16 *sxy, s32 a);
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B58DC);
+void func_80058AEC(void) {
+    SVECTOR v = {0xFA0, 0x7D0, 0xFA0, 0};
+    s16 sxy[2];
+    CVECTOR col = {0x78, 0x78, 0x78, 0};
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B58E4);
+    if ((u8 *)D_800B63AC - D_800B6334 > 0xD70FU) {
+        return;
+    }
+    PushMatrix();
+    func_80084978(&D_801FA428, &D_80091BA8);
+    SetRotMatrix(&D_801981D4);
+    SetTransMatrix(&D_801FA428);
+    RotTransPers(&v, (s32 *)sxy, &D_800B5CFC, &D_800B642C);
+    PopMatrix();
+    if (D_800B659C->unk196 != 0 && (u16)(sxy[0] + 0x20) <= 0x180) {
+        func_800585A4(sxy, 0x3FE, 0x254, 0x100, 0x10, &col);
+        func_80058724(sxy, 0x20);
+    }
+}
 
 typedef struct {
     u8 pad0[0x88];
