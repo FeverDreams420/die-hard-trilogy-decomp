@@ -11403,7 +11403,17 @@ void func_800672BC(void) {
     func_80072374(func_80067268, 0);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800672F8);
+extern s16 D_800B5D2C;
+
+s16 func_800672F8(s16 flag) {
+    s32 r;
+
+    if (flag) {
+        D_800B5D2C = func_80074910(2) + (s16)(D_800B5D2C + 1);
+    }
+    r = D_800B5D2C % 6;
+    return (r < 0 ? -r : r) + 10;
+}
 
 void func_8006738C(void) {
 }
