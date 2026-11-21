@@ -1171,6 +1171,32 @@ typedef struct {
     s16 x, y, w, h;
 } RECT;
 
+typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+typedef struct {
+    RECT disp;
+    RECT screen;
+    u8 isinter;
+    u8 isrgb24;
+    u8 pad0;
+    u8 pad1;
+} DISPENV;
+
 extern RECT D_800B5570;
 extern char D_800B568C[];
 extern u8 D_800B56D0[];
@@ -9301,7 +9327,49 @@ void func_80051E7C(Unk80051E7C *s) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80051F74);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80052638);
+typedef struct {
+    DRAWENV draw;
+    DISPENV disp;
+} Unk801FA658;
+
+extern Unk801FA658 D_801FA658[];
+extern volatile s16 D_800B61FC;
+extern volatile s16 D_800B66B4;
+extern s16 D_800B666C;
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+extern void DrawOTag(u32 *ot);
+extern u32 *ClearOTagR(u32 *ot, s32 n);
+extern int VSync(int mode);
+void func_80068DCC(void);
+void func_80073F2C(void);
+
+void func_80052638(void) {
+    s16 buf;
+    s16 idx;
+    u8 unused[8];
+
+    D_800B5F34 = D_80091708;
+    func_80068DCC();
+    func_80073F2C();
+    idx = D_800B6694;
+    D_800B6694 = D_800B6694 + 1;
+    buf = D_800B5F34[idx].unk0;
+    if (D_800B5F34[D_800B6694].unk0 == -1) {
+        D_800B6694 = 0;
+    }
+    if (buf != D_800B5F34[D_800B6694].unk0) {
+        if (D_800B5F34[D_800B6694].unk0 == D_800B61FC) {
+            VSync(0);
+        }
+        D_800B66B4 = buf;
+    }
+    PutDrawEnv(&D_801FA658[D_800B5F34[D_800B6694].unk2].draw);
+    DrawOTag(D_800B62CC + 0x3FF);
+    DrawSync(0);
+    D_800B666C = (D_800B666C + 1) & 1;
+    D_800B56AC++;
+    ClearOTagR(D_800B62CC, 3);
+}
 
 void func_80052818(void) {
     u8 unused[24];
@@ -16332,32 +16400,6 @@ void func_80073138(void) {
     D_800B5FAC = 0;
     D_800B604C->func = func_80073384;
 }
-
-typedef struct {
-    u32 tag;
-    u32 code[15];
-} DR_ENV;
-
-typedef struct {
-    RECT clip;
-    s16 ofs[2];
-    RECT tw;
-    u16 tpage;
-    u8 dtd;
-    u8 dfe;
-    u8 isbg;
-    u8 r0, g0, b0;
-    DR_ENV dr_env;
-} DRAWENV;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    u8 isinter;
-    u8 isrgb24;
-    u8 pad0;
-    u8 pad1;
-} DISPENV;
 
 typedef struct {
     DISPENV disp[2];
