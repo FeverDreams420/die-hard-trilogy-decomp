@@ -7072,7 +7072,41 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800884B8);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800884C8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048414);
+typedef struct {
+    u8 pad0[0x10];
+    SVECTOR unk10;
+} Unk80048414_Src;
+
+extern SVECTOR D_800B7408;
+extern s16 D_800B7280;
+s16 func_800482BC(u16 a, Unk80047F84 *obj);
+
+void func_80048414(Unk80047F84 *o) {
+    SVECTOR v;
+    Unk80048414_Src *s;
+    s32 k;
+    s32 t;
+
+    if (D_801F7548 == NULL) {
+        return;
+    }
+    s = (Unk80048414_Src *)D_801F7548->vals;
+    func_8003E6F4((Unk8004D4A0 *)o, &D_800B7408);
+    k = func_80025634(&D_800B6E00, &D_800B7408);
+    v.vx = s->unk10.vx;
+    v.vy = s->unk10.vy;
+    v.vz = s->unk10.vz;
+    func_80025860(&v);
+    v.vx = D_800B6E00.vx + ((v.vx * k) >> 12);
+    v.vy = D_800B6E00.vy + ((v.vy * k) >> 12);
+    v.vz = D_800B6E00.vz + ((v.vz * k) >> 12);
+    t = func_800482BC(o->unk10 / 60U, o) * 60;
+    if (D_800B7280 != 0) {
+        func_80048064(o, &v);
+    }
+    func_80047F84(o, &v);
+    o->unk10 = t;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80048584);
 
