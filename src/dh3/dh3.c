@@ -2128,7 +2128,77 @@ void func_8002A190(Unk8002A190 *p, s16 n) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002A1D0);
+typedef struct {
+    u8 pad0[0x28];
+    s16 limit[3];
+    u8 pad2E[0xA];
+    s16 unk38;
+    u8 pad3A[0xA];
+    s16 step;
+    u8 pad46[0x1E];
+} Unk80092480;
+
+extern Unk80092480 D_80092480[];
+
+typedef struct {
+    u8 pad0[8];
+    s16 type;
+    u8 padA[0x56];
+    s16 unk60;
+    u8 pad62[0x42];
+    SVECTOR unkA4;
+    u8 padAC[0x6A];
+    s16 unk116;
+    s16 unk118;
+    u8 pad11A[0x32];
+    s16 unk14C;
+    u16 unk14E;
+    u16 unk150;
+} Unk8002A1D0_Obj;
+
+extern u16 D_8009730A;
+extern u16 D_80097306;
+extern u16 D_80097300;
+extern s16 D_800B61EC;
+void func_8006772C(void);
+s32 func_80028AF8(SVECTOR *v);
+
+void func_8002A1D0(void) {
+    Unk8002A1D0_Obj *o;
+    Unk80092480 *d;
+    s16 dir;
+
+    o = (Unk8002A1D0_Obj *)D_800B604C->vals;
+    d = &D_80092480[o->type];
+    if (o->unk14C >= 9) {
+        return;
+    }
+    if (o->unk150 & D_8009730A) {
+        dir = -1;
+    } else if (o->unk150 & D_80097306) {
+        dir = 1;
+    } else {
+        return;
+    }
+    D_800B61EC = 2;
+    func_8006772C();
+    if (o->unk60 < 0 && func_80028AF8(&o->unkA4) < d->unk38 + 10) {
+        o->unk118 = dir * 260;
+        o->unk60 = -o->unk60;
+        return;
+    }
+    if (o->unk116 >= 2) {
+        if (o->unk14E & D_80097300) {
+            o->unk118 = dir * 180;
+            func_8002A190((Unk8002A190 *)o, dir);
+            o->unk60 = 0;
+        } else {
+            o->unk118 = dir * 260;
+            func_8002A190((Unk8002A190 *)o, dir);
+            o->unk60 = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002A340);
 
@@ -8653,14 +8723,6 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005420C);
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800545F8);
 
 typedef struct {
-    u8 pad0[0x28];
-    s16 limit[3];
-    u8 pad2E[0x16];
-    s16 step;
-    u8 pad46[0x1E];
-} Unk80092480;
-
-typedef struct {
     u8 pad0[8];
     s16 type;
     u8 padA[0x56];
@@ -8669,7 +8731,6 @@ typedef struct {
     s16 level;
 } Unk80054A04;
 
-extern Unk80092480 D_80092480[];
 
 void func_80054A04(Unk80054A04 *p) {
     Unk80092480 *e = &D_80092480[p->type];
