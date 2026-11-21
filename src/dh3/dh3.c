@@ -9559,7 +9559,66 @@ void func_8005BBA8(s16 idx) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005BCF8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005C1BC);
+typedef struct {
+    u8 pad0[4];
+    u8 unk4;
+    s8 unk5;
+    u8 pad6[2];
+} Unk8005C1BC_Def;
+
+typedef struct {
+    u8 pad0[4];
+    u8 unk4;
+} Unk8005C1BC_Src;
+
+typedef struct {
+    u8 pad0[0x232];
+    s16 unk232;
+    u8 pad234[4];
+    s16 unk238;
+    u8 pad23A[0x4E];
+    s32 unk288;
+    u8 pad28C[2];
+    s16 unk28E;
+    Unk8005C1BC_Src *unk290;
+    s16 unk294;
+    s16 unk296;
+    u8 pad298[4];
+    s16 unk29C;
+} Unk8005C1BC_Obj;
+
+void func_8005BCF8(void);
+void func_8005C2CC(Unk8005C1BC_Obj *obj, s32 arg);
+
+void func_8005C1BC(Unk8005C1BC_Src *src, s16 id, s16 a2, s16 a3) {
+    Unk8005C1BC_Def *d;
+    SVECTOR unused;
+    struct Task *t;
+    Unk8005C1BC_Obj *obj;
+    s16 k;
+    u8 c;
+
+    d = &((Unk8005C1BC_Def *)D_800B6234)[id];
+    k = d->unk5 % 10 * 3;
+    c = d->unk4;
+    t = func_80072768(D_801F80BC, func_8005BCF8, 0x2A0);
+    if (t != NULL) {
+        obj = (Unk8005C1BC_Obj *)t->vals;
+        t->flags |= 0x21;
+        if (src != NULL) {
+            src->unk4 = 0;
+        }
+        obj->unk290 = src;
+        obj->unk296 = a2;
+        obj->unk29C = a3;
+        obj->unk294 = c;
+        obj->unk28E = 0;
+        obj->unk288 = 0;
+        obj->unk238 = 0;
+        obj->unk232 = id;
+        func_8005C2CC(obj, k * 2);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005C2CC);
 
