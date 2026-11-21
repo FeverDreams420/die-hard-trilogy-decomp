@@ -65,7 +65,58 @@ s32 func_8001E66C(void) {
     return 0xF0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8001E674);
+extern u8 *D_800B608C;
+
+void func_8001E674(s32 x, s32 y, s32 val, s16 dx, s16 dy, s16 cell) {
+    s32 cx;
+    s32 cy;
+    s32 bx;
+    s32 by;
+    s32 c;
+    s32 px;
+    s32 py;
+    u8 *p;
+
+    cx = x / 0x1300;
+    cy = y / 0x1300;
+    bx = cx * 0x1300;
+    by = cy * 0x1300;
+    c = cx + cy * 10;
+    if (c != cell) {
+        return;
+    }
+    x += dx;
+    y += dy;
+    if (c != x / 0x1300 + y / 0x1300 * 10) {
+        return;
+    }
+    x = x - bx - 0x100;
+    y = y - by - 0x100;
+    if (x < 0) {
+        x = 0;
+    }
+    if (x > 0xFFF) {
+        x = 0xFFF;
+    }
+    if (y < 0) {
+        y = 0;
+    }
+    if (y > 0xFFF) {
+        y = 0xFFF;
+    }
+    px = x >> 8;
+    py = y >> 8;
+    if (px > 15) {
+        px = 15;
+    }
+    if (py > 15) {
+        py = 15;
+    }
+    p = D_800B608C + c * 256 + (px + py * 16);
+    if (*p == 0) {
+        *p = val + 1;
+    }
+}
 
 extern struct Task *D_800B604C;
 extern s32 *D_800B6464;
