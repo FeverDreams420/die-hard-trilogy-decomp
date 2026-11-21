@@ -9286,9 +9286,71 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B669C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80061314);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800618D0);
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR start;
+    u8 pad18[0xF8];
+    s16 unk110;
+    u8 pad112[0x3E];
+    s16 unk150;
+    u8 pad152[0x3E];
+    s16 unk190;
+    u8 pad192[0x3E];
+    s16 unk1D0;
+    s16 unk1D2;
+    s16 unk1D4;
+    u8 pad1D6[8];
+    s16 unk1DE;
+    s16 unk1E0;
+    s16 unk1E2;
+    void *unk1E4;
+    s32 unk1E8;
+    struct Task *unk1EC;
+    s32 unk1F0;
+} Unk800618D0;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B66A4);
+extern void func_80061314();
+
+void func_800618D0(SVECTOR *pos, SVECTOR *rot, struct Task *owner, s32 a3, s16 a4) {
+    Unk8003BA6C_Task *t = func_8007307C(func_80061314, 3, 0x1F4);
+    SVECTOR v = {0, 0, 100};
+    Unk800618D0 *d;
+
+    if (t == NULL) {
+        return;
+    }
+    d = (Unk800618D0 *)t->data;
+    d->unk1E0 = 0xFF;
+    if (owner != NULL) {
+        d->unk1E4 = owner->vals;
+        d->unk1EC = owner;
+        d->unk1F0 = owner->id;
+    } else {
+        d->unk1E4 = NULL;
+    }
+    d->unk1E8 = a3;
+    if (d->unk1E4 == NULL && a3 == 0) {
+        d->unk1E2 = -1;
+    } else {
+        d->unk1E2 = a4;
+    }
+    func_80025004(rot, &v, (SVECTOR *)&D_800B67D0, &d->rot);
+    d->start.vx = pos->vx;
+    d->start.vy = pos->vy;
+    d->start.vz = pos->vz;
+    d->pos.vx = pos->vx;
+    d->pos.vy = pos->vy;
+    d->pos.vz = pos->vz;
+    d->unk110 = d->unk1D2;
+    d->unk150 = 0x20;
+    d->unk190 = 0x80;
+    d->unk1D4 = -1;
+    d->unk1D0 = 1;
+    d->unk1DE = 1;
+}
+
+
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B66AC);
 

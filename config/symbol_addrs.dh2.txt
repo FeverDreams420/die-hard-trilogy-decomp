@@ -593,6 +593,7 @@ D_800B6550 = 0x800B6550; // in C, written by func_800446B8
 D_800B6558 = 0x800B6558; // in C, written by func_800446B8
 D_800B6560 = 0x800B6560; // in C, written by func_800446B8
 D_800B6568 = 0x800B6568; // in C, written by func_80044844
+D_800B66A4 = 0x800B66A4; // in C, written by func_800618D0
 D_800B660C = 0x800B660C; // in C, written by func_8004F8B8
 D_800B668C = 0x800B668C; // in C, written by func_8005F2D8
 D_800B677C = 0x800B677C; // in C, written by func_80071A08
