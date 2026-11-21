@@ -3988,7 +3988,25 @@ void func_800325FC(SVECTOR **v) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800326FC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032BAC);
+extern u16 D_800BD632;
+extern u16 D_800BD634;
+
+void func_80032BAC(SVECTOR **v, SVECTOR *out) {
+    s16 ox;
+    s16 oz;
+
+    ox = D_800BD632 << 8;
+    oz = D_800BD634 << 8;
+    if (v[3] == (SVECTOR *)-1) {
+        out->vx = (v[0]->vx + v[1]->vx + v[2]->vx) / 3;
+        out->vz = (v[0]->vz + v[1]->vz + v[2]->vz) / 3;
+    } else {
+        out->vx = (v[0]->vx + v[1]->vx + v[2]->vx + v[3]->vx) >> 2;
+        out->vz = (v[0]->vz + v[1]->vz + v[2]->vz + v[3]->vx) >> 2;
+    }
+    out->vx = (out->vx + ox + 0x100) >> 9;
+    out->vz = (out->vz + oz + 0x100) >> 9;
+}
 
 typedef struct {
     s32 unk0;
