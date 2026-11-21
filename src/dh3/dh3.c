@@ -9467,7 +9467,36 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005AB70);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005AD38);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005AE34);
+typedef struct {
+    s32 a;
+    s32 b;
+} Unk8005AE34_Key;
+
+s32 func_8005AE34(s32 t, VECTOR *out, s16 idx) {
+    Unk8005AE34_Key *k;
+    s32 *tm;
+    s32 n;
+    s16 f;
+
+    k = (Unk8005AE34_Key *)D_800B8540[idx];
+    tm = D_801F7540[idx];
+    n = D_800BA628[idx] - 2;
+    for (; n != -1; n--) {
+        if (tm[n] < t) {
+            f = ((t - tm[n]) << 12) / (tm[n + 1] - tm[n]);
+            if (f > 0x1000) {
+                f = 0x1000;
+            }
+            if (f < 0) {
+                f = 0;
+            }
+            out->vx = func_80071B7C(k[n].a, k[n + 1].a, f);
+            out->vz = func_80071B7C(k[n].b, k[n + 1].b, f);
+            return -1;
+        }
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005AF8C);
 
@@ -9508,7 +9537,7 @@ typedef struct {
 } Unk8005BA74;
 
 extern s16 D_800B618C;
-void func_8005AE34(s32 a, VECTOR *v, s16 b);
+s32 func_8005AE34(s32 a, VECTOR *v, s16 b);
 void func_8002C234(s16 a, void *p);
 void func_8005B7B0(void);
 void func_8006738C(void);
