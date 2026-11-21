@@ -7416,7 +7416,34 @@ void func_80049E04(Unk80049E04_Src *src, s16 flip) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049F28);
+typedef struct {
+    u8 c[4];
+} Unk80049F28_C;
+
+typedef struct {
+    u8 pad0[0x388];
+    s16 unk388;
+} Unk80049F28_Obj;
+
+extern char D_800B6314[];
+
+void func_80049F28(Unk80049F28_Obj *o) {
+    Unk80049F28_C c1;
+    Unk80049F28_C c2;
+    s16 s;
+    s16 k;
+
+    s = ABS(D_800982E4[(o->unk388 + 0x400) & 0xFFF]);
+    c1.c[0] = func_80072734(0xFF, 0xC8, s);
+    c1.c[1] = func_80072734(0xFF, 0x28, s);
+    c1.c[2] = func_80072734(0xFF, 0x28, s);
+    c2.c[0] = func_80072734(0xFF, 0xC8, s);
+    c2.c[1] = func_80072734(0xFF, 0, s);
+    c2.c[2] = func_80072734(0xFF, 0, s);
+    k = ABS(D_800982E4[o->unk388 & 0xFFF] * 1500) >> 12;
+    func_80076478(0x100, 0x78, func_80078980(D_800B6314), 0xFA0, k, c1.c, c2.c);
+    o->unk388 = func_80025570(o->unk388, 0, D_800B639E * 48);
+}
 
 typedef struct {
     u8 pad0[0x388];
