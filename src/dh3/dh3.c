@@ -7092,7 +7092,63 @@ void func_80044C04(void) {
     func_8004DCC4(((Unk80044C04 *)D_800B604C->vals)->unk90);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80044C38);
+typedef struct {
+    VECTOR pos;
+    SVECTOR pts[8];
+    SVECTOR rot[8];
+    u8 *owner;
+    s16 unk94[8];
+    s16 unkA4[8];
+    s16 unkB4[8];
+    s16 unkC4[8];
+    s16 unkD4[8];
+    s16 unkE4[8];
+} Unk80044C38;
+
+extern struct Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size);
+void func_80044314(void);
+
+void func_80044C38(s16 x, s16 z, u8 *owner) {
+    struct Task *t;
+    Unk80044C38 *d;
+    s16 i;
+
+    if (D_800B61A4->unk6 < 0xB38) {
+        return;
+    }
+    t = (struct Task *)func_800724C4(func_80044314, 0x31, 4);
+    if (t == NULL) {
+        return;
+    }
+    owner[4] = 0;
+    t->cleanup = func_80044C04;
+    d = (Unk80044C38 *)t->vals;
+    d->owner = owner;
+    d->pos.vx = x << 9;
+    d->pos.vz = z << 9;
+    d->pos.vy = 0x40;
+    i = 7;
+    do {
+        d->pts[i].vx = func_80074910(0x200);
+        d->pts[i].vz = func_80074910(0x200);
+        d->unkE4[i] = 0;
+        if ((s16)func_80074910(2)) {
+            d->unkB4[i] = 0;
+            d->unkA4[i] = 0;
+        } else {
+            d->unkB4[i] = func_80074910(0x400);
+            d->unkA4[i] = 0;
+        }
+        D_801F76D0.vx = d->pts[i].vx + d->pos.vx;
+        D_801F76D0.vz = d->pts[i].vz + d->pos.vz;
+        d->pts[i].vy = func_80028BF0(&D_801F76D0) + 0x40;
+        d->rot[i].vx = 0;
+        d->rot[i].vy = func_80074910(0x1000);
+        d->rot[i].vz = 0;
+        d->unk94[i] = func_80074910(200);
+        d->unkD4[i] = func_80074910(30) + 10;
+    } while (i--);
+}
 
 typedef struct {
     u8 pad0[0xC];
