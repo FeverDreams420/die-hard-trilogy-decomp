@@ -11082,11 +11082,41 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064884);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064A7C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064CD8);
-
 typedef struct {
     u8 c[4];
 } Color4;
+
+extern Color4 D_800B5980;
+extern Color4 D_800B5984;
+
+typedef struct {
+    u8 pad0[0x2A];
+    s16 unk2A;
+    u8 pad2C[0x1C];
+    s16 unk48;
+    s16 unk4A;
+} Unk80064CD8_Obj;
+
+void func_80064CD8(Unk80064CD8_Obj *o) {
+    Color4 c1 = D_800B5980;
+    Color4 c2 = D_800B5984;
+
+    if (o->unk4A < 0x100) {
+        o->unk4A += D_800B56A2 * 32;
+        if (o->unk4A >= 0x100) {
+            func_80068500(10);
+            c1.c[0] = 0xFF;
+            c1.c[1] = 0xFF;
+            c1.c[2] = 0xFF;
+            c2.c[0] = 0xFF;
+            c2.c[1] = 0xFF;
+            c2.c[2] = 0xFF;
+        }
+    } else {
+        o->unk48 = 0x100;
+    }
+    func_8007633C(0xA0, 0x7F, o->unk2A, (0x3E8000 / o->unk4A * 0xA00) >> 12, 0xAF000 / o->unk4A, (u8 *)&c1, (u8 *)&c2);
+}
 
 typedef struct {
     u8 pad0[0x2A];
@@ -11095,8 +11125,6 @@ typedef struct {
     s16 unk4A;
 } Unk80064E40;
 
-extern Color4 D_800B5980;
-extern Color4 D_800B5984;
 extern s16 D_800B56A2;
 
 void func_80064E40(Unk80064E40 *p) {
