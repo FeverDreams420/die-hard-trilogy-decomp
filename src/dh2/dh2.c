@@ -7500,7 +7500,56 @@ void func_80049518(s16 *pos, s16 idx, s16 z, s16 size, s16 ang) {
     AddPrim(D_800B7018 + z, p);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800496B0);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad1;
+    s16 x3, y3;
+    u8 u3, v3;
+    u16 pad2;
+} Unk800496B0_Poly;
+
+void func_800496B0(s16 *pos, s16 tex, s16 z, s16 size, s16 ang) {
+    s32 c = (D_800982E4[(ang + 0x9CA) & 0xFFF] * size) >> 12;
+    s32 s = (D_800982E4[(ang + 0xDCA) & 0xFFF] * size) >> 12;
+    Unk800496B0_Poly *p = D_800B7140;
+    Unk800496B0_Poly *prim = p;
+    u16 *t;
+
+    if ((u8 *)p - D_800B70A8 > 0xD7D7) {
+        return;
+    }
+    p->x1 = pos[0] - c;
+    p->y1 = s + pos[1];
+    p->x2 = c + pos[0];
+    p->y2 = pos[1] - s;
+    p->x3 = pos[0] - s;
+    p->y3 = pos[1] - c;
+    p->x0 = s + pos[0];
+    p->y0 = c + pos[1];
+    t = (u16 *)&D_8015EB78[tex];
+    *(u32 *)&p->u0 = *(u32 *)t;
+    *(u32 *)&p->u1 = *(u32 *)(t + 18);
+    *(u16 *)&p->u2 = t[4];
+    *(u16 *)&p->u3 = t[6];
+    SetPolyFT4(p);
+    SetShadeTex(p, 1);
+    SetSemiTrans(p, 0);
+    p->r0 = 0x20;
+    p->g0 = 0x20;
+    p->b0 = 0x20;
+    p++;
+    AddPrim(D_800B7018 + z, prim);
+    D_800B7140 = p;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80049888);
 
@@ -7799,7 +7848,6 @@ extern s32 D_800B6CC8;
 extern s16 D_800B67D8;
 extern u8 D_800B63E0[];
 extern struct Task *volatile D_801F7548;
-void func_800496B0(s16 *xy, s32 a, s32 b, s32 c, s32 d);
 
 void func_8004B348(s16 a, s16 b) {
     Unk8004B348 *p = (Unk8004B348 *)D_801F7548->vals;
