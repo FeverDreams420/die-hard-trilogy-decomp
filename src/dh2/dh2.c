@@ -1718,7 +1718,22 @@ extern Unk8002B728_Prim *D_800B6B90;
 extern s32 D_800B6A90;
 extern s32 D_800B6F30;
 extern s32 D_800B7198;
-extern u8 D_8015EB78[];
+typedef struct {
+    u8 pad0[2];
+    u16 clut;
+    u8 pad4[2];
+    u16 tpage0;
+    u8 pad8[0x1A];
+    u16 tpage2;
+    u8 pad24[2];
+    u16 tpage1;
+    u8 pad28[2];
+    u8 cx;
+    u8 cy;
+    u8 pad2C[0x10];
+} Unk8015EB78;
+
+extern Unk8015EB78 D_8015EB78[];
 extern s32 RotNclip4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *sxy3, s32 *p, s32 *otz, s32 *flag);
 extern void SetPolyFT4(void *p);
 extern void SetShadeTex(void *p, s32 tge);
@@ -1735,7 +1750,7 @@ Unk8002B728_Face *func_80027F18(u8 n, Unk8002B728_Face *f) {
     while (n--) {
         if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
             prim = D_800B6B90;
-            tex = (u16 *)(D_8015EB78 + f->tex);
+            tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
             prim->uv0 = tex[0];
             *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
             *(s16 *)&prim->uv2 = tex[4];
@@ -1756,7 +1771,7 @@ Unk8002B728_Face *func_80028068(u8 n, Unk8002B728_Face *f) {
     while (n--) {
         if (RotNclip4(f->v[0], f->v[1], f->v[2], f->v[3], &D_800B6B90->xy2, &D_800B6B90->xy3, &D_800B6B90->xy1, &D_800B6B90->xy0, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
             prim = D_800B6B90;
-            tex = (u16 *)(D_8015EB78 + f->tex);
+            tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
             prim->uv0 = tex[0];
             *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
             *(s16 *)&prim->uv2 = tex[4];
@@ -1777,7 +1792,7 @@ Unk8002B728_Face *func_800281B8(u8 n, Unk8002B728_Face *f) {
     while (n--) {
         D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -1796,7 +1811,7 @@ void func_800282F4(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -1843,7 +1858,7 @@ void func_80028408(Unk8002B728_Face *f) {
     }
     if (RotNclip3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         func_80085190(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0);
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -1875,7 +1890,7 @@ void func_800285C8(Unk8002B728_Face *f) {
     }
     if (RotNclip3(f->v[0], f->v[1], f->v[2], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF)) {
         func_80085190(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0);
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -1907,7 +1922,7 @@ void func_800287A8(Unk8002B728_Face *f) {
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -1938,7 +1953,7 @@ void func_80028CF0(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF) && D_800B6F30 >= 0x80 && D_800B6F30 < 0x1771) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv1 = tex[0];
         prim->uv0 = tex[2];
         *(s16 *)&prim->uv3 = tex[4];
@@ -1956,7 +1971,7 @@ void func_80028E40(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[0], f->v[1], f->v[2], f->v[3], &D_800B6B90->xy2, &D_800B6B90->xy3, &D_800B6B90->xy1, &D_800B6B90->xy0, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv1 = tex[0];
         prim->uv0 = tex[2];
         *(s16 *)&prim->uv3 = tex[4];
@@ -1974,7 +1989,7 @@ void func_80028F60(Unk8002B728_Face *f) {
 
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -1997,7 +2012,7 @@ void func_80029334(Unk8002B728_Face *f) {
     RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800B6A90, &D_800B7198);
     if (!(D_800B7198 & ~0x1FFF)) {
         func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -2032,7 +2047,7 @@ void func_80029868(Unk8002B728_Face *f) {
 
     RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2048,7 +2063,7 @@ void func_80029960(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -2065,7 +2080,7 @@ void func_80029A6C(Unk8002B728_Face *f) {
 
     D_800B6F30 = RotTransPers4(f->v[2], f->v[3], f->v[0], f->v[1], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2081,7 +2096,7 @@ void func_80029B70(Unk8002B728_Face *f) {
 
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2097,7 +2112,7 @@ void func_80029C74(Unk8002B728_Face *f) {
 
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv1 = tex[0];
     prim->uv0 = tex[2];
     *(s16 *)&prim->uv3 = tex[4];
@@ -2135,7 +2150,7 @@ void func_80029D84(Unk8002B728_Face *f) {
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
         prim = (POLY_FT4 *)D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u16 *)&prim->u0 = tex[0];
         *(u32 *)&prim->u1 = *(u32 *)(tex + 18);
         *(u16 *)&prim->u2 = tex[4];
@@ -2170,7 +2185,7 @@ void func_80029F98(Unk8002B728_Face *f) {
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
         prim = (POLY_FT4 *)D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u16 *)&prim->u0 = tex[0];
         *(u32 *)&prim->u1 = *(u32 *)(tex + 18);
         *(u16 *)&prim->u2 = tex[4];
@@ -2205,7 +2220,7 @@ void func_8002A1B0(Unk8002B728_Face *f) {
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         func_800851B0(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0, &D_800B6DB8);
         prim = (POLY_FT4 *)D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u16 *)&prim->u0 = tex[0];
         *(u32 *)&prim->u1 = *(u32 *)(tex + 18);
         *(u16 *)&prim->u2 = tex[4];
@@ -2245,7 +2260,7 @@ void func_8002B61C(Unk8002B728_Face *f) {
     u16 *tex;
 
     D_800B6F30 = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B7198);
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -2262,7 +2277,7 @@ void func_8002B728(Unk8002B728_Face *f) {
     u16 *tex;
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &q->xy0, &q->xy1, &q->xy3, &q->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         prim->uv2 = tex[4];
@@ -2281,7 +2296,7 @@ void func_8002B86C(Unk8002B728_Face *f) {
     u16 *tex;
 
     D_800B6F30 = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B7198);
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -2297,7 +2312,7 @@ void func_8002B974(Unk8002B728_Face *f) {
     u16 *tex;
 
     if (RotNclip3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -2314,7 +2329,7 @@ void func_8002BA84(Unk8002B728_Face *f) {
     u16 *tex;
 
     D_800B6F30 = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B7198);
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -2331,7 +2346,7 @@ void func_8002BB98(Unk8002B728_Face *f) {
     u16 *tex;
 
     if (RotNclip3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -2356,7 +2371,7 @@ void func_8002BCBC(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF)) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex + D_800B6E20);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex + D_800B6E20);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -2373,7 +2388,7 @@ void func_8002BDF4(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex + D_800BD974[f->tex & 7]);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex + D_800BD974[f->tex & 7]);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -2397,7 +2412,7 @@ Unk8002B728_Face *func_8002C6A8(u8 n, Unk8002B728_Face *f) {
     while (n--) {
         if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
             prim = D_800B6B90;
-            tex = (u16 *)(D_8015EB78 + f->tex);
+            tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
             prim->uv0 = tex[0];
             *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
             *(s16 *)&prim->uv2 = tex[4];
@@ -2418,7 +2433,7 @@ Unk8002B728_Face *func_8002C810(u8 n, Unk8002B728_Face *f) {
     while (n--) {
         D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -2437,7 +2452,7 @@ void func_8002C964(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         *(s16 *)&prim->uv2 = tex[4];
@@ -2454,7 +2469,7 @@ void func_8002CA94(Unk8002B728_Face *f) {
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv1 = tex[0];
         prim->uv0 = tex[2];
         *(s16 *)&prim->uv3 = tex[4];
@@ -2472,7 +2487,7 @@ void func_8002CBCC(Unk8002B728_Face *f) {
 
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2488,7 +2503,7 @@ void func_8002CCE8(Unk8002B728_Face *f) {
 
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2504,7 +2519,7 @@ void func_8002CE08(Unk8002B728_Face *f) {
 
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv1 = tex[0];
     prim->uv0 = tex[2];
     *(s16 *)&prim->uv3 = tex[4];
@@ -2524,7 +2539,7 @@ void func_8002CF34(Unk8002B728_Face *f) {
         return;
     }
     if (RotNclip3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0) {
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         prim->uv0 = tex[0];
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         *(s16 *)&prim->uv2 = tex[4];
@@ -2546,7 +2561,7 @@ void func_8002D08C(Unk8002B728_Face *f) {
         return;
     }
     D_800B6F30 = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B7198);
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -2567,7 +2582,7 @@ void func_8002D1D0(Unk8002B728_Face *f) {
         return;
     }
     D_800B6F30 = RotTransPers3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B7198);
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -2606,7 +2621,7 @@ void func_8002D318(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2646,7 +2661,7 @@ void func_8002D5AC(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2707,7 +2722,7 @@ void func_8002D920(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2765,7 +2780,7 @@ void func_8002DCA0(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2805,7 +2820,7 @@ void func_8002DF34(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -2870,7 +2885,7 @@ void func_8002E2A8(Unk8002B728_Face *f) {
         return;
     }
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800B6A90, &D_800B7198);
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     prim->uv2 = tex[4];
@@ -2972,7 +2987,7 @@ void func_8002E434(Unk8002B728_Face *f) {
             prim->x2 = -0xc8;
         }
     }
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     *(s16 *)&prim->uv2 = tex[4];
@@ -3049,7 +3064,7 @@ void func_8002E75C(Unk8002B728_Face *f) {
             prim->x2 = -0xc8;
         }
     }
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     *(s16 *)&prim->uv2 = tex[4];
@@ -3124,7 +3139,7 @@ void func_8002EA90(Unk8002B728_Face *f) {
             prim->x2 = -0xc8;
         }
     }
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     *(s16 *)&prim->uv2 = tex[4];
@@ -3274,7 +3289,7 @@ void func_8002F1E4(Unk8002B728_Face *f) {
             prim->x2 = -0x12c;
         }
     }
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -3351,7 +3366,7 @@ void func_8002F510(Unk8002B728_Face *f) {
             prim->x2 = -0x12c;
         }
     }
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -3426,7 +3441,7 @@ void func_8002F834(Unk8002B728_Face *f) {
             prim->x2 = -0x12c;
         }
     }
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
     prim->uv2 = tex[4];
@@ -3465,7 +3480,7 @@ void func_8002FB58(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -3505,7 +3520,7 @@ void func_8002FDCC(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -3572,7 +3587,7 @@ void func_80030120(Unk8002B728_Face *f) {
         return;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -3631,7 +3646,7 @@ void func_800304A4(Unk8002B728_Face *f) {
         return;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv1 = tex[0];
     prim->uv0 = tex[2];
     *(s16 *)&prim->uv3 = tex[4];
@@ -3690,7 +3705,7 @@ void func_80030834(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv1 = tex[0];
     prim->uv0 = tex[2];
     *(s16 *)&prim->uv3 = tex[4];
@@ -3731,7 +3746,7 @@ void func_80030AB4(Unk8002B728_Face *f) {
         D_800B6F30 = 0x58;
     }
     prim = D_800B6B90;
-    tex = (u16 *)(D_8015EB78 + f->tex);
+    tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
     prim->uv0 = tex[0];
     *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
     *(s16 *)&prim->uv2 = tex[4];
@@ -3775,7 +3790,7 @@ void func_80030E08(Unk80020030_Prim *f) {
 
     RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800B6A90, &D_800B7198);
     if (!(D_800B7198 & ~0x1FFF) && D_800B6F30 >= 0x40 && (u8 *)D_800B7140 - D_800B70A8 <= 0xD7D7) {
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&prim->uv0 = *(u32 *)tex;
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -3806,7 +3821,7 @@ void func_8003101C(Unk8002B728_Face *f) {
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     if (!(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&prim->uv0 = *(u32 *)tex;
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         prim->uv2 = tex[4];
@@ -3822,7 +3837,7 @@ void func_80031138(Unk8002B728_Face *f) {
     u16 *tex;
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&D_800B6B90->uv0 = *(u32 *)tex;
         *(u32 *)&D_800B6B90->uv1 = *(u32 *)(tex + 18);
         D_800B6B90->uv2 = tex[4];
@@ -3839,7 +3854,7 @@ void func_80031290(Unk8002B728_Face *f) {
     u16 *tex;
 
     if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         D_800B6B90->uv1 = tex[0];
         D_800B6B90->uv0 = tex[2];
         D_800B6B90->uv3 = tex[4];
@@ -3861,7 +3876,7 @@ void func_80031400(Unk8002B728_Face *f) {
     D_800B6F30 = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &D_800B6B90->xy0, &D_800B6B90->xy1, &D_800B6B90->xy3, &D_800B6B90->xy2, &D_800B6A90, &D_800B7198);
     if (!(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
         prim = D_800B6B90;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&prim->uv0 = *(u32 *)tex;
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 18);
         prim->uv2 = tex[4];
@@ -3881,7 +3896,7 @@ void func_8003151C(Unk8002B728_Face *f) {
     if (!(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
         func_80085190(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0);
         D_800B6F30 = (D_800B6DA0 + D_800B6DA8 + D_800B6DB0) / 12;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&prim->uv0 = *(u32 *)tex;
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -3901,7 +3916,7 @@ void func_800316B0(Unk8002B728_Face *f) {
     if (RotNclip3(f->v[2], f->v[1], f->v[0], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
         func_80085190(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0);
         D_800B6F30 = (D_800B6DA0 + D_800B6DA8 + D_800B6DB0) / 12;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&prim->uv0 = *(u32 *)tex;
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -3922,7 +3937,7 @@ void func_80031858(Unk8002B728_Face *f) {
     if (!(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
         func_80085190(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0);
         D_800B6F30 = (D_800B6DA0 + D_800B6DA8 + D_800B6DB0) / 12;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&prim->uv0 = *(u32 *)tex;
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -3942,7 +3957,7 @@ void func_800319EC(Unk8002B728_Face *f) {
     if (RotNclip3(f->v[0], f->v[1], f->v[2], &prim->xy0, &prim->xy1, &prim->xy2, &D_800B6A90, &D_800B6F30, &D_800B7198) > 0 && !(D_800B7198 & ~0x1FFF) && D_800B6F30 > 0) {
         func_80085190(&D_800B6DA0, &D_800B6DA8, &D_800B6DB0);
         D_800B6F30 = (D_800B6DA0 + D_800B6DA8 + D_800B6DB0) / 12;
-        tex = (u16 *)(D_8015EB78 + f->tex);
+        tex = (u16 *)((u8 *)D_8015EB78 + f->tex);
         *(u32 *)&prim->uv0 = *(u32 *)tex;
         *(u32 *)&prim->uv1 = *(u32 *)(tex + 2);
         prim->uv2 = tex[4];
@@ -7266,7 +7281,7 @@ void func_800492A8(s16 *pos, s16 idx, s16 size) {
         p->y1 = pos[1] - size;
         p->y2 = size + pos[1];
         p->y3 = size + pos[1];
-        tex = (u16 *)(D_8015EB78 + idx * 60);
+        tex = (u16 *)((u8 *)D_8015EB78 + idx * 60);
         *(u32 *)&p->u0 = *(u32 *)tex;
         *(u32 *)&p->u1 = *(u32 *)(tex + 18);
         *(u16 *)&p->u2 = tex[4];
@@ -7294,7 +7309,7 @@ void func_800493CC(s16 *pos, s16 idx, s16 size) {
         p->y1 = pos[1] - size;
         p->y2 = size + pos[1];
         p->y3 = size + pos[1];
-        tex = (u16 *)(D_8015EB78 + idx * 60);
+        tex = (u16 *)((u8 *)D_8015EB78 + idx * 60);
         *(u32 *)&p->u0 = *(u32 *)tex;
         *(u32 *)&p->u1 = *(u32 *)(tex + 18);
         *(u16 *)&p->u2 = tex[4];
@@ -7329,7 +7344,7 @@ void func_80049518(s16 *pos, s16 idx, s16 z, s16 size, s16 ang) {
     p->y3 = pos[1] - c;
     p->x0 = s + pos[0];
     p->y0 = c + pos[1];
-    tex = (u16 *)(D_8015EB78 + idx * 60);
+    tex = (u16 *)((u8 *)D_8015EB78 + idx * 60);
     *(u32 *)&p->u0 = *(u32 *)tex;
     *(u32 *)&p->u1 = *(u32 *)(tex + 18);
     *(u16 *)&p->u2 = tex[4];
@@ -10467,11 +10482,29 @@ s32 func_800622D4(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80062400);
+extern void MoveImage(RECT *rect, s32 x, s32 y);
+extern u16 GetClut(s32 x, s32 y);
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B66B4);
+void func_80062400(void) {
+    RECT r0 = {0x280, 0x100, 0x80, 0x100};
+    RECT r1 = {0x300, 0x100, 0x100, 0x100};
+    s16 i;
+    s32 x;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B66BC);
+    DrawSync(0);
+    MoveImage(&r0, 0x280, 0);
+    DrawSync(0);
+    MoveImage(&r1, 0x300, 0);
+    DrawSync(0);
+    i = 0x2FF;
+    do {
+        x = ((i + 0x40) & 0x40) + 0x280;
+        D_8015EB78[i].tpage0 = GetTPage(0, 0, x, 0);
+        D_8015EB78[i].tpage1 = GetTPage(0, 1, x, 0);
+        D_8015EB78[i].tpage2 = GetTPage(0, 2, x, 0);
+        D_8015EB78[i].clut = GetClut(D_8015EB78[i].cx * 16, D_8015EB78[i].cy);
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80062594);
 
