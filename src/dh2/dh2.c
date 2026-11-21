@@ -8165,7 +8165,41 @@ void func_8004DD70(SVECTOR *pos, s32 arg1, s16 arg2) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004DFC0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004E3E4);
+s32 func_8004E3E4(SVECTOR *a, SVECTOR *p, SVECTOR *b, VECTOR *q, VECTOR *r) {
+    s32 qpx = q->vx - p->vx;
+    s32 qpy = q->vy - p->vy;
+    s32 qpz = q->vz - p->vz;
+    s32 rqx = r->vx - q->vx;
+    s32 rqy = r->vy - q->vy;
+    s32 rqz = r->vz - q->vz;
+    s32 ax = a->vx - p->vx;
+    s32 ay = a->vy - p->vy;
+    s32 az = a->vz - p->vz;
+    s32 bx = b->vx - p->vx;
+    s32 by = b->vy - p->vy;
+    s32 bz = b->vz - p->vz;
+    s32 qy, qz, by2, bx2, bz2, qx, ry, rx, rz;
+    s32 num, den;
+
+    if (ax == 0 || ay == 0 || az == 0) {
+        return 0;
+    }
+    qy = (qpy << 12) / ay;
+    qz = (qpz << 12) / az;
+    by2 = (by << 12) / ay;
+    bx2 = (bx << 12) / ax;
+    bz2 = (bz << 12) / az;
+    qx = (qpx << 12) / ax;
+    ry = (rqy << 12) / ay;
+    rx = (rqx << 12) / ax;
+    rz = (rqz << 12) / az;
+    num = (((((qy - qz) * (by2 - bx2)) >> 12) - (((by2 - bz2) * (qy - qx)) >> 12)) * (by2 - bz2)) >> 12;
+    den = (((ry - rx) * (by2 - bz2)) >> 12) - (((ry - rz) * (by2 - bx2)) >> 12);
+    if (den == 0) {
+        return 0;
+    }
+    return (num << 12) / den;
+}
 
 s32 func_8004E6D8(SVECTOR *a, SVECTOR *b, SVECTOR *c) {
     s32 bx = b->vx;
