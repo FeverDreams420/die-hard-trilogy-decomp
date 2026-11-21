@@ -747,7 +747,13 @@ void func_8001FDE4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FE30);
+extern s16 D_800A2A68;
+
+long func_8001FE30() {
+    D_800A31F4++;
+    D_800A2A68--;
+    func_8004FB10();
+}
 
 extern void *func_80022600(void *);
 
