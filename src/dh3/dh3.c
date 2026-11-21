@@ -1040,11 +1040,58 @@ void func_800258A4(void) {
     D_800B604C->func = func_8002593C;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002593C);
-
 typedef struct {
     s16 x, y, w, h;
 } RECT;
+
+extern RECT D_800B5570;
+extern char D_800B568C[];
+extern u8 D_800B56D0[];
+extern u8 D_800B56EC[];
+extern s16 D_800B658C;
+extern s16 D_800B6554;
+extern void func_800279E4(s16 arg0);
+extern void func_800266C8(void);
+extern void func_80077B54(void);
+extern s32 DrawSync(s32 mode);
+extern int VSync(int mode);
+extern int ResetGraph(int mode);
+extern void PadStop(void);
+extern void StopPAD(void);
+extern void func_8005D108(void);
+extern void func_8007B120(void);
+extern void func_80072E08(void);
+extern void func_80078304(s16 arg0);
+extern char *func_80077DC8(char *);
+extern void func_800758C0(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
+
+void func_8002593C(void) {
+    RECT r = D_800B5570;
+
+    func_800266C8();
+    func_800279E4(0x140);
+    if (++D_800B604C->unk14 >= 5) {
+        if (D_800B658C != 0) {
+            func_80077B54();
+        }
+        func_8001F444();
+        DrawSync(0);
+        VSync(0);
+        ResetGraph(3);
+        PadStop();
+        StopPAD();
+        func_8005D108();
+        func_8007B120();
+        func_80072E08();
+        if (D_800B6554 == 4) {
+            func_80078304(5);
+        } else {
+            func_80078304(1);
+        }
+    } else {
+        func_800758C0(160, 120, func_80077DC8(D_800B568C), 0x800, 0x400, D_800B56D0, D_800B56EC);
+    }
+}
 
 extern RECT D_800B5578;
 extern void func_80077E44(void);
