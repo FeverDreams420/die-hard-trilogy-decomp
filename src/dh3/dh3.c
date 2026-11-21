@@ -10667,7 +10667,60 @@ void func_8005AB64(void) {
     u8 unused[24];
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005AB70);
+typedef struct {
+    u8 pad0[4];
+    s32 unk4;
+    s16 unk8;
+    u8 padA[0x10A];
+    s16 unk114;
+} Unk8005AB70;
+
+extern s16 D_800B5DFC;
+extern s32 func_8005AF8C(VECTOR *pos, s32 track);
+void func_8005AD38(void);
+
+void func_8005AB70(void) {
+    Unk8005AB70 *d = (Unk8005AB70 *)D_800B604C->vals;
+    s32 me;
+    s32 other;
+    s32 diff;
+    s32 track = D_800B618C;
+    u8 unused[16];
+
+    if (D_801F80B0[3] == NULL) {
+        return;
+    }
+    me = func_8005AF8C((VECTOR *)((u8 *)D_801F80B0[3]->vals + 0x10), track);
+    d->unk4 = me;
+    if (D_801F80B0[21] != NULL) {
+        other = func_8005AF8C((VECTOR *)((u8 *)D_801F80B0[21]->vals + 0x10), D_800B618C);
+        diff = other - me;
+        if (ABS(diff) > 0x2EE0) {
+            if (me < other) {
+                D_800B572C = D_80091708;
+                if (d->unk114 == 0) {
+                    d->unk114 = -1;
+                    func_80072374(func_80050780, 0x54);
+                    D_800B61DC = -1;
+                    func_8005119C();
+                    return;
+                }
+            } else {
+                other = me - 0x2EE0;
+            }
+        }
+        me = (other + me) >> 1;
+    }
+    if (D_800B66DC == 5) {
+        d->unk8 = ((me << 11) + (D_8018C990[D_800B618C] >> 1)) / D_8018C990[D_800B618C] - 0x78;
+        func_8005A9C4(0x1D5, d->unk4);
+        func_8005AB64();
+    }
+    if (D_800B5DFC == 4) {
+        D_800B604C->func = func_8005AD38;
+        func_80072A40(2);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005AD38);
 
