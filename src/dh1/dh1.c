@@ -1113,7 +1113,47 @@ void func_800207DC(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800209B8);
+typedef struct {
+    u8 *c[10];
+} Unk8007C394;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+} Unk800209B8_Tile;
+
+extern Unk8007C394 D_8007C394;
+extern s16 D_800A3514;
+extern void DrawPrim(void *p);
+
+void func_800209B8(void) {
+    Unk800209B8_Tile t;
+    Unk8007C394 cols = D_8007C394;
+    s16 tens = D_800A3514 / 10;
+    s16 ones = D_800A3514 % 10;
+
+    t.x0 = ones * 10 + 40;
+    t.y0 = tens * 10 + 40;
+    t.r0 = cols.c[ones][0];
+    t.g0 = cols.c[ones][1];
+    t.b0 = cols.c[ones][2];
+    setlen(&t, 2);
+    setcode(&t, 0x70);
+    DrawPrim(&t);
+    t.x0 = 0xA0;
+    t.y0 = 0xC8;
+    t.r0 = cols.c[tens][0];
+    t.g0 = cols.c[tens][1];
+    t.b0 = cols.c[tens][2];
+    setlen(&t, 2);
+    setcode(&t, 0x70);
+    DrawPrim(&t);
+    func_8001F778();
+    if (++D_800A3514 >= 100) {
+        D_800A3514 = 0;
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020B90);
 extern u32 *D_800A32E4;
