@@ -12632,7 +12632,7 @@ void func_80066C7C(void) {
     } while (i-- != 0);
 }
 
-void func_8006902C();
+void func_8006902C(s16 v);
 
 void func_80066D18(s16 id) {
     s32 unused[2];
@@ -12757,9 +12757,17 @@ typedef struct {
     s16 unk8;
     s16 padA;
     u32 unkC;
-    u8 pad10[6];
+    union {
+        s32 any;
+        struct {
+            s16 pan;
+            s16 vol;
+        } d;
+    } fade;
+    s16 bend;
     s16 unk16;
-    u8 pad18[0x10];
+    u8 pad18[0xC];
+    s32 unk24;
 } Unk801DA6D0;
 
 extern Unk801DA6D0 D_801DA6D0[];
@@ -13173,7 +13181,40 @@ void func_80068F58(s16 voice) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006902C);
+void func_8006902C(s16 v) {
+    Unk801DA6D0 *e = &D_801DA6D0[v];
+    s32 n;
+
+    D_801F76E4.mask = 0;
+    if (e->fade.d.vol != 0) {
+        e->unk4 += e->fade.d.vol;
+        if (e->unk4 <= 0) {
+            e->unk4 = 0;
+            D_801DA6D0[v].unk24 = 0;
+        } else if (e->unk4 > 0x1000) {
+            e->unk4 = 0x1000;
+        }
+    }
+    if (e->fade.any != 0) {
+        e->unk0 += e->fade.d.pan;
+        func_80066B58((s16)((e->unk4 * (u16)e->unk0) >> 12), (s16)((e->unk4 * (0x1000 - (u16)e->unk0)) >> 12), v);
+        D_801F76E4.mask |= 3;
+    }
+    if (e->bend != 0) {
+        n = (u16)e->unk6 + e->bend;
+        func_80066B1C((u16)e->unk6);
+        D_801F76E4.mask |= 0x10;
+        if (n <= 0) {
+            e->unk4 = 0;
+            D_801DA6D0[v].unk24 = 0;
+        } else {
+            e->unk6 = n;
+        }
+    }
+    D_801F76E4.voice = 1 << v;
+    SpuSetVoiceAttr(&D_801F76E4);
+    func_80068EE0(v);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800691E8);
 
