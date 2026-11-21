@@ -5425,7 +5425,38 @@ void func_80037984(Unk80030328_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80037CD0);
+void func_80037CD0(Unk80030328_Face *f) {
+    VECTOR v[4];
+    Unk80030328_Prim *p;
+
+    if (f->v[3] == (SVECTOR *)-1) {
+        return;
+    }
+    RotTrans(f->v[0], &v[0], &D_800B642C);
+    RotTrans(f->v[1], &v[1], &D_800B642C);
+    RotTrans(f->v[2], &v[2], &D_800B642C);
+    RotTrans(f->v[3], &v[3], &D_800B642C);
+    if (v[0].vz < 0 && v[1].vz < 0 && v[2].vz < 0 && v[3].vz < 0) {
+        return;
+    }
+    func_800358C0(&D_800B5E0C->xy0, &v[3]);
+    func_800358C0(&D_800B5E0C->xy1, &v[2]);
+    func_800358C0(&D_800B5E0C->xy3, &v[1]);
+    func_800358C0(&D_800B5E0C->xy2, &v[0]);
+    if (func_800857A8(D_800B5E0C->xy0, D_800B5E0C->xy1, D_800B5E0C->xy2) <= 0) {
+        return;
+    }
+    D_800B61CC = v[0].vz >> 2;
+    if (D_800B61CC < 0x58) {
+        D_800B61CC = 0x58;
+    }
+    if (D_800B61CC > 0x2000) {
+        return;
+    }
+    p = D_800B5E0C;
+    D_800B5E0C = p + 1;
+    AddPrim(D_800B62CC + (D_800B61CC >> 3), p);
+}
 
 void func_80037E70(Unk80030328_Face *f, Unk800307C0_Prim *prim) {
     VECTOR a;
