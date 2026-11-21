@@ -9155,7 +9155,75 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800558FC);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80055A9C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800562F8);
+typedef struct {
+    u8 pad0[0xC];
+    s16 unkC;
+    s16 unkE;
+    VECTOR pos;
+    u8 pad20[2];
+    s16 unk22;
+    u8 pad24[0x18];
+    s16 unk3C;
+    u8 pad3E[0x2A];
+    s16 unk68;
+    s16 unk6A;
+    u8 pad6C[2];
+    s16 unk6E;
+} Unk800562F8;
+
+extern s32 D_800B5D94;
+s16 func_80056C24(Unk800562F8 *a, Unk800562F8 *b, s32 c);
+void func_80055A9C(Unk800562F8 *a, Unk800562F8 *b, s32 c, s32 d);
+
+s32 func_800562F8(Unk800562F8 *a, Unk800562F8 *b) {
+    s16 hit;
+    s16 ang;
+    s16 rel;
+    s16 r;
+    s32 dy;
+
+    dy = a->pos.vy - b->pos.vy;
+    if (ABS(dy) >= 0xFB) {
+        return 0;
+    }
+    hit = func_80056C24(a, b, -1);
+    if (hit != 0) {
+        func_80055A9C(a, b, 0, hit);
+        ang = (s16)(a->unk22 - b->unk22);
+        if (a->unkE != 2) {
+            a->unk6A = 2;
+        }
+        return (ang << 20) >> 20;
+    }
+    ang = ((s16)(func_80028648(&b->pos, &a->pos) - a->unk22) << 20) >> 20;
+    rel = ang;
+    if (a->unkC < D_800B5D94) {
+        return 0;
+    }
+    if (a->unk6E != 0) {
+        rel = 0x1000 - ang;
+    }
+    r = rel;
+    if (func_80028CEC(r) >= 0x3FD) {
+        return 0;
+    }
+    if (a->unkE != 0) {
+        return 0;
+    }
+    a->unk6A = 2;
+    if (func_80028CEC(r) > 0x100 && D_800B5D94 > 0x3E8) {
+        return 0;
+    }
+    if (a->unk3C > 0x20) {
+        a->unk68 = -8;
+    } else {
+        a->unk68 = 0;
+    }
+    if (D_800B5D94 <= 0x300) {
+        a->unk68 = -16;
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005648C);
 
