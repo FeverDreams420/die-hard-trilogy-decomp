@@ -41,10 +41,15 @@ CC1      := tools/gcc-2.5.7-psx/cc1
 GFLAG    := -G8
 CPPFLAGS := -nostdinc -Iinclude -undef -Dmips -D__mips__ -D__OPTIMIZE__ -Dpsx -D__psx__ \
 	-D_MIPSEL -D_LANGUAGE_C -DLANGUAGE_C
-CFLAGS   := -quiet -O2 $(GFLAG) -w -fno-builtin -fpeephole -ffunction-cse -fpcc-struct-return \
+CFLAGS   := -quiet -O2 $(GFLAG) -w -fpeephole -ffunction-cse -fpcc-struct-return \
 	-fcommon -msoft-float
 # -O1 lets GNU as fill branch delay slots, which ASPSX did for compiled code
 CASFLAGS := $(ASFLAGS) -O1
+# Builtins: DH2 expands strcpy of a constant string inline (DH2 0x80044844
+# copies "GROUP" with lw/lh); the other files keep -fno-builtin until one
+# of them shows the same.
+BUILTIN  := -fno-builtin
+build/src/dh2/dh2.c.o: BUILTIN :=
 ASPSX_VER := 2.34
 # DH2 and DH3 expand symbol+register loads and stores as lui/addiu/addu/op 0(at)
 # (for example lhu in 0x80065328 of DH2), the ASPSX 2.21 form; DH1 has only the
@@ -64,8 +69,8 @@ build/src/%/gun.c.o build/src/%/psyq.c.o: ASPSX_VER := 2.34
 # have one .rodata segment for all data, so both go there.
 SDATA_SPLIT := dh1 dh2 dh3
 SDATA_MODE   = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_SPLIT)),split,rodata)
-# DH1 reaches compiler constants through $gp too (see tools/sdata.py).
-SDATA_LC_GP := dh1
+# DH1 and DH2 reach compiler constants through $gp too (see tools/sdata.py).
+SDATA_LC_GP := dh1 dh2
 SDATA_LC     = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_LC_GP)),lc-gp)
 SDATA_TO_RODATA = $(PYTHON) tools/sdata.py pre $(SDATA_MODE) $(SDATA_LC)
 SDATA_POST      = $(PYTHON) tools/sdata.py post $(SDATA_MODE)
@@ -97,7 +102,7 @@ build/%.s.o: %.s
 
 build/src/%.c.o: src/%.c
 	@mkdir -p $(dir $@)
-	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(SDATA_TO_RODATA) | $(JTBL_ALIGN) | $(MASPSX) | $(SDATA_POST) | $(AS) $(CASFLAGS) -o $@
+	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) $(BUILTIN) | $(SDATA_TO_RODATA) | $(JTBL_ALIGN) | $(MASPSX) | $(SDATA_POST) | $(AS) $(CASFLAGS) -o $@
 
 define exe_rules
 $(patsubst %.c,build/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \

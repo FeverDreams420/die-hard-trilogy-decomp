@@ -22,10 +22,11 @@ at the end of the file as a label in .sbss or .bss; `post` removes those
 labels for named addresses (`D_XXXXXXXX`), so each reference resolves to the
 address in build/<exe>.undefined_syms_auto.txt instead.
 
-DH1 (ASPSX 2.34) is the exception: its loads from compiler constants go
+DH1 and DH2 are the exception: their loads from compiler constants go
 through `$gp` (DH1 0x80041AB4 copies two bytes of "\r\n" with `lb`/`sb`
-from `%gp_rel`), so `pre ... lc-gp` leaves `$LC` visible to maspsx. Taking
-the address of a constant (`la`) still gives a `lui` pair under 2.34.
+from `%gp_rel`; DH2 0x80044844 copies "GROUP" with `lw`/`lh`), so
+`pre ... lc-gp` leaves `$LC` visible to maspsx. Taking the address of a
+constant (`la`) still gives a `lui` pair, under ASPSX 2.34 and 2.21 alike.
 
 usage: python sdata.py pre split|rodata [lc-gp]  (stdin to stdout)
        python sdata.py post split|rodata

@@ -4942,26 +4942,6 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088310);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_8008831C);
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088328);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088334);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088340);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088350);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088360);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_8008836C);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088378);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088384);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088390);
-
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_8008839C);
-
 void func_8003D10C(void) {
     s32 n = D_800B6A88 - D_800B7288;
     u16 count;
@@ -6026,24 +6006,80 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6544);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B654C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800446B8);
+typedef struct {
+    u8 pad0[4];
+    s16 unk4;
+    u8 pad6[0xA];
+    s16 unk10;
+    u8 unk12;
+    u8 pad13[3];
+    s16 unk16;
+    s16 unk18;
+    u8 pad1A[2];
+    s16 unk1C;
+    s16 unk1E;
+} Unk800446B8;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6550);
+extern struct Task *D_800B6DE0;
+extern s32 D_800B63AC;
+extern char D_801F92B8[][16];
+extern char *strcpy(char *, const char *);
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6558);
+void func_800446B8(void) {
+    Unk800446B8 *p = (Unk800446B8 *)D_800B6DE0->vals;
+    char name[8];
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6560);
+    strcpy(name, D_80094C0C[p->unk10]);
+    name[4] = p->unk12 + '1';
+    name[5] = '\0';
+    FntPrint(D_800B63AC, "CARD \n\n");
+    FntPrint(D_800B63AC, D_800881E0, D_801F92B8[p->unk16]);
+    FntPrint(D_800B63AC, "SAVE %s\n", name);
+    if (p->unk18 == 0) {
+        FntPrint(D_800B63AC, "VERIFY %s\n", name);
+    } else if (p->unk18 == 1) {
+        FntPrint(D_800B63AC, "VERIFIED OK\n", name);
+    } else if (p->unk18 == 2) {
+        FntPrint(D_800B63AC, "VERIFY FAIL\n", name);
+    }
+    FntPrint(D_800B63AC, "UPDATE DIR\n");
+    FntPrint(D_800B63AC, "DEL %s\n", D_801F92B8[p->unk16]);
+    FntPrint(D_800B63AC, "EXIT\n");
+    func_80041064(0xD, p->unk4 * 8 + 0x88, 0, 0xFF, 0);
+}
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6568);
+void func_80044844(void) {
+    Unk800446B8 *p = (Unk800446B8 *)D_800B6DE0->vals;
+    char name[8];
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B656C);
+    strcpy(name, "GROUP");
+    name[5] = p->unk12 + 'A';
+    name[6] = '\0';
+    FntPrint(D_800B63AC, "GROUPS\n\n");
+    FntPrint(D_800B63AC, D_800881E0, D_801F92B8[p->unk16]);
+    FntPrint(D_800B63AC, "SAVE %s\n", name);
+    if (p->unk18 == 0) {
+        FntPrint(D_800B63AC, "VRFY %s\n", name);
+    } else if (p->unk18 == 1) {
+        FntPrint(D_800B63AC, "VERIFIED OK\n", name);
+    } else if (p->unk18 == 2) {
+        FntPrint(D_800B63AC, "VERIFY FAIL\n", name);
+    }
+    FntPrint(D_800B63AC, "UPDATE DIR\n");
+    FntPrint(D_800B63AC, "DEL %s\n", D_801F92B8[p->unk16]);
+    FntPrint(D_800B63AC, "G START %d\n", p->unk1C);
+    FntPrint(D_800B63AC, "G END   %d\n", p->unk1E);
+    FntPrint(D_800B63AC, "EXIT\n");
+    func_80041064(0xD, p->unk4 * 8 + 0x88, 0, 0xFF, 0);
+}
+
+INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_8008839C);
+
+INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B656E);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6570);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6574);
-
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80044844);
-
 extern s32 D_800B63B0;
 extern char D_8008839C[];
 extern char D_800B64D8[];
@@ -8926,7 +8962,7 @@ struct DIRENTRY {
 
 extern McPort D_80097350[2];
 extern char D_801F92B8[][16];
-extern char *strcpy(char *, char *);
+extern char *strcpy(char *, const char *);
 extern char *strcat(char *, char *);
 extern struct DIRENTRY *firstfile(char *name, struct DIRENTRY *dir);
 extern struct DIRENTRY *nextfile(struct DIRENTRY *dir);
@@ -10670,7 +10706,7 @@ typedef struct {
     s16 last;
 } ScoreTable;
 
-extern char *strcpy(char *, char *);
+extern char *strcpy(char *, const char *);
 
 s16 func_80069864(ScoreTable *t, u32 score, char *name) {
     ScoreEntry *e;
