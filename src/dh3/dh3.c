@@ -231,7 +231,46 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5500);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80020B40);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80020EEC);
+extern VECTOR D_801981F4;
+extern VECTOR D_801CA274;
+extern SVECTOR D_800B5A74;
+extern s32 D_800B5CFC;
+extern s32 D_800B642C;
+extern s32 D_800B61CC;
+extern s16 D_800B61F4;
+extern s16 D_800B66FC[2];
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void SetRotMatrix(MATRIX *m);
+extern void SetTransMatrix(MATRIX *m);
+extern MATRIX *func_80084978(MATRIX *m, VECTOR *v);
+extern s32 RotTransPers(SVECTOR *v0, s32 *sxy, s32 *p, s32 *flag);
+
+s32 func_80020EEC(VECTOR *pos) {
+    s32 dx = pos->vx - D_801981F4.vx;
+    s32 dz;
+    u8 unused[8];
+
+    D_800B6574.vx = dx;
+    D_800B6574.vy = pos->vy - D_801981F4.vy;
+    D_800B6574.vz = dz = pos->vz - D_801981F4.vz;
+    if (ABS(dz) <= 0x4000 && ABS(dx) <= 0x4000) {
+        PushMatrix();
+        ApplyMatrix(&D_801981D4, &D_800B6574, &D_801CA274);
+        SetRotMatrix(&D_801981D4);
+        func_80084978(&D_801981D4, &D_801CA274);
+        SetTransMatrix(&D_801981D4);
+        D_800B61CC = RotTransPers(&D_800B5A74, (s32 *)D_800B66FC, &D_800B5CFC, &D_800B642C);
+        D_800B61F4 = D_800B61CC;
+        PopMatrix();
+        if (!(D_800B642C & ~0x1FFF) && (u32)(D_800B61CC - 8) <= 0x1768 && (u16)(D_800B66FC[0] + 0x80) <= 0x240 && (u16)(D_800B66FC[1] + 0x80) <= 0x200) {
+            return -1;
+        }
+    }
+    D_800B61CC = 0;
+    D_800B61F4 = 0;
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800210B8);
 
