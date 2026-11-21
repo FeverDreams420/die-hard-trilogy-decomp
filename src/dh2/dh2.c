@@ -9382,7 +9382,67 @@ void func_80054784(Unk80054784 *p) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005490C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80054C68);
+typedef struct {
+    u8 pad0[0x150];
+    s16 unk150;
+    s16 unk152;
+    u32 unk154;
+    u32 unk158;
+    s16 unk15C;
+    s16 unk15E;
+} Unk80054C68;
+
+extern s32 func_8005490C(Unk800462F0_Obj *o, s32 a, s32 b, s32 c, s32 i);
+
+void func_80054C68(void) {
+    u32 best;
+    Unk80054C68 *v;
+    s16 i;
+    s32 id;
+
+    if (D_801F7544 == NULL) {
+        return;
+    }
+    v = (Unk80054C68 *)D_801F7544->vals;
+    best = 0x3FFFFFFF;
+    if (v->unk150 != 0) {
+        i = 0xFF;
+        do {
+            if (D_800B6E70[i].unk16 != 0 && (id = D_800B6E70[i].unk14) == D_800B6C90 && D_800B6E70[i].unk12 != 0 && D_800B6E70[i].unk18 == 0) {
+                if (D_800B6E70[i].unk8 < best) {
+                    best = D_800B6E70[i].unk8;
+                }
+                if (D_800B6E70[i].unk8 <= v->unk158) {
+                    v->unk15C = 10;
+                    if (func_8005490C(&D_800B6E70[i], -D_800B6E70[i].unk1A, D_800B6E70[i].unk10, id, i)) {
+                        D_800B6E70[i].unk18 = -1;
+                    } else {
+                        D_800B6E70[i].unk18 = 0;
+                    }
+                }
+            }
+        } while (i-- != 0);
+        v->unk15C--;
+        if (best != 0x3FFFFFFF && v->unk15C == 0) {
+            v->unk158 = best + 1;
+        }
+        if ((best == 0x3FFFFFFF) & (v->unk15C < 0)) {
+            v->unk15E = -1;
+        }
+    } else {
+        i = 0xFF;
+        do {
+            if (D_800B6E70[i].unk16 != 0 && D_800B6E70[i].unk14 == D_800B6C90 && D_800B6E70[i].unk12 == 0 && D_800B6E70[i].unk18 == 0 && v->unk154 > D_800B6E70[i].unk8) {
+                if (func_8005490C(&D_800B6E70[i], -D_800B6E70[i].unk1A, D_800B6E70[i].unk10, -1, i)) {
+                    D_800B6E70[i].unk18 = -1;
+                } else {
+                    D_800B6E70[i].unk18 = 0;
+                }
+            }
+        } while (i-- != 0);
+        v->unk15C = 10;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80054F04);
 
