@@ -11,11 +11,10 @@ u16 D_800A29EE = 0x8770;
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F0);
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F4);
+s16 D_800A29F2 = 0;
+s16 D_800A29F4 = 3;
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F8);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29FC);
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F6);
 
 extern u8 D_801D74C0[], D_801E20A0[], D_801E74C0[], D_801F20A0[];
 typedef struct {
@@ -530,7 +529,59 @@ void func_8001FEBC(void) {
     D_800A32A4 = func_800504F0(0, func_8003E414(D_800A33E4, 2));
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001FF14);
+typedef struct {
+    u16 unk0;
+    char name[6];
+    char *desc;
+} Unk8007C268;
+
+extern Unk8007C268 D_8007C268[];
+extern s16 D_800A29F2;
+extern s16 D_800A29F4;
+extern void *D_800A3374;
+extern volatile u16 D_800A343C[];
+extern void func_80053864(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
+
+void func_8001FF14(void) {
+    void *prim = D_800A3374;
+    s16 n = D_800A29F2;
+    u8 col[4] = {0xFF, 0xFF, 0xFF, 0};
+
+    D_800A3374 = prim;
+    if (D_800A343C[1] & 0x8000) {
+        D_800A33F4 = --D_800A307C;
+    }
+    if (D_800A343C[1] & 0x2000) {
+        D_800A33F4 = ++D_800A307C;
+    }
+    if (D_800A343C[1] & 0x1000) {
+        D_800A29F2 = n - 1;
+    }
+    if (D_800A343C[1] & 0x4000) {
+        D_800A29F2++;
+    }
+    if (D_800A29F4 < 0) {
+        D_800A29F4 = 0;
+    }
+    if (D_800A29F4 >= 8) {
+        D_800A29F4 = 7;
+    }
+    if (D_800A29F2 < 0) {
+        D_800A29F2 = 11;
+    }
+    if (D_800A29F2 >= 12) {
+        D_800A29F2 = 0;
+    }
+    if (D_800A307C < 0) {
+        D_800A307C = 23;
+    }
+    if (D_800A307C >= 24) {
+        D_800A307C = 0;
+    }
+    func_80053864(40, 224, "LEVEL", 0x600, 0x280, col, col);
+    func_80053864(100, 224, D_8007C268[D_800A307C].name, 0x600, 0x280, col, col);
+    func_80053864(220, 224, D_8007C268[D_800A307C].desc, 0x600, 0x280, col, col);
+}
 
 extern s16 D_800A3424;
 extern u8 D_801D7330[][4];
@@ -659,13 +710,6 @@ void func_800204C0(s32 vol) {
     CdMix(&atv);
 }
 
-typedef struct {
-    u16 unk0;
-    char name[6];
-    char *desc;
-} Unk8007C268;
-
-extern Unk8007C268 D_8007C268[];
 extern char D_8007A7C8[];
 extern char D_8007A7D4[];
 extern u8 D_800A2A30[];
