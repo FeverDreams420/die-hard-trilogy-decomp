@@ -1088,3 +1088,4 @@ D_800A51D4 = 0x800A51D4; // force_not_migration:True
 D_800A59D8 = 0x800A59D8; // force_not_migration:True
 D_800B59D8 = 0x800B59D8; // force_not_migration:True
 D_800B61D8 = 0x800B61D8; // force_not_migration:True
+D_800B6624 = 0x800B6624; // size:0x8
