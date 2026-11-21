@@ -7904,7 +7904,7 @@ void func_8004F7DC(SVECTOR *base, SVECTOR *rot) {
 
 extern SVECTOR D_800B6604;
 extern void *D_801F9A94;
-extern void func_8001F90C(void *a, SVECTOR *b, SVECTOR *c, s32 d);
+extern u8 func_8001F90C(void *a, SVECTOR *b, SVECTOR *c, s32 d);
 
 void func_8004F844(SVECTOR *base, SVECTOR *rot) {
     SVECTOR out;
@@ -8836,7 +8836,64 @@ void func_8005472C(void) {
     func_80051048();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80054784);
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[8];
+    u8 unk10;
+    u8 pad11[0x23];
+    SVECTOR rot;
+    s16 unk3C;
+    u8 unk3E;
+    u8 pad3F[0x1A5];
+    SVECTOR ofs;
+    u8 pad1EC[0x1C];
+    s16 unk208;
+    s16 unk20A;
+    s16 unk20C;
+    u8 pad20E[0xA];
+    s16 unk218;
+    s16 unk21A;
+    u8 pad21C[0x63];
+    u8 unk27F;
+    u8 pad280[0x12];
+    u8 unk292;
+    u8 unk293;
+} Unk80054784;
+
+extern u8 func_8001FB8C(s32 a, SVECTOR *b, SVECTOR *c, s32 d);
+extern void func_80053D44(Unk80054784 *p);
+
+void func_80054784(Unk80054784 *p) {
+    p->unk3E = 0xFF;
+    func_80053404((Unk80053404 *)p);
+    func_80053D44(p);
+    D_800B72E8.vx = p->pos.vx + p->ofs.vx;
+    D_800B72E8.vy = p->pos.vy + p->ofs.vy;
+    D_800B72E8.vz = p->pos.vz + p->ofs.vz;
+    if (p->unk292 != 0) {
+        p->unk27F = func_8001FB8C(D_801F9A5C[p->unk3C], &D_800B72E8, &p->rot, -1);
+    } else {
+        if (p->unk293 != 0) {
+            func_8004F7DC((SVECTOR *)p, &p->rot);
+        }
+        p->unk27F = func_8001F90C((void *)D_801F9A5C[p->unk3C], &D_800B72E8, &p->rot, -1);
+    }
+    func_80053544((Unk80054100 *)p);
+    if ((s16)func_8004FAC4() != 0) {
+        p->unk10 = 0;
+        if (p->unk218 != -1) {
+            p->unk208 = p->unk21A;
+            p->unk20A = p->unk218;
+            p->unk218 = -1;
+            func_80051048();
+            return;
+        }
+    }
+    if (--p->unk20C <= 0) {
+        p->unk20A++;
+        func_80051048();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005490C);
 
