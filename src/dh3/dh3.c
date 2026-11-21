@@ -8294,26 +8294,6 @@ void func_8004CF74(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004D07C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004D2D0);
-
-extern s16 D_800B622C;
-void func_8006CD18(struct Task *t, s32 flag);
-void func_8006CB7C(struct Task *t, s32 flag);
-void func_800669C0(Unk800B659C *obj, s16 side);
-void func_8002C58C(void);
-
-void func_8004D4A4(VECTOR *pos) {
-    func_8006CD18(D_801F80B0[3], 0x10);
-    func_8006CB7C(D_801F80B0[3], 0x20);
-    func_800669C0(&D_800B659C->pos, 0);
-    D_800B622C = 0;
-    func_80050730();
-    func_8004C8DC(pos);
-    D_800B659C->unk1AA = -1;
-    D_801F80B0[3]->saved = D_801F80B0[3]->func;
-    D_801F80B0[3]->func = func_8002C58C;
-}
-
 typedef struct {
     u8 pad0[8];
     s16 unk8;
@@ -8338,6 +8318,60 @@ typedef struct {
     s16 unk192;
     s16 unk194;
 } Unk8004D9A4;
+
+void func_8006B2B4(VECTOR *pos, s16 c, s16 size);
+void func_8005FFCC(void *p);
+void func_8004CE18(void);
+void func_8006CD18(struct Task *t, s32 flag);
+void func_8006CB7C(struct Task *t, s32 flag);
+void func_80067F3C(void);
+void func_8004D07C(void);
+extern volatile s16 D_800B61AC;
+
+void func_8004D2D0(void) {
+    Unk8004D9A4 *p = (Unk8004D9A4 *)D_800B604C->vals;
+    u8 unused[16];
+
+    func_80028A48(&D_800B659C->pos, &p->pos);
+    D_800B5DE4 = 0;
+    D_800B5DEC = 0;
+    if (func_800210B8(D_801FAB78[p->unk8], &p->pos, &p->unk20)) {
+        func_80021AFC(p);
+    }
+    func_800290E4(&p->unk90, &p->unk80, p->unk194, &D_800B659C->pos);
+    D_800B659C->unk22 = func_80028868((s16)D_800B659C->unk22, p->unk22, D_800B56A2 << 6);
+    p->unk194 = func_8002881C(p->unk194, 0x400, (s16)func_80071B7C(0x50, 8, p->unk194 << 2) * D_800B56A2);
+    if (p->unk194 == 0x400) {
+        func_80043560(D_800B659C->pos.vx >> 9, D_800B659C->pos.vz >> 9, 0, 0);
+        func_8006B2B4(&D_800B659C->pos, 0xF0, 0x32);
+        func_8005FFCC(&D_800B659C->pos);
+        func_8004CE18();
+        func_8006CD18(D_801F80B0[3], 0x20);
+        func_8006CB7C(D_801F80B0[3], 0x20);
+        func_80067F3C();
+        D_800B61AC = 3;
+        p->unk194 = 0x800;
+        D_800B604C->func = func_8004D07C;
+    }
+}
+
+extern s16 D_800B622C;
+void func_8006CD18(struct Task *t, s32 flag);
+void func_8006CB7C(struct Task *t, s32 flag);
+void func_800669C0(Unk800B659C *obj, s16 side);
+void func_8002C58C(void);
+
+void func_8004D4A4(VECTOR *pos) {
+    func_8006CD18(D_801F80B0[3], 0x10);
+    func_8006CB7C(D_801F80B0[3], 0x20);
+    func_800669C0(&D_800B659C->pos, 0);
+    D_800B622C = 0;
+    func_80050730();
+    func_8004C8DC(pos);
+    D_800B659C->unk1AA = -1;
+    D_801F80B0[3]->saved = D_801F80B0[3]->func;
+    D_801F80B0[3]->func = func_8002C58C;
+}
 
 void func_8004CBB0(VECTOR *pos);
 void func_8004DCC4();
