@@ -1131,7 +1131,68 @@ void func_80025B54(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80025B8C);
+extern s16 D_800B5CD8;
+extern s16 D_800B5EA4;
+extern s16 D_800B5D5C;
+extern s16 D_800B62F4;
+extern s16 D_800B6694;
+extern s16 D_800B644C;
+extern s16 D_800B5728;
+extern s16 D_800B6504;
+extern Unk800B5F34 *D_800B5F34;
+extern Unk800B5F34 D_80091708[];
+extern struct Task *D_800B604C;
+extern char D_800B568C[];
+extern u8 D_800B56D0[];
+extern u8 D_800B56D8[];
+void func_80024B5C(void);
+extern void func_800266C8(void);
+void func_80068DFC(void);
+extern char *func_80077DC8(char *);
+extern void func_800758C0(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
+extern void func_8007633C(s32 x, s32 y, s32 value, s32 a3, s32 a4, u8 *a5, u8 *a6);
+s32 func_8002881C(s32 value, s32 target, s32 step);
+void func_80072A40(s16 mask);
+void func_80026710(s32 mask);
+extern void func_800279E4(s16 arg0);
+void func_80026158(void);
+void func_8004FFE4(s16 a);
+struct Task *func_80072374(void (*fn)(), s16 size);
+void func_80072DC8(struct Task *task);
+void func_80065A84(void);
+void func_8001F39C(void);
+void func_80025158(void);
+
+void func_80025B8C(void) {
+    DrawSync(0);
+    VSync(0);
+    func_80024B5C();
+    func_800266C8();
+    func_80068DFC();
+    func_800758C0(160, 120, func_80077DC8(D_800B568C), 0x800, 0x400, D_800B56D0, D_800B56D8);
+    func_8007633C(160, 160, 100 - D_800B5CD8 / 10, 0x800, 0x400, D_800B56D0, D_800B56D8);
+    D_800B5CD8 = func_8002881C(D_800B5CD8, 1000, 2);
+    if (D_800B5CD8 < D_800B5EA4 * 10) {
+        D_800B5CD8 = func_8002881C(D_800B5CD8, D_800B5EA4 * 10, 20);
+    }
+    if (D_800B5D5C == 6 && D_800B5CD8 == 1000) {
+        func_80072A40(20);
+        D_800B62F4 = 0;
+        DrawSync(0);
+        func_80026710(10);
+        D_800B6694 = 0;
+        func_800279E4(320);
+        D_800B644C = 0x100;
+        D_800B5728 = 0;
+        func_80026158();
+        func_8004FFE4(D_800B6504);
+        D_800B5F34 = D_80091708;
+        func_80072DC8(func_80072374(func_80065A84, 0x58));
+        func_8001F39C();
+        func_80026710(10);
+        D_800B604C->func = func_80025158;
+    }
+}
 
 extern s16 D_800B6504;
 extern s16 D_800B5D5C;
