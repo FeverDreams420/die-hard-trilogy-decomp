@@ -9519,7 +9519,79 @@ s32 func_800562F8(Unk800562F8 *a, Unk800562F8 *b) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005648C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800564EC);
+typedef struct Unk800564EC_Node {
+    s32 key;
+    struct Unk800564EC_Node *next;
+} Unk800564EC_Node;
+
+typedef struct {
+    Unk800564EC_Node *head;
+    s32 pad;
+} Unk800564EC_Bucket;
+
+typedef struct {
+    u8 pad0[2];
+    s16 unk2;
+    u8 pad4[0x20];
+    Unk800564EC_Bucket b[31];
+} Unk800564EC_Grid;
+
+extern void *D_800B6144;
+extern s16 D_800B64E4;
+
+s16 func_800564EC(s16 id, void *p) {
+    Unk800564EC_Grid *g = (Unk800564EC_Grid *)D_801F80DC->vals;
+    Unk800564EC_Node *n;
+    s16 hit = 0;
+    u16 i = 0;
+    u16 r;
+    s16 row;
+    s32 last;
+
+    if (id < 0) {
+        return 0;
+    }
+    row = id >> 7;
+    if (D_800B613C == 7) {
+        row = 10;
+    }
+    D_800B64E4 = 0;
+    D_800B6144 = NULL;
+    if (row > 26) {
+        row = 26;
+    }
+    last = row + 4;
+    if (last > 30) {
+        last = 30;
+    }
+    if (row < 4) {
+        n = g->b[0].head;
+    } else {
+        n = g->b[row - 4].head;
+    }
+    while (i++ < 100) {
+        if (n->key == 0) {
+            if (g->unk2 != 0) {
+                r = func_800562F8((Unk800562F8 *)n, p);
+            } else {
+                r = func_800562F8(p, (Unk800562F8 *)n);
+            }
+            if (r != 0) {
+                hit = r;
+            }
+        }
+        n = n->next;
+        if (n->key > last) {
+            break;
+        }
+    }
+    if (i < 100) {
+        ((Unk800564EC_Node *)p)->next = g->b[row].head;
+        ((Unk800564EC_Node *)p)->key = 0;
+        g->b[row].head = p;
+        return hit;
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80056690);
 
