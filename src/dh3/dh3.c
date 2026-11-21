@@ -2414,7 +2414,44 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002B08C);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002B3BC);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002B404);
+void func_8002B404(s16 y, s16 value) {
+    TILE *t = D_800B63AC;
+    TILE *p = t;
+
+    if ((u8 *)t - D_800B6334 > 0xD7CFU) {
+        return;
+    }
+    t->x0 = (value * 120) / 256 + 80;
+    t->y0 = y - 1;
+    t->w = 2;
+    t->h = 14;
+    t->r0 = 0xFF;
+    t->g0 = 0xFF;
+    t->b0 = 0xFF;
+    SetTile(t);
+    t++;
+    AddPrim(D_800B62CC, p);
+    t->x0 = 110;
+    t->y0 = y;
+    t->w = 60;
+    t->h = 12;
+    t->r0 = 0;
+    t->g0 = 0xFF;
+    t->b0 = 0;
+    SetTile(t);
+    AddPrim(D_800B62CC, t++);
+    t->x0 = 80;
+    t->y0 = y;
+    t->w = 120;
+    t->h = 12;
+    t->r0 = 0xFF;
+    t->g0 = 0;
+    t->b0 = 0;
+    SetTile(t);
+    AddPrim(D_800B62CC, t++);
+    D_800B63AC = t;
+    func_8007633C(0xD6, y + 6, value, 0x400, 0x200, D_800B56D0, D_800B56D4);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002B5A8);
 
