@@ -8255,7 +8255,52 @@ void func_8004D554(void) {
     D_800B604C->func = func_8004D2D0;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004D70C);
+void func_8004D70C(void) {
+    Unk8004D9A4 *p = (Unk8004D9A4 *)D_800B604C->vals;
+    s32 d = func_80028A48(&D_800B659C->pos, &p->pos);
+    s16 ang = -func_80028648(&D_800B659C->pos, &p->pos);
+    VECTOR tmp;
+
+    p->unk80.vx = ((D_80094174[ang & 0xFFF] * 0x800) >> 12) + p->pos.vx;
+    p->unk80.vz = ((D_80094174[(ang + 0x400) & 0xFFF] * 0x800) >> 12) + p->pos.vz;
+    p->unk80.vy = (s16)func_80028BF0(&p->unk80);
+    p->unk90.vx = p->pos.vx - ((D_80094174[ang & 0xFFF] * 0x800) >> 12);
+    p->unk90.vz = p->pos.vz - ((D_80094174[(ang + 0x400) & 0xFFF] * 0x800) >> 12);
+    p->unk90.vy = (s16)func_80028BF0(&p->unk90);
+    func_8004CBB0(&p->pos);
+    D_800B5DE4 = 0;
+    D_800B5DEC = 0;
+    if (func_800210B8(D_801FAB78[p->unk8], &p->pos, &p->unk20)) {
+        func_80021AFC(p);
+    } else if ((s16)d > 0x1000) {
+        func_8004DCC4(p->unk124);
+        D_800B604C->func = func_80054D3C;
+        return;
+    }
+    if (func_80028A48(&D_800B659C->pos, &p->unk80) < 0x200) {
+        tmp.vx = p->unk80.vx;
+        tmp.vy = p->unk80.vy;
+        tmp.vz = p->unk80.vz;
+        p->unk80.vx = p->unk90.vx;
+        p->unk80.vy = p->unk90.vy;
+        p->unk80.vz = p->unk90.vz;
+        p->unk90.vx = tmp.vx;
+        p->unk90.vy = tmp.vy;
+        p->unk90.vz = tmp.vz;
+        p->unk22 = -ang + 0x800;
+        func_8004D4A4(&p->pos);
+        p->unk194 = 0;
+    } else {
+        if (func_80028A48(&D_800B659C->pos, &p->unk90) >= 0x200) {
+            return;
+        }
+        func_8004D4A4(&p->pos);
+        p->unk22 = -ang + 0x800;
+        p->unk194 = 0;
+    }
+    func_8006DE04(0x124F8);
+    D_800B604C->func = func_8004D2D0;
+}
 
 
 void func_8004D70C(void);
