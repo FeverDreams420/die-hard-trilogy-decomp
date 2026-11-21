@@ -6171,7 +6171,9 @@ s16 D_800B6570 = 0;
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6572);
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6574);
+s16 D_800B6574 = 0;
+
+INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6576);
 extern s32 D_800B63B0;
 extern char D_8008839C[];
 extern char D_800B64D8[];
@@ -6479,7 +6481,118 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046E68);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80046FE0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800471B4);
+typedef struct {
+    u8 pad0[0x1C];
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+    u8 pad22[0x288 - 0x22];
+    u8 unk288;
+} Unk800471B4_Obj;
+
+typedef struct {
+    u8 pad0[0x1C];
+    s32 unk1C;
+    s32 unk20;
+    u8 pad24[0x10];
+    s16 unk34;
+    s16 unk36;
+    u16 unk38;
+    struct Task *tasks[8];
+    s32 ids[8];
+    u8 pad7C[0x100];
+    s32 unk17C[8];
+    u8 pad19C[0x390 - 0x19C];
+    s16 unk390;
+    s16 unk392;
+} Unk800471B4;
+
+extern s16 D_800B6574;
+extern s16 D_800B6B70;
+extern s16 D_800B6C80;
+extern s16 D_800B639E;
+extern void *D_800B7268;
+extern s32 D_800B6E50;
+
+void func_800471B4(void) {
+    Unk8002A35C b;
+    Unk8002A35C a;
+    Unk800471B4 *p;
+    Unk800471B4_Obj *obj;
+    struct Task *t;
+    s16 id;
+    s16 best;
+    s16 found;
+    s16 i;
+    s16 d;
+    s16 flag;
+    s16 step;
+
+    id = 0;
+    best = 0x7FFF;
+    found = 0;
+    if ((u32)D_801F7548 >= 8) {
+        p = (Unk800471B4 *)D_801F7548->vals;
+        if (D_800B6B70 == 4) {
+            a.x = p->unk390;
+            a.z = p->unk392;
+        } else {
+            a.x = p->unk1C >> 8;
+            a.z = p->unk20 >> 8;
+        }
+        if (D_800B6C80 != 0) {
+            p->unk34 = func_80025570(p->unk34, 0x100, D_800B6574 * D_800B639E);
+            return;
+        }
+        i = p->unk38;
+        while (i--) {
+            t = p->tasks[i];
+            if (t->id == p->ids[i]) {
+                D_800B7268 = t->vals;
+                D_800B6E50 = p->unk17C[i];
+                obj = (Unk800471B4_Obj *)p->tasks[i]->vals;
+                if (obj->unk288 == 2 && found == 0) {
+                    found = -1;
+                    best = 0x7FFF;
+                }
+                if (found == 0 || obj->unk288 == 2) {
+                    b.x = obj->unk1C;
+                    b.z = obj->unk1E;
+                    d = func_80077398(&a, &b);
+                    if (d < best) {
+                        best = d;
+                        id = obj->unk20;
+                    }
+                }
+            }
+        }
+        b.x = p->unk1C >> 8;
+        b.z = p->unk20 >> 8;
+        if (best < 0x40) {
+            flag = -1;
+            step = (0x40 - best) / 8;
+        } else if (best < 0x80) {
+            flag = 0;
+            step = (best - 0x40) / 4;
+        } else {
+            flag = 0;
+            step = 0x10;
+        }
+        D_800B6574 = func_80025570(D_800B6574, step, 4);
+        if (flag) {
+            if (id > 5000) {
+                id = 5000;
+            }
+            id = (id << 10) / 5000;
+            if (id < 0x100) {
+                id = 0x100;
+            }
+            p->unk34 = func_80025570(p->unk34, id, D_800B6574 * D_800B639E);
+        } else {
+            p->unk34 = func_80025570(p->unk34, 0x100, D_800B6574 * D_800B639E);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800474F0);
 
