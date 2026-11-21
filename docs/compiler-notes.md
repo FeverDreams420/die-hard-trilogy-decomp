@@ -389,6 +389,12 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `addiu` of a field offset in a register that is used for one store after a branch | A local pointer to an embedded struct (`s = &obj->a.sub; ... s->type = k;`); its uses in the first block fold into the base register (DH1 0x800358F0) |
 | An 8-byte `lwl`/`lwr` copy from a `.sdata` item that another function also reads | A struct assignment from a global (`Tbl tbl = D_800A2A88;`), not a local array initializer (DH1 0x800358F0) |
 | Original serialises a run of index loads through one register (`lw a0` ... `lw a0`) | One local reused for every load (`idx = f->v[0]; f->v[0] = &verts[idx]; idx = f->v[1]; ...`; DH2 0x8007608C) |
+| An absolute value computed in `v0` (`mfhi v0; bgez; negu v0,v0`) where an `if (r < 0) r = -r;` copies it to another register first | Write it as `?:` inside the expression: `r = x % 6; return (r < 0 ? -r : r) + 10;` (DH3 0x800672F8, 0x8003ABF0) |
+| `(g + 1)` kept as its own `addiu` before adding a call result, where GCC otherwise gives `(f() + g) + 1` | Cast the inner sum: `g = f() + (s16)(g + 1);` blocks the reassociation (DH3 0x800672F8) |
+| A value set in a register in both arms of an `if` and used by a call after the join | Both arms ended with the same call in the source; cross-jumping merged the identical tails (`o->x = d * 180; f(o, d); o->y = 0;` and the same with 260; DH3 0x8002A1D0) |
+| `lh` kept for a `s16` global shifted left and added to a field, where `g << 5` gives `lhu` | Write the scale as a product: `o->f += g * 32;` (DH3 0x80064CD8) |
+| A call argument taken from the register just stored to a global instead of reloading the global | A local holds the value: `x = tbl[i]; G = x; f(o, o->f, x);` (DH2 0x80051048) |
+| A volatile counter read back after its increment and the value unused | Normal for `volatile`: `D_800A31F4++;` stores then reloads (DH1 0x8001FE30) |
 
 ## PsyQ library settings
 
