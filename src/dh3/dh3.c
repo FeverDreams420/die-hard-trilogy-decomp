@@ -9661,7 +9661,8 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005ECD0);
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B58FC);
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5904);
+s16 D_800B5904 = 0;
+s16 D_800B5906 = 0x1000;
 
 typedef struct {
     u8 pad0[4];
@@ -9740,7 +9741,9 @@ typedef struct {
     s16 unk6;
 } Unk8005F790;
 
-void func_8005F790(Unk8005F790 *p) {
+void func_8005F790(p)
+Unk8005F790 *p;
+{
     if (p != (Unk8005F790 *)-1) {
         p->unk6 = (p->unk0 + p->unk2) & 3;
     }
@@ -9755,7 +9758,51 @@ s16 func_8005F7BC(SVECTOR *v) {
     return func_80028AF8(v);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005F7EC);
+typedef struct {
+    SVECTOR *v[4];
+    u8 pad10[4];
+    s32 unk14;
+    s32 unk18;
+} Unk8005F7EC_Prim;
+
+typedef struct {
+    u8 pad0[8];
+    Unk8005F7EC_Prim prims[1];
+} Unk8005F7EC;
+
+extern s16 D_800B5904;
+extern s16 D_800B5906;
+
+#define DEPTH_RANGE(vp)                 \
+    n = func_8005F7BC(vp);              \
+    if (n != -1) {                      \
+        if (n < D_800B5906) {           \
+            D_800B5906 = n;             \
+        }                               \
+        if (D_800B5904 < n) {           \
+            D_800B5904 = n;             \
+        }                               \
+    }
+
+void func_8005F7EC(Unk8005F7EC *m) {
+    Unk8005F7EC_Prim *p;
+    s16 n;
+
+    D_800B5904 = 0;
+    D_800B5906 = 0x1000;
+    for (p = m->prims; p->unk14 != 0; p++) {
+        DEPTH_RANGE(p->v[0]);
+        DEPTH_RANGE(p->v[1]);
+        DEPTH_RANGE(p->v[2]);
+        DEPTH_RANGE(p->v[3]);
+    }
+    for (p = m->prims; p->unk14 != 0; p++) {
+        func_8005F790(p->v[0], D_800B5904, D_800B5906);
+        func_8005F790(p->v[1], D_800B5904, D_800B5906);
+        func_8005F790(p->v[2], D_800B5904, D_800B5906);
+        func_8005F790(p->v[3], D_800B5904, D_800B5906);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005FA0C);
 
