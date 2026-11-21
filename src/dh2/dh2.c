@@ -9247,7 +9247,51 @@ INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6658);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005B9F0);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005BE40);
+typedef struct {
+    u8 pad0[0x40];
+    u8 unk40[0x14A];
+    s16 unk18A;
+    u8 pad18C[0x10];
+    s16 unk19C;
+} Unk8005BE40_Obj;
+
+typedef struct {
+    u8 pad0[0x36A];
+    s16 unk36A;
+} Unk8005BE40_Owner;
+
+void func_80048B34(void *p, s16 a, s16 b, s32 c, s32 d);
+
+void func_8005BE40(void) {
+    Unk8005BE40_Obj *o;
+    Unk8005BE40_Owner *w;
+    SVECTOR unused;
+    SVECTOR v;
+    s16 a;
+    s16 b;
+    s16 c;
+
+    o = (Unk8005BE40_Obj *)D_800B6DE0->vals;
+    if ((u32)D_801F7548 < 8) {
+        return;
+    }
+    w = (Unk8005BE40_Owner *)D_801F7548->vals;
+    a = func_80072734(2000, 0x1068, o->unk18A);
+    b = func_80072734(2000, 0x1068, o->unk18A);
+    c = v.vx + func_80072734(2000, 0x1068, o->unk18A);
+    if (o->unk19C == -1) {
+        func_80048B34(o, a, b, c, 2);
+    }
+    o->unk18A += D_800B639E * 100;
+    func_800589F4((Unk80058DC4 *)o, a, 1);
+    func_8005B9F0((Unk80059394 *)o->unk40);
+    if (o->unk18A > 0x1000) {
+        if (o->unk19C == -1) {
+            w->unk36A--;
+        }
+        func_8007345C();
+    }
+}
 
 typedef struct {
     u8 pad0[6];
@@ -10017,7 +10061,7 @@ typedef struct {
 } Unk800621F0;
 
 extern s16 D_800B639E;
-void func_80048B34(Unk800621F0 *p, s16 a, s16 b, s32 c, s32 d);
+void func_80048B34(void *p, s16 a, s16 b, s32 c, s32 d);
 extern void func_8007345C(void);
 
 void func_800620F8(void) {
