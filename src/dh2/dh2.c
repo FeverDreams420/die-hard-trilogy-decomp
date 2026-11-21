@@ -11165,7 +11165,53 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80063004);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800631EC);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800634FC);
+typedef struct {
+    u8 c[3];
+} Color3;
+
+typedef struct {
+    u8 pad0[0x2A];
+    s16 value;
+    u8 pad2C[0x1C];
+    s16 unk48;
+    s16 size;
+} Unk800634FC;
+
+extern Color4 D_800B66F4;
+extern Color4 D_800B66F8;
+extern Color3 D_800B66FC;
+extern char D_800B6700[];
+
+void func_800634FC(Unk800634FC *p) {
+    Color4 top = D_800B66F4;
+    Color4 bottom = D_800B66F8;
+    Color3 unused = D_800B66FC;
+    s32 w;
+    s32 h;
+
+    if (p->size < 0x100) {
+        p->size += D_800B639E * 32;
+        if (p->size >= 0x100) {
+            func_80065C10(0x27);
+            top.c[0] = 0xFF;
+            top.c[1] = 0xFF;
+            top.c[2] = 0xFF;
+            bottom.c[0] = 0xFF;
+            bottom.c[1] = 0xFF;
+            bottom.c[2] = 0xFF;
+        }
+    } else {
+        p->unk48 = 0x100;
+    }
+    w = 0x200000 / p->size;
+    h = 0xAF000 / p->size;
+    func_80076EF4(0xA0, 0x7F, p->value, w, h, top.c, bottom.c);
+    if (p->value == 100) {
+        func_80076478(0x118, 0x7F, D_800B6700, w / 3, h / 2, top.c, bottom.c);
+    } else {
+        func_80076478(0x104, 0x7F, D_800B6700, w / 3, h / 2, top.c, bottom.c);
+    }
+}
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B66FC);
 
