@@ -12,6 +12,10 @@ typedef struct {
 typedef struct {
     s16 vx, vy, vz, pad;
 } SVECTOR;
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} DR_MODE;
 
 typedef struct {
     s32 unk0;
@@ -9789,7 +9793,55 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005A520);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005A7A4);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005A9C4);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 w, h;
+} SPRT;
+
+typedef struct {
+    u8 pad0[8];
+    u16 unk8;
+} Unk8005A9C4;
+
+extern struct Task *volatile D_801F80E0;
+extern s16 D_800B618C;
+extern void SetSprt(SPRT *p);
+extern void SetDrawMode(DR_MODE *p, s32 dfe, s32 dtd, s32 tpage, void *tw);
+
+void func_8005A9C4(s16 tex, s32 n) {
+    SPRT *s = D_800B63AC;
+    Unk8005A9C4 *o;
+
+    if (D_801F80E0 == NULL) {
+        return;
+    }
+    o = (Unk8005A9C4 *)D_801F80E0->vals;
+    if (n == 0) {
+        return;
+    }
+    if (D_800B6614->unk178A != 0) {
+        s->y0 = 0xC0;
+    } else {
+        s->y0 = 0xC8;
+    }
+    s->x0 = (n << 11) / D_8018C990[D_800B618C] - o->unk8;
+    s->clut = D_8018CDD4[tex].clut;
+    s->w = 0x20;
+    s->h = 0x20;
+    s->u0 = D_8018CDD4[tex].u0;
+    s->v0 = D_8018CDD4[tex].v0;
+    SetSprt(s);
+    SetShadeTex(s, 1);
+    AddPrim(D_800B62CC + 1, s);
+    s++;
+    SetDrawMode((DR_MODE *)s, 1, 1, D_8018CDD4[tex].tpage0, NULL);
+    AddPrim(D_800B62CC + 1, s);
+    D_800B63AC = (DR_MODE *)s + 1;
+}
 
 void func_8005AB64(void) {
     u8 unused[24];
@@ -11563,11 +11615,6 @@ INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_80086FC4);
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_80086FD8);
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_80086FEC);
-
-typedef struct {
-    u32 tag;
-    u32 code[2];
-} DR_MODE;
 
 extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
 extern void SetDrawMode(DR_MODE *p, s32 dfe, s32 dtd, s32 tpage, void *tw);
