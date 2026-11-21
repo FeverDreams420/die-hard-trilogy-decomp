@@ -8002,7 +8002,73 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", jtbl_80088684);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800886B4);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80051048);
+typedef struct {
+    u16 a[32];
+    u16 b[64];
+} Unk80051048_Row;
+
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+} Unk80094CAC;
+
+typedef struct {
+    u8 pad0[0x40];
+    s32 unk40;
+    u8 pad44[0x1C4];
+    s16 unk208;
+    s16 unk20A;
+    u16 unk20C;
+    s16 unk20E;
+    s16 unk210;
+    u16 unk212;
+    u16 unk214;
+    u8 pad216[8];
+    u16 unk21E;
+    u8 pad220[0x42];
+    u8 unk262;
+    u8 unk263;
+    u8 unk264;
+} Unk80051048_Obj;
+
+extern u16 D_800B6D90;
+extern Unk80094CAC D_80094CAC[];
+s16 func_8004FDC4(Unk80051048_Obj *o, s16 a, s16 b);
+
+void func_80051048() {
+    Unk80051048_Obj *o;
+    s16 i;
+    s16 r;
+    s16 x;
+
+    o = (Unk80051048_Obj *)D_800B6DE0->vals;
+    i = 0;
+    if (D_801F7548 == NULL) {
+        return;
+    }
+    do {
+        if (++i > 32) {
+            return;
+        }
+        o->unk20E = ((Unk80051048_Row *)D_800B7100)[o->unk208].a[o->unk20A];
+        x = ((Unk80051048_Row *)D_800B7100)[o->unk208].b[o->unk20A];
+        D_800B6D90 = x;
+        r = func_8004FDC4(o, o->unk20E, x);
+        o->unk20C = D_800B6D90;
+    } while (r);
+    o->unk21E = D_800B6D90;
+    o->unk40 = 0;
+    o->unk210 = D_80094CAC[o->unk20E].unk4;
+    o->unk212 = D_80094CAC[o->unk20E].unk0;
+    o->unk214 = D_80094CAC[o->unk20E].unk2;
+    o->unk262 = 0;
+    o->unk263 = 0;
+    o->unk264 = 0;
+    if (o->unk210 == 0) {
+        o->unk210 = 1;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800511BC);
 
