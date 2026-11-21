@@ -383,6 +383,12 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A global read again for its last uses although a copy was taken earlier | Use the global directly there; a local that only copies a global can be replaced by the memory read (DH1 0x8001F37C) |
 | `sll 7`/`sra 13` kept instead of one `sra 6` | GCC drops the pair when it knows the value is sign-extended; `x -= k; ABS(x) << 7 >> 13` on an `s32 x = (s16)z` keeps it (DH3 0x8002D98C) |
 | `$gp` stores to a small global and `lui`/`addiu` for its address in one function | Normal: ASPSX expands `la` to `lui`/`addiu` even for `.sdata` (DH3 0x80027794 `SVECTOR D_800B5588`) |
+| `lh` then `sra 5` from the sine table, where `s >> 5` gives `lhu`, `sll 16`, `sra 21` | Write the scale as a fixed-point product: `x -= (s * 128) >> 12` (DH1 0x800358F0) |
+| `lui`/`lw %lo(sym)` and `lui at`/`sw %lo(sym)` for a read-modify-write of a global that was declared an array | Declare it a scalar; `D_800B6FEC[0] \|= m` keeps the address in a register (DH2 0x8006DE18). The array form is right only for loads that must stay below struct-field stores |
+| A global load kept below a store through a pointer although it reads a different symbol | The global is an element of an array (`D_801D70F0[59]`, not `D_801D71DC`), so it counts as possibly aliasing (DH1 0x800358F0) |
+| `addiu` of a field offset in a register that is used for one store after a branch | A local pointer to an embedded struct (`s = &obj->a.sub; ... s->type = k;`); its uses in the first block fold into the base register (DH1 0x800358F0) |
+| An 8-byte `lwl`/`lwr` copy from a `.sdata` item that another function also reads | A struct assignment from a global (`Tbl tbl = D_800A2A88;`), not a local array initializer (DH1 0x800358F0) |
+| Original serialises a run of index loads through one register (`lw a0` ... `lw a0`) | One local reused for every load (`idx = f->v[0]; f->v[0] = &verts[idx]; idx = f->v[1]; ...`; DH2 0x8007608C) |
 
 ## PsyQ library settings
 
