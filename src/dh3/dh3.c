@@ -11963,7 +11963,44 @@ void func_80067394(void *p, s16 arg) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067470);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 padA;
+    u32 unkC;
+    u8 pad10[6];
+    s16 unk16;
+    u8 pad18[0x10];
+} Unk801DA6D0;
+
+extern Unk801DA6D0 D_801DA6D0[];
+extern s16 D_800B5D34;
+
+void func_80067470(s16 voice) {
+    Unk801DA6D0 *e = &D_801DA6D0[voice];
+    s16 d;
+    s16 v;
+    s16 l;
+    s16 r;
+
+    if (D_800B659C->unk196 != 0) {
+        d = func_80028A48(&D_800B659C->pos, &D_801981F4);
+        if (d > 0x2000) {
+            return;
+        }
+        D_800B5D34 = (D_80094174[((u16)D_800B6126 + func_80028648(&D_800B659C->pos, &D_801981F4)) & 0xFFF] + 0x1000) >> 1;
+        v = func_80071B7C(e->unk4, 0, d / 2);
+        l = (v * D_800B5D34) >> 12;
+        r = (v * (0x1000 - D_800B5D34)) >> 12;
+    } else {
+        l = (e->unk4 * (u16)e->unk0) >> 12;
+        r = (e->unk4 * (0x1000 - (u16)e->unk0)) >> 12;
+    }
+    func_80066B58(l, r, voice);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800675D8);
 
@@ -12016,19 +12053,6 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B59D0);
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B59D8);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80067CA8);
-
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 padA;
-    u32 unkC;
-    u8 pad10[6];
-    s16 unk16;
-    u8 pad18[0x10];
-} Unk801DA6D0;
 
 extern Unk801DA6D0 D_801DA6D0[];
 void func_80068BD4(s16);
