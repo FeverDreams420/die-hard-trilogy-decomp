@@ -6833,7 +6833,62 @@ void *obj;
 
 
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004816C);
+typedef struct {
+    u8 pad0[0x10];
+    u16 tile;
+    u16 code;
+} Unk8004816C_Cell;
+
+typedef struct {
+    u8 pad0[2];
+    u16 cur;
+    u8 pad4[2];
+    u16 base;
+} Unk8004816C_Anim;
+
+extern u16 D_800BD63C;
+extern u16 D_800BD640;
+extern Unk8004816C_Cell *D_800BD648;
+extern Unk8004816C_Anim *D_800BD650;
+
+void func_8004816C(void) {
+    Unk8004816C_Cell *c;
+    Unk8004816C_Anim *a;
+    s16 n;
+    u32 t;
+    u32 k;
+
+    n = D_800BD63C;
+    c = D_800BD648;
+    while (n--) {
+        t = c->tile / 60U;
+        k = t >> 6;
+        if (k >= 4 && k < 8) {
+            c->tile = (t & ~0x20) * 60;
+        } else if (k >= 8 && k < 10) {
+            c->tile = (t & ~0x30) * 60;
+        }
+        if ((c->code & 0x7F) == 0x20) {
+            c->code = (c->code & 0xFF80) + 0x1F;
+        }
+        if ((c->code & 0x7F) == 0x21) {
+            c->code = (c->code & 0xFF80) + 0x1F;
+        }
+        if ((c->code & 0x7F) == 0x23) {
+            c->code = (c->code & 0xFF80) + 0x22;
+        }
+        if ((c->code & 0x7F) == 0x25) {
+            c->code = (c->code & 0xFF80) + 0x24;
+        }
+        c++;
+    }
+    n = D_800BD640;
+    a = D_800BD650;
+    while (n--) {
+        a->cur = a->base;
+        a++;
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800482BC);
 
