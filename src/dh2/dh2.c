@@ -6106,9 +6106,10 @@ void func_80044844(void) {
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_8008839C);
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B656E);
+s16 D_800B656E = -1;
+s16 D_800B6570 = 0;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6570);
+INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6572);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6574);
 extern s32 D_800B63B0;
@@ -6133,13 +6134,73 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80044E08);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", jtbl_800883C4);
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800883E4);
+typedef struct {
+    u16 r[32];
+    u16 g[32];
+    u16 b[32];
+} Unk800451F4_Pal;
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800883F0);
+typedef struct {
+    u8 pad0[0xC];
+    s16 unkC;
+} Unk800451F4;
 
-INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_800883FC);
+extern u8 *D_800B7100;
+extern Unk800451F4_Pal D_800BD9B4;
+extern Unk800451F4_Pal D_801F9BEC;
+extern u8 D_800B63E4[];
+extern u8 D_800B63E8[];
+extern u16 D_8009B476;
+extern s16 D_800B6570;
+extern void func_80076478(s32 x, s32 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800451F4);
+s32 func_800451F4(void) {
+    Unk800451F4 *d = (Unk800451F4 *)D_801F7550->vals;
+    Unk800451F4_Pal *pal = (Unk800451F4_Pal *)(D_800B7100 + d->unkC * 192);
+    s16 i;
+
+    if (D_8009B476 & *(volatile s32 *)&D_800B6D64) {
+        func_80076478(0x100, 0x50, "A TO COPY", 0x708, 0x1F4, D_800B63E8, D_800B63E4);
+        if (D_800B656E == d->unkC) {
+            func_80076478(0x100, 0x61, "X TO UNDO", 0x708, 0x1F4, D_800B63E8, D_800B63E4);
+        } else {
+            func_80076478(0x100, 0x61, "X TO PASTE", 0x708, 0x1F4, D_800B63E8, D_800B63E4);
+        }
+        if (D_8009B46C & *(volatile s32 *)D_800B6FEC) {
+            i = 31;
+            do {
+                D_800BD9B4.r[i] = pal->r[i];
+                D_800BD9B4.g[i] = pal->g[i];
+                D_800BD9B4.b[i] = pal->b[i];
+            } while (i--);
+            D_800B6570 = 0;
+            return -1;
+        }
+        if (D_8009B470 & *(volatile s32 *)D_800B6FEC) {
+            i = 31;
+            if (D_800B656E == d->unkC) {
+                do {
+                    pal->r[i] = D_801F9BEC.r[i];
+                    pal->g[i] = D_801F9BEC.g[i];
+                    pal->b[i] = D_801F9BEC.b[i];
+                    D_800B656E = -1;
+                } while (i--);
+            } else {
+                do {
+                    D_801F9BEC.r[i] = pal->r[i];
+                    D_801F9BEC.g[i] = pal->g[i];
+                    D_801F9BEC.b[i] = pal->b[i];
+                    pal->r[i] = D_800BD9B4.r[i];
+                    pal->g[i] = D_800BD9B4.g[i];
+                    pal->b[i] = D_800BD9B4.b[i];
+                    D_800B656E = d->unkC;
+                } while (i--);
+            }
+        }
+        return -1;
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800454AC);
 
