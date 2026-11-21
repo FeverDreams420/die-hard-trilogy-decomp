@@ -8593,7 +8593,47 @@ void func_80052D94(Unk80052CD8 *p) {
     func_80059118(&D_800B73F8, p->type, 1, D_800B6DE0);
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80052E50);
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[0xB];
+    u8 unk13;
+    u8 pad14[0x20];
+    SVECTOR rot;
+    u8 pad3C[3];
+    u8 unk3F;
+    u8 pad40[0x1A4];
+    SVECTOR ofs;
+    u8 pad1EC[0x5A];
+    s16 unk246;
+} Unk80052E50;
+
+void func_8005C678(SVECTOR *a, SVECTOR *b, s32 c, struct Task *d);
+
+void func_80052E50(Unk80052E50 *o) {
+    if (o->unk3F != 0) {
+        func_80027898(&D_800B6C98, &D_801F9644);
+        ApplyMatrix(&D_801F9644, &D_800B7398->unk38, &D_801F6C7C);
+        D_800B73F8.vx = D_801F6C7C.vx + o->pos.vx;
+        D_800B73F8.vy = D_801F6C7C.vy + o->pos.vy;
+        D_800B73F8.vz = D_801F6C7C.vz + o->pos.vz;
+    } else {
+        func_80024F70(&o->rot, &o->ofs, &o->pos, &D_800B73F8);
+    }
+    if (o->unk246 != 1) {
+        D_800B7408.vx = D_800B6E00.vx;
+        D_800B7408.vy = D_800B6E00.vy;
+        D_800B7408.vz = D_800B6E00.vz;
+        if ((s16)func_800754C8(2)) {
+            D_800B7408.vx += o->unk246 * 32;
+        } else {
+            D_800B7408.vx -= o->unk246 * 32;
+        }
+        D_800B7408.vy += 0x80 - func_800754C8(0x100);
+        func_8005C678(&D_800B73F8, &D_800B7408, 0, NULL);
+    } else {
+        func_8005C678(&D_800B73F8, &D_800B6E00, o->unk13, D_800B6DE0);
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053014);
 
