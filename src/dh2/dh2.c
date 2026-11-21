@@ -182,6 +182,32 @@ typedef struct {
 } RECT;
 
 typedef struct {
+    u32 tag;
+    u32 code[15];
+} DR_ENV;
+
+typedef struct {
+    RECT clip;
+    s16 ofs[2];
+    RECT tw;
+    u16 tpage;
+    u8 dtd;
+    u8 dfe;
+    u8 isbg;
+    u8 r0, g0, b0;
+    DR_ENV dr_env;
+} DRAWENV;
+
+typedef struct {
+    RECT disp;
+    RECT screen;
+    u8 isinter;
+    u8 isrgb24;
+    u8 pad0;
+    u8 pad1;
+} DISPENV;
+
+typedef struct {
     char text[32];
     u8 r, g, b, pad;
     s32 time;
@@ -6807,7 +6833,7 @@ typedef struct {
 extern s16 D_800B71C0;
 extern u8 D_8009348C[];
 extern u8 *D_800B61FC;
-extern s16 D_800B73D8;
+extern volatile s16 D_800B73D8;
 extern s16 D_800B6E98;
 extern s16 D_800B6B88;
 extern s16 D_800B70F0;
@@ -12651,7 +12677,60 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006CB88);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006CD80);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006D640);
+typedef struct {
+    s16 buf;
+    s16 env;
+    u8 pad4[0xC];
+} Unk800B61FC;
+
+typedef struct {
+    DRAWENV draw;
+    DISPENV disp;
+} Unk801F9884;
+
+extern Unk801F9884 D_801F9884[];
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+extern void DrawOTag(u32 *ot);
+extern u32 *ClearOTagR(u32 *ot, s32 n);
+extern int VSync(int mode);
+extern s16 D_800B73C0;
+extern s32 D_800B63A8;
+void func_80074AE4(void);
+
+void func_8006D640(void) {
+    s16 buf;
+    s16 i;
+    s16 idx;
+    u8 unused[8];
+
+    D_800B61FC = D_8009348C;
+    func_800665B4();
+    func_80074AE4();
+    idx = D_800B73D8;
+    D_800B73D8 = D_800B73D8 + 1;
+    buf = ((Unk800B61FC *)D_800B61FC)[idx].buf;
+    if (((Unk800B61FC *)D_800B61FC)[D_800B73D8].buf == -1) {
+        D_800B73D8 = 0;
+    }
+    if (buf != ((Unk800B61FC *)D_800B61FC)[D_800B73D8].buf) {
+        D_800B7400 = buf;
+        if (D_800B6F80 != (s16)D_800B7400) {
+            i = 3;
+            do {
+                VSync(0);
+                if (D_800B6F80 == (s16)D_800B7400) {
+                    break;
+                }
+            } while (i--);
+        }
+    }
+    PutDrawEnv(&D_801F9884[((Unk800B61FC *)D_800B61FC)[D_800B73D8].env].draw);
+    DrawOTag(D_800B7018 + 0x3FF);
+    D_800B73C0 = (D_800B73C0 + 1) & 1;
+    D_800B63A8++;
+    DrawSync(0);
+    ClearOTagR(D_800B7018, 10);
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006D80C);
 
@@ -13554,7 +13633,7 @@ void func_800720E4(void) {
 extern char D_800939D8[];
 extern u16 D_8009B47E;
 extern u16 D_8009B470;
-extern s16 D_800B73D8;
+extern volatile s16 D_800B73D8;
 extern s16 D_800B72A0;
 extern void func_80024124(void);
 
@@ -15138,32 +15217,6 @@ void func_80073CF0(void) {
     D_800B6D30 = 0;
     D_800B6DE0->func = func_80073F3C;
 }
-
-typedef struct {
-    u32 tag;
-    u32 code[15];
-} DR_ENV;
-
-typedef struct {
-    RECT clip;
-    s16 ofs[2];
-    RECT tw;
-    u16 tpage;
-    u8 dtd;
-    u8 dfe;
-    u8 isbg;
-    u8 r0, g0, b0;
-    DR_ENV dr_env;
-} DRAWENV;
-
-typedef struct {
-    RECT disp;
-    RECT screen;
-    u8 isinter;
-    u8 isrgb24;
-    u8 pad0;
-    u8 pad1;
-} DISPENV;
 
 typedef struct {
     DISPENV disp[2];
