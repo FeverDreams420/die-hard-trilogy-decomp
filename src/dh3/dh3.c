@@ -8693,9 +8693,82 @@ void func_8004DE58(void) {
     D_800B604C->func = func_8004FF54;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004DF04);
+extern s16 D_800B648C;
+extern s16 D_800B63EC;
+extern VECTOR D_801984F0[];
+extern VECTOR D_801FA448[];
+extern s16 D_800B6294;
+struct Task *func_80058418(s16 x, s16 z, u8 *obj, s32 type, s16 slot);
+void func_80059DC0();
+void func_800464FC();
+void func_8006B454(void);
+void func_8006B464(void);
+void func_8006B46C(void);
 
-INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", jtbl_80086D68);
+void func_8004DF04(type, id, sub, x, z)
+s16 type;
+s16 id;
+s16 sub;
+s32 x;
+s32 z;
+{
+    SVECTOR unused;
+
+    switch (type) {
+    case 0:
+        D_800B615C[D_800B648C].unk6 = sub + (id << 8);
+        D_800B615C[D_800B648C].func = func_8005DB00;
+        D_800B648C++;
+        break;
+    case 1:
+        D_800B615C[D_800B648C].unk6 = sub + (id << 8);
+        D_800B615C[D_800B648C].func = func_80058418;
+        D_800B648C++;
+        break;
+    case 2:
+        D_800B615C[D_800B648C].unk6 = sub + (id << 8);
+        D_800B615C[D_800B648C].func = func_8003F254;
+        D_800B648C++;
+        break;
+    case 3:
+        func_80072374(func_8006B454, 4);
+        break;
+    case 6:
+        if (sub >= 10) {
+            func_80072374(func_8006B464, 4);
+            break;
+        }
+        D_800B615C[D_800B648C].unk6 = sub;
+        D_800B615C[D_800B648C].func = func_80059DC0;
+        D_800B648C++;
+        sub++;
+        D_801984F0[sub].vx = (x & ~0x1FF) + 0x80;
+        D_801984F0[sub].vz = (z & ~0x1FF) + 0x80;
+        D_801984F0[sub].vy = 0;
+        if (D_800B6294 < sub) {
+            D_800B6294 = sub;
+        }
+        break;
+    case 7:
+        if (sub < 20 || sub > 30) {
+            func_80072374(func_8006B46C, 4);
+            break;
+        }
+        D_800B615C[D_800B648C].unk6 = sub;
+        D_800B615C[D_800B648C].func = func_8004D9A4;
+        D_800B648C++;
+        D_801FA448[D_800B63EC].vx = x;
+        D_801FA448[D_800B63EC++].vz = z;
+        break;
+    case 4:
+    case 8:
+        D_800B615C[D_800B648C].unk6 = sub + (id << 8);
+        D_800B615C[D_800B648C].func = func_800464FC;
+        D_800B648C++;
+        break;
+    }
+}
+
 
 typedef struct {
     s32 unk0;
@@ -8716,7 +8789,7 @@ INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004E1E4);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004ED7C);
 
-extern u8 D_800B63EC;
+extern s16 D_800B63EC;
 extern VECTOR D_801FA448[];
 
 void func_8004FB4C(void) {
