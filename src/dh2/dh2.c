@@ -4743,8 +4743,6 @@ void func_80034FD8(void *anim, s16 arg) {
     p->unk15 = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800351A4);
-
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -4754,15 +4752,38 @@ typedef struct {
     s32 unkC;
     s32 unk10;
     u8 unk14;
-    u8 pad15;
+    u8 unk15;
     s16 unk16;
     u8 pad18[2];
     s16 unk1A;
     u16 unk1C;
-    u8 pad1E[0xA];
+    s16 unk1E;
+    s16 unk20;
+    s16 unk22;
+    s16 unk24;
+    s16 unk26;
     s16 unk28;
     u8 unk2A;
+    u8 unk2B;
 } Unk80035384;
+
+void func_800351A4(Unk80035384 *obj) {
+    s16 r = func_800754C8(0x12);
+
+    if (D_80096CB0[r].unk0 != 0) {
+        obj->unk1E = D_80096CB0[r].unk0 * 60;
+    } else {
+        D_800B6438 = (D_800B6438 + 1) % 6;
+        obj->unk1E = D_80093A4C[D_800B6438] * 60;
+    }
+    obj->unk20 = D_80096CB0[(s16)func_800754C8(0x15)].unk2 * 60;
+    r = func_800754C8(0x12);
+    obj->unk2B = D_80096CB0[r].unkA;
+    obj->unk22 = D_80096CB0[r].unk4 * 60;
+    obj->unk26 = D_80096CB0[r].unk8 * 60;
+    obj->unk24 = D_80096CB0[(s16)func_800754C8(0x15)].unk6 * 60;
+    obj->unk15 = 0;
+}
 
 void func_800351A4(Unk80035384 *obj);
 
