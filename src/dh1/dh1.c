@@ -1155,7 +1155,32 @@ void func_800209B8(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80020B90);
+void func_80020B90(void) {
+    Unk800209B8_Tile t;
+    Unk8007C394 cols = D_8007C394;
+    s16 tens = D_800A3514 / 10;
+    s16 ones = D_800A3514 % 10;
+
+    t.x0 = ones * 10 + 40;
+    t.y0 = tens * 10 + 40;
+    t.r0 = cols.c[ones][0];
+    t.g0 = cols.c[ones][1];
+    t.b0 = cols.c[ones][2];
+    setlen(&t, 2);
+    setcode(&t, 0x70);
+    DrawPrim(&t);
+    t.x0 = 0xA0;
+    t.y0 = 0xC8;
+    t.r0 = cols.c[tens][0];
+    t.g0 = cols.c[tens][1];
+    t.b0 = cols.c[tens][2];
+    setlen(&t, 2);
+    setcode(&t, 0x70);
+    DrawPrim(&t);
+    if (++D_800A3514 >= 100) {
+        D_800A3514 = 0;
+    }
+}
 extern u32 *D_800A32E4;
 extern void *D_800A3374;
 extern DRAWENV *SetDrawEnv(DR_ENV *dr_env, DRAWENV *env);
