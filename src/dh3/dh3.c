@@ -10410,7 +10410,54 @@ void func_8005919C(void) {
     D_800B604C->func = func_8005923C;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005923C);
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    u8 padA[0x1E];
+    s16 unk28;
+    u8 pad2A[0x1E];
+    s32 unk48;
+    u8 pad4C[8];
+    VECTOR pos;
+    s16 unk64;
+    s16 unk66;
+} Unk8005923C;
+
+void func_8005923C(void) {
+    Unk8005923C *p = (Unk8005923C *)D_800B604C->vals;
+    s16 sxy[2];
+    s32 z;
+    u8 unused[8];
+
+    PushMatrix();
+    D_800B6574.vx = p->pos.vx - D_801981F4.vx;
+    D_800B6574.vy = p->pos.vy - D_801981F4.vy;
+    D_800B6574.vz = p->pos.vz - D_801981F4.vz;
+    ApplyMatrix(&D_801981D4, &D_800B6574, &D_801CA274);
+    SetRotMatrix(&D_801981D4);
+    func_80084978(&D_801981D4, &D_801CA274);
+    SetTransMatrix(&D_801981D4);
+    z = RotTransPers(&D_800B5A74, (s32 *)sxy, &D_800B5CFC, &D_800B642C) << 2;
+    p->unk66 += 0x20;
+    p->unk48 += 0x320;
+    p->unk64 -= 0x19;
+    if (p->unk64 < 0x10) {
+        if (D_800B604C->unk2C++ >= 3) {
+            func_800728A4();
+        }
+        PopMatrix();
+        return;
+    }
+    D_800B604C->unk2C = 0;
+    if (z < 0x20 || (u16)(sxy[1] + 100) > 0x190) {
+        PopMatrix();
+        return;
+    }
+    PopMatrix();
+    if (D_800B56A2 != 0) {
+        func_80050D40(&p->unk8, &p->unk28);
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005940C);
 
