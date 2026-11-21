@@ -554,6 +554,7 @@ D_8008AE48 = 0x8008AE48; // force_not_migration:True
 D_8008AF58 = 0x8008AF58; // force_not_migration:True
 D_8008B068 = 0x8008B068; // force_not_migration:True
 D_8008B178 = 0x8008B178; // force_not_migration:True
+D_800A2A04 = 0x800A2A04; // in C, written by func_800204F0
 D_800A2C3C = 0x800A2C3C; // in C, written by func_80069728
 D_8007A83C = 0x8007A83C; // force_not_migration:True
 D_8008B36C = 0x8008B36C; // force_not_migration:True

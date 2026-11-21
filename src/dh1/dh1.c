@@ -17,20 +17,6 @@ INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F8);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29FC);
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A04);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A08);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A10);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A18);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A1C);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A20);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A24);
-
 extern u8 D_801D74C0[], D_801E20A0[], D_801E74C0[], D_801F20A0[];
 typedef struct {
     s16 x, y, w, h;
@@ -286,36 +272,6 @@ void func_8001ECC8(void) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001ED6C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A734);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A30);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A34);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A38);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A3C);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A40);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A44);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A48);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A4C);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A50);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A54);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A58);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A5C);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A60);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A64);
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A68);
 
 extern u16 D_800A3014;
 extern s32 D_800A30DC;
@@ -703,9 +659,86 @@ void func_800204C0(s32 vol) {
     CdMix(&atv);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800204F0);
+typedef struct {
+    u16 unk0;
+    char name[6];
+    char *desc;
+} Unk8007C268;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A7EC);
+extern Unk8007C268 D_8007C268[];
+extern char D_8007A7C8[];
+extern char D_8007A7D4[];
+extern u8 D_800A2A30[];
+extern u8 D_800A2A3C[];
+extern char *strcpy(char *dst, const char *src);
+
+void func_800204F0(void) {
+    char text[32];
+
+    switch (D_800A307C) {
+    case 3:
+    case 8:
+    case 13:
+    case 18:
+    case 22:
+        func_80053864(160, (D_800A33C4 >> 1) - 30, D_8007A7C8, 0x600, 0x600, D_800A2A3C, D_800A2A30);
+        func_80053864(160, (D_800A33C4 >> 1) + 30, D_8007A7D4, 0x600, 0x600, D_800A2A3C, D_800A2A30);
+        break;
+    default:
+        strcpy(text, "LEVEL ");
+        strcpy(text + 6, D_8007C268[D_800A307C].name);
+        func_80053864(160, (D_800A33C4 >> 1) - 30, text, 0x600, 0x600, D_800A2A3C, D_800A2A30);
+        func_80053864(160, (D_800A33C4 >> 1) + 30, D_8007C268[D_800A307C].desc, 0xAF0, 0x600, D_800A2A3C, D_800A2A30);
+        break;
+    }
+    if (D_800A317C->unk14 != 0) {
+        D_800A317C->unk14--;
+    } else {
+        func_80021554();
+    }
+}
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A0B);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A10);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A18);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A1C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A20);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A24);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A30);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A34);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A38);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A3C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A40);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A44);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A48);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A4C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A50);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A54);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A58);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A5C);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A60);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A64);
+
+INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A68);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A83C);
 
@@ -6370,11 +6403,6 @@ typedef struct {
     s16 unk34;
     s16 unk36;
 } Unk800403C8;
-
-typedef struct {
-    u16 unk0;
-    u8 pad2[0xA];
-} Unk8007C268;
 
 extern Unk8007C268 D_8007C268[];
 extern u16 D_80080B8C[];
