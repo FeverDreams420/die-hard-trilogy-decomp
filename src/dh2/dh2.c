@@ -4575,7 +4575,28 @@ void func_80034DF4(void *anim, s16 arg) {
     p->unk15 = 0;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80034FD8);
+void func_80034FD8(void *anim, s16 arg) {
+    Unk80034DF4 *p = anim;
+    s16 i;
+    int v;
+
+    if (D_800B7370->unk1788 < 0x400) {
+        i = arg % 21;
+    } else {
+        i = arg % 24;
+    }
+    p->unk2B = D_80096CB0[i].unkA;
+    if (D_80096CB0[i].unk0 == 0) {
+        p->unk1E = D_80093A4C[i % 6] * 60;
+    } else {
+        p->unk1E = D_80096CB0[i].unk0 * 60;
+    }
+    p->unk20 = D_80096CB0[i].unk2 * 60;
+    p->unk22 = D_80096CB0[i].unk4 * 60;
+    p->unk24 = D_80096CB0[i].unk6 * 60;
+    p->unk26 = D_80096CB0[i].unk8 * 60;
+    p->unk15 = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800351A4);
 
