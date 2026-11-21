@@ -3983,7 +3983,69 @@ void func_80031B9C(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031C00);
+typedef struct {
+    SVECTOR *verts;
+    s16 count;
+} Unk80031C00_Model;
+
+typedef struct {
+    u8 pad0[0x16];
+    s16 unk16;
+    u8 pad18[2];
+    s16 unk1A;
+    u8 pad1C[0x10];
+    SVECTOR box;
+    u8 pad34[8];
+    s16 unk3C;
+} Unk80031C00;
+
+extern s32 func_80025B40(s32 x);
+
+void func_80031C00(Unk80031C00 *o) {
+    s16 top = -0x4000;
+    s16 bottom = 0x4000;
+    SVECTOR *box = &o->box;
+    Unk80031C00_Model *m;
+    SVECTOR *v;
+    s32 n;
+
+    if (o->unk3C == -1) {
+        box->vx = 0;
+        box->vy = 0;
+        box->vz = 0;
+        return;
+    }
+    m = (Unk80031C00_Model *)D_801F9A5C[o->unk3C];
+    box->vx = 0;
+    box->vy = 0;
+    box->vz = 0;
+    if (m == NULL) {
+        return;
+    }
+    v = m->verts;
+    n = m->count;
+    while (--n != -1) {
+        if (func_80025B40(v->vx) > box->vx) {
+            box->vx = v->vx;
+        }
+        if (top < v->vy) {
+            top = v->vy;
+        }
+        if (v->vy < bottom) {
+            bottom = v->vy;
+        }
+        if (func_80025B40(v->vz) > box->vz) {
+            box->vz = v->vz;
+        }
+        v++;
+    }
+    box->vy = bottom;
+    box->pad = top;
+    box->vx = ((box->vx * 6560) >> 12) + 50;
+    box->vz += 50;
+    o->unk1A = top - bottom + 100;
+    o->unk16 = -top - 50;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031DA8);
 
