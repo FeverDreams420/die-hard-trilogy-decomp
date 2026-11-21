@@ -395,6 +395,12 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `lh` kept for a `s16` global shifted left and added to a field, where `g << 5` gives `lhu` | Write the scale as a product: `o->f += g * 32;` (DH3 0x80064CD8) |
 | A call argument taken from the register just stored to a global instead of reloading the global | A local holds the value: `x = tbl[i]; G = x; f(o, o->f, x);` (DH2 0x80051048) |
 | A volatile counter read back after its increment and the value unused | Normal for `volatile`: `D_800A31F4++;` stores then reloads (DH1 0x8001FE30) |
+| Every field of a global table element gets its own `lui`/`addiu %lo(sym+off)` and `addu` of the index, where a cast gives one hoisted base register | Declare the global as an array of the element struct (`extern Unk8018CDD4 D_8018CDD4[];`) and index it directly; keep byte-offset users as `(u8 *)D_8018CDD4 + off` (DH3 0x80063C4C, DH2 0x80062400) |
+| A global's load kept after a store through a pointer, in source order, where ours is hoisted above the store | The global is a field of a struct: two scalars 8 apart are `VECTOR` `.vx`/`.vz` (`D_800BA208`), and GCC 2.x won't move a struct-field load past a struct-field store (DH3 0x800558FC) |
+| `lh` then `sra 1` from a sine table where ours gives `lhu`/`sll 16`/`sra 17` | Write the radius out: `(D_80094174[a] * 0x800) >> 12`, not `>> 1` (DH3 0x8004D70C) |
+| The value before a post-increment kept in another register (`move s1,s2` early), then the increment | `AddPrim(ot, t++)`, or save the first prim: `TILE *p = t; ... t++; AddPrim(ot, p);` (DH2 0x8005D2DC, DH3 0x8002B404) |
+| A tail call setup duplicated per branch with only the `jal` shared | Separate calls in each branch; GCC cross-jumps only the identical tail (DH3 0x8006E128, 0x80044C38) |
+| A function returns whatever is in `v0` on one path (an `sltiu` result) | The original falls off the end without `return` on that path (DH3 0x800564EC) |
 
 ## PsyQ library settings
 
