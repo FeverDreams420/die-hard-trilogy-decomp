@@ -196,7 +196,7 @@ void func_8006C638(s32 arg0, s32 arg1);
 typedef struct {
     u8 maps[8][0x2F0];
     s16 unk1780;
-    u8 pad1782[2];
+    s16 unk1782;
     s16 unk1784;
     s16 unk1786;
     s16 unk1788;
@@ -11960,7 +11960,18 @@ void func_8006C1B4(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8006C298);
+extern s16 D_800B6DC8;
+
+void func_8006C298(void) {
+    if ((D_8009B46A & D_800B6FE8[D_800B6DC8]) || (D_8009B470 & D_800B6FE8[D_800B6DC8])) {
+        func_80067138();
+        D_800B7370->unk1782 = (D_800B7370->unk1782 + 1) % 6;
+    }
+    if (D_8009B468[0] & D_800B6FE8[D_800B6DC8]) {
+        func_80067138();
+        D_800B7370->unk1782 = (D_800B7370->unk1782 + 5) % 6;
+    }
+}
 
 extern volatile s32 D_800B6FE8[];
 extern s16 D_800B6DC8;
