@@ -49,11 +49,13 @@ known = set(re.findall(r"\b(D_[0-9A-F]{8})\b", src)) | c_defs
 asm_funcs = set(re.findall(r'INCLUDE_ASM\("[^"]*", (\w+)\);', src))
 rodata = set(re.findall(r'INCLUDE_RODATA\("[^"]*", (\w+)\);', src))
 asm_labels = set()  # labels the linked asm defines
+asm_refs = set()  # data symbols the linked asm uses
 for f in glob.glob(f"asm/{exe}/nonmatchings/**/*.s", recursive=True):
     name = f.replace("\\", "/").rsplit("/", 1)[1][:-2]
     if name in asm_funcs or name in rodata:
         t = open(f).read()
-        known |= set(re.findall(r"\b(D_[0-9A-F]{8})\b", t))
+        asm_refs |= set(re.findall(r"\b(D_[0-9A-F]{8})\b", t))
+        known |= asm_refs
         asm_labels |= set(re.findall(r"^\s*[dg]label (\w+)\s*$", t, re.M))
 try:
     for line in open(f"build/{exe}.undefined_syms_auto.txt"):
@@ -84,6 +86,7 @@ for n in linked:
         sym_at.setdefault(a, n)
 
 written = {}
+exports = set()  # symbols the asm uses inside data defined in C
 
 
 def body(a, b):
@@ -114,7 +117,11 @@ for sect, file, start, end in sections:
         a = addr(s)
         b = addr(starts[k + 1]) if k + 1 < len(starts) else end
         if s not in includes:
-            continue  # defined in C
+            # defined in C: a label inside it (or a C string's own address)
+            # that the remaining asm still uses has no definition, so it is
+            # exported by address below (DH2 "GROUP", which 0x80044E08 copies)
+            exports |= {x for x in asm_refs if a <= addr(x) < b and x not in c_globals}
+            continue
         labels = [x for x in inner if a <= addr(x) < b] or [s]
         lines = [f".section {sect}", ""]
         for j, lab in enumerate(labels):
@@ -124,3 +131,13 @@ for sect, file, start, end in sections:
         open(out_dir + s + ".s", "w", newline="\n").write("\n".join(lines))
         n += 1
     print(f"{exe}: wrote {n} {sect} items for {file} ({start:08X}-{end:08X})")
+
+# splat's list of addresses for undefined symbols is already passed to the
+# linker; add the exports to it (once, so rerunning this script is safe)
+und = f"build/{exe}.undefined_syms_auto.txt"
+have = open(und).read() if os.path.exists(und) else ""
+new = [x for x in sorted(exports, key=addr) if not re.search(rf"^{x} =", have, re.M)]
+if new:
+    with open(und, "a", newline="\n") as fh:
+        fh.write("".join(f"{x} = 0x{addr(x):08X};\n" for x in new))
+    print(f"{exe}: exported {' '.join(new)}")
