@@ -4511,7 +4511,37 @@ void func_80035774(POLY_FT4 *p, POLY_FT4 *q) {
     q->v2 = p->v3 = (p->v3 + p->v2 + 1) >> 1;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800358C0);
+extern s16 D_800B5E5C;
+extern s16 D_800B5E64;
+extern s16 D_800B6364;
+
+void func_800358C0(s32 *xy, VECTOR *v) {
+    s16 *p = (s16 *)xy;
+    s32 x;
+    s32 y;
+
+    if (v->vz < 16) {
+        x = D_800B5E5C + v->vx * 16;
+        y = D_800B5E64 + v->vy * 16 + D_800B6364;
+    } else {
+        x = D_800B5E5C + (v->vx << 8) / v->vz;
+        y = D_800B5E64 + (v->vy << 8) / v->vz + D_800B6364;
+    }
+    if (x > 620) {
+        x = 620;
+    }
+    if (x < -300) {
+        x = -300;
+    }
+    if (y > 510) {
+        y = 510;
+    }
+    if (y < -500) {
+        y = -500;
+    }
+    p[0] = x;
+    p[1] = y;
+}
 
 void func_800359E4(Unk80030328_Face *f) {
     Unk80036008_Prim *prim = D_800B63AC;
