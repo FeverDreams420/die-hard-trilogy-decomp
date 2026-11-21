@@ -50,11 +50,15 @@ typedef struct {
 
 typedef struct {
     SVECTOR v[16];
-    u8 pad80[0x80];
+    SVECTOR unk80[16];
     s32 unk100;
     u8 pad104[4];
     s16 unk108[16];
-    u8 pad128[0x84];
+    s16 unk128[16];
+    u8 pad148[0x40];
+    s16 unk188[16];
+    s16 unk1A8;
+    u8 pad1AA[2];
 } Unk800462F0_Mesh;
 
 typedef struct {
@@ -6117,7 +6121,57 @@ INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_80088310);
 
 INCLUDE_RODATA("asm/dh2/nonmatchings/dh2", D_8008831C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80042908);
+void func_80042908(idx, n)
+s16 idx;
+s16 n;
+{
+    Unk800462F0_Mesh *m;
+    s16 k;
+
+    m = &D_800B71B8[idx];
+    if (n == 0) {
+        k = 15;
+        do {
+            m->v[k].vx = 0;
+            m->v[k].vy = 0;
+            m->v[k].vz = 0;
+            m->unk80[k].vx = 0;
+            m->unk80[k].vy = 0;
+            m->unk80[k].vz = 0;
+            m->unk108[k] = 0;
+            m->unk188[k] = 1;
+            m->unk128[k] = 0;
+        } while (k--);
+        k = 255;
+        do {
+            if (D_800B6E70[k].unk14 == idx) {
+                D_800B6E70[k].unk16 = 0;
+            }
+        } while (k--);
+        m->unk1A8 = 0;
+        return;
+    }
+    for (k = n; k < 15; k++) {
+        m->v[k].vx = m->v[k + 1].vx;
+        m->v[k].vy = m->v[k + 1].vy;
+        m->v[k].vz = m->v[k + 1].vz;
+        m->unk80[k].vx = m->unk80[k + 1].vx;
+        m->unk80[k].vy = m->unk80[k + 1].vy;
+        m->unk80[k].vz = m->unk80[k + 1].vz;
+        m->unk108[k] = m->unk108[k + 1];
+        m->unk188[k] = m->unk188[k + 1];
+        m->unk128[k] = m->unk128[k + 1];
+    }
+    m->v[k].vx = 0;
+    m->v[k].vy = 0;
+    m->v[k].vz = 0;
+    m->unk80[k].vx = 0;
+    m->unk80[k].vy = 0;
+    m->unk80[k].vz = 0;
+    m->unk108[k] = 0;
+    m->unk188[k] = 1;
+    m->unk128[k] = 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80042AD8);
 
