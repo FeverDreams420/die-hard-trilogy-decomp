@@ -244,7 +244,7 @@ extern void func_8001EBD4(void);
 extern s16 D_800A2F0C;
 extern s16 D_800A2FEC;
 extern s16 D_800A333C;
-extern s32 D_800A31F4;
+extern volatile s32 D_800A31F4;
 extern void func_8001F37C(void);
 extern void func_8001F0F8(void);
 
@@ -306,7 +306,7 @@ void func_8001EC50(void) {
 }
 
 extern s16 D_800A333C;
-extern s32 D_800A31F4;
+extern volatile s32 D_800A31F4;
 extern void *D_801F7D24;
 extern s16 D_800A2F0C;
 extern void func_8001F37C(void);
@@ -540,7 +540,86 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7C8);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7D4);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F37C);
+extern u16 D_8007C42C[];
+extern u16 D_800A2A24;
+extern s16 D_800A29F0;
+extern volatile s32 D_800A31F4;
+extern Unk800A8078 D_800A8078[2];
+extern Unk8002CE64_Prim *D_800A30A4;
+extern Unk8002CE64_Prim *D_800A31C4;
+extern void *D_800A3374;
+extern u32 *D_800A32E4;
+extern s16 D_800A33BC;
+extern s16 D_800A33D4;
+extern s32 D_800A2F8C;
+extern s32 func_8006B350(unsigned long spec);
+extern void func_8006B370(unsigned long spec);
+extern DISPENV *PutDispEnv(DISPENV *env);
+extern DRAWENV *PutDrawEnv(DRAWENV *env);
+extern u32 *ClearOTagR(u32 *ot, s32 n);
+extern void DrawOTag(u32 *ot);
+extern s32 DrawSync(s32 mode);
+extern int VSync(int mode);
+long func_8001FE30();
+int func_800201A0(void);
+void func_80020704(void);
+
+void func_8001F37C(void) {
+    s16 i;
+    s16 cur;
+    s32 n;
+
+    for (i = 0; i < 18; i++) {
+        D_8007C42C[i] = D_800A2A24 - 1;
+    }
+    if (D_800A2F0C == 11) {
+        func_800201A0();
+    }
+    if (D_800A2F0C == 1 || D_800A2F0C == 13) {
+        DrawSync(0);
+        if (func_8006B350(0xF2000001) < 0x100) {
+            VSync(0);
+        }
+        if (func_8006B350(0xF2000001) < 0x1FE) {
+            VSync(0);
+        }
+        func_8001FE30();
+        D_800A31F4 = 3;
+    } else {
+        DrawSync(0);
+        n = func_8006B350(0xF2000001);
+        if (D_800A29F0 < n) {
+            D_800A29F0 = n;
+        }
+    }
+    func_80020704();
+    while (D_800A31F4 < 2) {
+    }
+    D_800A31F4 = 0;
+    PutDispEnv(&D_800A8078[D_800A333C].disp);
+    ClearOTagR(D_800A8078[D_800A333C].ot, 0xA00);
+    cur = D_800A333C;
+    n = D_800A30A4 - (Unk8002CE64_Prim *)D_800A8078[cur].buf;
+    D_800A32E4 = D_800A8078[cur].ot;
+    if (D_800A33BC < n) {
+        D_800A33BC = n;
+    }
+    n = D_800A31C4 - (Unk8002CE64_Prim *)D_800A8078[cur].unk2874;
+    if (D_800A33D4 < n) {
+        D_800A33D4 = n;
+    }
+    n = (u8 *)D_800A3374 - (u8 *)D_800A8078[cur].prims;
+    if (D_800A2F8C < n) {
+        D_800A2F8C = n;
+    }
+    D_800A333C = cur ^ 1;
+    PutDrawEnv(&D_800A8078[D_800A333C].draw);
+    DrawOTag(&D_800A8078[D_800A333C].ot[0x9FF]);
+    D_800A30A4 = (Unk8002CE64_Prim *)D_800A8078[D_800A333C].buf;
+    D_800A31C4 = D_800A8078[D_800A333C].unk2874;
+    D_800A3374 = D_800A8078[D_800A333C].prims;
+    func_8006B370(0xF2000001);
+}
 
 extern Unk800A8078 D_800A8078[2];
 extern Unk8002CE64_Prim *D_800A30A4;
@@ -10591,7 +10670,7 @@ void func_80055298(Unk80055298 *obj) {
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005543C);
 
 extern Unk800A8078 D_800A8078[2];
-extern s32 D_800A31F4;
+extern volatile s32 D_800A31F4;
 extern void func_800207DC();
 extern void func_8002076C(void);
 extern void DrawOTag(u32 *ot);
