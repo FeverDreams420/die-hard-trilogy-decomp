@@ -1,6 +1,65 @@
 #include "common.h"
 #include "psyq/libspu.h"
 
+typedef struct {
+    struct {
+        u8 pad0[4];
+        u8 unk4;
+        u8 unk5;
+        u8 pad6[0x2EA];
+    } players[8];
+    s16 unk1780;
+    u8 pad1782[0x2];
+    s16 unk1784;
+    s16 unk1786;
+    s16 unk1788;
+    s16 unk178A;
+    s16 unk178C;
+    s16 unk178E;
+} Unk800A350C;
+
+extern Unk800A350C *D_800A350C;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+} Unk8002A35C;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1E;
+    s32 xy3;
+    u16 uv3;
+    u16 pad26;
+} Unk8002CE64_Prim;
+
+typedef struct {
+    unsigned addr : 24;
+    unsigned len : 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+#define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
+#define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
+#define getcode(p) (u8)(((P_TAG *)(p))->code)
+#define setSemiTrans(p, abe) ((abe) ? setcode(p, getcode(p) | 0x02) : setcode(p, getcode(p) & ~0x02))
+#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
+#define setRGB0(p, _r0, _g0, _b0) ((p)->r0 = _r0, (p)->g0 = _g0, (p)->b0 = _b0)
+#define setPolyFT4(p) setlen(p, 9), setcode(p, 0x2C)
+#define setShadeTex(p, tge) ((tge) ? setcode(p, getcode(p) | 1) : setcode(p, getcode(p) & ~1))
+
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", main);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A6E4);
@@ -9,7 +68,7 @@ u16 D_800A29EC = 0xF676;
 
 u16 D_800A29EE = 0x8770;
 
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A29F0);
+s16 D_800A29F0 = 0;
 
 s16 D_800A29F2 = 0;
 s16 D_800A29F4 = 3;
@@ -268,9 +327,147 @@ void func_8001ECC8(void) {
     D_800A317C->func = func_8001F0F8;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001ED6C);
+extern s16 D_800A2F34;
+extern s16 D_800A3454;
+extern s16 D_800A319C;
+extern s16 D_800A34C4;
+extern s16 D_800A322C;
+extern s16 D_800A304C;
+extern s32 D_800A2FBC;
+extern Unk8002A35C *D_800A3534;
+extern s16 D_800A2F74;
+extern s16 D_800A2F2C;
+extern s16 D_800A303C;
+extern s16 D_800A30EC;
+extern s32 D_800A301C;
+extern struct Task *D_801F7D6C;
+extern Unk8003BA6C_Task *D_801F7D30;
+extern Unk8003BA6C_Task *D_801F7D40;
+extern Unk8003BA6C_Task *D_801F7D4C;
+extern s16 D_800C38C8[];
+extern s16 D_800A329C;
+extern s16 D_800A305C[3];
+extern s16 D_800A29F0;
+extern Unk8002A35C D_8007C4FC[];
+extern s16 D_800A2A26;
+extern s16 D_800A3574;
+extern s32 D_800A2FCC;
+extern s16 D_800A315C;
+extern s16 D_800A33F4;
+extern s16 D_800A3184;
+extern s32 D_800A2F8C;
+extern s16 D_800A3414;
+extern Unk800A8078 D_800A8078[2];
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A734);
+void func_80056918(void);
+void func_800569DC(void);
+void func_8004BDD0(void);
+void func_8004DFD0(void);
+void func_800411E4(void);
+void func_80036F28(void);
+void func_800498B0(void);
+void func_80051960(void);
+void func_8001FC20(void);
+void func_80022610(void);
+void func_8006AB40(void);
+void func_8003BB9C(void);
+void func_8003BFA8(void);
+void func_800390B8(void);
+extern void func_80031070(void);
+void func_800509D0(void);
+void func_8002214C(void);
+void func_8002A194(void);
+void func_8004983C(void);
+void func_800204F0(void);
+extern void func_8006B370(unsigned long spec);
+void func_8001FD58(void);
+extern void func_8006A4C4(void);
+void func_8003BB20(void);
+void func_80020D60(void);
+void func_8005010C(s32 vol, s32 pan);
+
+void func_8001ED6C(void) {
+    Unk8002CE64_Prim *p0;
+    Unk8002CE64_Prim *p1;
+    s16 i;
+
+    D_800A3414 = 0;
+    D_800A2F34 = 0;
+    D_800A3454 = 0;
+    D_800A319C = 0;
+    D_800A34C4 = 0;
+    D_800A322C = func_8001E9DC(2);
+    D_800A304C = func_8001E9DC(6);
+    D_800A303C = -1;
+    D_800A2FBC = 0x7FFFFFFF;
+    D_800A3534 = NULL;
+    switch (D_800A307C) {
+    case 0:
+    case 4:
+    case 9:
+    case 14:
+    case 19:
+    case 23:
+        D_800A2F2C = 0;
+        D_800A2F74 = 0;
+    }
+    D_800A30EC = 0;
+    p0 = D_800A8078[0].unk2874;
+    p1 = D_800A8078[1].unk2874;
+    for (D_800A301C = 0; D_800A301C < 500; D_800A301C++) {
+        setPolyFT4(p0);
+        setPolyFT4(p1);
+        setShadeTex(p0, 1);
+        setShadeTex(p1, 1);
+        p0++;
+        p1++;
+    }
+    for (i = 1; i < 0x80; i++) {
+        ((s32 *)&D_801F7D24)[i] = 0;
+    }
+    D_801F7D6C = (struct Task *)func_80021264(func_80056918, 1, 0x4C);
+    func_800569DC();
+    LoadClut((u16 *)D_800C38C8, 0x280, 0xFF);
+    func_8004BDD0();
+    func_8004DFD0();
+    func_800411E4();
+    func_80036F28();
+    func_800498B0();
+    func_80051960();
+    func_8001FC20();
+    D_801F7D30 = func_80021264(func_80022610, 1, 0);
+    func_8006AB40();
+    func_8003BB9C();
+    func_8003BFA8();
+    func_800390B8();
+    D_801F7D40 = func_80021264(func_80031070, 1, 8);
+    func_800509D0();
+    func_8002214C();
+    func_8002A194();
+    D_801F7D4C = func_80021264(func_8004983C, 1, 0);
+    if (D_800A329C == 0) {
+        D_800A305C[0] = 90;
+        func_80021264(func_800204F0, 1, 0);
+    }
+    D_800A29F0 = 0;
+    func_8006B370(0xF2000001);
+    for (i = 0; i < 4; i++) {
+        D_8007C4FC[i].x = 0;
+    }
+    D_800A2A26 = 0;
+    D_800A3574 = 0;
+    func_8001FD58();
+    D_800A2FCC = 0;
+    D_800A31F4 = 3;
+    D_800A315C = 0;
+    D_800A33F4 = D_800A307C;
+    func_8006A4C4();
+    func_80021264(func_8003BB20, 1, 0);
+    D_800A3184 = 0;
+    D_800A2F8C = 0;
+    func_80020D60();
+    func_8005010C(D_800A350C->unk1784 * 4, 0);
+}
 
 extern u16 D_800A3014;
 extern s32 D_800A30DC;
@@ -345,23 +542,6 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A7D4);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8001F37C);
 
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s32 xy0;
-    u16 uv0;
-    u16 clut;
-    s32 xy1;
-    u16 uv1;
-    u16 tpage;
-    s32 xy2;
-    u16 uv2;
-    u16 pad1E;
-    s32 xy3;
-    u16 uv3;
-    u16 pad26;
-} Unk8002CE64_Prim;
-
 extern Unk800A8078 D_800A8078[2];
 extern Unk8002CE64_Prim *D_800A30A4;
 extern Unk8002CE64_Prim *D_800A31C4;
@@ -393,23 +573,6 @@ void func_8001F778(void) {
     D_800A3374 = D_800A8078[D_800A333C].prims;
     func_8006B370(0xF2000001);
 }
-
-typedef struct {
-    unsigned addr : 24;
-    unsigned len : 8;
-    u8 r0, g0, b0, code;
-} P_TAG;
-
-#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
-#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
-#define setlen(p, _len) (((P_TAG *)(p))->len = (u8)(_len))
-#define setcode(p, _code) (((P_TAG *)(p))->code = (u8)(_code))
-#define getcode(p) (u8)(((P_TAG *)(p))->code)
-#define setSemiTrans(p, abe) ((abe) ? setcode(p, getcode(p) | 0x02) : setcode(p, getcode(p) & ~0x02))
-#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
-#define setRGB0(p, _r0, _g0, _b0) ((p)->r0 = _r0, (p)->g0 = _g0, (p)->b0 = _b0)
-#define setPolyFT4(p) setlen(p, 9), setcode(p, 0x2C)
-#define setShadeTex(p, tge) ((tge) ? setcode(p, getcode(p) | 1) : setcode(p, getcode(p) & ~1))
 
 extern s32 D_800A301C;
 
@@ -1880,12 +2043,6 @@ INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A80);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A88);
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-} Unk8002A35C;
-
 extern s32 SquareRoot0(s32 a);
 extern s16 D_800874C0[];
 
@@ -3313,22 +3470,6 @@ void func_80030EA4(Unk8002DB90_Face *f) {
     }
 }
 
-extern struct {
-    struct {
-        u8 pad0[4];
-        u8 unk4;
-        u8 unk5;
-        u8 pad6[0x2EA];
-    } players[8];
-    s16 unk1780;
-    u8 pad1782[0x2];
-    s16 unk1784;
-    s16 unk1786;
-    s16 unk1788;
-    s16 unk178A;
-    s16 unk178C;
-    s16 unk178E;
-} *D_800A350C;
 
 typedef struct {
     s16 v[3];
