@@ -6401,7 +6401,7 @@ INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5804);
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003EC04);
 
-void func_8003EEE4(s16 a, s16 b, s16 c, s16 d, s16 e);
+void func_8003EEE4(s16 a, s16 b, u8 *c, s16 d, s16 e);
 void func_8005DB00(s16 a, s16 b, u8 *c, s32 d, s16 e);
 
 void func_8003EDDC(s16 a, s16 b, s16 c, s16 d, s16 e) {
@@ -6463,7 +6463,67 @@ void func_8003F0FC(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003F254);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x48];
+    u8 *owner;
+    s16 unk74;
+    u8 pad76[2];
+    u8 unk78[0x3E];
+    s16 unkB6;
+    s16 unkB8;
+    u8 padBA[6];
+    VECTOR home;
+} Unk8003F254;
+
+extern u8 D_80092400[];
+extern struct Unk8003BA6C_Task *func_800724C4(void (*fn)(), s16 flags, s16 size);
+void func_8006B44C(void);
+void func_8003F0FC(void);
+
+void func_8003F254(s16 x, s16 z, u8 *owner, s16 kind) {
+    struct Task *t;
+    Unk8003F254 *p;
+    s32 type = kind & 0xFF;
+
+    if (type >= 5) {
+        D_800B604C->func = func_8006B44C;
+        return;
+    }
+    if (type == 2) {
+        func_8003EEE4(x, z, owner, kind, -1);
+        return;
+    }
+    t = (struct Task *)func_800724C4(func_8003F0FC, 0x31, 0xD0);
+    if (t == NULL) {
+        return;
+    }
+    p = (Unk8003F254 *)t->vals;
+    p->owner = owner;
+    p->unkB8 = -1;
+    p->pos.vx = (x << 9) + 0x100;
+    p->pos.vz = (z << 9) + 0x100;
+    p->pos.vy = (s16)func_80028BF0(&p->pos);
+    p->unkB6 = 0;
+    p->rot.vx = 0;
+    p->rot.vz = 0;
+    p->rot.vy = (kind >> 8) << 9;
+    p->unk74 = 0;
+    p->home.vx = p->pos.vx;
+    p->home.vy = p->pos.vy;
+    p->home.vz = p->pos.vz;
+    if (owner != NULL) {
+        owner[4] = 0;
+    }
+    func_80048B74(p->unk78);
+    func_80048C14(p->unk78, D_80092400[type], 0, 0x54, 4);
+    func_8004896C(p->unk78);
+    if (D_80092400[type] == 16 && (s16)func_80074910(2)) {
+        t->func = func_8003E624;
+    }
+}
 
 s32 func_80043704(void *obj);
 
