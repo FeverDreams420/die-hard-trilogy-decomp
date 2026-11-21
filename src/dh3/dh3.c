@@ -2756,7 +2756,39 @@ void func_8002CFF8(s16 *pos, s16 tex, s16 z, s16 size, s16 ang) {
     AddPrim(D_800B62CC + z, p);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002D190);
+extern void SetPolyFT4(void *p);
+extern void SetSemiTrans(void *p, s32 abe);
+
+void func_8002D190(s16 *pos, s16 tex, s16 z, s16 size, s16 ang) {
+    s32 c = (D_80094174[(ang + 0x200) & 0xFFF] * size) >> 12;
+    s32 s = (D_80094174[(ang + 0x600) & 0xFFF] * size) >> 12;
+    POLY_FT4 *p = D_800B63AC;
+    POLY_FT4 *prim = p;
+    u16 *t;
+
+    if ((u8 *)p - D_800B6334 > 0xD7D7U) {
+        return;
+    }
+    p->x1 = pos[0] - c;
+    p->y1 = s + pos[1];
+    p->x2 = c + pos[0];
+    p->y2 = pos[1] - s;
+    p->x3 = pos[0] - s;
+    p->y3 = pos[1] - c;
+    p->x0 = s + pos[0];
+    p->y0 = c + pos[1];
+    t = (u16 *)&D_8018CDD4[tex];
+    *(u32 *)&p->u0 = *(u32 *)t;
+    *(u32 *)&p->u1 = *(u32 *)(t + 8);
+    *(u16 *)&p->u2 = t[4];
+    *(u16 *)&p->u3 = t[5];
+    SetPolyFT4(p);
+    SetSemiTrans(p, 1);
+    SetShadeTex(p, 1);
+    p++;
+    AddPrim(D_800B62CC + z, prim);
+    D_800B63AC = p;
+}
 
 typedef struct {
     SVECTOR *v[4];
