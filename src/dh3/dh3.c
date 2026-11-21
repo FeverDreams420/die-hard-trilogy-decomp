@@ -2647,7 +2647,21 @@ void func_8002D84C(Unk80030328_Face *f) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8002D98C);
+u8 func_8002D98C(s32 z) {
+    s32 x = (s16)z;
+
+    if (x < 0x400) {
+        return 0;
+    }
+    if (x < 0x1000) {
+        return (x - 0x400) / 24;
+    }
+    if (x < 0x3000) {
+        x -= 0x1000;
+        return 0x80 - ((ABS(x) << 7) >> 13);
+    }
+    return 0;
+}
 
 typedef struct {
     u32 tag;
