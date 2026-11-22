@@ -16303,7 +16303,111 @@ void func_80060370(void) {
     func_8005F98C();
 }
 
+// NON_MATCHING: scheduling; the original hoists the prim limit out of the loop and computes the cosine first
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006057C);
+#else
+typedef struct {
+    SVECTOR pos;
+    s16 dist[16];
+    s16 angle[16];
+    s16 speed[16];
+    s16 pad68[16];
+    s16 size[16];
+    s16 grow[16];
+    s16 rot[16];
+    s16 spin[16];
+    s16 time;
+    s16 pad10A;
+    s16 unk10C;
+    u8 pad10E[0xA];
+    s16 vx;
+    s16 pad11A;
+    s16 vz;
+} Obj8006057C;
+
+void func_8006057C(void) {
+    Unk8004A7E8_Prim *prim = D_800A3374;
+    Obj8006057C *obj = (Obj8006057C *)D_800A317C->vals;
+    s32 end = D_800AA8EC[D_800A333C].end;
+    Unk8004A7E8_Prim *p;
+    u8 *tex;
+    u32 *ot;
+    s16 sxy[2];
+    s32 otz;
+    s32 shade;
+    s16 size;
+    s16 a;
+    s32 s;
+    s32 c;
+    s16 i;
+
+    obj->unk10C += 0x20;
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    otz = RotTransPers(&obj->pos, (s32 *)sxy, &D_800A2EFC, &D_800A3394) >> 1;
+    D_800A326C = otz;
+    if (sxy[0] >= -100 && sxy[0] <= 420) {
+        obj->time += 0x20;
+        if (obj->time > 0x280) {
+            func_80021554();
+            return;
+        }
+        if (otz > 0x40 && otz < 0x9FF && !(D_800A3394 & 0xFFFFE000)) {
+            D_800A326C = otz - 0x40;
+            shade = 0x80;
+            if (obj->time > 0x180) {
+                shade = (u32)(0x280 - obj->time) >> 1;
+            }
+            i = 15;
+            p = prim;
+            do {
+                size = (obj->size[i] * D_800A33B4) / (s16)otz;
+                p->x0 = ((((D_800854C0[obj->angle[i] & 0xFFF] * obj->dist[i] * 4) >> 16) * D_800A33B4) / D_800A326C) + sxy[0];
+                p->y0 = ((((D_800854C0[(obj->angle[i] + 0x400) & 0xFFF] * obj->dist[i] * 4) >> 16) * D_800A33B4) / D_800A326C) + sxy[1];
+                a = obj->rot[i];
+                obj->rot[i] += obj->spin[i];
+                s = (D_800854C0[a & 0xFFF] * size) >> 12;
+                c = (D_800854C0[(a + 0x400) & 0xFFF] * size) >> 12;
+                if ((s32)prim < end - 0x320) {
+                    p->x1 = p->x0 + s;
+                    p->y1 = p->y0 + c;
+                    p->x2 = p->x0 - s;
+                    p->y2 = p->y0 - c;
+                    p->x3 = p->x0 + c;
+                    p->y3 = p->y0 - s;
+                    p->x0 = p->x0 - c;
+                    p->y0 = p->y0 + s;
+                    tex = D_800A3154;
+                    p->uvc0 = *(u32 *)(tex + 0xCE4);
+                    p->uvt1 = *(u32 *)(tex + 0xCF8);
+                    p->uv2 = *(u16 *)(tex + 0xCEC);
+                    setcode(p, 0x2C);
+                    setlen(p, 9);
+                    p->r0 = shade;
+                    p->g0 = shade;
+                    p->b0 = shade;
+                    p->uv3 = *(u16 *)(tex + 0xCF0);
+                    setSemiTrans(p, 1);
+                    ot = D_800A32E4 + D_800A326C;
+                    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                        prim++;
+                        AddPrim(ot, p++);
+                    }
+                }
+                obj->dist[i] += obj->speed[i] * 3;
+                obj->size[i] += obj->grow[i] * 3;
+                if (obj->speed[i] != 0 && obj->time > 0x180) {
+                    obj->speed[i]--;
+                }
+            } while (i--);
+            D_800A3374 = prim;
+            obj->pos.vx += obj->vx;
+            obj->pos.vz += obj->vz;
+        }
+    }
+}
+#endif
 
 typedef struct {
     s16 x;
