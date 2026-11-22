@@ -6412,7 +6412,8 @@ typedef struct {
     u8 pad0[0x10];
     VECTOR pos;
     SVECTOR rot;
-    u8 pad28[0x2A];
+    u8 pad28[0x28];
+    s16 unk50;
     s16 unk52;
     u8 pad54[0xC];
     s16 unk60;
@@ -6596,11 +6597,71 @@ void func_8003CFE0(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003D180);
+void func_8003D180(void) {
+    Unk8003D7E4 *p = (Unk8003D7E4 *)D_800B604C->vals;
+    SVECTOR probe = {0, 0, -0xC8, 0};
+    SVECTOR step = {0, 0, -0xC, 0};
+    s32 t;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B57D8);
-
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B57E0);
+    if ((s16)func_80048E70(&p->pos, &p->rot, 0x1000, 0x280, p->unk78) < 4) {
+        if (p->unk74++ >= 0x1F) {
+            func_8004DCC4(p->unk70);
+            func_8004DC84(p->unkB8, p->unkBA);
+            D_800B62A4--;
+            func_800728A4();
+            return;
+        }
+    } else {
+        p->unk74 = 0;
+        if (func_80028A48(&D_800B659C->pos, &p->pos) < 0x258 && func_80028CEC(((s16)(func_80028648(&p->pos, &D_800B659C->pos) - p->rot.vy) << 20) >> 20) < 0x2BC) {
+            func_80048C14(p->unk78, (s16)func_80074910(4) + 0xB, 0, 0x54, 8);
+            D_800B604C->func = func_8003CAF8;
+            return;
+        }
+    }
+    if ((s16)func_8003C5C0((Unk8003C5C0 *)p)) {
+        D_800B6664++;
+        D_800B604C->func = func_8003DC64;
+        func_8003DC64();
+        return;
+    }
+    t = func_80056B14(&p->pos) >> 12;
+    if (t != 0xE) {
+        p->unk6C = 0;
+    } else {
+        func_80028310(&p->rot, &probe, &p->pos, &D_801F76D0);
+        if ((func_80056B14(&D_801F76D0) >> 12) != t) {
+            if ((s16)func_80074910(2)) {
+                p->unk52 = (p->rot.vy + 0x400) & 0xFFF;
+            } else {
+                p->unk52 = (p->rot.vy - 0x400) & 0xFFF;
+            }
+            func_80028310((SVECTOR *)&p->unk50, &probe, &p->pos, &D_801F76D0);
+            if ((func_80056B14(&D_801F76D0) >> 12) != 0xE) {
+                p->unk52 = (p->unk52 + 0x800) & 0xFFF;
+            }
+            D_800B604C->func = func_8003CFE0;
+        }
+    }
+    func_80028310(&p->rot, &step, &p->pos, &D_801F76D0);
+    p->pos.vx = D_801F76D0.vx;
+    p->pos.vz = D_801F76D0.vz;
+    p->pos.vy = (s16)func_80028BF0(&p->pos);
+    if ((s16)func_8003E35C(p)) {
+        func_8003E67C();
+        return;
+    }
+    func_80048D54(p->unk78);
+    if (p->unkB0 != 0 && --p->unkB0 == 0) {
+        func_8003E67C();
+    }
+    if ((s16)func_8003E25C(p)) {
+        D_800B604C->func = func_8003E624;
+    }
+    if ((s16)func_8003C838(p)) {
+        D_800B604C->func = func_8003D9F8;
+    }
+}
 
 typedef struct {
     u8 pad0[0xC];
