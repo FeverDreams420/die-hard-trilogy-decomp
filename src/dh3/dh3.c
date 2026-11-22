@@ -7162,7 +7162,52 @@ void func_800409F8(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80040A8C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80041AE0);
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s8 unk4;
+    s8 unk5;
+    s16 unk6;
+} Unk80041AE0_Ent;
+
+extern s16 D_800B6184;
+void func_80041D04(s16 x, s16 z, s32 a2, s16 n);
+extern s16 D_800B61DC;
+extern s16 D_800B571A;
+extern u8 D_800B56D0[];
+extern u8 D_800B56D8[];
+extern void func_8007633C(s32 x, s32 y, s32 value, s32 a3, s32 a4, u8 *a5, u8 *a6);
+extern VECTOR D_801F76D0;
+extern s16 D_800B650C;
+s16 func_8003F5B0(void);
+
+void func_80041AE0(s16 x, s16 z, s32 a2, s16 n) {
+    s32 kind;
+    s32 i = n;
+
+    if (D_800B61DC != 0) {
+        return;
+    }
+    if (D_800B571A != 0) {
+        func_8007633C(0xA0, D_800B6184, i, 0xBB8, 0x258, D_800B56D0, D_800B56D8);
+        D_800B6184 += 0x10;
+    }
+    D_801F76D0.vx = x << 9;
+    D_801F76D0.vz = z << 9;
+    if (func_80028A48(&D_801F76D0, &D_800B659C->pos) > 0x1000) {
+        return;
+    }
+    kind = ((Unk80041AE0_Ent *)D_800B6234)[i - 1].unk5 / 10;
+    if (kind == 1) {
+        if (D_800B66DC == 6 && func_8003F5B0() != kind) {
+            return;
+        }
+        if (D_800B66DC == 7 && D_800B650C != kind && func_8003F5B0() != kind) {
+            return;
+        }
+    }
+    func_80041D04(x, z, a2, n);
+}
 
 typedef struct {
     u8 pad0[0x1A0];
