@@ -408,6 +408,19 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `srl` where the original has `sra` in `((i >> 3) & 7) * 4` | Write the folded form, `(i >> 1) & 0x1C` (DH2 0x8004AE48) |
 | `a = b = x` stores in the wrong order | GCC stores the inner target first: swap the two (DH2 0x8004AE48) |
 | An `int` argument sign-extended (`sll`/`sra`) at each signed use but stored with plain `sh`, and `x++` kept in a second register | An old-style definition with `s16` parameters (DH3 0x8004DF04) |
+| The parameter register itself advanced in place (`addiu a1,a1,8`) and a copy kept for the header (`move v1,a1`) | Reassign the parameter: `dst = (Model *)f; f = dst->faces;` with `f` the parameter, or `f = (Face *)((u8 *)f + 8)` (DH2 0x80031DA8, 0x80031FBC) |
+| A loop's strength-reduced pointer built from the source pointer (`t2 + 0x12`) where ours folds it into the original argument (`a0 + 0x26`) | Advance a word pointer parameter: `n = src[3]; nv = src[4]; src += 5;` (DH2 0x80031FBC, DH3 0x8003A440) |
+| A second loop counter copied from a count that stays live (`beqz t6` / `addiu a3,t6,-1`) | `i = nv; while (i-- != 0)` instead of `while (nv-- != 0)` |
+| Several indices loaded through one register (`v1` or `s0`) across a face loop | One `s32 k` reused for every index: `k = f->v[0]; f->v[0] = &verts[k]; k = f->v[1]; ...` (DH3 0x8003A440, DH2 0x8003239C) |
+| `lh` then `sra` where ours narrows to `lhu`/`sll 16`/`sra 16+n` for a value stored to 16 bits | Write the shift as a product: `(v.vx * 0x800) >> 12`, `(tbl[a] * 16) >> 8` (DH2 0x8004EB78, 0x80024EBC, DH1 0x800328C0, DH3 0x8006D6A4) |
+| `ori` versus `addiu` for a `+ 0x1F` on a value whose low bits are zero | The original wrote `v | 0x1F` |
+| A range test folded to `addiu`/`sltiu` where the original has two compares | Separate statements: `if (x == 0xC) continue; if (x == 0xD) continue;`; a `switch` folds too (DH3 0x8005D3DC); for `a >= lo && a <= hi` use two early returns (DH2 0x80051FD0) |
+| `bgez`/`nop`/`negu` for an absolute value, where ours fills the delay slot | A ternary: `(k < 0 ? -k : k)`; `if (k < 0) k = -k;` schedules differently (DH3 0x80042D10) |
+| An argument loaded into `a0` early and the callee called with no visible use of it | The original passed a leftover argument to a function defined without parameters: `void f() {...}` called as `f(p->data)` (DH3 0x8004234C) |
+| A call's string argument reaching `a2` straight from `v0` in each case of a `switch`, with only the rest of the call shared | Write the whole call in every case; GCC cross-jumps the identical tail (DH3 0x80064884) |
+| `jal` result tested with `beqz v0` and no `sll 16` although the callee returns `s16` | The caller saw an `int` declaration: make the prototype (and the definition, when its body is unchanged) return `s32` (DH3 0x80048D54) |
+| Two stores of the same small array (`s16 dx[4] = {...}`) copied from `.sdata` with `lwl`/`lwr` right after the function | Local initializers: write them in C and delete their `INCLUDE_SDATA` lines (DH2 0x8004DB64, 0x80040054) |
+| A 16-byte gap below the locals that nothing uses | An unused local, `VECTOR unused;` or `SVECTOR unused;`, declared before the others (DH3 0x80021518, DH2 0x8004EB78) |
 
 ## PsyQ library settings
 
