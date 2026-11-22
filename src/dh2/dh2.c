@@ -9088,8 +9088,6 @@ void func_80051D68(Unk80051D68 *p) {
     }
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80051DD0);
-
 typedef struct Unk80051FD0_Face {
     SVECTOR *v[4];
     u16 tex;
@@ -9108,6 +9106,55 @@ typedef struct {
     u8 pad28E[0xA];
     s16 unk298;
 } Unk80051FD0;
+
+extern VECTOR D_800BD758;
+extern VECTOR D_8015EB68;
+extern VECTOR D_801D99B4;
+extern VECTOR D_80093A3C;
+extern SVECTOR D_800B6E90;
+extern MATRIX *MulMatrix2(MATRIX *m0, MATRIX *m1);
+extern VECTOR D_801F6C7C;
+extern s32 D_800B6A90;
+
+void func_80051DD0(Unk80051FD0 *o) {
+    MATRIX unused[2];
+    SVECTOR r2;
+    SVECTOR r;
+    Unk80051FD0_Face *f;
+    u8 *m;
+
+    func_80024C0C(&D_8015EB68, &D_801D99B4, &r);
+    r.vy -= D_800B6E90.vy;
+    func_80024C0C(&D_80093A3C, &D_8015EB68, &r2);
+    r2.vz = 0;
+    r2.vy -= D_800B6E90.vy;
+    r2.vx += D_800B6E90.vx;
+    if (o->unk1F4 != 0 && o->unk28C < 60) {
+        o->unk298 = func_800255BC(o->unk298, (s16)-func_80025254((Unk8002A35C *)&((SVECTOR *)D_800B7398)[6], (Unk8002A35C *)&((SVECTOR *)D_800B7398)[7]), 0x40);
+        r.vy = r2.vy;
+        r.vx = r2.vx;
+    }
+    func_8002702C(&r, &D_801F9644);
+    MulMatrix2(&D_80169F78, &D_801F9644);
+    SetRotMatrix(&D_801F9644);
+    func_80085EA0(&D_801F9644, &D_8015EB68);
+    SetTransMatrix(&D_801F9644);
+    RotTrans((SVECTOR *)&D_800B67D0, &D_801F6C7C, &D_800B6A90);
+    if (D_801F6C7C.vz < 0x200) {
+        return;
+    }
+    if (D_801F6C7C.vz > 0x4000) {
+        return;
+    }
+    if (o->model != -1) {
+        m = (u8 *)D_801F9A5C[o->model];
+        if (m != NULL) {
+            for (f = (Unk80051FD0_Face *)(m + 8); f->draw != NULL; f++) {
+                f->draw(f);
+            }
+        }
+    }
+}
 
 extern VECTOR D_800886B4;
 extern VECTOR D_800BD758;
