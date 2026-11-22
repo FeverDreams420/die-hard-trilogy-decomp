@@ -26,8 +26,13 @@ build() { make -s 2>&1 | grep -vE '^(cpp|tools/gcc|mipsel|\.venv)' ; return "${P
 
 case "$cmd" in
     asm)   cat "$(asm_path)" ;;
-    m2c)   mkdir -p build/match
-           $PY tools/m2c/m2c.py --target mipsel-gcc-c "$(asm_path)" > "build/match/$func.c" && cat "build/match/$func.c" ;;
+    # With src/<exe>/<exe>.c, m2c gets build/ctx_<exe>.c (types, globals and
+    # prototypes of the matched code), so fewer types in the draft are unknown.
+    m2c)   mkdir -p build/match; ctx=()
+           if [ -f "src/$exe/$exe.c" ]; then
+               make -s "build/ctx_$exe.c" >/dev/null || exit 1; ctx=(--context "build/ctx_$exe.c")
+           fi
+           $PY tools/m2c/m2c.py --target mipsel-gcc-c "${ctx[@]}" "$(asm_path)" > "build/match/$func.c" && cat "build/match/$func.c" ;;
     build) build ;;
     score) build >/dev/null || { build; exit 1; }; $PY tools/funcdiff.py "$exe" "$func" ;;
     diff)  build >/dev/null || { build; exit 1; }

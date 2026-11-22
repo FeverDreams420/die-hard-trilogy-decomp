@@ -138,6 +138,20 @@ endif
 nonmatching:
 	$(MAKE) BUILD=build/nm EXTRA_CPPFLAGS=-DNON_MATCHING $(foreach e,$(EXES),build/nm/$(FILE_$(e)))
 
+# m2c context for an EXE (tools/match.sh m2c passes it): the types and globals
+# of src/<exe>/<exe>.c, with prototypes from cc1 -aux-info for every function
+# in the EXE's C files except the PsyQ ones. See tools/m2ctx.py.
+define ctx_rule
+build/ctx_$(1).c: src/$(1)/$(1).c tools/m2ctx.py $(wildcard src/$(1)/*.c include/*.h include/*/*.h)
+	@mkdir -p build
+	@rm -f $$@.aux; for f in $(filter-out %/psyq.c,$(wildcard src/$(1)/*.c)); do \
+		$(CPP) $(CPPFLAGS) $$$$f | $(CC1) -quiet -w -aux-info $$@.aux1 -o /dev/null && cat $$@.aux1 >> $$@.aux || exit 1; \
+	done
+	$(CPP) -P $(CPPFLAGS) -DM2CTX -DNON_MATCHING $$< | $(PYTHON) tools/m2ctx.py - $$@.aux > $$@
+	@rm -f $$@.aux $$@.aux1
+endef
+$(foreach e,$(EXES),$(if $(wildcard src/$(e)/$(e).c),$(eval $(call ctx_rule,$(e)))))
+
 check: all
 	@status=0; for f in $(foreach e,$(EXES),$(FILE_$(e))); do \
 		want=$$(grep "  $$f\$$" config/hashes.txt | cut -d' ' -f1); \
