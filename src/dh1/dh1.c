@@ -3449,7 +3449,9 @@ typedef struct {
 } Unk80030090;
 
 extern struct Task *D_801F7D44;
-extern struct Task *volatile D_801F7D50;
+extern struct {
+    struct Task *unk0;
+} D_801F7D50;
 
 typedef struct {
     Unk80030090Pt *p[4];
@@ -3462,10 +3464,10 @@ void func_8002FEC0(Unk8002FEC0 *quad) {
     Unk80030090Pt *ref;
     s16 max;
 
-    if (D_801F7D50 == NULL) {
+    if (D_801F7D50.unk0 == NULL) {
         ref = (Unk80030090Pt *)D_801F7D44->vals;
     } else {
-        ref = (Unk80030090Pt *)D_801F7D50->vals;
+        ref = (Unk80030090Pt *)D_801F7D50.unk0->vals;
     }
     max = quad->p[0]->unk2;
     if (max < quad->p[1]->unk2) {
@@ -3488,10 +3490,10 @@ void func_8002FFA8(Unk8002FEC0 *quad) {
     Unk80030090Pt *ref;
     s16 max;
 
-    if (D_801F7D50 == NULL) {
+    if (D_801F7D50.unk0 == NULL) {
         ref = (Unk80030090Pt *)D_801F7D44->vals;
     } else {
-        ref = (Unk80030090Pt *)D_801F7D50->vals;
+        ref = (Unk80030090Pt *)D_801F7D50.unk0->vals;
     }
     max = quad->p[0]->unk2;
     if (max < quad->p[1]->unk2) {
@@ -3516,10 +3518,10 @@ void func_80030090(Unk80030090 *tri) {
     Unk80030090Pt *ref;
     s16 max;
 
-    if (D_801F7D50 == NULL) {
+    if (D_801F7D50.unk0 == NULL) {
         ref = (Unk80030090Pt *)D_801F7D44->vals;
     } else {
-        ref = (Unk80030090Pt *)D_801F7D50->vals;
+        ref = (Unk80030090Pt *)D_801F7D50.unk0->vals;
     }
     max = tri->p[0]->unk2;
     if (max < tri->p[1]->unk2) {
@@ -3734,8 +3736,8 @@ void func_80031264(Unk8002A35C *from) {
     s32 dist;
     s32 angle;
 
-    if (D_801F7D50 != NULL) {
-        target = (Unk80031264_Target *)D_801F7D50->vals;
+    if (D_801F7D50.unk0 != NULL) {
+        target = (Unk80031264_Target *)D_801F7D50.unk0->vals;
         if (from != &target->pos) {
             dist = func_8002A35C(from, &target->pos);
             if (dist < D_800A2FBC) {
@@ -7628,7 +7630,9 @@ typedef struct {
     s16 unkC;
     s16 padE[2];
     s16 unk12;
-    u8 pad14[0x14];
+    u8 pad14[0xE];
+    s16 unk22;
+    u8 pad24[4];
     s16 unk28;
     u8 pad2A[0x22];
     s16 unk4C;
@@ -7654,7 +7658,9 @@ typedef struct {
     s16 unkF4;
     u8 padF6[0xE];
     s16 unk104;
-    u8 pad106[0xC];
+    u8 pad106[6];
+    s16 unk10C;
+    u8 pad10E[4];
     s16 unk112;
     s16 unk114;
     s16 unk116;
@@ -7663,6 +7669,8 @@ typedef struct {
     s16 unk126;
     u8 pad128[0x2A];
     s16 unk152;
+    u8 pad154[4];
+    s16 unk158;
 } Obj80047314;
 
 void func_8004379C(short id, SVECTOR *out);
@@ -8031,7 +8039,97 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE88);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80047B68);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80047F7C);
+extern void func_8004916C(Unk80045164 *obj, s32 dist);
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+} Unk80047F7C_Sub;
+
+void func_80047F7C(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+    s32 step = 0;
+    s32 dist;
+    Unk80047F7C_Sub *t;
+    Unk80043CC4 *node;
+    SVECTOR pos;
+    SVECTOR unused[3];
+    s16 tmp;
+    s16 a;
+    struct Task *task;
+
+    func_8003E384((Unk80045164 *)obj);
+    func_8002A270((Unk8002A35C *)obj, 4);
+    t = (Unk80047F7C_Sub *)&obj->unk114;
+    dist = func_80043B6C((Unk8002A35C *)&pos, obj);
+    if (t->unk4 == 0) {
+        a = func_80028B04((Unk8002A35C *)&pos, (Unk8002A35C *)obj) & 0xFFF;
+        obj->unk22 = a;
+        obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
+        func_8004916C((Unk80045164 *)obj, dist);
+        step = func_80045EF4((Unk80045EF4 *)obj, dist);
+    } else {
+        func_80024EF0((Anim *)obj->unk64);
+    }
+    if (obj->unkD4 >= 0x1000) {
+        node = &D_800A3084[obj->unkD8];
+        if (node->unk18 != 0 && node->unk16 == 0 && dist > 0x80) {
+            obj->unkD4 -= step;
+            obj->unkDA++;
+        } else if (dist > 0x140) {
+            obj->unkD4 = 0x1000;
+            obj->unkDA++;
+        } else {
+            obj->unkD4 = 0;
+            if ((task = D_801F7D50.unk0) != NULL) {
+                obj->unkDC = func_80039458((Unk80045164 *)task->vals);
+                if (obj->unkDC == obj->unkD8) {
+                    obj->unkDC = func_80043C60(obj->unkDC);
+                }
+            } else {
+                obj->unkDC = func_80043C60(obj->unkD8);
+            }
+            obj->unkD6 = obj->unkD8;
+            obj->unkD8 = func_80043770(obj->unkD8, obj->unkDC);
+            obj->unkDA = func_80043D68(obj->unkD6, obj->unkD8, obj->unkD2);
+        }
+    }
+    if ((s16)func_800493D0(obj) != 0 && t->unk4 != 0) {
+        t->unk4 = 0;
+        func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 8);
+    }
+    if (t->unk4 == 0) {
+        if (--t->unk0 <= 0) {
+            t->unk0 = 0;
+            t->unk2 = 0;
+            t->unk4 = 0;
+            D_800A317C->func = func_80046030;
+        }
+    } else {
+        tmp = func_80056B8C((Unk8002A35C *)obj, obj->unk10C);
+        if (tmp != -1) {
+            t->unk4 = 0;
+            func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 8);
+        }
+    }
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, &tmp, &tmp);
+    func_80031320((Unk80045164 *)obj);
+    if (obj->unk158 == 0 && (s16)func_8004BF0C((Unk8002A35C *)obj) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(obj->unk64, tmp, 0, 0x52, 8);
+        D_800A317C->saved = D_800A317C->func;
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    func_80049064((Unk80045164 *)obj, -1);
+}
 
 void func_80047F7C(void);
 
@@ -8342,8 +8440,8 @@ s32 func_800493D0(Unk800493D0 *obj) {
     Unk8002A35C *target;
     s32 angle;
 
-    if (D_801F7D50 != NULL) {
-        target = (Unk8002A35C *)D_801F7D50->vals;
+    if (D_801F7D50.unk0 != NULL) {
+        target = (Unk8002A35C *)D_801F7D50.unk0->vals;
         if (--obj->unkE2 >= 0) {
             return 0;
         }
@@ -8380,10 +8478,10 @@ s32 func_80049510(Unk80049510 *self) {
     Unk80041178 *obj;
     s16 i;
 
-    if (D_801F7D50 == NULL) {
+    if (D_801F7D50.unk0 == NULL) {
         return 0;
     }
-    ref = (Unk80043930 *)D_801F7D50->vals;
+    ref = (Unk80043930 *)D_801F7D50.unk0->vals;
     func_8002A35C((Unk8002A35C *)ref, (Unk8002A35C *)self);
     for (i = 0; i < list->count; i++) {
         obj = list->entries[i].obj;
@@ -9770,10 +9868,10 @@ void func_80051778(s16 id, s16 flag) {
     Unk80051778_Obj *obj;
     s16 *p;
 
-    if (D_801F7D50 == NULL) {
+    if (D_801F7D50.unk0 == NULL) {
         return;
     }
-    obj = (Unk80051778_Obj *)D_801F7D50->vals;
+    obj = (Unk80051778_Obj *)D_801F7D50.unk0->vals;
     p = (s16 *)((u8 *)obj + 0x114);
     if (flag) {
         if (c->unk6 != id) {
@@ -9917,10 +10015,10 @@ void func_80051AC0(void) {
     Unk80051AC0_Owner *o;
     s16 h;
 
-    if (D_801F7D50 == NULL) {
+    if (D_801F7D50.unk0 == NULL) {
         return;
     }
-    o = (Unk80051AC0_Owner *)D_801F7D50->vals;
+    o = (Unk80051AC0_Owner *)D_801F7D50.unk0->vals;
     switch (d->part[0].state) {
     case 1:
         d->part[0].val -= 0x400;
@@ -16763,10 +16861,10 @@ void func_8006AB6C(void) {
     s16 j;
     s32 dist;
 
-    if (D_801F7D50 == NULL) {
+    if (D_801F7D50.unk0 == NULL) {
         return;
     }
-    player = (Unk8002A35C *)D_801F7D50->vals;
+    player = (Unk8002A35C *)D_801F7D50.unk0->vals;
     for (i = 0; i < 0x80; i++) {
         a = D_801FBDC8[i];
         if (a == NULL) {
