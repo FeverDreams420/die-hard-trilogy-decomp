@@ -4592,7 +4592,50 @@ typedef struct {
     s16 unkB0;
 } Unk80033490;
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800328C0);
+extern s16 func_80050974(SVECTOR *pos, s32 arg1);
+extern s16 func_800508F0(SVECTOR *pos);
+extern s32 func_8004FB78(s32 *params);
+void func_800335F0(Unk80033490 *obj, s16 speed);
+void func_8004DE24(Unk80032344 *obj, s16 arg1);
+void func_80042538(Obj *o);
+
+void func_800328C0(s32 a0, s32 a1, Unk800584A4 *src) {
+    Unk800584A4 *obj = &D_800A3564[src->unkA];
+    s32 params[6];
+    SVECTOR unused;
+    s32 s;
+    s32 c;
+
+    if (obj->unk2A == 0) {
+        return;
+    }
+    if (obj->unkA6 < 0) {
+        obj->unkA6 = 0;
+    }
+    if (obj->unkA8 != 0 && obj->unkA6 == 0) {
+        func_800335F0((Unk80033490 *)obj, 0x59);
+    }
+    s = (D_800854C0[obj->unkA & 0xFFF] * 16) >> 8;
+    c = (D_800854C0[(obj->unkA + 0x400) & 0xFFF] * 16) >> 8;
+    if (obj->unkA6 >= 16) {
+        params[0] = 0x1E;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x200;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_8004DE24((Unk80032344 *)obj, 0x10);
+        obj->unk2A = 0;
+    }
+    obj->unk7C = obj->unk0 + c;
+    obj->unk80 = obj->unk4 - s;
+    obj->unk86 = obj->unkA;
+    func_80042538((Obj *)&obj->unk7C);
+    D_800A32E4 -= 25;
+    func_80032344((Unk80032344 *)obj, 1);
+    D_800A32E4 += 25;
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032A68);
 
