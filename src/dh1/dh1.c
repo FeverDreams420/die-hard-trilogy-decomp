@@ -5281,8 +5281,6 @@ void func_800369B8(void *arg0, void *arg1, Unk800584A4 *self) {
     func_80032344((Unk80032344 *)&D_800A3564[self->unkA], 1);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800369FC);
-
 typedef struct {
     s16 x;
     s16 y;
@@ -5294,7 +5292,7 @@ typedef struct {
     char padE[2];
     s16 unk10;
     s16 state;
-    char pad14[2];
+    s16 unk14;
     s16 id;
     s16 unk18;
     s16 unk1A;
@@ -5302,6 +5300,83 @@ typedef struct {
 
 extern Unk800A7A20 D_800A7A20[50];
 extern s16 D_800A30D4;
+extern s16 D_800A3244;
+extern SVECTOR D_800A30AC;
+
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0xA];
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    u8 pad16[0x4C];
+    s16 unk62;
+} Unk800369FC;
+
+void func_800369FC(Unk800369FC *obj, s16 arg1, s16 spread, s16 flag, s16 arg4) {
+    SVECTOR v;
+    SVECTOR r;
+    VECTOR out;
+    MATRIX m;
+    s16 i;
+
+    if (D_800A30D4 >= 50) {
+        return;
+    }
+    if (flag != 0) {
+        D_800A3244++;
+    }
+    if (spread == 0) {
+        spread = 16;
+    }
+    for (i = 0; i < 50; i++) {
+        if (D_800A7A20[i].state == -1) {
+            continue;
+        }
+        D_800A7A20[i].x = obj->pos.x;
+        D_800A7A20[i].y = obj->pos.y + 0x276;
+        D_800A7A20[i].z = obj->pos.z;
+        D_800A7A20[i].id = obj->unk62;
+        D_800A7A20[i].unk14 = obj->unk12;
+        v.vx = -0x6E;
+        v.vy = 0;
+        v.vz = 0x258;
+        r.vx = 0;
+        r.vy = obj->unk12;
+        r.vz = 0;
+        func_80023C7C(&D_800A30AC, &D_801FB868);
+        ApplyMatrix(&D_801FB868, (SVECTOR *)D_800A351C + 7, &out);
+        D_800A7A20[i].x = obj->pos.x + out.vx;
+        D_800A7A20[i].y = obj->pos.y + out.vy;
+        D_800A7A20[i].z = obj->pos.z + out.vz;
+        v.vx = 0;
+        v.vy = 0;
+        v.vz = func_8001E9DC(0x40) + 0x1A4;
+        r.vx = obj->unk10 + (func_8001E9DC(spread * 2) - spread);
+        r.vx = arg4 + (func_8001E9DC(spread * 2) - spread);
+        r.vy = obj->unk12 + (func_8001E9DC(spread * 2) - spread);
+        r.vz = obj->unk14;
+        func_80023660(&r, &D_801FB868);
+        ApplyMatrix(&D_801FB868, &v, &out);
+        D_800A7A20[i].unk8 = out.vx;
+        D_800A7A20[i].unkA = out.vy;
+        D_800A7A20[i].unkC = out.vz;
+        if (flag != 0) {
+            D_800A7A20[i].unk18 = 2;
+        } else {
+            D_800A7A20[i].unk18 = 0;
+        }
+        D_800A7A20[i].unk10 = 20;
+        D_800A7A20[i].state = -1;
+        D_800A7A20[i].unk1A = arg1;
+        D_800A7A20[i].x -= D_800A7A20[i].unk8 >> 1;
+        D_800A7A20[i].y -= D_800A7A20[i].unkA >> 1;
+        D_800A7A20[i].z -= D_800A7A20[i].unkC >> 1;
+        D_800A30D4++;
+        return;
+    }
+}
+
 extern s16 D_800A336C;
 
 s16 func_80036DE8(Unk8002A35C *pos, s16 type, s16 arg2, s16 arg3) {
@@ -5330,7 +5405,6 @@ s16 func_80036DE8(Unk8002A35C *pos, s16 type, s16 arg2, s16 arg3) {
     return 0xFF;
 }
 
-extern s16 D_800A3244;
 extern void *D_801F7D34;
 extern void func_80037D64();
 
@@ -7771,7 +7845,6 @@ void func_8004525C(void) {
     obj->model.rot.vy = func_80043814(obj->model.rot.vy, angle, 0xA0);
 }
 
-extern void func_800369FC(void *obj, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 void func_80045478(void) {
     Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
