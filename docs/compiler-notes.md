@@ -433,6 +433,8 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | 32 bytes of unused stack after the locals | An unused `MATRIX` local (0x800369FC); 24 bytes: `SVECTOR unused[3]` (0x800483C8) |
 | Inner loop entered with `j` to the test at the bottom, loop-invariant sign-extensions left inside | The original wasn't seen as a loop by GCC: a `goto` loop (`goto check; loop: ... next: j++; check: if (j < n) goto loop;`) gets this shape (0x8004121C, not yet matched) |
 | Unused 16-byte stack copy from rodata at the top of a function | A local initializer, `s32 unused[4] = {0x2000, 0x2000, 0x2000, 0};`; delete the rodata item's `INCLUDE_RODATA` if nothing else lies between it and the function (0x8004D650, not yet matched) |
+| `addiu v0,v0,0xff` before an `sb` of a `u8` counter | The source adds 255, `c += 0xFF;`. `c--` gives `addiu v0,v0,-1` (0x80032FD8) |
+| Two `s16` values stored to fixed stack slots 4 bytes apart and reloaded with `lh`, never address-taken | They are fields of a struct local (`SVECTOR mid; mid.vx = ...; mid.vz = ...;`). GCC 2.5.7 keeps struct locals in memory, plain `s16` locals go to registers (0x800385F4) |
 | Loop end `move v0,sN` / `bnez v0` with `addiu sN,sN,-1` in the delay slot | `do { ... } while (i--);`: the old value is tested, so the body also runs for 0. m2c prints it as `i -= 1; while (i != 0)` (0x8005A670; 0x8004AF54, 0x8004CCE8) |
 | 8 bytes of unused stack after `s32 params[6]` | An unused `SVECTOR` declared after `params` (0x80048BD4) |
 | Case bodies of a `switch` laid out out of order (1, 3, 2, ...) | Write the cases in that order in the source (0x80048BD4) |
