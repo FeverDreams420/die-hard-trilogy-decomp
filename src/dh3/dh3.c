@@ -14041,7 +14041,87 @@ void func_80064884(Unk80064884 *o) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064A7C);
+typedef struct {
+    u8 anim[0x14];
+    s16 busy;
+    u8 pad16[0x1A];
+} Unk80064A7C_Anim;
+
+typedef struct {
+    VECTOR pos[4];
+    u8 pad40[0x20];
+    SVECTOR vel[4];
+    u8 pad80[0xA0];
+    Unk80064A7C_Anim anim[4];
+    u8 pad1E0[0x6C];
+    s16 unk24C[4];
+    u8 pad254[4];
+    s16 unk258[4];
+} Unk80064A7C_Part;
+
+typedef struct {
+    u8 pad0[4];
+    Unk80064A7C_Part *part[4];
+    u8 pad14[8];
+    s16 unk1C;
+    s16 unk1E;
+    s16 pad20;
+    s16 unk22;
+    u8 pad24[0x10];
+    s16 unk34;
+    u8 pad36[0xA];
+    s16 unk40;
+    s16 pad42;
+    s16 unk44;
+} Unk80064A7C;
+
+void func_800685C0(s16 arg0, s16 arg1, s16 arg2);
+void func_8006661C(VECTOR *pos);
+
+void func_80064A7C(Unk80064A7C *o) {
+    Unk80064A7C_Part *q;
+    s16 k;
+    s16 i;
+
+    if (o->unk1E >= 0) {
+        return;
+    }
+    if (o->unk22 == o->unk44) {
+        return;
+    }
+    o->unk1E = 1;
+    k = (o->unk22 * 16) / 100;
+    o->unk1C = k;
+    i = k / 4;
+    if (i < 0) {
+        i = 0;
+    }
+    if (i >= 4) {
+        i = 3;
+    }
+    q = o->part[i];
+    i = k % 4;
+    if (o->unk34 != i) {
+        switch ((s16)func_80074910(2)) {
+        case 0:
+            func_800685C0(0x10, 0x17D0, (s16)func_80074910(0xFFF));
+        case 1:
+            func_800685C0(0x11, 0x17D0, (s16)func_80074910(0xFFF));
+        }
+        func_800685C0((s16)func_80074910(3), 0x2000, (s16)func_80074910(0xFFF));
+    }
+    o->unk34 = i;
+    q->unk24C[i] = 3;
+    q->unk258[i] = 0;
+    q->vel[i].vx = func_80074910(0x20) - 0x10;
+    q->vel[i].vz = func_80074910(0x20) - 0x10;
+    q->vel[i].vy = 0;
+    func_80048C14(q->anim[i].anim, (s16)func_80074910(3) + 6, 0, 0xA4, 4);
+    q->anim[i].busy = 1;
+    func_8006661C(&q->pos[i]);
+    o->unk40 = 0;
+    o->unk22++;
+}
 
 extern Color4 D_800B5980;
 extern Color4 D_800B5984;
