@@ -4459,7 +4459,76 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032F1C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80032F7C);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80033518);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 pad6;
+    s16 unk8;
+    s16 unkA[12];
+    s16 unk22[12];
+    s16 unk3A[12];
+    s16 unk52[12];
+    s16 unk6A[12];
+    s16 unk82[12];
+    s16 unk9A[12];
+    s16 padB2[2];
+    s16 unkB6;
+} Unk80033518;
+
+typedef struct {
+    u8 pad0[0x24E];
+    s16 unk24E;
+    s16 unk250;
+    s16 unk252;
+} Unk80033518_S;
+
+extern s32 D_800B6434;
+extern struct Task *volatile D_801F7548;
+void func_80032F7C(void);
+void func_800658EC(s16 id);
+void func_80065C10(s16 arg);
+extern int func_80072734(s32 a, s32 b, s32 t);
+
+void func_80033518(SVECTOR *v) {
+    Unk80033518_S *s;
+    struct Task *t;
+    Unk80033518 *p;
+    s16 i;
+    s16 r;
+
+    if ((u32)D_801F7548 < 8) {
+        return;
+    }
+    s = (Unk80033518_S *)D_801F7548->vals;
+    t = func_8007307C(func_80032F7C, 0x10, 0xB8);
+    if (t == NULL) {
+        return;
+    }
+    p = (Unk80033518 *)t->vals;
+    D_800B6434 = 0x3FFF;
+    func_800658EC(0x3E);
+    func_80065C10(0x3F);
+    p->x = v->vx;
+    p->y = v->vy;
+    p->z = v->vz;
+    i = 11;
+    do {
+        r = func_800754C8(0x1000);
+        p->unkA[i] = func_800754C8(0x40) + 0x40;
+        p->unk22[i] = func_80072734(0x2000, 0x3000, r);
+        p->unk9A[i] = func_80072734(3, 12, r);
+        p->unk52[i] = func_800754C8(0x1000);
+        p->unk6A[i] = func_800754C8(16) - 8;
+        p->unk3A[i] = func_80072734(0x40, 0xC0, r);
+        p->unk82[i] = func_80072734(0x40, 0x10, r);
+    } while (i--);
+    p->unkB6 = 0x2BC;
+    p->unk8 = 0xFF;
+    s->unk24E = func_800754C8(0x30) - 0x18;
+    s->unk250 = func_800754C8(0x30) - 0x18;
+    s->unk252 = func_800754C8(0x30) - 0x18;
+}
 
 extern s16 D_800BD994[];
 extern s16 D_80169F98[];
