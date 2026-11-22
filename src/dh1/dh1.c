@@ -13820,7 +13820,93 @@ void func_8005A42C(SVECTOR *pos, s32 arg1, s16 arg2) {
     PopMatrix();
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005A670);
+extern s16 D_800A33B4;
+
+void func_8005A670(void) {
+    Unk8005A42C *d = (Unk8005A42C *)D_800A317C->vals;
+    s16 sxy[2];
+    Unk80059DB8_Prim *p;
+    u8 *tex;
+    u32 *ot;
+    s32 r;
+    s32 s;
+    s32 c;
+    s16 far;
+    s16 col;
+    s16 i;
+
+    PushMatrix();
+    D_800A349C.vx = d->pos.vx - D_800A3194.vx;
+    D_800A349C.vy = d->pos.vy - D_800A3194.vy;
+    D_800A349C.vz = d->pos.vz - D_800A3194.vz;
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    SetRotMatrix(&D_801C0B64);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    i = d->unk16C;
+    while (i-- != 0) {
+        D_800A326C = RotTransPers(&d->vel[i], (s32 *)sxy, &D_800A2EFC, &D_800A3394) >> 1;
+        if (!(D_800A3394 & ~0x1FFF)) {
+            d->vel[i].vx += d->out[i].vx;
+            d->vel[i].vy += d->out[i].vy;
+            d->vel[i].vz += d->out[i].vz;
+            p = D_800A3374;
+            far = D_800A2A22 < D_800A326C ? -1 : 0;
+            r = func_800296F8(D_800A33B4 * 10, d->unk148 * D_800A33B4, d->unk16A) / D_800A326C;
+            d->angle[i] += d->unk128[i];
+            s = (D_800854C0[d->angle[i] & 0xFFF] * (s16)r) >> 12;
+            c = (D_800854C0[(d->angle[i] + 0x400) & 0xFFF] * (s16)r) >> 12;
+            p->x1 = sxy[0] - s;
+            p->y1 = c + sxy[1];
+            p->x2 = s + sxy[0];
+            p->y2 = sxy[1] - c;
+            p->x3 = sxy[0] - c;
+            p->y3 = sxy[1] - s;
+            p->x0 = c + sxy[0];
+            p->y0 = s + sxy[1];
+            if (D_800A326C > D_800A2A22) {
+                col = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+                if (col > 0x80) {
+                    col = 0x80;
+                }
+            } else {
+                col = 0x80;
+            }
+            tex = (u8 *)D_800A3154 + d->unk14A[i] * 0x2C;
+            p->uv0 = *(u16 *)(tex + 0);
+            p->uvt1 = *(u32 *)(tex + 4);
+            p->uv2 = *(u16 *)(tex + 8);
+            p->uv3 = *(u16 *)(tex + 0xC);
+            p->clut = *(u16 *)(tex + 0x22);
+            if (!far) {
+                SetPolyFT4(p);
+                p->code |= 3;
+            } else {
+                SetPolyFT4(p);
+                p->r0 = col;
+                p->g0 = col;
+                p->b0 = col;
+                p->code |= 2;
+            }
+            if (d->vel[i].vy < 0) {
+                d->vel[i].vy = 0;
+            }
+            d->out[i].vy -= 4;
+            if (D_800A326C > 8 && col > 0) {
+                ot = D_800A32E4 + D_800A326C;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, p++);
+                }
+                D_800A3374 = p;
+            }
+        }
+    }
+    PopMatrix();
+    d->unk16A -= 200;
+    if (d->unk16A <= 0) {
+        func_80021554();
+    }
+}
 
 extern s16 D_801C1EFE;
 extern u16 D_800852B0[][16];
