@@ -13177,7 +13177,8 @@ typedef struct {
     u32 unk70;
     u8 pad74[4];
     u16 unk78;
-    u8 pad7A[0x36];
+    u8 pad7A[0x1A];
+    u8 unk94[0x1C];
     s32 unkB0;
     u8 padB4[0xA];
     s16 unkBE;
@@ -13189,7 +13190,7 @@ typedef struct {
     s16 unkF0;
     s16 unkF2;
     s16 unkF4;
-    u8 padF6[2];
+    s16 unkF6;
     s16 unkF8[3];
     s16 unkFE;
     s16 unk100;
@@ -13887,9 +13888,141 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2EC);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2FC);
 
+// NON_MATCHING: registers, scheduling; the original passes obj to func_8005CA3C and func_8005CD64
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D1B4);
+#else
+extern s16 D_801C1ED8;
+extern s16 D_801C1EF8;
+extern s16 D_801C1EFA;
+extern void func_80043308();
+extern void func_8005ABA8();
+extern void func_8005CA44();
 
+void func_8005D1B4(void) {
+    Unk8005B554 *obj = (Unk8005B554 *)D_800A317C->vals;
+    s32 params[6];
+    s16 sounds[7] = { 11, 11, 12, 13, 14, 12, 15 };
+    s16 weapons[7] = { 0, 15, -1, 30, 30, -1, 30 };
+    Unk8005B554_114 *st;
+    s16 hit;
+
+    func_8003E384((Unk80045164 *)obj);
+    func_8006B350(0xF2000001);
+    st = &obj->unk114;
+    if (st->unk3E != 0) {
+        st->unk3E--;
+    }
+    if (!(st->unk3E & 1)) {
+        func_80031320((Unk80045164 *)obj);
+    }
+    if ((D_800A343C[0] & 0x20) && obj->unk2C != 7) {
+        func_8005C8D0((Unk8005C8D0 *)obj);
+    }
+    if (D_800A343C[0] & 0x800) {
+        func_8005CD64();
+    }
+    switch (obj->unk2C) {
+    case 0:
+        func_8005C38C(obj);
+        break;
+    case 1:
+        func_8005BD54(obj);
+        break;
+    case 2:
+        func_8005BFCC(obj);
+        break;
+    case 3:
+        func_8005CA3C();
+        break;
+    case 4:
+        func_8005C658(obj);
+        break;
+    case 5:
+        func_8005C244(obj);
+        break;
+    case 6:
+        func_8005C2E8(obj);
+        break;
+    case 7:
+        func_8005C7C4(obj);
+        break;
+    case 9:
+        func_8005C978(obj);
+        break;
+    case 10:
+        func_8005CA44(obj);
+        break;
+    case 11:
+        func_8005CA98((Unk8005CA98 *)obj);
+        break;
+    case 12:
+    case 13:
+        func_8005CB00(obj);
+        break;
+    }
+    if (obj->unk2C != 0) {
+        D_800A311C = 0;
+    }
+    hit = func_8005D170(obj);
+    func_8005ABA8(obj);
+    if (D_801C1ED6 != 0) {
+        func_80043308(obj->unk94);
+    }
+    if (D_801C1ED8 != 0) {
+        func_800433F4();
+    }
+    if (st->unk2 != 0) {
+        st->unk2--;
+    }
+    if (hit != 0 && st->unk2 == 0) {
+        func_8005CD6C(obj);
+    } else {
+        obj->unkBE = 0;
+    }
+    if ((s16)func_80024EF0((Anim *)obj->unk64) != 0) {
+        D_800A2E84 = -1;
+    }
+    D_800A2FBC = 0x7FFFFFFF;
+    D_800A3534 = NULL;
+    if (st->unkC != 0) {
+        if (--st->unkC == 0) {
+            if (st->unkE != 0) {
+                st->unkC = 15;
+                st->unkE = 0;
+                params[0] = sounds[obj->unkF4];
+                params[1] = 0x3FFF;
+                params[2] = 0;
+                params[3] = 0x400;
+                params[4] = 0;
+                params[5] = 0;
+                func_8004FB78(params);
+            }
+            if (st->unkC == 0 && st->unkE == 0 && weapons[obj->unkF4] != -1) {
+                obj->unkF6 = weapons[obj->unkF4];
+            }
+        }
+    }
+    if (D_801C1EF8 != 0 && obj->unkF4 != D_801C1EF8) {
+        func_80051778(D_801C1EF8, -1);
+        obj->unkF6 = 999;
+        obj->unkF4 = D_801C1EF8;
+        if (D_801C1EF8 == 1) {
+            D_801C1EF8 = 0;
+        }
+    }
+    if (D_801C1EFA != 0) {
+        obj->unkF8[0] = 50;
+        obj->unkF8[1] = 50;
+        obj->unkF8[2] = 50;
+        D_801C1EFA = 0;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B310);
+#endif
 
 extern s32 D_800A2EE0;
 extern s32 D_800A3034;
