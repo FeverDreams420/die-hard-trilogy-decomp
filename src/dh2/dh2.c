@@ -4239,7 +4239,58 @@ s32 *func_80031FBC(s32 *src, ModelFace *f, s32 tex) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800321A8);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003239C);
+SVECTOR *func_8003239C(s32 *src, s32 *dst) {
+    Model *m;
+    ModelSrcFace *f;
+    ModelSrcFace *sf;
+    SVECTOR *verts;
+    SVECTOR *sv;
+    SVECTOR *a;
+    SVECTOR *b;
+    s32 n;
+    s32 nv;
+    s32 i;
+    s32 k;
+    s32 dx, dy, dz;
+
+    n = src[3];
+    nv = src[4];
+    m = (Model *)dst;
+    dst += 2;
+    src += 5;
+    verts = (SVECTOR *)((ModelSrcFace *)dst + n);
+    sv = (SVECTOR *)((ModelSrcFace *)src + n);
+    i = nv;
+    while (i-- != 0) {
+        *verts++ = *sv++;
+    }
+    f = (ModelSrcFace *)dst;
+    sf = (ModelSrcFace *)src;
+    verts = (SVECTOR *)(f + n);
+    m->verts = verts;
+    m->nvert = nv;
+    m->nface = n;
+    while (n-- != 0) {
+        *f = *sf;
+        k = f->v[0];
+        a = &verts[k];
+        k = f->v[2];
+        b = &verts[k];
+        dx = b->vx - a->vx;
+        dy = b->vy - a->vy;
+        dz = b->vz - a->vz;
+        b->vx = SquareRoot0(dx * dx + dy * dy + dz * dz);
+        k = f->v[0];
+        f->v[0] = k * 8 + (s32)D_800B7398;
+        k = f->v[1];
+        f->v[1] = k * 8 + (s32)D_800B7398;
+        k = f->v[2];
+        f->v[2] = k * 8 + (s32)D_800B7398;
+        f++;
+        sf++;
+    }
+    return verts + nv;
+}
 
 void func_80032584(s16 n, s32 *a) {
     s32 t;
