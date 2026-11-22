@@ -6178,7 +6178,7 @@ typedef struct {
 
 void func_8003E35C(Unk8003CFE0_Obj *o);
 extern s16 D_800B6664;
-s16 func_80048D54(void *obj);
+s32 func_80048D54(void *obj);
 s16 func_80048E70(VECTOR *v, SVECTOR *rot, int a, int b, void *obj);
 s32 func_8003E25C();
 void func_8003E624(void);
@@ -6426,7 +6426,58 @@ void func_8003EAA4(VECTOR *src) {
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5804);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003EC04);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x48];
+    s32 unk70;
+    s16 unk74;
+    u8 pad76[2];
+    u8 unk78[0x40];
+    s16 unkB8;
+    s16 unkBA;
+} Unk8003EC04;
+
+extern CVECTOR D_800B5800;
+
+void func_8003EC04(void) {
+    Unk8003EC04 *o = (Unk8003EC04 *)D_800B604C->vals;
+    s32 dist;
+    CVECTOR col;
+
+    dist = func_80028A48(&D_800B659C->pos, &o->pos);
+    col = D_800B5800;
+    if ((s16)func_8003C5C0((Unk8003C5C0 *)o)) {
+        D_800B6664++;
+        D_800B604C->func = func_8003DC64;
+        func_8003DC64();
+        return;
+    }
+    if (func_80048D54(o->unk78)) {
+        if (dist < 0x200) {
+            func_80048C14(o->unk78, 5, 0, 0x54, 4);
+        } else {
+            func_80048C14(o->unk78, (s16)func_80074910(2) + 3, 0, 0x54, 4);
+        }
+    }
+    if ((s16)func_80048E70(&o->pos, &o->rot, 0x1000, 0x280, o->unk78) < 4) {
+        if (o->unk74++ >= 5) {
+            func_8004DCC4(o->unk70);
+            func_8004DC84(o->unkB8, o->unkBA);
+            func_800728A4();
+            return;
+        }
+    } else {
+        o->unk74 = 0;
+    }
+    if ((s16)func_8003E25C(o)) {
+        D_800B604C->func = func_8003E624;
+    }
+    if ((s16)func_8003C838(o)) {
+        D_800B604C->func = func_8003D9F8;
+    }
+}
 
 void func_8003EEE4(s16 a, s16 b, u8 *c, s16 d, s16 e);
 void func_8005DB00(s16 a, s16 b, u8 *c, s32 d, s16 e);
@@ -8188,7 +8239,7 @@ typedef struct {
     u16 blendSpeed;
 } Unk80048D54_Anim;
 
-s16 func_80048D54(void *obj) {
+s32 func_80048D54(void *obj) {
     Unk80048D54_Anim *a = obj;
     Unk80048D54_Seq *seq = (Unk80048D54_Seq *)D_800B66AC[a->seq].p;
     s16 ret = 0;
@@ -12006,7 +12057,7 @@ extern SVECTOR D_800B6594;
 extern VECTOR D_80091BB8;
 extern s16 D_800B638C;
 s16 func_80048E70(VECTOR *v, SVECTOR *rot, int a, int b, void *obj);
-s16 func_80048D54(void *obj);
+s32 func_80048D54(void *obj);
 void func_80060F00(VECTOR *v, int a, int b, int c, int d);
 
 void func_80060D44(void) {
