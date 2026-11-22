@@ -12406,7 +12406,85 @@ void func_8005C850(void) {
     D_800B604C->func = func_8005C544;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005C8C4);
+typedef struct {
+    u8 pad0[0xC];
+    s16 unkC;
+    u8 padE[2];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x4A];
+    s16 unk72;
+    u8 pad74[0x14];
+    s16 unk88;
+    u8 pad8A[0xE];
+    s32 unk98;
+    s16 unk9C;
+} Unk8005C8C4;
+
+typedef struct {
+    u8 pad0[0x114];
+    s16 unk114;
+} Unk8005C8C4_Q;
+
+void func_80022604(void);
+void func_80058C44(void);
+void func_80050780(void);
+void func_8005119C(void);
+void func_80054D3C(void);
+void func_800597F8(void);
+void func_8005D3DC();
+extern u8 D_800B5720[];
+
+void func_8005C8C4(void) {
+    Unk8005C8C4 *p = (Unk8005C8C4 *)D_800B604C->vals;
+    Unk8005C8C4_Q *q;
+
+    if (D_801F80E0 == NULL) {
+        return;
+    }
+    q = (Unk8005C8C4_Q *)D_801F80E0->vals;
+    if ((s16)func_800210B8((void *)D_801FAB28[0], &p->pos, (s16 *)&p->rot)) {
+        if (D_800B61DC == 0 && D_800B613C != 7) {
+            func_800597F8();
+        }
+    } else {
+        p->unkC = 0;
+    }
+    func_800564EC(D_800B61F4, p);
+    if (D_800B61DC != 0) {
+        return;
+    }
+    if (p->unk72 == 0) {
+        return;
+    }
+    func_80067394(&p->pos, 0);
+    if (D_800B64E4 != 0) {
+        func_8006723C();
+        func_80067210();
+        D_800B572C = D_80091708;
+        q->unk114 = -1;
+        func_8006B2B4(&p->pos, 0xF0, 0x32);
+        func_8006B170(&p->pos, 0xF0, 0x46);
+        func_8005D3DC(&p->pos, &p->rot, 0, D_800B5720);
+        p->unk88 = 0;
+        p->unk9C = -1;
+        D_800B649C = 100;
+        D_800B6664 = 0;
+        if (D_801F80B0[0] != NULL) {
+            D_801F80B0[0]->func = func_80022604;
+        }
+        D_800B61DC = -1;
+        D_800B604C->func = func_80058C44;
+    } else {
+        D_800B572C = D_80091708;
+        func_8004DCC4(p->unk98);
+        q->unk114 = -1;
+        func_80072374(func_80050780, 0x54);
+        D_800B61DC = -1;
+        func_8005119C();
+        D_800B604C->func = func_80054D3C;
+    }
+}
 
 typedef struct {
     u8 pad0[0x10];
