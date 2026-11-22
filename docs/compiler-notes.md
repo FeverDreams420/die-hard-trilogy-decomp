@@ -421,6 +421,12 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | `jal` result tested with `beqz v0` and no `sll 16` although the callee returns `s16` | The caller saw an `int` declaration: make the prototype (and the definition, when its body is unchanged) return `s32` (DH3 0x80048D54) |
 | Two stores of the same small array (`s16 dx[4] = {...}`) copied from `.sdata` with `lwl`/`lwr` right after the function | Local initializers: write them in C and delete their `INCLUDE_SDATA` lines (DH2 0x8004DB64, 0x80040054) |
 | A 16-byte gap below the locals that nothing uses | An unused local, `VECTOR unused;` or `SVECTOR unused;`, declared before the others (DH3 0x80021518, DH2 0x8004EB78) |
+| `sll 16` before `beqz`, or `sll`/`sra` before a compare, on the result of a callee the file declares as returning `s16` | Cast at the call anyway: `if ((s16)func_8003C838(p))`; the cast is not dropped (DH3 0x8003E92C) |
+| A caller declares `T f(void)` and calls with no argument, but the definition takes one | Write the definition old-style, `u8 func_80024864(v) SVECTOR *v; {`, and give the caller `T f();` (DH2 0x80024864) |
+| Loads for a test scheduled before a local initializer's `lwl`/`lwr` copy | Put those locals' initializers first in the declarations: `s16 dx = ...; s16 dz = ...; SVECTOR sv = {0, 0, 0, 0};` (DH3 0x80058D48) |
+| A task's `func = saved` tail shared through a jump with a register reused from the top | The original wrote the statement in both places; GCC cross-jumps them (DH3 0x8006995C, not yet matched) |
+| `lhu` and `sll 20`/`sra 20` for a 12-bit angle difference | `((s16)(a - b) << 20) >> 20` (DH3 0x8003E67C) |
+| A value read with `lhu` into a saved register across a call, then sign-extended after it, and the same register reused for a later result | One `s32` variable for both, the first read as `(u16)p->pos.vy` (DH3 0x8003D9F8) |
 
 ## PsyQ library settings
 
