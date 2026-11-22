@@ -9029,9 +9029,64 @@ void func_8004FC6C(void) {
     func_800728A4();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004FCD8);
+extern s16 D_800B8520;
+extern s16 D_800B851E;
+extern s32 *D_800B65E4;
+void func_80029854(void);
+extern s16 D_800B6674;
+extern void (*D_800B657C)(void);
+void func_80071CCC(void);
+void func_8004FEC0(void);
 
-INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", jtbl_80086D8C);
+void func_8004FCD8(void) {
+    s16 *state = (s16 *)D_800B604C->vals;
+
+    D_800B8520 = 7;
+    D_800B851E = 10;
+    switch (*state) {
+    case 0:
+        D_800B6674 = 4;
+        D_800B5EA4 = 30;
+        func_80029854();
+        break;
+    case 1:
+        D_800B6674 = 5;
+        D_800B5EA4 = 40;
+        func_8004DE58();
+        break;
+    case 2:
+        D_800B6674 = 6;
+        func_8004FEC0();
+        break;
+    case 3:
+        D_800B6674 = 7;
+        func_8001E83C();
+        break;
+    case 5:
+        D_800B6674 = 8;
+        func_8003F7B4();
+        break;
+    case 6:
+        D_800B6674 = 9;
+        func_8003F868();
+        break;
+    case 8:
+        D_800B6674 = 10;
+        D_800B5EA4 = 50;
+        func_8004E1B0();
+        func_80042538(func_80071BB0(D_800B5E4C, 8));
+        break;
+    case 9:
+        D_800B6674 = 11;
+        D_800B5EA4 = 75;
+        func_80071F48(D_800B6464, D_800B66DC + 0x20);
+        D_800B657C = func_8004FC6C;
+        D_800B65E4 = D_800B6464;
+        D_800B604C->func = func_80071CCC;
+        return;
+    }
+    (*state)++;
+}
 
 INCLUDE_RODATA("asm/dh3/nonmatchings/dh3", D_80086DB4);
 
