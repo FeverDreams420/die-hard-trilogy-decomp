@@ -6412,7 +6412,9 @@ typedef struct {
     u8 pad0[0x10];
     VECTOR pos;
     SVECTOR rot;
-    u8 pad28[0x38];
+    u8 pad28[0x2A];
+    s16 unk52;
+    u8 pad54[0xC];
     s16 unk60;
     s16 unk62;
     s16 unk64;
@@ -6424,7 +6426,8 @@ typedef struct {
     u8 pad76[2];
     u8 unk78[0x14];
     s16 unk8C;
-    u8 pad8E[0x24];
+    u8 pad8E[0x22];
+    s16 unkB0;
     s16 unkB2;
     s16 unkB4;
     s16 padB6;
@@ -6701,9 +6704,50 @@ void func_8003D9F8(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003DC64);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003DFE0);
+void func_8003DFE0(void) {
+    Unk8003D7E4 *p = (Unk8003D7E4 *)D_800B604C->vals;
+    SVECTOR step = {0, 0, -0x18, 0};
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B57E8);
+    if ((func_80056B14(&p->pos) >> 12) == 0xE) {
+        if (p->unkB0 != 0) {
+            D_800B604C->func = func_8003D180;
+            p->unk52 = p->rot.vy + 0x400 + (s16)func_80074910(2) * 0x800;
+            p->unkB0 = 0;
+            func_80048C14(p->unk78, (s16)func_80074910(2) + 1, 0, 0x54, 4);
+        }
+    } else {
+        p->unkB0 = -1;
+    }
+    p->pos.vy = (s16)func_80028BF0(&p->pos);
+    p->rot.vy = func_80028868(p->rot.vy, p->unk52, 0xA0);
+    func_80048D54(p->unk78);
+    func_80028310(&p->rot, &step, &p->pos, &p->pos);
+    func_8003E35C(p);
+    if ((s16)func_80048E70(&p->pos, &p->rot, 0x1000, 0x280, p->unk78) < 4) {
+        if (p->unk74++ >= 0x1F) {
+            func_8004DCC4(p->unk70);
+            func_8004DC84(p->unkB8, p->unkBA);
+            D_800B62A4--;
+            func_800728A4();
+            return;
+        }
+    } else {
+        p->unk74 = 0;
+        D_800B604C->unk2C = 0;
+    }
+    if ((s16)func_8003C5C0((Unk8003C5C0 *)p)) {
+        D_800B6664++;
+        D_800B604C->func = func_8003DC64;
+        func_8003DC64();
+        return;
+    }
+    if ((s16)func_8003E25C(p)) {
+        D_800B604C->func = func_8003E624;
+    }
+    if ((s16)func_8003C838(p)) {
+        D_800B604C->func = func_8003D9F8;
+    }
+}
 
 typedef struct {
     u8 pad0[0x10];
