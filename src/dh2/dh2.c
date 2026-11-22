@@ -8285,11 +8285,53 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004D31C);
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004D810);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8004DB64);
+typedef struct {
+    SVECTOR pos[4][4];
+    SVECTOR vel[4][4];
+    s16 unk100;
+    s16 unk102;
+    s16 unk104;
+} Unk8004DB64;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B65DC);
+void func_8004D810(void);
+extern VECTOR D_801F6C7C;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B65E4);
+void func_8004DB64(SVECTOR *pos) {
+    s16 dx[4] = {-1, 1, -1, 1};
+    s16 dz[4] = {-1, -1, 1, 1};
+    struct Task *t;
+    Unk8004DB64 *p;
+    s16 i;
+    s16 j;
+
+    if (D_800B7370->unk1788 < 0x800) {
+        return;
+    }
+    if (D_800B7430 == 7) {
+        return;
+    }
+    t = func_8007307C(func_8004D810, 0x10, 0x106);
+    if (t == NULL) {
+        return;
+    }
+    p = (Unk8004DB64 *)t->vals;
+    i = 3;
+    do {
+        D_801F6C7C.vx = pos->vx + (s16)func_800754C8(0x100) - 0x80;
+        D_801F6C7C.vz = pos->vz + (s16)func_800754C8(0x100) - 0x80;
+        j = 3;
+        do {
+            p->vel[j][i].vx = ((s16)func_800754C8(0x80) + 0x80) * dx[j];
+            p->vel[j][i].vz = ((s16)func_800754C8(0x80) + 0x80) * dz[j];
+            p->pos[j][i].vx = D_801F6C7C.vx;
+            p->pos[j][i].vy = pos->vy;
+            p->pos[j][i].vz = D_801F6C7C.vz;
+        } while (j--);
+    } while (i--);
+    p->unk102 = 0;
+    p->unk100 = 0x4000;
+    p->unk104 = 0;
+}
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B65EC);
 
