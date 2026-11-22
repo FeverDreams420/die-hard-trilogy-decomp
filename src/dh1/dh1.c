@@ -6290,7 +6290,142 @@ void func_80038554(SVECTOR *pos) {
     func_8004FB78(params);
 }
 
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8 pad6[4];
+    s16 angle;
+    u8 padC[0xC];
+    s32 w;
+    s32 h;
+    s32 d;
+    u8 pad24[0x14];
+} Unk800418DC;
+
+// NON_MATCHING: registers; the original hoists y + 10 and the segment ends out of the box loop
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800385F4);
+#else
+typedef struct {
+    s32 x;
+    s32 z;
+} Unk800385F4_Pt;
+
+extern u16 D_800A79F2;
+extern u16 D_800A79F4;
+extern s32 *D_800A32B4;
+extern Unk800418DC *D_800A300C;
+
+s32 func_800385F4(SVECTOR *pos, SVECTOR *d) {
+    Unk800385F4_Pt pt[4];
+    SVECTOR mid;
+    s16 *cell;
+    Unk800418DC *b;
+    s16 y;
+    s32 x0, z0, x1, z1;
+    s32 dx, dz;
+    s32 ax, az;
+    s32 a, bb;
+    s32 cw, sh, ch, sw;
+    s32 ox, oz;
+    s16 hit;
+    s16 n;
+    s16 i;
+    s16 idx;
+
+    if ((pos->vx < 0 ? -pos->vx : pos->vx) < 0x4000 && (pos->vz < 0 ? -pos->vz : pos->vz) < 0x4000) {
+        cell = (s16 *)D_800A32B4[(pos->vx + (D_800A79F2 << 9)) / 1024 + ((pos->vz + (D_800A79F4 << 9)) / 1024 << 5)];
+        y = pos->vy;
+        mid.vx = pos->vx + (d->vx >> 1);
+        mid.vz = pos->vz + (d->vz >> 1);
+        x0 = pos->vx;
+        z0 = pos->vz;
+        dx = d->vx;
+        dz = d->vz;
+        x1 = x0 + dx;
+        z1 = z0 + dz;
+        while ((idx = *cell++) != -1) {
+            b = &D_800A300C[idx];
+            if ((s16)(y + 10) >= b->y && (s16)(y - 10) < b->y + b->h) {
+                hit = 0;
+                if (!(b->angle & 0x7FF)) {
+                    ax = mid.vx - b->x;
+                    az = mid.vz - b->z;
+                    if (ax < 0) {
+                        ax = -ax;
+                    }
+                    if (az < 0) {
+                        az = -az;
+                    }
+                    if (b->w - (ax - 250) > 0 && b->d - (az - 250) > 0) {
+                        hit = -1;
+                    }
+                } else {
+                    hit = -1;
+                }
+                if (hit) {
+                    a = D_800854C0[(b->angle + 0x400) & 0xFFF];
+                    bb = D_800854C0[(b->angle + 0x800) & 0xFFF];
+                    cw = a * b->w;
+                    sh = bb * b->d;
+                    ch = a * b->d;
+                    sw = bb * b->w;
+                    ox = (cw + sh) >> 12;
+                    oz = (sw - ch) >> 12;
+                    pt[0].x = b->x - ox;
+                    pt[0].z = b->z - oz;
+                    pt[2].x = b->x + ox;
+                    pt[2].z = b->z + oz;
+                    ox = (cw - sh) >> 12;
+                    oz = (sw + ch) >> 12;
+                    pt[1].x = b->x - ox;
+                    pt[1].z = b->z - oz;
+                    pt[3].x = b->x + ox;
+                    pt[3].z = b->z + oz;
+                    n = 0;
+                    for (i = 0; i < 4; i++) {
+                        if ((z0 - pt[i].z) * (x1 - x0) >= (x0 - pt[i].x) * (z1 - z0)) {
+                            n++;
+                        } else {
+                            n--;
+                        }
+                    }
+                    if ((n < 0 ? -n : n) == 4) {
+                        continue;
+                    }
+                    n = 0;
+                    for (i = 0; i < 4; i++) {
+                        if ((z1 - pt[i].z) * ((x1 - dz) - x1) >= (x1 - pt[i].x) * ((z1 + dx) - z1)) {
+                            n++;
+                        } else {
+                            n--;
+                        }
+                    }
+                    if (n == 4) {
+                        continue;
+                    }
+                    if (n == -4) {
+                        n = 0;
+                        for (i = 0; i < 4; i++) {
+                            if ((z0 - pt[i].z) * ((x0 - dz) - x0) >= (x0 - pt[i].x) * ((z0 + dx) - z0)) {
+                                n++;
+                            } else {
+                                n--;
+                            }
+                        }
+                        if (n == -4) {
+                            continue;
+                        }
+                    }
+                    return -1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80038B00);
 
@@ -8393,12 +8528,6 @@ void func_8004161C(SVECTOR *a, SVECTOR *b, s16 color) {
     D_800A3374 = line;
 }
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    u8 pad6[0x32];
-} Unk800418DC;
 
 extern Unk800418DC *D_800A300C;
 extern s16 D_800A32FC;
