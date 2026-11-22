@@ -14,6 +14,9 @@ under `#ifndef NON_MATCHING` (docs/non-matching.md); they don't count as matched
 The report uses objdiff's report format (version 2), so progress trackers that
 read objdiff reports can ingest it. Each C file is one unit and each EXE is a
 progress category. Functions still in assembly count as 0% matched.
+
+The PsyQ libraries (src/<exe>/psyq.c) are left out of every total, since the
+PC port replaces them. Add --psyq to count them too.
 """
 import json
 import re
@@ -21,6 +24,7 @@ import sys
 from pathlib import Path
 
 EXES = ["dh1", "dh2", "dh3"]
+WITH_PSYQ = "--psyq" in sys.argv
 SYM = re.compile(r"^\s+0x([0-9a-f]{8})\s+(\S+)$")
 TEXT = re.compile(r"^ \.text\s+0x([0-9a-f]{8})\s+0x([0-9a-f]+) build/(src/\S+)\.o$")
 
@@ -48,6 +52,8 @@ def units(exe):
                     syms.setdefault(addr, name)
     out = []
     for path, start, end, syms, asm in found:
+        if not WITH_PSYQ and Path(path).stem == "psyq":
+            continue
         addrs = sorted(syms)
         funcs = []
         for i, addr in enumerate(addrs):
