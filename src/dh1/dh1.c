@@ -18575,7 +18575,52 @@ void func_80069728(void) {
     D_800A317C->func = func_80069520;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800697C0);
+typedef struct {
+    u8 u0, v0;
+    u16 clut;
+    u8 u1, v1;
+    u16 tpage;
+    u8 u2, v2;
+    u16 pad0;
+    u8 u3, v3;
+    u16 pad1;
+    u8 unk10[0x10];
+    u8 u4, v4;
+    u16 tpage2;
+    u8 u5, v5;
+    u16 tpage3;
+    u8 unk28[0x14];
+} Unk801C0964;
+
+extern Unk801C0964 D_801C0964[8];
+extern u16 D_8008A808[];
+
+void func_800697C0(void) {
+    u16 *clut = D_8008A808;
+    s16 i;
+
+    for (i = 0; i < 8; i++) {
+        s16 u = (i & 7) << 5;
+        s16 v = ((i >> 3) & 7) << 5;
+
+        D_801C0964[i].u0 = u;
+        D_801C0964[i].v0 = v;
+        D_801C0964[i].u1 = u + 0x1F;
+        D_801C0964[i].v1 = v;
+        D_801C0964[i].u4 = u + 0x1F;
+        D_801C0964[i].v4 = v;
+        D_801C0964[i].u5 = u + 0x1F;
+        D_801C0964[i].v5 = v;
+        D_801C0964[i].u2 = u;
+        D_801C0964[i].v2 = v | 0x1F;
+        D_801C0964[i].u3 = u + 0x1F;
+        D_801C0964[i].v3 = v | 0x1F;
+        D_801C0964[i].tpage = GetTPage(0, 0, 0x2C0, 0);
+        D_801C0964[i].tpage2 = GetTPage(0, 2, 0x2C0, 0);
+        D_801C0964[i].tpage3 = GetTPage(0, 1, 0x2C0, 0);
+        D_801C0964[i].clut = GetClut(0x300, *clut++);
+    }
+}
 
 u8 func_8006994C(u8 *data, s32 len) {
     s32 sum = 5;
