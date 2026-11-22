@@ -1007,7 +1007,37 @@ void func_800247D0(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024864);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024914);
+void func_80024914(SVECTOR *a, SVECTOR *b, SVECTOR *c, SVECTOR *out) {
+    s32 ax, ay, az;
+    s32 cx, cy, cz;
+    s32 nx, ny, nz;
+    s32 len;
+
+    ax = (a->vx - b->vx) >> 2;
+    ay = (a->vy - b->vy) >> 2;
+    az = (a->vz - b->vz) >> 2;
+    cx = (c->vx - b->vx) >> 2;
+    cy = (c->vy - b->vy) >> 2;
+    cz = (c->vz - b->vz) >> 2;
+    nx = ay * cz - az * cy;
+    ny = az * cx - ax * cz;
+    nz = ax * cy - ay * cx;
+    len = nx * nx + ny * ny + nz * nz;
+    if (len > 0) {
+        len = SquareRoot0(len);
+    } else {
+        len = 0;
+    }
+    if (len != 0) {
+        out->vx = (nx << 12) / len;
+        out->vy = (ny << 12) / len;
+        out->vz = (nz << 12) / len;
+    } else {
+        out->vx = 0x1000;
+        out->vy = 0;
+        out->vz = 0;
+    }
+}
 
 extern s32 *D_800B71F0;
 
@@ -7170,11 +7200,11 @@ void func_80047E50(s32 *obj) {
 }
 
 extern SVECTOR D_800B73F8;
-void func_80024914(s32 x, s32 y, s32 z, SVECTOR *out);
+void func_80024914(SVECTOR *a, SVECTOR *b, SVECTOR *c, SVECTOR *out);
 void func_80056E74(SVECTOR *a, SVECTOR *b, s16 c);
 
-void func_80047EF8(VECTOR *pos, void *obj) {
-    func_80024914(pos->vx, pos->vy, pos->vz, &D_800B73F8);
+void func_80047EF8(SVECTOR **v, void *obj) {
+    func_80024914(v[0], v[1], v[2], &D_800B73F8);
     func_80056E74(obj, &D_800B73F8, -1);
 }
 
@@ -7186,9 +7216,7 @@ void func_80047F4C(void *arg0) {
 }
 
 typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
+    SVECTOR *v[3];
     s32 pad;
     u16 unk10;
 } Unk80047F84;
@@ -7201,7 +7229,7 @@ void func_800565F0();
 void func_800577F8();
 
 void func_80047F84(Unk80047F84 *a, void *obj) {
-    func_80024914(a->x, a->y, a->z, &D_800B73F8);
+    func_80024914(a->v[0], a->v[1], a->v[2], &D_800B73F8);
     if ((s16)func_800754C8(2)) {
         func_80056E74((SVECTOR *)obj, &D_800B73F8, 0);
         func_8006684C((s16)func_800754C8(2) + 0x3A, obj);
