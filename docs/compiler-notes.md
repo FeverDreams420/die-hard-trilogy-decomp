@@ -433,6 +433,10 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | 32 bytes of unused stack after the locals | An unused `MATRIX` local (0x800369FC); 24 bytes: `SVECTOR unused[3]` (0x800483C8) |
 | Inner loop entered with `j` to the test at the bottom, loop-invariant sign-extensions left inside | The original wasn't seen as a loop by GCC: a `goto` loop (`goto check; loop: ... next: j++; check: if (j < n) goto loop;`) gets this shape (0x8004121C, not yet matched) |
 | Unused 16-byte stack copy from rodata at the top of a function | A local initializer, `s32 unused[4] = {0x2000, 0x2000, 0x2000, 0};`; delete the rodata item's `INCLUDE_RODATA` if nothing else lies between it and the function (0x8004D650, not yet matched) |
+| Loop end `move v0,sN` / `bnez v0` with `addiu sN,sN,-1` in the delay slot | `do { ... } while (i--);`: the old value is tested, so the body also runs for 0. m2c prints it as `i -= 1; while (i != 0)` (0x8005A670; 0x8004AF54, 0x8004CCE8) |
+| 8 bytes of unused stack after `s32 params[6]` | An unused `SVECTOR` declared after `params` (0x80048BD4) |
+| Case bodies of a `switch` laid out out of order (1, 3, 2, ...) | Write the cases in that order in the source (0x80048BD4) |
+| Sound parameters: `params[3] = 0x400` stored, then overwritten with `D_801C1EF6 + 0x400` | Probably `params[3] = 0x400; ... params[3] += D_801C1EF6;` (guess, NON_MATCHING 0x80039F98) |
 
 ## PsyQ library settings
 
