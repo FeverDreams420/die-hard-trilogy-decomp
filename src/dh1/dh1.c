@@ -9333,7 +9333,115 @@ void func_8004D4A0(Unk8004D4A0 *f, SVECTOR *out) {
     }
 }
 
+// NON_MATCHING: D_800A317C load hoisted above the prologue, registers
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004D650);
+#else
+typedef struct {
+    SVECTOR v[4];
+} Unk8004D650_Piece;
+
+typedef struct {
+    Unk8004D650_Piece pieces[20];
+    SVECTOR vel[20];
+    u16 tex[20];
+    s16 ground;
+    s16 pad34A;
+    VECTOR pos;
+    u8 pad35C[0xC];
+    s16 timer;
+} Unk8004D650;
+
+extern s16 D_800A333C;
+extern SVECTOR D_800A34B4;
+
+void func_8004D650(void) {
+    Unk8004D650 *d = (Unk8004D650 *)D_800A317C->vals;
+    s32 unused[4] = { 0x2000, 0x2000, 0x2000, 0 };
+    Unk8002CE64_Prim *prim;
+    Unk8002CE64_Prim *p;
+    s32 limit;
+    Unk8004D650_Piece *e;
+    SVECTOR *v;
+    u16 *tex;
+    u32 *ot;
+    s32 x;
+    s32 z;
+    s16 c;
+    s16 i;
+    s16 k;
+
+    i = 0;
+    prim = D_800A3374;
+    p = prim;
+    limit = (s32)D_800A8078[D_800A333C].unk2874 - 0x320;
+    x = d->pos.vx - D_800A3194.vx;
+    z = d->pos.vz - D_800A3194.vz;
+    PushMatrix();
+    D_800A349C.vx = x;
+    D_800A349C.vy = d->pos.vy - D_800A3194.vy;
+    D_800A349C.vz = z;
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    e = d->pieces;
+    do {
+        D_800A326C = RotTransPers4(&e->v[0], &e->v[1], &e->v[2], &e->v[3], &prim->xy0, &prim->xy1, &prim->xy3, &prim->xy2, &D_800A2EFC, &D_800A3394);
+        if ((s32)prim < limit) {
+            D_800A326C = func_800293A4();
+            if ((D_800A3394 & 0xFFFFE000) == 0 && D_800A326C > 0x20 && D_800A326C < 0x9FF) {
+                tex = (u16 *)((u8 *)D_800A3154 + d->tex[i]);
+                *(u32 *)&p->uv0 = *(u32 *)tex;
+                *(u32 *)&p->uv1 = *(u32 *)(tex + 10);
+                p->uv2 = tex[4];
+                p->uv3 = tex[6];
+                if (D_800A326C > D_800A2A22) {
+                    c = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+                    if (c > 0x80) {
+                        c = 0x80;
+                    }
+                } else {
+                    c = 0x80;
+                }
+                if (c > 0) {
+                    setlen(p, 9);
+                    setcode(p, 0x2C);
+                    p->r0 = c;
+                    p->g0 = c;
+                    p->b0 = c;
+                    ot = D_800A32E4 + D_800A326C;
+                    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                        prim++;
+                        AddPrim(ot, p++);
+                    }
+                }
+            }
+        }
+        D_800A34B4.vx = e->v[0].vx;
+        D_800A34B4.vy = e->v[0].vy;
+        D_800A34B4.vz = e->v[0].vz;
+        func_8004D360(&D_800A34B4);
+        k = 3;
+        do {
+            v = &e->v[k];
+            v->vx += d->vel[i].vx;
+            v->vy += v->pad;
+            v->pad -= 8;
+            v->vz += d->vel[i].vz;
+            if (v->vy < d->ground) {
+                v->pad = ABS(v->pad) >> 1;
+                v->vy = d->ground;
+            }
+        } while (k--);
+        i++;
+        e++;
+    } while (i < 20);
+    D_800A3374 = prim;
+    PopMatrix();
+    if (++d->timer > 0x40) {
+        func_80021554();
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004DA48);
 
