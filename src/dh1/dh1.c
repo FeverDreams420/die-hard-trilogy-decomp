@@ -12481,6 +12481,8 @@ typedef struct {
     s16 unkA;
     s16 unkC;
     s16 unkE;
+    u8 pad10[0x2E];
+    s16 unk3E;
 } Unk8005B554_114;
 
 typedef struct {
@@ -12504,7 +12506,7 @@ typedef struct {
     u16 unk66;
     u8 pad68[2];
     s16 unk6A;
-    u8 pad6C[4];
+    s32 unk6C;
     u32 unk70;
     u8 pad74[4];
     u16 unk78;
@@ -12518,12 +12520,13 @@ typedef struct {
     s16 unkCE;
     u8 padD0[0x20];
     s16 unkF0;
-    u8 padF2[2];
+    s16 unkF2;
     s16 unkF4;
     u8 padF6[2];
     s16 unkF8[3];
     s16 unkFE;
-    u8 pad100[0x14];
+    s16 unk100;
+    u8 pad102[0x12];
     Unk8005B554_114 unk114;
 } Unk8005B554;
 
@@ -13083,7 +13086,114 @@ void func_8005CB00(Unk8005B554 *obj) {
 void func_8005CD64(void) {
 }
 
+// NON_MATCHING: registers, scheduling; the original writes 0x400 to params[3] before adding D_801C1EF6 and tests unkF2 == 0 and == 1 separately
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005CD6C);
+#else
+extern s16 D_801C1ED4[];
+
+void func_8005CD6C(Unk8005B554 *obj) {
+    s16 anims[5] = { 0x1B, 0x18, 0x19, 0x1A, 0x1C };
+    Unk8005B554_114 *st = &obj->unk114;
+    s32 params[6];
+    s16 sound = 0;
+    s16 id = 5;
+    s16 i;
+
+    if (obj->unkBE == 0) {
+        return;
+    }
+    D_800A2E84 = 0;
+    obj->unk4C = 0;
+    obj->unk50 = 0;
+    obj->unk2C = 9;
+    obj->unk78 |= 1;
+    func_80024DA8(obj->unk64, 0x27, 0, 0x148, 0);
+    if (D_801C1ED4[0] != 0) {
+        obj->unkBE = 0;
+    }
+    if (obj->unkBE < 0) {
+        obj->unkBE = 0;
+    }
+    if (obj->unk100 != 0) {
+        D_801D2096 = 7;
+        obj->unk100 -= obj->unkBE;
+        if (obj->unk100 > 0) {
+            obj->unkBE = 0;
+            return;
+        }
+        obj->unkBE += obj->unk100;
+        obj->unk100 = 0;
+    }
+    obj->unkF2 -= obj->unkBE;
+    if (obj->unkF2 < 0) {
+        if (D_801D209C == 0) {
+            func_80024DA8(obj->unk64, anims[func_8001E9DC(5)], 0, 0xA4, 1);
+            obj->unk78 = 1;
+            func_8005A22C((SVECTOR *)obj, 0);
+            obj->unk2C = 10;
+            obj->unkF2 = 0;
+            D_801D2070 = 3;
+            D_801D2072 = 3;
+            D_801D2074 = 3;
+            D_801D2076 = 3;
+            D_801D209C--;
+            sound = -1;
+            id = 0x29;
+            obj->unk6C = obj->unk70;
+        } else {
+            D_801D209C--;
+            D_801D20A4 = 5;
+            obj->unkF2 = 12;
+            for (i = 0; i < 4; i++) {
+                (&D_801D2070)[i] = 0;
+            }
+            st->unk3E = 150;
+        }
+    } else {
+        if (D_801D209C == 0 && (obj->unkF2 == 0 || obj->unkF2 == 1)) {
+            params[0] = obj->unkF2 == 0 ? 0x23 : 0x31;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = D_801C1EF6 + 0x400;
+            params[4] = 0;
+            params[5] = 1;
+            func_8004FB78(params);
+        } else if (st->unk4 != 0) {
+            params[0] = 0x24;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = D_801C1EF6 + 0x400;
+            params[4] = 0;
+            params[5] = 1;
+            func_8004FB78(params);
+            st->unk4 = 0;
+        } else {
+            sound = -1;
+            id = 5;
+        }
+        i = 0;
+        while (obj->unkBE != 0) {
+            if ((&D_801D2070)[i] != 3) {
+                (&D_801D2070)[i]++;
+                obj->unkBE--;
+            } else {
+                i++;
+            }
+        }
+    }
+    obj->unkBE = 0;
+    if (sound != 0) {
+        params[0] = id;
+        params[1] = 0x3FFF;
+        params[2] = 0;
+        params[3] = func_8001E9DC(0xC0) + 0x3A0;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+    }
+}
+#endif
 
 s32 func_8005D170(Unk8005B554 *obj) {
     switch (obj->unk2C) {
