@@ -335,7 +335,7 @@ extern s32 *D_800B71F0;
 u32 func_80072780(void *data, s16 i);
 s32 func_80072798(void *data, s16 i);
 void *func_80072768(void *data, s16 i);
-s32 *func_80031FBC(void *src, s32 *dst, s32 size);
+s32 *func_80031FBC();
 void func_80031FB4();
 void func_80031F90();
 
@@ -4149,7 +4149,93 @@ void func_80031F9C(void) {
 void func_80031FB4(void) {
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031FBC);
+typedef struct {
+    s32 v[4];
+    u16 tex;
+    u16 flags;
+} ModelSrcFace;
+
+typedef struct {
+    SVECTOR *v[4];
+    u16 tex;
+    u16 flags;
+    s32 unk14;
+    s32 unk18;
+} ModelFace;
+
+typedef struct {
+    SVECTOR *verts;
+    s16 nvert;
+    s16 nface;
+    ModelFace faces[1];
+} Model;
+
+extern s32 D_80093E08[];
+
+s32 *func_80031FBC(s32 *src, ModelFace *f, s32 tex) {
+    Model *dst;
+    ModelSrcFace *sf;
+    s32 n;
+    s32 nv;
+    s32 i;
+    SVECTOR *verts;
+    SVECTOR *sv;
+    s16 minx, minz, maxx, maxz;
+
+    dst = (Model *)f;
+    f = dst->faces;
+    n = src[3];
+    nv = src[4];
+    src += 5;
+    sf = (ModelSrcFace *)src;
+    verts = (SVECTOR *)(&f[n] + 1);
+    dst->verts = verts;
+    dst->nvert = nv;
+    dst->nface = n;
+    while (n-- != 0) {
+        f->v[0] = &verts[sf->v[0]];
+        f->v[1] = &verts[sf->v[1]];
+        f->v[2] = &verts[sf->v[2]];
+        if (sf->v[3] != -1) {
+            f->v[3] = &verts[sf->v[3]];
+        } else {
+            f->v[3] = (SVECTOR *)sf->v[3];
+        }
+        f->flags = sf->flags;
+        f->tex = tex + (sf->tex & 0x3F);
+        f->tex *= 60;
+        f->unk14 = D_80093E08[sf->flags & 0x1F];
+        f++;
+        sf++;
+    }
+    f->unk14 = 0;
+    f->unk18 = 0;
+    sv = (SVECTOR *)sf;
+    minx = 0;
+    minz = 0;
+    maxx = 0;
+    maxz = 0;
+    i = nv;
+    while (i-- != 0) {
+        *verts = *sv;
+        if (sv->vx < minx) {
+            minx = sv->vx;
+        }
+        if (sv->vz < minz) {
+            minz = sv->vz;
+        }
+        if (maxx < sv->vx) {
+            maxx = sv->vx;
+        }
+        if (maxz < sv->vz) {
+            maxz = sv->vz;
+        }
+        verts++;
+        sv++;
+    }
+    return (s32 *)func_80024F60((s32)verts);
+}
+
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_800321A8);
 
