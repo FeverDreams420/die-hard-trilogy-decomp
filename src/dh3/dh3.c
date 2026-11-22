@@ -7088,7 +7088,7 @@ extern s32 D_800B6064;
 extern s32 D_800B6624;
 extern s32 D_800B6194;
 
-void func_80042274(void) {
+void func_80042274() {
     D_80092594 = D_801FAB28[20];
     D_800924CC = D_801FAB28[21];
     D_80092530 = D_801FAB28[22];
@@ -7105,7 +7105,57 @@ void func_80042274(void) {
     D_800B6194 = D_801FAB28[43];
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004234C);
+typedef struct {
+    s16 unk0;
+    s16 index;
+    s32 unk4;
+    s32 *data;
+} Unk8004234C;
+
+extern s16 D_801FACB8[];
+extern void *D_801FAB74;
+extern VECTOR D_801984F0[];
+extern s16 D_800B6294;
+void func_8005F7EC();
+
+void func_8004234C(void) {
+    Unk8004234C *p = (Unk8004234C *)D_800B604C->vals;
+    s16 n = 0;
+    s32 r;
+    s32 t;
+
+    do {
+        if (p->index < 10) {
+            r = func_80071BE0(p->data, p->index);
+            if (r < 0) {
+                D_801984F0[p->index + 1].vy = -1;
+                D_801984F0[p->index + 1].vx = -r;
+                if (D_800B6294 < p->index + 1) {
+                    D_800B6294 = p->index + 1;
+                }
+            }
+            t = func_80071BF8(p->data, p->index);
+            if (t == 0) {
+                t = 60;
+            }
+            D_801FACB8[p->index] = t;
+        }
+        if (func_80071BC8(p->data, p->index) == 2) {
+            D_801FAB28[p->index] = 0;
+        } else {
+            n++;
+            D_801FAB28[p->index] = func_800420C8(p->data, p->index);
+        }
+        p->index++;
+        if (p->index == *p->data) {
+            func_80042274(p->data);
+            func_8005F7EC(D_801FAB74);
+            D_800B6464 = (s32 *)func_8002826C((s32)D_800B6464);
+            D_800B604C->func = D_800B604C->saved;
+            return;
+        }
+    } while (n < 20);
+}
 
 typedef struct {
     s16 unk0;
