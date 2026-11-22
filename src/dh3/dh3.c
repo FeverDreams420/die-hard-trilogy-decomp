@@ -13121,13 +13121,55 @@ s16 D_800B59A4 = 6000;
 
 s16 D_800B59A6 = 100;
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064884);
-
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064A7C);
-
 typedef struct {
     u8 c[4];
 } Color4;
+
+extern Color4 D_800B5968;
+extern Color4 D_800B596C;
+extern Color4 D_800B5970;
+extern Color4 D_800B5974;
+extern char D_80091AD8[];
+extern char D_80091AE8[];
+extern char D_80091AF8[];
+
+typedef struct {
+    u8 pad0[0x48];
+    s16 unk48;
+    s16 pad4A;
+    s16 unk4C;
+} Unk80064884;
+
+void func_80064884(Unk80064884 *o) {
+    Color4 c0 = D_800B5968;
+    Color4 c1 = D_800B596C;
+    Color4 c2 = D_800B5970;
+    Color4 c3 = D_800B5974;
+    s16 t;
+    s32 a;
+    s32 b;
+
+    if (o->unk48 > 0x300) {
+        return;
+    }
+    t = o->unk48 + D_800B56A2 * 32;
+    a = 0xBB800 / t;
+    b = 0x38400 / t;
+    o->unk48 = t;
+    switch (o->unk4C) {
+    case 0:
+        func_800758C0(0xA0, 0x34, func_80077DC8(D_80091AD8), ((s16)a * 5) >> 3, (s16)b, (u8 *)&c0, (u8 *)&c1);
+        break;
+    case 1:
+        func_800758C0(0xA0, 0x34, func_80077DC8(D_80091AE8), ((s16)a * 5) >> 3, (s16)b, (u8 *)&c0, (u8 *)&c1);
+        break;
+    case 2:
+        func_800758C0(0xA0, 0x34, func_80077DC8(D_80091AF8), ((s16)a * 5) >> 3, (s16)b, (u8 *)&c0, (u8 *)&c1);
+        break;
+    }
+}
+
+INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80064A7C);
 
 extern Color4 D_800B5980;
 extern Color4 D_800B5984;
