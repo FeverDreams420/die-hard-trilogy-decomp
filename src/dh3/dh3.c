@@ -12939,7 +12939,78 @@ void func_8005D7AC(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005D838);
+typedef struct {
+    u8 pad0[8];
+    s16 model;
+    u8 padA[6];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x70];
+    s32 unk98;
+    u8 pad9C[0x22];
+    s16 unkBE;
+    s16 unkC0;
+} Unk8005D838;
+
+typedef struct {
+    u8 pad0[0xA4];
+    s16 unkA4;
+    s16 padA6;
+    s16 unkA8;
+} Unk8005D838_Q;
+
+void func_800672BC(void);
+void func_80068500(s32 a);
+void func_800683FC(s16 id, void *pos);
+void func_8005D7AC(void);
+void func_80054D3C(void);
+void func_8005D3DC();
+
+void func_8005D838(void) {
+    Unk8005D838 *o = (Unk8005D838 *)D_800B604C->vals;
+    Unk8005D838_Q *q = (Unk8005D838_Q *)D_801F80BC->vals;
+    s16 dx;
+    s16 dz;
+    SVECTOR sv;
+
+    if (!(s16)func_800210B8((void *)D_801FAB28[o->model], &o->pos, (s16 *)&o->rot)) {
+        if (D_800B604C->unk2C++ >= 3) {
+            func_8004DCC4(o->unk98);
+            func_8004DC84(o->unkBE, o->unkC0);
+            D_800B604C->func = func_80054D3C;
+        }
+        return;
+    }
+    D_800B604C->unk2C = 0;
+    func_800564EC(D_800B61F4, o);
+    dx = ((q->unkA4 >> 5) * 1025) >> 10;
+    dz = ((q->unkA8 >> 5) * 1025) >> 10;
+    if (o->model >= 100) {
+        func_8007633C(100, 0x6A, o->pos.vx / 4096, 0x400, 0x400, D_800B56D8, D_800B56D0);
+        func_8007633C(200, 0x6A, o->pos.vz / 4096, 0x400, 0x400, D_800B56D8, D_800B56D0);
+    } else if (D_800B5DD4 != 0 && func_80028A48(&o->pos, &D_801981F4) > D_800B5DD4) {
+        D_800B64E4 = -1;
+        dx = func_80074910(0x20) - 0x10;
+        dz = func_80074910(0x20) - 0x10;
+    }
+    if (D_800B64E4 == 0) {
+        return;
+    }
+    if ((s16)func_80074910(4)) {
+        func_800672BC();
+    }
+    if (D_800B61A4->unk0 == 5) {
+        func_80068500(10);
+    } else {
+        func_800683FC(10, &o->pos);
+        func_800683FC(11, &o->pos);
+    }
+    sv.vx = dx;
+    sv.vy = 0;
+    sv.vz = dz;
+    func_8005D3DC(&o->pos, &o->rot, o->model, &sv);
+    D_800B604C->func = func_8005D7AC;
+}
 
 typedef struct {
     u8 pad0[8];
