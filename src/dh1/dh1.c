@@ -1788,7 +1788,157 @@ void *func_80022600(void *p) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022610);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022D60);
+typedef struct {
+    s32 end;
+    u8 pad4[0xDC24];
+} Unk800AA8EC;
+
+extern Unk800AA8EC D_800AA8EC[];
+
+typedef struct {
+    SVECTOR *v[4];
+    u16 tex;
+    u8 type;
+    s8 clut;
+} Unk80022D60_Face;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    s32 xy1;
+    u32 uv1;
+    s32 xy2;
+    u16 uv2;
+    u16 pad;
+} Unk80022D60_FT3;
+
+extern u16 D_8007C6F0[];
+extern s16 D_800A3224;
+extern s16 D_800A2A22;
+extern s32 D_800A2EFC;
+extern s32 D_800A326C;
+extern s32 D_800A3394;
+extern void *D_800A3154;
+extern s32 func_800292FC(void);
+extern s32 func_800293A4(void);
+extern s32 RotNclip3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *otz, s32 *flag);
+extern s32 RotNclip4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *sxy3, s32 *p, s32 *otz, s32 *flag);
+extern s32 RotTransPers3(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *p, s32 *flag);
+extern s32 RotTransPers4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3, s32 *sxy0, s32 *sxy1, s32 *sxy2, s32 *sxy3, s32 *p, s32 *flag);
+extern void AddPrim(void *ot, void *p);
+
+void func_80022D60(Unk80022D60_Face *f) {
+    Unk80022D60_FT3 *ft;
+    Unk8002CE64_Prim *p;
+    u16 *tex;
+    u32 *ot;
+    u16 t;
+    s16 c;
+
+    if ((s32)D_800A3374 > D_800AA8EC[D_800A333C].end - 400) {
+        return;
+    }
+    t = D_8007C6F0[*(u16 *)&f->type & 0x1F];
+    if (t & 0x100) {
+        return;
+    }
+    if (t & 2) {
+        ft = D_800A3374;
+        if (t & 1) {
+            D_800A326C = RotTransPers3(f->v[2], f->v[1], f->v[0], &ft->xy0, &ft->xy1, &ft->xy2, &D_800A2EFC, &D_800A3394);
+        } else if (RotNclip3(f->v[2], f->v[1], f->v[0], &ft->xy0, &ft->xy1, &ft->xy2, &D_800A2EFC, &D_800A326C, &D_800A3394) <= 0) {
+            return;
+        }
+        D_800A326C = func_800292FC();
+        if (D_800A3224 != 0 && D_800A326C < 8) {
+            return;
+        }
+        if (D_800A326C > D_800A2A22) {
+            c = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+            if (c > 0x80) {
+                c = 0x80;
+            }
+        } else {
+            c = 0x80;
+        }
+        if (c > 0) {
+            tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+            ft->uv0 = tex[0];
+            ft->uv1 = *(u32 *)(tex + 2);
+            ft->uv2 = tex[4];
+            ft->clut = tex[f->clut + 14];
+            ft->r0 = c;
+            ft->g0 = c;
+            ft->b0 = c;
+            if (t & 4) {
+                setSemiTrans(ft, 1);
+            }
+            setlen(ft, 7);
+            setcode(ft, 0x24);
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, ft);
+            }
+            ft++;
+            D_800A3374 = ft;
+        }
+    } else {
+        p = D_800A3374;
+        if (!(t & 4)) {
+            p = D_800A30A4;
+        }
+        if (t & 1) {
+            D_800A326C = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy3, &p->xy2, &D_800A2EFC, &D_800A3394);
+        } else if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy3, &p->xy2, &D_800A2EFC, &D_800A326C, &D_800A3394) <= 0) {
+            return;
+        }
+        D_800A326C = func_800293A4();
+        if (D_800A326C > D_800A2A22) {
+            c = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+            if (c > 0x80) {
+                c = 0x80;
+            }
+        } else {
+            c = 0x80;
+        }
+        if (c > 0) {
+            tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+            if (t & 8) {
+                p->uv1 = tex[0];
+                p->uv0 = tex[2];
+                p->uv3 = tex[4];
+                p->uv2 = tex[6];
+                p->tpage = tex[3];
+            } else {
+                p->uv0 = tex[0];
+                *(u32 *)&p->uv1 = *(u32 *)(tex + 2);
+                p->uv2 = tex[4];
+                p->uv3 = tex[6];
+            }
+            p->clut = tex[f->clut + 14];
+            p->r0 = c;
+            p->g0 = c;
+            p->b0 = c;
+            if (t & 4) {
+                setlen(p, 9);
+                setcode(p, 0x2E);
+            }
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, p);
+            }
+            if (t & 4) {
+                p++;
+                D_800A3374 = p;
+            } else {
+                D_800A30A4++;
+            }
+        }
+    }
+}
 
 extern unsigned short D_801FC0D8[16];
 extern void SetFarColor(long r, long g, long b);
@@ -4606,7 +4756,7 @@ typedef struct {
 extern s16 D_800A3224;
 extern void (*D_8007FF9C[])(Unk80032344_Face *f);
 extern void (*D_8008001C[])(Unk80032344_Face *f);
-extern void func_80022D60(Unk80032344_Face *f);
+extern void func_80022D60();
 
 s32 func_80032344(Unk80032344 *obj, s16 mode) {
     Unk80032344_Face *f = (Unk80032344_Face *)(obj->data + 8);
@@ -10459,12 +10609,6 @@ typedef struct {
     s16 rise[12];
 } Obj8004A7E8;
 
-typedef struct {
-    s32 end;
-    u8 pad4[0xDC24];
-} Unk800AA8EC;
-
-extern Unk800AA8EC D_800AA8EC[];
 extern s16 D_800A333C;
 extern s16 D_800A33B4;
 extern void SetPolyFT4(void *p);
