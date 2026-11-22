@@ -7445,7 +7445,65 @@ void func_80042610(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80042644);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80042D10);
+typedef struct {
+    VECTOR pos;
+    SVECTOR v[4];
+    u8 pad30[0x60];
+    u8 *owner;
+    s16 unk94[4];
+    u8 pad9C[0x18];
+    s16 unkB4[16];
+    s16 unkD4[16];
+    s16 padF4;
+    s16 unkF6;
+    s16 padF8[2];
+    s16 unkFC;
+} Unk80042D10;
+
+void func_80046CFC(s16 x, s16 z, u8 *owner);
+void func_80042644(void);
+void func_80042610(void);
+
+void func_80042D10(s16 x, s16 z, u8 *owner) {
+    struct Task *t;
+    Unk80042D10 *p;
+    s16 i;
+    s32 k;
+
+    if ((s16)func_80074910(5) == 0) {
+        func_80046CFC(x, z, owner);
+        return;
+    }
+    if (D_800B61A4->unk6 < 0xC00) {
+        return;
+    }
+    t = (struct Task *)func_800724C4(func_80042644, 0x10, 4);
+    if (t == NULL) {
+        return;
+    }
+    t->cleanup = func_80042610;
+    p = (Unk80042D10 *)t->vals;
+    p->owner = owner;
+    owner[4] = 0;
+    p->pos.vx = (x << 9) + 0x80;
+    p->pos.vz = (z << 9) + 0x80;
+    p->pos.vy = (s16)func_80028BF0(&p->pos);
+    i = 15;
+    do {
+        p->unkB4[i] = func_80074910(0xB4);
+        p->unkD4[i] = 0;
+    } while (i--);
+    i = 3;
+    do {
+        p->unk94[i] = i * 24;
+        p->v[i].vx = func_80074910(0x40) - 0x20;
+        p->v[i].vz = func_80074910(0x40) - 0x20;
+        p->v[i].vy = i * 24;
+    } while (i--);
+    k = x + z * 7;
+    p->unkFC = ((s16)((k < 0 ? -k : k) % 2) + 0x27A) * 40;
+    p->unkF6 = 0;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80042F0C);
 
