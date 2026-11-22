@@ -9768,7 +9768,102 @@ void func_800539D0(Unk800539D0 *p) {
     func_8004FA04();
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053B58);
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u8 pad6[0x2E];
+    SVECTOR rot;
+    u8 pad3C[2];
+    u8 unk3E;
+    u8 pad3F;
+    s32 unk40;
+    u8 pad44[0x24];
+    s16 unk68;
+    s16 unk6A;
+    s16 unk6C;
+    u8 pad6E[0x1C];
+    s16 unk8A;
+    u8 pad8C[0x110];
+    s32 unk19C;
+    s16 unk1A0;
+    u8 pad1A2[6];
+    u8 unk1A8[0x14];
+    u8 unk1BC;
+    u8 pad1BD[0x1F];
+    u8 unk1DC[8];
+    u8 unk1E4[0x26];
+    s16 unk20A;
+    u8 pad20C[0x3E];
+    s16 unk24A;
+    u8 pad24C[0xC];
+    s16 unk258[3];
+    u8 pad25E[4];
+    u8 unk262[3];
+    u8 pad265[0x1A];
+    u8 unk27F;
+    u8 pad280[9];
+    u8 unk289;
+    u8 pad28A[9];
+    u8 unk293;
+    u8 pad294[0xA];
+    s16 unk29E;
+} Unk80053B58;
+
+void func_80053310();
+void func_80020AFC();
+void func_8004F844();
+void func_80053544();
+void func_80053794();
+void func_800536A8();
+s16 func_8003580C();
+void func_80051048();
+extern s16 D_800B639E;
+
+void func_80053B58(Unk80053B58 *o) {
+    s16 i;
+
+    func_80053310(o);
+    o->unk3E = 0;
+    o->unk1BC = 0;
+    o->unk19C = o->unk40;
+    func_80020AFC(&o->unk68, o->unk1DC);
+    o->rot.vx = 0;
+    o->rot.vz = 0;
+    o->x = o->unk68;
+    o->y = o->unk6A;
+    o->z = o->unk6C;
+    o->rot.vy = -o->unk8A;
+    func_80024F70(&o->rot, (SVECTOR *)o->unk1E4, (SVECTOR *)o, (SVECTOR *)o);
+    if (o->unk293) {
+        func_8004F844(o, &o->rot);
+    }
+    o->unk27F = func_80035A18(o, &o->rot, o->unk29E, 0, o->unk1A8);
+    if (o->unk27F >= 4) {
+        if (o->unk289 == 1) {
+            func_80051DD0(o);
+        }
+        if (o->unk289 == 0) {
+            func_80051FD0(o);
+        }
+    }
+    func_80053544(o);
+    func_80053794(o);
+    func_800536A8(o);
+    if ((s16)func_8003580C(o->unk1A8)) {
+        i = 3;
+        while (i--) {
+            if (o->unk258[i] != -1) {
+                o->unk262[i] = 0;
+            }
+        }
+    }
+    o->unk40 += o->unk24A * D_800B639E;
+    if (D_800B71B8[o->unk1A0].unk100 < o->unk40) {
+        o->unk20A++;
+        func_80051048();
+    }
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80053D44);
 
