@@ -13648,7 +13648,64 @@ void func_80069590(s32 vol, s32 pan) {
     SpuSetCommonAttr(&attr);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800695DC);
+extern char D_801FA2BC[];
+
+void func_800695DC(void) {
+    SpuVoiceAttr v;
+    SpuCommonAttr c;
+    SpuReverbAttr r;
+
+    SpuInitMalloc(16, D_801FA2BC);
+    SpuSetTransferMode(0);
+    c.mask = 0x3F3;
+    c.mvol.left = 0x3FFF;
+    c.mvol.right = 0x3FFF;
+    c.mvolx.left = 0x3FFF;
+    c.mvolx.right = 0x3FFF;
+    c.cd.volume.left = func_80071B7C(0, 0x3FFF, D_800B6614->unk1784);
+    c.cd.volume.right = func_80071B7C(0, 0x3FFF, D_800B6614->unk1784);
+    c.cd.reverb = 0;
+    c.cd.mix = 1;
+    SpuSetCommonAttr(&c);
+    if (D_800936C4[D_800B640C].unkA != 0) {
+        r.mode = 5;
+        r.mask = 0x1F;
+        SpuSetReverbModeParam(&r);
+        r.depth.left = 0;
+        r.depth.right = 0;
+        r.mask = 6;
+        SpuSetReverbDepth(&r);
+        SpuReserveReverbWorkArea(1);
+        SpuClearReverbWorkArea(5);
+        SpuSetReverb(1);
+        r.depth.left = 0x2EE0;
+        r.depth.right = 0x2EE0;
+        r.mask = 6;
+        SpuSetReverbDepth(&r);
+    } else {
+        r.depth.left = 0;
+        r.depth.right = 0;
+        r.mask = 6;
+        SpuSetReverbDepth(&r);
+        SpuClearReverbWorkArea(0x100);
+        SpuReserveReverbWorkArea(0);
+        SpuSetReverb(0);
+    }
+    v.mask = 0xFF93;
+    v.voice = 0xFFFFFF;
+    v.volume.left = 0x3FFF;
+    v.volume.right = 0x3FFF;
+    v.pitch = 0x1000;
+    v.a_mode = 1;
+    v.s_mode = 1;
+    v.r_mode = 3;
+    v.ar = 0;
+    v.dr = 0;
+    v.sr = 0;
+    v.rr = 0;
+    v.sl = 15;
+    SpuSetVoiceAttr(&v);
+}
 
 typedef struct {
     u8 pad0[8];

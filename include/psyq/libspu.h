@@ -101,6 +101,8 @@ long SpuSetTransferMode(long mode);
 long SpuReserveReverbWorkArea(long on_off);
 long SpuSetReverbModeParam(SpuReverbAttr *attr);
 long SpuSetReverb(long on_off);
+long SpuSetReverbDepth(SpuReverbAttr *attr);
+long SpuClearReverbWorkArea(long mode);
 void SsUtReverbOff(void);
 
 #endif
