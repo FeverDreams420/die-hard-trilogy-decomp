@@ -274,7 +274,73 @@ s32 func_80020EEC(VECTOR *pos) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_800210B8);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80021518);
+typedef struct {
+    SVECTOR *v[4];
+    u16 col;
+    u16 flags;
+    s32 unk14;
+    s32 unk18;
+} Unk80021518_Face;
+
+typedef struct {
+    SVECTOR *verts;
+    s16 nvert;
+    s16 nface;
+    Unk80021518_Face faces[1];
+} Unk80021518_Model;
+
+extern void *D_800B63AC;
+extern u8 *D_800B6334;
+extern MATRIX D_801F832C;
+extern MATRIX D_801FA428;
+extern s16 D_800B5A7C;
+extern void (*D_80092330[])(Unk80021518_Face *f);
+extern void func_80084EA8(s32 a, s32 b);
+extern MATRIX *func_8002CA84(SVECTOR *r, MATRIX *m);
+extern MATRIX *ScaleMatrix(MATRIX *m, VECTOR *v);
+void func_80072E40(void);
+
+void func_80021518(Unk80021518_Face *f, s16 *screen, SVECTOR *rot, u16 scale, s16 flag) {
+    VECTOR unused;
+    VECTOR sc;
+    s16 s = scale;
+
+    if (f == NULL) {
+        return;
+    }
+    if ((u32)((u8 *)D_800B63AC - D_800B6334) >= 0xD800 - (s16)(((Unk80021518_Model *)f)->nface + 20) * 40) {
+        return;
+    }
+    func_80084EA8(screen[0], screen[1]);
+    D_801CA274.vx = 0;
+    D_801CA274.vy = 0;
+    if (flag) {
+        D_801CA274.vz = 0x800;
+        s = s * 2;
+    } else {
+        D_801CA274.vz = 0x400;
+    }
+    sc.vx = (s16)s;
+    sc.vy = (s16)s;
+    sc.vz = (s16)s;
+    PushMatrix();
+    func_8002CA84(rot, &D_801F832C);
+    ScaleMatrix(&D_801F832C, &sc);
+    SetRotMatrix(&D_801F832C);
+    f = ((Unk80021518_Model *)f)->faces;
+    func_80084978(&D_801FA428, &D_801CA274);
+    SetTransMatrix(&D_801FA428);
+    D_800B5A7C = flag;
+    for (; f->unk14 != 0; f++) {
+        if ((f->flags & 0x7F) == 0xC || (f->flags & 0x7F) == 0xD) {
+            continue;
+        }
+        D_80092330[f->flags & 0x3F](f);
+    }
+    D_800B5A7C = 0;
+    func_80072E40();
+    PopMatrix();
+}
 
 extern VECTOR D_801981F4;
 extern VECTOR D_801CA274;
