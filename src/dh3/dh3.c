@@ -2291,7 +2291,56 @@ void func_80029C08(void) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029D54);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80029F84);
+extern u8 D_80091E0C[];
+extern u8 D_80091E20[];
+extern VECTOR D_801F76D0;
+s32 func_80056B14(VECTOR *pos);
+
+void func_80029F84(VECTOR *p) {
+    u8 *tbl;
+    s16 hit = 0;
+    s16 pass;
+    s16 d;
+
+    tbl = D_80091E0C;
+    pass = 1;
+    do {
+        for (d = 0x100; d < 0x1000; d += 0x100) {
+            D_801F76D0.vx = p->vx + d;
+            D_801F76D0.vz = p->vz;
+            if (tbl[func_80056B14(&D_801F76D0) >> 12]) {
+                hit = -1;
+                p->vx += d;
+                break;
+            }
+            D_801F76D0.vx = p->vx - d;
+            if (tbl[func_80056B14(&D_801F76D0) >> 12]) {
+                hit = -1;
+                p->vx -= d;
+                break;
+            }
+            D_801F76D0.vx = p->vx;
+            D_801F76D0.vz = p->vz - d;
+            if (tbl[func_80056B14(&D_801F76D0) >> 12]) {
+                hit = -1;
+                p->vz -= d;
+                break;
+            }
+            D_801F76D0.vz = p->vz + d;
+            if (tbl[func_80056B14(&D_801F76D0) >> 12]) {
+                hit = -1;
+                p->vz += d;
+                break;
+            }
+        }
+        tbl = D_80091E20;
+        if (hit) {
+            return;
+        }
+    } while (pass--);
+    p->vx = (p->vx / 4096) * 4096 + 0x800;
+    p->vz = (p->vz / 4096) * 4096 + 0x800;
+}
 
 typedef struct {
     u8 pad0[0x118];
