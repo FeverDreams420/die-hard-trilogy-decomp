@@ -10082,9 +10082,15 @@ void func_8004C97C(s16 *pos) {
 typedef struct {
     SVECTOR pos[32];
     SVECTOR vel[32];
-    u8 pad200[0x10];
+    SVECTOR origin;
+    u8 pad208[8];
     SVECTOR dir;
     u8 unk218[32];
+    s16 unk238;
+    s16 unk23A;
+    s16 unk23C;
+    s16 unk23E;
+    s16 unk240;
 } Unk8004CAB0;
 
 void func_8004CAB0(s16 i) {
@@ -10125,7 +10131,100 @@ void func_8004CBB8(s16 i) {
     }
 }
 
+// NON_MATCHING: registers; the original sign-extends the func_8001E9DC results it passes on
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004CCE8);
+#else
+extern void SetDrawMode();
+
+void func_8004CCE8(void) {
+    LINE_G2 *prim = D_800A3374;
+    Unk8004CAB0 *d = (Unk8004CAB0 *)D_800A317C->vals;
+    LINE_G2 *p;
+    u32 *ot;
+    s16 b;
+    s16 i;
+
+    PushMatrix();
+    d->unk23A = 0;
+    D_800A349C.vx = d->origin.vx - D_800A3194.vx;
+    D_800A349C.vy = d->origin.vy - D_800A3194.vy;
+    D_800A349C.vz = d->origin.vz - D_800A3194.vz;
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    SetRotMatrix(&D_801C0B64);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    D_800A326C = RotTransPers((SVECTOR *)&D_800A2A10, (s32 *)&prim->x1, &D_800A2EFC, &D_800A3394) >> 1;
+    if (D_800A326C < 8 || D_800A326C >= 0x9FF || (D_800A3394 & ~0x1FFF) != 0) {
+        PopMatrix();
+        func_80021554();
+        return;
+    }
+    i = 31;
+    p = prim;
+    do {
+        if (d->unk218[i] != 0) {
+            b = d->unk218[i] - 20;
+            if (b < 0) {
+                d->unk218[i] = 0;
+            } else {
+                d->unk218[i] = b;
+                RotTransPers(&d->pos[i], (s32 *)&prim->x0, &D_800A2EFC, &D_800A3394);
+                if (!(D_800A3394 & ~0x1FFF)) {
+                    LoadAverageShort12(&d->pos[i], &d->vel[i], 0x1000, b * 16, &d->pos[i]);
+                    d->vel[i].vy -= 2;
+                    if (d->pos[i].vy < d->unk23C) {
+                        d->vel[i].vy = func_8001E9DC(0x20);
+                    }
+                    RotTransPers(&d->pos[i], (s32 *)&prim->x1, &D_800A2EFC, &D_800A3394);
+                    if (!(D_800A3394 & ~0x1FFF)) {
+                        SetLineG2(prim);
+                        SetSemiTrans(prim, 1);
+                        p->r0 = 0;
+                        p->g0 = 0;
+                        p->b0 = 0;
+                        p->r1 = b;
+                        p->g1 = b >> 1;
+                        p->b1 = b >> 2;
+                        if (D_800A326C != 0) {
+                            ot = D_800A32E4 + D_800A326C;
+                            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                                prim++;
+                                AddPrim(ot, p++);
+                            }
+                        }
+                        d->unk23A = -1;
+                    }
+                }
+            }
+        }
+    } while (--i != 0);
+    SetDrawMode(prim, 1, 1, *(u16 *)((u8 *)D_800A3154 + 0x16), 0);
+    ot = D_800A32E4 + D_800A326C;
+    p = prim;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        p = (LINE_G2 *)((u8 *)prim + 0xC);
+        AddPrim(ot, prim);
+    }
+    D_800A3374 = p;
+    func_8004CBB8(func_8001E9DC(0x20));
+    func_8004CBB8(func_8001E9DC(0x20));
+    if (d->unk238 != 0) {
+        if (--d->unk238 == 0) {
+            d->unk238 = func_8001E9DC(40) + 1;
+            d->unk240 = func_8001E9DC(10) + 1;
+        }
+    }
+    if (d->unk238 < d->unk240 && d->unk23E != 0) {
+        func_8004CAB0(func_8001E9DC(0x20));
+        func_8004CAB0(func_8001E9DC(0x20));
+    }
+    PopMatrix();
+    if (d->unk23A == 0 && d->unk23E == 0) {
+        func_80021554();
+    }
+}
+#endif
 
 typedef struct {
     char pad0[0x200];
