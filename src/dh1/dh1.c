@@ -1568,7 +1568,127 @@ void func_80021BE4(void) {
     SetTransMatrix(&D_801C0B64);
 }
 
+// NON_MATCHING: registers, scheduling; the original stores D_800A2FC4.vy before taking it modulo 0x1000
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80021D44);
+#else
+typedef struct {
+    u8 pad0[8];
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    u8 padE[2];
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    u8 pad16[2];
+    s16 unk18;
+    s16 unk1A;
+    s16 unk1C;
+    u8 pad1E[2];
+    s16 unk20;
+    s16 unk22;
+} Unk80021D44_Cam;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[0xA];
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    u8 pad16[0x36];
+    s16 unk4C;
+    s16 unk4E;
+    s16 unk50;
+    u8 pad52[0xC2];
+    Unk80021D44_Cam cam;
+} Unk80021D44;
+
+struct Unk80045164;
+extern struct Unk80045164 *D_801FBDC8[];
+extern s16 D_800A3174;
+extern s16 D_800A311C;
+extern s16 D_800A3120;
+extern s16 D_800A2F64;
+extern s16 D_800A2A18;
+extern SVECTOR D_800A34F4;
+extern s32 D_800A3264;
+extern s16 D_801C1EDE;
+extern s16 func_80039458();
+extern void func_80043498(s16 n, s16 side);
+
+void func_80021D44(void) {
+    Unk80021D44 *target = (Unk80021D44 *)D_801FBDC8[D_800A3574];
+    Unk80021D44 *obj = (Unk80021D44 *)D_800A317C->vals;
+    Unk80021D44_Cam *cam = &obj->cam;
+    s16 rx;
+
+    if (D_800A3174 == 0) {
+        target = obj;
+        target->cam.unk20 = 0;
+    }
+    while (target == NULL) {
+        if (++D_800A3574 >= 0x80) {
+            D_800A3574 = 0;
+        }
+        target = (Unk80021D44 *)D_801FBDC8[D_800A3574];
+    }
+    obj->unk0 = target->unk0;
+    obj->unk2 = target->unk2;
+    obj->unk4 = target->unk4;
+    obj->unk10 = target->unk10;
+    obj->unk12 = target->unk12;
+    obj->unk14 = target->unk14;
+    obj->unk4C = target->unk4C;
+    obj->unk4E = target->unk4E;
+    obj->unk50 = target->unk50;
+
+    D_800A3120 = -target->unk14;
+    cam->unk18 = D_800A311C;
+    cam->unk1A = target->unk12 & 0xFFF;
+    if (cam->unk1A - cam->unkA >= 0x800) {
+        cam->unkA += 0x1000;
+    }
+    if (cam->unk1A - cam->unkA < -0x7FF) {
+        cam->unkA -= 0x1000;
+    }
+    cam->unk8 = func_800296F8(cam->unk8, cam->unk18, cam->unk22);
+    cam->unkA = func_800296F8(cam->unkA, cam->unk1A, cam->unk22);
+    cam->unkC = func_800296F8(cam->unkC, cam->unk1C, cam->unk22);
+    D_800A2F64 = func_800296F8(D_800A2F64, D_800A311C, 0x80);
+    D_800A2FC4.vz = func_800296F8(D_800A2FC4.vz, D_800A3120, 0x200);
+    D_800A2FC4.vy = cam->unkA % 0x1000;
+    cam->unk20 += 8;
+    if (cam->unk20 >= 0x800) {
+        cam->unk20 -= 0x1000;
+    }
+
+    func_80023660(&D_800A2FC4, &D_801C0B64);
+    ApplyMatrix(&D_801C0B64, &D_800A34F4, &D_801C1EC4);
+    cam->unk10 = target->unk0 + D_801C1EC4.vx;
+    cam->unk12 = target->unk2 + D_801C1EC4.vy + D_800A2A18 + 0x200 - D_800A2F64 * 8;
+    cam->unk14 = target->unk4 + D_801C1EC4.vz;
+    D_800A3194.vx = func_800296F8(D_800A3194.vx, cam->unk10, cam->unk22);
+    D_800A3194.vy = func_800296F8(D_800A3194.vy, cam->unk12, cam->unk22);
+    D_800A3194.vz = func_800296F8(D_800A3194.vz, cam->unk14, cam->unk22);
+
+    rx = D_800A2FC4.vx;
+    D_800A2FC4.vx = -rx;
+    D_800A2FC4.vy = -D_800A2FC4.vy;
+    D_800A2FC4.vx += D_800A2F64 * 2;
+    func_80021BE4();
+    D_800A3264 = 499;
+    D_800A2FC4.vx = -D_800A2FC4.vx;
+    D_800A2FC4.vy = -D_800A2FC4.vy;
+    D_800A2FC4.vx = rx;
+
+    if (D_801C1EDE != 0) {
+        func_80043498(func_80039458(target), 0);
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002214C);
 
@@ -3775,7 +3895,7 @@ typedef struct {
     u8 pad14[4];
 } Unk80045164_Model;
 
-typedef struct {
+typedef struct Unk80045164 {
     Unk8002A35C pos;
     u8 pad6[0xA];
     Unk80045164_Model model;
