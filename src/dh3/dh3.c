@@ -6426,7 +6426,7 @@ typedef struct {
     u8 unk78[4];
 } Unk8003CFE0_Obj;
 
-void func_8003E35C(Unk8003CFE0_Obj *o);
+s32 func_8003E35C(Unk8003CFE0_Obj *o);
 extern s16 D_800B6664;
 s32 func_80048D54(void *obj);
 s16 func_80048E70(VECTOR *v, SVECTOR *rot, int a, int b, void *obj);
@@ -6587,9 +6587,61 @@ s32 func_8003E25C(Unk8003E25C *p) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003E35C);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003E40C);
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    SVECTOR rot;
+    u8 pad28[0x2A];
+    s16 unk52;
+    u8 pad54[0x1C];
+    s32 unk70;
+    s16 unk74;
+    u8 pad76[2];
+    u8 unk78[0x40];
+    s16 unkB8;
+    s16 unkBA;
+    s16 unkBC;
+} Unk8003E40C;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B57F0);
+extern s16 D_800B62A4;
+extern SVECTOR D_800B57F8;
+
+void func_8003E40C(void) {
+    Unk8003E40C *o = (Unk8003E40C *)D_800B604C->vals;
+    SVECTOR step = {0, 0, -0x3C, 0};
+    SVECTOR probe = D_800B57F8;
+
+    o->rot.vy = func_80028868(o->rot.vy, o->unk52, 0x200);
+    func_80048D54(o->unk78);
+    func_80028310(&o->rot, &probe, &o->pos, &D_801F76D0);
+    if ((s16)func_8003E35C((Unk8003CFE0_Obj *)o)) {
+        if (o->unkBC > 0) {
+            o->unk52 -= 0x200;
+        } else {
+            o->unk52 += 0x200;
+        }
+    } else {
+        func_80028310(&o->rot, &step, &o->pos, &o->pos);
+        func_8003E25C(o);
+    }
+    if ((s16)func_80048E70(&o->pos, &o->rot, 0x1000, 0x280, o->unk78) < 4) {
+        if (o->unk74++ >= 0x1F) {
+            func_8004DCC4(o->unk70);
+            func_8004DC84(o->unkB8, o->unkBA);
+            D_800B62A4--;
+            func_800728A4();
+            return;
+        }
+    } else {
+        o->unk74 = 0;
+        D_800B604C->unk2C = 0;
+    }
+    if ((s16)func_8003C5C0((Unk8003C5C0 *)o)) {
+        D_800B6664++;
+        D_800B604C->func = func_8003DC64;
+        func_8003DC64();
+    }
+}
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B57F8);
 
