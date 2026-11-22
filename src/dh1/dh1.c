@@ -14035,7 +14035,167 @@ void func_80065094(Unk80065094_Owner *owner, Unk80065094_Obj *obj) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065110);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065B74);
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[2];
+    s16 unk8, unkA, unkC;
+    u8 padE[2];
+    s16 unk10, unk12, unk14;
+    u8 pad16[2];
+    s16 unk18, unk1A, unk1C;
+    u8 pad1E[0xA];
+    s16 unk28;
+    u8 pad2A[2];
+    s16 unk2C;
+    u8 pad2E[2];
+    s16 unk30;
+    u8 pad32[0x1A];
+    s16 unk4C, unk4E, unk50;
+    u8 pad52[0x10];
+    s16 unk62;
+    Anim anim;
+    u8 pad84[0x10];
+    s16 unk94, unk96, unk98;
+    u8 pad9A[2];
+    s16 unk9C, unk9E, unkA0;
+    u8 padA2[2];
+    s16 unkA4, unkA6, unkA8;
+    u8 padAA[2];
+    s32 unkAC, unkB0, unkB4;
+    u8 padB8[6];
+    s16 unkBE, unkC0;
+    u8 padC2[6];
+    s16 unkC8;
+    u8 padCA;
+    u8 unkCB;
+    u8 padCC[6];
+    s16 unkD2;
+    u8 padD4[2];
+    s16 unkD6;
+    u8 padD8[6];
+    s16 unkDE, unkE0;
+    u8 padE2[6];
+    s16 unkE8, unkEA, unkEC;
+    u8 padEE[2];
+    s16 unkF0, unkF2, unkF4;
+    u8 padF6[2];
+    s16 unkF8[3];
+    s16 unkFE;
+    s16 unk100;
+    s16 unk102;
+    s16 unk104, unk106, unk108, unk10A, unk10C;
+    u8 pad10E[2];
+    s16 unk110, unk112;
+    u8 pad114[2];
+    s16 unk116, unk118, unk11A;
+    u8 pad11C[8];
+    void *parent;
+    s16 radius, angle, unk12C;
+    u8 pad12E[2];
+    s16 unk130, unk132;
+    u8 pad134[0x24];
+    s16 unk158, unk15A, unk15C, unk15E;
+    u8 pad160[4];
+} Unk80065B74;
+
+extern void func_80065110(void);
+
+void func_80065B74(Unk80065B74 *parent, s16 anim, s16 f2, s16 f4, s16 f102) {
+    Unk80065B74 *obj;
+    Unk8003BA6C_Task *t;
+    s16 i = 4;
+    s16 j;
+
+    do {
+        t = func_80021264(func_80065110, 1, 0x164);
+        if (t == NULL) {
+            return;
+        }
+        obj = (Unk80065B74 *)t->data;
+        obj->unk28 = 10;
+        obj->unk62 = func_8003D890((Unk80045164 *)obj);
+        D_801D20CC[i] = (Unk80065094_Obj *)obj;
+        obj->parent = parent;
+        obj->radius = 0x180;
+        obj->angle = i * 0x333;
+        obj->unk12C = 0;
+        obj->unk130 = 0;
+        obj->unk132 = 0;
+        obj->unk116 = 1;
+        obj->unk118 = func_8001E9DC(20) + 90;
+        obj->unk11A = func_8001E9DC(40) + 280;
+        obj->x = parent->x + ((D_800854C0[obj->angle & 0xFFF] * obj->radius) >> 12);
+        obj->y = parent->y;
+        obj->z = parent->z + ((D_800854C0[(obj->angle + 0x400) & 0xFFF] * obj->radius) >> 12);
+        obj->unk10 = 0;
+        obj->unk12 = parent->unk12;
+        obj->unk14 = 0;
+        obj->unk18 = 0;
+        obj->unk1A = 0;
+        obj->unk1C = 0;
+        obj->unk4C = 0;
+        obj->unk4E = 0;
+        obj->unk50 = 0;
+        obj->unk30 = 0;
+        obj->unk2C = 0;
+        obj->unkA = obj->y;
+        obj->unkC = obj->z;
+        obj->unk112 = obj->unk12;
+        obj->unk8 = obj->x;
+        obj->anim.time = (s16)func_8001E9DC(0x1000);
+        obj->anim.unk6 = 0xA4;
+        obj->anim.id = 0;
+        obj->anim.unk16 = 0;
+        obj->unk9C = 0;
+        obj->unk9E = 0;
+        obj->unkA0 = 0;
+        obj->unkA4 = 0;
+        obj->unkA6 = 0;
+        obj->unkA8 = 0;
+        obj->unkAC = 200;
+        obj->unkB0 = 0x340;
+        obj->unkB4 = 200;
+        obj->unkC0 = 0;
+        obj->unkBE = 0;
+        obj->unkC8 = 0;
+        obj->unk104 = 0;
+        obj->unk106 = 0;
+        obj->unk108 = 1;
+        obj->unkFE = 0;
+        obj->unk94 = obj->x;
+        obj->unk96 = obj->y;
+        obj->unk98 = obj->z;
+        obj->unkCB = obj->unk62;
+        for (j = 0; j < 3; j++) {
+            obj->unkF8[i] = 0;
+        }
+        obj->unkF4 = f4;
+        obj->unkD2 = 0x40;
+        obj->unkF2 = f2;
+        obj->unk102 = f102;
+        obj->unk10A = 0x2A8;
+        obj->unk10C = 0x1000;
+        obj->unk110 = 8;
+        obj->unkD6 = parent->unkD6;
+        obj->unkF0 = 0;
+        obj->unkEC = 3;
+        obj->unk158 = 0;
+        obj->unkF8[0] = 100;
+        obj->unkF8[1] = 100;
+        obj->unkF8[2] = 100;
+        func_80024D00((Obj80024D00 *)&obj->anim);
+        func_80024DA8(&obj->anim, 8, 0, 0xA4, 4);
+        func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0xA4, 4);
+        func_80024B28((Obj80024D00 *)&obj->anim, anim);
+        obj->unkDE = 0;
+        obj->unkE0 = 0;
+        obj->unkE8 = -1;
+        obj->unk15C = 0;
+        obj->unk15E = 0;
+        obj->unk15A = 0;
+        obj->unkEA = func_8001E9DC(20) + 50;
+    } while (i--);
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065F10);
 
