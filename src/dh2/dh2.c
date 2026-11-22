@@ -6126,11 +6126,57 @@ void func_8003FC9C(void) {
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8003FF64);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040054);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, p1;
+    s16 x1, y1;
+} LINE_G2;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6468);
+extern SVECTOR D_800B7408;
+extern void SetLineG2(LINE_G2 *p);
+extern SVECTOR D_800B72E8;
+extern SVECTOR D_800B73F8;
 
-INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6470);
+void func_80040054(s16 *pt, s16 angle) {
+    SVECTOR a = {0x78, 0, -0x80, 0};
+    SVECTOR b = {-0x78, 0, -0x80, 0};
+    LINE_G2 *p;
+
+    D_800B7408.vy = -angle;
+    D_800B7408.vx = 0;
+    D_800B7408.vz = 0;
+    p = D_800B7140;
+    func_80024F70(&D_800B7408, &a, (SVECTOR *)&D_800B67D0, &D_800B72E8);
+    func_80024F70(&D_800B7408, &b, (SVECTOR *)&D_800B67D0, &D_800B73F8);
+    p->x0 = pt[0] + D_800B72E8.vx;
+    p->y0 = pt[1] + D_800B72E8.vz;
+    p->x1 = pt[0];
+    p->y1 = pt[1];
+    p->r0 = 50;
+    p->g0 = 100;
+    p->b0 = 50;
+    p->r1 = 100;
+    p->g1 = 200;
+    p->b1 = 100;
+    SetLineG2(p);
+    AddPrim(D_800B7018 + 0x11, p);
+    p++;
+    p->x0 = pt[0] + D_800B73F8.vx;
+    p->y0 = pt[1] + D_800B73F8.vz;
+    p->x1 = pt[0];
+    p->y1 = pt[1];
+    p->r0 = 50;
+    p->g0 = 100;
+    p->b0 = 50;
+    p->r1 = 100;
+    p->g1 = 200;
+    p->b1 = 100;
+    SetLineG2(p);
+    AddPrim(D_800B7018 + 0x11, p++);
+    D_800B7140 = p;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80040248);
 
