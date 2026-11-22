@@ -427,6 +427,12 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A task's `func = saved` tail shared through a jump with a register reused from the top | The original wrote the statement in both places; GCC cross-jumps them (DH3 0x8006995C, not yet matched) |
 | `lhu` and `sll 20`/`sra 20` for a 12-bit angle difference | `((s16)(a - b) << 20) >> 20` (DH3 0x8003E67C) |
 | A value read with `lhu` into a saved register across a call, then sign-extended after it, and the same register reused for a later result | One `s32` variable for both, the first read as `(u16)p->pos.vy` (DH3 0x8003D9F8) |
+| `D_801F7D50` load hoisted above a struct-field store (`obj->unkD4 = 0`, `obj->unkE2--`) in ours, kept after it in the original | `D_801F7D50` is now a one-field struct (`D_801F7D50.unk0`); a plain scalar may move past struct stores, a struct read may not (0x80047F7C, 0x800483C8) |
+| Callee returns `s16`, but the caller sign-extends the result right after the call | Store it in an `s32` local (`s32 step = func_80045EF4(...)`): the conversion to `int` needs the `sll`/`sra`, an `s16` local doesn't (0x80047F7C, 0x800483C8) |
+| A global load moved above `t[0] = 0` in the original but not in ours | `t` is a pointer to a small struct (`t->unk0 = 0`), not `s16 *`: pointer-indexed stores may alias globals, struct-field stores don't (0x80047F7C) |
+| 32 bytes of unused stack after the locals | An unused `MATRIX` local (0x800369FC); 24 bytes: `SVECTOR unused[3]` (0x800483C8) |
+| Inner loop entered with `j` to the test at the bottom, loop-invariant sign-extensions left inside | The original wasn't seen as a loop by GCC: a `goto` loop (`goto check; loop: ... next: j++; check: if (j < n) goto loop;`) gets this shape (0x8004121C, not yet matched) |
+| Unused 16-byte stack copy from rodata at the top of a function | A local initializer, `s32 unused[4] = {0x2000, 0x2000, 0x2000, 0};`; delete the rodata item's `INCLUDE_RODATA` if nothing else lies between it and the function (0x8004D650, not yet matched) |
 
 ## PsyQ library settings
 
