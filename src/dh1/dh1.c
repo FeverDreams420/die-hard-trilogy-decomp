@@ -16128,14 +16128,82 @@ void func_8006A6A8(void) {
     }
 }
 
-extern void func_8006A72C(s32, s32);
+extern s32 func_8006A72C();
 
 void func_8006A704(s32 arg0, s16 arg1) {
     D_800A337C = arg1;
     func_8006A72C(arg0, 0);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8006A72C);
+typedef struct {
+    void *prims[2];
+    u8 pad8[8];
+    void *buf[2];
+    s32 unk18;
+} Unk8006A72C;
+
+extern char D_8007B668[];
+extern char D_8007B674[];
+extern char D_800A2C44[];
+extern char D_800A2C4C[];
+extern u8 D_8008AA08[];
+extern u8 D_8008AF58[];
+extern u8 D_8008AE48[];
+extern u8 D_800A2A5C[];
+extern u8 D_800A2A64[];
+extern long format(char *fs);
+
+#define SET_MENU(obj, menu) do { (obj)->unk18 = (s32)(menu); func_80054FEC(obj); } while (0)
+
+s32 func_8006A72C(Unk8006A72C *obj, s32 unused) {
+    char buf[128];
+    s16 i = 3;
+    s16 card0;
+    s16 card1;
+    long r;
+
+    do {
+        func_80055D9C();
+        D_800A30A4 = (Unk8002CE64_Prim *)obj->buf[D_800A333C];
+        D_800A3374 = obj->prims[D_800A333C];
+        func_80053864(160, 90, D_8007B668, 0x800, 0x400, D_800A2A5C, D_800A2A64);
+        func_80053864(160, 120, D_8007B674, 0x800, 0x400, D_800A2A5C, D_800A2A64);
+    } while (i--);
+    func_8001FDE4();
+    func_80069A14();
+    card0 = func_80069B1C(0);
+    card1 = func_80069B1C(0x10);
+    if (D_800A337C == 1) {
+        card1 = 0;
+    } else if (D_800A337C == 2) {
+        card0 = 0;
+    }
+    if (!card0 && !card1) {
+        goto fail;
+    }
+    if (card0 && card1) {
+        func_80069BD4();
+        SET_MENU(obj, D_8008AA08);
+        func_8001FD58();
+        return 0;
+    }
+    if (card0) {
+        r = format(D_800A2C44);
+    } else {
+        r = format(D_800A2C4C);
+    }
+    if (r) {
+        SET_MENU(obj, D_8008AF58);
+        func_8001FD58();
+        func_80069BD4();
+        return -1;
+    }
+fail:
+    func_80069BD4();
+    SET_MENU(obj, D_8008AE48);
+    func_8001FD58();
+    return 0;
+}
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2C44);
 
