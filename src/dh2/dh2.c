@@ -5707,7 +5707,7 @@ typedef struct {
 extern FrameBuf D_8016A2F8[2];
 extern u32 D_800B72F0;
 extern void *memcpy(void *dst, const void *src, u32 n);
-void func_8005FBB0(void *src, u8 *dst, s32 a2);
+s32 func_8005FBB0(char *name, u8 *dst, s16 slot);
 
 void func_8003F408(void *src, s16 first, s16 last) {
     u8 *buf = D_8016A2F8[(D_800B73C0 + 1) % 2].data;
@@ -10591,7 +10591,63 @@ INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005F604);
 
 INCLUDE_SDATA("asm/dh2/nonmatchings/dh2", D_800B6694);
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005FBB0);
+typedef struct {
+    s32 size;
+    u8 sum[0xFC];
+} SaveHeader;
+
+extern u8 D_801F90A8[];
+extern s32 D_800B7360;
+s16 func_8005F440(u8 *p, s32 n, u8 *out);
+
+s32 func_8005FBB0(char *name, u8 *dst, s16 slot) {
+    char path[128];
+    u8 sum[32];
+    SaveHeader hdr;
+    char *dir;
+    s32 fd;
+    s32 size;
+    s16 n;
+    s16 i;
+
+    dir = func_8005F4E4(slot);
+    if (dir == NULL) {
+        return 1;
+    }
+    strcpy(path, dir);
+    strcat(path, D_800B6690);
+    strcat(path, name);
+    fd = open(path, 1);
+    if (fd < 0) {
+        return 3;
+    }
+    D_800B72F0 = read(fd, D_801F90A8, 0x200);
+    if (D_800B72F0 != 0x200) {
+        close(fd);
+        return 6;
+    }
+    D_800B72F0 = read(fd, &hdr, 0x100);
+    if (D_800B72F0 != 0x100) {
+        close(fd);
+        return 8;
+    }
+    size = hdr.size;
+    D_800B7360 = size;
+    size += 0x80;
+    D_800B72F0 = read(fd, dst, size);
+    if (D_800B72F0 != size) {
+        close(fd);
+        return 7;
+    }
+    close(fd);
+    n = func_8005F440(dst, D_800B7360, sum);
+    for (i = 0; i < n; i++) {
+        if (sum[i] != hdr.sum[i]) {
+            return 12;
+        }
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_8005FD68);
 
