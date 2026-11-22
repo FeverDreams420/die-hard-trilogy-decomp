@@ -9678,7 +9678,113 @@ void func_8004ACD4(SVECTOR *pos) {
     d->unk60 = 0xFF;
 }
 
+// NON_MATCHING: registers, scheduling; the original computes the cosine size first
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004AF54);
+#else
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u32 uvc0;
+    s16 x1, y1;
+    u32 uvt1;
+    s16 x2, y2;
+    u16 uv2;
+    u16 pad1E;
+    s16 x3, y3;
+    u16 uv3;
+    u16 pad26;
+} Unk8004AF54_Prim;
+
+typedef struct {
+    SVECTOR pos[12];
+    s32 size[12];
+    s32 dist[12];
+    s16 speed[12];
+    s16 angle[12];
+    s16 spin[12];
+    s16 life[12];
+    s16 pad124[12];
+    s16 rise[12];
+} Obj8004AF54;
+
+extern void SetPolyFT4(void *p);
+extern s16 D_800A33B4;
+
+void func_8004AF54(void) {
+    Obj8004AF54 *obj = (Obj8004AF54 *)D_800A317C->vals;
+    Unk8004AF54_Prim *prim;
+    Unk8004AF54_Prim *p;
+    u8 *tex;
+    u32 *ot;
+    s16 sxy[2];
+    s16 done = -1;
+    s32 w;
+    s32 h;
+    s16 i;
+
+    PushMatrix();
+    i = 11;
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    prim = D_800A3374;
+    p = prim;
+    do {
+        D_800A326C = RotTransPers(&obj->pos[i], (s32 *)sxy, &D_800A2EFC, &D_800A3394);
+        if (D_800A326C >= 32 && sxy[1] >= -100 && sxy[1] <= 300 && sxy[0] >= -160 && sxy[0] <= 480 &&
+            D_800A326C <= 5000) {
+            obj->pos[i].vy += obj->rise[i];
+            if (obj->life[i] != 0) {
+                obj->life[i]--;
+                done = 0;
+                if (obj->speed[i] > 0) {
+                    obj->dist[i] += obj->speed[i];
+                    obj->speed[i] -= obj->speed[i] / 20;
+                } else {
+                    obj->dist[i] -= 32;
+                }
+                obj->angle[i] += obj->spin[i];
+                w = (((D_800854C0[obj->angle[i] & 0xFFF] * obj->size[i]) >> 12) * D_800A33B4) / D_800A326C;
+                h = (((D_800854C0[(obj->angle[i] + 0x400) & 0xFFF] * obj->size[i]) >> 12) * D_800A33B4) / D_800A326C;
+                p->y0 = func_8004A7C4(sxy[1], w, obj->dist[i]);
+                p->y1 = func_8004A7C4(sxy[1], h, obj->dist[i]);
+                p->y2 = func_8004A7C4(sxy[1], -h, obj->dist[i]);
+                p->y3 = func_8004A7C4(sxy[1], -w, obj->dist[i]);
+                p->x0 = sxy[0] - h;
+                p->x1 = sxy[0] + w;
+                p->x2 = sxy[0] - w;
+                p->x3 = sxy[0] + h;
+                tex = D_800A3154;
+                p->uvc0 = *(u32 *)(tex + 0xBDC);
+                p->uvt1 = *(u32 *)(tex + 0xBF0);
+                p->uv2 = *(u16 *)(tex + 0xBE4);
+                p->uv3 = *(u16 *)(tex + 0xBE8);
+                SetPolyFT4(prim);
+                SetSemiTrans(prim, 1);
+                p->r0 = 0;
+                if (obj->life[i] < 32) {
+                    p->g0 = obj->life[i] * 4;
+                } else {
+                    p->g0 = 0x80;
+                }
+                p->b0 = 0;
+                D_800A326C >>= 1;
+                ot = D_800A32E4 + D_800A326C;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    prim++;
+                    AddPrim(ot, p++);
+                }
+            }
+        }
+    } while (--i != 0);
+    D_800A3374 = prim;
+    PopMatrix();
+    if (done != 0) {
+        func_80021554();
+    }
+}
+#endif
 
 extern void func_8004AF54();
 
