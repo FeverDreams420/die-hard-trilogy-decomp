@@ -5159,7 +5159,131 @@ void func_8003516C(Unk8003516C *obj) {
     d->unk90 = 0;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800354B0);
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    VECTOR scale;
+    SVECTOR v[3];
+    SVECTOR vel[3];
+    u8 pad50[8];
+    SVECTOR acc[3];
+    u8 pad70[8];
+    s16 wob[3];
+    u8 pad7E[2];
+    s16 wobv[3];
+    u8 pad86[2];
+    u16 unk88;
+    u16 unk8A;
+    u8 pad8C[2];
+    s16 timer;
+    s16 state;
+} Obj800354B0;
+
+typedef struct {
+    SVECTOR *v0;
+    SVECTOR *v1;
+    SVECTOR *v2;
+    u32 pad;
+    u16 unk10;
+    u16 unk12;
+} Unk800354B0_Tri;
+
+extern void (*D_8007FFB4)(Unk800354B0_Tri *tri);
+extern MATRIX *RotMatrix(SVECTOR *r, MATRIX *m);
+
+void func_800354B0(void) {
+    Obj800354B0 *obj = (Obj800354B0 *)D_800A317C->vals;
+    Unk800354B0_Tri tri;
+    s16 i;
+
+    PushMatrix();
+    LoadAverageShort12(&obj->pos, &D_800A3194, 0x1000, -0x1000, &D_800A349C);
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    RotMatrix(&obj->rot, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &obj->scale);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    tri.v0 = &obj->v[0];
+    tri.v1 = &obj->v[1];
+    tri.v2 = &obj->v[2];
+    tri.unk10 = obj->unk88;
+    tri.unk12 = obj->unk8A;
+    D_8007FFB4(&tri);
+    PopMatrix();
+
+    if (obj->state != 1) {
+        obj->v[0].vy -= obj->vel[0].vy;
+        obj->v[1].vy -= obj->vel[1].vy;
+        obj->v[2].vy -= obj->vel[2].vy;
+        obj->v[0].vx -= obj->vel[0].vx;
+        obj->v[0].vz -= obj->vel[0].vz;
+        obj->v[1].vx -= obj->vel[1].vx;
+        obj->v[1].vz -= obj->vel[1].vz;
+        obj->v[2].vx -= obj->vel[2].vx;
+        obj->v[2].vz -= obj->vel[2].vz;
+        obj->v[0].vy += obj->wob[0];
+        obj->v[1].vy += obj->wob[1];
+        obj->v[2].vy += obj->wob[2];
+        for (i = 0; i < 3; i++) {
+            obj->vel[i].vx += obj->acc[i].vx;
+            obj->vel[i].vz += obj->acc[i].vz;
+            if (obj->vel[i].vx < -15) {
+                obj->vel[i].vx = -15;
+                obj->acc[i].vx = 2;
+            } else if (obj->vel[i].vx > 15) {
+                obj->vel[i].vx = 15;
+                obj->acc[i].vx = -2;
+            }
+            if (obj->vel[i].vz < -15) {
+                obj->vel[i].vz = -15;
+                obj->acc[i].vz = 2;
+            } else if (obj->vel[i].vz > 15) {
+                obj->vel[i].vz = 15;
+                obj->acc[i].vz = -2;
+            }
+        }
+        if (obj->v[0].vy < 10) {
+            obj->v[0].vy = 10;
+            obj->vel[0].vx = 0;
+            obj->vel[0].vz = 0;
+            obj->acc[0].vx = 0;
+            obj->acc[0].vz = 0;
+        }
+        if (obj->v[1].vy < 10) {
+            obj->v[1].vy = 10;
+            obj->vel[1].vx = 0;
+            obj->vel[1].vz = 0;
+            obj->acc[1].vx = 0;
+            obj->acc[1].vz = 0;
+        }
+        if (obj->v[2].vy < 10) {
+            obj->v[2].vy = 10;
+            obj->vel[2].vx = 0;
+            obj->vel[2].vz = 0;
+            obj->acc[2].vx = 0;
+            obj->acc[2].vz = 0;
+        }
+        for (i = 0; i < 3; i++) {
+            obj->wob[i] += obj->wobv[i];
+            if (obj->wob[i] < -7) {
+                obj->wob[i] = -7;
+                obj->wobv[i] = 1;
+            } else if (obj->wob[i] > 7) {
+                obj->wob[i] = 7;
+                obj->wobv[i] = -1;
+            }
+        }
+        if (obj->v[0].vy == 10 && obj->v[1].vy == obj->v[0].vy && obj->v[2].vy == obj->v[1].vy) {
+            obj->timer = 10;
+            obj->state = 1;
+        }
+    }
+    if (--obj->timer == 0) {
+        func_80021554();
+    }
+}
 
 typedef struct {
     SVECTOR *parts[4];
