@@ -11107,9 +11107,55 @@ void func_80058C44(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80058D48);
+typedef struct {
+    VECTOR pos;
+    u8 pad10[0xC8];
+    s16 timer;
+    u8 padDA[6];
+    VECTOR pos2;
+    SVECTOR rot;
+    SVECTOR drot;
+    s16 vel;
+    s16 model;
+} Unk80058D48;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B58E8);
+extern s32 func_80028CEC(s32 x);
+s16 func_800210B8(void *a, VECTOR *pos, s16 *rot);
+void func_80068200(s16 id, void *pos);
+void func_8005D3DC();
+
+void func_80058D48(void) {
+    Unk80058D48 *o = (Unk80058D48 *)D_800B604C->vals;
+    s16 dx = o->pos.vx - D_801981F4.vx;
+    s16 dz = o->pos.vz - D_801981F4.vz;
+    SVECTOR sv = {0, 0, 0, 0};
+    s16 i;
+
+    if (func_80028CEC(dx) > 0x4000 || func_80028CEC(dz) > 0x4000 || o->timer-- < 0) {
+        if (D_800B604C->unk2C++ >= 3) {
+            func_800728A4();
+        }
+        return;
+    }
+    D_800B604C->unk2C = 0;
+    func_800210B8((void *)D_801FAB28[o->model], &o->pos2, (s16 *)&o->rot);
+    o->pos2.vy += o->vel;
+    o->vel -= 6;
+    o->rot.vx += o->drot.vx;
+    o->rot.vy += o->drot.vy;
+    o->rot.vz += o->drot.vz;
+    if (o->pos2.vy < (s16)func_80028BF0(&o->pos2)) {
+        i = 3;
+        do {
+            sv.vy = func_80074910(0x40);
+            sv.vx = func_80074910(0x80) - 0x40;
+            sv.vz = func_80074910(0x80) - 0x40;
+            func_8005D3DC(&o->pos2, &o->rot, o->model, &sv);
+        } while (i--);
+        func_80068200(10, &o->pos2);
+        func_800728A4();
+    }
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80058F44);
 
