@@ -6431,7 +6431,7 @@ typedef struct {
     s16 unkB0;
     s16 unkB2;
     s16 unkB4;
-    s16 padB6;
+    s16 unkB6;
     s16 unkB8;
     s16 unkBA;
 } Unk8003D7E4;
@@ -6879,7 +6879,66 @@ void func_8003D9F8(void) {
     func_80048D54(p->unk78);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003DC64);
+void func_800686A0(s16 id, VECTOR *pos, s16 arg2);
+void func_8006DE04();
+extern int func_80071B7C(s32 a, s32 b, s32 t);
+extern struct Task *D_801F80BC;
+void func_8006CE0C(struct Task *parent, s32 arg1);
+void func_8006D474(void);
+void func_8003F464(VECTOR *pos);
+void func_80055868(void);
+void func_8003C648(void);
+
+void func_8003DC64(void) {
+    Unk8003D7E4 *p = (Unk8003D7E4 *)D_800B604C->vals;
+    s32 dx;
+    s32 dz;
+    s32 d;
+    s16 k;
+    s32 a;
+
+    func_800686A0((s16)func_80074910(3), &p->pos, (s16)func_80074910(8) + 4);
+    func_800686A0(5, &p->pos, 0x20);
+    func_8006DE04(-1000);
+    func_8003C648();
+    a = ((s16)(func_80028648(&p->pos, &D_800B659C->pos) - D_800B659C->unk22) << 20) >> 20;
+    if ((s16)(a < 0 ? -a : a) < 0x200) {
+        if (D_800B659C->unk196 != 0) {
+            k = func_80071B7C(0, 0xF, D_800B6614->unk1788);
+            if (k != 0) {
+                func_8006CE0C(D_801F80BC, k);
+            }
+        } else {
+            func_8006D474();
+        }
+    }
+    if (p->unkB6 != 0) {
+        func_8003F464(&p->pos);
+        p->unkB6 = 0;
+    }
+    if (p->unkA3 == 5) {
+        p->unkA3 = 0;
+    }
+    p->unk6C = 4;
+    func_80048C14(p->unk78, (s16)func_80074910(3) + 6, 0, 0x54, 2);
+    p->unk8C = 1;
+    dx = p->pos.vx - D_800B659C->pos.vx;
+    dz = p->pos.vz - D_800B659C->pos.vz;
+    d = SquareRoot0(dx * dx + dz * dz);
+    dx = dx * (s16)func_80074910(20) / d;
+    dz = dz * (s16)func_80074910(20) / d;
+    p->unk60 = (((D_800B659C->unkA4 >> 5) * 375) >> 8) + dx;
+    p->unk64 = (((D_800B659C->unkA8 >> 5) * 375) >> 8) + dz;
+    p->unk62 = func_80074910(0x20) + 8;
+    D_800B659C->unk176 = 0x1400;
+    D_800B659C->unk174 = 0xA00;
+    D_800B659C->unkA4 = (D_800B659C->unkA4 * 225) >> 8;
+    D_800B659C->unkA8 = (D_800B659C->unkA8 * 225) >> 8;
+    func_80055868();
+    p->unkB2 = -1;
+    D_800B604C->func = func_8003D9F8;
+    func_8003D9F8();
+}
 
 void func_8003DFE0(void) {
     Unk8003D7E4 *p = (Unk8003D7E4 *)D_800B604C->vals;
