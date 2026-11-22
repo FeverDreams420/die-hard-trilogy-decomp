@@ -1005,7 +1005,28 @@ void func_800247D0(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out) {
     out->vz = base->vz + tmp.vz;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80024864);
+extern MATRIX D_80169F78;
+extern VECTOR D_801F6C7C;
+extern s32 D_800B7198;
+s32 func_80025B40(s32 x);
+
+u8 func_80024864(v)
+SVECTOR *v;
+{
+    SetRotMatrix(&D_80169F78);
+    SetTransMatrix(&D_80169F78);
+    RotTrans(v, &D_801F6C7C, &D_800B7198);
+    if (D_801F6C7C.vz < 0x100) {
+        return 1;
+    }
+    if (D_801F6C7C.vz > 0x3000) {
+        return 3;
+    }
+    if (D_801F6C7C.vz < func_80025B40(D_801F6C7C.vx)) {
+        return 2;
+    }
+    return 6;
+}
 
 void func_80024914(SVECTOR *a, SVECTOR *b, SVECTOR *c, SVECTOR *out) {
     s32 ax, ay, az;
@@ -9721,7 +9742,7 @@ void func_800540F4(Unk800540F4 *obj) {
     obj->unk216 = 2;
 }
 
-u8 func_80024864(void);
+u8 func_80024864();
 void func_80051048();
 
 void func_80054100(Unk80054100 *obj) {
