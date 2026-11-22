@@ -8054,7 +8054,152 @@ void func_800482FC(void) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800483C8);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800487B4);
+typedef struct {
+    SVECTOR pos[20];
+    s16 unkA0[20];
+    s16 unkC8[20];
+    s16 count;
+} Unk80056ADC;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk80056ADC *unk1C;
+} *D_801F7D70;
+
+extern s16 func_80056B8C(Unk8002A35C *from, s16 range);
+extern void func_80044E9C(void);
+
+typedef struct {
+    s16 timer;
+    u8 pad2[0xE];
+    s16 angle;
+    s16 state;
+    u8 pad14[0x2A];
+    s16 heading;
+} Unk800487B4_Sub;
+
+typedef struct {
+    Unk8002A35C pos;
+    u8 pad6[0xC];
+    s16 rotY;
+    u8 pad14[0x14];
+    s16 unk28;
+    u8 pad2A[0x3A];
+    Anim anim;
+    u8 pad84[0x5E];
+    s16 unkE2;
+    u8 padE4[0x20];
+    s16 unk104;
+    s16 unk106;
+    s16 unk108;
+    u8 pad10A[2];
+    s16 unk10C;
+    s16 unk10E;
+    u8 pad110[4];
+    union {
+        Unk800487B4_Sub sub;
+        u8 bytes[16];
+    } u;
+    u8 pad154[4];
+    s16 unk158;
+} Unk800487B4;
+
+void func_800487B4(void) {
+    Unk800487B4 *obj = (Unk800487B4 *)D_800A317C->vals;
+    SVECTOR *pts = (SVECTOR *)D_801F7D70->unk1C;
+    Unk800487B4_Sub *sub;
+    s16 tmp;
+
+    func_8003E384((Unk80045164 *)obj);
+    func_8002A270(&obj->pos, 4);
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031320((Unk80045164 *)obj);
+    sub = &obj->u.sub;
+    if (obj->unk158 == 0 && (s16)func_8004BF0C(&obj->pos) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(&obj->anim, tmp, 0, 0x52, 8);
+        D_800A317C->saved = D_800A317C->func;
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    if ((s16)func_800493D0(obj) != 0) {
+        obj->unk104 = 0;
+        obj->unkE2 = 5;
+        obj->unk106 = 0;
+        obj->unk108 = 100;
+        obj->anim.unk1C = obj->unk104;
+        sub->state = 1;
+        D_800A317C->func = func_800487B4;
+        D_800A317C->saved = D_800A317C->func;
+        D_800A317C->func = func_80044E9C;
+        return;
+    }
+    switch (sub->state) {
+    case 0:
+        if (obj->unk108 != 0) {
+            obj->unk108--;
+        } else {
+            if (obj->unk104 != obj->unk106) {
+                obj->unk104 = func_800437C8(obj->unk104, obj->unk106, 0x40);
+            } else {
+                obj->unk106 = (func_8001E9DC(3) - 1) << 10;
+                obj->unk108 = func_8001E9DC(16) + 16;
+            }
+            obj->anim.unk1C = obj->unk104;
+        }
+        if (obj->unk10E == 0) {
+            tmp = func_80056B8C(&obj->pos, obj->unk10C);
+            if (tmp != -1) {
+                obj->unk10E = 100;
+                sub->angle = func_80028B04((Unk8002A35C *)&pts[tmp], &obj->pos);
+                sub->state = 2;
+                obj->unk104 = 0;
+                obj->unk106 = 0;
+                obj->unk108 = 32;
+                obj->anim.unk1C = obj->unk104;
+            } else if (obj->rotY != sub->heading) {
+                sub->state = 1;
+            }
+        }
+        break;
+    case 1:
+        obj->rotY = func_80043814(obj->rotY, sub->heading, 0x40);
+        if (obj->rotY == sub->heading) {
+            sub->state = 0;
+        }
+        break;
+    case 2:
+        obj->rotY = func_80043814(obj->rotY, sub->angle, 0x80);
+        if (obj->rotY == sub->angle) {
+            sub->state = 0;
+        }
+        break;
+    }
+    if (obj->unk10E != 0) {
+        obj->unk10E--;
+    } else {
+        obj->unk10E = func_8001E9DC(4);
+    }
+    if (sub->timer != 0) {
+        sub->timer--;
+    } else {
+        obj->unk28 = 7;
+        for (tmp = 0; tmp < 16; tmp++) {
+            obj->u.bytes[tmp] = 0;
+        }
+        obj->unk104 = 0;
+        obj->anim.unk1C = 0;
+        D_800A317C->func = func_80046030;
+    }
+    func_80049064((Unk80045164 *)obj, -1);
+    func_80049744((Obj80047314 *)obj);
+}
 
 void func_800487B4();
 
@@ -11150,17 +11295,6 @@ void func_80056918(void) {
     D_800A317C->func = func_800562CC;
 }
 
-typedef struct {
-    SVECTOR pos[20];
-    s16 unkA0[20];
-    s16 unkC8[20];
-    s16 count;
-} Unk80056ADC;
-
-extern struct {
-    u8 pad[0x1C];
-    Unk80056ADC *unk1C;
-} *D_801F7D70;
 
 void func_80056A64(void);
 
