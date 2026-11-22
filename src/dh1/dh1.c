@@ -10045,7 +10045,7 @@ void func_8004AF54(void) {
                 }
             }
         }
-    } while (--i != 0);
+    } while (i--);
     D_800A3374 = prim;
     PopMatrix();
     if (done != 0) {
@@ -10466,7 +10466,7 @@ void func_8004CCE8(void) {
                 }
             }
         }
-    } while (--i != 0);
+    } while (i--);
     SetDrawMode(prim, 1, 1, *(u16 *)((u8 *)D_800A3154 + 0x16), 0);
     ot = D_800A32E4 + D_800A326C;
     p = prim;
