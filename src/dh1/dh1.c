@@ -4917,7 +4917,136 @@ void func_800328C0(s32 a0, s32 a1, Unk800584A4 *src) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032A68);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032FD8);
+typedef struct {
+    SVECTOR pos;
+    SVECTOR v[48];
+    SVECTOR d[48];
+    s16 timer;
+    u8 hits[16];
+    u16 frame;
+} Unk80032FD8;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u8 u0, v0;
+    u16 clut;
+    s32 xy1;
+    u8 u1, v1;
+    u16 tpage;
+    s32 xy2;
+    u8 u2, v2;
+    u16 pad;
+} Unk80032FD8_FT3;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    s32 xy1;
+    s32 xy2;
+} Unk80032FD8_F3;
+
+typedef struct {
+    u32 tag;
+    u32 code[2];
+} Unk80032FD8_Mode;
+
+extern void gteMIMefunc(SVECTOR *otp, SVECTOR *dfp, s32 n, s32 p);
+extern void SetDrawMode();
+
+void func_80032FD8(void) {
+    Unk80032FD8 *e = (Unk80032FD8 *)D_800A317C->vals;
+    Unk80032FD8_FT3 *ft;
+    Unk80032FD8_F3 *f3;
+    Unk80032FD8_Mode *mode;
+    u32 *ot;
+    s32 tpage;
+    u16 clut;
+    s16 i;
+    s16 j;
+
+    if (--e->timer < 0) {
+        func_80021554();
+        return;
+    }
+    tpage = *(s32 *)((u8 *)D_800A3154 + 0xB5C);
+    clut = *(u16 *)((u8 *)D_800A3154 + 0xB7A);
+    PushMatrix();
+    LoadAverageShort12(&e->pos, &D_800A3194, 0x1000, -0x1000, &D_800A349C);
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    RotMatrix((SVECTOR *)&D_800A2A10, &D_801FB868);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    ft = D_800A3374;
+    D_800A326C = RotTransPers((SVECTOR *)&D_800A2A10, &ft->xy0, &D_800A2EFC, &D_800A3394) >> 1;
+    gteMIMefunc(e->v, e->d, 48, 0x800);
+    for (i = 0; i < 48; i++) {
+        e->d[i].vy -= 0x10;
+        if (e->v[i].vy < 0) {
+            e->v[i].vy = 0;
+            e->d[i].vy = -e->d[i].vy / 2;
+            e->hits[i / 3] += 0xFF;
+        }
+    }
+    j = 0;
+    if ((u32)D_800A326C >= 0x9FF) {
+        e->frame++;
+    } else {
+        for (i = 0; i < 48; i += 3, j++) {
+            if (e->hits[j] < 0x7B) {
+                ft = D_800A3374;
+                RotTransPers3(&e->v[i], &e->v[i + 1], &e->v[i + 2], &ft->xy0, &ft->xy1, &ft->xy2, &D_800A2EFC, &D_800A3394);
+                *(s32 *)&ft->u1 = tpage;
+                ft->u0 = 0x40;
+                ft->v0 = 0;
+                ft->u1 = 0x5F;
+                ft->v1 = 0;
+                ft->u2 = 0x5F;
+                ft->v2 = 0x1F;
+                setlen(ft, 7);
+                setcode(ft, 0x27);
+                ot = D_800A32E4 + D_800A326C;
+                ft->clut = clut;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, ft++);
+                }
+                D_800A3374 = ft;
+            } else {
+                f3 = D_800A3374;
+                RotTransPers3(&e->v[i], &e->v[i + 1], &e->v[i + 2], &f3->xy0, &f3->xy1, &f3->xy2, &D_800A2EFC, &D_800A3394);
+                if ((e->frame >> 1) == j) {
+                    f3->r0 = 0xFF;
+                    f3->g0 = 0xFF;
+                    f3->b0 = 0xFF;
+                } else {
+                    f3->r0 = 0x4D;
+                    f3->g0 = 0x57;
+                    f3->b0 = 0x80;
+                }
+                setlen(f3, 4);
+                setcode(f3, 0x22);
+                ot = D_800A32E4 + D_800A326C;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, f3++);
+                }
+                D_800A3374 = f3;
+            }
+        }
+        mode = D_800A3374;
+        SetDrawMode(mode, 1, 1, *(u16 *)((u8 *)D_800A3154 + 6), 0);
+        ot = D_800A32E4 + D_800A326C;
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrim(ot, mode++);
+        }
+        D_800A3374 = mode;
+        e->frame++;
+    }
+    PopMatrix();
+}
 
 typedef struct {
     s16 x;
