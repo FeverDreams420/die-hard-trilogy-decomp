@@ -6443,7 +6443,7 @@ s16 func_8003C838(void *p);
 void func_8003E624(void);
 void func_8003DC64(void);
 void func_8003CD1C(void);
-void func_8003E67C(void);
+void func_8003E67C();
 extern s16 D_800B62A4;
 
 void func_8003CAF8(void) {
@@ -6488,9 +6488,64 @@ void func_8003CAF8(void) {
     func_8003C5F0((void *)p);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003CD1C);
+void func_8003CD1C(void) {
+    Unk8003D7E4 *p = (Unk8003D7E4 *)D_800B604C->vals;
+    SVECTOR step = {0, 0, -8, 0};
+    s16 h;
 
-INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B57C8);
+    if (func_80028A48(&D_801981F4, &p->pos) > 0x2000) {
+        func_8004DCC4(p->unk70);
+        func_8004DC84(p->unkB8, p->unkBA);
+        D_800B62A4--;
+        func_800728A4();
+        return;
+    }
+    p->rot.vy = func_80028868(p->rot.vy, p->unk52, 0x40);
+    if (p->unk6C-- < 0) {
+        p->unk52 = func_80074910(0x1000);
+        p->unk6C = 0x14;
+        if ((s16)func_80074910(3) == 0) {
+            func_80048C14(p->unk78, (s16)func_80074910(4) + 0xB, 0, 0x54, 8);
+            D_800B604C->func = func_8003CAF8;
+        }
+    }
+    func_80028310(&p->rot, &step, &p->pos, &D_801F76D0);
+    h = func_80028BF0(&p->pos);
+    if (h - p->pos.vy > 0x40) {
+        func_8003E67C(p, h);
+        return;
+    }
+    p->pos.vx = D_801F76D0.vx;
+    p->pos.vz = D_801F76D0.vz;
+    p->pos.vy = h;
+    func_8003E35C(p);
+    func_80048D54(p->unk78);
+    if ((s16)func_80048E70(&p->pos, &p->rot, 0x1000, 0x280, p->unk78) < 4) {
+        if (p->unk74++ >= 0x1F) {
+            func_8004DCC4(p->unk70);
+            func_8004DC84(p->unkB8, p->unkBA);
+            D_800B62A4--;
+            func_800728A4();
+            return;
+        }
+    } else {
+        p->unk74 = 0;
+        D_800B604C->unk2C = 0;
+    }
+    if ((s16)func_8003C5C0((Unk8003C5C0 *)p)) {
+        D_800B6664++;
+        D_800B604C->func = func_8003DC64;
+        func_8003DC64();
+        return;
+    }
+    if ((s16)func_8003E25C(p)) {
+        D_800B604C->func = func_8003E624;
+    }
+    if ((s16)func_8003C838(p)) {
+        D_800B604C->func = func_8003D9F8;
+    }
+    func_8003C5F0((void *)p);
+}
 
 typedef struct {
     u8 pad0[0x10];
