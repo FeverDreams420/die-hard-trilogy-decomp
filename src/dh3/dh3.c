@@ -1662,7 +1662,49 @@ void func_80027A18(u8 *a, u8 *b, s16 t, u8 *out) {
     out[1] = func_80071B7C(a[1], b[1], t);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80027A88);
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    s16 x1, y1;
+} LINE_F2;
+
+extern void SetLineF2(LINE_F2 *p);
+extern s32 func_80028CEC(s32 x);
+extern SVECTOR D_800B6574;
+extern MATRIX D_801981D4;
+extern VECTOR *ApplyMatrix(MATRIX *m, SVECTOR *v0, VECTOR *v1);
+extern SVECTOR D_800B6594;
+
+void func_80027A88(VECTOR *a, VECTOR *b) {
+    LINE_F2 *p = (LINE_F2 *)D_800B63AC;
+    s16 dx = a->vx - D_801981F4.vx;
+    s16 dz = a->vz - D_801981F4.vz;
+
+    if (func_80028CEC(dx) > 0x3000 || func_80028CEC(dz) > 0x3000) {
+        return;
+    }
+    PushMatrix();
+    D_800B6574.vx = a->vx - D_801981F4.vx;
+    D_800B6574.vy = a->vy - D_801981F4.vy;
+    D_800B6574.vz = a->vz - D_801981F4.vz;
+    ApplyMatrix(&D_801981D4, &D_800B6574, &D_801CA274);
+    SetRotMatrix(&D_801981D4);
+    func_80084978(&D_801981D4, &D_801CA274);
+    SetTransMatrix(&D_801981D4);
+    RotTransPers(&D_800B5A74, (s32 *)&p->x0, &D_800B5CFC, &D_800B642C);
+    D_800B6594.vx = b->vx - a->vx;
+    D_800B6594.vy = b->vy - a->vy;
+    D_800B6594.vz = b->vz - a->vz;
+    RotTransPers(&D_800B6594, (s32 *)&p->x1, &D_800B5CFC, &D_800B642C);
+    PopMatrix();
+    SetLineF2(p);
+    p->r0 = 0xFF;
+    p->g0 = 0xFF;
+    p->b0 = 0xFF;
+    AddPrim(D_800B62CC + 1, p++);
+    D_800B63AC = p;
+}
 
 s32 func_80027C84(void) {
     return GetRCnt(0xF2000001) > 0x400;
