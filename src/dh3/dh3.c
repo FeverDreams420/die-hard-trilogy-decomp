@@ -8487,7 +8487,27 @@ void func_80048830(void *anim, s16 idx) {
     p->unk26 = D_800928CC[idx].unk8 * 40;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8004896C);
+void func_8004896C(void *obj) {
+    Unk80048808 *o = obj;
+    s32 r;
+
+    if (D_800B61A4->unk1A != 0) {
+        func_80048808(obj);
+        return;
+    }
+    r = (s16)func_80074910(16);
+    o->unk2B = D_800928CC[r].unkA;
+    if (o->unk2B == 2) {
+        o->unk22 = D_800928CC[r].unk4 * 40;
+        o->unk1E = D_800928CC[r].unk0 * 40;
+    } else {
+        o->unk1E = D_800928CC[(s16)func_80074910(16)].unk0 * 40;
+        o->unk22 = D_800928CC[(s16)func_80074910(16)].unk4 * 40;
+    }
+    o->unk20 = D_800928CC[(s16)func_80074910(16)].unk2 * 40;
+    o->unk26 = D_800928CC[(s16)func_80074910(16)].unk8 * 40;
+    o->unk24 = D_800928CC[(s16)func_80074910(16)].unk6 * 40;
+}
 
 typedef struct {
     s16 unk0;
