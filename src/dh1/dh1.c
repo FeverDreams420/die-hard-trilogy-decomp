@@ -13329,8 +13329,6 @@ void func_80059D64(void *arg0, void *arg1, Unk800584A4 *self) {
     func_80042538((Obj *)&obj->unk7C);
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80059DB8);
-
 typedef struct {
     SVECTOR pos[4][4];
     SVECTOR vel[4][4];
@@ -13338,6 +13336,119 @@ typedef struct {
     s16 unk102;
     s16 unk104;
 } Unk8005A22C;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u16 uv0;
+    u16 clut;
+    s16 x1, y1;
+    u32 uvt1;
+    s16 x2, y2;
+    u16 uv2;
+    u16 pad1E;
+    s16 x3, y3;
+    u16 uv3;
+    u16 pad26;
+} Unk80059DB8_Prim;
+
+extern void SetPolyFT4(void *p);
+
+void func_80059DB8(void) {
+    Unk8005A22C *d = (Unk8005A22C *)D_800A317C->vals;
+    SVECTOR v[4];
+    s32 sxy;
+    Unk80059DB8_Prim *p;
+    u8 *tex;
+    u32 *ot;
+    s16 visible = 0;
+    s16 scale;
+    s16 n;
+    s16 c;
+    s16 far;
+    s16 i;
+    s16 j;
+
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    n = func_800296F8(0, 4, D_800A350C->unk1788);
+    scale = d->unk102;
+    if (d->unk102 > 0x1000) {
+        scale = 0x1000;
+    }
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < 4; j++) {
+            v[j].vx = d->pos[j][i].vx + ((d->vel[j][i].vx * scale) >> 12);
+            v[j].vz = d->pos[j][i].vz + ((d->vel[j][i].vz * scale) >> 12);
+            v[j].vy = d->pos[j][i].vy;
+            if (ABS(d->vel[j][i].vx) > 0x100 || d->vel[j][i].vz > 0x100) {
+                d->vel[j][i].vx %= 0x100;
+                d->vel[j][i].vz %= 0x100;
+            }
+        }
+        D_800A326C = RotTransPers(&v[3], &sxy, &D_800A2EFC, &D_800A3394) >> 1;
+        p = D_800A3374;
+        far = D_800A2A22 < D_800A326C ? -1 : 0;
+        RotTransPers4(&v[3], &v[2], &v[1], &v[0], (s32 *)&p->x0, (s32 *)&p->x1, (s32 *)&p->x2, (s32 *)&p->x3,
+                      &D_800A2EFC, &D_800A3394);
+        if ((D_800A3394 & ~0x1FFF) || p->x0 < -60 || p->x0 > 400) {
+            continue;
+        }
+        D_800A326C = func_800293A4() - 32;
+        if (D_800A326C < 32 || D_800A326C >= 32 + 0x9DE) {
+            continue;
+        }
+        if (D_800A326C > D_800A2A22) {
+            c = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+            if (c > 0x80) {
+                c = 0x80;
+            }
+        } else {
+            c = 0x80;
+        }
+        if (c > 0) {
+            tex = D_800A3154;
+            p->uv0 = *(u16 *)(tex + 0x1B8);
+            p->uvt1 = *(u32 *)(tex + 0x1BC);
+            p->uv2 = *(u16 *)(tex + 0x1C0);
+            p->uv3 = *(u16 *)(tex + 0x1C4);
+            p->clut = *(u16 *)(tex + 0x1DA);
+            visible = -1;
+            if (!far) {
+                SetPolyFT4(p);
+                p->code |= 3;
+            } else {
+                SetPolyFT4(p);
+                p->r0 = c;
+                p->g0 = c;
+                p->b0 = c;
+                p->code |= 2;
+            }
+            ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, p++);
+            }
+            D_800A3374 = p;
+        }
+    }
+    if (d->unk104 != 0) {
+        d->unk102 = func_800437C8(d->unk102, 0, 4);
+        if (d->unk102 == 0) {
+            func_80021554();
+            return;
+        }
+    } else {
+        d->unk102 = func_800437C8(d->unk102, 0x1000, 25);
+        if (d->unk102 == 0x1000) {
+            d->unk104 = -1;
+            d->unk102 = 0x2000;
+        }
+    }
+    if (visible == 0) {
+        func_80021554();
+    }
+}
 
 void func_80059DB8(void);
 
