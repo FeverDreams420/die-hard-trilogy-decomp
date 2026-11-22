@@ -8161,7 +8161,169 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE78);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE88);
 
+// NON_MATCHING: registers, scheduling; the original reads the path table index with lhu
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80047B68);
+#else
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    u8 pad8[6];
+    s16 unkE;
+    struct Task *unk10;
+    s16 unk14;
+    s16 unk16;
+    u8 path[0x20];
+    s16 unk38;
+    s16 unk3A;
+    s16 unk3C;
+    s16 unk3E;
+    u8 pad40[0x10];
+} Unk80047B68_Sub;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[0xC];
+    s16 unk12;
+    u8 pad14[0x14];
+    s16 unk28;
+    u8 pad2A[0x38];
+    s16 unk62;
+    Anim anim;
+    s16 unk84;
+    s16 unk86;
+    s16 unk88;
+    s16 unk8A;
+    s16 unk8C;
+    u8 pad8E[3];
+    u8 unk91;
+    u8 pad92[2];
+    s16 unk94;
+    u8 pad96[2];
+    s16 unk98;
+    u8 pad9A[0x31];
+    u8 unkCB;
+    u8 padCC[8];
+    s16 unkD4;
+    s16 unkD6;
+    s16 unkD8;
+    u8 padDA[2];
+    s16 unkDC;
+    u8 padDE[4];
+    s16 unkE2;
+    s16 unkE4;
+    s16 unkE6;
+    u8 padE8[0xA];
+    s16 unkF2;
+    s16 unkF4;
+    u8 padF6[0xC];
+    s16 unk102;
+    u8 pad104[0x10];
+    Unk80047B68_Sub sub;
+} Obj80047B68;
+
+extern u8 *D_800A32EC;
+extern void func_8003A8A4(void);
+extern void func_800474AC(void);
+
+void func_80047B68(void) {
+    Obj80047B68 *obj = (Obj80047B68 *)D_800A317C->vals;
+    s16 dx[8] = { 0, -364, -512, -364, 0, 364, 512, 364 };
+    s16 dz[8] = { 512, 364, 0, -364, -512, -364, 0, 364 };
+    Unk80047B68_Sub *sub = &obj->sub;
+    Unk8003BA6C_Task *task;
+    Obj80047B68 *child;
+    Unk80047B68_Sub *csub;
+    Unk800A30B4 *tex;
+    u8 *path;
+    s32 *src;
+    s32 *dst;
+    u16 k;
+    s16 dir;
+    s16 i;
+
+    task = func_80021264(func_8003A8A4, 1, sizeof(Obj80047B68));
+    if (task == NULL) {
+        func_80021554();
+        return;
+    }
+    child = (Obj80047B68 *)task->data;
+    csub = &child->sub;
+
+    if (sub->unk0 == -1) {
+        sub->unk16 = 1;
+        func_80024DA8(&obj->anim, 0xF, 0, 0xA4, 4);
+    } else {
+        sub->unk16 = 0;
+        sub->unk14 = ((s32 *)D_800A32EC)[sub->unk0 * 2 + 1];
+        path = D_800A32EC + ((s32 *)D_800A32EC)[sub->unk0 * 2];
+        for (i = 0; i < ((s32 *)D_800A32EC)[sub->unk0 * 2 + 1]; i++) {
+            sub->path[i] = *path++;
+        }
+        obj->unkD6 = sub->path[0];
+        obj->unkE6 = 1;
+        obj->unkDC = sub->path[1];
+    }
+    func_8004379C(obj->unkD6, (SVECTOR *)obj);
+    sub->unk4 *= 30;
+    obj->unkD4 = 0x400;
+    obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+    obj->unkE2 = func_8001E9DC(10) + 10;
+    obj->unkE4 = 0;
+
+    src = (s32 *)obj;
+    dst = (s32 *)child;
+    for (k = 0; k < sizeof(Obj80047B68) / 4; k++) {
+        *dst++ = *src++;
+    }
+    sub->unk10 = (struct Task *)task;
+    sub->unk3E = 0;
+    csub->unk3A = 0;
+    csub->unk38 = 0;
+    csub->unk3E = 0;
+    csub->unk10 = D_800A317C;
+    if (sub->unk0 == -1) {
+        csub->unk16 = 2;
+        csub->unk3C = 3;
+        func_80024DA8(&child->anim, 0x1F, 0, 0, 0);
+    } else {
+        csub->unk16 = 0;
+        func_80024DA8(&child->anim, 0x20, 0, 0xA4, 0);
+    }
+
+    dir = obj->unk12 >> 9;
+    child->unk28 = 4;
+    child->unkF2 = 1;
+    child->unk0 += dx[dir];
+    child->unk4 += dz[dir];
+    child->unk94 += dx[dir];
+    child->unk98 += dz[dir];
+    child->unk62 = func_8003D890((Unk80045164 *)child);
+    child->unk102 = 0;
+    child->unkF4 = 0;
+    child->unkCB = child->unk62;
+    tex = &D_800A30B4[sub->unk2];
+    child->unk84 = tex->unk0;
+    child->unk86 = tex->unk2;
+    child->unk88 = tex->unk4;
+    child->unk8A = tex->unk6;
+    child->unk8C = tex->unk8;
+    child->unk91 = tex->unkA;
+    csub->unkE = func_8003A430(child);
+    if (sub->unk6 >= 0) {
+        sub->unk6 += 16;
+        csub->unk4 = sub->unk6;
+    } else {
+        sub->unk6 = 0;
+        csub->unk4 = 0;
+    }
+    D_800A317C->func = func_800474AC;
+}
+#endif
 
 extern void func_8004916C(Unk80045164 *obj, s32 dist);
 
