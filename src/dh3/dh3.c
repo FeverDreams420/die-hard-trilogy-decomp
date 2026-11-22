@@ -8351,7 +8351,7 @@ extern VECTOR D_801F76D0;
 extern struct Task *D_801F80BC;
 extern void *D_801FAB78[];
 extern u8 D_800B8730[];
-void func_8006B48C(s16 id, void *p);
+void func_8006B48C(s16 id, s32 *box);
 void func_8002C234(s16 a, void *p);
 
 void func_8004CE18(void) {
@@ -10780,7 +10780,7 @@ typedef struct {
 void func_800596B8(void);
 void func_8005940C(void);
 struct Task *func_80072768(struct Task *parent, void (*fn)(), s16 size);
-void func_8006B48C(s16 id, void *p);
+void func_8006B48C(s16 id, s32 *box);
 
 s32 func_80059744(VECTOR *pos, s16 id) {
     struct Task *t;
@@ -14076,7 +14076,59 @@ void func_8006B47C(void) {
 void func_8006B484(void) {
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006B48C);
+void func_8006B48C(s16 id, s32 *box) {
+    u8 *m = (u8 *)D_801FAB28[id];
+    Unk8005D3DC *q;
+    SVECTOR *v;
+    s32 t;
+
+    if (m == NULL) {
+        D_800B5EFC[0] = id;
+        func_80072374(func_8006B47C, 0);
+        return;
+    }
+    box[0] = 0;
+    box[1] = 0;
+    box[2] = 0;
+    for (q = (Unk8005D3DC *)(m + 8); q->unk14 != 0; q++) {
+        if ((q->flags & 0x7F) == 0xC || (q->flags & 0x7F) == 0xD) {
+            continue;
+        }
+        v = q->v[0];
+        if (v->pad != 0) {
+            t = v->vx < 0 ? -v->vx : v->vx;
+            if (box[0] < t) {
+                box[0] = t;
+            }
+            t = v->vz < 0 ? -v->vz : v->vz;
+            if (box[2] < t) {
+                box[2] = t;
+            }
+            t = v->vy < 0 ? -v->vy : v->vy;
+            if (box[1] < t) {
+                box[1] = t;
+            }
+        }
+        v = q->v[2];
+        if (v->pad != 0) {
+            t = v->vx < 0 ? -v->vx : v->vx;
+            if (box[0] < t) {
+                box[0] = t;
+            }
+            t = v->vz < 0 ? -v->vz : v->vz;
+            if (box[2] < t) {
+                box[2] = t;
+            }
+            t = v->vy < 0 ? -v->vy : v->vy;
+            if (box[1] < t) {
+                box[1] = t;
+            }
+        }
+    }
+    box[0] = (box[0] + 1) << 12;
+    box[2] = (box[2] + 1) << 12;
+    box[1] = (box[1] + 1) << 12;
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8006B670);
 
