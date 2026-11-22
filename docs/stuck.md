@@ -48,7 +48,6 @@ Functions that didn't match after a reasonable effort. Each stays `INCLUDE_ASM` 
 | DH1 0x8002A3C4 (`|dx| + |dz|` of two `SVECTOR`) | | 16 of 18 | Load order a.x, a.z, b.x, b.z and `dz` computed after the first `abs`. | `ABS`, s16/s32 locals, locals for a.x/a.z |
 | DH1 0x80043814 (turn angle toward target by at most `step`) | | 16 of 17 | `from`/`to` must be `s32` but callers declare `s16`, which changes the callers. | Branch orders, `ABS` |
 | DH1 0x8005CA44 | | 3 of 21 | The volatile `D_801F7D50 = NULL` is scheduled before `unk70 = unk6C`. | Statement orders, cast to non-volatile |
-| DH2 0x80024EBC (halve six `s16`) | | 19 of 19 | Original loads all six with `lh` first, then `sra 1`/`sh`. | `>>=`, `/2`, s16/s32 locals, two `SVECTOR *` |
 | DH2 0x80032F1C | | 1 of 24 | Final `addu` operand order (`v + f()`). | Both orders, temp, `+=` |
 | DH2 0x8004FA04 | | 2 of 33 | `li v0,-1` placed after a `nop` instead of before. | |
 | DH2 0x80059F58, 0x8005D24C | | 12-26 | Registers/scheduling, first drafts only. | |
