@@ -6892,7 +6892,12 @@ typedef struct {
     s32 w;
     s32 h;
     s32 d;
-    u8 pad24[0x14];
+    u8 pad24[6];
+    s16 unk2A;
+    s16 unk2C;
+    u8 pad2E[8];
+    s8 unk36;
+    u8 pad37;
 } Unk800418DC;
 
 // NON_MATCHING: registers; the original hoists y + 10 and the segment ends out of the box loop
@@ -7019,9 +7024,159 @@ s32 func_800385F4(SVECTOR *pos, SVECTOR *d) {
 }
 #endif
 
+// NON_MATCHING: registers, scheduling and branch layout
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80038B00);
+#else
+extern Obj *D_800A5E90[];
+extern s16 D_800A2F3C;
+extern s32 func_8002A3C4(SVECTOR *p, Unk800418DC *b);
 
+s32 func_80038B00(SVECTOR *pos, SVECTOR *d, s16 kind, s16 damage) {
+    Unk800385F4_Pt pt[4];
+    SVECTOR mid;
+    Unk800418DC *b;
+    s16 top, bot;
+    s32 range;
+    s32 x0, z0, x1, z1, x2, z2, x3, z3;
+    s32 dx, dz;
+    s32 ax, az;
+    s32 a, bb;
+    s32 cw, sh, ch, sw;
+    s32 ox, oz;
+    s16 hit;
+    s16 n;
+    s16 i;
+    s16 k;
+
+    if (D_800A2F3C == 0) {
+        return 0;
+    }
+    if ((pos->vx < 0 ? -pos->vx : pos->vx) >= 0x4000 || (pos->vz < 0 ? -pos->vz : pos->vz) >= 0x4000) {
+        return 0;
+    }
+    mid.vx = pos->vx + (d->vx >> 1);
+    mid.vy = pos->vy;
+    top = pos->vy + 10;
+    bot = pos->vy - 10;
+    mid.vz = pos->vz + (d->vz >> 1);
+    switch (D_800A307C) {
+    case 0:
+        range = 0x800;
+        break;
+    case 3:
+    case 8:
+    case 13:
+    case 18:
+    case 22:
+        range = 9999;
+        break;
+    default:
+        range = 0x500;
+        break;
+    }
+    x0 = pos->vx;
+    z0 = pos->vz;
+    dx = d->vx;
+    dz = d->vz;
+    x1 = x0 + dx;
+    z1 = z0 + dz;
+    x2 = x1 - dz;
+    z2 = z1 + dx;
+    x3 = x0 - dz;
+    z3 = z0 + dx;
+    for (i = 0; i < D_800A2F3C; i++) {
+        b = (Unk800418DC *)D_800A5E90[i];
+        if (top < b->y || b->y + b->h < bot) {
+            continue;
+        }
+        if (func_8002A3C4(&mid, b) > range) {
+            continue;
+        }
+        hit = 0;
+        if (!(b->angle & 0x7FF)) {
+            ax = mid.vx - b->x;
+            az = mid.vz - b->z;
+            if (ax < 0) {
+                ax = -ax;
+            }
+            if (az < 0) {
+                az = -az;
+            }
+            if (b->w - (ax - 250) > 0 && b->d - (az - 250) > 0) {
+                hit = -1;
+            }
+        } else {
+            hit = -1;
+        }
+        if (!hit) {
+            continue;
+        }
+        a = D_800854C0[(b->angle + 0x400) & 0xFFF];
+        bb = D_800854C0[(b->angle + 0x800) & 0xFFF];
+        cw = a * b->w;
+        sh = bb * b->d;
+        ch = a * b->d;
+        sw = bb * b->w;
+        ox = (cw + sh) >> 12;
+        oz = (sw - ch) >> 12;
+        pt[0].x = b->x - ox;
+        pt[0].z = b->z - oz;
+        pt[2].x = b->x + ox;
+        pt[2].z = b->z + oz;
+        ox = (cw - sh) >> 12;
+        oz = (sw + ch) >> 12;
+        pt[1].x = b->x - ox;
+        pt[1].z = b->z - oz;
+        pt[3].x = b->x + ox;
+        pt[3].z = b->z + oz;
+        n = 0;
+        for (k = 0; k < 4; k++) {
+            if ((z0 - pt[k].z) * (x1 - x0) >= (x0 - pt[k].x) * (z1 - z0)) {
+                n++;
+            } else {
+                n--;
+            }
+        }
+        if ((n < 0 ? -n : n) == 4) {
+            continue;
+        }
+        n = 0;
+        for (k = 0; k < 4; k++) {
+            if ((z1 - pt[k].z) * (x2 - x1) >= (x1 - pt[k].x) * (z2 - z1)) {
+                n++;
+            } else {
+                n--;
+            }
+        }
+        if (n == 4) {
+            continue;
+        }
+        if (n == -4) {
+            n = 0;
+            for (k = 0; k < 4; k++) {
+                if ((z0 - pt[k].z) * (x3 - x0) >= (x0 - pt[k].x) * (z3 - z0)) {
+                    n++;
+                } else {
+                    n--;
+                }
+            }
+            if (n == -4) {
+                continue;
+            }
+        }
+        b->unk36 = kind;
+        b->unk2C++;
+        b->unk2A += damage;
+        return -1;
+    }
+    return 0;
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A984);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A9E0);
 
