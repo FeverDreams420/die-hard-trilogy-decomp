@@ -2,6 +2,7 @@
 #   make split     run splat (regenerates asm/ and build/<exe>.ld)
 #   make           assemble, link and rebuild each EXE into build/
 #   make check     compare each rebuilt EXE with disc/ (OK or the first differing offset)
+#   make nonmatching  build each EXE with -DNON_MATCHING into build/nm/ (see docs/non-matching.md)
 #   make clean     delete build outputs (keeps asm/, the Ghidra project and the linker scripts)
 #
 # Each EXE has a config/<exe>.yaml. Add each new EXE to EXES and give it a FILE_<exe> line.
@@ -18,6 +19,10 @@ SHELL       := /bin/bash
 .SHELLFLAGS := -o pipefail -c
 # and delete the half-written .o, or the next make thinks it's up to date
 .DELETE_ON_ERROR:
+
+# Output folder. `make nonmatching` builds a second tree in build/nm with
+# NON_MATCHING defined, so the main build/ objects stay the matching ones.
+BUILD   ?= build
 
 CROSS   := mipsel-linux-gnu-
 AS      := $(CROSS)as
@@ -40,7 +45,7 @@ CPP      := cpp
 CC1      := tools/gcc-2.5.7-psx/cc1
 GFLAG    := -G8
 CPPFLAGS := -nostdinc -Iinclude -undef -Dmips -D__mips__ -D__OPTIMIZE__ -Dpsx -D__psx__ \
-	-D_MIPSEL -D_LANGUAGE_C -DLANGUAGE_C
+	-D_MIPSEL -D_LANGUAGE_C -DLANGUAGE_C $(EXTRA_CPPFLAGS)
 CFLAGS   := -quiet -O2 $(GFLAG) -w -fpeephole -ffunction-cse -fpcc-struct-return \
 	-fcommon -msoft-float
 # -O1 lets GNU as fill branch delay slots, which ASPSX did for compiled code
@@ -49,29 +54,29 @@ CASFLAGS := $(ASFLAGS) -O1
 # 0x80044844 copies "GROUP" with lw/lh, DH1 0x800204F0 a 7-byte string);
 # the other files keep -fno-builtin until one of them shows the same.
 BUILTIN  := -fno-builtin
-build/src/dh1/dh1.c.o build/src/dh2/dh2.c.o build/src/dh3/dh3.c.o: BUILTIN :=
+$(BUILD)/src/dh1/dh1.c.o $(BUILD)/src/dh2/dh2.c.o $(BUILD)/src/dh3/dh3.c.o: BUILTIN :=
 ASPSX_VER := 2.34
 # DH2 and DH3 expand symbol+register loads and stores as lui/addiu/addu/op 0(at)
 # (for example lhu in 0x80065328 of DH2), the ASPSX 2.21 form; DH1 has only the
 # 2.34 form (lui/addu/op %lo(at)).
-build/src/dh2/%.c.o build/src/dh3/%.c.o: ASPSX_VER := 2.21
+$(BUILD)/src/dh2/%.c.o $(BUILD)/src/dh3/%.c.o: ASPSX_VER := 2.21
 # The PsyQ libraries (gun.c at the start of each game's code, psyq.c from crt0's
 # start to the end) were built by Sony with GCC 2.6.3 -O2; see "PsyQ library
 # settings" in docs/compiler-notes.md. -G0 is a guess: the library code doesn't use $gp.
-build/src/%/gun.c.o build/src/%/psyq.c.o: CC1 := tools/gcc-2.6.3-psx/cc1
-build/src/%/gun.c.o build/src/%/psyq.c.o: GFLAG := -G0
+$(BUILD)/src/%/gun.c.o $(BUILD)/src/%/psyq.c.o: CC1 := tools/gcc-2.6.3-psx/cc1
+$(BUILD)/src/%/gun.c.o $(BUILD)/src/%/psyq.c.o: GFLAG := -G0
 # Symbol loads in the library code use the 2.34 form (lui/op %lo) in all three EXEs.
-build/src/%/gun.c.o build/src/%/psyq.c.o: ASPSX_VER := 2.34
+$(BUILD)/src/%/gun.c.o $(BUILD)/src/%/psyq.c.o: ASPSX_VER := 2.34
 # Small data (tools/sdata.py): compiler constants ($LC) are hidden from maspsx
 # (the original reaches them with lui pairs); named small variables defined in
 # C stay visible, so maspsx gives them $gp access. EXEs with a .sdata
 # subsegment in their yaml (SDATA_SPLIT) keep both in .sdata; the others still
 # have one .rodata segment for all data, so both go there.
 SDATA_SPLIT := dh1 dh2 dh3
-SDATA_MODE   = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_SPLIT)),split,rodata)
+SDATA_MODE   = $(if $(filter $(word 2,$(subst /, ,$<)),$(SDATA_SPLIT)),split,rodata)
 # DH1 and DH2 reach compiler constants through $gp too (see tools/sdata.py).
 SDATA_LC_GP := dh1 dh2
-SDATA_LC     = $(if $(filter $(word 3,$(subst /, ,$@)),$(SDATA_LC_GP)),lc-gp)
+SDATA_LC     = $(if $(filter $(word 2,$(subst /, ,$<)),$(SDATA_LC_GP)),lc-gp)
 SDATA_TO_RODATA = $(PYTHON) tools/sdata.py pre $(SDATA_MODE) $(SDATA_LC)
 SDATA_POST      = $(PYTHON) tools/sdata.py post $(SDATA_MODE)
 # GCC puts ".align 3" before each jump table. In the original EXEs the tables
@@ -88,34 +93,50 @@ MASPSX   = $(PYTHON) tools/maspsx/maspsx.py --expand-div --aspsx-version=$(ASPSX
 # the C files by INCLUDE_ASM, so they are dependencies, not objects.
 asm_of = $(shell find asm/$(1) -name '*.s' -not -path '*/nonmatchings/*' 2>/dev/null)
 c_of   = $(shell find src/$(1) -name '*.c' 2>/dev/null)
-obj_of = $(patsubst %.s,build/%.s.o,$(call asm_of,$(1))) $(patsubst %.c,build/%.c.o,$(call c_of,$(1)))
+obj_of = $(patsubst %.s,$(BUILD)/%.s.o,$(call asm_of,$(1))) $(patsubst %.c,$(BUILD)/%.c.o,$(call c_of,$(1)))
 
-.PHONY: all split check clean report upload-progress
+.PHONY: all split check clean report upload-progress nonmatching
 all: $(foreach e,$(EXES),build/$(FILE_$(e)))
 
 split:
 	@for e in $(EXES); do $(PYTHON) -m splat split config/$$e.yaml && $(PYTHON) tools/sdata_split.py $$e || exit 1; done
 
-build/%.s.o: %.s
+$(BUILD)/%.s.o: %.s
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) -o $@ $<
 
-build/src/%.c.o: src/%.c
+$(BUILD)/src/%.c.o: src/%.c
 	@mkdir -p $(dir $@)
 	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) $(BUILTIN) | $(SDATA_TO_RODATA) | $(JTBL_ALIGN) | $(MASPSX) | $(SDATA_POST) | $(AS) $(CASFLAGS) -o $@
 
 define exe_rules
-$(patsubst %.c,build/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \
+$(patsubst %.c,$(BUILD)/%.c.o,$(call c_of,$(1))): $(shell find asm/$(1)/nonmatchings -name '*.s' 2>/dev/null) \
 	$(wildcard include/*.h include/*/*.h include/*.inc)
 
-build/$(1).elf: $(call obj_of,$(1)) build/$(1).ld
-	$(LD) $(LDFLAGS) -Map build/$(1).map -T build/$(1).ld \
+$(BUILD)/$(1).elf: $(call obj_of,$(1)) $(BUILD)/$(1).ld
+	$(LD) $(LDFLAGS) -Map $(BUILD)/$(1).map -T $(BUILD)/$(1).ld \
 		-T build/$(1).undefined_syms_auto.txt -T build/$(1).undefined_funcs_auto.txt -o $$@
 
-build/$(FILE_$(1)): build/$(1).elf
+$(BUILD)/$(FILE_$(1)): $(BUILD)/$(1).elf
 	$(OBJCOPY) -O binary $$< $$@
 endef
 $(foreach e,$(EXES),$(eval $(call exe_rules,$(e))))
+
+# splat writes build/<exe>.ld with build/ object paths; the build/nm tree links
+# with a copy that points at its own objects.
+ifneq ($(BUILD),build)
+$(BUILD)/%.ld: build/%.ld
+	@mkdir -p $(dir $@)
+	sed 's#build/#$(BUILD)/#' $< > $@
+endif
+
+# The C versions of not-yet-matching functions (#ifndef NON_MATCHING,
+# INCLUDE_ASM, #else, the C, #endif) must keep compiling and linking. The
+# result is not expected to match, and it doesn't run either: code after a
+# longer function moves, while the EXE header and some data keep the original
+# addresses. See docs/non-matching.md.
+nonmatching:
+	$(MAKE) BUILD=build/nm EXTRA_CPPFLAGS=-DNON_MATCHING $(foreach e,$(EXES),build/nm/$(FILE_$(e)))
 
 check: all
 	@status=0; for f in $(foreach e,$(EXES),$(FILE_$(e))); do \

@@ -4,6 +4,8 @@
 Reads the linker maps in build/ (run `make` first). A function still in
 assembly has a `<name>.NON_MATCHING` alias next to it in the map; every other
 function in .text is matched C. Function sizes run up to the next symbol.
+The table also lists functions still in assembly that already have a C version
+under `#ifndef NON_MATCHING` (docs/non-matching.md); they don't count as matched.
 
     python3 tools/progress.py                 # table
     python3 tools/progress.py --markdown      # README table
@@ -65,6 +67,19 @@ def measure(exe):
                 done += 1
                 size_done += fsize
     return funcs, done, size, size_done
+
+
+NONMATCHING = re.compile(r'^#ifndef NON_MATCHING\nINCLUDE_ASM\("[^"]+", (\w+)\);$', re.M)
+
+
+def nonmatching(exe):
+    """Functions still in assembly that have a NON_MATCHING C version: (count, bytes)."""
+    names = set()
+    for path in Path(f"src/{exe}").glob("*.c"):
+        names.update(NONMATCHING.findall(path.read_text()))
+    sizes = [fsize for _, _, _, fs in units(exe)
+             for name, _, fsize, matched in fs if name in names and not matched]
+    return len(sizes), sum(sizes)
 
 
 def bar(frac, width=20):
@@ -151,6 +166,10 @@ def main():
     for name, funcs, done, size, size_done in rows:
         print(f"{name}  {100 * size_done / size:5.1f}% of code  "
               f"({size_done:#x} / {size:#x} bytes)  {done} / {funcs} functions")
+        nm, nm_size = nonmatching(name.lower())
+        if nm:
+            print(f"      + {100 * nm_size / size:5.1f}% as NON_MATCHING C  "
+                  f"({nm_size:#x} bytes)  {nm} functions")
 
 
 if __name__ == "__main__":

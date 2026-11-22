@@ -9,6 +9,7 @@
 #   bash tools/match.sh diff  <exe> <func>   rebuild, then a one-shot side-by-side diff (stops at the first jr ra)
 #   bash tools/match.sh watch <exe> <func>   interactive diff.py that rebuilds when you save (q to quit)
 #   bash tools/match.sh check                make check (every EXE must still match)
+#   bash tools/match.sh nmdiff <exe> <func>  make nonmatching, then diff the function's NON_MATCHING C
 set -o pipefail
 cd "$(dirname "$0")/.." || exit 1
 PY=.venv/bin/python
@@ -33,5 +34,12 @@ case "$cmd" in
            DIFF_EXE="$exe" $PY tools/asm-differ/diff.py --no-pager --format plain --stop-at-ret "$func" "${@:4}" ;;
     watch) DIFF_EXE="$exe" $PY tools/asm-differ/diff.py -mw "$func" "${@:4}" ;;
     check) make -s check 2>&1 | grep -E '^(OK|FAIL)|rror' ;;
-    *)     sed -n '2,12p' "$0"; exit 1 ;;
+    # Code after a longer NON_MATCHING function moves in build/nm, so diff.py
+    # reads the original bytes at the matching build's address of the function.
+    nmdiff) make -s nonmatching 2>&1 | grep -vE '^(make|cpp|tools/gcc|mipsel|\.venv|sed)' ; [ "${PIPESTATUS[0]}" = 0 ] || exit 1
+           addr() { awk -v f="$func" '$2 == f && $1 ~ /^0x/ { print $1; exit }' "$1"; }
+           delta=$(( $(addr "build/$exe.map") - $(addr "build/nm/$exe.map") ))
+           DIFF_EXE="$exe" DIFF_BUILD=build/nm $PY tools/asm-differ/diff.py --no-pager --format plain \
+               --stop-at-ret --base-shift "$delta" "$func" "${@:4}" ;;
+    *)     sed -n '2,13p' "$0"; exit 1 ;;
 esac
