@@ -4130,9 +4130,11 @@ void func_80031320(Unk80045164 *obj) {
 
 typedef struct {
     s16 x, y, z;
-    u8 pad6[4];
+    u8 pad6[2];
+    s16 unk8;
     s16 unkA;
-    u8 padC[4];
+    s16 unkC;
+    u8 padE[2];
     s16 unk10;
     s16 unk12;
     s16 unk14;
@@ -4144,7 +4146,8 @@ typedef struct {
     s16 unk28;
     u8 pad2A[2];
     s16 hit;
-    u8 pad2E[6];
+    u8 pad2E[4];
+    s16 floor;
     s16 unk34;
     u8 pad36[2];
 } Unk800436E4_Probe;
@@ -6075,7 +6078,148 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036FAC);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A98);
 
+// NON_MATCHING: scheduling of the position update and the face loop pointers
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800371CC);
+#else
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR vel;
+    VECTOR scale;
+    u8 *model;
+    s16 vy;
+    u8 pad2E[2];
+    s16 timer;
+    s16 kind;
+    s16 bounces;
+} Unk800371CC;
+
+extern void func_8003768C(SVECTOR *pos, s16 arg1);
+extern void func_8004ACD4(SVECTOR *pos);
+extern void func_8004B3C8(SVECTOR *pos);
+extern void func_8004BBF8(SVECTOR *pos);
+extern void func_80056ADC(SVECTOR *v, s16 arg1);
+extern MATRIX *func_80023C7C(SVECTOR *r, MATRIX *m);
+
+void func_800371CC(void) {
+    Unk800371CC *obj = (Unk800371CC *)D_800A317C->vals;
+    Unk80032344_Face *f;
+    VECTOR v;
+    SVECTOR rot;
+    s16 floor[2];
+    Unk800436E4_Probe probe;
+    s32 params[6];
+
+    PushMatrix();
+    LoadAverageShort12(&obj->pos, &D_800A3194, 0x1000, -0x1000, &D_800A349C);
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    RotMatrix(&obj->rot, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &obj->scale);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    f = (Unk80032344_Face *)(obj->model + 8);
+    do {
+        D_8007FF9C[f->flags & 0x1F](f);
+        f++;
+    } while (!(f->flags & 0x80));
+    rot.vx = 0;
+    rot.vz = 0;
+    rot.vy = obj->rot.vy;
+    func_80023C7C(&rot, &D_801FB868);
+    ApplyMatrix(&D_801FB868, &obj->vel, &v);
+    PopMatrix();
+    obj->vy -= 8;
+    obj->pos.vx += v.vx;
+    obj->pos.vy += obj->vy;
+    obj->rot.vx += 0x80;
+    obj->rot.vz += 0x20;
+    obj->pos.vz += v.vz;
+    probe.x = obj->pos.vx;
+    probe.y = obj->pos.vy;
+    probe.z = obj->pos.vz;
+    probe.unk8 = 0;
+    probe.unkA = 0;
+    probe.unkC = 0;
+    probe.unk10 = 0;
+    probe.unk12 = 0;
+    probe.unk14 = 0;
+    probe.unk18 = 0x40;
+    probe.unk1C = 0x80;
+    probe.unk20 = 0x40;
+    probe.hit = 0;
+    probe.unk28 = 1;
+    probe.unk34 = 0;
+    probe.floor = -1;
+    func_80041C48(&probe);
+    func_80042570(&probe);
+    if (probe.hit != 0) {
+        obj->vel.vz >>= 1;
+        obj->pos.vx += probe.unk10;
+        obj->pos.vz += probe.unk14;
+    }
+    floor[0] = probe.floor;
+    floor[1] = func_80023E80(obj, (s32 *)&floor[1], (s32 *)&floor[1]);
+    if (floor[0] == -1) {
+        floor[0] = floor[1];
+    }
+    if (floor[0] >= obj->pos.vy) {
+        obj->pos.vy = floor[0];
+        obj->vy = -(obj->vy / 2);
+        if (obj->bounces != 0) {
+            params[0] = 0x27;
+            params[1] = func_80050974(&obj->pos, obj->bounces << 12);
+            params[2] = func_800508F0(&obj->pos) * 4;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            obj->bounces--;
+        }
+    }
+    if (--obj->timer <= 0) {
+        func_80056ADC(&obj->pos, 0xE00);
+        switch (obj->kind) {
+        case 0:
+            params[0] = 0x11;
+            params[1] = func_80050974(&obj->pos, 0x3FFF);
+            if (params[1] < 0x2000) {
+                params[1] = 0x2000;
+            }
+            params[2] = func_800508F0(&obj->pos) * 4;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_8004ACD4(&obj->pos);
+            func_8003768C(&obj->pos, obj->kind);
+            break;
+        case 1:
+            params[0] = 0x13;
+            params[1] = func_80050974(&obj->pos, 0x3FFF);
+            params[2] = func_800508F0(&obj->pos) * 4;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_8004B3C8(&obj->pos);
+            func_8003768C(&obj->pos, obj->kind);
+            break;
+        case 2:
+            func_8004BBF8(&obj->pos);
+            break;
+        }
+        obj->timer = 0x1E;
+        obj->vy = 0x400;
+        obj->rot.vx = 0;
+        obj->rot.vz = 0;
+        D_800A2A1A += 10;
+        func_80021554();
+    }
+}
+#endif
 
 typedef struct {
     Unk8002A35C pos;
