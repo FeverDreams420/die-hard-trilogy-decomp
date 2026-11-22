@@ -6406,8 +6406,6 @@ void func_8003C6B8(VECTOR *pos) {
     p->unk6C = 30;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003C838);
-
 typedef struct {
     u8 pad0[0x10];
     VECTOR pos;
@@ -6427,7 +6425,9 @@ typedef struct {
     u8 pad76[2];
     u8 unk78[0x14];
     s16 unk8C;
-    u8 pad8E[0x22];
+    u8 pad8E[0x15];
+    u8 unkA3;
+    u8 padA4[0xC];
     s16 unkB0;
     s16 unkB2;
     s16 unkB4;
@@ -6435,6 +6435,67 @@ typedef struct {
     s16 unkB8;
     s16 unkBA;
 } Unk8003D7E4;
+
+extern s16 D_800B605C;
+extern VECTOR D_801FA648;
+extern s16 D_800B5DD4;
+extern SVECTOR D_800B5D54;
+extern s32 SquareRoot0(s32);
+
+s16 func_8003C838(void *obj) {
+    Unk8003D7E4 *p = obj;
+    s32 dx;
+    s32 dz;
+    s32 d;
+
+    if (D_800B605C != 0 && func_80028A48(&p->pos, &D_801FA648) < D_800B605C) {
+        func_80048C14(p->unk78, (s16)func_80074910(3) + 6, 0, 0x54, 2);
+        dx = p->pos.vx - D_801FA648.vx;
+        dz = p->pos.vz - D_801FA648.vz;
+        d = SquareRoot0(dx * dx + dz * dz);
+        if (d != 0) {
+            dx = -(dx * (s16)func_80074910(20)) / d;
+            dz = -(dz * (s16)func_80074910(20)) / d;
+            if (dx > 20) {
+                dx = 20;
+            }
+            if (dz > 20) {
+                dz = 20;
+            }
+            if (dx < -20) {
+                dx = -20;
+            }
+            if (dz < -20) {
+                dz = -20;
+            }
+        } else {
+            dx = 0;
+            dz = 0;
+        }
+        if (D_800B6614->unk1788 != 0) {
+            p->unkA3 = 4;
+            p->unk62 = func_80074910(16) + 0x30;
+        } else {
+            p->unk62 = 8;
+        }
+        p->unk60 = dx;
+        p->unk64 = dz;
+        p->unkB2 = -1;
+        p->unk6C = 0x1E;
+        return -1;
+    }
+    if (D_800B5DD4 != 0 && func_80028A48(&p->pos, &D_801981F4) > D_800B5DD4) {
+        func_80048C14(p->unk78, (s16)func_80074910(3) + 6, 0, 0x54, 2);
+        p->unk60 = D_800B5D54.vx;
+        p->unk64 = D_800B5D54.vz;
+        p->unk62 = func_80074910(16) + 0x30;
+        p->unkB2 = -1;
+        p->unk6C = 0x1E;
+        return -1;
+    }
+    return 0;
+}
+
 
 s32 func_8003E35C();
 extern s16 D_800B6664;
