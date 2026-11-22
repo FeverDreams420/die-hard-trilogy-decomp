@@ -6215,7 +6215,70 @@ void func_8003ABF0(Unk8003ABF0_Obj *o) {
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003AD48);
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003B178);
+typedef struct {
+    VECTOR base;
+    SVECTOR rot;
+    s16 unk18;
+    u8 pad1A[4];
+    s16 unk1E;
+    s16 unk20;
+    s16 pad22;
+    s32 unk24;
+    VECTOR from;
+    VECTOR to;
+    s16 t;
+    s16 unk4A;
+} Unk8003B178;
+
+extern s32 D_800B5F64;
+extern s16 D_800B5DE4;
+extern s16 D_800B5DEC;
+extern s32 D_801FAB9C;
+
+void func_8003B178(void) {
+    Unk8003B178 *o = (Unk8003B178 *)D_800B604C->vals;
+    VECTOR v;
+
+    v.vx = o->base.vx;
+    v.vy = o->base.vy;
+    v.vz = o->base.vz;
+    func_80029060((s16 *)&o->from, (s16 *)&o->to, o->t, (s16 *)&v);
+    o->t = func_8002881C(o->t, 0x1000, D_800B56A2 * 32);
+    if (o->t == 0x1000) {
+        o->from.vx = o->to.vx;
+        o->from.vy = o->to.vy;
+        o->from.vz = o->to.vz;
+        o->to.vx = o->base.vx + (s16)func_80074910(0x1000) - 0x800;
+        o->to.vz = o->base.vz + (s16)func_80074910(0x1000) - 0x800;
+        o->to.vy = (s16)func_80028BF0(&o->to);
+        o->t = 0;
+    }
+    v.vy += o->unk18 + ((D_80094174[(D_800B5F64 << 4) & 0xFF0] * 0x80) >> 12);
+    D_800B5DE4 = func_80074910(2);
+    D_800B5DEC = func_80074910(2);
+    if ((s16)func_800210B8((void *)D_801FAB9C, &v, (s16 *)&o->rot) == 0) {
+        if (++o->unk4A >= 0x3D) {
+            func_8004DCC4(o->unk24);
+            func_800728A4();
+            return;
+        }
+    } else {
+        o->unk4A = 0;
+    }
+    if (func_80028A48(&v, &D_800B659C->pos) < 3000) {
+        o->unk18 = func_8002881C(o->unk18, 0x5DC, D_800B56A2 * 64);
+    } else {
+        o->unk18 = func_8002881C(o->unk18, 0x200, D_800B56A2 * 8);
+    }
+    o->rot.vy += D_800B56A2 * 128;
+    if (o->unk1E-- < 0) {
+        o->rot.vz = func_80028868(o->rot.vz, o->unk20, D_800B56A2 * 8);
+        if (o->rot.vz == o->unk20) {
+            o->unk1E = func_80074910(100) + 0x32;
+            o->unk20 += 0x800;
+        }
+    }
+}
 
 typedef struct {
     VECTOR pos;
