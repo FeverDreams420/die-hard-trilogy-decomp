@@ -403,6 +403,11 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | A function returns whatever is in `v0` on one path (an `sltiu` result) | The original falls off the end without `return` on that path (DH3 0x800564EC) |
 | One word tested with `lw` while its two halves are read and written with `lh`/`lhu`/`sh` | A union of an `s32` and two `s16` (the voice fade speeds: `fade.any`, `fade.d.pan`, `fade.d.vol`; DH2 0x800669A0, DH3 0x8006902C) |
 | A task pointer global (`D_801F80BC`, `D_801F8104`) reloaded after its null test, its address hoisted into a saved register, or its load kept after a struct store | Read it as an element of the task table: `D_801F80B0[3]`, `D_801F80B0[21]` (DH3 0x8004D2D0, 0x8005AB70) |
+| `lh` of a global where ours gives `lhu`, in `x += g << 5` | Write the multiply, `g * 32`: with the shift, GCC sees only the low 16 bits are needed and narrows the load (DH2 0x800634FC, 0x80063004) |
+| Both tests computed (`xor`/`sltiu`, `srl 31`) and joined with `and`, then one branch | A non-short-circuit `&`: `if ((best == 0x3FFFFFFF) & (v->unk15C < 0))`; `&&` branches twice (DH2 0x80054C68) |
+| `srl` where the original has `sra` in `((i >> 3) & 7) * 4` | Write the folded form, `(i >> 1) & 0x1C` (DH2 0x8004AE48) |
+| `a = b = x` stores in the wrong order | GCC stores the inner target first: swap the two (DH2 0x8004AE48) |
+| An `int` argument sign-extended (`sll`/`sra`) at each signed use but stored with plain `sh`, and `x++` kept in a second register | An old-style definition with `s16` parameters (DH3 0x8004DF04) |
 
 ## PsyQ library settings
 
