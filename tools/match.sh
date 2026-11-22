@@ -40,6 +40,6 @@ case "$cmd" in
            addr() { awk -v f="$func" '$2 == f && $1 ~ /^0x/ { print $1; exit }' "$1"; }
            delta=$(( $(addr "build/$exe.map") - $(addr "build/nm/$exe.map") ))
            DIFF_EXE="$exe" DIFF_BUILD=build/nm $PY tools/asm-differ/diff.py --no-pager --format plain \
-               --stop-at-ret --base-shift "$delta" "$func" "${@:4}" ;;
+               --stop-at-ret --base-shift="$delta" "$func" "${@:4}" ;;
     *)     sed -n '2,13p' "$0"; exit 1 ;;
 esac
