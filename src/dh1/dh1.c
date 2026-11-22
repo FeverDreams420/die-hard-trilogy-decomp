@@ -10923,7 +10923,108 @@ void func_80055EE0(void) {
     u8 unused[24];
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80055EEC);
+typedef struct {
+    char name[0x20];
+    u16 key;
+    u8 pad22[2];
+    void (*func)(void *obj, s32 arg);
+    s32 arg;
+    u8 pad2C[4];
+} MenuItem;
+
+typedef struct {
+    u8 pad0[0x1E];
+    s16 back;
+    MenuItem items[5];
+} Menu;
+
+typedef struct {
+    u8 pad0[0x18];
+    Menu *menu;
+    s16 scale[5];
+    s16 state[5];
+    s16 unk30;
+    s16 cursor;
+} MenuObj;
+
+extern u8 D_80084B64[];
+extern char D_8007B070[];
+extern char D_8007B090[];
+extern u8 D_800A2A54[];
+extern u8 D_800A2A58[];
+
+void func_80055EEC(MenuObj *obj, s16 show, s16 y, s16 canBack) {
+    Menu *m = obj->menu;
+    MenuItem *item = &m->items[obj->cursor];
+    s32 params[6];
+
+    if (item->key == 0) {
+        func_80055298((Unk80055298 *)obj);
+    }
+    if (D_800A343C[0] & 0x4000) {
+        obj->state[obj->cursor] = 0;
+        obj->cursor++;
+        if (m->items[obj->cursor].name[0] == 0 || obj->cursor >= 5) {
+            obj->cursor = 0;
+        }
+        obj->state[obj->cursor] = 2;
+        obj->scale[obj->cursor] = 0x1000;
+        params[0] = 0x1F;
+        params[1] = 0x1000;
+        params[2] = 0;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+    }
+    if (D_800A343C[0] & 0x1000) {
+        obj->state[obj->cursor] = 0;
+        obj->cursor--;
+        if (obj->cursor == -1) {
+            obj->cursor = 4;
+            if (m->items[4].name[0] == 0) {
+                do {
+                    obj->cursor--;
+                } while (m->items[obj->cursor].name[0] == 0);
+            }
+        }
+        obj->state[obj->cursor] = 2;
+        obj->scale[obj->cursor] = 0x1000;
+        params[0] = 0x1F;
+        params[1] = 0x1000;
+        params[2] = 0;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+    }
+    if ((s16)D_800A343C[0] & item->key) {
+        if (item->key != 0xFFFF) {
+            params[0] = 0x1F;
+            params[1] = 0x1000;
+            params[2] = 0;
+            params[3] = 0x800;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+        }
+        item->func(obj, item->arg);
+    }
+    if (D_800A343C[0] & 0x10) {
+        if (m != (Menu *)D_80084B64 && canBack && m->back) {
+            func_80055074((Unk80055074 *)obj, m->back);
+        }
+    }
+    if (show) {
+        if (item->key == 0 || item->key > 0xFFF0) {
+            func_80053864(160, y, D_8007B070, 0x400, 0x200, D_800A2A54, D_800A2A40);
+            func_800544A8(164, y + 2, D_8007B070, 0x400, 0x200, D_800A2A58, D_800A2A58);
+        } else {
+            func_80053864(160, y, D_8007B090, 0x400, 0x200, D_800A2A54, D_800A2A40);
+            func_800544A8(164, y + 2, D_8007B090, 0x400, 0x200, D_800A2A58, D_800A2A58);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800562CC);
 
@@ -14295,7 +14396,7 @@ extern s16 D_800A30CC;
 extern s16 D_800A329C;
 extern char D_8007B574[];
 extern void func_80052E18(s32);
-extern void func_80055EEC(void *, s32, s32, s32);
+extern void func_80055EEC(MenuObj *, s16, s16, s16);
 extern void func_8005543C(void *, s32);
 
 void func_800680A4(void) {
