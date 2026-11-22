@@ -9663,7 +9663,124 @@ s16 func_8004F498(Unk8004FA1C *obj, s16 dstep, s16 step, s16 y) {
     return prev;
 }
 
+// NON_MATCHING: registers, a delay-slot move, one store scheduled later
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004F634);
+#else
+typedef struct {
+    u8 pad0[3];
+    u8 len;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u32 uvc0;
+    s32 xy1;
+    u32 uvt1;
+    s32 xy2;
+    u16 uv2;
+    u16 pad1E;
+    s32 xy3;
+    u16 uv3;
+    u16 pad26;
+} Unk8004F634_Prim;
+
+typedef struct {
+    u8 pad0[0x84];
+    u8 u0, v0;
+    u16 clut;
+    u8 u1, v1;
+    u16 pad8A;
+    u8 u2, v2;
+    u16 pad8E;
+    u8 u3, v3;
+    u16 pad92;
+    u8 u4, v4;
+    u16 pad96;
+    u8 u5, v5;
+    u16 tpage;
+} Unk8004F634_Tex;
+
+extern int func_80050158(int id, int volume, int pan);
+extern int func_80050358(int handle);
+
+void func_8004F634(void) {
+    Unk8004FA1C *obj = (Unk8004FA1C *)D_800A317C->vals;
+    Unk8004F634_Prim *p = D_800A3374;
+    s16 vol;
+    s16 pan;
+    s16 i;
+    s16 j;
+    u32 *ot;
+    s32 params[6];
+
+    vol = func_80050974(&obj->pos, 0x2000);
+    pan = func_800508F0(&obj->pos);
+    if (vol < 0x800) {
+        vol = 0x800;
+    }
+    func_80050158(obj->unk17C, vol, pan);
+    if (obj->unk172 != 0) {
+        if (func_8004F498(obj, obj->unk174, 0, obj->unk176) < obj->unk178) {
+            obj->unk172 = 0;
+        } else {
+            obj->unk174 += 16;
+        }
+    }
+    if (obj->unk180 != 0) {
+        func_8004F498(obj, obj->unk174, 0, obj->unk176);
+        obj->unk176 -= 0x40;
+        if (obj->unk176 < obj->unk178) {
+            func_80021554();
+        }
+    }
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    i = 0x1F - ((D_800A30DC * 2) & 0x1F);
+    ((Unk8004F634_Tex *)D_800A3154)->v0 = i;
+    ((Unk8004F634_Tex *)D_800A3154)->v4 = i;
+    ((Unk8004F634_Tex *)D_800A3154)->v5 = i;
+    ((Unk8004F634_Tex *)D_800A3154)->v1 = i;
+    ((Unk8004F634_Tex *)D_800A3154)->v2 = i + 0x1F;
+    ((Unk8004F634_Tex *)D_800A3154)->v3 = i + 0x1F;
+    i = 3;
+    do {
+        j = 7;
+        do {
+            D_800A326C = RotTransPers4(&obj->v[j][i], &obj->v[j + 1][i], &obj->v[j + 1][i + 1], &obj->v[j][i + 1],
+                                       &p->xy0, &p->xy1, &p->xy3, &p->xy2, &D_800A2EFC, &D_800A3394);
+            if ((D_800A326C > 32 & (D_800A3394 & 0xFFFFE000) == 0) && D_800A326C < 3048) {
+                p->uvc0 = *(u32 *)&((Unk8004F634_Tex *)D_800A3154)->u0;
+                p->uvt1 = *(u32 *)&((Unk8004F634_Tex *)D_800A3154)->u5;
+                p->uv2 = *(u16 *)&((Unk8004F634_Tex *)D_800A3154)->u2;
+                p->uv3 = *(u16 *)&((Unk8004F634_Tex *)D_800A3154)->u3;
+                p->code = 0x2C;
+                p->len = 9;
+                p->r0 = 0x20;
+                p->g0 = 0x20;
+                p->b0 = 0x20;
+                p->code |= 2;
+                ot = D_800A32E4 + (D_800A326C >> 1);
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, p);
+                }
+                p++;
+            }
+        } while (j--);
+    } while (i--);
+    if (--obj->unk170 <= 0) {
+        obj->unk170 = 3000;
+        func_80050358(obj->unk17C);
+        params[0] = 0x15;
+        params[1] = vol;
+        params[2] = func_800508F0(&obj->pos) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        obj->unk17C = func_8004FB78(params);
+        obj->unk180 = -1;
+    }
+    D_800A3374 = p;
+}
+#endif
 
 extern void func_8004F634();
 extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
