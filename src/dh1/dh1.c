@@ -9202,9 +9202,110 @@ void func_80048B50(void) {
     D_800A317C->func = func_800487B4;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80048BD4);
+s16 func_80048BD4(Unk80045164 *obj) {
+    Unk8002A35C out;
+    s32 params[6];
+    SVECTOR unused;
+    Unk8002A35C *target;
+    s16 angle;
 
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE98);
+    if (obj->unkF0 != 0) {
+        return 0;
+    }
+    if (D_801F7D50.unk0 == NULL) {
+        angle = 0;
+    } else {
+        target = (Unk8002A35C *)D_801F7D50.unk0->vals;
+        D_800A34B4.vx = target->x;
+        D_800A34B4.vy = target->y;
+        D_800A34B4.vz = target->z;
+        func_80028E14((Unk8002A35C *)&D_800A34B4, &obj->pos, &out);
+        angle = -out.x;
+    }
+    obj->unk156 = -1;
+    switch (obj->unkF4) {
+    case 1:
+        params[0] = 6;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_80056ADC((SVECTOR *)obj, 0x800);
+        func_800369FC((Unk800369FC *)obj, 1, 0, 0, angle);
+        return -1;
+    case 3:
+        params[0] = 8;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_80056ADC((SVECTOR *)obj, 0xA00);
+        func_800369FC((Unk800369FC *)obj, 1, 0, 0, angle);
+        obj->unkF0 = 1;
+        return -1;
+    case 2:
+        params[0] = 7;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_80056ADC((SVECTOR *)obj, 0xA00);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, angle);
+        obj->unkF0 = 10;
+        return -1;
+    case 4:
+        params[0] = 9;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_80056ADC((SVECTOR *)obj, 0xC00);
+        func_800369FC((Unk800369FC *)obj, 2, 0, 0, angle);
+        obj->unkF0 = 2;
+        return -1;
+    case 5:
+        params[0] = 7;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_80056ADC((SVECTOR *)obj, 0xC00);
+        func_800369FC((Unk800369FC *)obj, 3, 0, -1, angle);
+        obj->unkF0 = 30;
+        return -1;
+    case 6:
+        params[0] = 10;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x400;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_80056ADC((SVECTOR *)obj, 0xE00);
+        func_800369FC((Unk800369FC *)obj, 3, 0, 0, angle);
+        obj->unkF0 = 4;
+        return -1;
+    }
+    return -1;
+}
+
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AEB0);
 
