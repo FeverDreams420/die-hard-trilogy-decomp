@@ -3895,6 +3895,11 @@ typedef struct {
     u8 pad14[4];
 } Unk80045164_Model;
 
+typedef struct {
+    u8 pad0[0xE];
+    s16 unkE;
+} Unk80045164_54;
+
 typedef struct Unk80045164 {
     Unk8002A35C pos;
     u8 pad6[0xA];
@@ -3902,7 +3907,9 @@ typedef struct Unk80045164 {
     s16 unk28;
     u8 pad2A[2];
     s16 state;
-    u8 pad2E[0x34];
+    u8 pad2E[0x26];
+    Unk80045164_54 *unk54;
+    u8 pad58[0xA];
     s16 unk62;
     Anim anim;
     u8 pad84[0x10];
@@ -3926,13 +3933,14 @@ typedef struct Unk80045164 {
     u8 unk116;
     u8 pad117[0xD];
     struct Task *unk124;
-    u8 pad128[0x2C];
+    s16 unk128;
+    u8 pad12A[0x2A];
     s16 unk154;
     s16 unk156;
     s16 unk158;
     u8 pad15A[2];
     s16 unk15C;
-    u8 pad15E[2];
+    s16 unk15E;
     s16 unk160;
     s16 unk162;
 } Unk80045164;
@@ -8022,7 +8030,117 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AD98);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044470);
 
+// NON_MATCHING: registers, scheduling; ours sign-extends the animation id after the load
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004475C);
+#else
+extern const s16 D_8007C550[];
+extern const s16 D_8007C580[];
+extern s16 func_80048BD4();
+extern void func_80043EA8(void);
+extern void func_8004BFB8(void);
+extern s32 func_8004BF0C(Unk8002A35C *pos);
+extern s16 func_80042DD0();
+extern void func_80049064(Unk80045164 *obj, s16 flag);
+
+void func_8004475C(void) {
+    Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
+    Unk8002A35C *target;
+    u16 *anim;
+    s16 speed;
+    s16 tmp;
+    s16 id;
+
+    func_8003E384(obj);
+    func_8002A270(&obj->pos, 4);
+    if (obj->unk158 == 0) {
+        func_80024EF0(&obj->anim);
+    }
+    func_8003146C((Unk8003146C *)obj);
+    obj->pos.y = func_80023E80(obj, &tmp, &tmp);
+    func_80031320(obj);
+    if (D_801F7D50.unk0 == NULL) {
+        if (obj->unk28 == 8 || obj->unk28 == 0x12) {
+            id = D_8007C550[obj->unkF4];
+        } else {
+            id = D_8007C560[obj->unkF4];
+        }
+        func_80024DA8(&obj->anim, id, 0, 0x52, 8);
+        if (obj->unk54 != NULL) {
+            obj->unk54->unkE = 0;
+        }
+        obj->unk15E = 0;
+        D_800A317C->func = D_800A317C->saved;
+        return;
+    }
+    target = (Unk8002A35C *)D_801F7D50.unk0->vals;
+    if (obj->unk158 == 0 && (s16)func_8004BF0C(&obj->pos) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(&obj->anim, tmp, 0, 0x52, 8);
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    anim = (u16 *)D_800A353C[obj->anim.id].p;
+    func_80049064(obj, 0);
+    if (obj->unk158 != 0) {
+        obj->unk158--;
+        return;
+    }
+    obj->unkEE = func_80048BD4(obj);
+    if (obj->unkEE != 0) {
+        if (obj->unk28 == 0x12) {
+            target = (Unk8002A35C *)D_801C08F8[obj->unk128];
+            if (target == NULL) {
+                func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0x52, 8);
+                D_800A317C->func = D_800A317C->saved;
+                return;
+            }
+        }
+        obj->model.rot.vy = func_80043814(obj->model.rot.vy, func_80028B04(target, &obj->pos), 0xA0);
+        if (obj->unkEC != 0) {
+            func_80024DA8(&obj->anim, D_8007C580[obj->unkF4], anim[10] - 600, 0x28, 0);
+            if (obj->unk54 != NULL) {
+                obj->unk54->unkE = -1;
+            }
+            obj->unkEC--;
+            return;
+        }
+        speed = 0x50;
+        if (obj->unkF4 == 4) {
+            speed = 0x3C;
+        }
+        if ((s16)func_80042DD0(obj, target, -1) != 0) {
+            func_80024DA8(&obj->anim, D_8007C580[obj->unkF4], 0, speed, 4);
+            if (obj->unk54 != NULL) {
+                obj->unk54->unkE = -1;
+            }
+            D_800A317C->func = func_80043EA8;
+            return;
+        }
+        if (obj->unk28 == 8 || obj->unk28 == 0x12) {
+            id = D_8007C550[obj->unkF4];
+        } else {
+            id = D_8007C560[obj->unkF4];
+        }
+        func_80024DA8(&obj->anim, id, 0, 0x52, 8);
+        if (obj->unk54 != NULL) {
+            obj->unk54->unkE = 0;
+        }
+        D_800A317C->func = D_800A317C->saved;
+        return;
+    }
+    if (obj->unkF0 != 0) {
+        obj->unkF0--;
+    }
+    if (obj->unk54 != NULL) {
+        obj->unk54->unkE = -1;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044B74);
 
