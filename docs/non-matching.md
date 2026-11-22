@@ -21,6 +21,7 @@ The normal build (`make`, `make check`) still assembles the original instruction
 - **Behaviour must be the same.** Only add a version whose output, under `bash tools/match.sh nmdiff <exe> <func>`, differs from the original in ways that don't change behaviour: register numbers, instruction order, which of two equal branches comes first. If a difference might change behaviour (a missing store, a different constant, a signed/unsigned load), fix it first.
 - **Say what is left.** The `// NON_MATCHING:` line above the block names what still differs and roughly how many diff lines. That's where to start when you come back to the function.
 - **Leave the data alone.** The function's `INCLUDE_RODATA`, `INCLUDE_SDATA` and `INCLUDE_DATA` lines stay where they are, because the matching build needs them. The C version gets its own string literals and jump tables. Declare the globals it uses `extern`; don't define them in C, or the `build/nm` link has the symbol twice.
+- **Except jump tables.** A `jtbl_` item holds addresses of labels inside the function's assembly, so with `NON_MATCHING` defined it can't link. Wrap its `INCLUDE_RODATA` line in its own `#ifndef NON_MATCHING` / `#endif`.
 - **Keep it compiling.** Run `make nonmatching` before committing a `NON_MATCHING` block, next to `make check`.
 
 ## When it matches
