@@ -4103,7 +4103,37 @@ void func_80031C00(Unk80031C00 *o) {
     o->unk16 = -top - 50;
 }
 
-INCLUDE_ASM("asm/dh2/nonmatchings/dh2", func_80031DA8);
+typedef struct {
+    Unk8002A35C *v[4];
+    u16 tex;
+    u16 flags;
+} Unk80031DA8_Face;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 dist;
+} Unk80031DA8_Vert;
+
+void func_80031DA8(Unk80031DA8_Face *f) {
+    SVECTOR c;
+
+    f = (Unk80031DA8_Face *)((u8 *)f + 8);
+    do {
+        ((Unk80031DA8_Vert *)f->v[0])->dist = func_80025254(f->v[0], &D_800B67D0);
+        ((Unk80031DA8_Vert *)f->v[1])->dist = func_80025254(f->v[1], &D_800B67D0);
+        ((Unk80031DA8_Vert *)f->v[2])->dist = func_80025254(f->v[2], &D_800B67D0);
+        if (f->v[3] != (Unk8002A35C *)-1) {
+            ((Unk80031DA8_Vert *)f->v[3])->dist = func_80025254(f->v[3], &D_800B67D0);
+            c.vx = (f->v[0]->x + f->v[1]->x + f->v[2]->x + f->v[3]->x) >> 2;
+            c.vz = (f->v[0]->z + f->v[1]->z + f->v[2]->z + f->v[3]->z) >> 2;
+        } else {
+            c.vx = (f->v[0]->x + f->v[1]->x + f->v[2]->x) / 3;
+            c.vz = (f->v[0]->z + f->v[1]->z + f->v[2]->z) / 3;
+        }
+    } while (!(f++->flags & 0x80));
+}
 
 void func_80031F90(void) {
     u8 unused[16];
