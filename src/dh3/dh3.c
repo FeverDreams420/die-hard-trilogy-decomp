@@ -871,7 +871,148 @@ void func_80024100(void) {
     }
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_80024150);
+typedef struct {
+    u8 pad0[0x20];
+    SVECTOR rot;
+    u8 pad28[0x58];
+    VECTOR v80;
+    VECTOR v90;
+    s16 unkA0;
+    s16 unkA2;
+    s16 unkA4;
+    s16 padA6;
+    s16 unkA8;
+    s16 unkAA;
+    s16 unkAC;
+    s16 padAE[3];
+    s16 unkB4;
+    s16 padB6[3];
+    s16 unkBC;
+    s16 padBE;
+    VECTOR vC0;
+    VECTOR vD0;
+    u8 padE0[0x28];
+    s16 unk108;
+    s16 unk10A;
+    s16 unk10C;
+    s16 pad10E;
+    s16 unk110;
+    s16 unk112;
+    s16 unk114;
+    s16 pad116;
+    s16 unk118;
+    s16 unk11A;
+    s16 unk11C;
+    s16 pad11E;
+    u8 pad120[0xC];
+    u8 anim[2][0x30];
+    u8 pad18C[4];
+    s16 unk190;
+    u8 pad192[6];
+    VECTOR v198;
+    VECTOR v1A8;
+} Unk80024150;
+
+typedef struct {
+    u8 pad0[0x10];
+    VECTOR pos;
+    SVECTOR rot;
+} Unk80024150_Q;
+
+typedef struct {
+    u8 pad0[0x1C];
+    s16 unk1C;
+    s16 unk1E;
+    s16 unk20;
+    s16 pad22;
+    s16 unk24;
+    s16 unk26;
+    s16 unk28;
+    s16 pad2A;
+    struct Task *unk2C;
+    u8 pad30[0x3A];
+    s16 unk6A;
+    s16 pad6C;
+    s16 unk6E;
+    s16 unk70;
+    s16 unk72;
+    s16 pad74[2];
+    s16 unk78;
+    s16 unk7A;
+    s16 unk7C;
+    s16 pad7E;
+    u8 pad80[8];
+    s32 unk88;
+    s32 unk8C;
+    s32 unk90;
+} Unk80024150_R;
+
+extern SVECTOR D_800B5548;
+extern SVECTOR D_800B5550;
+void func_8004C828(void);
+void func_80024100(void);
+
+void func_80024150(void) {
+    Unk80024150 *p = (Unk80024150 *)D_800B604C->vals;
+    Unk80024150_Q *q = (Unk80024150_Q *)D_801F80BC->vals;
+    Unk80024150_R *r = (Unk80024150_R *)D_801F80B0[0]->vals;
+    SVECTOR a = D_800B5548;
+    SVECTOR b = D_800B5550;
+    s16 i;
+
+    p->v80.vx = q->pos.vx;
+    p->v80.vy = q->pos.vy;
+    p->v80.vz = q->pos.vz;
+    p->unk11C = 0;
+    p->unkA4 = 100;
+    p->unkA0 = 0;
+    p->unkA2 = 0;
+    p->unkB4 = 0;
+    p->unk10C = 0;
+    p->unk108 = 0;
+    p->unkB4 = 0;
+    p->unk118 = 0;
+    p->unkAC = 100;
+    p->unkA8 = 0;
+    p->unkAA = 0;
+    p->unkBC = 0;
+    p->unk11A = 0;
+    p->unk114 = 0;
+    p->unk110 = 0;
+    p->rot.vy = q->rot.vy;
+    func_80028310(&p->rot, &a, &p->v80, &p->vC0);
+    func_80028310(&p->rot, &b, &p->v80, &p->vD0);
+    func_80028310(&p->rot, &a, &p->v90, &p->v198);
+    func_80028310(&p->rot, &b, &p->v90, &p->v1A8);
+    p->unk10A = func_80028648(&p->v198, &p->vC0);
+    p->unk112 = func_80028648(&p->v1A8, &p->vD0);
+    p->unk190 = 0x78;
+    i = 1;
+    do {
+        func_80048B74(p->anim[i]);
+        func_80048C14(p->anim[i], 0, 0, 0x54, 4);
+        func_80048830(p->anim[i], i);
+    } while (i--);
+    D_801F80B0[0]->func = func_8004C828;
+    r->unk6A = 0x20;
+    r->unk88 = D_800B659C->pos.vx;
+    r->unk8C = D_800B659C->pos.vy;
+    r->unk90 = D_800B659C->pos.vz;
+    r->unk1C = 0;
+    r->unk20 = 0;
+    r->unk1E = func_80028648(&p->v90, &p->v80);
+    r->unk24 = 0;
+    r->unk26 = 0;
+    r->unk28 = -0x400;
+    r->unk6E = 0x3C;
+    r->unk70 = 5;
+    r->unk72 = 0xC8;
+    r->unk78 = 0;
+    r->unk7A = 0;
+    r->unk7C = 0;
+    r->unk2C = D_800B604C;
+    D_800B604C->func = func_80024100;
+}
 
 INCLUDE_SDATA("asm/dh3/nonmatchings/dh3", D_800B5548);
 
