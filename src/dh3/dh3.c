@@ -11620,7 +11620,55 @@ void func_8005D3DC(VECTOR *pos, SVECTOR *rot, s32 idx, s32 arg3) {
     PopMatrix();
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8005D5A0);
+void func_8005D5A0(VECTOR *pos, SVECTOR *rot, s32 idx, s32 arg3) {
+    Unk8005D3DC *q;
+    Unk8005D3DC *base;
+    s16 n;
+    s16 i;
+    VECTOR p0;
+    VECTOR p1;
+    VECTOR p2;
+    VECTOR p3;
+
+    q = (Unk8005D3DC *)D_801FAB28[(s16)idx];
+    if (q == NULL) {
+        return;
+    }
+    D_801CA274.vx = pos->vx;
+    D_801CA274.vy = pos->vy;
+    D_801CA274.vz = pos->vz;
+    PushMatrix();
+    q = (Unk8005D3DC *)((u8 *)q + 8);
+    func_8002C880(rot, &D_801FA428);
+    n = 0;
+    SetRotMatrix(&D_801FA428);
+    func_80084978(&D_801FA428, &D_801CA274);
+    base = q;
+    SetTransMatrix(&D_801FA428);
+    while (q->unk14 != 0) {
+        q++;
+        n++;
+    }
+    i = 4;
+    while (i--) {
+        q = &base[(s16)func_80074910(n)];
+        if ((q->flags & 0x1F) == 0xC) {
+            continue;
+        }
+        if ((q->flags & 0x1F) == 0xD) {
+            continue;
+        }
+        if (q->v[3] == (SVECTOR *)-1) {
+            continue;
+        }
+        RotTrans(q->v[0], &p0, &D_800B642C);
+        RotTrans(q->v[1], &p1, &D_800B642C);
+        RotTrans(q->v[2], &p2, &D_800B642C);
+        RotTrans(q->v[3], &p3, &D_800B642C);
+        func_8005E0E8(&p0, &p1, &p2, &p3, q->col, arg3, 2);
+    }
+    PopMatrix();
+}
 
 typedef struct {
     u8 pad0[0x10];
