@@ -6414,7 +6414,7 @@ typedef struct {
     SVECTOR rot;
     u8 pad28[0x38];
     s16 unk60;
-    s16 pad62;
+    s16 unk62;
     s16 unk64;
     u8 pad66[6];
     s16 unk6C;
@@ -6426,7 +6426,8 @@ typedef struct {
     s16 unk8C;
     u8 pad8E[0x24];
     s16 unkB2;
-    s16 padB4[2];
+    s16 unkB4;
+    s16 padB6;
     s16 unkB8;
     s16 unkBA;
 } Unk8003D7E4;
@@ -6653,7 +6654,50 @@ void func_8003D7E4(void) {
     func_8003C5F0((void *)p);
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003D9F8);
+void func_8003D7E4(void);
+
+void func_8003D9F8(void) {
+    Unk8003D7E4 *p = (Unk8003D7E4 *)D_800B604C->vals;
+    s32 y;
+
+    p->pos.vx += p->unk60 * D_800B56A2;
+    p->pos.vz += p->unk64 * D_800B56A2;
+    p->pos.vy += p->unk62 * D_800B56A2;
+    if (func_80028A48(&D_801981F4, &p->pos) > 0x2000) {
+        func_8004DCC4(p->unk70);
+        func_8004DC84(p->unkB8, p->unkBA);
+        D_800B62A4--;
+        func_800728A4();
+        return;
+    }
+    y = (u16)p->pos.vy;
+    func_8003E35C(p);
+    p->pos.vy = (s16)y;
+    if (p->unk62 >= -0xC7) {
+        p->unk62 -= D_800B56A2 * 2;
+    }
+    if (p->unk6C-- < 0 && p->pos.vy - (s16)y < 100 && (s16)func_8003C5C0((Unk8003C5C0 *)p)) {
+        D_800B604C->func = func_8003DC64;
+        func_8003DC64();
+        return;
+    }
+    y = func_80028BF0(&p->pos);
+    func_80048E70(&p->pos, &p->rot, 0x1000, 0x280, p->unk78);
+    if (p->pos.vy < (s16)y) {
+        if ((s16)y - p->unkB4 > 0x40) {
+            p->pos.vx -= p->unk60 * 2;
+            p->pos.vz -= p->unk64 * 2;
+        }
+        p->unk60 = 0;
+        p->unk62 = 0;
+        p->unk64 = 0;
+        p->pos.vy = (s16)func_80028BF0(&p->pos);
+        p->unk6C = 0;
+        p->unk74 = 0;
+        D_800B604C->func = func_8003D7E4;
+    }
+    func_80048D54(p->unk78);
+}
 
 INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003DC64);
 
