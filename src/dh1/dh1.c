@@ -5842,7 +5842,150 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A9F0);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AA38);
 
+// NON_MATCHING: registers; the original keeps the link index in a stack variable and writes 0x400 to params[3] first
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039B80);
+#else
+typedef struct {
+    u8 pad0[2];
+    s16 unk2;
+    u8 pad4[0xE];
+    s16 unk12;
+    u8 pad14[0xE];
+    s16 unk22;
+    u8 pad24[0x3E];
+    s16 unk62;
+    u8 pad64[0x5A];
+    s16 unkBE;
+    u8 padC0[0xA];
+    u8 unkCA;
+    u8 padCB[9];
+    s16 unkD4;
+    s16 unkD6;
+    s16 unkD8;
+    s16 unkDA;
+    s16 unkDC;
+    u8 padDE[0xA];
+    s16 unkE8;
+    s16 unkEA;
+    u8 padEC[6];
+    s16 unkF2;
+    u8 padF4[0x64];
+    s16 unk158;
+} Obj80039B80;
+
+struct Unk8003A790;
+extern void func_8003A790(struct Unk8003A790 *obj, s16 type);
+extern s32 func_80043B6C();
+extern s16 func_80043770(s16 x, s16 z);
+extern s16 func_800439A4(s16 exclude);
+extern void func_8004379C(short id, SVECTOR *out);
+extern void func_8003B850(void);
+extern void func_80039858(void);
+extern s16 D_800A61BA;
+extern s16 D_801C1EF6;
+
+void func_80039B80(void) {
+    Obj80039B80 *obj = (Obj80039B80 *)D_800A317C->vals;
+    Unk80043CC4 *node;
+    SVECTOR pos;
+    s32 params[6];
+    s32 dummy;
+    s16 dist;
+    s16 step;
+    s16 next;
+    s16 a;
+    s16 i;
+
+    func_8003E384((Unk80045164 *)obj);
+    func_8002A270((Unk8002A35C *)obj, 0);
+    dist = func_80043B6C(&pos, obj);
+    a = func_80028B04((Unk8002A35C *)&pos, (Unk8002A35C *)obj) & 0xFFF;
+    obj->unk22 = a;
+    obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
+    if (obj->unkEA != 0) {
+        obj->unkEA--;
+    }
+    if ((dist > 0x600 && obj->unkEA == 0) || (obj->unkDA > 90 && obj->unkEA == 0)) {
+        obj->unkE8++;
+        obj->unkEA = func_8001E9DC(20) + 50;
+        obj->unkDA = 0;
+        if (obj->unkE8 & 1) {
+            i = 0;
+            do {
+                next = D_800A3084[obj->unkD6].links[i++];
+            } while (next == obj->unkD8);
+            obj->unkD8 = next;
+            obj->unkD4 = 0x1000 - obj->unkD4;
+        } else {
+            obj->unkD6 = func_80039458(obj);
+            obj->unkD4 = 0;
+            obj->unkDC = func_800439A4(obj->unkDC);
+            obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+        }
+    }
+
+    next = obj->unkD8;
+    step = func_80045EF4((Unk80045EF4 *)obj, dist);
+    if (next == obj->unkDC) {
+        func_8004379C(next, &pos);
+        if (func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)&pos) < 0x100) {
+            func_80049820(10000);
+            func_8003A790((struct Unk8003A790 *)obj, 0);
+            D_801FBDC8[obj->unk62] = NULL;
+            func_8003D8EC((Unk80045164 *)obj, 0);
+            D_800A61BA = obj->unkDC;
+            func_80021554();
+        }
+    }
+    if (obj->unkD4 >= 0x1000) {
+        node = &D_800A3084[obj->unkD8];
+        if (node->unk18 != 0 && node->unk16 == 0 && dist > 0x80) {
+            obj->unkD4 -= step;
+            obj->unkDA++;
+        } else if (dist > 0x140) {
+            obj->unkD4 = 0x1000;
+            obj->unkDA++;
+        } else {
+            obj->unkD4 = 0;
+            obj->unkD6 = obj->unkD8;
+            obj->unkD8 = func_80043770(obj->unkD8, obj->unkDC);
+            obj->unkEA = func_8001E9DC(20) + 50;
+            obj->unkDA = 0;
+        }
+    }
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, &dummy, &dummy);
+    func_80031320((Unk80045164 *)obj);
+
+    if (obj->unkBE != 0) {
+        if (obj->unkBE < 0) {
+            obj->unk158 = 200;
+            obj->unkBE = 0;
+            D_800A317C->saved = D_800A317C->func;
+            D_800A317C->func = func_8003B850;
+            return;
+        }
+        obj->unkF2 -= obj->unkBE;
+        if (obj->unkF2 <= 0) {
+            if (D_800A7A20[obj->unkCA].id == D_800A336C) {
+                func_80049820(-10000);
+                params[0] = 0x2F;
+                params[1] = 0x3FFF;
+                params[2] = 0;
+                params[3] = D_801C1EF6 + 0x400;
+                params[4] = 0;
+                params[5] = 1;
+                func_8004FB78(params);
+            }
+            func_8003A790((struct Unk8003A790 *)obj, 1);
+            D_800A317C->func = func_80039858;
+        }
+        obj->unkBE = 0;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039F98);
 
@@ -5866,7 +6009,7 @@ s16 func_8003A430(void *obj) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A48C);
 
-typedef struct {
+typedef struct Unk8003A790 {
     u8 pad0[0x122];
     s16 unk122;
 } Unk8003A790;
