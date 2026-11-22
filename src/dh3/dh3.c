@@ -5886,7 +5886,100 @@ void func_8003A428(void) {
     D_800B6464 = D_800BA780;
 }
 
-INCLUDE_ASM("asm/dh3/nonmatchings/dh3", func_8003A440);
+typedef struct {
+    s32 v[4];
+    u16 tex;
+    u16 flags;
+} Unk8003A440_SrcFace;
+
+typedef struct {
+    SVECTOR *v[4];
+    u16 tex;
+    u16 flags;
+    s32 unk14;
+    s32 unk18;
+} Unk8003A440_Face;
+
+typedef struct {
+    SVECTOR *verts;
+    s16 nvert;
+    s16 nface;
+    Unk8003A440_Face faces[1];
+} Unk8003A440_Model;
+
+extern s32 D_800922B8[];
+
+s32 *func_8003A440(s32 *src, Unk8003A440_Face *f, s32 tex) {
+    Unk8003A440_Model *dst = (Unk8003A440_Model *)f;
+    Unk8003A440_SrcFace *sf;
+    s32 n;
+    s32 nv;
+    s32 i;
+    s32 k;
+    SVECTOR *verts;
+    SVECTOR *sv;
+    s16 minx, minz, maxx, maxz;
+
+    f = dst->faces;
+    n = src[3];
+    nv = src[4];
+    src += 5;
+    sf = (Unk8003A440_SrcFace *)src;
+    verts = (SVECTOR *)&f[n + 1];
+    dst->verts = verts;
+    dst->nvert = nv;
+    dst->nface = n;
+    while (n-- != 0) {
+        k = sf->v[0];
+        f->v[0] = &verts[k];
+        k = sf->v[1];
+        f->v[1] = &verts[k];
+        k = sf->v[2];
+        f->v[2] = &verts[k];
+        k = sf->v[3];
+        if (k != -1) {
+            f->v[3] = &verts[k];
+        } else {
+            f->v[3] = (SVECTOR *)k;
+        }
+        f->flags = sf->flags;
+        if (f->tex != 0x5F) {
+            f->tex = tex + (sf->tex & 0x3F);
+        }
+        f->tex *= 40;
+        f->unk14 = D_800922B8[sf->flags & 0x1F];
+        f->unk18 = D_800922B8[sf->flags & 0x1F];
+        f++;
+        sf++;
+    }
+    f->unk14 = 0;
+    f->unk18 = 0;
+    sv = (SVECTOR *)sf;
+    minx = 0;
+    minz = 0;
+    maxx = 0;
+    maxz = 0;
+    i = nv;
+    while (i-- != 0) {
+        *verts = *sv;
+        verts->pad = -1;
+        if (sv->vx < minx) {
+            minx = sv->vx;
+        }
+        if (sv->vz < minz) {
+            minz = sv->vz;
+        }
+        if (maxx < sv->vx) {
+            maxx = sv->vx;
+        }
+        if (maxz < sv->vz) {
+            maxz = sv->vz;
+        }
+        verts++;
+        sv++;
+    }
+    return (s32 *)func_8002826C((s32)verts);
+}
 
 void func_8003A660(s16 n, s32 *a) {
     s32 t;
@@ -7032,7 +7125,6 @@ extern s32 *D_800B6464;
 u32 func_80071BC8(void *data, s16 i);
 void *func_80071BB0(void *data, s16 i);
 s32 func_80071BE0(void *data, s16 i);
-s32 *func_8003A440(void *src, s32 *dst, s32 size);
 void func_8003A1C8(s32 *p);
 
 s32 func_800420C8(void *bank, s16 n) {
