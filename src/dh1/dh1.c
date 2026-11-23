@@ -9252,7 +9252,7 @@ extern s16 func_800439A4(s16 exclude);
 extern void func_8004379C(short id, SVECTOR *out);
 extern void func_8003B850(void);
 extern void func_80039858(void);
-extern s16 D_800A61BA;
+extern s16 D_800A61B0[];
 
 extern Unk80045164 *D_801FBDC8[];
 extern s16 func_80045EF4();
@@ -9304,7 +9304,7 @@ void func_80039B80(void) {
             func_8003A790((struct Unk8003A790 *)obj, 0);
             D_801FBDC8[obj->unk62] = NULL;
             func_8003D8EC((Unk80045164 *)obj, 0);
-            D_800A61BA = obj->unkDC;
+            D_800A61B0[5] = obj->unkDC;
             func_80021554();
         }
     }
@@ -9407,7 +9407,7 @@ extern void func_8005217C();
 extern void func_80039858(void);
 extern void func_80039B80(void);
 extern s16 D_801C1EF6;
-extern s16 D_800A61B8[];
+extern s16 D_800A61B0[];
 extern s16 D_800A3054;
 extern s16 D_800A32F4;
 extern s16 D_800A32DC;
@@ -9457,9 +9457,9 @@ void func_80039F98(void) {
         obj->unkBE = 0;
     }
     if (func_8002A35C(target, (Unk8002A35C *)obj) < 0x200) {
-        D_800A61B8[0] = -1;
+        D_800A61B0[4] = -1;
         if (sub->unk4 != 0) {
-            D_800A61B8[sub->unk4 - 4] = -1;
+            D_800A61B0[sub->unk4] = -1;
         }
         obj->unk15E = 0;
         if (sub->unk6 != 0) {
@@ -9549,8 +9549,7 @@ extern s32 D_801C08F8[];
 extern s16 D_800A2F14;
 extern s16 D_800A2F74;
 extern s16 D_800A3184;
-extern s16 D_800A61B0;
-extern s16 D_800A61B2;
+extern s16 D_800A61B0[];
 typedef struct {
     s16 count;
     s16 idx;
@@ -9565,14 +9564,14 @@ void func_8003A790(Unk8003A790 *obj, s16 type) {
         D_801C08F8[obj->unk122] = 0;
     }
     if (type == 0) {
-        D_800A61B0 = -1;
+        D_800A61B0[0] = -1;
         D_800A3184 += 60;
         if (D_800A2F14 == 0) {
             D_800A2F74++;
         }
     }
     if (type == 1) {
-        D_800A61B2 = -1;
+        D_800A61B0[1] = -1;
     }
     if (++D_801D2078.idx >= 5) {
         D_801D2078.idx = 0;
@@ -9808,11 +9807,11 @@ void func_8003A8A4(void) {
         sub->unk38 = 0;
         sub->unk3A = 0;
         sub->count = 60;
-        D_800A61B8[0] = -1;
+        D_800A61B0[4] = -1;
         obj->anim.unk6 = 0xA4;
         func_80024DA8(&obj->anim, 0x23, 0, 0xF6, 3);
         if (sub->unk4 != 0) {
-            D_800A61B8[sub->unk4 - 4] = -1;
+            D_800A61B0[sub->unk4] = -1;
         }
     }
     func_80031200((Unk80031200 *)obj);
@@ -9824,7 +9823,7 @@ void func_8003A8A4(void) {
             obj->unkF2 -= obj->unkBE;
             if (obj->unkF2 <= 0) {
                 D_800A317C->func = func_80039858;
-                D_800A61B2 = -1;
+                D_800A61B0[1] = -1;
                 if (D_800A7A20[obj->unkCA].id == D_800A336C) {
                     func_80049820(-10000);
                     params[0] = 0x2F;
@@ -9957,7 +9956,7 @@ void func_8003B04C(void) {
                         func_8003A790((struct Unk8003A790 *)obj, 0);
                         D_801FBDC8[obj->unk62] = NULL;
                         func_8003D8EC((Unk80045164 *)obj, 0);
-                        D_800A61BA = obj->unkDC;
+                        D_800A61B0[5] = obj->unkDC;
                         func_80021554();
                     }
                 }
@@ -9971,9 +9970,9 @@ void func_8003B04C(void) {
     if (sub->unkC == 0 && D_801F7D50.unk0 != NULL) {
         target = (Unk8002A35C *)D_801F7D50.unk0->vals;
         if (func_8002A35C(target, (Unk8002A35C *)obj) < 0x200) {
-            D_800A61B8[0] = -1;
+            D_800A61B0[4] = -1;
             if (sub->unk4 != 0) {
-                D_800A61B8[sub->unk4 - 4] = -1;
+                D_800A61B0[sub->unk4] = -1;
             }
             if (sub->unk6 != 0) {
                 obj->unkE4 = 0;
@@ -10040,7 +10039,7 @@ void func_8003B04C(void) {
                 func_8004FB78(params);
             }
             D_800A317C->func = func_80039858;
-            D_800A61B2 = -1;
+            D_800A61B0[1] = -1;
             sub->state = -1;
             func_8003A790((struct Unk8003A790 *)obj, 1);
         }
@@ -10448,7 +10447,7 @@ typedef struct {
     s16 ids[8];
 } Unk8003C1C4_Entry;
 
-extern s16 D_800A61B0;
+extern s16 D_800A61B0[];
 extern s16 D_800A61D0[];
 extern s16 D_801C1EE0;
 extern s16 D_800A328C;
@@ -10461,7 +10460,7 @@ void func_8003C1C4(void) {
     Unk8003BFA8_Data *d = (Unk8003BFA8_Data *)D_800A317C->vals;
     Unk8003C1C4_Entry *e = (Unk8003C1C4_Entry *)D_800A3474;
     Unk80043CC4 *node;
-    s16 *flags = &D_800A61B0;
+    s16 *flags = D_800A61B0;
     s16 none = 0;
     s16 busy;
     s16 fire;
@@ -11258,7 +11257,7 @@ s16 func_8003D890(Unk80045164 *obj) {
 }
 
 extern s16 D_801C1EF6;
-extern s16 D_800A61BC;
+extern s16 D_800A61B0[];
 
 void func_8003D8EC(Unk80045164 *obj, s16 arg1) {
     s32 params[6];
@@ -11288,7 +11287,7 @@ void func_8003D8EC(Unk80045164 *obj, s16 arg1) {
                 params[3] = D_801C1EF6 + 0x400;
                 func_8004FB78(params);
             }
-            D_800A61BC = -1;
+            D_800A61B0[6] = -1;
         }
         break;
     case 18:
@@ -11307,7 +11306,7 @@ void func_8003D8EC(Unk80045164 *obj, s16 arg1) {
             params[5] = 1;
             params[3] = D_801C1EF6 + 0x400;
             func_8004FB78(params);
-            D_800A61BC = -1;
+            D_800A61B0[6] = -1;
         }
         break;
     }
@@ -13902,7 +13901,7 @@ extern void func_80065110(void);
 extern void func_8004667C(void);
 extern void func_80046ED4(void);
 extern void func_80047F7C(void);
-extern s16 D_800A61B4;
+extern s16 D_800A61B0[];
 
 typedef struct {
     u8 pad0[0x12];
@@ -14083,7 +14082,7 @@ void func_8004566C(void) {
             } else {
                 func_80049820(5);
             }
-            D_800A61B4 = -1;
+            D_800A61B0[2] = -1;
             D_800A317C->func = func_80039858;
         }
         obj->unkBE = 0;
@@ -14142,8 +14141,7 @@ extern void func_8004566C(void);
 extern void func_800483C8(void);
 extern void func_80049744(Obj80047314 *obj);
 extern s16 func_80056B8C(Unk8002A35C *from, s16 range);
-extern s16 D_800A61B4;
-extern s16 D_800A61B6;
+extern s16 D_800A61B0[];
 
 void func_80046030(void) {
     Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
@@ -14257,9 +14255,9 @@ void func_80046030(void) {
         obj->unkF2 -= obj->unkBE;
         if (obj->unkF2 <= 0) {
             D_800A317C->func = func_80039858;
-            D_800A61B4 = -1;
+            D_800A61B0[2] = -1;
             if (obj->unk28 == 11) {
-                D_800A61B6 = -1;
+                D_800A61B0[3] = -1;
             }
         }
         obj->unkBE = 0;
@@ -14600,7 +14598,7 @@ typedef struct Obj800474AC {
     s16 unk158;
 } Obj800474AC;
 
-extern s16 D_800A61B4;
+extern s16 D_800A61B0[];
 extern void func_80045164(void);
 
 void func_800474AC(void) {
@@ -14782,7 +14780,7 @@ void func_800474AC(void) {
                 params[3] += D_801C1EF0.unk6;
                 func_8004FB78(params);
             }
-            D_800A61B4 = -1;
+            D_800A61B0[2] = -1;
             D_800A317C->func = func_80039858;
             return;
         }
@@ -15430,7 +15428,7 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AEC0);
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AED0);
 
 extern s16 D_800A336C;
-extern s16 D_800A61B4;
+extern s16 D_800A61B0[];
 extern void func_80039858(void);
 extern void func_8003B850(void);
 extern void func_80049820(u32);
@@ -15459,7 +15457,7 @@ void func_80049064(Unk80045164 *obj, s16 flag) {
             } else {
                 func_80049820(5);
             }
-            D_800A61B4 = -1;
+            D_800A61B0[2] = -1;
             D_800A317C->func = func_80039858;
             return;
         }
@@ -25789,7 +25787,7 @@ typedef struct {
 } Unk80065110;
 
 extern struct Task *volatile D_801F7D58;
-extern s16 D_800A61B4;
+extern s16 D_800A61B0[];
 extern const s16 D_8007C550[];
 extern void func_80044E9C(void);
 
@@ -25994,7 +25992,7 @@ void func_80065110(void) {
         obj->unkF2 -= obj->unkBE;
         if (obj->unkF2 <= 0) {
             D_800A317C->func = func_80039858;
-            D_800A61B4 = -1;
+            D_800A61B0[2] = -1;
         }
         obj->unkBE = 0;
     }
