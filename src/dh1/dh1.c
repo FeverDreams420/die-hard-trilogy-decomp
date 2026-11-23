@@ -10438,7 +10438,9 @@ typedef struct {
     s16 unk66;
     u8 pad68[0x18];
     s16 unk80;
-    u8 pad82[0x50];
+    u8 pad82[0x3C];
+    s16 unkBE;
+    u8 padC0[0x12];
     s16 unkD2;
     s16 unkD4;
     s16 unkD6;
@@ -10451,7 +10453,8 @@ typedef struct {
     s16 unkE4;
     u8 padE6[4];
     s16 unkEA;
-    u8 padEC[8];
+    u8 padEC[6];
+    s16 unkF2;
     s16 unkF4;
     u8 padF6[0xE];
     s16 unk104;
@@ -10846,7 +10849,153 @@ s16 func_80045EF4(Unk80045EF4 *obj, s32 speed) {
     return step;
 }
 
+typedef struct {
+    SVECTOR pos[20];
+    s16 unkA0[20];
+    s16 unkC8[20];
+    s16 count;
+} Unk80056ADC;
+
+extern struct {
+    u8 pad[0x1C];
+    Unk80056ADC *unk1C;
+} *D_801F7D70;
+
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046030);
+#else
+extern s32 func_800493D0();
+extern void func_800492F8(SVECTOR *pos);
+extern void func_8004566C(void);
+extern void func_800483C8(void);
+extern void func_80049744(Obj80047314 *obj);
+extern s16 func_80056B8C(Unk8002A35C *from, s16 range);
+extern s16 D_800A61B4;
+extern s16 D_800A61B6;
+
+void func_80046030(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+    Unk80056ADC *path = D_801F7D70->unk1C;
+    Unk80043CC4 *node;
+    SVECTOR *p;
+    Unk8002A35C pos;
+    SVECTOR from;
+    SVECTOR to;
+    s16 tmp;
+    s16 step;
+    s16 a;
+    s16 x;
+    s16 z;
+    s32 dist;
+
+    func_8003E384((Unk80045164 *)obj);
+    func_8002A270((Unk8002A35C *)obj, 4);
+    step = 0;
+    if (D_800A3084[obj->unkD8].unk18 != 0) {
+        func_8004379C(obj->unkD6, &from);
+        func_8004379C(obj->unkD8, &to);
+        pos.x = func_800296F8(from.vx, to.vx, obj->unkD4);
+        pos.y = func_800296F8(from.vy, to.vy, obj->unkD4);
+        pos.z = func_800296F8(from.vz, to.vz, obj->unkD4);
+        dist = func_8002A35C(&pos, (Unk8002A35C *)obj);
+    } else {
+        dist = func_80043B6C(&pos, obj);
+    }
+    if (obj->unk114 == 0) {
+        a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
+        obj->unk22 = a;
+        obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
+        func_8004916C((Unk80045164 *)obj, dist);
+        step = func_80045EF4((Unk80045EF4 *)obj, dist);
+    } else {
+        func_80024EF0((Anim *)obj->unk64);
+    }
+    if (obj->unkD4 >= 0x1000) {
+        node = &D_800A3084[obj->unkD8];
+        if (node->unk18 != 0 && node->unk16 == 0 && dist > 0x80) {
+            obj->unkD4 -= step;
+            obj->unkDA++;
+        } else if (dist > 0x140) {
+            obj->unkD4 = 0x1000;
+            obj->unkDA++;
+        } else {
+            obj->unkD4 = 0;
+            obj->unkDA = 0;
+            obj->unkEA = func_8001E9DC(20) + 40;
+            if (obj->unkD8 == obj->unkDC) {
+                obj->unkDC = func_80043C60(obj->unkD8);
+            }
+            obj->unkD6 = obj->unkD8;
+            obj->unkD8 = func_80043770(obj->unkD8, obj->unkDC);
+        }
+    }
+    if (obj->unk158 == 0 && (s16)func_8004BF0C((Unk8002A35C *)obj) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(obj->unk64, tmp, 0, 0x52, 8);
+        D_800A317C->saved = D_800A317C->func;
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    tmp = func_80056B8C((Unk8002A35C *)obj, obj->unk10C);
+    if (tmp != -1 && D_801F7D50.unk0 != NULL) {
+        if ((s16)func_80042DD0(obj, D_801F7D50.unk0->vals, 0) != 0) {
+            if (obj->unk114 != 0) {
+                obj->unk114 = 0;
+                func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 4);
+            }
+            func_800492F8((SVECTOR *)obj);
+            obj->unkE4 = -1;
+            D_800A317C->func = func_8004566C;
+        } else {
+            p = &path->pos[tmp];
+            x = (p->vx >> 9) + D_800A79F0.x;
+            z = (p->vz >> 9) + D_800A79F0.z;
+            obj->unkDC = D_800A31B4[z * 64 + x];
+            obj->unkEA = func_8001E9DC(20) + 40;
+            obj->unkD4 = 0;
+            obj->unkDA = 0;
+            if (obj->unk114 != 0) {
+                obj->unk114 = 0;
+                func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 4);
+            }
+            obj->unk10E = 10;
+            D_800A317C->func = func_800483C8;
+        }
+    }
+    if ((s16)func_800493D0(obj) != 0 && obj->unk114 != 0) {
+        obj->unk114 = 0;
+        func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 8);
+    }
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+    func_80031320((Unk80045164 *)obj);
+    if (obj->unkBE != 0) {
+        if (obj->unkBE < 0) {
+            obj->unk158 = 200;
+            obj->unkBE = 0;
+            D_800A317C->saved = D_800A317C->func;
+            D_800A317C->func = func_8003B850;
+            return;
+        }
+        obj->unkF2 -= obj->unkBE;
+        if (obj->unkF2 <= 0) {
+            D_800A317C->func = func_80039858;
+            D_800A61B4 = -1;
+            if (obj->unk28 == 11) {
+                D_800A61B6 = -1;
+            }
+        }
+        obj->unkBE = 0;
+    }
+    func_80049744(obj);
+}
+#endif
 
 extern const s16 D_8007C550[];
 s16 func_80043C60(s16 exclude);
@@ -11220,18 +11369,6 @@ void func_800482FC(void) {
     obj->unkE4 = 0;
     D_800A317C->func = func_80047F7C;
 }
-
-typedef struct {
-    SVECTOR pos[20];
-    s16 unkA0[20];
-    s16 unkC8[20];
-    s16 count;
-} Unk80056ADC;
-
-extern struct {
-    u8 pad[0x1C];
-    Unk80056ADC *unk1C;
-} *D_801F7D70;
 
 extern s16 func_80056B8C(Unk8002A35C *from, s16 range);
 
