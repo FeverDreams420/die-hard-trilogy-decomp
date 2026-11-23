@@ -9355,10 +9355,6 @@ void func_80039B80(void) {
 }
 #endif
 
-// NON_MATCHING: registers, scheduling; the original sign-extends the func_8001E9DC(3) animation index
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039F98);
-#else
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -9416,6 +9412,13 @@ extern s16 D_800A32DC;
 extern s32 D_801C08F8[];
 extern void func_80047F7C(void);
 
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Unk801C1EF0;
+extern Unk801C1EF0 D_801C1EF0;
 void func_80039F98(void) {
     Obj80039F98 *obj = (Obj80039F98 *)D_800A317C->vals;
     s16 anims[3] = { 0x20, 0x21, 3 };
@@ -9423,6 +9426,7 @@ void func_80039F98(void) {
     Unk80039F98_Sub *sub;
     Unk8002A35C *target;
     s16 tmp;
+    s32 sound;
 
     func_8003E384((Unk80045164 *)obj);
     func_8002A270((Unk8002A35C *)obj, 0);
@@ -9448,7 +9452,7 @@ void func_80039F98(void) {
                     params[3] = 0x400;
                     params[4] = 0;
                     params[5] = 1;
-                    params[3] += D_801C1EF6;
+                    params[3] += D_801C1EF0.unk6;
                     func_8004FB78(params);
                 }
                 func_8003A790((struct Unk8003A790 *)obj, 1);
@@ -9460,7 +9464,7 @@ void func_80039F98(void) {
     if (func_8002A35C(target, (Unk8002A35C *)obj) < 0x200) {
         D_800A61B8[0] = -1;
         if (sub->unk4 != 0) {
-            D_800A61B8[sub->unk4 - 8] = -1;
+            D_800A61B8[sub->unk4 - 4] = -1;
         }
         obj->unk15E = 0;
         if (sub->unk6 != 0) {
@@ -9476,9 +9480,9 @@ void func_80039F98(void) {
             sub->unk4 = 0;
             func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 3);
             D_800A317C->func = func_80047F7C;
+            D_801C08F8[sub->unkE] = 0;
             D_800A3054++;
             D_800A32F4--;
-            D_801C08F8[sub->unkE] = 0;
         } else {
             obj->unkD6 = func_80039458(obj);
             obj->unkDC = func_800439A4(obj->unkD6);
@@ -9490,9 +9494,9 @@ void func_80039F98(void) {
             params[3] = 0x400;
             params[4] = 0;
             params[5] = 1;
-            params[3] += D_801C1EF6;
+            params[3] += D_801C1EF0.unk6;
             func_8004FB78(params);
-            func_80024DA8(&obj->anim, anims[func_8001E9DC(3)], 0, 0x52, 3);
+            func_80024DA8(&obj->anim, anims[(s16)func_8001E9DC(3)], 0, 0x52, 3);
             func_80049820(5000);
             if (D_800A307C >= 10 || !(D_800A32DC & 1)) {
                 func_8005217C(target, 1);
@@ -9503,17 +9507,17 @@ void func_80039F98(void) {
         return;
     }
     if (sub->unk8 == 0 && obj->unk154 == 0) {
+        sound = 0x2C;
         if (obj->unk15A == 1) {
-            params[0] = 0x2D;
-        } else {
-            params[0] = 0x2C;
+            sound = 0x2D;
         }
+        params[0] = sound;
         params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
         params[2] = func_800508F0((SVECTOR *)obj) * 4;
-        params[3] = func_8001E9DC(0x100) + 0x380;
+        params[3] = (s16)func_8001E9DC(0x100) + 0x380;
         params[4] = 0;
         params[5] = 1;
-        params[3] += D_801C1EF6;
+        params[3] += D_801C1EF0.unk6;
         func_8004FB78(params);
     }
     if (sub->unk8 != 0) {
@@ -9522,9 +9526,6 @@ void func_80039F98(void) {
         sub->unk8 = func_8001E9DC(0x100) + 0x80;
     }
 }
-#endif
-
-INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AA0);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2AA8);
 
