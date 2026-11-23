@@ -6105,7 +6105,8 @@ typedef struct Unk800584A4 {
     s16 unk70;
     s16 unk72;
     s16 unk74;
-    u8 pad76[6];
+    s16 unk76;
+    u8 pad78[4];
     s16 unk7C;
     s16 unk7E;
     s16 unk80;
@@ -7250,9 +7251,142 @@ void func_800358F0(Unk800358F0 *obj, s16 type, s32 dir) {
     b->unk7C.vz -= (cs * 128) >> 12;
 }
 
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80035B38);
+#else
+extern Unk800358F0_Tbl D_800A2A90;
 
+void func_80035B38(void *arg0, void *arg1, Unk800584A4 *self) {
+    Unk800584A4 *obj = &D_800A3564[self->unkA];
+    Unk800584A4 *b;
+    Unk800358F0_Tbl ta = D_800A2A88;
+    Unk800358F0_Tbl tb = D_800A2A90;
+    s32 params[6];
+
+    b = obj + 1;
+    if (obj->unk2A == 0) {
+        return;
+    }
+    func_80032344((Unk80032344 *)obj, 1);
+    if (obj->unkA6 < 0) {
+        obj->unkA6 = 0;
+    }
+    if (b->unkA6 < 0) {
+        b->unkA6 = 0;
+    }
+    switch (obj->unk74) {
+    case 0:
+    case 5:
+    case 10:
+        if (obj->unkA6 != 0 || b->unkA6 != 0) {
+            obj->unk72 += obj->unkA6;
+            obj->unk72 += b->unkA6;
+            if (obj->unk72 >= 7) {
+                obj->unk70 = 2;
+                obj->unk74++;
+            }
+        }
+        obj->unkA6 = 0;
+        b->unkA6 = 0;
+        /* fallthrough */
+    case 15:
+        func_80042538((Obj *)&obj->unk7C);
+        func_80042538((Obj *)&b->unk7C);
+        break;
+    case 1:
+    case 6:
+    case 11:
+        if (obj->unk70 != 0) {
+            obj->unk70--;
+        } else {
+            obj->unk74++;
+        }
+        func_80042538((Obj *)&obj->unk7C);
+        func_80042538((Obj *)&b->unk7C);
+        break;
+    case 2:
+    case 7:
+    case 12:
+        func_8001E9DC(0x40);
+        func_8004ACD4((SVECTOR *)obj);
+        params[0] = func_8001E9DC(3) + 16;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        if (params[1] < 0x2800) {
+            params[1] = 0x2800;
+        }
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x400 - (s16)func_8001E9DC(0x180);
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        params[0] = 0x15;
+        params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+        if (params[1] < 0x2800) {
+            params[1] = 0x2800;
+        }
+        params[2] = func_800508F0((SVECTOR *)obj) * 4;
+        params[3] = 0x200;
+        params[4] = 0;
+        params[5] = 0;
+        func_8004FB78(params);
+        func_8001E9DC(0x40);
+        obj->unk70 = 4;
+        D_800A2A1A += 10;
+        func_8003768C((SVECTOR *)obj, 0);
+        func_80056ADC((SVECTOR *)obj, 0x1200);
+        if (obj->unk74 == 2) {
+            if ((s16)func_8001E9DC(20) < 16) {
+                func_8004F364((Unk8002A35C *)obj, (s32)obj);
+            } else {
+                func_8004FA1C((SVECTOR *)obj);
+            }
+            obj->unk20 = D_801D70F0[tb.v[obj->unk76]];
+            func_8004DA48(obj, &obj->unk8, ta.v[obj->unk76], 0, 0x40, 0, 0x1000, 0x20, 0);
+            func_8004DA48(obj, &obj->unk8, ta.v[obj->unk76], 0, 0x80, 0, 0x1000, 0x18, 0);
+            func_8004DA48(obj, &obj->unk8, ta.v[obj->unk76], 0, 0xC0, 0, 0x1000, 0x20, 0x200);
+        } else if (obj->unk74 == 7) {
+            obj->unk20 = D_801D723C[0];
+            func_8004DA48(obj, &obj->unk8, tb.v[obj->unk76], 0, 0x40, 0, 0x1000, 0x20, 0);
+            func_8004DA48(obj, &obj->unk8, tb.v[obj->unk76], 0, 0x80, 0, 0x1000, 0x18, 0);
+            func_8004DA48(obj, &obj->unk8, tb.v[obj->unk76], 0, 0xC0, 0, 0x1000, 0x20, 0x200);
+        } else {
+            func_8004DE24((Unk80032344 *)obj, 100);
+            obj->unk2A = 0;
+        }
+        obj->unk74++;
+        return;
+    case 3:
+    case 8:
+    case 13:
+        if (obj->unk70 == 0) {
+            obj->unk70 = 20;
+            obj->unk74++;
+        } else {
+            obj->unk70--;
+        }
+        return;
+    case 4:
+    case 9:
+    case 14:
+        obj->unkA6 = 0;
+        b->unkA6 = 0;
+        func_80042538((Obj *)&obj->unk7C);
+        func_80042538((Obj *)&b->unk7C);
+        if (obj->unk70 != 0) {
+            obj->unk70--;
+        } else {
+            obj->unk72 = 0;
+            obj->unk74++;
+        }
+        return;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A8F4);
+#endif
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A90);
 
