@@ -26386,10 +26386,6 @@ void func_800665E8(void) {
     D_800A317C->func = func_800666C4;
 }
 
-// NON_MATCHING: registers; the original keeps tmp on the stack (its address goes to func_80023E80)
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800666C4);
-#else
 typedef struct {
     s16 unk0;
     u8 pad2[0xE];
@@ -26426,7 +26422,6 @@ void func_800666C4(void) {
     s32 best_dist = 0x1000;
     s16 best = -1;
     s32 dist;
-    s32 dummy;
     s16 tmp;
     s16 i;
 
@@ -26434,7 +26429,7 @@ void func_800666C4(void) {
     func_8002A270((Unk8002A35C *)obj, 4);
     func_80031200(obj);
     func_8003146C(obj);
-    obj->unk2 = func_80023E80(obj, &dummy, &dummy);
+    obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
     func_80031320((Unk80045164 *)obj);
 
     for (i = 0; i < 20; i++) {
@@ -26442,7 +26437,8 @@ void func_800666C4(void) {
             dist = func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)D_801C08F8[i]);
             if (dist < best_dist) {
                 tmp = func_80028B04((Unk8002A35C *)D_801C08F8[i], (Unk8002A35C *)obj);
-                tmp = ((tmp - (obj->unk12 + obj->unk104)) << 20) >> 20;
+                tmp -= obj->unk12 + obj->unk104;
+                tmp = (tmp << 20) >> 20;
                 if (ABS(tmp) < obj->unk10A) {
                     tmp = func_80042DD0(obj, D_801C08F8[i], 0);
                     if (tmp != 0) {
@@ -26522,7 +26518,6 @@ void func_800666C4(void) {
     }
     func_80049064((Unk80045164 *)obj, -1);
 }
-#endif
 
 extern MATRIX *func_80023450(SVECTOR *r, MATRIX *m);
 
