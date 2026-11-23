@@ -13632,10 +13632,6 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AD98);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80044470);
 
-// NON_MATCHING: registers, scheduling; ours sign-extends the animation id after the load
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004475C);
-#else
 extern const s16 D_8007C550[];
 extern const s16 D_8007C580[];
 extern s16 func_80048BD4();
@@ -13645,6 +13641,10 @@ extern s32 func_8004BF0C(Unk8002A35C *pos);
 extern s16 func_80042DD0();
 extern void func_80049064(Unk80045164 *obj, s16 flag);
 
+// NON_MATCHING: register allocation: the constant 4 from the unkF4 test is kept in s3 across func_80042DD0 (the original reloads it), which also swaps s1/s2
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004475C);
+#else
 void func_8004475C(void) {
     Unk80045164 *obj = (Unk80045164 *)D_800A317C->vals;
     Unk8002A35C *target;
@@ -13663,11 +13663,10 @@ void func_8004475C(void) {
     func_80031320(obj);
     if (D_801F7D50.unk0 == NULL) {
         if (obj->unk28 == 8 || obj->unk28 == 0x12) {
-            id = D_8007C550[obj->unkF4];
+            func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0x52, 8);
         } else {
-            id = D_8007C560[obj->unkF4];
+            func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
         }
-        func_80024DA8(&obj->anim, id, 0, 0x52, 8);
         if (obj->unk54 != NULL) {
             obj->unk54->unkE = 0;
         }
@@ -13702,7 +13701,7 @@ void func_8004475C(void) {
                 return;
             }
         }
-        obj->model.rot.vy = func_80043814(obj->model.rot.vy, func_80028B04(target, &obj->pos), 0xA0);
+        obj->model.rot.vy = func_80043814(obj->model.rot.vy, (s16)func_80028B04(target, &obj->pos), 0xA0);
         if (obj->unkEC != 0) {
             func_80024DA8(&obj->anim, D_8007C580[obj->unkF4], anim[10] - 600, 0x28, 0);
             if (obj->unk54 != NULL) {
@@ -13711,9 +13710,10 @@ void func_8004475C(void) {
             obj->unkEC--;
             return;
         }
-        speed = 0x50;
         if (obj->unkF4 == 4) {
             speed = 0x3C;
+        } else {
+            speed = 0x50;
         }
         if ((s16)func_80042DD0(obj, target, -1) != 0) {
             func_80024DA8(&obj->anim, D_8007C580[obj->unkF4], 0, speed, 4);
@@ -13724,11 +13724,10 @@ void func_8004475C(void) {
             return;
         }
         if (obj->unk28 == 8 || obj->unk28 == 0x12) {
-            id = D_8007C550[obj->unkF4];
+            func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0x52, 8);
         } else {
-            id = D_8007C560[obj->unkF4];
+            func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
         }
-        func_80024DA8(&obj->anim, id, 0, 0x52, 8);
         if (obj->unk54 != NULL) {
             obj->unk54->unkE = 0;
         }
