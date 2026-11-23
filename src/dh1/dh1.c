@@ -1805,7 +1805,9 @@ typedef struct {
     u16 z;
     u16 w;
     u16 h;
-    u8 padA[0x12];
+    u16 unkA;
+    u16 unkC;
+    u8 padE[0xE];
     GridCell *cells;
 } Grid;
 
@@ -6824,16 +6826,28 @@ void func_80033490(Unk80033490 *obj, s16 model, s16 kind) {
 }
 
 typedef struct {
-    char pad0[0xA];
+    s16 x;
+    s16 y;
+    s16 z;
+    char pad6[4];
     s16 unkA;
     char padC[4];
     s16 unk10;
     s16 unk12;
     s16 unk14;
-    char pad16[0x14];
+    char pad16[2];
+    s32 unk18;
+    s32 unk1C;
+    s32 unk20;
+    char pad24[4];
+    s16 unk28;
     s16 unk2A;
     s16 unk2C;
     s16 unk2E;
+    char pad30[4];
+    s16 unk34;
+    s8 unk36;
+    u8 unk37;
 } Unk80041178;
 
 typedef struct {
@@ -8292,7 +8306,148 @@ void func_80037790(void) {
 }
 #endif
 
+// NON_MATCHING: bullet fields reloaded through D_800A7A20[i] in the original, registers (176 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80037D64);
+#else
+typedef struct {
+    Unk80041178 o;
+    SVECTOR pos;
+} Unk80037D64_Probe;
+
+extern Grid D_800A79F0;
+extern s16 D_800A30D4;
+extern s32 func_80043930();
+extern void func_8005A42C(SVECTOR *pos, s32 arg1, s16 arg2);
+extern void func_8004D1D8(SVECTOR *pos, SVECTOR *dir, s16 arg2);
+extern s32 func_800385F4(SVECTOR *pos, SVECTOR *d);
+extern s32 func_80038B00(SVECTOR *pos, SVECTOR *d, s16 kind, s16 damage);
+
+void func_80037D64(void) {
+    Unk80041178List *list = D_801F7D28->list;
+    Unk80037D64_Probe probe;
+    Unk800A7A20 *b;
+    Unk80041178 *o;
+    s32 wx;
+    s16 wz;
+    s32 dx;
+    s32 dz;
+    s16 i;
+    s16 j;
+    s16 k;
+
+    if (D_800A30D4 == 0) {
+        return;
+    }
+    wz = (D_800A79F0.unkC >> 1) + 0x100;
+    wx = (D_800A79F0.unkA >> 1) + 0x100;
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    for (i = 0; i < 50; i++) {
+        b = &D_800A7A20[i];
+        if (b->state == 0) {
+            continue;
+        }
+        if (b->unk18 == 1) {
+            if (--b->unk10 == 0) {
+                b->state = 0;
+                D_800A30D4--;
+                continue;
+            }
+            for (j = 0; j < list->count; j++) {
+                o = list->entries[j].obj;
+                if (b->y + 0x200 < o->y) {
+                    continue;
+                }
+                dx = b->x - o->x;
+                dz = b->z - o->z;
+                if (o->unk18 - (ABS(dx) - 0x78) > 0 && o->unk20 - (ABS(dz) - 0x78) > 0 && b->y < o->y + o->unk1C) {
+                    o->unk2C++;
+                    o->unk36 = i;
+                    o->unk2A += b->unk1A;
+                    if (b->unk1A > 0) {
+                        func_8005A42C((SVECTOR *)o, 600, 0x1000);
+                    }
+                }
+            }
+            continue;
+        }
+        probe.o.unk18 = 0x10;
+        probe.o.unk1C = 0x20;
+        probe.o.unk20 = 0xFA;
+        probe.o.unk10 = 0;
+        probe.o.unk12 = 0;
+        probe.o.unk14 = 0;
+        probe.o.unkA = -b->unk14;
+        probe.o.unk36 = i;
+        probe.o.unk2C = 0;
+        probe.o.unk28 = 0;
+        probe.o.unk34 = b->unk1A;
+        probe.pos.vx = b->x;
+        probe.pos.vy = b->y;
+        probe.pos.vz = b->z;
+        probe.o.x = b->x + (b->unk8 >> 1);
+        probe.o.y = b->y - 0x10;
+        probe.o.z = b->z + (b->unkC >> 1);
+        b->x += b->unk8;
+        b->y += b->unkA;
+        b->z += b->unkC;
+        if (b->x < -wx || b->z < -wz || b->x > wx || b->z > wz) {
+            b->state = 0;
+            D_800A30D4--;
+            continue;
+        }
+        for (j = 0; j < list->count; j++) {
+            o = list->entries[j].obj;
+            if (b->id == o->unk37) {
+                continue;
+            }
+            if ((s16)(probe.o.y + probe.o.unk1C) < o->y) {
+                continue;
+            }
+            dx = probe.o.x - o->x;
+            dz = probe.o.z - o->z;
+            if (probe.o.unk18 + o->unk18 - ABS(dx) > 0 && probe.o.unk20 + o->unk20 - ABS(dz) > 0 &&
+                probe.o.y < o->y + o->unk1C && func_80043930(&probe, b, o) <= 0xFA) {
+                o->unk2C++;
+                o->unk36 = i;
+                o->unk2A += b->unk1A;
+                b->state = 0;
+                D_800A30D4--;
+                if (b->unk18 != 2) {
+                    func_8005A42C((SVECTOR *)o, b->y - o->y, 0x200);
+                } else {
+                    func_80038554((SVECTOR *)b);
+                }
+                break;
+            }
+        }
+        if (b->state == 0) {
+            continue;
+        }
+        for (k = 0; k < 2; k++) {
+            if (k == 0) {
+                probe.o.unk2C = func_80038B00(&probe.pos, (SVECTOR *)&D_800A7A28[i], i, b->unk1A);
+            } else if (b->unk10 != 0x14) {
+                probe.o.unk2C = func_800385F4(&probe.pos, (SVECTOR *)&D_800A7A28[i]);
+            }
+            if (probe.o.unk2C != 0) {
+                b->unk10 = 0;
+                if (b->unk18 != 0) {
+                    func_80038554((SVECTOR *)b);
+                } else {
+                    func_8004D1D8((SVECTOR *)b, (SVECTOR *)&D_800A7A28[i], 0);
+                }
+                break;
+            }
+        }
+        if (--b->unk10 < 0) {
+            b->state = 0;
+            D_800A30D4--;
+        }
+    }
+}
+#endif
 
 extern void func_8004ACD4(SVECTOR *pos);
 extern void func_80056ADC(SVECTOR *v, s16 arg1);
