@@ -18246,7 +18246,7 @@ typedef struct {
     u8 pad11C[8];
     void *parent;
     s16 radius, angle, unk12C;
-    u8 pad12E[2];
+    s16 unk12E;
     s16 unk130, unk132;
     u8 pad134[0x24];
     s16 unk158, unk15A, unk15C, unk15E;
@@ -18352,7 +18352,126 @@ void func_80065B74(Unk80065B74 *parent, s16 anim, s16 f2, s16 f4, s16 f102) {
     } while (i--);
 }
 
+// NON_MATCHING: registers and scheduling; pos/rot/scale are set for a marker that is never drawn
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065F10);
+#else
+void func_80065F10(Unk80065B74 *leader, s16 circle) {
+    Unk80065B74 *e;
+    Unk8002A35C *player;
+    s16 angle;
+    s16 step;
+    s16 alive;
+    s16 i;
+    s16 n;
+    s16 dist;
+    s32 best;
+    s32 d;
+    s16 nearest;
+    SVECTOR pos;
+    SVECTOR rot;
+    VECTOR scale;
+
+    player = (Unk8002A35C *)(D_801F7D50.unk0 != NULL ? D_801F7D50.unk0 : D_801F7D44)->vals;
+    angle = (0x800 - func_80028B04((Unk8002A35C *)leader, player)) & 0xFFF;
+    rot.vx = 0;
+    rot.vy = 0;
+    rot.vz = 0;
+    scale.vx = 100;
+    scale.vy = 0x200;
+    scale.vz = 100;
+    pos.vx = leader->x;
+    pos.vy = leader->y;
+    pos.vz = leader->z;
+    alive = 0;
+    for (i = 0; i < 5; i++) {
+        e = (Unk80065B74 *)D_801D20CC[i];
+        if (e != NULL && e->unk12C == 0) {
+            if (e->unkF2 <= 0) {
+                e->unk12C = -1;
+                leader->radius++;
+                leader->angle--;
+                D_801D20CC[i] = NULL;
+            } else if (e->unk116 != 2) {
+                alive++;
+            }
+        }
+    }
+    if (alive != 0) {
+        step = 0x1000 / alive;
+    } else {
+        step = 0x200;
+    }
+    if (step > 0x400) {
+        step = 0x200;
+    }
+    if (circle) {
+        angle = -leader->unk12 & 0xFFF;
+        for (i = 0; i < 5; i++) {
+            e = (Unk80065B74 *)D_801D20CC[i];
+            if (e != NULL) {
+                if (e->unk116 == 2) {
+                    e->angle = angle;
+                } else {
+                    e->angle = func_80043814(e->angle, angle, 0xC0);
+                    angle = (angle + 0x800) & 0xFFF;
+                }
+            }
+        }
+    } else {
+        for (i = 0; i < 5; i++) {
+            e = (Unk80065B74 *)D_801D20CC[i];
+            if (e != NULL) {
+                if (e->unk116 == 2) {
+                    e->angle = 0;
+                } else {
+                    e->angle = angle;
+                    angle += step;
+                }
+            }
+        }
+    }
+    nearest = 0;
+    best = 0x7FFFFFFF;
+    n = 0;
+    dist = 400;
+    i = 4;
+    do {
+        e = (Unk80065B74 *)D_801D20CC[i];
+        if (e != NULL && e->unk12C == 0) {
+            if (e->unk116 == 2) {
+                e->radius = 0;
+            } else {
+                e->unk12E = 0;
+                if (circle && e->unk116 != 2) {
+                    e->radius = func_800437C8(e->radius, dist, 0x50);
+                    n++;
+                    if (n & 1) {
+                        dist += 0x140;
+                    }
+                } else if ((s16)func_800436E4((SVECTOR *)&((Unk80065B74 *)D_801D20CC[i])->unk94, 0x100) || alive < 4) {
+                    e->radius = func_800437C8(e->radius, 0x140, 0x50);
+                } else {
+                    e->radius = func_800437C8(e->radius, 0x200, 0x10);
+                }
+                d = func_8002A35C(player, (Unk8002A35C *)D_801D20CC[i]);
+                if (d < best) {
+                    best = d;
+                    nearest = i;
+                }
+            }
+        }
+    } while (i--);
+    ((Unk80065B74 *)D_801D20CC[nearest])->unk12E = -1;
+    for (i = 0; i < 5; i++) {
+        e = (Unk80065B74 *)D_801D20CC[i];
+        if (e != NULL && e->unk12C == 0 && e->unk116 != 2) {
+            pos.vx = leader->x + ((D_800854C0[e->angle & 0xFFF] * e->radius) >> 12);
+            pos.vz = leader->z + ((D_800854C0[(e->angle + 0x400) & 0xFFF] * e->radius) >> 12);
+        }
+    }
+}
+#endif
 
 typedef struct Unk80066474 {
     u8 pad0[0x28];
