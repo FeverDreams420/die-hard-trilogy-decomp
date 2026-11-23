@@ -9581,10 +9581,6 @@ void func_8003A790(Unk8003A790 *obj, s16 type) {
     D_801D2078.count++;
 }
 
-// NON_MATCHING: path copy loop, register allocation (34 lines)
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A8A4);
-#else
 typedef struct {
     s16 unk0;
     s16 unk2;
@@ -9660,6 +9656,10 @@ typedef struct {
     s16 unk160;
 } Obj8003A8A4;
 
+// NON_MATCHING: path copy loop, register allocation (34 lines)
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A8A4);
+#else
 extern s16 func_80043D68(s16 from, s16 to, s16 arg2);
 extern void func_8003BA6C(void);
 extern void func_8003B04C(void);
@@ -9850,10 +9850,6 @@ void func_8003A8A4(void) {
 }
 #endif
 
-// NON_MATCHING: store order in the waypoint switch, register allocation (20 lines)
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003B04C);
-#else
 extern const s16 D_8007C550[];
 extern void func_800495F8(void);
 extern void func_80047F7C(void);
@@ -9869,11 +9865,11 @@ void func_8003B04C(void) {
     Unk8003A8A4_Sub *sub;
     Unk80043CC4 *node;
     Unk8002A35C *target;
-    Unk8002A35C pos;
-    SVECTOR at;
+    VECTOR pos;
+    VECTOR at;
     s32 params[6];
     s32 dist;
-    s16 step;
+    s32 step;
     s16 tmp;
     s16 a;
     s16 j;
@@ -9881,14 +9877,14 @@ void func_8003B04C(void) {
     func_8003E384((Unk80045164 *)obj);
     func_8002A270((Unk8002A35C *)obj, 0);
     dist = func_80043B6C(&pos, obj);
-    a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
+    a = func_80028B04((Unk8002A35C *)&pos, (Unk8002A35C *)obj) & 0xFFF;
     obj->unk22 = a;
     obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
     sub = &obj->sub;
     if (obj->unkEA != 0) {
         obj->unkEA--;
     }
-    if ((dist > 0x600 && obj->unkEA == 0) || (obj->unk160 < obj->unkDA && obj->unkEA == 0)) {
+    if ((dist > 0x600 && obj->unkEA == 0) || (obj->unkDA > obj->unk160 && obj->unkEA == 0)) {
         obj->unkEA = func_8001E9DC(20) + 50;
         obj->unkDA = 0;
         obj->unk160 = func_8001E9DC(20) + 90;
@@ -9901,7 +9897,6 @@ void func_8003B04C(void) {
             obj->unkD6 = func_80039458((Unk80045164 *)obj);
             obj->unkD4 = 0;
             obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
-            obj->unkE8++;
             break;
         case 1:
             j = 0;
@@ -9910,7 +9905,6 @@ void func_8003B04C(void) {
             } while (tmp == obj->unkD8);
             obj->unkD8 = tmp;
             obj->unkD4 = 0x1000 - obj->unkD4;
-            obj->unkE8++;
             break;
         case 2:
             func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0x52, 8);
@@ -9919,14 +9913,12 @@ void func_8003B04C(void) {
             D_800A317C->saved = D_800A317C->func;
             D_800A317C->func = func_800495F8;
             return;
-        default:
-            obj->unkE8++;
-            break;
         }
+        obj->unkE8++;
     }
     step = func_80045EF4((Unk80045EF4 *)obj, dist);
     if (sub->unkC != 0 && obj->unkD8 == obj->unkDC && obj->unkE6 == sub->count - 1) {
-        func_8004379C(obj->unkD8, &at);
+        func_8004379C(obj->unkD8, (SVECTOR *)&at);
         if (func_8002A35C((Unk8002A35C *)&at, (Unk8002A35C *)obj) < 0x400) {
             obj->unkD4 = 0x1000;
             dist = 0;
@@ -9987,9 +9979,9 @@ void func_8003B04C(void) {
                 sub->unk4 = 0;
                 func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 3);
                 D_800A317C->func = func_80047F7C;
+                D_801C08F8[sub->unkE] = 0;
                 D_800A3054++;
                 D_800A32F4--;
-                D_801C08F8[sub->unkE] = 0;
             } else {
                 obj->unkD6 = func_80039458((Unk80045164 *)obj);
                 obj->unkDC = func_800439A4(obj->unkD6);
@@ -10046,7 +10038,6 @@ void func_8003B04C(void) {
         obj->unkBE = 0;
     }
 }
-#endif
 
 extern void func_8003E384(Unk80045164 *obj);
 extern s16 func_80023E80(void *obj, s32 *a, s32 *b);
