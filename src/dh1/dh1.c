@@ -25507,9 +25507,260 @@ void func_80066C6C(Unk80066C6C *obj) {
     }
 }
 
+// NON_MATCHING: register allocation, sine loads (97 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80066D40);
+#else
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[8];
+    SVECTOR rot;
+} Unk80066D40_Model;
 
+typedef struct {
+    s32 x, y, z;
+    u8 padC[4];
+    SVECTOR target;
+    u8 pad18[8];
+    SVECTOR rot;
+    SVECTOR ang;
+    SVECTOR vel;
+    u8 pad38[8];
+    Unk80066D40_Model *model;
+    Obj part0;
+    u8 pad74[8];
+    Obj part1;
+    u8 padAC[0x14];
+    s32 snd;
+    s16 idx;
+    u8 padC6[0xA];
+    s16 path[32];
+    s16 count;
+    s16 unk112;
+    s16 unk114;
+    s16 unk116;
+    s16 unk118;
+    s16 state;
+    s16 unk11C;
+    u16 unk11E;
+    s16 unk120;
+    u8 pad122[6];
+    s32 unk128;
+    s32 unk12C;
+    s32 unk130;
+    u8 pad134[8];
+    s16 unk13C;
+} Unk80066D40;
+
+extern SVECTOR D_800A2BF0;
+extern SVECTOR D_800A2BF8;
+extern SVECTOR D_800A2C00;
+extern s32 D_801D7228;
+extern s32 D_801D7238;
+extern s16 D_800A347C;
+extern s16 D_800A2F14;
+extern s16 D_800A3224;
+extern s16 D_800A2F74;
+extern s16 D_800A32F4;
+extern u8 D_800A2A40[];
+extern s32 func_80067A30();
+extern void func_80066B44(SVECTOR *rot, SVECTOR *v, SVECTOR *base, SVECTOR *out);
+
+void func_80066D40(void) {
+    Unk80066D40 *obj = (Unk80066D40 *)D_800A317C->vals;
+    Unk80066D40_Model *model = obj->model;
+    SVECTOR off = D_800A2BF0;
+    SVECTOR unused = D_800A2BF8;
+    SVECTOR base = D_800A2C00;
+    SVECTOR mv;
+    SVECTOR tgt;
+    SVECTOR out;
+    Unk80032344 m;
+    SVECTOR *p;
+    char *s;
+    s32 a;
+    s32 t;
+    s32 dist;
+    s16 roll;
+    s16 d;
+    s16 e;
+    s16 k;
+    s16 c;
+    s32 s5;
+
+    m.rot.vx = obj->rot.vx;
+    m.rot.vy = obj->rot.vy;
+    m.rot.vz = obj->rot.vz + obj->unk114;
+    m.pos.vx = obj->x >> 8;
+    m.pos.vy = obj->y >> 8;
+    m.scale.vx = 0x5FFF;
+    m.scale.vy = 0x5FFF;
+    m.scale.vz = 0x5FFF;
+    m.pos.vz = obj->z >> 8;
+    if (obj->state == 3) {
+        func_8004379C(obj->path[obj->idx - 1], &tgt);
+        p = &tgt;
+    } else {
+        p = &obj->target;
+    }
+    a = func_80028B04((Unk8002A35C *)p, (Unk8002A35C *)&m.pos);
+    obj->ang.vy = func_80043814(obj->ang.vy, a, 0x10);
+    t = ((obj->rot.vy - a) << 20) >> 4;
+    roll = -(t >> 18);
+    d = roll - obj->unk114;
+    if (d < 0) {
+        d = -d;
+    }
+    e = t >> 16;
+    obj->unk116 = func_800437C8(obj->unk116, d >> 5, 2);
+    obj->unk114 = func_800437C8(obj->unk114, roll, obj->unk116);
+    if (e < 0) {
+        e = -e;
+    }
+    obj->unk112 = func_800437C8(obj->unk112, func_800296F8(2, 0x40, e), 4);
+    obj->rot.vy = func_80043814(obj->rot.vy, (a << 20) >> 20, obj->unk112);
+    dist = func_8002A35C((Unk8002A35C *)&obj->target, (Unk8002A35C *)&m.pos);
+    switch (obj->state) {
+    case 0:
+        if (obj->unk11E & 0x80) {
+            func_80053864(0xA0, (D_800A33C4 >> 1) - 0x20, "PART ONE", 0x600, 0x140, D_800A2A40, D_800A2A3C);
+            s = "DIE HARD";
+        } else {
+            s = "DIE HARD TRILOGY";
+        }
+        func_80053864(0xA0, D_800A33C4 >> 1, s, 0x800, 0x780, D_800A2A40, D_800A2A3C);
+        obj->unk11E++;
+        if (dist < 0x800) {
+            if (++obj->idx == obj->count) {
+                obj->idx = 0;
+            }
+            func_8004379C(obj->path[obj->idx], &obj->target);
+            obj->unk11C--;
+        }
+        obj->vel.vz = func_800437C8(obj->vel.vz, dist > 0xBE8 ? 0x5DC0 : 0x800, 0x200);
+        func_80043E14(&obj->ang, &obj->vel, &base, &mv);
+        obj->x += mv.vx;
+        obj->z += mv.vz;
+        if (obj->unk120 != 0) {
+            if (obj->unk11C == 0) {
+                func_80052E18(8);
+                obj->unk120 = 0;
+            }
+            if (*D_800A32AC != 0 && D_800A347C == 0) {
+                D_800A350C->unk178E = 0;
+                func_80052E18(7);
+                obj->unk120 = 0;
+            }
+        }
+        break;
+    case 1:
+        if (dist < 0x800) {
+            k = obj->idx;
+            if (++obj->idx == obj->count) {
+                obj->idx = k;
+                obj->state = 2;
+            }
+            func_8004379C(obj->path[obj->idx], &obj->target);
+        }
+        obj->vel.vz = func_800437C8(obj->vel.vz, dist > 0xBE8 ? 0x5DC0 : 0x800, 0x200);
+        func_80043E14(&obj->ang, &obj->vel, &base, &mv);
+        obj->x += mv.vx;
+        obj->z += mv.vz;
+        break;
+    case 2:
+        if (dist < 0x80) {
+            obj->state = 3;
+            obj->unk118 = 500;
+        } else {
+            obj->vel.vz = func_800437C8(obj->vel.vz, 0x800, 0x100);
+            func_80043E14(&obj->ang, &obj->vel, &base, &mv);
+            obj->x += mv.vx;
+            obj->z += mv.vz;
+        }
+        break;
+    case 3:
+        if (D_800A2F74 == 0 && D_800A32F4 == 0) {
+            obj->unk118 = 0;
+            obj->state = 4;
+            obj->idx--;
+            func_8004379C(obj->path[obj->idx], &obj->target);
+        }
+        obj->vel.vz = func_800437C8(obj->vel.vz, 0, 0x100);
+        obj->unk114 = func_800437C8(obj->unk114, 0, 8);
+        obj->x = func_800437C8(obj->x, obj->target.vx << 8, 0x100);
+        obj->x = func_800437C8(obj->z, obj->target.vz << 8, 0x100);
+        break;
+    case 4:
+        if (dist < 0x800) {
+            if (--obj->idx < 0) {
+                func_80050358(obj->snd);
+                obj->unk13C = -1;
+                func_80021554();
+                return;
+            }
+            func_8004379C(obj->path[obj->idx], &obj->target);
+        }
+        obj->vel.vz = func_800437C8(obj->vel.vz, dist > 0xBE8 ? 0x5DC0 : 0x800, 0x200);
+        func_80043E14(&obj->ang, &obj->vel, &base, &mv);
+        obj->x += mv.vx;
+        obj->z += mv.vz;
+        break;
+    }
+    m.data = (u8 *)D_801D7228;
+    model->pos.vx = m.pos.vx;
+    model->pos.vy = m.pos.vy;
+    model->pos.vz = m.pos.vz;
+    model->rot.vx = m.rot.vx;
+    model->rot.vy = m.rot.vy;
+    model->rot.vz = m.rot.vz;
+    m.rot.vy = -m.rot.vy;
+    if (obj->unk13C == 0) {
+        D_800A2F14 = -1;
+        D_800A3224 = -1;
+        m.pos.vy += 0x700;
+        func_80032344(&m, 2);
+        m.pos.vy -= 0x700;
+    }
+    m.rot.vy = -m.rot.vy;
+    func_80066B44(&m.rot, &off, &m.pos, &out);
+    m.rot.vx = 0;
+    if (obj->unk13C == 0) {
+        func_80067A30(D_801D7238, &out, &m.rot);
+    }
+    func_80066C6C((Unk80066C6C *)obj);
+    a = obj->rot.vy;
+    obj->part0.fA = obj->part1.fA = -a;
+    c = D_800854C0[(-a + 0x400) & 0xFFF];
+    obj->part0.x = m.pos.vx + (D_800854C0[obj->part1.fA & 0xFFF] >> 5);
+    obj->part0.y = m.pos.vy + 0x100;
+    obj->part0.z = m.pos.vz + (c >> 5);
+    func_80042538(&obj->part0);
+    s5 = D_800854C0[obj->part1.fA & 0xFFF] * 5;
+    c = D_800854C0[(obj->part1.fA + 0x400) & 0xFFF];
+    obj->part1.x = m.pos.vx - (s5 >> 3);
+    obj->part1.y = m.pos.vy + 0x348;
+    obj->part1.z = m.pos.vz - ((c * 5) >> 3);
+    func_80042538(&obj->part1);
+    if (obj->unk13C == 0) {
+        obj->unk128 = func_80050974(&m.pos, 0x2000);
+        obj->unk12C = func_800508F0(&m.pos);
+        if (obj->unk128 < 0x800) {
+            obj->unk128 = 0x800;
+        }
+        if (obj->state == 3) {
+            obj->unk130 = func_800437C8(obj->unk130, 0x400, 8);
+        } else {
+            obj->unk130 = func_800437C8(obj->unk130, 0x800, 0x20);
+        }
+        func_80050288(obj->snd, obj->unk130);
+        func_80050158(obj->snd, obj->unk128, obj->unk12C);
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B550);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B564);
 
