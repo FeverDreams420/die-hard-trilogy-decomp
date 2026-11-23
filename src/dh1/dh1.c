@@ -16964,9 +16964,152 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80056C94);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005704C);
 
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800572F4);
+#else
+typedef struct {
+    u8 type;
+    u8 unk1;
+    u8 pad2;
+    u8 unk3;
+    u8 pad4[0xA];
+    s16 unkE;
+} Unk800572F4_Spawn;
 
+typedef struct {
+    u8 pad0[8];
+    SVECTOR pos[8];
+    SVECTOR rot[8];
+    s16 ids[8];
+    s16 count;
+    u8 pad9A[0x14];
+    s16 unkAE;
+    u8 padB0[0xB0];
+    s16 unk160;
+    s16 unk162;
+} Unk800572F4;
+
+typedef struct {
+    Anim anim;
+    s16 unk20[5];
+    s16 unk2A;
+    s8 unk2C;
+    u8 unk2D;
+    s16 unk2E;
+} Unk800572F4_Part;
+
+typedef struct {
+    s16 v[21];
+} Unk800572F4_Tbl;
+
+extern Unk800572F4_Tbl D_8007B0B4;
+extern u8 *D_800A2F1C;
+extern const s16 D_8007C550[];
+
+void func_800572F4(Unk800572F4 *d) {
+    Unk800572F4_Part part;
+    SVECTOR pos;
+    Unk800572F4_Tbl tbl = D_8007B0B4;
+    Unk800572F4_Spawn *spawn;
+    Unk800A30B4 *e;
+    u32 *ot;
+    s16 r;
+    s16 a;
+    s16 i;
+    s16 j;
+
+    part.anim.unk14 = 0;
+    part.anim.id = 0;
+    part.anim.time = 1;
+    part.anim.unk16 = 0;
+    part.unk2A = 0xDAC;
+    part.anim.unk1A = 0x1000;
+    part.anim.id = 4;
+    part.unk2C = 100;
+    part.anim.unk1E = 0;
+    part.anim.unk1C = 0;
+    for (i = 0; i < d->count; i++) {
+        spawn = (Unk800572F4_Spawn *)(D_800A2F1C + d->ids[i] * 0x1C);
+        e = &D_800A30B4[spawn->unk1];
+        a = spawn->unk3 - 1;
+        if (a < 0) {
+            a = 0;
+        }
+        part.unk20[0] = e->unk0;
+        part.unk20[1] = e->unk2;
+        part.unk20[2] = e->unk4;
+        part.unk20[3] = e->unk6;
+        part.unk20[4] = e->unk8;
+        part.unk2E = 0;
+        part.unk2D = e->unkA;
+        part.anim.id = D_8007C550[a];
+        d->pos[i].vy = d->unkAE;
+        if (spawn->type == 13 || spawn->type == 14) {
+            d->unk162 = d->unkAE;
+            func_80032344((Unk80032344 *)&d->unk160, 1);
+        } else if (func_8002501C(&d->pos[i], &d->rot[i], 0xFFF, 0, &part.anim) == 9 && D_800A326C >= 9) {
+            if (D_801C1F00 != 0) {
+                func_80031ED0(&d->pos[i], &d->rot[i], spawn->type);
+            } else {
+                ot = &D_800A32E4[D_800A326C];
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+                }
+            }
+        }
+        switch (spawn->type) {
+        case 6:
+        case 12:
+        case 15:
+        case 16:
+        case 17:
+            e = &D_800A30B4[tbl.v[spawn->type]];
+            part.unk20[0] = e->unk0;
+            part.unk20[1] = e->unk2;
+            part.unk20[2] = e->unk4;
+            part.unk20[3] = e->unk6;
+            part.unk20[4] = e->unk8;
+            part.unk2D = e->unkA;
+            for (j = 0; j < 5; j++) {
+                pos.vx = ((D_800854C0[(j << 9) & 0xFFF] * 3) >> 5) + d->pos[0].vx;
+                pos.vy = d->unkAE;
+                pos.vz = ((D_800854C0[((j << 9) + 0x400) & 0xFFF] * 3) >> 5) + d->pos[0].vz;
+                if (func_8002501C(&pos, &d->rot[0], 0xFFF, 0, &part.anim) == 9) {
+                    ot = &D_800A32E4[D_800A326C];
+                    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                        AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+                    }
+                }
+            }
+            break;
+        case 1:
+            e = &D_800A30B4[spawn->unkE];
+            part.unk20[0] = e->unk0;
+            part.unk20[1] = e->unk2;
+            part.unk20[2] = e->unk4;
+            part.unk20[3] = e->unk6;
+            part.unk20[4] = e->unk8;
+            part.unk2D = e->unkA;
+            r = d->rot[i].vy;
+            pos.vx = (-(D_800854C0[r] << 9) >> 12) + d->pos[i].vx;
+            pos.vy = d->unkAE;
+            pos.vz = (D_800854C0[(r + 0x400) & 0xFFF] >> 3) + d->pos[i].vz;
+            if (func_8002501C(&pos, &d->rot[0], 0xFFF, 0, &part.anim) == 9) {
+                ot = &D_800A32E4[D_800A326C];
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+                }
+            }
+            break;
+        }
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B0E4);
+#endif
 
 typedef struct {
     Unk8002A35C pos;
