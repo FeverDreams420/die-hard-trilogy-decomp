@@ -15921,7 +15921,157 @@ void func_8004E04C(void) {
 }
 #endif
 
+// NON_MATCHING: texture entry re-read from D_800A3154 per use, type test layout, registers (115 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004E570);
+#else
+typedef struct {
+    u8 c[4];
+} Unk8004E570_Init;
+
+extern Unk8004E570_Init D_800A2ADC;
+extern VECTOR D_801F74C0;
+extern u8 D_80080DA0[4][4];
+
+void func_8004E570(Unk8004DE24_Quad *q, s16 floor, s16 vy) {
+    Unk8004E04C *d = (Unk8004E04C *)((struct Task *)D_801F7D7C)->vals;
+    SVECTOR pts[9];
+    u8 uv[9][2];
+    u16 t[7];
+    Unk8004E570_Init unused = D_800A2ADC;
+    Unk8004E04C_Debris *deb;
+    Unk8004E04C_Piece *p;
+    u8 *tex;
+    u8 *puv;
+    SVECTOR *pt;
+    u16 idx;
+    s16 type;
+    s16 i;
+    s16 j;
+    s16 n;
+
+    if (d->count >= 0x40) {
+        return;
+    }
+    if (q->p[3] == (SVECTOR *)-1) {
+        return;
+    }
+    deb = NULL;
+    if (q->p[3] == q->p[2]) {
+        return;
+    }
+    for (i = 0; i < 0x40; i++) {
+        if (d->active[i] == 0) {
+            deb = &D_801D20F0[i];
+            d->count++;
+            d->active[i] = -1;
+            break;
+        }
+    }
+    if (deb == NULL) {
+        return;
+    }
+    i = 6;
+    do {
+        t[i] = func_8001E9DC(0x800) + 0x400;
+    } while (i--);
+    pts[0].vx = q->p[3]->vx;
+    pts[0].vy = q->p[3]->vy;
+    pts[0].vz = q->p[3]->vz;
+    pts[2].vx = q->p[2]->vx;
+    pts[2].vy = q->p[2]->vy;
+    pts[2].vz = q->p[2]->vz;
+    pts[8].vx = q->p[1]->vx;
+    pts[8].vy = q->p[1]->vy;
+    pts[8].vz = q->p[1]->vz;
+    pts[6].vx = q->p[0]->vx;
+    pts[6].vy = q->p[0]->vy;
+    pts[6].vz = q->p[0]->vz;
+    func_800241BC(&pts[0].vx, &pts[2].vx, t[0], &pts[1].vx);
+    func_800241BC(&pts[0].vx, &pts[6].vx, t[1], &pts[3].vx);
+    func_800241BC(&pts[2].vx, &pts[8].vx, t[2], &pts[5].vx);
+    func_800241BC(&pts[6].vx, &pts[8].vx, t[3], &pts[7].vx);
+    func_800241BC(&pts[0].vx, &pts[8].vx, t[4], &D_800A34B4.vx);
+    func_800241BC(&pts[2].vx, &pts[6].vx, t[5], &D_800A3544.vx);
+    func_800241BC(&D_800A34B4.vx, &D_800A3544.vx, t[6], &pts[4].vx);
+    idx = q->unk10 / 44U;
+    type = q->unk12 & 0x1F;
+    tex = (u8 *)D_800A3154 + idx * 0x2C;
+    if (type == 0xB || type == 0xE || type == 0xF || type == 0x11) {
+        uv[2][0] = tex[0];
+        uv[2][1] = tex[1];
+        uv[0][0] = tex[4];
+        uv[0][1] = tex[5];
+        uv[6][0] = tex[0xC];
+        uv[6][1] = tex[0xD];
+        uv[8][0] = tex[8];
+        uv[8][1] = tex[9];
+    } else {
+        uv[0][0] = tex[0];
+        uv[0][1] = tex[1];
+        uv[2][0] = tex[4];
+        uv[2][1] = tex[5];
+        uv[8][0] = tex[0xC];
+        uv[8][1] = tex[0xD];
+        uv[6][0] = tex[8];
+        uv[6][1] = tex[9];
+    }
+    func_8004DDB4(tex, tex + 4, t[0], uv[1]);
+    func_8004DDB4(tex, tex + 8, t[1], uv[3]);
+    func_8004DDB4(tex + 4, tex + 0xC, t[2], uv[5]);
+    func_8004DDB4(tex + 8, tex + 0xC, t[3], uv[7]);
+    func_8004DDB4(tex, tex + 0xC, t[4], (u8 *)&D_800A34B4);
+    func_8004DDB4(tex + 4, tex + 8, t[5], (u8 *)&D_800A3544);
+    func_8004DDB4((u8 *)&D_800A34B4, (u8 *)&D_800A3544, t[6], uv[4]);
+    i = 3;
+    do {
+        D_801F74C0.vx = 0;
+        D_801F74C0.vy = 0;
+        D_801F74C0.vz = 0;
+        j = 3;
+        do {
+            pt = &pts[D_80080DA0[i][j]];
+            D_801F74C0.vx += pt->vx;
+            D_801F74C0.vy += pt->vy;
+            D_801F74C0.vz += pt->vz;
+        } while (j--);
+        D_801F74C0.vx >>= 2;
+        D_801F74C0.vy >>= 2;
+        D_801F74C0.vz >>= 2;
+        p = &deb->piece[i];
+        p->pos.vx = D_801F74C0.vx;
+        p->pos.vy = D_801F74C0.vy;
+        p->pos.vz = D_801F74C0.vz;
+        D_800A34B4.vx = D_801F74C0.vx;
+        D_800A34B4.vy = D_801F74C0.vy;
+        D_800A34B4.vz = D_801F74C0.vz;
+        p->floor = floor;
+        puv = &p->u0;
+        j = 3;
+        do {
+            n = D_80080DA0[i][j];
+            p->v[j].vx = pts[n].vx - p->pos.vx;
+            p->v[j].vy = pts[n].vy - p->pos.vy;
+            p->v[j].vz = pts[n].vz - p->pos.vz;
+            puv[j * 2] = uv[n][0];
+            puv[j * 2 + 1] = uv[n][1];
+        } while (j--);
+        tex = (u8 *)D_800A3154 + idx * 0x2C;
+        p->tpage = *(u16 *)(tex + 6);
+        p->rot.vx = 0;
+        p->rot.vy = 0;
+        p->rot.vz = 0;
+        p->clut = ((u16 *)(tex + 0x1C))[q->unk12 >> 8];
+        p->drx = func_8001E9DC(0x20) - 0x10;
+        p->dry = func_8001E9DC(0x20) - 0x10;
+        p->drz = func_8001E9DC(0x20) - 0x10;
+        p->vx = 0;
+        p->vy = vy - func_8001E9DC(0x10);
+        p->vz = 0;
+        p->bounces = 0;
+    } while (i--);
+}
+#endif
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2ADC);
 
