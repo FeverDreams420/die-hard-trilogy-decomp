@@ -13904,7 +13904,8 @@ extern void func_80047F7C(void);
 extern s16 D_800A61B0[];
 
 typedef struct {
-    u8 pad0[0x12];
+    s16 unk0;
+    u8 pad2[0x10];
     s16 count;
     u8 path[0x20];
 } Unk8004566C_Route;
@@ -14131,10 +14132,6 @@ extern struct {
     Unk80056ADC *unk1C;
 } *D_801F7D70;
 
-// NON_MATCHING: register allocation and scheduling
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046030);
-#else
 extern s32 func_800493D0();
 extern void func_800492F8(SVECTOR *pos);
 extern void func_8004566C(void);
@@ -14151,8 +14148,10 @@ void func_80046030(void) {
     Unk8002A35C pos;
     SVECTOR from;
     SVECTOR to;
+    SVECTOR unused;
+    Unk8004566C_Route *route;
     s16 tmp;
-    s16 step;
+    s32 step;
     s16 a;
     s16 x;
     s16 z;
@@ -14160,6 +14159,7 @@ void func_80046030(void) {
 
     func_8003E384((Unk80045164 *)obj);
     func_8002A270((Unk8002A35C *)obj, 4);
+    route = (Unk8004566C_Route *)&obj->unk114;
     step = 0;
     if (D_800A3084[obj->unkD8].unk18 != 0) {
         func_8004379C(obj->unkD6, &from);
@@ -14171,7 +14171,7 @@ void func_80046030(void) {
     } else {
         dist = func_80043B6C(&pos, obj);
     }
-    if (obj->unk114 == 0) {
+    if (route->unk0 == 0) {
         a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
         obj->unk22 = a;
         obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
@@ -14213,8 +14213,8 @@ void func_80046030(void) {
     tmp = func_80056B8C((Unk8002A35C *)obj, obj->unk10C);
     if (tmp != -1 && D_801F7D50.unk0 != NULL) {
         if ((s16)func_80042DD0(obj, D_801F7D50.unk0->vals, 0) != 0) {
-            if (obj->unk114 != 0) {
-                obj->unk114 = 0;
+            if (route->unk0 != 0) {
+                route->unk0 = 0;
                 func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 4);
             }
             func_800492F8((SVECTOR *)obj);
@@ -14228,16 +14228,16 @@ void func_80046030(void) {
             obj->unkEA = func_8001E9DC(20) + 40;
             obj->unkD4 = 0;
             obj->unkDA = 0;
-            if (obj->unk114 != 0) {
-                obj->unk114 = 0;
+            if (route->unk0 != 0) {
+                route->unk0 = 0;
                 func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 4);
             }
             obj->unk10E = 10;
             D_800A317C->func = func_800483C8;
         }
     }
-    if ((s16)func_800493D0(obj) != 0 && obj->unk114 != 0) {
-        obj->unk114 = 0;
+    if ((s16)func_800493D0(obj) != 0 && route->unk0 != 0) {
+        route->unk0 = 0;
         func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0x52, 8);
     }
     func_80031200((Unk80031200 *)obj);
@@ -14264,7 +14264,6 @@ void func_80046030(void) {
     }
     func_80049744(obj);
 }
-#endif
 
 extern const s16 D_8007C550[];
 s16 func_80043C60(s16 exclude);
