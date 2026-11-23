@@ -6077,7 +6077,17 @@ typedef struct Unk800584A4 {
     s16 unk2C;
     s16 unk2E;
     s16 unk30;
-    u8 pad32[0x30];
+    u8 pad32[0x10];
+    s16 unk42;
+    u8 pad44[0xC];
+    s16 unk50;
+    u8 pad52[2];
+    s16 unk54;
+    u8 pad56[2];
+    s16 unk58;
+    s16 unk5A;
+    s16 unk5C;
+    u8 pad5E[4];
     s16 unk62;
     u8 pad64[0xC];
     s16 unk70;
@@ -6325,8 +6335,6 @@ void func_800328C0(s32 a0, s32 a1, Unk800584A4 *src) {
     D_800A32E4 += 25;
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032A68);
-
 typedef struct {
     SVECTOR pos;
     SVECTOR v[48];
@@ -6335,6 +6343,149 @@ typedef struct {
     u8 hits[16];
     u16 frame;
 } Unk80032FD8;
+
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80032A68);
+#else
+typedef struct {
+    s16 a, b, c;
+    u8 hit;
+    u8 pad;
+} Unk80032A68_Tri;
+
+extern Unk80032A68_Tri D_80080594[];
+extern void func_80032FD8(void);
+extern void func_80056ADC(SVECTOR *v, s16 arg1);
+
+void func_80032A68(Unk800584A4 *obj) {
+    Unk8003BA6C_Task *task;
+    Unk80032FD8 *e;
+    SVECTOR v[15];
+    s32 params[6];
+    s16 x0, z0, x1, z1;
+    s16 dy, y;
+    s16 cx, cz;
+    s16 dx, dz;
+    s16 i;
+    s16 k;
+
+    if (obj->unk2A == 0) {
+        return;
+    }
+    task = func_80021264(func_80032FD8, 1, 0x31C);
+    if (task == NULL) {
+        return;
+    }
+    params[0] = 0x1C;
+    params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
+    params[2] = func_800508F0((SVECTOR *)obj) * 4;
+    params[3] = 0x400;
+    params[4] = 0;
+    params[5] = 0;
+    func_8004FB78(params);
+    func_80056ADC((SVECTOR *)obj, 0x200);
+    obj->unk2A = 0;
+    obj->unkA6 = 0;
+    k = 0;
+    e = (Unk80032FD8 *)task->data;
+    i = 0;
+    e->frame = 0;
+    z1 = obj->unk5C;
+    z0 = obj->unk54;
+    x1 = obj->unk58;
+    x0 = obj->unk50;
+    dy = obj->unk5A - obj->unk42;
+    y = dy;
+    cx = (x1 + x0) / 2;
+    e->pos.vx = cx;
+    cz = (z1 + z0) / 2;
+    e->pos.vz = cz;
+    e->pos.vy = obj->unk2;
+    do {
+        v[k].vx = x1 - cx;
+        v[k].vy = y;
+        v[k].vz = z1 - cz;
+        k++;
+        v[k].vx = 0;
+        v[k].vy = y;
+        v[k].vz = 0;
+        k++;
+        v[k].vx = x0 - cx;
+        v[k].vy = y;
+        v[k].vz = z0 - cz;
+        k++;
+        y -= dy >> 2;
+        i++;
+    } while (i < 5);
+    k = 0;
+    i = 0;
+    do {
+        e->hits[i] = D_80080594[i].hit;
+        e->v[k].vx = v[D_80080594[i].a].vx;
+        e->v[k].vy = v[D_80080594[i].a].vy;
+        e->v[k].vz = v[D_80080594[i].a].vz;
+        k++;
+        e->v[k].vx = v[D_80080594[i].b].vx;
+        e->v[k].vy = v[D_80080594[i].b].vy;
+        e->v[k].vz = v[D_80080594[i].b].vz;
+        k++;
+        e->v[k].vx = v[D_80080594[i].c].vx;
+        e->v[k].vy = v[D_80080594[i].c].vy;
+        e->v[k].vz = v[D_80080594[i].c].vz;
+        k++;
+        i++;
+    } while (i < 16);
+    k = 0;
+    i = 0;
+    do {
+        dx = func_8001E9DC(20) - 10;
+        e->d[k].vx = dx;
+        e->d[k].vy = func_8001E9DC(100);
+        dz = func_8001E9DC(20) - 10;
+        e->d[k].vz = dz;
+        e->d[k + 1].vx = func_8001E9DC(20) - 10;
+        e->d[k + 1].vy = func_8001E9DC(100);
+        e->d[k + 1].vz = func_8001E9DC(20) - 10;
+        e->d[k + 2].vx = func_8001E9DC(20) - 10;
+        e->d[k + 2].vy = func_8001E9DC(100);
+        e->d[k + 2].vz = func_8001E9DC(20) - 10;
+        if (dx < 0) {
+            if (e->d[k + 1].vx > 0) {
+                e->d[k + 1].vx = -e->d[k + 1].vx;
+            }
+            if (e->d[k + 2].vx > 0) {
+                e->d[k + 2].vx = -e->d[k + 2].vx;
+            }
+        } else {
+            if (e->d[k + 1].vx < 0) {
+                e->d[k + 1].vx = -e->d[k + 1].vx;
+            }
+            if (e->d[k + 2].vx < 0) {
+                e->d[k + 2].vx = -e->d[k + 2].vx;
+            }
+        }
+        if (dz < 0) {
+            if (e->d[k + 1].vz > 0) {
+                e->d[k + 1].vz = -e->d[k + 1].vz;
+            }
+            if (e->d[k + 2].vz > 0) {
+                e->d[k + 2].vz = -e->d[k + 2].vz;
+            }
+        } else {
+            if (e->d[k + 1].vz < 0) {
+                e->d[k + 1].vz = -e->d[k + 1].vz;
+            }
+            if (e->d[k + 2].vz < 0) {
+                e->d[k + 2].vz = -e->d[k + 2].vz;
+            }
+        }
+        i++;
+        k += 3;
+    } while (i < 16);
+    e->timer = 0x40;
+}
+#endif
 
 typedef struct {
     u32 tag;
