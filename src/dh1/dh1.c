@@ -17760,7 +17760,117 @@ void func_80062700(u8 *rgb, s16 x, s16 z) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800627B8);
 
+// NON_MATCHING: registers and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80062A78);
+#else
+typedef struct {
+    s16 a;
+    s16 b;
+    u8 pad4[4];
+} Unk80062A78_Seg;
+
+typedef struct {
+    u8 pad0[0x38];
+    Anim anim0;
+    u8 pad58[0x40];
+    Unk8005E91C_Anim anim[8];
+    Unk80062A78_Seg seg[8];
+    s16 unk258;
+    s16 unk25A;
+    u8 pad25C[0x6A];
+    u8 unk2C6[8];
+    s16 unk2CE[8];
+    u16 count;
+    s16 mode;
+    s16 unk2E2;
+    u8 pad2E4[4];
+    s16 unk2E8;
+} Unk80062A78;
+
+extern SVECTOR D_800A2BC4;
+extern SVECTOR D_800A2BCC;
+
+void func_80062A78(void) {
+    Unk80062A78 *v = (Unk80062A78 *)D_800A317C->vals;
+    SVECTOR rot;
+    SVECTOR p1;
+    SVECTOR off = D_800A2BC4;
+    SVECTOR unused = D_800A2BCC;
+    SVECTOR p2;
+    s16 fade;
+    s16 dist;
+    s16 r;
+    s16 i;
+    Unk8005E91C_Anim *a;
+
+    rot.vx = 0;
+    rot.vz = 0;
+    off.vz = -0xC4E;
+    rot.vy = v->unk258;
+    func_80043E14(&rot, &off, &D_800A2F04, &D_800A34B4);
+    D_800A3544.vx = 0;
+    D_800A3544.vz = 0;
+    D_800A3544.vy = v->unk25A + rot.vy;
+    dist = func_80061A58(&D_800A34B4);
+    if (dist < 0xC00) {
+        dist = 0xC00;
+    }
+    r = func_8002501C(&D_800A34B4, &D_800A3544, dist, 0, &v->anim0);
+    if (D_800A326C > 8 && r >= 8) {
+        u32 *ot = D_800A32E4 + D_800A326C;
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+        }
+    }
+    off.vz = -0xA8C;
+    if (v->unk2E8 > 0x10C0) {
+        fade = 0x1000 - (v->unk2E2 - 0x10C0) * 8;
+        if (fade > 0x1000) {
+            fade = 0x1000;
+        }
+    } else {
+        fade = 0x1000;
+    }
+    i = v->count;
+    while (i--) {
+        rot.vy += 100;
+        func_80043E14(&rot, &off, &D_800A2F04, &p1);
+        D_800A34B4.vx = 0;
+        D_800A34B4.vy = 0;
+        D_800A3544.vx = 0;
+        D_800A3544.vz = 0;
+        D_800A34B4.vz = v->seg[i].a;
+        D_800A3544.vy = v->seg[i].b;
+        func_80043E14(&D_800A3544, &D_800A34B4, &D_800A2F04, &p2);
+        v->seg[i].a = func_800437C8(v->seg[i].a, v->unk2E8, 0x28);
+        v->seg[i].b = func_80043814(v->seg[i].b, rot.vy, 0x20);
+        if (v->mode == 2) {
+            D_800A3544.vy = rot.vy + 0x800;
+        } else {
+            D_800A3544.vy = func_80028B04((Unk8002A35C *)&p1, (Unk8002A35C *)&p2);
+        }
+        if (func_8002A35C((Unk8002A35C *)&p1, (Unk8002A35C *)&p2) > 10) {
+            func_80024EA0((Anim *)&v->anim[i], 7, func_80024D64(7), (func_8001E9DC(0x14) + 0x52) * 3, 8);
+        } else {
+            D_800A3544.vy = rot.vy + 0x800;
+            func_80024DA8(&v->anim[i], 0, 0, 0, 8);
+        }
+        a = &v->anim[i];
+        func_80024EF0((Anim *)a);
+        D_800A3544.vy = v->unk2CE[i] = func_80043814(v->unk2CE[i], D_800A3544.vy, 0xA0);
+        func_80024B28((Obj80024D00 *)a, (v->unk2C6[i] - 0x41) % D_800A324C);
+        r = func_8002501C(&p2, &D_800A3544, fade, 0, (Anim *)a);
+        if (D_800A326C > 8 && r >= 8) {
+            u32 *ot = D_800A32E4 + D_800A326C;
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrims(ot, D_800A2FAC + 0x14, D_800A2FAC);
+            }
+        }
+        func_800620A8(&p2, v->unk2C6[i], 0x400, D_800A3344, 0);
+    }
+}
+#endif
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2BC4);
 
