@@ -13638,8 +13638,6 @@ void func_8004ED2C(s16 *angle, s16 *speed) {
     }
 }
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004EDB0);
-
 typedef struct {
     s16 x;
     s16 y;
@@ -13664,6 +13662,144 @@ typedef struct {
     s16 unkFA[8];
     s16 unk10A;
 } Unk8004F364;
+
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004EDB0);
+#else
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u16 uv0;
+    u16 clut;
+    s16 x1, y1;
+    u32 uvt1;
+    s16 x2, y2;
+    u16 uv2;
+    u16 pad1E;
+    s16 x3, y3;
+    u16 uv3;
+    u16 pad26;
+} Unk8004EDB0_Prim;
+
+void func_8004EDB0(void) {
+    Unk8004EDB0_Prim *prim = D_800A3374;
+    Unk8004F364 *obj = (Unk8004F364 *)D_800A317C->vals;
+    s32 limit = D_800AA8EC[D_800A333C].end;
+    s16 sxy[2];
+    VECTOR v;
+    u8 *tex;
+    s16 *j;
+    u32 *ot;
+    s32 ax;
+    s32 z;
+    s32 r;
+    s16 c;
+    s16 k;
+    s16 i;
+
+    D_800A317C->unk28 = 0xFF;
+    D_800A317C->unk29 = 0xFF;
+    D_800A317C->unk2A = 0xFF;
+    PushMatrix();
+    D_800A349C.vx = obj->pos.x - D_800A3194.vx;
+    D_800A349C.vz = obj->pos.z - D_800A3194.vz;
+    D_800A349C.vy = obj->pos.y - D_800A3194.vy;
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    SetRotMatrix(&D_801C0B64);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    RotTrans((SVECTOR *)&D_800A2A10, &v, &D_800A3394);
+    ax = v.vx;
+    if (ax < 0) {
+        ax = -ax;
+    }
+    if (v.vz >= ax && v.vz >= 0x20) {
+        i = 7;
+        do {
+            if (obj->unk90[i] < 0x40 && obj->unkFA[i] == 0) {
+                obj->pts[i].y += 0x10 + (obj->unk90[i] >> 1);
+                z = RotTransPers((SVECTOR *)&obj->pts[i], (s32 *)sxy, &D_800A2EFC, &D_800A3394) * 4;
+                if (z > 0x50 && z < 0x27D8) {
+                    if ((u16)(sxy[1] + 0x1F) < 0x11F && sxy[1] < 0xC00) {
+                        r = ((obj->unk90[i] * 8 + 0xFA) << 8) / z;
+                        if ((s32)prim < limit - 0x50) {
+                            j = &obj->unkB0[i & 7];
+                            prim->x0 = sxy[0] - r + (j[0] >> 4);
+                            prim->y0 = sxy[1] - r + (j[1] >> 4);
+                            prim->x1 = sxy[0] + r + (j[2] >> 4);
+                            prim->y1 = sxy[1] - r + (j[3] >> 4);
+                            prim->x3 = sxy[0] + r + (j[4] >> 4);
+                            prim->y3 = sxy[1] + r + (j[5] >> 4);
+                            prim->x2 = sxy[0] - r + (j[6] >> 4);
+                            prim->y2 = sxy[1] + r + (j[7] >> 4);
+                            tex = (u8 *)D_800A3154 + 0xBDC;
+                            *(u32 *)&prim->uv0 = *(u32 *)(tex + 0);
+                            prim->uvt1 = *(u32 *)(tex + 0x10);
+                            prim->uv2 = *(u16 *)(tex + 8);
+                            prim->uv3 = *(u16 *)(tex + 0xC);
+                            setlen(prim, 9);
+                            prim->code = 0x2E;
+                            c = obj->unk90[i];
+                            if (c < 0x10) {
+                                c *= 8;
+                            } else {
+                                c = 0x40 - c;
+                                if (c < 0x10) {
+                                    c *= 8;
+                                } else {
+                                    c = 0x80;
+                                }
+                            }
+                            if (c > 0x80) {
+                                c = 0x80;
+                            }
+                            prim->code &= ~1;
+                            prim->r0 = c;
+                            prim->g0 = c;
+                            prim->b0 = c;
+                            prim->code |= 2;
+                            ot = &D_800A32E4[z >> 3];
+                            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                                AddPrim(ot, prim);
+                            }
+                            prim++;
+                        }
+                    }
+                }
+                obj->unk90[i]++;
+            }
+        } while (i-- != 0);
+        D_800A3374 = prim;
+        if (((Unk800584A4 *)obj->unk8C)->unk2A == 0) {
+            obj->unkF8 = 0;
+        }
+        obj->unkF8--;
+        func_8004ED2C(obj->unkB0, obj->unkD0);
+        k = func_8001E9DC(8);
+        if (obj->unkF2 != 0) {
+            obj->unkF2--;
+        } else if (obj->unk90[k] == 0x40) {
+            if (obj->unkF8 > 0) {
+                obj->unkF2 = 8;
+                obj->unk90[k] = 0;
+                obj->pts[k].x = func_8001E9DC(0x40) - 0x20;
+                obj->pts[k].y = func_8001E9DC(0x40) - 0x20;
+                obj->pts[k].z = func_8001E9DC(0x40) - 0x20;
+            } else {
+                obj->unkF2 = 8;
+                obj->unk90[k] = 0;
+                obj->unkFA[k] = 1;
+                if (++obj->unk10A == 8) {
+                    func_80021554();
+                }
+            }
+        }
+    }
+    PopMatrix();
+}
+#endif
 
 extern void func_8004EDB0();
 
