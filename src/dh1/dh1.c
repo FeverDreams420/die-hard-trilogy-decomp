@@ -21147,7 +21147,154 @@ void func_80061FF4(s32 arg0, s16 arg1, s16 arg2) {
     }
 }
 
+// NON_MATCHING: stack layout and register allocation (21 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800620A8);
+#else
+typedef struct {
+    SVECTOR *v[4];
+    u8 pad10[2];
+    s16 tri;
+} Unk800620A8_Face;
+
+typedef struct {
+    u8 pad0[0xC];
+    u16 count;
+    u8 padE[6];
+    Unk800620A8_Face faces[1];
+} Unk800620A8_Mesh;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u8 r1, g1, b1, pad1;
+    s32 xy1;
+    u8 r2, g2, b2, pad2;
+    s32 xy2;
+    u8 r3, g3, b3, pad3;
+    s32 xy3;
+} Unk800620A8_Prim;
+
+extern VECTOR D_8007B49C;
+extern SVECTOR D_80085370[];
+extern u8 D_800A2A40[];
+extern u8 D_800A2A44[];
+extern u8 D_800A2A48[];
+extern u8 D_800A2A50[];
+extern s32 D_80080F24[];
+extern void SetPolyG3(void *p);
+extern void SetPolyG4(void *p);
+
+void func_800620A8(SVECTOR *pos, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    Vec16 ang;
+    VECTOR a;
+    VECTOR b;
+    VECTOR c;
+    u32 grad[8];
+    VECTOR scale = D_8007B49C;
+    Unk800620A8_Mesh *mesh;
+    Unk800620A8_Face *f;
+    Unk800620A8_Prim *p;
+    u8 *from;
+    u8 *to;
+    u8 *g;
+    u32 *ot;
+    s32 t;
+    s32 z;
+    s16 id;
+    s16 n;
+    s16 k;
+
+    func_80023C7C(&D_800A30AC, &D_801FB868);
+    ApplyMatrix(&D_801FB868, (SVECTOR *)((u8 *)D_800A351C + 0x38), &a);
+    ApplyMatrix(&D_801FB868, (SVECTOR *)((u8 *)D_800A351C + 0x58), &b);
+    c.vx = pos->vx + ((a.vx + b.vx) >> 1);
+    c.vy = pos->vy + ((a.vy + b.vy) >> 1);
+    c.vz = pos->vz + ((a.vz + b.vz) >> 1);
+    D_800A349C.vx = c.vx - D_800A3194.vx;
+    D_800A349C.vy = c.vy - D_800A3194.vy;
+    D_800A349C.vz = c.vz - D_800A3194.vz;
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    func_80028F00((Vec32 *)&a, (Vec32 *)&b, &ang);
+    ang.vy = 0xC00 - ang.vy;
+    func_80023660((SVECTOR *)&ang, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &scale);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    if (RotNclip3(&D_80085370[0], &D_80085370[1], &D_80085370[2], (s32 *)&D_800A34B4, (s32 *)&D_800A34B4,
+                  (s32 *)&D_800A34B4, (s32 *)&D_800A2EFC, (s32 *)&D_800A2EFC, &D_800A3394) <= 0) {
+        to = D_800A2A30;
+        from = D_800A2A50;
+    } else {
+        to = D_800A2A40;
+        from = D_800A2A44;
+    }
+    if ((u16)arg4 != 0) {
+        to = D_800A2A48;
+        from = D_800A2A30;
+    }
+    k = 7;
+    do {
+        t = k * 0x249;
+        g = (u8 *)&grad[k];
+        g[0] = func_800296F8(from[0], to[0], t);
+        g[1] = func_800296F8(from[1], to[1], t);
+        g[2] = func_800296F8(from[2], to[2], t);
+    } while (k-- != 0);
+    z = RotTransPers(&D_800A2A10, (s32 *)&D_800A34B4, &D_800A2EFC, &D_800A3394);
+    D_800A326C = z;
+    if (z < (s16)arg3) {
+        D_800A326C = z - 0x60;
+    } else {
+        D_800A326C = z + 0x80;
+    }
+    D_800A326C >>= 1;
+    id = arg1 - 0x37;
+    if (D_800A326C >= 8 && (u16)id < 0x24) {
+        mesh = func_8003E414(D_80080F24, id);
+        n = mesh->count;
+        f = mesh->faces;
+        while (n-- != 0) {
+            if (f->tri != 0) {
+                p = D_800A3374;
+                RotTransPers3(f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy2, (s32 *)&D_800A2EFC, &D_800A3394);
+                if (!(D_800A3394 & 0xFFFE0000)) {
+                    *(u32 *)&p->r0 = grad[f->v[2]->pad];
+                    *(u32 *)&p->r1 = grad[f->v[1]->pad];
+                    *(u32 *)&p->r2 = grad[f->v[0]->pad];
+                    SetPolyG3(p);
+                    ot = &D_800A32E4[D_800A326C];
+                    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                        AddPrim(ot, p);
+                        p = (Unk800620A8_Prim *)((u8 *)p + 0x1C);
+                    }
+                    D_800A3374 = p;
+                }
+            } else {
+                p = D_800A3374;
+                RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy3, &p->xy2, &D_800A2EFC, &D_800A3394);
+                if (!(D_800A3394 & 0xFFFE0000)) {
+                    *(u32 *)&p->r0 = grad[f->v[3]->pad];
+                    *(u32 *)&p->r1 = grad[f->v[2]->pad];
+                    *(u32 *)&p->r2 = grad[f->v[0]->pad];
+                    *(u32 *)&p->r3 = grad[f->v[1]->pad];
+                    SetPolyG4(p);
+                    ot = &D_800A32E4[D_800A326C];
+                    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                        AddPrim(ot, p);
+                        p++;
+                    }
+                    D_800A3374 = p;
+                }
+            }
+            f++;
+        }
+    }
+}
+#endif
 
 void func_80062700(u8 *rgb, s16 x, s16 z) {
     s32 dx = (x - D_800A3554) >> 3;
