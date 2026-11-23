@@ -12424,7 +12424,179 @@ void func_800418DC(void *file) {
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041AB4);
 
+// NON_MATCHING: next-corner index (k + 1) % 4 recomputed per use in the original, spills (117 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80041C48);
+#else
+extern Grid D_800A79F0;
+
+void func_80041C48(Unk800436E4_Probe *probe) {
+    Unk800385F4_Pt pt[4];
+    Unk800385F4_Pt push[4];
+    s32 len[4];
+    s32 dist[4];
+    Unk800385F4_Pt *p;
+    Unk800385F4_Pt *q;
+    Unk800418DC *b;
+    s16 *list;
+    s32 gx, gz;
+    s32 dx, dz;
+    s32 ox, oz;
+    s32 a, c;
+    s32 cw, sd, cd, sw;
+    s32 ex, ez;
+    s32 t;
+    s32 px, pz;
+    u32 cell;
+    s16 top, bot, h;
+    s16 best;
+    s16 bi;
+    s16 inside;
+    s16 id;
+    s16 k;
+
+    if (ABS(probe->x) >= 0x4000 || ABS(probe->z) >= 0x4000) {
+        return;
+    }
+    gx = probe->x + (D_800A79F0.x << 9);
+    gz = probe->z + (D_800A79F0.z << 9);
+    cell = gx / 1024 + (gz / 1024) * 32;
+    if (cell >= 0x400) {
+        return;
+    }
+    list = (s16 *)D_800A32B4[cell];
+    bot = probe->y;
+    top = probe->y + probe->unk1C;
+    for (id = *list++; id != -1; id = *list++) {
+        b = &D_800A300C[id];
+        if (top < b->y) {
+            continue;
+        }
+        h = b->y + b->h;
+        if (b->angle == 0) {
+            dx = probe->x - b->x;
+            dz = probe->z - b->z;
+            ox = probe->unk18 + b->w - ABS(dx);
+            oz = probe->unk20 + b->d - ABS(dz);
+            if (ox <= 0 || oz <= 0) {
+                continue;
+            }
+            if (bot >= h) {
+                if (probe->floor < h) {
+                    probe->floor = h;
+                }
+                continue;
+            }
+            if (h - bot < 0x80) {
+                if (probe->floor < h) {
+                    probe->floor = h;
+                }
+                probe->unk12 = h - bot;
+                continue;
+            }
+            if (oz < ox) {
+                if (b->z >= probe->z) {
+                    oz = -oz;
+                }
+                probe->unk14 += oz;
+                probe->z += oz;
+            } else {
+                if (b->x >= probe->x) {
+                    ox = -ox;
+                }
+                probe->unk10 += ox;
+                probe->x += ox;
+            }
+            if (bot < b->y && top < h) {
+                probe->unk12 = b->y - top;
+            }
+            probe->hit++;
+            b->unk2C++;
+        } else {
+            a = D_800854C0[(b->angle + 0x400) & 0xFFF];
+            c = D_800854C0[(b->angle + 0x800) & 0xFFF];
+            cw = a * (b->w + 0xA0);
+            sd = c * (b->d + 0xA0);
+            cd = a * (b->d + 0xA0);
+            sw = c * (b->w + 0xA0);
+            ox = (cw + sd) >> 12;
+            oz = (sw - cd) >> 12;
+            pt[0].x = b->x - ox;
+            pt[0].z = b->z - oz;
+            pt[2].x = b->x + ox;
+            pt[2].z = b->z + oz;
+            ox = (cw - sd) >> 12;
+            oz = (sw + cd) >> 12;
+            pt[1].x = b->x - ox;
+            pt[1].z = b->z - oz;
+            pt[3].x = b->x + ox;
+            pt[3].z = b->z + oz;
+            bi = 0;
+            best = 0x7FFF;
+            inside = -1;
+            px = probe->x;
+            pz = probe->z;
+            for (k = 0; k < 4; k++) {
+                p = &pt[k];
+                q = &pt[(k + 1) % 4];
+                if ((p->z - pz) * (q->x - p->x) >= (p->x - px) * (q->z - p->z)) {
+                    inside = 0;
+                    break;
+                }
+                ex = ABS(p->x - q->x);
+                ez = ABS(p->z - q->z);
+                len[k] = (ex * ex + ez * ez) >> 9;
+                t = ((p->z - probe->z) * (p->z - q->z) - (p->x - probe->x) * (q->x - p->x)) >> 9;
+                push[k].x = t * (q->x - p->x) / len[k] + p->x - probe->x;
+                push[k].z = t * (q->z - p->z) / len[k] + p->z - probe->z;
+                dist[k] = SquareRoot0(push[k].x * push[k].x + push[k].z * push[k].z);
+                if (dist[k] < best) {
+                    best = dist[k];
+                    bi = k;
+                }
+            }
+            if (!inside) {
+                continue;
+            }
+            if (bot >= h) {
+                if (probe->floor < h) {
+                    probe->floor = h;
+                }
+                continue;
+            }
+            if (h - bot < 0x80) {
+                if (probe->floor < h) {
+                    probe->floor = h;
+                }
+                probe->unk12 = h - bot;
+                continue;
+            }
+            probe->x += push[bi].x;
+            probe->z += push[bi].z;
+            probe->unk10 += push[bi].x;
+            probe->unk14 += push[bi].z;
+            if (push[bi].x < 0) {
+                probe->x--;
+                probe->unk10--;
+            } else {
+                probe->x++;
+                probe->unk10++;
+            }
+            if (push[bi].z < 0) {
+                probe->z--;
+                probe->unk14--;
+            } else {
+                probe->z++;
+                probe->unk14++;
+            }
+            probe->hit++;
+            if (bot < b->y && top < h) {
+                probe->unk12 = b->y - top;
+            }
+        }
+    }
+}
+#endif
 
 extern short D_800A2F3C;
 extern Obj *D_800A5E90[];
