@@ -4153,7 +4153,176 @@ void func_8002EDA8(Unk8002DB90_Face *f) {
     }
 }
 
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8002EF40);
+#else
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u16 uv0;
+    u16 clut;
+    u8 r1, g1, b1, p1;
+    s32 xy1;
+    u16 uv1;
+    u16 tpage;
+    u8 r2, g2, b2, p2;
+    s32 xy2;
+    u16 uv2;
+    u16 pad2;
+    u8 r3, g3, b3, p3;
+    s32 xy3;
+    u16 uv3;
+    u16 pad3;
+} Unk8002EF40_Prim;
+
+void func_8002EF40(Unk8002DB90_Face *f) {
+    Unk8002CE64_Prim *ft = D_800A31C4;
+    Unk8002EF40_Prim *gt = D_800A3374;
+    Unk8002EF40_Prim *gt2 = gt + 1;
+    u16 *tex;
+    u32 *ot;
+    VECTOR v;
+    s32 sz[4];
+    s32 d0, d1, d2, d3;
+    s32 c0, c1, c2, c3;
+
+    if (RotNclip4(f->v[3], f->v[2], f->v[1], f->v[0], &ft->xy0, &ft->xy1, &ft->xy3, &ft->xy2, &D_800A2EFC, &D_800A326C, &D_800A3394) > 0 && !(D_800A3394 & 0xFFFFE000)) {
+        D_800A326C = func_800293A4();
+        sz[0] = func_800293F0();
+        if (sz[0] < D_800A3264) {
+            func_80070F7C(&sz[0], &sz[1], &sz[2], &sz[3]);
+            sz[0] >>= 3;
+            sz[1] >>= 3;
+            sz[2] >>= 3;
+            sz[3] >>= 3;
+            RotTrans(f->v[3], &v, &D_800A3394);
+            d0 = v.vx;
+            if (d0 < 0) {
+                d0 = -d0;
+            }
+            d0 >>= 3;
+            RotTrans(f->v[2], &v, &D_800A3394);
+            d1 = v.vx;
+            if (d1 < 0) {
+                d1 = -d1;
+            }
+            d1 >>= 3;
+            RotTrans(f->v[1], &v, &D_800A3394);
+            d2 = v.vx;
+            if (d2 < 0) {
+                d2 = -d2;
+            }
+            d2 >>= 3;
+            RotTrans(f->v[0], &v, &D_800A3394);
+            d3 = v.vx;
+            if (d3 < 0) {
+                d3 = -d3;
+            }
+            d3 >>= 3;
+            sz[0] = 0x80 - (D_800A3264 - sz[0]) * 2;
+            sz[1] = 0x80 - (D_800A3264 - sz[1]) * 2;
+            c0 = d0 + sz[0];
+            c1 = d1 + sz[1];
+            sz[2] = 0x80 - (D_800A3264 - sz[2]) * 2;
+            sz[3] = 0x80 - (D_800A3264 - sz[3]) * 2;
+            c3 = d2 + sz[2];
+            c2 = d3 + sz[3];
+            if (c0 > 0x80) {
+                c0 = 0x80;
+            } else if (c0 < 0) {
+                c0 = 0;
+            }
+            if (c1 > 0x80) {
+                c1 = 0x80;
+            } else if (c1 < 0) {
+                c1 = 0;
+            }
+            if (c2 > 0x80) {
+                c2 = 0x80;
+            } else if (c2 < 0) {
+                c2 = 0;
+            }
+            if (c3 > 0x80) {
+                c3 = 0x80;
+            } else if (c3 < 0) {
+                c3 = 0;
+            }
+            if (c0 + c1 + c2 + c3 == 0) {
+                return;
+            }
+            if (c0 + c1 + c2 + c3 < 0x200) {
+                gt->xy3 = ft->xy3;
+                gt->xy2 = ft->xy2;
+                gt->xy1 = ft->xy1;
+                tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+                gt->xy0 = ft->xy0;
+                gt->uv1 = tex[0];
+                gt->uv0 = tex[2];
+                gt->uv3 = tex[4];
+                gt->uv2 = tex[6];
+                gt->tpage = tex[9];
+                gt->r0 = c0;
+                gt->g0 = c0;
+                gt->b0 = c0;
+                gt->r1 = c1;
+                gt->g1 = c1;
+                gt->b1 = c1;
+                gt->r2 = c2;
+                gt->g2 = c2;
+                gt->b2 = c2;
+                gt->r3 = c3;
+                gt->g3 = c3;
+                gt->b3 = c3;
+                gt->clut = tex[12];
+                *(u32 *)&gt2->r0 = *(u32 *)&gt->r0;
+                gt2->xy0 = gt->xy0;
+                *(u32 *)&gt2->uv0 = *(u32 *)&gt->uv0;
+                *(u32 *)&gt2->r1 = *(u32 *)&gt->r1;
+                gt2->xy1 = gt->xy1;
+                *(u32 *)&gt2->uv1 = *(u32 *)&gt->uv1;
+                *(u32 *)&gt2->r2 = *(u32 *)&gt->r2;
+                gt2->xy2 = gt->xy2;
+                *(u32 *)&gt2->uv2 = *(u32 *)&gt->uv2;
+                *(u32 *)&gt2->r3 = *(u32 *)&gt->r3;
+                gt2->xy3 = gt->xy3;
+                *(u32 *)&gt2->uv3 = *(u32 *)&gt->uv3;
+                gt2->tpage = tex[11];
+                gt2->clut = tex[f->clut + 14];
+                setlen(gt, 12);
+                setcode(gt, 0x3C);
+                setlen(gt2, 12);
+                setcode(gt2, 0x3C);
+                setSemiTrans(gt, 1);
+                setSemiTrans(gt2, 1);
+                ot = D_800A32E4 + D_800A326C;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, gt2);
+                }
+                ot = D_800A32E4 + D_800A326C;
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, gt);
+                }
+                D_800A3374 = gt2 + 1;
+                return;
+            }
+        }
+        tex = (u16 *)((u8 *)D_800A3154 + f->tex);
+        ft->uv1 = tex[0];
+        ft->uv0 = tex[2];
+        ft->uv3 = tex[4];
+        ft->uv2 = tex[6];
+        ft->clut = tex[f->clut + 14];
+        ot = D_800A32E4 + D_800A326C;
+        ft->tpage = tex[3];
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrim(ot, ft);
+        }
+        D_800A31C4++;
+    }
+}
+#endif
 
 void func_8002F4F4(Unk8002DB90_Face *f) {
     Unk8002CE64_Prim *prim = D_800A30A4;
@@ -4314,7 +4483,7 @@ typedef struct {
 } Unk8002FEC0;
 
 extern void func_8002B674();
-extern void func_8002EF40(Unk8002FEC0 *);
+extern void func_8002EF40();
 
 void func_8002FEC0(Unk8002FEC0 *quad) {
     Unk80030090Pt *ref;
