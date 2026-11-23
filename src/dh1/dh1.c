@@ -12760,7 +12760,182 @@ void func_8004B3C8(SVECTOR *pos) {
     d->unk60 = 0xFF;
 }
 
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u16 uv0;
+    u16 clut;
+    s16 x1, y1;
+    u32 uvt1;
+    s16 x2, y2;
+    u16 uv2;
+    u16 pad1E;
+    s16 x3, y3;
+    u16 uv3;
+    u16 pad26;
+} Unk80059DB8_Prim;
+
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004B63C);
+#else
+typedef struct {
+    s16 x, y, z, pad6;
+    s16 rot;
+    s16 angle;
+    s16 unkC;
+    s16 padE;
+    s16 life;
+    s16 speed;
+    s32 size;
+} Unk8004B63C_Part;
+
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[4];
+    s16 unkA;
+    u8 padC[4];
+    Unk8004B63C_Part part[32];
+    s16 timer;
+    s16 count;
+    s16 spin;
+    s16 unk316;
+    s32 sound;
+} Unk8004B63C;
+
+extern int func_80050158(int id, int volume, int pan);
+extern int func_80050358(int handle);
+extern void func_8004BED8(s16 i);
+
+void func_8004B63C(void) {
+    Unk8004B63C *d = (Unk8004B63C *)D_800A317C->vals;
+    Unk80059DB8_Prim *prim = D_800A3374;
+    Unk8004B63C_Part *p;
+    SVECTOR r;
+    VECTOR out;
+    s16 sxy[2];
+    u8 *tex;
+    u32 *ot;
+    s32 z;
+    s32 cs;
+    s32 sn;
+    s16 size;
+    s16 vol;
+    s16 pan;
+    s16 cx;
+    s8 c;
+    s16 i;
+
+    if (d->count < 32 && d->timer != 0) {
+        if (d->sound != -1) {
+            vol = func_80050974((SVECTOR *)d, 0x2000);
+            pan = func_800508F0((SVECTOR *)d);
+            if (vol < 0x800) {
+                vol = 0x800;
+            }
+            func_80050158(d->sound, vol, pan);
+        }
+        if (!(d->timer & 1)) {
+            for (i = 0; i < 32 && d->part[i].life != 0; i++) {
+            }
+            p = &d->part[i];
+            p->x = d->x;
+            p->y = d->y;
+            p->rot = 0;
+            p->z = d->z;
+            p->unkC = 0;
+            p->angle = d->unkA;
+            p->speed = func_8001E9DC(8) + 0x20;
+            p->life = 0x40;
+            p->size = 0x180;
+            d->count++;
+        }
+    }
+    if (d->timer != 0) {
+        d->timer--;
+    } else if (d->count == 0) {
+        func_80050358(d->sound);
+        func_8004BED8(d->unk316);
+        func_80021554();
+    }
+    d->unkA += d->spin;
+    PushMatrix();
+    i = 0;
+    do {
+        p = &d->part[i];
+        r.vx = 0;
+        r.vz = 0;
+        r.vy = p->angle;
+        RotMatrix(&r, &D_801FB868);
+        r.vx = 0;
+        r.vy = 0;
+        r.vz = p->speed;
+        ApplyMatrix(&D_801FB868, &r, &out);
+        p->x += out.vx;
+        p->y += out.vy;
+        p->z += out.vz;
+        i++;
+    } while (i < 32);
+    PopMatrix();
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    RotTransPers((SVECTOR *)d, (s32 *)sxy, &D_800A2EFC, &D_800A3394);
+    cx = sxy[0];
+    i = 0;
+    do {
+        p = &d->part[i];
+        if (p->life != 0) {
+            z = RotTransPers((SVECTOR *)p, (s32 *)sxy, &D_800A2EFC, &D_800A3394) >> 1;
+            D_800A326C = z;
+            if (z > 8 && z < 0x600) {
+                size = p->size / z;
+                p->rot -= sxy[0] - cx;
+                sxy[1] -= size;
+                cs = (size * D_800854C0[(p->rot + 0x400) & 0xFFF]) >> 12;
+                sn = (size * D_800854C0[p->rot & 0xFFF]) >> 12;
+                prim->x0 = sxy[0] - cs;
+                prim->y0 = sn + sxy[1];
+                prim->x1 = sn + sxy[0];
+                prim->y1 = cs + sxy[1];
+                prim->x2 = sxy[0] - sn;
+                prim->y2 = sxy[1] - cs;
+                prim->x3 = cs + sxy[0];
+                prim->y3 = sxy[1] - sn;
+                tex = (u8 *)D_800A3154 + 0x294;
+                *(u32 *)&prim->uv0 = *(u32 *)(tex + 0);
+                prim->uvt1 = *(u32 *)(tex + 0x14);
+                prim->uv2 = *(u16 *)(tex + 8);
+                prim->uv3 = *(u16 *)(tex + 0xC);
+                setlen(prim, 9);
+                prim->code = 0x2C;
+                c = p->life * 4;
+                if (p->life > 16) {
+                    c = 0x40;
+                }
+                prim->r0 = c;
+                prim->g0 = c;
+                prim->b0 = c;
+                prim->code |= 2;
+                ot = &D_800A32E4[D_800A326C];
+                if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                    AddPrim(ot, prim);
+                }
+                prim++;
+            }
+            if (p->life != 0) {
+                p->life--;
+            }
+            if (p->life == 0) {
+                d->count--;
+            }
+            p->size += 0x300;
+        }
+        i++;
+    } while (i < 32);
+    D_800A3374 = prim;
+}
+#endif
 
 typedef struct {
     u8 pad0[8];
@@ -16827,22 +17002,6 @@ typedef struct {
     s16 unk102;
     s16 unk104;
 } Unk8005A22C;
-
-typedef struct {
-    u32 tag;
-    u8 r0, g0, b0, code;
-    s16 x0, y0;
-    u16 uv0;
-    u16 clut;
-    s16 x1, y1;
-    u32 uvt1;
-    s16 x2, y2;
-    u16 uv2;
-    u16 pad1E;
-    s16 x3, y3;
-    u16 uv3;
-    u16 pad26;
-} Unk80059DB8_Prim;
 
 extern void SetPolyFT4(void *p);
 
