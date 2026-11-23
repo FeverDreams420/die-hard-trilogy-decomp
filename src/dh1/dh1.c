@@ -9209,6 +9209,10 @@ typedef struct {
     s16 unk2;
     s16 unk4;
     s16 unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
 } Unk801C1EF0;
 extern Unk801C1EF0 D_801C1EF0;
 
@@ -23047,7 +23051,7 @@ void func_8005C978(Unk8005B554 *obj) {
     func_8005B198(obj);
 }
 
-void func_8005CA3C(void) {
+void func_8005CA3C(Unk8005B554 *obj) {
 }
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005CA44);
@@ -23113,7 +23117,7 @@ void func_8005CB00(Unk8005B554 *obj) {
     func_8005B198(obj);
 }
 
-void func_8005CD64(void) {
+void func_8005CD64(Unk8005B554 *obj) {
 }
 
 // NON_MATCHING: registers, scheduling; the original writes 0x400 to params[3] before adding D_801C1EF6 and tests unkF2 == 0 and == 1 separately
@@ -23250,13 +23254,11 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2EC);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2FC);
 
-// NON_MATCHING: registers, scheduling; the original passes obj to func_8005CA3C and func_8005CD64
+// NON_MATCHING: matches except jtbl_8007B310 lands 4 bytes early; the original pads the table to 8 bytes, which needs the file split
 #ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005D1B4);
 #else
 extern s16 D_801C1ED8;
-extern s16 D_801C1EF8;
-extern s16 D_801C1EFA;
 extern void func_80043308();
 extern void func_8005ABA8();
 extern void func_8005CA44();
@@ -23268,6 +23270,7 @@ void func_8005D1B4(void) {
     s16 weapons[7] = { 0, 15, -1, 30, 30, -1, 30 };
     Unk8005B554_114 *st;
     s16 hit;
+    VECTOR unused[3];
 
     func_8003E384((Unk80045164 *)obj);
     func_8006B350(0xF2000001);
@@ -23282,7 +23285,7 @@ void func_8005D1B4(void) {
         func_8005C8D0((Unk8005C8D0 *)obj);
     }
     if (D_800A343C[0] & 0x800) {
-        func_8005CD64();
+        func_8005CD64(obj);
     }
     switch (obj->unk2C) {
     case 0:
@@ -23295,7 +23298,7 @@ void func_8005D1B4(void) {
         func_8005BFCC(obj);
         break;
     case 3:
-        func_8005CA3C();
+        func_8005CA3C(obj);
         break;
     case 4:
         func_8005C658(obj);
@@ -23365,19 +23368,19 @@ void func_8005D1B4(void) {
             }
         }
     }
-    if (D_801C1EF8 != 0 && obj->unkF4 != D_801C1EF8) {
-        func_80051778(D_801C1EF8, -1);
+    if (D_801C1EF0.unk8 != 0 && obj->unkF4 != D_801C1EF0.unk8) {
+        func_80051778(D_801C1EF0.unk8, -1);
         obj->unkF6 = 999;
-        obj->unkF4 = D_801C1EF8;
-        if (D_801C1EF8 == 1) {
-            D_801C1EF8 = 0;
+        obj->unkF4 = D_801C1EF0.unk8;
+        if (D_801C1EF0.unk8 == 1) {
+            D_801C1EF0.unk8 = 0;
         }
     }
-    if (D_801C1EFA != 0) {
+    if (D_801C1EF0.unkA != 0) {
         obj->unkF8[0] = 50;
         obj->unkF8[1] = 50;
         obj->unkF8[2] = 50;
-        D_801C1EFA = 0;
+        D_801C1EF0.unkA = 0;
     }
 }
 #endif
