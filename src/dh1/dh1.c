@@ -5556,7 +5556,8 @@ typedef struct {
     u8 pad2E[4];
     s16 floor;
     s16 unk34;
-    u8 pad36[2];
+    u8 unk36;
+    u8 pad37;
 } Unk800436E4_Probe;
 
 void func_80041C48(Unk800436E4_Probe *probe);
@@ -7978,7 +7979,175 @@ void func_8003768C(SVECTOR *pos, s16 arg1) {
     d->unk98 = arg1;
 }
 
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80037790);
+#else
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[2];
+    u8 grid[2][0x40];
+    u8 pad88[4];
+    s16 x0;
+    s16 z0;
+    s16 len;
+    u8 pad92[2];
+    s16 count;
+    s16 unk96;
+    s16 unk98;
+} Unk80037790;
+
+typedef struct {
+    s16 d[4][2];
+} Unk80037790_Dirs;
+
+extern Unk80037790_Dirs D_8007A974;
+extern u8 D_8007C450[];
+extern s16 D_801C1EDC;
+
+void func_80037790(void) {
+    Unk80037790 *d = (Unk80037790 *)D_800A317C->vals;
+    Unk80037790_Dirs dirs = D_8007A974;
+    Unk800436E4_Probe probe;
+    u8 *grid;
+    s32 px;
+    s32 pz;
+    s16 x;
+    s16 z;
+    s16 len;
+    s16 type;
+    s16 yoff;
+    s16 dir;
+    s16 dx;
+    s16 dz;
+    s16 k;
+    s16 i;
+
+    x = d->x0;
+    z = d->z0;
+    len = d->len;
+    if (d->unk98 != 0) {
+        type = -0x400;
+    } else {
+        type = d->unk96;
+    }
+    probe.unk18 = 0xFA;
+    probe.unk1C = 0x200;
+    probe.unk20 = 0xFA;
+    probe.unkA = 0;
+    probe.unk28 = 0;
+    probe.unk34 = type;
+    if (d->count == 7) {
+        probe.x = d->x;
+        probe.y = d->y - 300;
+        probe.unk10 = 0;
+        probe.unk12 = 0;
+        probe.unk14 = 0;
+        probe.unk1C = 0x72C;
+        probe.hit = 0;
+        probe.z = d->z;
+        func_80041C48(&probe);
+        probe.x = d->x;
+        probe.y = d->y - 300;
+        probe.z = d->z;
+        probe.unk36 = func_80036DE8((Unk8002A35C *)&probe, x - 3, z - 3, type);
+        if (probe.unk36 != 0xFF) {
+            func_80042570(&probe);
+            if (D_801C1EDC != 0 && probe.hit == 0) {
+                func_800430AC((Obj *)&probe, 0);
+            }
+        }
+        if (probe.hit != 0) {
+            d->x += probe.unk10;
+            d->z += probe.unk14;
+            if (probe.unk10 > 0) {
+                i = 0;
+                do {
+                    d->grid[0][i * 7 + 2] = 1;
+                    d->grid[1][i * 7 + 2] = 1;
+                    i++;
+                } while (i < 7);
+            } else if (probe.unk10 < 0) {
+                i = 0;
+                do {
+                    d->grid[0][i * 7 + 4] = 1;
+                    d->grid[1][i * 7 + 4] = 1;
+                    i++;
+                } while (i < 7);
+            }
+            i = 0;
+            if (probe.unk14 > 0) {
+                do {
+                    d->grid[0][14 + i] = 1;
+                    d->grid[1][14 + i] = 1;
+                    i++;
+                } while (i < 7);
+            } else if (probe.unk14 < 0) {
+                do {
+                    d->grid[0][28 + i] = 1;
+                    d->grid[1][28 + i] = 1;
+                    i++;
+                } while (i < 7);
+            }
+        }
+        d->count--;
+        return;
+    }
+    if (!(d->count & 1)) {
+        yoff = 0;
+        grid = d->grid[0];
+    } else {
+        yoff = 0x300;
+        grid = d->grid[1];
+    }
+    dir = 0;
+    do {
+        dx = dirs.d[dir][0];
+        dz = dirs.d[dir][1];
+        for (i = 1; i < len; i++) {
+            k = x + z * 7;
+            if (grid[D_8007C450[k]] != 0) {
+                grid[k] = 3;
+            } else {
+                probe.y = yoff + d->y;
+                px = (x - 3) << 9;
+                probe.x = d->x + px;
+                pz = (z - 3) << 9;
+                probe.hit = 0;
+                probe.z = d->z + pz;
+                func_80041C48(&probe);
+                if (probe.hit != 0) {
+                    grid[k] = 4;
+                }
+                probe.y = yoff + d->y;
+                probe.x = d->x + px;
+                probe.z = d->z + pz;
+                probe.unk36 = func_80036DE8((Unk8002A35C *)&probe, x - 3, z - 3, type);
+                if (probe.unk36 != 0xFF) {
+                    func_80042570(&probe);
+                    if (probe.hit != 0) {
+                        grid[k] = 1;
+                    } else if (D_801C1EDC != 0) {
+                        func_800430AC((Obj *)&probe, 3);
+                    }
+                }
+            }
+            x += dx;
+            z += dz;
+        }
+        dir++;
+    } while (dir < 4);
+    if (d->count & 1) {
+        d->x0--;
+        d->z0--;
+        d->unk96--;
+        d->len += 2;
+    }
+    if (--d->count == 0) {
+        func_80021554();
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80037D64);
 
