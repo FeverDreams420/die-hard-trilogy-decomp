@@ -18323,7 +18323,210 @@ void func_80053770(void) {
     } while (i--);
 }
 
+// NON_MATCHING: glyph index kept as s16, register allocation (62 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80053864);
+#else
+typedef struct {
+    SVECTOR *v[4];
+    u16 unk10;
+    s16 tri;
+} Unk80053864_Face;
+
+typedef struct {
+    u8 pad0[0xC];
+    u16 count;
+    u8 padE[6];
+    Unk80053864_Face faces[1];
+} Unk80053864_Mesh;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s32 xy0;
+    u8 r1, g1, b1, pad1;
+    s32 xy1;
+    u8 r2, g2, b2, pad2;
+    s32 xy2;
+    u8 r3, g3, b3, pad3;
+    s32 xy3;
+} Unk80053864_Prim;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 u0, v0;
+    u16 clut;
+    s16 x1, y1;
+    u8 u1, v1;
+    u16 tpage;
+    s16 x2, y2;
+    u8 u2, v2;
+    u16 pad1E;
+} Unk80053864_FT3;
+
+extern SVECTOR D_800A2B24;
+extern s16 D_800A3354;
+extern s16 D_800A3334;
+extern s16 D_800A3494;
+extern u8 D_801FC0B8;
+extern void SetPolyG3(void *p);
+extern void SetPolyG4(void *p);
+extern void SetPolyFT3(void *p);
+
+void func_80053864(s32 x, s32 y, char *text, s32 sx, s32 sy, u8 *top, u8 *bottom) {
+    u32 grad[8];
+    VECTOR scale;
+    SVECTOR rot = D_800A2B24;
+    s32 xy;
+    u16 x16 = x;
+    u16 y16 = y;
+    Unk80053864_Mesh *mesh;
+    Unk80053864_Face *f;
+    Unk80053864_Prim *p;
+    Unk80053864_FT3 *ft;
+    u32 *ot;
+    u8 *g;
+    s32 w;
+    s32 dy;
+    s32 t;
+    s16 k;
+    s16 i;
+    s16 n;
+    u8 c;
+    u8 gl;
+
+    k = 7;
+    do {
+        t = k * 0x249;
+        g = (u8 *)&grad[k];
+        g[0] = func_800296F8(bottom[0], top[0], t);
+        g[1] = func_800296F8(bottom[1], top[1], t);
+        g[2] = func_800296F8(bottom[2], top[2], t);
+    } while (k-- != 0);
+    w = 0;
+    if (D_800A3354 == 0) {
+        for (i = 0; text[i] != 0; i++) {
+            c = text[i];
+            if (c == ' ') {
+                w += sx * 24;
+            } else {
+                if (c >= 0x20) {
+                    if (c < 0x3A) {
+                        w += (u8)D_801FC098[c - 0x30] * sx;
+                    } else {
+                        w += (u8)D_801FC098[c - 0x37] * sx;
+                    }
+                }
+                w += 0x1000;
+            }
+        }
+    }
+    D_801C1EC4.vz = 0x100;
+    D_801C1EC4.vx = (s16)x16 - (D_800A3334 >> 1) - (w >> 12) / 2;
+    D_800A3354 = 0;
+    D_801C1EC4.vy = (s16)y16 - (D_800A33C4 >> 1);
+    w = 0;
+    PushMatrix();
+    func_80070FDC(0x100);
+    func_80070FBC(D_800A3334 >> 1, D_800A33C4 >> 1);
+    scale.vx = (sx * 600) >> 12;
+    scale.vy = (sy * 0x555) >> 12;
+    scale.vz = 0x1000;
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    func_8002384C(&rot, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &scale);
+    SetRotMatrix(&D_801FB868);
+    D_800A326C = RotTransPers(&D_800A2A10, &xy, (s32 *)&D_800A3394, &D_800A3394);
+    for (i = 0; text[i] != 0; i++) {
+        c = text[i];
+        if (c == ' ') {
+            D_801FB868.t[0] = ((w + 0x800) >> 12) + D_801C1EC4.vx + ((D_801FC0B8 * sx + 0x1000) >> 13);
+            w += sx * 3 * 8;
+            continue;
+        }
+        if (c < 0x20) {
+            dy = (sy * 0x50) >> 12;
+            D_801FB868.t[1] -= dy;
+            SetTransMatrix(&D_801FB868);
+            D_801FB868.t[1] += dy;
+            gl = c + 0x32;
+        } else {
+            if (c < 0x3A) {
+                gl = c - 0x30;
+            } else {
+                gl = c - 0x37;
+            }
+            D_801FB868.t[0] = ((w + 0x800) >> 12) + D_801C1EC4.vx + (((u8)D_801FC098[gl] * sx + 0x1000) >> 13);
+            SetTransMatrix(&D_801FB868);
+            w = w + (u8)D_801FC098[gl] * sx + 0x17A0;
+        }
+        mesh = func_8003E414(D_80080F24, gl);
+        n = mesh->count;
+        f = mesh->faces;
+        while (n-- != 0) {
+            if (f->tri != 0) {
+                p = D_800A3374;
+                D_800A326C = RotTransPers3(f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy2, (s32 *)&D_800A2EFC, &D_800A3394);
+                if (D_800A326C < 0x20 || !(D_800A3394 & 0xFFFE0000)) {
+                    *(u32 *)&p->r0 = grad[f->v[2]->pad];
+                    *(u32 *)&p->r1 = grad[f->v[1]->pad];
+                    *(u32 *)&p->r2 = grad[f->v[0]->pad];
+                    SetPolyG3(p);
+                    if (D_800A3494 != 0) {
+                        SetSemiTrans(p, 1);
+                    }
+                    ot = &D_800A32E4[D_800A3104];
+                    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                        AddPrim(ot, p);
+                        p = (Unk80053864_Prim *)((u8 *)p + 0x1C);
+                    }
+                    D_800A3374 = p;
+                }
+            } else {
+                p = D_800A3374;
+                D_800A326C = RotTransPers4(f->v[3], f->v[2], f->v[1], f->v[0], &p->xy0, &p->xy1, &p->xy3, &p->xy2, &D_800A2EFC, &D_800A3394);
+                if (D_800A326C < 0x20 || !(D_800A3394 & 0xFFFE0000)) {
+                    *(u32 *)&p->r0 = grad[f->v[3]->pad];
+                    *(u32 *)&p->r1 = grad[f->v[2]->pad];
+                    *(u32 *)&p->r2 = grad[f->v[0]->pad];
+                    *(u32 *)&p->r3 = grad[f->v[1]->pad];
+                    SetPolyG4(p);
+                    if (D_800A3494 != 0) {
+                        SetSemiTrans(p, 1);
+                    }
+                    ot = &D_800A32E4[D_800A3104];
+                    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                        AddPrim(ot, p);
+                        p++;
+                    }
+                    D_800A3374 = p;
+                }
+            }
+            f++;
+        }
+    }
+    if (D_800A3494 != 0) {
+        ft = D_800A3374;
+        D_800A3494 = 0;
+        SetPolyFT3(ft);
+        ft->y0 = 0;
+        ft->y1 = 0;
+        ft->y2 = 0;
+        ot = &D_800A32E4[D_800A3104];
+        ft->tpage = *(u16 *)((u8 *)D_800A3154 + 6);
+        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+            AddPrim(ot, ft);
+            ft++;
+        }
+        D_800A3374 = ft;
+    }
+    PopMatrix();
+    func_80070FDC(D_800A33B4);
+    D_800A3104 = 1;
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800540F4);
 
