@@ -20773,9 +20773,178 @@ void func_8005D9D4(s16 value, char *out) {
     }
 }
 
+// NON_MATCHING: register allocation, load order of the saved player stats (27 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005DB40);
+#else
+typedef struct {
+    s16 state;
+    s16 timer;
+    s16 node;
+    s16 fade;
+} Unk8005DB40;
 
+typedef struct {
+    SVECTOR pos;
+    u8 pad8[8];
+    SVECTOR rot;
+    u8 pad18[0x34];
+    s16 unk4C;
+    s16 unk4E;
+    s16 unk50;
+    u8 pad52[0xE4];
+    s16 unk136;
+} Unk8005DB40_Obj;
+
+extern char D_800A2B5C[];
+extern u8 D_800A2A48[];
+extern s16 D_801D209E[];
+extern s16 D_801D20A0;
+extern s16 D_801D20A2;
+extern s16 D_801D2096;
+extern s16 D_801D20A6;
+extern s16 D_801D20A8;
+extern s16 D_801D20AA;
+extern s16 D_800A2F2C;
+extern s16 D_800A2F74;
+extern s16 D_800A34AC;
+extern void func_8005E478(SVECTOR *pos);
+
+void func_8005DB40(void) {
+    Unk8005DB40 *self = (Unk8005DB40 *)D_800A317C->vals;
+    Unk8005DB40_Obj *obj = (Unk8005DB40_Obj *)D_801F7D44->vals;
+    Unk8005B554 *player;
+    s32 params[6];
+    s16 tmp;
+    s16 w;
+    s16 h;
+    s16 t;
+    s16 r;
+
+    switch (self->state) {
+    case 0:
+        if (self->fade > 0) {
+            self->fade -= 0x18;
+            if (self->fade < 0) {
+                self->fade = 0;
+            }
+            func_8005010C(func_800296F8(0, D_800A350C->unk1784 * 4, self->fade), 0);
+        }
+        if (self->timer == 0x2B2) {
+            func_80020380(0x12);
+            func_8005010C(D_800A350C->unk1784 * 4, 0);
+        }
+        tmp = func_800296F8(0, 0xAF0, (0x1F - (self->timer & 0x1F)) << 7);
+        tmp = func_800296F8(0, 0xA00, (0x1F - (self->timer & 0x1F)) << 7);
+        w = func_800296F8(0x4000, 0x600, (self->timer / 30) << 7);
+        h = func_800296F8(0x1E00, 0x280, (self->timer / 30) << 7);
+        func_800544A8(0xA0, D_800A33C4 - 0x20, "BOMB TRIGGERED", 0x600, 0x280, D_800A2A3C, D_800A2A30);
+        func_80054940(0xA0, D_800A33C4 >> 1, (char *)(self->timer / 30 + 1), w, h, D_800A2A30, D_800A2A48);
+        t = self->timer;
+        if (t != 0) {
+            self->timer = t - 1;
+            if (D_800A32CC != 0) {
+                if (D_801D209C >= 0) {
+                    self->state = 2;
+                    self->timer = 150;
+                } else {
+                    self->timer = t;
+                }
+            }
+            return;
+        }
+        D_800A3174 = 0;
+        func_8004379C(self->node, (SVECTOR *)obj);
+        obj->pos.vy = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+        obj->rot.vx = 0;
+        obj->rot.vy = func_80028B04((Unk8002A35C *)obj, (Unk8002A35C *)&D_800A3194);
+        obj->rot.vz = 0;
+        obj->unk4C = 0;
+        obj->unk4E = 0;
+        obj->unk50 = 0;
+        obj->unk136 = 0x80;
+        self->state = 1;
+        self->timer = 30;
+        D_800A32CC = -1;
+        obj->pos.vy += 0x400;
+        func_8005E478((SVECTOR *)obj);
+        obj->pos.vy -= 0x400;
+        return;
+    case 1:
+        D_800A2A1A = 0x14;
+        func_80053864(0xA0, D_800A33C4 >> 1, "TOO LATE", 0x800, 0x400, D_800A2A3C, D_800A2A30);
+        if (self->timer != 0) {
+            if ((--self->timer & 7) == 0) {
+                r = func_8001E9DC(3) - 1;
+                params[0] = func_8001E9DC(3) + 0x10;
+                params[1] = 0x3FFF;
+                params[2] = (s16)(r << 10);
+                params[3] = 0x400;
+                params[4] = 0;
+                params[5] = 0;
+                func_8004FB78(params);
+            }
+            return;
+        }
+        func_80021554();
+        D_800A34C4 = -1;
+        D_801D209C--;
+        if (D_801F7D50.unk0 != NULL) {
+            player = (Unk8005B554 *)D_801F7D50.unk0->vals;
+            D_801D209E[0] = player->unkF4;
+            D_801D20A0 = player->unkF6;
+            D_801D20A2 = player->unkF2;
+            D_801D2096 = player->unk100;
+            D_801D20A6 = player->unkF8[0];
+            D_801D20A8 = player->unkF8[1];
+            D_801D20AA = player->unkF8[2];
+        }
+        func_80050738(D_800A339C);
+        *(s32 *)((struct Task *)D_801F7D24)->vals = 0;
+        func_80052E18(4);
+        switch (D_800A307C) {
+        case 3:
+        case 8:
+        case 13:
+        case 18:
+        case 22:
+            D_800A2F2C = 0;
+            D_800A2F74 = 0;
+            D_800A307C++;
+            break;
+        default:
+            D_800A2F2C -= D_800A34AC;
+            D_800A2F74 -= D_800A2EE8;
+            break;
+        }
+        break;
+    case 2:
+        func_80053864(0xA0, (D_800A33C4 >> 1) - 0x10, D_800A2B5C, 0x800, 0x400, D_800A2A38, D_800A2A30);
+        func_80053864(0xA0, (D_800A33C4 >> 1) + 0x10, "COMPLETE", 0x800, 0x400, D_800A2A38, D_800A2A30);
+        if (self->timer != 0) {
+            self->timer--;
+            return;
+        }
+        func_80021554();
+        *(s32 *)((struct Task *)D_801F7D24)->vals = 0;
+        D_800A307C++;
+        func_80050738(D_800A339C);
+        if (D_800A307C >= 0x18) {
+            D_800A346C = 5;
+            D_800A319C = -1;
+            D_800A307C = 0x17;
+            func_80052E18(5);
+            return;
+        }
+        func_80052E18(4);
+        break;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B3CC);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B41C);
 
