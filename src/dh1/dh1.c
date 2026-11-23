@@ -1786,7 +1786,171 @@ void *func_80022600(void *p) {
     return (void *)v;
 }
 
+typedef struct {
+    u8 pad0[0x12];
+    u16 flags;
+} Unk80032344_Face;
+
+typedef struct {
+    Unk80032344_Face *faces;
+    void (*unk4)();
+    u8 unk8;
+    u8 unk9;
+    s16 unkA;
+} GridCell;
+
+typedef struct {
+    s16 unk0;
+    u16 x;
+    u16 z;
+    u16 w;
+    u16 h;
+    u8 padA[0x12];
+    GridCell *cells;
+} Grid;
+
+// NON_MATCHING: stack slots of the spilled locals, register allocation (7 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80022610);
+#else
+typedef struct {
+    s16 ang;
+    s16 dx;
+    s16 dz;
+} Unk80022610_Step;
+
+typedef struct {
+    Unk80032344_Face *faces;
+    s16 mode;
+} Unk80022610_List;
+
+extern Grid D_800A79F0;
+extern s16 D_800A2F3C;
+extern s16 D_800A2A22;
+extern s16 D_800A2FC6;
+extern SVECTOR D_800A3194;
+extern s16 D_801C1EE2;
+extern s16 D_800A342C;
+extern s16 D_800A3214;
+extern Unk80022610_List D_801C0B84[];
+extern s16 D_8007C3CC[];
+extern s16 D_8007F528[][32];
+extern Unk80022610_Step D_8007C730[];
+extern void (*D_8007FF9C[])(Unk80032344_Face *f);
+extern void (*D_8008001C[])(Unk80032344_Face *f);
+
+void func_80022610(void) {
+    GridCell *cell;
+    Unk80032344_Face *f;
+    s16 ang;
+    u16 cx;
+    u16 cz;
+    u16 x;
+    u16 z;
+    s16 n;
+    s16 ray;
+    s16 far;
+    s16 lo;
+    s16 hi;
+    s16 k;
+    s16 j;
+
+    D_800A2F3C = 0;
+    D_800A2A22 = 0x480;
+    ang = -D_800A2FC6;
+    cx = D_800A79F0.x + (D_800A3194.vx >> 9);
+    cz = D_800A79F0.z + (D_800A3194.vz >> 9);
+    SetRotMatrix(&D_801C0B64);
+    n = 0;
+    SetTransMatrix(&D_801C0B64);
+    if (cx < D_800A79F0.w && cz < D_800A79F0.h) {
+        cell = D_800A79F0.cells + D_800A79F0.w * cz + cx;
+        cell->unk8 = 0;
+        if (D_801C1EE2 != 0 && cell->unk4 != NULL) {
+            cell->unk4(cx, cz, cell);
+        }
+        if (cell->faces != NULL) {
+            D_801C0B84[n].faces = cell->faces;
+            D_801C0B84[n].mode = 1;
+            n++;
+        }
+    }
+    for (ray = 0; ray < 17; ray++) {
+        far = ray >= 8;
+        hi = (ang & 0xFFF) + D_8007C3CC[ray];
+        lo = (ang & 0xFFF) - D_8007C3CC[ray];
+        if (lo < 0) {
+            lo += 0x1000;
+            hi += 0x1000;
+        }
+        k = D_8007F528[ray][lo / 128];
+        while (D_8007C730[k].ang < lo) {
+            k++;
+        }
+        D_800A342C = 0;
+        j = k - 1;
+        if (j < D_8007F528[ray][0]) {
+            j = D_8007F528[ray][31];
+        }
+        x = cx + D_8007C730[j].dx;
+        z = cz + D_8007C730[j].dz;
+        if (x < D_800A79F0.w && z < D_800A79F0.h) {
+            cell = D_800A79F0.cells + D_800A79F0.w * z + x;
+            cell->unk8 = far;
+            if (D_801C1EE2 != 0 && cell->unk4 != NULL) {
+                cell->unk4(x, z, cell);
+            }
+        }
+        while (hi >= D_8007C730[k].ang) {
+            x = cx + D_8007C730[k].dx;
+            z = cz + D_8007C730[k].dz;
+            k++;
+            if (x < D_800A79F0.w && z < D_800A79F0.h) {
+                cell = D_800A79F0.cells + D_800A79F0.w * z + x;
+                cell->unk8 = far;
+                if (D_801C1EE2 != 0 && cell->unk4 != NULL) {
+                    cell->unk4(x, z, cell);
+                }
+                if (cell->faces != NULL && ray != 16) {
+                    D_801C0B84[n].faces = cell->faces;
+                    if (ray < 8) {
+                        D_801C0B84[n].mode = 1;
+                    } else {
+                        D_801C0B84[n].mode = 0;
+                    }
+                    n++;
+                }
+            }
+        }
+        x = cx + D_8007C730[k].dx;
+        z = cz + D_8007C730[k].dz;
+        if (x < D_800A79F0.w && z < D_800A79F0.h) {
+            cell = D_800A79F0.cells + D_800A79F0.w * z + x;
+            cell->unk8 = far;
+            if (D_801C1EE2 != 0 && cell->unk4 != NULL) {
+                cell->unk4(x, z, cell);
+            }
+        }
+    }
+    while (n-- != 0) {
+        f = D_801C0B84[n].faces;
+        switch (D_801C0B84[n].mode) {
+        case 0:
+            do {
+                D_8007FF9C[f->flags & 0x1F](f);
+                D_800A3214++;
+            } while (!((f++)->flags & 0x80));
+            break;
+        case 1:
+            do {
+                D_8008001C[f->flags & 0x1F](f);
+                D_800A3214++;
+            } while (!((f++)->flags & 0x80));
+            break;
+        }
+    }
+}
+#endif
 
 typedef struct {
     s32 end;
@@ -2658,11 +2822,6 @@ extern Vec32 D_801D2058;
 extern Vec32 D_800A7FD4;
 extern s32 D_801D70F0[];
 extern s32 D_801D723C[];
-
-typedef struct {
-    u8 pad0[0x12];
-    u16 flags;
-} Unk80032344_Face;
 
 extern void (*D_8007FF9C[])(Unk80032344_Face *f);
 
@@ -5367,22 +5526,6 @@ typedef struct {
     char pad6[0xBE];
     s16 cell;
 } Unk80031200;
-
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s16 unk8;
-    s16 unkA;
-} GridCell;
-
-typedef struct {
-    s16 unk0;
-    u16 x;
-    u16 z;
-    u16 w;
-    u8 pad8[0x14];
-    GridCell *cells;
-} Grid;
 
 extern Grid D_800A79F0;
 
