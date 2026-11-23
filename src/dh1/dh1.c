@@ -9462,9 +9462,288 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB0C);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB28);
 
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003D280);
+#else
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[2];
+    s16 unk8, unkA, unkC;
+    u8 padE[2];
+    s16 unk10, unk12, unk14;
+    u8 pad16[2];
+    s16 unk18, unk1A, unk1C;
+    u8 pad1E[0xA];
+    s16 type;
+    u8 pad2A[2];
+    s16 unk2C;
+    u8 pad2E[2];
+    s16 unk30;
+    u8 pad32[0x1A];
+    s16 unk4C, unk4E, unk50;
+    u8 pad52[0x10];
+    s16 unk62;
+    u8 anim[2];
+    s16 unk66;
+    u8 pad68[2];
+    s16 unk6A;
+    u8 pad6C[4];
+    s32 unk70;
+    u8 pad74[6];
+    s16 unk7A;
+    u8 pad7C[8];
+    s16 unk84, unk86, unk88, unk8A, unk8C;
+    u8 pad8E[3];
+    u8 unk91;
+    s16 unk92;
+    s16 unk94, unk96, unk98;
+    u8 pad9A[2];
+    s16 unk9C, unk9E, unkA0;
+    u8 padA2[2];
+    s16 unkA4, unkA6, unkA8;
+    u8 padAA[2];
+    s32 unkAC, unkB0, unkB4;
+    u8 padB8[6];
+    s16 unkBE;
+    s16 unkC0;
+    u8 padC2[6];
+    s16 unkC8;
+    u8 padCA;
+    u8 unkCB;
+    u8 padCC[6];
+    s16 unkD2, unkD4, unkD6;
+    u8 padD8[6];
+    s16 unkDE, unkE0;
+    u8 padE2[8];
+    s16 unkEA;
+    s16 unkEC;
+    u8 padEE[2];
+    s16 unkF0, unkF2, unkF4, unkF6;
+    s16 unkF8[3];
+    s16 unkFE, unk100, unk102, unk104, unk106, unk108, unk10A, unk10C, unk10E, unk110, unk112;
+    s16 vals[8];
+    u8 pad124[0x34];
+    s16 unk158, unk15A, unk15C, unk15E, unk160;
+    u8 pad162[2];
+} Unk8003D280_Obj;
 
+typedef struct {
+    u8 type;
+    u8 unk1, unk2, unk3, unk4, unk5, unk6;
+    u8 pad7[2];
+    u8 unk9, unkA, unkB;
+    s16 vals[8];
+} Unk8003D280_Spawn;
+
+typedef struct {
+    u8 pad0[8];
+    SVECTOR pos[8];
+    SVECTOR rot[8];
+    s16 ids[8];
+    s16 count;
+    u8 pad9A[2];
+    s16 node;
+} Unk8003D280;
+
+typedef struct {
+    u8 v[5];
+} Unk8003D280_Tbl;
+
+extern Unk8003D280_Tbl D_800A2AB0;
+extern u8 *D_800A2F1C;
+extern void (*D_80080994[])();
+extern char D_8007AB0C[];
+extern char D_8007AB28[];
+extern struct Task *volatile D_801F7D58;
+extern void func_80067670();
+extern int printf(const char *fmt, ...);
+extern void func_8003E1D0(void);
+extern s16 D_801D209E[];
+extern s16 D_801D20A0;
+extern s16 D_801D20A2;
+extern s16 D_801D2096;
+extern s16 D_801D20A6;
+extern s16 D_801D20A8;
+extern s16 D_801D20AA;
+
+void func_8003D280(void) {
+    Unk8003D280 *d = (Unk8003D280 *)D_800A317C->vals;
+    Unk8003D280_Tbl tbl = D_800A2AB0;
+    Unk8003D280_Spawn *spawn;
+    Unk8003D280_Obj *obj;
+    struct Task *task;
+    struct Task *self;
+    Unk800A30B4 *e;
+    u32 *p;
+    u16 t;
+    s16 i;
+    s16 j;
+
+    for (i = 0; i < d->count; i++) {
+        spawn = (Unk8003D280_Spawn *)(D_800A2F1C + d->ids[i] * 0x1C);
+        if (spawn->type == 0x13) {
+            func_80067670(spawn);
+            continue;
+        }
+        if (D_800A3084[d->node].unk16 == 3) {
+            task = (struct Task *)func_80021264(func_8003E1D0, 1, 0x164);
+            if (task == NULL) {
+                printf(D_8007AB0C);
+                return;
+            }
+            task->saved = D_80080994[spawn->type];
+        } else {
+            task = (struct Task *)func_80021264(D_80080994[spawn->type], 1, 0x164);
+            if (task == NULL) {
+                printf(D_8007AB28);
+                return;
+            }
+        }
+        obj = (Unk8003D280_Obj *)task->vals;
+        p = (u32 *)obj;
+        t = 0;
+        do {
+            *p++ = 0;
+            t++;
+        } while (t < 0x59);
+        obj->type = spawn->type;
+        obj->x = d->pos[i].vx;
+        obj->y = d->pos[i].vy;
+        obj->z = d->pos[i].vz;
+        obj->unk62 = func_8003D890((Unk80045164 *)obj);
+        if (obj->unk62 == -1) {
+            self = D_800A317C;
+            D_800A317C = task;
+            func_80021554();
+            D_800A317C = self;
+            return;
+        }
+        obj->unkBE = 0;
+        obj->unk10 = 0;
+        obj->unk12 = d->rot[i].vy;
+        obj->unk14 = 0;
+        obj->unk18 = 0;
+        obj->unk1A = 0;
+        obj->unk1C = 0;
+        obj->unk4C = 0;
+        obj->unk4E = 0;
+        obj->unk50 = 0;
+        obj->unk30 = 0;
+        obj->unk2C = 0;
+        obj->unkA = obj->y;
+        obj->unkC = obj->z;
+        obj->unk8 = obj->x;
+        obj->unk112 = obj->unk12;
+        obj->unk70 = func_8001E9DC(0x1000);
+        obj->unk6A = 0xA4;
+        obj->unk66 = 0;
+        obj->unk7A = 0;
+        obj->unkD4 = 0;
+        obj->unkEA = func_8001E9DC(50) + 20;
+        obj->unk160 = func_8001E9DC(70) + 20;
+        obj->unk10E = 10;
+        obj->unk9C = 0;
+        obj->unk9E = 0;
+        obj->unkA0 = 0;
+        obj->unkA4 = 0;
+        obj->unkA6 = 0;
+        obj->unkA8 = 0;
+        obj->unkAC = 200;
+        obj->unkB0 = 0x380;
+        obj->unkB4 = 200;
+        obj->unkC0 = 0;
+        obj->unkBE = 0;
+        obj->unkC8 = 0;
+        obj->unkDE = 0;
+        obj->unkE0 = 0;
+        obj->unk104 = 0;
+        obj->unk106 = 0;
+        obj->unk108 = 1;
+        obj->unk94 = obj->x;
+        obj->unk96 = obj->y;
+        obj->unk98 = obj->z;
+        obj->unkCB = obj->unk62;
+        obj->unkFE = 0;
+        obj->unk100 = spawn->unk2 * 5;
+        for (j = 0; j < 3; j++) {
+            obj->unkF8[i] = 0;
+        }
+        obj->unkF4 = spawn->unk3 - 1;
+        if (obj->unkF4 < 0) {
+            obj->unkF4 = 0;
+        }
+        if (spawn->unkA != 0) {
+            (&obj->unkF6)[spawn->unkA] = spawn->unkB;
+        }
+        obj->unk102 = spawn->unk4;
+        obj->unkD2 = spawn->unk5;
+        obj->unk10A = 0x352;
+        obj->unk10C = 0x1400;
+        obj->unkF2 = spawn->unk6 + 1;
+        obj->unk110 = tbl.v[spawn->unk9];
+        obj->unkF0 = 0;
+        obj->unkEC = 3;
+        obj->unk158 = 0;
+        obj->unk15C = 0;
+        obj->unk15E = 0;
+        obj->unkD6 = d->node;
+        func_80024D00((Obj80024D00 *)obj->anim);
+        func_80024DA8((Anim *)obj->anim, 8, 0, 0xA4, 4);
+        func_80024DA8((Anim *)obj->anim, D_8007C560[obj->unkF4], 0, 0xA4, 4);
+        if (spawn->unk1 >= 4 && spawn->unk1 < 9) {
+            obj->unk15A = 1;
+        } else {
+            obj->unk15A = 0;
+        }
+        e = &D_800A30B4[spawn->unk1];
+        obj->unk84 = e->unk0;
+        obj->unk86 = e->unk2;
+        obj->unk88 = e->unk4;
+        obj->unk8A = e->unk6;
+        obj->unk8C = e->unk8;
+        obj->unk92 = 0;
+        obj->unk91 = e->unkA;
+        switch (obj->type) {
+        case 0:
+            D_801F7D50.unk0 = task;
+            obj->unkF2 = D_801D20A2;
+            obj->unkF4 = D_801D209E[0];
+            obj->unkF6 = D_801D20A0;
+            obj->unk100 = D_801D2096;
+            obj->unkF8[0] = D_801D20A6;
+            obj->unkF8[1] = D_801D20A8;
+            obj->unkF8[2] = D_801D20AA;
+            break;
+        case 6:
+        case 12:
+        case 15:
+        case 16:
+        case 17:
+            D_801F7D58 = task;
+            /* fallthrough */
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 7:
+        case 8:
+        case 9:
+        case 11:
+        case 18:
+            for (j = 0; j < 8; j++) {
+                obj->vals[j] = spawn->vals[j];
+            }
+            break;
+        }
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AB40);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB8C);
 
