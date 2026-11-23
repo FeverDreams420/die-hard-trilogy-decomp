@@ -10569,9 +10569,164 @@ void func_800403C8(void) {
     D_800A2FC4.vz = -D_800A2FC4.vz;
 }
 
+// NON_MATCHING: register allocation, scheduling and branch layout
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80040620);
+#else
+typedef struct {
+    SVECTOR pos;
+    SVECTOR rot;
+    s16 unk10;
+    s16 unk12;
+    s16 unk14;
+    u8 pad16[2];
+    VECTOR scale;
+    s16 floor;
+    s16 target;
+    s16 timer;
+    s16 unk2E;
+    s16 state;
+    s16 unk32;
+    s16 unk34;
+    s16 unk36;
+} Unk80040620;
 
+extern void (*D_80080C38[])(u8 *item, u8 c);
+extern void (*D_80080BB8[])(u8 *item, u8 c);
+
+void func_80040620(void) {
+    Unk80040620 *obj = (Unk80040620 *)D_800A317C->vals;
+    u8 *item = D_800A3304 + 8;
+    u32 *mode;
+    u32 *ot;
+    u8 flags;
+    u8 t;
+    u8 c;
+
+    if (D_800A3194.vz > -0x800) {
+        obj->unk32 = func_800437C8(obj->unk32, 2, 1);
+        D_800A3194.vx = D_800A3194.vz + 0x800;
+    } else {
+        obj->unk32 = func_800437C8(obj->unk32, 0x40, 2);
+    }
+    D_800A3194.vz += obj->unk32;
+    if (D_800A3194.vz >= 0) {
+        D_800A3194.vz = 0;
+    }
+    switch (obj->state) {
+    case 0:
+        if (D_800A3194.vz >= -0xBFF) {
+            obj->state++;
+        }
+        break;
+    case 1:
+        obj->unk12 = func_800437C8(obj->unk12, 0x10, 2);
+        obj->unk14 = func_800437C8(obj->unk14, 8, 1);
+        D_800A2FC4.vy += obj->unk12;
+        D_800A2FC4.vz += obj->unk14;
+        if (D_800A2FC4.vz > 0x200) {
+            D_800A2FC4.vz = 0x200;
+        }
+        if (D_800A2FC4.vy >= 0x378) {
+            obj->state++;
+        }
+        break;
+    case 2:
+        obj->unk10 += obj->unk34;
+        D_800A2FC4.vx = func_800296F8(0, obj->unk36, obj->unk10);
+        obj->unk34 = func_800437C8(obj->unk34, obj->unk10 < 0xC20 ? 0x40 : 0, 2);
+        if (obj->unk10 >= 0x1000) {
+            obj->unk10 = 0x1000;
+        }
+        obj->unk14 = func_800437C8(obj->unk14, -8, 1);
+        D_800A2FC4.vz += obj->unk14;
+        if (D_800A2FC4.vz < 0) {
+            D_800A2FC4.vz = 0;
+        }
+        obj->unk12 = func_800437C8(obj->unk12, 1, 1);
+        D_800A2FC4.vy += obj->unk12;
+        if (D_800A2FC4.vy >= 0x400) {
+            obj->state++;
+        }
+        break;
+    case 3:
+        obj->unk14 = func_800437C8(obj->unk14, -8, 1);
+        D_800A2FC4.vz += obj->unk14;
+        if (D_800A2FC4.vz < 0) {
+            D_800A2FC4.vz = 0;
+        }
+        obj->rot.vy += obj->unk12;
+        obj->unk12 = func_800437C8(obj->unk12, 0x10, 1);
+        obj->unk10 += obj->unk34;
+        D_800A2FC4.vx = func_800296F8(0, obj->unk36, obj->unk10);
+        obj->unk34 = func_800437C8(obj->unk34, obj->unk10 < 0xC20 ? 0x40 : 0, 2);
+        if (obj->unk10 >= 0x1000) {
+            obj->state++;
+        }
+        break;
+    case 4:
+        obj->rot.vy += obj->unk12;
+        obj->unk12 = func_800437C8(obj->unk12, 0x10, 1);
+        break;
+    }
+    D_800A2FC4.vy = -D_800A2FC4.vy;
+    D_800A2FC4.vz = -D_800A2FC4.vz;
+    func_80021BE4();
+    D_800A2FC4.vy = -D_800A2FC4.vy;
+    D_800A2FC4.vz = -D_800A2FC4.vz;
+    PushMatrix();
+    LoadAverageShort12(&obj->pos, &D_800A3194, 0x1000, -0x1000, &D_800A349C);
+    ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+    RotMatrix(&obj->rot, &D_801FB868);
+    ScaleMatrix(&D_801FB868, &obj->scale);
+    MulMatrix2(&D_801C0B64, &D_801FB868);
+    SetRotMatrix(&D_801FB868);
+    func_80070C9C(&D_801FB868, &D_801C1EC4);
+    SetTransMatrix(&D_801FB868);
+    mode = D_800A3374;
+    SetDrawMode(mode, 1, 1, GetTPage(0, 1, 0, 0), 0);
+    ot = D_800A32E4 + 0x9FE;
+    if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+        AddPrim(ot, mode);
+    }
+    D_800A3374 = mode + 3;
+    do {
+        t = *(u16 *)(item + 0x10) / 44U;
+        if (t == obj->floor) {
+            c = 0x40;
+            if (t == obj->target && (obj->unk2E & 8)) {
+                c = 0x80;
+            }
+            D_80080C38[item[0x12] & 0x1F](item, c);
+        } else {
+            D_80080BB8[item[0x12] & 0x1F](item, t * 2);
+        }
+        flags = item[0x12];
+        item += 0x14;
+    } while (!(flags & 0x80));
+    PopMatrix();
+    if (obj->timer != 0) {
+        obj->timer--;
+    }
+    if (obj->timer == 0) {
+        obj->timer = 10;
+        if (obj->floor != obj->target) {
+            if (obj->floor < obj->target) {
+                obj->floor++;
+            } else {
+                obj->floor--;
+            }
+        }
+    }
+    if (obj->floor == obj->target) {
+        obj->unk2E++;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ACA0);
+#endif
 
 typedef struct {
     u32 tag;
