@@ -9210,6 +9210,14 @@ INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A9F0);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AA38);
 
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Unk801C1EF0;
+extern Unk801C1EF0 D_801C1EF0;
+
 // NON_MATCHING: registers; the original keeps the link index in a stack variable and writes 0x400 to params[3] first
 #ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039B80);
@@ -9251,7 +9259,6 @@ extern void func_8004379C(short id, SVECTOR *out);
 extern void func_8003B850(void);
 extern void func_80039858(void);
 extern s16 D_800A61BA;
-extern s16 D_801C1EF6;
 
 void func_80039B80(void) {
     Obj80039B80 *obj = (Obj80039B80 *)D_800A317C->vals;
@@ -9342,7 +9349,7 @@ void func_80039B80(void) {
                 params[0] = 0x2F;
                 params[1] = 0x3FFF;
                 params[2] = 0;
-                params[3] = D_801C1EF6 + 0x400;
+                params[3] = D_801C1EF0.unk6 + 0x400;
                 params[4] = 0;
                 params[5] = 1;
                 func_8004FB78(params);
@@ -9412,13 +9419,6 @@ extern s16 D_800A32DC;
 extern s32 D_801C08F8[];
 extern void func_80047F7C(void);
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Unk801C1EF0;
-extern Unk801C1EF0 D_801C1EF0;
 void func_80039F98(void) {
     Obj80039F98 *obj = (Obj80039F98 *)D_800A317C->vals;
     s16 anims[3] = { 0x20, 0x21, 3 };
@@ -9838,7 +9838,7 @@ void func_8003A8A4(void) {
                     params[3] = 0x400;
                     params[4] = 0;
                     params[5] = 1;
-                    params[3] += D_801C1EF6;
+                    params[3] += D_801C1EF0.unk6;
                     func_8004FB78(params);
                 }
                 func_8003A790((struct Unk8003A790 *)obj, 1);
@@ -10007,7 +10007,7 @@ void func_8003B04C(void) {
                 params[3] = 0x400;
                 params[4] = 0;
                 params[5] = 1;
-                params[3] += D_801C1EF6;
+                params[3] += D_801C1EF0.unk6;
                 func_8004FB78(params);
                 func_80024DA8(&obj->anim, 0x20, 0, 0x52, 3);
                 func_80049820(5000);
@@ -10041,7 +10041,7 @@ void func_8003B04C(void) {
                 params[3] = 0x400;
                 params[4] = 0;
                 params[5] = 1;
-                params[3] += D_801C1EF6;
+                params[3] += D_801C1EF0.unk6;
                 func_8004FB78(params);
             }
             D_800A317C->func = func_80039858;
@@ -13500,7 +13500,6 @@ extern void func_8004475C(void);
 extern void func_80044B74(void);
 extern void func_80049064(Unk80045164 *obj, s16 flag);
 extern s32 D_801C08F8[];
-extern s16 D_801C1EF6;
 extern void func_8004BFB8(void);
 extern const s16 D_8007C550[];
 
@@ -13572,7 +13571,7 @@ void func_80043EA8(void) {
             params[3] = func_8001E9DC(0x100) + 0x380;
             params[4] = 0;
             params[5] = 1;
-            params[3] += D_801C1EF6;
+            params[3] += D_801C1EF0.unk6;
             func_8004FB78(params);
             D_800A304C = func_8001E9DC(0x18);
         }
@@ -14793,7 +14792,7 @@ void func_800474AC(void) {
                 params[3] = 0x400;
                 params[4] = 0;
                 params[5] = 1;
-                params[3] += D_801C1EF6;
+                params[3] += D_801C1EF0.unk6;
                 func_8004FB78(params);
             }
             D_800A61B4 = -1;
@@ -18411,7 +18410,7 @@ void func_80050A98(void) {
                     params[3] = 0x400;
                     params[4] = 0;
                     params[5] = 1;
-                    params[3] += D_801C1EF6;
+                    params[3] += D_801C1EF0.unk6;
                     func_8004FB78(params);
                     snd = 0xF;
                     break;
@@ -18431,7 +18430,7 @@ void func_80050A98(void) {
                     params[3] = 0x400;
                     params[4] = 0;
                     params[5] = 1;
-                    params[3] += D_801C1EF6;
+                    params[3] += D_801C1EF0.unk6;
                 } else {
                     params[1] = vol;
                     params[0] = snd;
@@ -20928,7 +20927,7 @@ void func_80057A10(void) {
             params[3] = func_8001E9DC(0x100) + 0x380;
             params[4] = 0;
             params[5] = 1;
-            params[3] += D_801C1EF6;
+            params[3] += D_801C1EF0.unk6;
             func_8004FB78(params);
         }
         break;
@@ -20960,7 +20959,7 @@ void func_80057A10(void) {
                     params[3] = 0x400;
                     params[4] = 0;
                     params[5] = 1;
-                    params[3] += D_801C1EF6;
+                    params[3] += D_801C1EF0.unk6;
                     d->unk220 = func_8004FB78(params);
                     d->unkA2 = 0;
                     d->ids[1] = 0;
@@ -23192,7 +23191,7 @@ void func_8005CD6C(Unk8005B554 *obj) {
             params[0] = obj->unkF2 == 0 ? 0x23 : 0x31;
             params[1] = 0x3FFF;
             params[2] = 0;
-            params[3] = D_801C1EF6 + 0x400;
+            params[3] = D_801C1EF0.unk6 + 0x400;
             params[4] = 0;
             params[5] = 1;
             func_8004FB78(params);
@@ -23200,7 +23199,7 @@ void func_8005CD6C(Unk8005B554 *obj) {
             params[0] = 0x24;
             params[1] = 0x3FFF;
             params[2] = 0;
-            params[3] = D_801C1EF6 + 0x400;
+            params[3] = D_801C1EF0.unk6 + 0x400;
             params[4] = 0;
             params[5] = 1;
             func_8004FB78(params);
