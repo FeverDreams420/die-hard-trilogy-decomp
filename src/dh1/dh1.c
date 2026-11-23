@@ -16306,7 +16306,187 @@ s16 config;
     return out;
 }
 
+// NON_MATCHING: the unused 2-byte local array (D_800A2B58) is left out; scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005ABA8);
+#else
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[2];
+    s16 prevx, prevy, prevz;
+    u8 padE[4];
+    s16 unk12;
+    u8 pad14[0x18];
+    s16 unk2C;
+    s16 unk2E;
+    u8 pad30[0xC];
+    s32 unk3C;
+    u8 pad40[4];
+    s32 unk44;
+    u8 pad48[4];
+    s16 unk4C;
+    u8 pad4E[2];
+    s16 unk50;
+    u8 pad52[0x12];
+    Anim anim;
+    u8 pad84[0x10];
+    s16 probex, probey, probez;
+    u8 pad9A[4];
+    s16 unk9E;
+    u8 padA0[4];
+    s16 unkA4;
+    s16 unkA6;
+    s16 unkA8;
+    u8 padAA[6];
+    s32 unkB0;
+    u8 padB4[8];
+    s16 unkBC;
+    u8 padBE[2];
+    s16 unkC0;
+    u8 padC2[4];
+    s16 unkC6;
+    s16 unkC8;
+    u8 padCA[4];
+    s16 unkCE;
+    u8 padD0[0x24];
+    s16 unkF4;
+    u8 padF6[0x5C];
+    s16 unk152;
+} Unk8005ABA8;
+
+extern s16 D_801C1EF2;
+extern const s16 D_8007C570[];
+extern s16 func_8005D780();
+
+void func_8005ABA8(Unk8005ABA8 *obj) {
+    Unk80041178List *list = D_801F7D28->list;
+    Unk800436E4_Probe *probe;
+    s32 a;
+    s16 floor;
+    s16 ground;
+    s16 landed;
+
+    /* the original also keeps an unused 2-byte local array here, set from D_800A2B58 */
+    func_80039518((Unk80045EF4 *)obj);
+    obj->x += obj->unk3C;
+    obj->z += obj->unk44;
+    obj->unk12 += obj->unkCE;
+    func_80031200((Unk80031200 *)obj);
+    obj->unkC6 = -1;
+    obj->unkC8 = 0;
+    obj->unkBC = 0;
+    probe = (Unk800436E4_Probe *)&obj->probex;
+    obj->probex = obj->x;
+    obj->probey = obj->y;
+    obj->probez = obj->z;
+    func_80042570(probe);
+    func_80041C48(probe);
+    if (obj->unkC0 != 0) {
+        obj->x += obj->unkA4;
+        obj->z += obj->unkA8;
+    }
+    obj->unkC0 = 0;
+    if (obj->unk152 == 0) {
+        list->entries[list->count].id = D_800A317C->id;
+        list->entries[list->count].obj = (Unk80041178 *)probe;
+        list->count++;
+    }
+    obj->unk9E = -obj->unk12;
+    floor = obj->unkC6;
+    ground = func_8005D780(obj);
+    func_80023E80(obj, &a, &a);
+    if (floor == -1 || floor < ground) {
+        floor = ground;
+    }
+    if (obj->unk2C != 4) {
+        if (floor + 0x80 < obj->y) {
+            obj->unk2C = 8;
+            obj->anim.unk14 = 0;
+        }
+        if (obj->unkA6 > 0) {
+            obj->y += obj->unkA6;
+        }
+        if (obj->unk2C != 8 && floor < obj->y) {
+            obj->y = floor;
+        }
+    } else if (obj->unkA6 < 0 && obj->unkA6 > -0x100) {
+        obj->x = obj->prevx;
+        obj->y = obj->prevy;
+        obj->y = obj->prevy + obj->unkA6 - 10;
+        obj->z = obj->prevz;
+        obj->unk4C = 0;
+        obj->unk50 = 0;
+        obj->unk2E = -0x18;
+        obj->unk2C = 8;
+        obj->probey = obj->y;
+        obj->probex = obj->x;
+        obj->probez = obj->z;
+    }
+    obj->y += obj->unk2E;
+    if (obj->unk2C == 8) {
+        landed = 0;
+        if (floor >= obj->y) {
+            if (ground < floor) {
+                landed = -1;
+                if (obj->y < ground) {
+                    floor = ground;
+                }
+            } else if (floor - obj->y < 0x100) {
+                landed = -1;
+            }
+        }
+        if (landed == -1) {
+            obj->unkB0 = 0x380;
+            obj->unk2C = 0;
+            if (obj->unk50 < 0) {
+                func_80024DA8(&obj->anim, D_8007C570[obj->unkF4], 0, -200, 3);
+            } else if (obj->unk50 > 0) {
+                func_80024DA8(&obj->anim, D_8007C570[obj->unkF4], 0, 200, 3);
+            } else {
+                func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0, 3);
+                obj->unk2C = 0xC;
+            }
+            obj->unk2E = 0;
+            obj->y = floor;
+            obj->unk4C = 0;
+        }
+        if (landed == 0) {
+            if (D_801C1EF2 != 0) {
+                obj->unk2E = func_800437C8(obj->unk2E, -0x100, 8);
+            } else {
+                obj->unk2E = func_800437C8(obj->unk2E, -0x100, 0x18);
+            }
+        }
+    }
+    if (obj->unk2C != 4 && obj->unk2C != 8 && obj->y < floor + 0x80) {
+        obj->y = floor;
+    }
+    obj->unkA4 = 0;
+    obj->unkA6 = 0;
+    obj->unkA8 = 0;
+    obj->unkC0 = 0;
+    if (obj->y < 0) {
+        obj->y = func_80023E80(obj, &a, &a);
+        if (obj->unk2C == 8) {
+            obj->unk2C = 0;
+            if (obj->unk50 < 0) {
+                func_80024DA8(&obj->anim, D_8007C570[obj->unkF4], 0, -200, 3);
+            } else if (obj->unk50 > 0) {
+                func_80024DA8(&obj->anim, D_8007C570[obj->unkF4], 0, 200, 3);
+            } else {
+                func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0, 3);
+                obj->unk2C = 0xC;
+            }
+            obj->unk2E = 0;
+            obj->y = floor;
+            obj->unk4C = 0;
+        }
+    }
+    obj->prevx = obj->x;
+    obj->prevy = obj->y;
+    obj->prevz = obj->z;
+}
+#endif
 
 typedef struct {
     s16 unk0;
