@@ -22491,17 +22491,14 @@ void func_8005B5C0(Unk8005B554 *obj) {
     }
 }
 
-// NON_MATCHING: block order in case 5, register allocation (28 lines)
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B6AC);
-#else
 extern s16 D_801C1EF8;
 
 void func_8005B6AC(Unk8005B554 *obj) {
+    Unk8005B554_114 *st = &obj->unk114;
     s32 params[6];
+    SVECTOR unused;
     s16 fired;
     s16 aim;
-    s16 d;
 
     fired = 0;
     if (obj->unkF0 != 0) {
@@ -22513,12 +22510,8 @@ void func_8005B6AC(Unk8005B554 *obj) {
     aim = 0;
     if (D_800A3534 != NULL) {
         func_80028E14((Unk8002A35C *)obj, D_800A3534, (Unk8002A35C *)&D_800A34B4);
-        d = D_800A34B4.vx;
         aim = D_800A34B4.vx;
-        if (d < 0) {
-            d = -d;
-        }
-        if (d > 0x180) {
+        if (ABS(D_800A34B4.vx) > 0x180) {
             aim = 0;
         }
     }
@@ -22545,9 +22538,9 @@ void func_8005B6AC(Unk8005B554 *obj) {
             obj->unkF0 = 10;
             obj->unk114.unk42 = -1;
             if (--obj->unkF6 == 0) {
-                obj->unk114.unkA = 0;
-                obj->unk114.unkC = 10;
-                obj->unk114.unkE = -1;
+                st->unkA = 0;
+                st->unkC = 10;
+                st->unkE = -1;
             }
         }
         break;
@@ -22574,9 +22567,9 @@ void func_8005B6AC(Unk8005B554 *obj) {
                 obj->unk114.unk42 = -1;
                 obj->unkF0 = 0x1E;
                 if (--obj->unkF6 != 0) {
-                    obj->unk114.unkA = 0;
-                    obj->unk114.unkC = 10;
-                    obj->unk114.unkE = -1;
+                    st->unkA = 0;
+                    st->unkC = 10;
+                    st->unkE = -1;
                 }
             }
         } else if (!(*D_800A32AC & 0x40)) {
@@ -22597,10 +22590,10 @@ void func_8005B6AC(Unk8005B554 *obj) {
             fired = -1;
             obj->unk114.unk42 = -1;
             obj->unkF0 = 2;
-            if (--obj->unkF6 == 0 && obj->unk114.unkA != 0) {
-                obj->unk114.unkA = 0;
-                obj->unk114.unkC = 10;
-                obj->unk114.unkE = -1;
+            if (--obj->unkF6 == 0 && st->unkA != 0) {
+                st->unkA = 0;
+                st->unkC = 10;
+                st->unkE = -1;
             }
         }
         break;
@@ -22618,36 +22611,36 @@ void func_8005B6AC(Unk8005B554 *obj) {
             fired = -1;
             obj->unk114.unk42 = -1;
             obj->unkF0 = 3;
-            if (--obj->unkF6 == 0 && obj->unk114.unkA != 0) {
-                obj->unk114.unkA = 0;
-                obj->unk114.unkC = 10;
-                obj->unk114.unkE = -1;
+            if (--obj->unkF6 == 0 && st->unkA != 0) {
+                st->unkA = 0;
+                st->unkC = 10;
+                st->unkE = -1;
             }
         }
         break;
     case 5:
-        if (obj->unkF0 == 0) {
-            if (*D_800A32AC & 0x40) {
-                params[0] = 7;
-                params[1] = 0x3FFF;
-                params[2] = 0;
-                params[3] = 0x400;
-                params[4] = 0;
-                params[5] = 0;
-                func_8004FB78(params);
-                func_80056ADC((SVECTOR *)obj, 0xC00);
-                func_800369FC((Unk800369FC *)obj, 10, 0, -1, aim);
-                fired = -1;
-                obj->unk114.unk42 = -1;
-                obj->unkF0 = 0x1E;
-                if (--obj->unkF6 != 0) {
-                    obj->unk114.unkA = 0;
-                    obj->unk114.unkC = 10;
-                    obj->unk114.unkE = -1;
-                }
+        if (obj->unkF0 != 0) {
+            if (!(*D_800A32AC & 0x40)) {
+                obj->unkF0 = 0;
             }
-        } else if (!(*D_800A32AC & 0x40)) {
-            obj->unkF0 = 0;
+        } else if (*D_800A32AC & 0x40) {
+            params[0] = 7;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_80056ADC((SVECTOR *)obj, 0xC00);
+            func_800369FC((Unk800369FC *)obj, 10, 0, -1, aim);
+            fired = -1;
+            obj->unk114.unk42 = -1;
+            obj->unkF0 = 0x1E;
+            if (--obj->unkF6 != 0) {
+                st->unkA = 0;
+                st->unkC = 10;
+                st->unkE = -1;
+            }
         }
         break;
     case 6:
@@ -22664,21 +22657,21 @@ void func_8005B6AC(Unk8005B554 *obj) {
             fired = -1;
             obj->unk114.unk42 = -1;
             obj->unkF0 = 4;
-            if (--obj->unkF6 == 0 && obj->unk114.unkA != 0) {
-                obj->unk114.unkA = 0;
-                obj->unk114.unkC = 10;
-                obj->unk114.unkE = -1;
+            if (--obj->unkF6 == 0 && st->unkA != 0) {
+                st->unkA = 0;
+                st->unkC = 10;
+                st->unkE = -1;
             }
         }
         break;
     }
-    if (fired != 0 && obj->unkF4 != 1 && obj->unkF6 <= 0 && obj->unk114.unkC == 0) {
+    if (fired != 0 && obj->unkF4 != 1 && obj->unkF6 <= 0 && st->unkC == 0) {
         func_80051778(1, -1);
         obj->unkF4 = 1;
         obj->unkF6 = 0xF;
-        obj->unk114.unkA = 0;
-        obj->unk114.unkC = 10;
-        obj->unk114.unkE = -1;
+        st->unkA = 0;
+        st->unkC = 10;
+        st->unkE = -1;
     }
     if (D_801C1EF8 != 0) {
         obj->unkF6 = 999;
@@ -22687,11 +22680,6 @@ void func_8005B6AC(Unk8005B554 *obj) {
         func_8005B5C0(obj);
     }
 }
-#endif
-
-#ifndef NON_MATCHING
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B290);
-#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2A8);
 
