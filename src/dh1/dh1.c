@@ -8478,7 +8478,7 @@ typedef struct {
     s16 unk18;
     s16 unk1A;
     s16 unk1C;
-    u8 pad1E[2];
+    s16 unk1E;
 } Unk80043CC4;
 
 extern Unk80043CC4 *D_800A3084;
@@ -9454,9 +9454,216 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003C1C4);
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AA48);
 
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003CB90);
+typedef struct {
+    SVECTOR center;
+    SVECTOR pos[8];
+    SVECTOR rot[8];
+    s16 ids[8];
+    s16 count;
+    u8 pad9A[2];
+    s16 node;
+    s16 unk9E;
+    s16 unkA0;
+    s16 unkA2;
+    s16 unkA4;
+    u8 padA6[2];
+    s16 *unkA8;
+    Unk800358F0_Body body[2];
+    s16 unk214;
+    s16 unk216;
+    s16 unk218;
+    s16 unk21A;
+    s16 unk21C;
+    u8 pad21E[2];
+    s32 unk220;
+} Unk8003D280;
 
+// NON_MATCHING: register allocation, branch layout of the early returns (57 lines)
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003CB90);
+#else
+typedef struct {
+    u8 pad0[4];
+    s16 node;
+    s16 type;
+    u8 pad8[4];
+    s16 dir;
+    s16 formation;
+    s16 ids[8];
+} Unk8003CB90;
+
+extern void (*D_800807C4[])();
+extern SVECTOR D_800807D4[][8];
+extern s16 D_800A344C;
+extern s16 D_800A2F14;
+extern s16 D_800A2F74;
+extern u8 *D_800A2F1C;
+extern s16 D_800A31FC;
+extern s16 D_800A3054;
+extern s16 D_800A31CC;
+extern s16 D_800A32F4;
+extern s16 D_800A2F2C;
+extern s16 D_800A34AC;
+extern s32 D_801D70F0[];
+
+s16 func_8003CB90(Unk8003CB90 *g) {
+    s32 params[6];
+    Unk8003D280 *d;
+    Unk80043CC4 *node;
+    struct Task *task;
+    s32 tmp;
+    s16 id;
+    s16 i;
+    u8 t;
+
+    if (g->type == 1 || g->type == 2) {
+        if (D_800A344C >= 3) {
+            return 0;
+        }
+        if (D_800A3084[g->node].unkE[3] != 0) {
+            return 0;
+        }
+    }
+    task = (struct Task *)func_80021264(D_800807C4[g->type], 1, 0x224);
+    if (task == NULL) {
+        return 0;
+    }
+    d = (Unk8003D280 *)task->vals;
+    d->node = g->node;
+    node = &D_800A3084[d->node];
+    d->center.vy = 0x800;
+    d->center.vx = node->x;
+    d->center.vz = node->z;
+    d->center.vy = func_80023E80(d, &tmp, &tmp);
+    d->unk21C = 0;
+    if (g->type == 1 || g->type == 2) {
+        params[0] = 0x16;
+        params[1] = func_80050974((SVECTOR *)d, 0x3FFF);
+        params[2] = func_800508F0((SVECTOR *)d) * 4;
+        params[3] = 0x800;
+        params[4] = 0;
+        params[5] = 0;
+        d->unk220 = func_8004FB78(params);
+    }
+    for (i = 0; i < 8; i++) {
+        id = g->ids[i];
+        if (D_800A2F14 != 0 && D_800A2F1C[id * 0x1C] == 4) {
+            if (D_800A2F74 != 0) {
+                D_800A2F74--;
+            } else {
+                id = -1;
+            }
+        }
+        if (id == -1) {
+            break;
+        }
+        d->ids[i] = id;
+        d->pos[i].vx = d->center.vx + D_800807D4[g->formation][i].vx;
+        d->pos[i].vy = d->center.vy;
+        d->rot[i].vx = 0;
+        d->pos[i].vz = d->center.vz + D_800807D4[g->formation][i].vz;
+        d->rot[i].vz = 0;
+        d->rot[i].vy = g->dir;
+        switch (D_800A2F1C[id * 0x1C]) {
+        case 18:
+            D_800A31FC++;
+        case 2:
+        case 3:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            D_800A3054++;
+            D_800A31CC++;
+            break;
+        case 1:
+            D_800A3054++;
+            D_800A32F4++;
+            D_800A2F2C++;
+            D_800A34AC++;
+            D_800A31CC += 2;
+            break;
+        case 6:
+        case 12:
+        case 15:
+        case 16:
+        case 17:
+            D_800A3054 += 6;
+            D_800A31CC += 6;
+            break;
+        case 0:
+            D_800A31CC++;
+            break;
+        case 4:
+            D_800A32F4++;
+            D_800A2F2C++;
+            D_800A34AC++;
+            D_800A31CC++;
+            break;
+        case 5:
+        case 13:
+        case 14:
+            break;
+        }
+    }
+    d->count = i;
+    if (g->type == 1 || g->type == 2) {
+        D_800A3084[g->node].unkE[3] = -1;
+        d->unkA0 = 0;
+        d->node = g->node;
+        d->unkA4 = D_800A3084[g->node].unkE[1];
+        d->body[0].pos.vx = D_800A3084[g->node].x;
+        d->unk9E = D_800A3084[g->node].unkE[2];
+        d->body[0].pos.vy = d->unk9E;
+        d->body[0].rot.vx = 0;
+        d->body[0].pos.vz = D_800A3084[g->node].z;
+        d->body[0].scale[0] = 0x1000;
+        d->body[0].scale[1] = 0x1000;
+        d->body[0].scale[2] = 0x1000;
+        d->body[0].rot.vz = 0;
+        d->body[0].rot.vy = D_800A3084[g->node].unkE[0];
+        D_800A344C++;
+        d->body[0].unk20 = D_801D70F0[18 + d->unkA4];
+        d->unk214 = 0;
+        d->unk216 = 0;
+        d->unkA8 = &D_800A3564[D_800A3084[g->node].unk1E].unk2C;
+        if (g->type == 1) {
+            d->unk218 = 0x20;
+            d->unkA2 = -0x1000;
+        } else {
+            d->unk218 = -0x20;
+            d->unkA2 = 0x1000;
+        }
+        d->unk21A = d->unkA2;
+        d->body[0].pos.vy = d->unk9E + d->unkA2;
+        for (i = 0; i < d->count; i++) {
+            t = D_800A2F1C[d->ids[i] * 0x1C];
+            if (t == 13 || t == 14) {
+                d->body[1].pos.vy = d->body[0].pos.vy;
+                d->body[1].pos.vx = D_800A3084[g->node].x;
+                d->body[1].rot.vx = 0;
+                d->body[1].pos.vz = D_800A3084[g->node].z;
+                d->body[1].rot.vz = 0;
+                d->body[1].scale[0] = 0x1000;
+                d->body[1].scale[1] = 0x1000;
+                d->body[1].scale[2] = 0x1000;
+                d->body[1].rot.vy = D_800A3084[g->node].unkE[0];
+                d->body[1].unk20 = D_801D70F0[38];
+            }
+            if (t == 14) {
+                d->unk21C = -1;
+                d->body[1].unk20 = D_801D70F0[77];
+            }
+        }
+    }
+    return -1;
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AAC0);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AB0C);
 
@@ -9535,16 +9742,6 @@ typedef struct {
     u8 unk9, unkA, unkB;
     s16 vals[8];
 } Unk8003D280_Spawn;
-
-typedef struct {
-    u8 pad0[8];
-    SVECTOR pos[8];
-    SVECTOR rot[8];
-    s16 ids[8];
-    s16 count;
-    u8 pad9A[2];
-    s16 node;
-} Unk8003D280;
 
 typedef struct {
     u8 v[5];
