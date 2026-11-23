@@ -13891,10 +13891,6 @@ void func_80045478(void) {
     D_800A317C->func = D_800A317C->saved;
 }
 
-// NON_MATCHING: scheduling around the route index and the turn test (14 lines)
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004566C);
-#else
 void func_80046030(void);
 typedef struct {
     s16 v[8];
@@ -13908,13 +13904,20 @@ extern void func_80046ED4(void);
 extern void func_80047F7C(void);
 extern s16 D_800A61B4;
 
+typedef struct {
+    u8 pad0[0x12];
+    s16 count;
+    u8 path[0x20];
+} Unk8004566C_Route;
+
 void func_8004566C(void) {
     Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
-    Unk8004566C_Ranges ranges = D_8007ADC8;
     Unk8002A35C *player;
     Unk8002A35C pos;
+    VECTOR unused;
     SVECTOR d;
-    u8 *route;
+    Unk8004566C_Ranges ranges = D_8007ADC8;
+    Unk8004566C_Route *route;
     s32 diff;
     s16 tmp;
     s16 dist;
@@ -13922,7 +13925,7 @@ void func_8004566C(void) {
 
     func_8003E384((Unk80045164 *)obj);
     func_8002A270((Unk8002A35C *)obj, 4);
-    route = (u8 *)&obj->unk128;
+    route = (Unk8004566C_Route *)&obj->unk114;
     if (D_801F7D50.unk0 == NULL) {
         func_80031200((Unk80031200 *)obj);
         func_8003146C((Unk8003146C *)obj);
@@ -13942,15 +13945,15 @@ void func_8004566C(void) {
             D_800A317C->func = func_80047F7C;
             break;
         case 9:
-            obj->unkE6 = func_8001E9DC(4) + obj->unkE6 - 2;
+            obj->unkE6 = func_8001E9DC(4) + (s16)(obj->unkE6 - 2);
             if (obj->unkE6 < 0) {
-                obj->unkE6 += obj->unk126;
+                obj->unkE6 += route->count;
             }
-            if (obj->unkE6 >= obj->unk126) {
-                obj->unkE6 -= obj->unk126;
+            if (obj->unkE6 >= route->count) {
+                obj->unkE6 -= route->count;
             }
+            obj->unkDC = route->path[obj->unkE6];
             obj->unkD4 = 0;
-            obj->unkDC = route[obj->unkE6];
             obj->unkD6 = func_80039458((Unk80045164 *)obj);
             obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
             obj->unkDA = 0;
@@ -14012,11 +14015,9 @@ void func_8004566C(void) {
     }
     if (--obj->unkE2 < 0) {
         obj->unkE2 = func_8001E9DC(10) + 10;
-        diff = (func_80028B04(player, (Unk8002A35C *)obj) - (u16)(obj->unk12 + obj->unk104)) << 20 >> 20;
-        if (diff < 0) {
-            diff = -diff;
-        }
-        if (diff < obj->unk10A && (s16)func_80042DD0(obj, player, 0) != 0) {
+        a = func_80028B04(player, (Unk8002A35C *)obj) - (obj->unk12 + obj->unk104);
+        diff = (a << 20) >> 20;
+        if (obj->unk10A > ABS(diff) && (s16)func_80042DD0(obj, player, 0) != 0) {
             obj->unkE4 = -1;
         } else {
             obj->unkEA = func_8001E9DC(20) + 40;
@@ -14032,15 +14033,15 @@ void func_8004566C(void) {
                 D_800A317C->func = func_80047F7C;
                 break;
             case 9:
-                obj->unkE6 = func_8001E9DC(4) + obj->unkE6 - 2;
+                obj->unkE6 = func_8001E9DC(4) + (s16)(obj->unkE6 - 2);
                 if (obj->unkE6 < 0) {
-                    obj->unkE6 += obj->unk126;
+                    obj->unkE6 += route->count;
                 }
-                if (obj->unkE6 >= obj->unk126) {
-                    obj->unkE6 -= obj->unk126;
+                if (obj->unkE6 >= route->count) {
+                    obj->unkE6 -= route->count;
                 }
+                obj->unkDC = route->path[obj->unkE6];
                 obj->unkD4 = 0;
-                obj->unkDC = route[obj->unkE6];
                 obj->unkD6 = func_80039458((Unk80045164 *)obj);
                 obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
                 obj->unkDA = 0;
@@ -14088,15 +14089,6 @@ void func_8004566C(void) {
         obj->unkBE = 0;
     }
 }
-#endif
-
-#ifndef NON_MATCHING
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ADD8);
-#endif
-
-#ifndef NON_MATCHING
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE00);
-#endif
 
 extern void func_80039518(Unk80045EF4 *obj);
 extern s16 func_80024EF0(Anim *anim);
