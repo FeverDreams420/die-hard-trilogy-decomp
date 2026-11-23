@@ -9216,10 +9216,6 @@ typedef struct {
 } Unk801C1EF0;
 extern Unk801C1EF0 D_801C1EF0;
 
-// NON_MATCHING: registers; the original keeps the link index in a stack variable and writes 0x400 to params[3] first
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80039B80);
-#else
 typedef struct {
     u8 pad0[2];
     s16 unk2;
@@ -9258,14 +9254,16 @@ extern void func_8003B850(void);
 extern void func_80039858(void);
 extern s16 D_800A61BA;
 
+extern Unk80045164 *D_801FBDC8[];
+extern s16 func_80045EF4();
 void func_80039B80(void) {
     Obj80039B80 *obj = (Obj80039B80 *)D_800A317C->vals;
     Unk80043CC4 *node;
     SVECTOR pos;
+    VECTOR unused;
     s32 params[6];
-    s32 dummy;
     s16 dist;
-    s16 step;
+    s32 step;
     s16 next;
     s16 a;
     s16 i;
@@ -9280,8 +9278,8 @@ void func_80039B80(void) {
         obj->unkEA--;
     }
     if ((dist > 0x600 && obj->unkEA == 0) || (obj->unkDA > 90 && obj->unkEA == 0)) {
-        obj->unkE8++;
         obj->unkEA = func_8001E9DC(20) + 50;
+        obj->unkE8++;
         obj->unkDA = 0;
         if (obj->unkE8 & 1) {
             i = 0;
@@ -9298,10 +9296,9 @@ void func_80039B80(void) {
         }
     }
 
-    next = obj->unkD8;
     step = func_80045EF4((Unk80045EF4 *)obj, dist);
-    if (next == obj->unkDC) {
-        func_8004379C(next, &pos);
+    if (obj->unkD8 == obj->unkDC) {
+        func_8004379C(obj->unkD8, &pos);
         if (func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)&pos) < 0x100) {
             func_80049820(10000);
             func_8003A790((struct Unk8003A790 *)obj, 0);
@@ -9329,7 +9326,7 @@ void func_80039B80(void) {
     }
     func_80031200((Unk80031200 *)obj);
     func_8003146C((Unk8003146C *)obj);
-    obj->unk2 = func_80023E80(obj, &dummy, &dummy);
+    obj->unk2 = func_80023E80(obj, (s32 *)&next, (s32 *)&next);
     func_80031320((Unk80045164 *)obj);
 
     if (obj->unkBE != 0) {
@@ -9347,9 +9344,10 @@ void func_80039B80(void) {
                 params[0] = 0x2F;
                 params[1] = 0x3FFF;
                 params[2] = 0;
-                params[3] = D_801C1EF0.unk6 + 0x400;
+                params[3] = 0x400;
                 params[4] = 0;
                 params[5] = 1;
+                params[3] += D_801C1EF0.unk6;
                 func_8004FB78(params);
             }
             func_8003A790((struct Unk8003A790 *)obj, 1);
@@ -9358,7 +9356,6 @@ void func_80039B80(void) {
         obj->unkBE = 0;
     }
 }
-#endif
 
 typedef struct {
     s16 unk0;
