@@ -12524,9 +12524,258 @@ s32 func_800473CC(SVECTOR *out, Obj80047314 *obj, SVECTOR *target) {
     return dist;
 }
 
+// NON_MATCHING: fields at 0x114 read through a base register, store order (25 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800474AC);
+#else
+typedef struct Obj800474AC {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[2];
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    u8 padE[4];
+    s16 unk12;
+    u8 pad14[0xE];
+    s16 unk22;
+    u8 pad24[4];
+    s16 unk28;
+    u8 pad2A[0x22];
+    s16 unk4C;
+    s16 unk4E;
+    s16 unk50;
+    u8 pad52[0x12];
+    u8 unk64[6];
+    s16 unk6A;
+    u8 pad6C[4];
+    u32 unk70;
+    u8 pad74[0x4A];
+    s16 unkBE;
+    u8 padC0[0xA];
+    u8 unkCA;
+    u8 padCB[9];
+    s16 unkD4;
+    u8 padD6[6];
+    s16 unkDC;
+    u8 padDE[8];
+    s16 unkE6;
+    u8 padE8[2];
+    s16 unkEA;
+    u8 padEC[6];
+    s16 unkF2;
+    s16 unkF4;
+    u8 padF6[0x1E];
+    s16 unk114;
+    s16 unk116;
+    s16 unk118;
+    u8 pad11A[0xA];
+    struct Task *unk124;
+    s16 unk128;
+    s16 unk12A;
+    u8 pad12C[0x22];
+    s16 unk14E;
+    s16 unk150;
+    s16 unk152;
+    u8 pad154[4];
+    s16 unk158;
+} Obj800474AC;
 
+extern s16 D_800A61B4;
+extern void func_80045164(void);
+
+void func_800474AC(void) {
+    Obj800474AC *obj = (Obj800474AC *)D_800A317C->vals;
+    Obj800474AC *lead;
+    SVECTOR pos;
+    s32 params[6];
+    s16 tmp;
+    s16 a;
+    s16 mask;
+    s16 color;
+
+    func_8003E384((Unk80045164 *)obj);
+    if (obj->unk124 != NULL) {
+        lead = (Obj800474AC *)obj->unk124->vals;
+        lead->unk152 = 0;
+        switch (obj->unk12A) {
+        case 0:
+            func_8002A270((Unk8002A35C *)obj, 3);
+            if (func_80043A90((SVECTOR *)obj, (SVECTOR *)lead) < 0x180) {
+                obj->unkD4 = 0x200;
+            } else {
+                obj->unkD4 = 0x400;
+            }
+            func_800473CC(&pos, (Obj80047314 *)obj, (SVECTOR *)lead);
+            a = func_80028B04((Unk8002A35C *)&pos, (Unk8002A35C *)obj) & 0xFFF;
+            obj->unk22 = a;
+            obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
+            if (obj->unkEA != 0) {
+                obj->unkEA--;
+            }
+            if (func_80043A90((SVECTOR *)obj, (SVECTOR *)lead) > 0x600) {
+                lead->unk152 = -1;
+            }
+            if (obj->unk12 == obj->unk22) {
+                obj->unk4C = func_800395C0(obj->unk0, pos.vx);
+                obj->unk50 = func_800395C0(obj->unk4, pos.vz);
+                obj->unk4E = 0;
+                obj->unk0 += obj->unk4C;
+                obj->unk4 += obj->unk50;
+                obj->unk6A = func_80043A90((SVECTOR *)&obj->unk8, (SVECTOR *)obj) * 4;
+                obj->unk8 = obj->unk0;
+                obj->unkA = obj->unk2;
+                obj->unkC = obj->unk4;
+                func_80024EF0((Anim *)obj->unk64);
+            }
+            if (lead->unkE6 == lead->unk128 - 1) {
+                func_8004379C(lead->unkDC, &pos);
+                if (func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)&pos) < 0x400) {
+                    obj->unk12A = 1;
+                    func_80024DA8(obj->unk64, 0xF, 0, 0xA4, 4);
+                }
+            }
+            break;
+        case 1:
+            func_80024EF0((Anim *)obj->unk64);
+            if (obj->unk70 >= 0x400) {
+                obj->unk70 = 0x400;
+                obj->unk6A = 0;
+                obj->unk12A++;
+            }
+            break;
+        case 2:
+            if (obj->unk118 > 0x100) {
+                mask = 8;
+                color = 3;
+            } else if (obj->unk118 > 0x80) {
+                mask = 4;
+                color = 6;
+            } else {
+                mask = 2;
+                color = 4;
+            }
+            if (mask & obj->unk118) {
+                func_8002A270((Unk8002A35C *)obj, color);
+                lead->unk150 = color;
+            } else {
+                lead->unk150 = -1;
+            }
+            if (--obj->unk118 < 0) {
+                obj->unk118 = 0x1E;
+                obj->unk12A++;
+                obj->unk6A = 0xA4;
+            }
+            break;
+        case 3:
+            if (lead->unk14E != 0) {
+                obj->unk12A++;
+                break;
+            }
+            func_80031200((Unk80031200 *)obj);
+            func_8003146C((Unk8003146C *)obj);
+            obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+            func_80031320((Unk80045164 *)obj);
+            D_800A317C->saved = D_800A317C->func;
+            D_800A317C->func = func_80045164;
+            return;
+        case 4:
+            func_8002A270((Unk8002A35C *)obj, 3);
+            if (--obj->unk118 < 0) {
+                obj->unk114 = 0;
+                obj->unk116 = 0;
+                obj->unk118 = 0;
+                obj->unkD4 = 0x1000;
+                obj->unk28 = 7;
+                func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0xA4, 3);
+                D_800A317C->func = func_80046030;
+            }
+            break;
+        case 5:
+            obj->unk12A = 0;
+            break;
+        case 6:
+            func_80024DA8(obj->unk64, 0xF, 0, 0xA4, 8);
+            obj->unk12A = 1;
+            break;
+        case 7:
+            func_80024DA8(obj->unk64, 0xF, 0, 0xA4, 8);
+            obj->unk12A = 1;
+            break;
+        case 8:
+            func_80024DA8(obj->unk64, 0xF, 0, 0xA4, 8);
+            obj->unk12A = 1;
+            break;
+        case 9:
+            func_80024DA8(obj->unk64, 0xF, 0, 0xA4, 8);
+            obj->unk12A = 4;
+            break;
+        }
+    }
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+    func_80031320((Unk80045164 *)obj);
+    if (obj->unk158 == 0 && (s16)func_8004BF0C((Unk8002A35C *)obj) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(obj->unk64, tmp, 0, 0x52, 8);
+        obj->unk12A += 5;
+        if (obj->unk124 != NULL) {
+            ((Obj800474AC *)obj->unk124->vals)->unk152 = -1;
+        }
+        D_800A317C->saved = D_800A317C->func;
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    if (obj->unk124 == NULL) {
+        obj->unk114 = 0;
+        obj->unk116 = 0;
+        obj->unk118 = 0;
+        obj->unkD4 = 0x1000;
+        obj->unk28 = 7;
+        func_80024DA8(obj->unk64, D_8007C560[obj->unkF4], 0, 0xA4, 3);
+        D_800A317C->func = func_80046030;
+    }
+    if (obj->unkBE != 0) {
+        if (obj->unkBE < 0) {
+            obj->unk158 = 200;
+            obj->unkBE = 0;
+            if (obj->unk124 != NULL) {
+                ((Obj800474AC *)obj->unk124->vals)->unkBE = 0;
+            }
+            D_800A317C->saved = D_800A317C->func;
+            D_800A317C->func = func_8003B850;
+            return;
+        }
+        obj->unkF2 -= obj->unkBE;
+        if (obj->unkF2 <= 0) {
+            if (D_800A7A20[obj->unkCA].id == D_800A336C) {
+                params[0] = 0x36;
+                params[1] = 0x3FFF;
+                params[2] = 0;
+                params[3] = 0x400;
+                params[4] = 0;
+                params[5] = 1;
+                params[3] += D_801C1EF6;
+                func_8004FB78(params);
+            }
+            D_800A61B4 = -1;
+            D_800A317C->func = func_80039858;
+            return;
+        }
+        obj->unkBE = 0;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE50);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AE78);
 
