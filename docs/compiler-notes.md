@@ -438,7 +438,19 @@ Patterns that turned a near-miss into a match. Each names the DH1 function where
 | Loop end `move v0,sN` / `bnez v0` with `addiu sN,sN,-1` in the delay slot | `do { ... } while (i--);`: the old value is tested, so the body also runs for 0. m2c prints it as `i -= 1; while (i != 0)` (0x8005A670; 0x8004AF54, 0x8004CCE8) |
 | 8 bytes of unused stack after `s32 params[6]` | An unused `SVECTOR` declared after `params` (0x80048BD4) |
 | Case bodies of a `switch` laid out out of order (1, 3, 2, ...) | Write the cases in that order in the source (0x80048BD4) |
-| Sound parameters: `params[3] = 0x400` stored, then overwritten with `D_801C1EF6 + 0x400` | Probably `params[3] = 0x400; ... params[3] += D_801C1EF6;` (guess, NON_MATCHING 0x80039F98) |
+| Sound parameters: `params[3] = 0x400` stored, then overwritten with `D_801C1EF6 + 0x400` | `params[3] = 0x400; ... params[3] += D_801C1EF0.unk6;` (0x80039F98, 0x80039B80) |
+| A global load kept after struct-field stores in the original, hoisted above them in ours | The global is a field of a struct or an element of an array, not a scalar: 0x801C1EF0 is a struct of `s16` settings (`.unk6`, `.unk8`, `.unkA`), 0x800A61B0 is `s16 D_800A61B0[]` (0x80039F98, 0x80046030) |
+| A global's address kept in a saved register (`lui sN; addiu sN`, then `lh 0(sN)`) | Several reads of one struct field (`D_801C1EF0.unk8`), not a scalar (0x8005D1B4) |
+| `func_80023E80(obj, &x, &x)` with `x` at a stack slot that other code also stores to | The out-pointer is a real `s16` local (`tmp`, `next`) used elsewhere, not a separate dummy (0x800666C4, 0x80039B80) |
+| `x = f(); x = ((x - (a + b)) << 20) >> 20` with `lhu` of `a`, `b` and no `sll`/`sra` on `f()` | Two statements: `x -= a + b; x = (x << 20) >> 20;`, or an `s16` temporary for the difference (0x800666C4, 0x8004566C) |
+| `obj->unk10A` loaded before an `abs` branch | `if (obj->unk10A > ABS(d))` (0x8004566C) |
+| `addu v1,v0,v1` operand order with a `- 2` folded the wrong way | `func_8001E9DC(4) + (s16)(obj->unkE6 - 2)` stops GCC reassociating the constant (0x8004566C) |
+| Fields of `obj+0x114` (or `+0x2C`) read through a saved register | A sub-struct pointer set at the top, `route = (T *)&obj->unk114;`; keep the fields the original reads off `obj` as `obj->...` (0x8004566C, 0x80046030, 0x8003614C, 0x8005B6AC) |
+| Two `func_80042538` calls where ours has three | Each case ends `f(...); break;` and the shared case comes last in the `switch`, so GCC cross-jumps the tails (0x8003614C) |
+| `move a0,s0` in an empty callee's delay slot | The callee takes the object: `void func_8005CA3C(Unk8005B554 *obj) {}` (0x8005D1B4) |
+| `step = (a << 12) / b` result in a saved register, then moved to `a2` | `step = ...; step = func_800296F8(x, 1, step);`, one `s32` variable (0x8003A8A4) |
+| A 16-byte gap between two stack locals | The first one is a `VECTOR` (passed with a cast) or an unused `VECTOR` follows it (0x8003B04C, 0x8004566C) |
+| A function whose table comes from C after a C-owned initializer lands 4 bytes early | The original pads the table to 8 bytes; needs the file split (NON_MATCHING 0x8005D1B4) |
 
 ## PsyQ library settings
 
