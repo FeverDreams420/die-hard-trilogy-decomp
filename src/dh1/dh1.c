@@ -16431,7 +16431,151 @@ void func_80058C04(Unk80058C04 *obj, s16 type, s16 flags) {
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B250);
 
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80058E74);
+#else
+typedef struct {
+    s16 unk0, unk2, unk4, unk6;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    u8 padE[0x1E];
+    s16 unk2C;
+    s16 unk2E;
+    u8 pad30[2];
+    s16 unk32;
+    u8 r, g, b, pad37;
+    s16 unk38;
+    s16 unk3A;
+    s16 unk3C;
+    u8 pad3E[0x68];
+    s16 unkA6;
+} Unk80058E74;
+
+void func_80058E74(void *arg0, void *arg1, Unk800584A4 *self) {
+    Unk80058E74 *obj = (Unk80058E74 *)&D_800A3564[self->unkA];
+    Unk8004EDB0_Prim *prim;
+    SVECTOR v;
+    Unk8002A35C p;
+    s16 sxy[2];
+    u8 *tex;
+    u32 *ot;
+    s32 z;
+    s32 cs;
+    s32 sn;
+    s16 size;
+    s16 c;
+    s16 t;
+    s16 a;
+    u8 r, g, b;
+
+    v.vx = 0;
+    v.vy = -0xE0;
+    v.vz = 0;
+    switch (obj->unk38) {
+    case 1:
+        obj->unk8 += obj->unk3A;
+        if (obj->unk8 >= 0) {
+            obj->unk3A -= 5;
+            obj->unk8 -= 4;
+        } else {
+            obj->unk3A += 5;
+            obj->unk8 += 4;
+        }
+        obj->unkC += obj->unk3C;
+        if (obj->unkC >= 0) {
+            obj->unk3C -= 5;
+            obj->unkC -= 4;
+        } else {
+            obj->unk3C += 5;
+            obj->unkC += 4;
+        }
+        if ((obj->unk8 < 0 ? -obj->unk8 : obj->unk8) < 10 && (obj->unk3A < 0 ? -obj->unk3A : obj->unk3A) < 5 &&
+            (obj->unkC < 0 ? -obj->unkC : obj->unkC) < 10 && (obj->unk3C < 0 ? -obj->unk3C : obj->unk3C) < 5) {
+            obj->unk38++;
+        }
+        break;
+    case 2:
+        obj->unkA6 = 0;
+        obj->unk8 = 0;
+        obj->unkC = 0;
+        obj->unk38 = 0;
+        break;
+    case 999:
+        v.vy = 0;
+        break;
+    }
+    func_80032344((Unk80032344 *)obj, 1);
+    SetRotMatrix(&D_801FB868);
+    SetTransMatrix(&D_801FB868);
+    prim = D_800A3374;
+    z = RotTransPers(&v, (s32 *)sxy, &D_800A2EFC, &D_800A3394) >> 1;
+    D_800A326C = z - 20;
+    if (D_800A326C > 8 && D_800A326C < 0x600) {
+        r = obj->r;
+        g = obj->g;
+        b = obj->b;
+        if (obj->unk2E != 0) {
+            size = (s16)(func_8001E9DC(0x200) + (obj->unk32 - 0x100)) / D_800A326C;
+            g = func_800296F8(0x10, 0x40, func_8001E9DC(0x1000));
+        } else {
+            size = obj->unk32 / D_800A326C;
+        }
+        if (D_800A326C > D_800A2A22) {
+            c = (0x100 - (D_800A326C - D_800A2A22)) >> 1;
+            if (c > 0x80) {
+                c = 0x80;
+            }
+        } else {
+            c = 0x80;
+        }
+        if (c > 0) {
+            t = c << 5;
+            r = func_800296F8(0, r, t);
+            g = func_800296F8(0, g, t);
+            b = func_800296F8(0, b, t);
+            v.vx = 0xA0;
+            v.vy = 0;
+            v.vz = 0x78;
+            p.y = 0;
+            p.x = sxy[0];
+            p.z = sxy[1];
+            a = 0x200 - func_80028B04((Unk8002A35C *)&v, &p);
+            cs = (size * D_800854C0[(a + 0x400) & 0xFFF]) >> 12;
+            sn = (size * D_800854C0[a & 0xFFF]) >> 12;
+            prim->x0 = sxy[0] - cs;
+            prim->y0 = sn + sxy[1];
+            prim->x1 = sn + sxy[0];
+            prim->y1 = cs + sxy[1];
+            prim->x2 = sxy[0] - sn;
+            prim->y2 = sxy[1] - cs;
+            prim->x3 = cs + sxy[0];
+            prim->y3 = sxy[1] - sn;
+            tex = (u8 *)D_800A3154 + 0xC34;
+            *(u32 *)&prim->uv0 = *(u32 *)(tex + 0);
+            prim->uvt1 = *(u32 *)(tex + 0x14);
+            prim->uv2 = *(u16 *)(tex + 8);
+            prim->code = 0x2C;
+            setlen(prim, 9);
+            prim->r0 = r;
+            prim->g0 = g;
+            prim->b0 = b;
+            prim->uv3 = *(u16 *)(tex + 0xC);
+            prim->code = (prim->code & ~1) | 2;
+            ot = &D_800A32E4[D_800A326C];
+            if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                AddPrim(ot, prim);
+            }
+            prim++;
+        }
+    }
+    D_800A3374 = prim;
+    obj->unk2C += 0x10;
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+}
+#endif
 
 typedef struct {
     s16 unk0;
