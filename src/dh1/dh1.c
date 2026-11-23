@@ -18753,6 +18753,8 @@ typedef struct {
     s16 unkE;
     u8 pad10[0x2E];
     s16 unk3E;
+    u8 pad40[2];
+    s16 unk42;
 } Unk8005B554_114;
 
 typedef struct {
@@ -18943,9 +18945,207 @@ void func_8005B5C0(Unk8005B554 *obj) {
     }
 }
 
+// NON_MATCHING: block order in case 5, register allocation (28 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005B6AC);
+#else
+extern s16 D_801C1EF8;
 
+void func_8005B6AC(Unk8005B554 *obj) {
+    s32 params[6];
+    s16 fired;
+    s16 aim;
+    s16 d;
+
+    fired = 0;
+    if (obj->unkF0 != 0) {
+        obj->unkF0--;
+    }
+    if (obj->unk114.unkC != 0) {
+        return;
+    }
+    aim = 0;
+    if (D_800A3534 != NULL) {
+        func_80028E14((Unk8002A35C *)obj, D_800A3534, (Unk8002A35C *)&D_800A34B4);
+        d = D_800A34B4.vx;
+        aim = D_800A34B4.vx;
+        if (d < 0) {
+            d = -d;
+        }
+        if (d > 0x180) {
+            aim = 0;
+        }
+    }
+    switch (obj->unkF4) {
+    case 1:
+        if (obj->unkF0 != 0) {
+            if (!(*D_800A32AC & 0x40)) {
+                obj->unkF0 = 0;
+            }
+            if (obj->unkF0 > 10) {
+                obj->unkF0 = 10;
+            }
+        } else if (*D_800A32AC & 0x40) {
+            params[0] = 6;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_80056ADC((SVECTOR *)obj, 0x800);
+            func_800369FC((Unk800369FC *)obj, 1, 0, 0, aim);
+            fired = -1;
+            obj->unkF0 = 10;
+            obj->unk114.unk42 = -1;
+            if (--obj->unkF6 == 0) {
+                obj->unk114.unkA = 0;
+                obj->unk114.unkC = 10;
+                obj->unk114.unkE = -1;
+            }
+        }
+        break;
+    case 2:
+        if (obj->unkF0 == 0) {
+            if (*D_800A32AC & 0x40) {
+                params[0] = 7;
+                params[1] = 0x3FFF;
+                params[2] = 0;
+                params[3] = 0x400;
+                params[4] = 0;
+                params[5] = 0;
+                func_8004FB78(params);
+                func_80056ADC((SVECTOR *)obj, 0xA00);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                func_800369FC((Unk800369FC *)obj, 1, 0x40, 0, aim);
+                fired = -1;
+                obj->unk114.unk42 = -1;
+                obj->unkF0 = 0x1E;
+                if (--obj->unkF6 != 0) {
+                    obj->unk114.unkA = 0;
+                    obj->unk114.unkC = 10;
+                    obj->unk114.unkE = -1;
+                }
+            }
+        } else if (!(*D_800A32AC & 0x40)) {
+            obj->unkF0 = 0;
+        }
+        break;
+    case 3:
+        if (obj->unkF0 == 0 && (*D_800A32AC & 0x40)) {
+            params[0] = 8;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_80056ADC((SVECTOR *)obj, 0xA00);
+            func_800369FC((Unk800369FC *)obj, 1, 0, 0, aim);
+            fired = -1;
+            obj->unk114.unk42 = -1;
+            obj->unkF0 = 2;
+            if (--obj->unkF6 == 0 && obj->unk114.unkA != 0) {
+                obj->unk114.unkA = 0;
+                obj->unk114.unkC = 10;
+                obj->unk114.unkE = -1;
+            }
+        }
+        break;
+    case 4:
+        if (obj->unkF0 == 0 && (*D_800A32AC & 0x40)) {
+            params[0] = 9;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_80056ADC((SVECTOR *)obj, 0xC00);
+            func_800369FC((Unk800369FC *)obj, 2, 0, 0, aim);
+            fired = -1;
+            obj->unk114.unk42 = -1;
+            obj->unkF0 = 3;
+            if (--obj->unkF6 == 0 && obj->unk114.unkA != 0) {
+                obj->unk114.unkA = 0;
+                obj->unk114.unkC = 10;
+                obj->unk114.unkE = -1;
+            }
+        }
+        break;
+    case 5:
+        if (obj->unkF0 == 0) {
+            if (*D_800A32AC & 0x40) {
+                params[0] = 7;
+                params[1] = 0x3FFF;
+                params[2] = 0;
+                params[3] = 0x400;
+                params[4] = 0;
+                params[5] = 0;
+                func_8004FB78(params);
+                func_80056ADC((SVECTOR *)obj, 0xC00);
+                func_800369FC((Unk800369FC *)obj, 10, 0, -1, aim);
+                fired = -1;
+                obj->unk114.unk42 = -1;
+                obj->unkF0 = 0x1E;
+                if (--obj->unkF6 != 0) {
+                    obj->unk114.unkA = 0;
+                    obj->unk114.unkC = 10;
+                    obj->unk114.unkE = -1;
+                }
+            }
+        } else if (!(*D_800A32AC & 0x40)) {
+            obj->unkF0 = 0;
+        }
+        break;
+    case 6:
+        if (obj->unkF0 == 0 && (*D_800A32AC & 0x40)) {
+            params[0] = 10;
+            params[1] = 0x3FFF;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_80056ADC((SVECTOR *)obj, 0xE00);
+            func_800369FC((Unk800369FC *)obj, 3, 0, 0, aim);
+            fired = -1;
+            obj->unk114.unk42 = -1;
+            obj->unkF0 = 4;
+            if (--obj->unkF6 == 0 && obj->unk114.unkA != 0) {
+                obj->unk114.unkA = 0;
+                obj->unk114.unkC = 10;
+                obj->unk114.unkE = -1;
+            }
+        }
+        break;
+    }
+    if (fired != 0 && obj->unkF4 != 1 && obj->unkF6 <= 0 && obj->unk114.unkC == 0) {
+        func_80051778(1, -1);
+        obj->unkF4 = 1;
+        obj->unkF6 = 0xF;
+        obj->unk114.unkA = 0;
+        obj->unk114.unkC = 10;
+        obj->unk114.unkE = -1;
+    }
+    if (D_801C1EF8 != 0) {
+        obj->unkF6 = 999;
+    }
+    if (*D_800A343C & 0x80) {
+        func_8005B5C0(obj);
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B290);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B2A8);
 
