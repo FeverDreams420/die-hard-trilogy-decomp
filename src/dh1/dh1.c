@@ -9205,7 +9205,260 @@ void func_8003A790(Unk8003A790 *obj, s16 type) {
     D_801D2078.count++;
 }
 
+// NON_MATCHING: path copy loop, register allocation (34 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A8A4);
+#else
+typedef struct {
+    s16 unk0;
+    u8 pad2[2];
+    s16 unk4;
+    u8 pad6[0xA];
+    struct Task *unk10;
+    s16 count;
+    s16 state;
+    u8 path[0x20];
+    s16 unk38;
+    s16 unk3A;
+    s16 unk3C;
+    s16 unk3E;
+} Unk8003A8A4_Sub;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[2];
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    u8 padE[4];
+    s16 unk12;
+    u8 pad14[0xE];
+    s16 unk22;
+    u8 pad24[0x14];
+    u8 *unk38;
+    s16 unk3C;
+    u8 pad3E[2];
+    s16 unk40;
+    u8 pad42[2];
+    s16 unk44;
+    u8 pad46[6];
+    s16 unk4C;
+    s16 unk4E;
+    s16 unk50;
+    u8 pad52[0x12];
+    Anim anim;
+    u8 pad84[0x3A];
+    s16 unkBE;
+    u8 padC0[0xA];
+    u8 unkCA;
+    u8 padCB[7];
+    s16 unkD2;
+    s16 unkD4;
+    s16 unkD6;
+    s16 unkD8;
+    s16 unkDA;
+    s16 unkDC;
+    u8 padDE[8];
+    s16 unkE6;
+    s16 unkE8;
+    s16 unkEA;
+    u8 padEC[6];
+    s16 unkF2;
+    u8 padF4[0x20];
+    Unk8003A8A4_Sub sub;
+} Obj8003A8A4;
+
+extern s16 func_80043D68(s16 from, s16 to, s16 arg2);
+extern void func_8003BA6C(void);
+extern void func_8003B04C(void);
+extern s32 func_80043B6C();
+extern u8 *D_800A32EC;
+
+void func_8003A8A4(void) {
+    Obj8003A8A4 *obj = (Obj8003A8A4 *)D_800A317C->vals;
+    Unk8003A8A4_Sub *sub;
+    Obj8003A8A4 *other;
+    Unk80043CC4 *node;
+    Unk8002A35C pos;
+    s32 params[6];
+    s32 *hdr;
+    u8 *src;
+    s32 dist;
+    s16 step;
+    s16 tmp;
+    s16 a;
+    s16 e;
+    s16 i;
+
+    step = 0;
+    func_8003E384((Unk80045164 *)obj);
+    sub = &obj->sub;
+    switch (sub->state) {
+    case 0:
+        func_8002A270((Unk8002A35C *)obj, 3);
+        dist = func_80043B6C(&pos, obj);
+        a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
+        obj->unk22 = a;
+        obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
+        if (obj->unkEA != 0) {
+            obj->unkEA--;
+        }
+        if (dist > 0x600 && obj->unkEA == 0) {
+            if (--obj->unkE6 < 0) {
+                obj->unkE6 = 0;
+            }
+            obj->unkDC = sub->path[obj->unkE6];
+            obj->unkEA = func_8001E9DC(20) + 50;
+            obj->unkE8++;
+            obj->unkD6 = func_80039458((Unk80045164 *)obj);
+            obj->unkD4 = 0;
+            obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+            obj->unkDA = func_80043D68(obj->unkD6, obj->unkD8, obj->unkD2);
+        }
+        if (obj->unk12 == obj->unk22 && sub->unk3E == 0) {
+            obj->anim.unk6 = 0xA4;
+            obj->unk4C = 0;
+            obj->unk4E = 0;
+            obj->unk50 = func_80031C58(&obj->anim);
+            func_80039518((Unk80045EF4 *)obj);
+            obj->unk0 += obj->unk3C;
+            obj->unk2 += obj->unk40;
+            obj->unk4 += obj->unk44;
+            obj->unk8 = obj->unk0;
+            obj->unkA = obj->unk2;
+            obj->unkC = obj->unk4;
+            func_80024EF0(&obj->anim);
+            step = func_800296F8(obj->anim.unk6 * 4, 1, (dist << 12) / 1536);
+            if (step < 0) {
+                step = 0;
+            }
+            obj->unkD4 += step;
+        }
+        if (obj->unkD4 >= 0x1000) {
+            node = &D_800A3084[obj->unkD8];
+            if (node->unk18 != 0 && node->unk16 == 0 && dist > 0x80) {
+                obj->unkD4 -= step;
+                obj->unkDA++;
+            } else if (dist > 0x140) {
+                obj->unkD4 = 0x1000;
+                obj->unkDA++;
+            } else {
+                if (obj->unkD8 == obj->unkDC) {
+                    if (++obj->unkE6 >= sub->count) {
+                        func_8004379C(obj->unkD8, (SVECTOR *)&pos);
+                        if (func_8002A35C((Unk8002A35C *)obj, &pos) > 0x80) {
+                            obj->unkD4 -= step;
+                            obj->unkE6--;
+                        } else {
+                            sub->unk0 = -1;
+                            sub->state++;
+                            func_80024DA8(&obj->anim, 0x1F, 0, 0xA4, 0x10);
+                        }
+                        break;
+                    }
+                    obj->unkDC = sub->path[obj->unkE6];
+                }
+                obj->unkD4 = 0;
+                obj->unkD6 = obj->unkD8;
+                obj->unkD8 = func_80043770(obj->unkD8, obj->unkDC);
+                obj->unkDA = func_80043D68(obj->unkD6, obj->unkD8, obj->unkD2);
+            }
+        }
+        break;
+    case 1:
+        func_80024EF0(&obj->anim);
+        if (obj->anim.time >= 0x400) {
+            obj->anim.time = 0x400;
+            obj->anim.unk6 = 0;
+            sub->state++;
+        }
+        break;
+    case 2:
+        if (sub->unk3C != -1) {
+            func_8002A270((Unk8002A35C *)obj, sub->unk3C);
+        }
+        break;
+    case 3:
+        func_80024EF0(&obj->anim);
+        func_8002A270((Unk8002A35C *)obj, 0);
+        if (--sub->count < 0) {
+            func_8003BA6C();
+            if (sub->unk0 != -1) {
+                e = sub->unk0;
+                hdr = (s32 *)D_800A32EC;
+                sub->count = hdr[e * 2 + 1];
+                src = D_800A32EC + hdr[e * 2];
+                for (i = 0; i < hdr[e * 2 + 1]; i++) {
+                    sub->path[i] = *src++;
+                }
+                obj->unkD6 = sub->path[0];
+                obj->unkE6 = 1;
+                obj->unkDC = sub->path[1];
+                D_800A317C->func = func_8003B04C;
+            } else {
+                obj->unkD6 = func_80039458((Unk80045164 *)obj);
+                obj->unkDC = func_800439A4(obj->unkD6);
+                D_800A317C->func = func_80039B80;
+            }
+            obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+            obj->unkD4 = 0;
+            obj->unkDA = func_80043D68(obj->unkD6, obj->unkD8, obj->unkD2);
+            obj->unk38 = D_8008011C;
+            obj->unkEA = func_8001E9DC(20) + 50;
+            func_80024DA8(&obj->anim, 4, 0, 0x52, 3);
+            func_80049820(5000);
+        }
+        break;
+    }
+    if (sub->unk38 != 0) {
+        sub->state = 3;
+        sub->unk38 = 0;
+        sub->unk3A = 0;
+        sub->count = 60;
+        D_800A61B8[0] = -1;
+        obj->anim.unk6 = 0xA4;
+        func_80024DA8(&obj->anim, 0x23, 0, 0xF6, 3);
+        if (sub->unk4 != 0) {
+            D_800A61B8[sub->unk4 - 8] = -1;
+        }
+    }
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+    func_80031320((Unk80045164 *)obj);
+    if (obj->unkBE != 0 || sub->unk3A != 0) {
+        if (obj->unkBE >= 0) {
+            obj->unkF2 -= obj->unkBE;
+            if (obj->unkF2 <= 0) {
+                D_800A317C->func = func_80039858;
+                D_800A61B2 = -1;
+                if (D_800A7A20[obj->unkCA].id == D_800A336C) {
+                    func_80049820(-10000);
+                    params[0] = 0x2F;
+                    params[1] = 0x3FFF;
+                    params[2] = 0;
+                    params[3] = 0x400;
+                    params[4] = 0;
+                    params[5] = 1;
+                    params[3] += D_801C1EF6;
+                    func_8004FB78(params);
+                }
+                func_8003A790((struct Unk8003A790 *)obj, 1);
+                sub->state = -1;
+                sub->unk3A = -1;
+                if (sub->unk10 != NULL) {
+                    other = (Obj8003A8A4 *)sub->unk10->vals;
+                    other->sub.unk10 = NULL;
+                    other->sub.unk3E = -1;
+                }
+            }
+        }
+        obj->unkBE = 0;
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003B04C);
 
