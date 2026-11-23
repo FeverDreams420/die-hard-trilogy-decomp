@@ -8474,7 +8474,11 @@ typedef struct {
     s16 z;
     u8 pad6[4];
     s16 angle;
-    u8 padC[0xC];
+    u8 padC[4];
+    s16 unk10;
+    u8 pad12[2];
+    s16 unk14;
+    u8 pad16[2];
     s32 w;
     s32 h;
     s32 d;
@@ -12203,9 +12207,167 @@ void func_80042538(Obj *o) {
     D_800A2F3C++;
 }
 
+// NON_MATCHING: next-corner index (k + 1) % 4 recomputed per use in the original, registers (117 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042570);
+#else
+extern s32 func_8002A3C4();
 
+void func_80042570(Unk800436E4_Probe *probe) {
+    Unk800385F4_Pt pt[4];
+    Unk800385F4_Pt push[4];
+    s32 len[4];
+    s32 dist[4];
+    Unk800385F4_Pt *p;
+    Unk800385F4_Pt *q;
+    Unk800418DC *b;
+    s32 range;
+    s32 dx, dz;
+    s32 ox, oz;
+    s32 a, c;
+    s32 cw, sd, cd, sw;
+    s32 ex, ez;
+    s32 t;
+    s32 px, pz;
+    s16 top, bot;
+    s16 best;
+    s16 bi;
+    s16 inside;
+    s16 i;
+    s16 k;
+
+    switch (D_800A307C) {
+    case 0:
+        range = 0x800;
+        break;
+    case 3:
+    case 8:
+    case 13:
+    case 18:
+    case 22:
+        range = 9999;
+        break;
+    default:
+        range = 0x500;
+        break;
+    }
+    if (D_800A2F3C == 0) {
+        return;
+    }
+    if (ABS(probe->x) >= 0x4000 || ABS(probe->z) >= 0x4000) {
+        return;
+    }
+    top = probe->y + probe->unk1C;
+    bot = probe->y;
+    for (i = 0; i < D_800A2F3C; i++) {
+        b = (Unk800418DC *)D_800A5E90[i];
+        if (top < b->y || func_8002A3C4(probe, b) > range) {
+            continue;
+        }
+        if (!(b->angle & 0x7FF)) {
+            dx = probe->x - b->x;
+            dz = probe->z - b->z;
+            ox = probe->unk18 + b->w - ABS(dx);
+            oz = probe->unk20 + b->d - ABS(dz);
+            if (ox <= 0 || oz <= 0) {
+                continue;
+            }
+            if (bot >= b->y + b->h) {
+                if (probe->floor < b->y + b->h) {
+                    probe->floor = b->y + b->h;
+                }
+                continue;
+            }
+            if (oz < ox) {
+                if (b->z >= probe->z) {
+                    oz = -oz;
+                }
+                probe->unk14 += oz;
+                probe->z += oz;
+                b->unk14 -= oz;
+            } else {
+                if (b->x >= probe->x) {
+                    ox = -ox;
+                }
+                probe->unk10 += ox;
+                probe->x += ox;
+                b->unk10 -= ox;
+            }
+        } else {
+            a = D_800854C0[(b->angle + 0x400) & 0xFFF];
+            c = D_800854C0[(b->angle + 0x800) & 0xFFF];
+            cw = a * (b->w + 200);
+            sd = c * (b->d + 200);
+            cd = a * (b->d + 200);
+            sw = c * (b->w + 200);
+            ox = (cw + sd) >> 12;
+            oz = (sw - cd) >> 12;
+            pt[0].x = b->x - ox;
+            pt[0].z = b->z - oz;
+            pt[2].x = b->x + ox;
+            pt[2].z = b->z + oz;
+            ox = (cw - sd) >> 12;
+            oz = (sw + cd) >> 12;
+            pt[1].x = b->x - ox;
+            pt[1].z = b->z - oz;
+            pt[3].x = b->x + ox;
+            pt[3].z = b->z + oz;
+            bi = 0;
+            best = 0x7FFF;
+            inside = -1;
+            px = probe->x;
+            pz = probe->z;
+            for (k = 0; k < 4; k++) {
+                p = &pt[k];
+                q = &pt[(k + 1) % 4];
+                if ((p->z - pz) * (q->x - p->x) >= (p->x - px) * (q->z - p->z)) {
+                    inside = 0;
+                    break;
+                }
+                ex = ABS(p->x - q->x);
+                ez = ABS(p->z - q->z);
+                len[k] = (ex * ex + ez * ez) >> 9;
+                t = ((p->z - probe->z) * (p->z - q->z) - (p->x - probe->x) * (q->x - p->x)) >> 9;
+                push[k].x = t * (q->x - p->x) / len[k] + p->x - probe->x;
+                push[k].z = t * (q->z - p->z) / len[k] + p->z - probe->z;
+                dist[k] = SquareRoot0(push[k].x * push[k].x + push[k].z * push[k].z);
+                if (dist[k] < best) {
+                    best = dist[k];
+                    bi = k;
+                }
+            }
+            if (!inside) {
+                continue;
+            }
+            if (bot >= b->y + b->h) {
+                if (probe->floor < b->y + b->h) {
+                    probe->floor = b->y + b->h;
+                }
+                continue;
+            }
+            probe->x += push[bi].x;
+            probe->z += push[bi].z;
+            probe->unk10 += push[bi].x;
+            probe->unk14 += push[bi].z;
+            b->unk10 -= push[bi].x;
+            b->unk14 -= push[bi].z;
+        }
+        probe->hit++;
+        if (probe->unk28 == 0) {
+            b->unk2C++;
+        }
+        if (probe->unk34 != 0) {
+            b->unk2C++;
+            b->unk36 = probe->unk36;
+            b->unk2A += probe->unk34;
+        }
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AD3C);
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80042DD0);
 
