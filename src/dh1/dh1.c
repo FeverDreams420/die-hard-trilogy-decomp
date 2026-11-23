@@ -6256,9 +6256,11 @@ typedef struct Unk800584A4 {
     s16 unk7C;
     s16 unk7E;
     s16 unk80;
-    u8 pad82[4];
+    u8 pad82[2];
+    s16 unk84;
     s16 unk86;
-    u8 pad88[4];
+    s16 unk88;
+    u8 pad8A[2];
     s16 unk8C;
     s16 unk8E;
     s16 unk90;
@@ -7003,7 +7005,227 @@ void func_80033820(void) {
     }
 }
 
+// NON_MATCHING: spilled locals and register allocation (105 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80033918);
+#else
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[2];
+    SVECTOR rot;
+    SVECTOR v[32];
+    SVECTOR vel[32];
+    u8 pad210[0x40];
+    SVECTOR pos;
+    SVECTOR ang;
+    u8 pad260[8];
+    s32 scale[3];
+    u8 pad274[0x14];
+    s16 timer[32];
+    s16 unk2C8[8];
+    s16 unk2D8[8];
+    s16 unk2E8[8];
+    u8 uv[32][2];
+    s16 unk338;
+    s16 unk33A;
+    s16 unk33C;
+    s16 unk33E;
+    s16 unk340;
+    u16 unk342;
+    s16 unk344;
+    s16 unk346;
+    s16 unk348;
+    s16 unk34A;
+    s16 unk34C;
+    s16 unk34E;
+    s16 unk350;
+} Unk80033918;
+
+extern void func_80034194(void);
+
+void func_80033918(Unk800584A4 *obj, Unk800A7A28 *info) {
+    Unk8003BA6C_Task *task;
+    Unk80033918 *d;
+    u8 *tex;
+    s16 x0, z0, x1, z1;
+    s16 cx, cz;
+    s16 y;
+    s16 rowh;
+    s16 sx0, sx1, sz0, sz1;
+    s16 vx0, vx1, vz0;
+    s16 t;
+    s16 r0, r1;
+    s16 spd;
+    s16 life;
+    s16 i, j, k, r;
+    u8 u0, v0;
+    u8 vofs, vstep;
+
+    if (obj->unk2A == 0) {
+        return;
+    }
+    task = func_80021264(func_80034194, 1, 0x354);
+    if (task == NULL) {
+        return;
+    }
+    obj->unk2A = 0;
+    obj->unkA6 = 0;
+    vofs = 0;
+    life = 30;
+    d = (Unk80033918 *)task->data;
+    d->unk34A = 1;
+    x0 = obj->unk58;
+    z0 = obj->unk5C;
+    x1 = obj->unk50;
+    y = obj->unk5A - obj->unk42;
+    rowh = y >> 2;
+    z1 = obj->unk54;
+    d->unk34E = y >> 4;
+    cx = (x0 + x1) / 2;
+    d->x = cx;
+    d->rot.vx = 0;
+    d->rot.vy = 0;
+    d->rot.vz = 0;
+    cz = (z0 + z1) / 2;
+    d->z = cz;
+    d->y = obj->unk2;
+    x0 -= cx;
+    d->unk342 = obj->unk3C;
+    vstep = 8;
+    z0 -= cz;
+    d->unk346 = 4;
+    d->unk344 = obj->unk3E;
+    tex = (u8 *)D_800A3154 + d->unk342;
+    u0 = tex[0];
+    z1 -= cz;
+    v0 = tex[1];
+    x1 -= cx;
+    r0 = func_8001E9DC(10) + 30;
+    r1 = func_8001E9DC(10) + 30;
+    if (x0 != x1) {
+        d->unk33A = -1;
+        d->unk33E = 0;
+        if (info->unk4 >= 0) {
+            d->unk33C = 1;
+        } else {
+            d->unk33C = -1;
+        }
+        sz0 = 0;
+        sz1 = 0;
+        if (x0 < 0) {
+            sx0 = -1;
+            sx1 = 1;
+        } else {
+            sx0 = 1;
+            sx1 = -1;
+        }
+    } else {
+        d->unk33A = 0;
+        d->unk33E = -1;
+        if (info->unk0 < 0) {
+            d->unk340 = 1;
+        } else {
+            d->unk340 = -1;
+        }
+        sx0 = 0;
+        sx1 = 0;
+        if (z0 < 0) {
+            sz0 = -1;
+            sz1 = 1;
+        } else {
+            sz0 = 1;
+            sz1 = -1;
+        }
+    }
+    spd = 5;
+    d->unk348 = 0x1000;
+    for (i = 0; i < 32; i++) {
+        d->vel[i].vx = 0;
+        d->vel[i].vy = 0;
+        d->vel[i].vz = 0;
+    }
+    for (r = 0; r < 32; r += 8) {
+        vx0 = (func_8001E9DC(2) + spd) * sx0;
+        vx1 = (func_8001E9DC(2) + spd) * sx1;
+        vz0 = (func_8001E9DC(2) + spd) * sz0;
+        t = func_8001E9DC(2);
+        d->v[r + 2].vx = x0;
+        d->v[r].vx = x0;
+        d->v[r + 6].vx = 0;
+        d->v[r + 4].vx = 0;
+        d->v[r + 3].vx = 0;
+        d->v[r + 1].vx = 0;
+        d->v[r + 7].vx = x1;
+        d->v[r + 5].vx = x1;
+        for (j = 0; j < 2; j++) {
+            d->v[r + j].vy = y;
+            d->v[r + j + 2].vy = y - rowh;
+            d->v[r + j + 4].vy = y;
+            d->v[r + j + 6].vy = y - rowh;
+        }
+        d->v[r + 2].vz = z0;
+        d->v[r].vz = z0;
+        d->v[r + 6].vz = 0;
+        d->v[r + 4].vz = 0;
+        d->v[r + 3].vz = 0;
+        d->v[r + 1].vz = 0;
+        d->v[r + 7].vz = z1;
+        d->v[r + 5].vz = z1;
+        d->uv[r + 2][0] = u0;
+        d->uv[r][0] = u0;
+        d->uv[r + 6][0] = u0 + 0x10;
+        d->uv[r + 4][0] = u0 + 0x10;
+        d->uv[r + 3][0] = u0 + 0x10;
+        d->uv[r + 1][0] = u0 + 0x10;
+        d->uv[r + 7][0] = u0 + 0x1F;
+        d->uv[r + 5][0] = u0 + 0x1F;
+        for (j = 0; j < 2; j++) {
+            d->uv[r + j][1] = v0 + vofs;
+            d->uv[r + j + 2][1] = v0 + vstep;
+            d->uv[r + j + 4][1] = v0 + vofs;
+            d->uv[r + j + 6][1] = v0 + vstep;
+        }
+        for (j = 0; j < 4; j++) {
+            d->vel[r + j].vy = r0;
+            d->vel[r + j].vz = vz0;
+            d->vel[r + j].vx = vx0;
+            d->vel[r + j + 4].vx = vx1;
+            d->vel[r + j + 4].vz = (t + spd) * sz1;
+            d->vel[r + j + 4].vy = r1;
+        }
+        for (k = r; k < r + 8; k++) {
+            d->timer[k] = r0 + func_8001E9DC(20);
+        }
+        spd--;
+        life -= 5;
+        r0 = func_8001E9DC(10) + life;
+        r1 = func_8001E9DC(10) + life;
+        vstep += 8;
+        vofs += 8;
+        if (vstep == 0x20) {
+            vstep = 0x1F;
+        }
+        y -= rowh;
+    }
+    d->unk34C = ABS(x0) >> 4;
+    d->unk350 = ABS(z0) >> 4;
+    for (i = 0; i < 8; i++) {
+        d->unk2C8[i] = 0;
+        d->unk2E8[i] = 1;
+        d->unk2D8[i] = func_8001E9DC(9 - i) + 6;
+    }
+    d->unk338 = 120;
+    d->pos.vx = obj->unk7C;
+    d->pos.vy = obj->unk7E;
+    d->pos.vz = obj->unk80;
+    d->ang.vx = obj->unk84;
+    d->ang.vy = obj->unk86;
+    d->ang.vz = obj->unk88;
+    d->scale[0] = obj->unk94;
+    d->scale[1] = obj->unk98;
+    d->scale[2] = obj->unk9C;
+}
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80034194);
 
