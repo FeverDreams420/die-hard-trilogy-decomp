@@ -18254,11 +18254,310 @@ void func_800509D0(void) {
     }
 }
 
+// NON_MATCHING: sound call tail merging, glow loop layout (31 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80050A98);
+#else
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0xEE];
+    s16 unkF4;
+    u8 padF6[2];
+    s16 unkF8[3];
+    u8 padFE[2];
+    s16 unk100;
+} Unk80050A98_Player;
 
+extern s16 D_80080E32[];
+extern s16 D_801F9EE6;
+extern s16 D_801C0B44[];
+extern Unk800AA8EC D_800AA8EC[];
+extern void (*D_8008009C[])();
+extern void (*D_8007FF9C[])(Unk80032344_Face *f);
+extern void func_80051778(s16 id, s16 flag);
+extern void func_8005217C();
+
+void func_80050A98(void) {
+    Unk800509D0_Data *d = (Unk800509D0_Data *)D_800A317C->vals;
+    Unk80050A98_Player *p;
+    Unk80032344_Face *f;
+    VECTOR scale;
+    s16 xy[2];
+    s32 params[6];
+    s32 limit;
+    s32 snd;
+    s16 pitch;
+    s16 vol;
+    s16 draw;
+    s16 big;
+    s16 glow;
+    s16 kind;
+    s16 sc;
+    s16 i;
+
+    if (d->unk0 == 0) {
+        return;
+    }
+    PushMatrix();
+    pitch = 0x400;
+    vol = 0x3FFF;
+    for (i = 0; i < 20; i++) {
+        d->unk25C[i]++;
+        draw = 0;
+        switch (d->unk20C[i]) {
+        case 0:
+            continue;
+        case 1:
+            d->unk4[i].vy += d->unk1BC[i];
+            d->unk1BC[i] -= 4;
+            d->unk194[i] += 0x48;
+            draw = -1;
+            if (d->unk4[i].pad >= d->unk4[i].vy) {
+                d->unk4[i].vy = d->unk4[i].pad;
+                d->unk20C[i] = 2;
+            }
+            break;
+        case 2:
+            d->unk194[i] = 0x1000;
+            d->unkA4[i].vy += 0x20;
+            d->unk4[i].vy = d->unk4[i].pad + D_801C0B44[i & 0xF];
+            d->unk1E4[i]--;
+            draw = -1;
+            if (d->unk2 == 0 || D_801F7D50.unk0 == NULL) {
+                break;
+            }
+            p = (Unk80050A98_Player *)D_801F7D50.unk0->vals;
+            if (func_8002A35C((Unk8002A35C *)p, (Unk8002A35C *)&d->unk4[i]) < 0x180 && p->y - d->unk4[i].pad < 0x200) {
+                kind = d->unk234[i];
+                big = 0;
+                func_80049820(D_80080E32[kind * 2]);
+                d->unk20C[i] = 3;
+                d->unk1E4[i] = 3;
+                d->unk194[i] = 0x100;
+                d->unkA4[i].vy = 0;
+                d->unk2 = 0;
+                switch (kind) {
+                case 0:
+                    p->unkF4 = 3;
+                    func_80051778(3, -1);
+                    snd = 0xD;
+                    break;
+                case 1:
+                    p->unkF4 = 4;
+                    func_80051778(4, -1);
+                    snd = 0xE;
+                    break;
+                case 2:
+                    if (p->unkF8[0] < 50) {
+                        p->unkF8[0]++;
+                    }
+                    snd = 0x32;
+                    big = -1;
+                    break;
+                case 3:
+                    func_8005217C(p, 3);
+                    snd = 0x25;
+                    big = -1;
+                    break;
+                case 4:
+                    func_8005217C(p, 12);
+                    snd = 0x25;
+                    big = -1;
+                    break;
+                case 5:
+                    p->unk100 = 5;
+                    snd = 0x1F;
+                    vol = 0x2000;
+                    break;
+                case 6:
+                    if (p->unkF8[1] < 50) {
+                        p->unkF8[1]++;
+                    }
+                    snd = 0x32;
+                    big = -1;
+                    break;
+                case 7:
+                    if (p->unkF8[2] < 50) {
+                        p->unkF8[2]++;
+                    }
+                    snd = 0x32;
+                    big = -1;
+                    break;
+                case 8:
+                    func_8005217C(p, 1);
+                    snd = 0x34;
+                    pitch = -1;
+                    if (D_801F9EE6 == 0x400) {
+                        big = -1;
+                    }
+                    break;
+                case 9:
+                case 10:
+                    func_8005217C(p, 1);
+                    snd = 0x20;
+                    break;
+                case 11:
+                    p->unkF4 = 2;
+                    func_80051778(2, -1);
+                    snd = 0xC;
+                    break;
+                case 12:
+                    p->unkF4 = 6;
+                    func_80051778(6, -1);
+                    params[0] = 0x26;
+                    params[1] = 0x3FFF;
+                    params[2] = 0;
+                    params[3] = 0x400;
+                    params[4] = 0;
+                    params[5] = 1;
+                    params[3] += D_801C1EF6;
+                    func_8004FB78(params);
+                    snd = 0xF;
+                    break;
+                case 13:
+                    p->unkF4 = 5;
+                    func_80051778(5, -1);
+                    snd = 0xC;
+                    break;
+                default:
+                    snd = 0x1F;
+                    break;
+                }
+                if (big != 0) {
+                    params[0] = snd;
+                    params[1] = 0x3FFF;
+                    params[2] = 0;
+                    params[3] = 0x400;
+                    params[4] = 0;
+                    params[5] = 1;
+                    params[3] += D_801C1EF6;
+                } else {
+                    params[1] = vol;
+                    params[0] = snd;
+                    params[2] = 0;
+                    params[4] = 0;
+                    params[5] = 0;
+                    params[3] = pitch;
+                }
+                func_8004FB78(params);
+            } else if (d->unk1E4[i] <= 0) {
+                d->unk20C[i] = 6;
+                d->unk1E4[i] = 3;
+            }
+            break;
+        case 3:
+            if (D_801F7D50.unk0 == NULL) {
+                d->unk20C[i] = 0;
+                break;
+            }
+            p = (Unk80050A98_Player *)D_801F7D50.unk0->vals;
+            d->unk4[i].vx = p->x;
+            d->unk4[i].vy = p->y + ((D_800A3194.vy - p->y) >> 1);
+            d->unk4[i].vz = p->z;
+            d->unk194[i] += 0x400;
+            d->unk1E4[i] += 0x100;
+            d->unkA4[i].vy += 0x40;
+            if (d->unk1E4[i] >= 0x1000) {
+                d->unk20C[i] = 4;
+                d->unk1E4[i] = 3;
+                d->unk2 = -1;
+            }
+            break;
+        case 4:
+            if (D_801F7D50.unk0 == NULL) {
+                d->unk20C[i] = 0;
+                break;
+            }
+            p = (Unk80050A98_Player *)D_801F7D50.unk0->vals;
+            d->unk4[i].vx = p->x;
+            d->unk4[i].vy = p->y + ((D_800A3194.vy - p->y) >> 1);
+            d->unk4[i].vz = p->z;
+            d->unk1E4[i] += 0x80;
+            d->unkA4[i].vy += 0x40;
+            if (d->unk1E4[i] >= 0x1000 || d->unk2 == 0) {
+                d->unk20C[i] = 5;
+                d->unk1E4[i] = 3;
+            }
+            break;
+        case 5:
+            if (D_801F7D50.unk0 == NULL) {
+                d->unk20C[i] = 0;
+                break;
+            }
+            p = (Unk80050A98_Player *)D_801F7D50.unk0->vals;
+            d->unk4[i].vx = p->x;
+            d->unk4[i].vy = p->y + ((D_800A3194.vy - p->y) >> 1);
+            d->unk4[i].vz = p->z;
+            d->unk1E4[i] += 0x80;
+            d->unk4[i].vy += d->unk1E4[i];
+            d->unkA4[i].vy += 0x40;
+            if (d->unk1E4[i] >= 0x800) {
+                d->unk20C[i] = 0;
+                d->unk0--;
+                continue;
+            }
+            break;
+        case 6:
+            d->unk194[i] -= 0x100;
+            draw = -1;
+            if (d->unk194[i] <= 0) {
+                d->unk20C[i] = 0;
+                d->unk0--;
+                continue;
+            }
+            break;
+        }
+        sc = d->unk194[i];
+        scale.vx = sc;
+        scale.vy = sc;
+        scale.vz = sc;
+        f = (Unk80032344_Face *)(d->unk144[i] + 8);
+        if (draw != 0 && (d->unk1E4[i] > 100 || (d->unk1E4[i] < 100 && (d->unk1E4[i] & 4)))) {
+            func_8002A270((Unk8002A35C *)&d->unk4[i], 2);
+        }
+        LoadAverageShort12(&d->unk4[i], &D_800A3194, 0x1000, -0x1000, &D_800A349C);
+        ApplyMatrix(&D_801C0B64, &D_800A349C, &D_801C1EC4);
+        RotMatrix(&d->unkA4[i], &D_801FB868);
+        ScaleMatrix(&D_801FB868, &scale);
+        MulMatrix2(&D_801C0B64, &D_801FB868);
+        SetRotMatrix(&D_801FB868);
+        func_80070C9C(&D_801FB868, &D_801C1EC4);
+        SetTransMatrix(&D_801FB868);
+        D_800A326C = RotTransPers(&D_800A2A10, (s32 *)xy, (s32 *)&D_800A2EFC, &D_800A3394) * 4;
+        if (D_800A326C < 0x80 || (u16)(xy[0] + 0x50) >= 0x1E1 || (u16)(xy[1] + 0x50) >= 0x1E1) {
+            continue;
+        }
+        glow = d->unk1E4[i] & 0xF;
+        if (glow >= 8) {
+            glow = 15 - glow;
+        }
+        if ((u16)(d->unk20C[i] - 3) < 3) {
+            do {
+                D_8008009C[f->flags & 0x1F](f);
+            } while (!((f++)->flags & 0x80));
+        } else if (!(d->unk25C[i] & 1)) {
+            limit = (s32)((u8 *)&D_800AA8EC[D_800A333C] + 0x478);
+            while ((s32)D_800A30A4 < limit) {
+                f->flags = (glow << 8) | (u8)f->flags;
+                D_8007FF9C[f->flags & 0x1F](f);
+                f->flags = (u8)f->flags | 0x300;
+                if ((f++)->flags & 0x80) {
+                    break;
+                }
+            }
+        }
+    }
+    PopMatrix();
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AEE0);
+#endif
 
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AF00);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007AF38);
 
