@@ -479,3 +479,5 @@ The library code linked into DH1, DH2 and DH3 was built with a different compile
 - Unresolved: `get_cs`/`get_ce`/`get_dx`/`get_mode`/`get_ofs` load libgpu fields through an unfolded `lui`/`addiu` address, then `lhu` plus `sll`/`sra`. Only a `volatile` struct reproduces that, and it breaks `GetGraphType`.
 - A do/while loop over an `s16 i` whose index the original keeps sign-extended in a saved register (and reuses for `i << 8`): copy it into an `s32 j = i` after the first call in the body and index with `j` (DH3 0x8006B170, DH2 0x8006F110).
 - Two plain loads of the same global in one block mean it was declared `volatile` (DH2 `D_801F7544`, 0x8006F110); a `*(T volatile *)&x` cast gives an `addiu`/`lw 0` pair instead.
+- A `const` extern table lets GCC keep an element in a register across stores; the original reloads it after each store, so declare such tables without `const` (DH1 0x80032A68, `D_80080594`).
+- `divu` by a constant: the dividend is `u16` and the divisor is written unsigned (`x / 44U`); `x / 44` promotes to `int` and gives `div` (DH1 0x80040620).
