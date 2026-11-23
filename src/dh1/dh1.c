@@ -19535,7 +19535,209 @@ void func_80055298(Unk80055298 *obj) {
     }
 }
 
+// NON_MATCHING: x, y and item fields reloaded through the menu definition in the original, registers (152 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005543C);
+#else
+typedef struct {
+    char text[0x20];
+    s16 type;
+    u8 pad22[6];
+    s32 unk28;
+    s32 unk2C;
+} Unk8005543C_Item;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 unk4;
+    s16 unk6;
+    char title[0x14];
+    s16 unk1C;
+    u8 pad1E[2];
+    Unk8005543C_Item items[5];
+} Unk8005543C_Def;
+
+typedef struct {
+    u8 pad0[0x18];
+    Unk8005543C_Def *def;
+    s16 flash[5];
+    s16 sel[5];
+    u8 pad30[4];
+    s16 unk34;
+    s16 unk36;
+    u8 pad38[6];
+    s16 unk3E;
+} Unk8005543C;
+
+extern u8 D_800A2A5C[];
+extern u8 D_800A2A60[];
+extern u8 D_800A2A64[];
+extern u8 D_800A2A58[];
+extern u8 D_800A2A4C[];
+extern u8 D_800A2A54[];
+extern u8 D_800A2A30[];
+extern u8 D_800A2A48[];
+extern u8 D_800A2A3C[];
+extern char D_800A2B2C[];
+extern char D_800A2B30[];
+extern s16 D_801C1ED4[];
+extern s16 D_801C1EE8;
+extern s16 D_801C1EEC;
+extern s16 D_800A3354;
+extern s16 D_800A3334;
+extern void func_80054940(s16 x, s16 y, char *text, s32 a3, s32 a4, u8 *a5, u8 *a6);
+extern void func_800545BC(short x, short y, int value, int d, int a, u8 *b, u8 *c);
+
+void func_8005543C(void *arg, s32 shadow) {
+    Unk8005543C *menu = arg;
+    Unk8005543C_Def *def = menu->def;
+    Unk8005543C_Item *item;
+    s32 params[6];
+    u8 c0[4];
+    u8 c1[4];
+    u8 *a;
+    u8 *b;
+    char *s;
+    s16 x;
+    s16 y;
+    s16 sc;
+    s16 h;
+    s16 on;
+    s16 i;
+    s16 sh = shadow;
+
+    x = def->x;
+    y = def->y;
+    func_80053864(D_800A3334 >> 1, y, def->title, (D_800854C0[menu->unk36] * 7) >> 4, 0x600, D_800A2A5C, D_800A2A64);
+    y += 0x2C;
+    for (i = 0; i < 5; i++) {
+        item = &def->items[i];
+        if (item->text[0] == 0) {
+            break;
+        }
+        switch (menu->sel[i]) {
+        case 2:
+            menu->sel[i] = 1;
+        case 1:
+            a = D_800A2A5C;
+            b = D_800A2A64;
+            break;
+        default:
+            b = D_800A2A60;
+            a = D_800A2A60;
+            break;
+        }
+        c0[0] = func_800296F8(a[0], 0xFF, menu->flash[i]);
+        c0[1] = func_800296F8(a[1], 0xFF, menu->flash[i]);
+        c0[2] = func_800296F8(a[2], 0xFF, menu->flash[i]);
+        c1[0] = func_800296F8(b[0], 0xFF, menu->flash[i]);
+        c1[1] = func_800296F8(b[1], 0xFF, menu->flash[i]);
+        c1[2] = func_800296F8(b[2], 0xFF, menu->flash[i]);
+        if (menu->flash[i] > 0) {
+            menu->flash[i] -= 0x400;
+        } else {
+            menu->flash[i] = 0;
+        }
+        sc = (D_800854C0[menu->unk36] * def->unk4) >> 12;
+        switch (item->type) {
+        case -3:
+            h = def->unk6;
+            D_800A3354 = def->unk1C;
+            func_80053864(x, y, item->text, sc, h, c0, c1);
+            func_800544A8(x + 4, y + 2, item->text, sc, h, D_800A2A58, D_800A2A58);
+            func_800545BC(x + 0x78, y, D_800A350C->unk1780 + 1, sc, h, c0, c1);
+            func_80054940(x + 0x7C, y + 2, (char *)(D_800A350C->unk1780 + 1), sc, h, D_800A2A58, D_800A2A58);
+            break;
+        case -2:
+            func_80053864(0xA0, y, item->text, sc, def->unk6, c0, c1);
+            func_800545BC(0xFE, y, D_801C1EE8, sc, def->unk6, D_800A2A4C, D_800A2A54);
+            if (menu->sel[i] == 1) {
+                if (*D_800A343C & 0x2000) {
+                    D_801C1ED4[item->unk28]++;
+                }
+                if (*D_800A343C & 0x8000) {
+                    D_801C1ED4[item->unk28]--;
+                }
+                if (*D_800A343C & 0x40) {
+                    params[1] = 0x3FFF;
+                    params[2] = 0;
+                    params[3] = D_801C1EEC;
+                    params[4] = 0;
+                    params[5] = 0;
+                    params[0] = D_801C1ED4[item->unk28];
+                    func_8004FB78(params);
+                }
+            }
+            break;
+        case -1:
+            D_800A3354 = def->unk1C;
+            func_80053864(x, y, item->text, sc, def->unk6, c0, c1);
+            D_800A3354 = def->unk1C;
+            func_800544A8(x + 4, y + 2, item->text, sc, def->unk6, D_800A2A58, D_800A2A58);
+            if (D_801C1ED4[item->unk28] != 0) {
+                func_80053864(0xFE, y, D_800A2B2C, sc, def->unk6, D_800A2A30, D_800A2A48);
+                s = D_800A2B2C;
+            } else {
+                func_80053864(0xFE, y, D_800A2B30, sc, def->unk6, D_800A2A30, D_800A2A3C);
+                s = D_800A2B30;
+            }
+            func_800544A8(0x102, y + 2, s, sc, def->unk6, D_800A2A58, D_800A2A58);
+            if (menu->sel[i] == 1) {
+                on = 0;
+                if (*D_800A343C & 0x2000) {
+                    on = -1;
+                    D_801C1ED4[def->items[i].unk28] = -1;
+                }
+                if (*D_800A343C & 0x8000) {
+                    on = -1;
+                    D_801C1ED4[def->items[i].unk28] = 0;
+                }
+                if (on != 0) {
+                    params[0] = 0x1F;
+                    params[1] = 0x1000;
+                    params[2] = 0;
+                    params[3] = 0x400;
+                    params[4] = 0;
+                    params[5] = 0;
+                    func_8004FB78(params);
+                }
+            }
+            break;
+        case 0:
+            D_800A3354 = -1;
+            func_80053864(x, y, item->text, sc, def->unk6, c0, c1);
+            if (sh != 0) {
+                D_800A3354 = -1;
+                func_800544A8(x + 4, y + 2, item->text, sc, def->unk6, D_800A2A58, D_800A2A58);
+            }
+            func_800550D8(item->unk2C, y);
+            break;
+        default:
+            D_800A3354 = def->unk1C;
+            func_80053864(x, y, item->text, sc, def->unk6, c0, c1);
+            if (sh != 0) {
+                D_800A3354 = def->unk1C;
+                func_800544A8(x + 4, y + 2, item->text, sc, def->unk6, D_800A2A58, D_800A2A58);
+            }
+            break;
+        }
+        y = y + 1 + ((def->unk6 * 15) >> 9);
+    }
+    if (menu->unk3E != 0) {
+        if (menu->unk36 > 0) {
+            menu->unk36 -= 0x100;
+        } else {
+            menu->unk36 = 0;
+            menu->unk34 = 0;
+        }
+    } else if (menu->unk36 >= 0x400) {
+        menu->unk36 = 0x400;
+    } else {
+        menu->unk36 += 0x100;
+    }
+}
+#endif
 
 extern Unk800A8078 D_800A8078[2];
 extern volatile s32 D_800A31F4;
