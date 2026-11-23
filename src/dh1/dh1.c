@@ -9656,30 +9656,33 @@ typedef struct {
     s16 unk160;
 } Obj8003A8A4;
 
-// NON_MATCHING: path copy loop, register allocation (34 lines)
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A8A4);
-#else
 extern s16 func_80043D68(s16 from, s16 to, s16 arg2);
 extern void func_8003BA6C(void);
 extern void func_8003B04C(void);
 extern s32 func_80043B6C();
 extern u8 *D_800A32EC;
 
+// NON_MATCHING: block layout of the unkD8 == unkDC tail (the original jumps over a duplicated lh of unkD8), a copy of sub->unk0 before the table index, and 8 bytes of frame
+#ifndef NON_MATCHING
+INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003A8A4);
+#else
 void func_8003A8A4(void) {
     Obj8003A8A4 *obj = (Obj8003A8A4 *)D_800A317C->vals;
     Unk8003A8A4_Sub *sub;
     Obj8003A8A4 *other;
     Unk80043CC4 *node;
-    Unk8002A35C pos;
+    VECTOR pos;
+    VECTOR unused;
     s32 params[6];
     s32 *hdr;
     u8 *src;
     s32 dist;
-    s16 step;
+    s32 step;
     s16 tmp;
     s16 a;
     s16 e;
+    s16 n;
+    s16 k;
     s16 i;
 
     step = 0;
@@ -9689,7 +9692,7 @@ void func_8003A8A4(void) {
     case 0:
         func_8002A270((Unk8002A35C *)obj, 3);
         dist = func_80043B6C(&pos, obj);
-        a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
+        a = func_80028B04((Unk8002A35C *)&pos, (Unk8002A35C *)obj) & 0xFFF;
         obj->unk22 = a;
         obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
         if (obj->unkEA != 0) {
@@ -9720,7 +9723,8 @@ void func_8003A8A4(void) {
             obj->unkA = obj->unk2;
             obj->unkC = obj->unk4;
             func_80024EF0(&obj->anim);
-            step = func_800296F8(obj->anim.unk6 * 4, 1, (dist << 12) / 1536);
+            step = (dist << 12) / 1536;
+            step = func_800296F8(obj->anim.unk6 * 4, 1, step);
             if (step < 0) {
                 step = 0;
             }
@@ -9738,7 +9742,7 @@ void func_8003A8A4(void) {
                 if (obj->unkD8 == obj->unkDC) {
                     if (++obj->unkE6 >= sub->count) {
                         func_8004379C(obj->unkD8, (SVECTOR *)&pos);
-                        if (func_8002A35C((Unk8002A35C *)obj, &pos) > 0x80) {
+                        if (func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)&pos) > 0x80) {
                             obj->unkD4 -= step;
                             obj->unkE6--;
                         } else {
@@ -9777,15 +9781,18 @@ void func_8003A8A4(void) {
             func_8003BA6C();
             if (sub->unk0 != -1) {
                 e = sub->unk0;
-                hdr = (s32 *)D_800A32EC;
-                sub->count = hdr[e * 2 + 1];
-                src = D_800A32EC + hdr[e * 2];
-                for (i = 0; i < hdr[e * 2 + 1]; i++) {
+                n = e * 2 + 1;
+                k = e * 2;
+                src = D_800A32EC;
+                hdr = (s32 *)src;
+                src += hdr[k];
+                sub->count = hdr[n];
+                for (i = 0; i < ((s32 *)D_800A32EC)[n]; i++) {
                     sub->path[i] = *src++;
                 }
                 obj->unkD6 = sub->path[0];
-                obj->unkE6 = 1;
                 obj->unkDC = sub->path[1];
+                obj->unkE6 = 1;
                 D_800A317C->func = func_8003B04C;
             } else {
                 obj->unkD6 = func_80039458((Unk80045164 *)obj);
