@@ -13447,7 +13447,167 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004C104);
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004C19C);
 
+// NON_MATCHING: register allocation and scheduling
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004C38C);
+#else
+typedef struct {
+    s16 x;
+    s16 pad2;
+    s16 z;
+    u8 pad6[0x42];
+    s16 ang[16];
+    s16 spin[16];
+    s16 phase[16];
+    s16 unkA8;
+    s16 padAA;
+    s16 fade[16];
+    u8 padCC[0x40];
+    s16 orbit[16];
+    u8 pad12C[4];
+    s16 unk130;
+    s16 unk132;
+    s16 pad134;
+    s16 unk136;
+} Unk8004C38C;
+
+extern s32 func_8004C104(SVECTOR *pos, Unk8004C38C *d, s16 phase);
+extern s32 D_801C0B08;
+extern s32 D_801C0B2C;
+extern u16 D_801C0B10;
+extern u16 D_801C0B14;
+extern s32 D_801C0A54;
+extern s32 D_801C0A74;
+extern u16 D_801C0A5C;
+extern u16 D_801C0A60;
+extern s16 D_800A34FC;
+
+void func_8004C38C(void) {
+    Unk8004C38C *d = (Unk8004C38C *)D_800A317C->vals;
+    Unk80059DB8_Prim *prim;
+    SVECTOR pos;
+    s16 sxy[2];
+    u32 *ot;
+    s32 ox;
+    s32 oz;
+    s32 cx;
+    s32 cz;
+    s32 z;
+    s32 size;
+    s32 sn;
+    s32 cs;
+    s32 m;
+    s32 c;
+    s16 a;
+    s16 ph;
+    s16 row;
+    s16 col;
+    u16 k;
+    s16 i;
+
+    k = 0;
+    row = 5;
+    D_800A33B4 = d->unk136;
+    func_80070FDC(d->unk136);
+    prim = D_800A3374;
+    PushMatrix();
+    SetRotMatrix(&D_801C0B64);
+    SetTransMatrix(&D_801C0B64);
+    do {
+        col = 5;
+        do {
+            k = (k + 1) & 0xF;
+            if (d->phase[k] != -1) {
+                a = d->orbit[k];
+                ox = D_800854C0[a] >> 7;
+                cx = row - 3;
+                pos.vx = ox + (cx * 16 + d->x);
+                oz = D_800854C0[(a + 0x400) & 0xFFF] >> 7;
+                cz = col - 3;
+                pos.vz = oz + (cz * 16 + d->z);
+                if ((s16)func_8004C104(&pos, d, d->phase[k]) == 0) {
+                    pos.vx = ox + (cx * d->unk130 + d->x);
+                    pos.vz = oz + (cz * d->unk130 + d->z);
+                    z = RotTransPers(&pos, (s32 *)sxy, &D_800A2EFC, &D_800A3394);
+                    D_800A326C = z;
+                    if (z >= 0x20 && z < 0x13FE && !(D_800A3394 & 0xFFFE0000)) {
+                        a = d->ang[k];
+                        func_800296F8(8, 0x20, d->phase[k]);
+                        size = func_800296F8(0x18, 0x38, d->phase[k]) * D_800A33B4 / D_800A326C;
+                        sn = (D_800854C0[a & 0xFFF] * size) >> 12;
+                        prim->y0 = sn + sxy[1];
+                        cs = (D_800854C0[(a + 0x400) & 0xFFF] * size) >> 12;
+                        prim->y1 = cs + sxy[1];
+                        prim->y2 = sxy[1] - cs;
+                        prim->y3 = sxy[1] - sn;
+                        prim->x0 = sxy[0] - cs;
+                        prim->x1 = sn + sxy[0];
+                        prim->x2 = sxy[0] - sn;
+                        prim->x3 = cs + sxy[0];
+                        SetPolyFT4(prim);
+                        SetShadeTex(prim, 0);
+                        ph = d->phase[k];
+                        m = (D_800854C0[d->fade[k]] * 0xFF) >> 12;
+                        if (ph < 0x100) {
+                            c = func_800296F8(0, m, ph * 16);
+                        } else {
+                            c = func_800296F8(m, 0, ph);
+                        }
+                        if ((s16)c > 0) {
+                            *(s32 *)&prim->uv0 = D_801C0B08;
+                            prim->uvt1 = D_801C0B2C;
+                            prim->uv2 = D_801C0B10;
+                            prim->uv3 = D_801C0B14;
+                        } else {
+                            *(s32 *)&prim->uv0 = D_801C0A54;
+                            prim->uvt1 = D_801C0A74;
+                            c = (s16)c;
+                            if (c < 0) {
+                                c = -c;
+                            }
+                            c /= 2;
+                            prim->uv2 = D_801C0A5C;
+                            prim->uv3 = D_801C0A60;
+                        }
+                        SetSemiTrans(prim, 1);
+                        prim->r0 = c;
+                        prim->g0 = c;
+                        prim->b0 = c;
+                        D_800A326C = 0x400;
+                        ot = D_800A32E4 + 0x400;
+                        if (ot >= D_800A32E4 && ot < D_800A32E4 + 0x9FF) {
+                            AddPrim(ot, prim++);
+                        }
+                    }
+                }
+            }
+        } while (col-- != 0);
+    } while (row-- != 0);
+    i = 15;
+    do {
+        d->orbit[i] = (d->orbit[i] + 0x30) & 0xFFF;
+        d->ang[i] = (d->ang[i] + d->spin[i]) & 0xFFF;
+        if (d->phase[i] != -1) {
+            d->phase[i] += 0x82;
+        }
+        if (d->phase[i] > 0x1000) {
+            d->phase[i] = 0;
+        }
+    } while (i-- != 0);
+    D_800A3374 = prim;
+    PopMatrix();
+    d->unk130 = 0xAA;
+    d->unk132 = func_800296F8(-100, 400, d->unkA8);
+    if (d->unkA8 < 0xFFF) {
+        d->unkA8 += 0x10;
+    }
+    D_800A33B4 = 0x100;
+    if (D_800A2F44 == 2) {
+        D_800A34FC++;
+        func_80021554();
+    }
+}
+#endif
 
 typedef struct {
     s16 pos[3];
