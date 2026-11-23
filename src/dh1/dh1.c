@@ -7832,15 +7832,19 @@ void func_800360C8(Unk800360C8 *obj, s32 unused, s32 angle) {
     obj->unk72 = 0;
 }
 
-// NON_MATCHING: registers, branch layout; the original reaches unk70..unk74 through a pointer to obj + 0x2C
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003614C);
-#else
 extern s32 D_801D7238;
 extern s32 D_801D71D8;
 
+typedef struct {
+    u8 pad0[0x44];
+    s16 timer;
+    s16 count;
+    s16 state;
+} Unk8003614C_State;
+
 void func_8003614C(void *arg0, void *arg1, Unk800584A4 *self) {
     Unk800584A4 *obj = &D_800A3564[self->unkA];
+    Unk8003614C_State *st = (Unk8003614C_State *)&obj->unk2C;
     s32 params[6];
 
     if (obj->unk2A == 0) {
@@ -7850,29 +7854,27 @@ void func_8003614C(void *arg0, void *arg1, Unk800584A4 *self) {
     if (obj->unkA6 < 0) {
         obj->unkA6 = 0;
     }
-    switch (obj->unk74) {
+    switch (st->state) {
     case 0:
     case 5:
     case 10:
         if (obj->unkA6 != 0) {
-            obj->unk72 += obj->unkA6;
-            if (obj->unk72 >= 7) {
-                obj->unk70 = 2;
-                obj->unk74++;
+            st->count += obj->unkA6;
+            if (st->count >= 7) {
+                st->timer = 2;
+                st->state++;
             }
         }
         obj->unkA6 = 0;
-        /* fallthrough */
-    case 15:
         func_80042538((Obj *)&obj->unk7C);
         break;
     case 1:
     case 6:
     case 11:
-        if (obj->unk70 != 0) {
-            obj->unk70--;
+        if (st->timer != 0) {
+            st->timer--;
         } else {
-            obj->unk74++;
+            st->state++;
         }
         func_80042538((Obj *)&obj->unk7C);
         break;
@@ -7881,7 +7883,7 @@ void func_8003614C(void *arg0, void *arg1, Unk800584A4 *self) {
     case 12:
         func_8001E9DC(0x40);
         func_8004ACD4((SVECTOR *)obj);
-        params[0] = func_8001E9DC(3) + 16;
+        params[0] = (s16)func_8001E9DC(3) + 16;
         params[1] = func_80050974((SVECTOR *)obj, 0x3FFF);
         if (params[1] < 0x2800) {
             params[1] = 0x2800;
@@ -7902,11 +7904,11 @@ void func_8003614C(void *arg0, void *arg1, Unk800584A4 *self) {
         params[5] = 0;
         func_8004FB78(params);
         func_8001E9DC(0x40);
-        obj->unk70 = 4;
+        st->timer = 4;
         D_800A2A1A += 10;
         func_8003768C((SVECTOR *)obj, 0);
         func_80056ADC((SVECTOR *)obj, 0x1200);
-        if (obj->unk74 == 2) {
+        if (st->state == 2) {
             if ((s16)func_8001E9DC(20) < 16) {
                 func_8004F364((Unk8002A35C *)obj, (s32)obj);
             } else {
@@ -7916,7 +7918,7 @@ void func_8003614C(void *arg0, void *arg1, Unk800584A4 *self) {
             func_8004DA48(obj, &obj->unk8, 0x10, 0, 0x40, 0, 0x2000, 0x20, 0);
             func_8004DA48(obj, &obj->unk8, 0x10, 0, 0x80, 0, 0x2000, 0x18, 0);
             func_8004DA48(obj, &obj->unk8, 0x10, 0, 0xC0, 0, 0x2000, 0x20, 0x200);
-        } else if (obj->unk74 == 7) {
+        } else if (st->state == 7) {
             obj->unk20 = D_801D71D8;
             func_8004DA48(obj, &obj->unk8, 0x52, 0, 0x40, 0, 0x2000, 0x20, 0);
             func_8004DA48(obj, &obj->unk8, 0x52, 0, 0x80, 0, 0x2000, 0x18, 0);
@@ -7925,16 +7927,16 @@ void func_8003614C(void *arg0, void *arg1, Unk800584A4 *self) {
             func_8004DE24((Unk80032344 *)obj, 100);
             obj->unk2A = 0;
         }
-        obj->unk74++;
+        st->state++;
         return;
     case 3:
     case 8:
     case 13:
-        if (obj->unk70 == 0) {
-            obj->unk70 = 20;
-            obj->unk74++;
+        if (st->timer == 0) {
+            st->timer = 20;
+            st->state++;
         } else {
-            obj->unk70--;
+            st->timer--;
         }
         return;
     case 4:
@@ -7942,20 +7944,18 @@ void func_8003614C(void *arg0, void *arg1, Unk800584A4 *self) {
     case 14:
         obj->unkA6 = 0;
         func_80042538((Obj *)&obj->unk7C);
-        if (obj->unk70 != 0) {
-            obj->unk70--;
+        if (st->timer != 0) {
+            st->timer--;
         } else {
-            obj->unk72 = 0;
-            obj->unk74++;
+            st->count = 0;
+            st->state++;
         }
         return;
+    case 15:
+        func_80042538((Obj *)&obj->unk7C);
+        break;
     }
 }
-#endif
-
-#ifndef NON_MATCHING
-INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007A934);
-#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007A974);
 
