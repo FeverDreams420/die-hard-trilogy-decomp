@@ -12879,7 +12879,9 @@ typedef struct {
     s16 unk80;
     u8 pad82[0x3C];
     s16 unkBE;
-    u8 padC0[0x12];
+    u8 padC0[0xA];
+    u8 unkCA;
+    u8 padCB[7];
     s16 unkD2;
     s16 unkD4;
     s16 unkD6;
@@ -13408,11 +13410,212 @@ void func_80045478(void) {
     D_800A317C->func = D_800A317C->saved;
 }
 
+// NON_MATCHING: scheduling around the route index and the turn test (14 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004566C);
+#else
+void func_80046030(void);
+typedef struct {
+    s16 v[8];
+} Unk8004566C_Ranges;
 
+extern Unk8004566C_Ranges D_8007ADC8;
+extern void func_80044E9C(void);
+extern void func_80065110(void);
+extern void func_8004667C(void);
+extern void func_80046ED4(void);
+extern void func_80047F7C(void);
+extern s16 D_800A61B4;
+
+void func_8004566C(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+    Unk8004566C_Ranges ranges = D_8007ADC8;
+    Unk8002A35C *player;
+    Unk8002A35C pos;
+    SVECTOR d;
+    u8 *route;
+    s32 diff;
+    s16 tmp;
+    s16 dist;
+    s16 a;
+
+    func_8003E384((Unk80045164 *)obj);
+    func_8002A270((Unk8002A35C *)obj, 4);
+    route = (u8 *)&obj->unk128;
+    if (D_801F7D50.unk0 == NULL) {
+        func_80031200((Unk80031200 *)obj);
+        func_8003146C((Unk8003146C *)obj);
+        obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+        func_80031320((Unk80045164 *)obj);
+        obj->unkE4 = 0;
+        obj->unkEA = func_8001E9DC(20) + 40;
+        switch (obj->unk28) {
+        case 7:
+        case 11:
+            D_800A317C->func = func_80046030;
+            break;
+        case 8:
+            D_800A317C->func = func_80046ED4;
+            break;
+        case 2:
+            D_800A317C->func = func_80047F7C;
+            break;
+        case 9:
+            obj->unkE6 = func_8001E9DC(4) + obj->unkE6 - 2;
+            if (obj->unkE6 < 0) {
+                obj->unkE6 += obj->unk126;
+            }
+            if (obj->unkE6 >= obj->unk126) {
+                obj->unkE6 -= obj->unk126;
+            }
+            obj->unkD4 = 0;
+            obj->unkDC = route[obj->unkE6];
+            obj->unkD6 = func_80039458((Unk80045164 *)obj);
+            obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+            obj->unkDA = 0;
+            D_800A317C->func = func_8004667C;
+            break;
+        case 10:
+            D_800A317C->func = func_80065110;
+            break;
+        }
+        return;
+    }
+    player = (Unk8002A35C *)D_801F7D50.unk0->vals;
+    if (obj->unkE4 != 0) {
+        d.vx = obj->unk0 - player->x;
+        d.vy = obj->unk2 - player->y;
+        d.vz = obj->unk4 - player->z;
+        dist = func_80043B0C(&d);
+        if (dist < ranges.v[obj->unkF4]) {
+            obj->unkDA = 0;
+            func_80031200((Unk80031200 *)obj);
+            func_8003146C((Unk8003146C *)obj);
+            obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+            func_80031320((Unk80045164 *)obj);
+            D_800A317C->saved = D_800A317C->func;
+            D_800A317C->func = func_80044E9C;
+            return;
+        }
+        pos.x = player->x + (d.vx << 11) / dist;
+        pos.y = player->y + (d.vy << 11) / dist;
+        pos.z = player->z + (d.vz << 11) / dist;
+    } else {
+        dist = func_80043B6C(&pos, obj);
+    }
+    a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
+    obj->unk22 = a;
+    obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
+    func_80045EF4((Unk80045EF4 *)obj, dist);
+    if (obj->unkEA != 0) {
+        obj->unkEA--;
+    }
+    if ((dist > 0x600 && obj->unkEA == 0) || (obj->unkDA > 90 && obj->unkEA == 0)) {
+        obj->unkEA = func_8001E9DC(20) + 40;
+        obj->unkD4 = 0;
+        obj->unkDA = 0;
+        obj->unkDC = func_80039458((Unk80045164 *)player);
+        obj->unkD6 = func_80039458((Unk80045164 *)obj);
+        obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+    }
+    if (obj->unkD4 >= 0x1000 && obj->unkE4 == 0) {
+        if (dist > 0x140) {
+            obj->unkD4 = 0x1000;
+            obj->unkDA++;
+        } else {
+            obj->unkD4 = 0;
+            obj->unkDC = func_80039458((Unk80045164 *)player);
+            obj->unkD6 = obj->unkD8;
+            obj->unkD8 = func_80043770(obj->unkD8, obj->unkDC);
+        }
+    }
+    if (--obj->unkE2 < 0) {
+        obj->unkE2 = func_8001E9DC(10) + 10;
+        diff = (func_80028B04(player, (Unk8002A35C *)obj) - (u16)(obj->unk12 + obj->unk104)) << 20 >> 20;
+        if (diff < 0) {
+            diff = -diff;
+        }
+        if (diff < obj->unk10A && (s16)func_80042DD0(obj, player, 0) != 0) {
+            obj->unkE4 = -1;
+        } else {
+            obj->unkEA = func_8001E9DC(20) + 40;
+            switch (obj->unk28) {
+            case 7:
+            case 11:
+                D_800A317C->func = func_80046030;
+                break;
+            case 8:
+                D_800A317C->func = func_80046ED4;
+                break;
+            case 2:
+                D_800A317C->func = func_80047F7C;
+                break;
+            case 9:
+                obj->unkE6 = func_8001E9DC(4) + obj->unkE6 - 2;
+                if (obj->unkE6 < 0) {
+                    obj->unkE6 += obj->unk126;
+                }
+                if (obj->unkE6 >= obj->unk126) {
+                    obj->unkE6 -= obj->unk126;
+                }
+                obj->unkD4 = 0;
+                obj->unkDC = route[obj->unkE6];
+                obj->unkD6 = func_80039458((Unk80045164 *)obj);
+                obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+                obj->unkDA = 0;
+                D_800A317C->func = func_8004667C;
+                break;
+            case 10:
+                D_800A317C->func = func_80065110;
+                break;
+            }
+        }
+    }
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+    func_80031320((Unk80045164 *)obj);
+    if (obj->unk158 == 0 && (s16)func_8004BF0C((Unk8002A35C *)obj) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(obj->unk64, tmp, 0, 0x52, 8);
+        D_800A317C->saved = D_800A317C->func;
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    if (obj->unkBE != 0) {
+        if (obj->unkBE < 0) {
+            obj->unk158 = 200;
+            obj->unkBE = 0;
+            D_800A317C->saved = D_800A317C->func;
+            D_800A317C->func = func_8003B850;
+            return;
+        }
+        obj->unkF2 -= obj->unkBE;
+        if (obj->unkF2 <= 0) {
+            if (D_800A7A20[obj->unkCA].id == D_800A336C) {
+                func_80049820(5000);
+            } else {
+                func_80049820(5);
+            }
+            D_800A61B4 = -1;
+            D_800A317C->func = func_80039858;
+        }
+        obj->unkBE = 0;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007ADD8);
+#endif
 
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE00);
+#endif
 
 extern void func_80039518(Unk80045EF4 *obj);
 extern s16 func_80024EF0(Anim *anim);
