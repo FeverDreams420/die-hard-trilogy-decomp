@@ -8169,10 +8169,6 @@ INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80036FAC);
 
 INCLUDE_SDATA("asm/dh1/nonmatchings/dh1", D_800A2A98);
 
-// NON_MATCHING: scheduling of the position update and the face loop pointers
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_800371CC);
-#else
 typedef struct {
     SVECTOR pos;
     SVECTOR rot;
@@ -8214,20 +8210,19 @@ void func_800371CC(void) {
     f = (Unk80032344_Face *)(obj->model + 8);
     do {
         D_8007FF9C[f->flags & 0x1F](f);
-        f++;
-    } while (!(f->flags & 0x80));
+    } while (!(f++->flags & 0x80));
     rot.vx = 0;
-    rot.vz = 0;
     rot.vy = obj->rot.vy;
+    rot.vz = 0;
     func_80023C7C(&rot, &D_801FB868);
     ApplyMatrix(&D_801FB868, &obj->vel, &v);
     PopMatrix();
     obj->vy -= 8;
     obj->pos.vx += v.vx;
     obj->pos.vy += obj->vy;
+    obj->pos.vz += v.vz;
     obj->rot.vx += 0x80;
     obj->rot.vz += 0x20;
-    obj->pos.vz += v.vz;
     probe.x = obj->pos.vx;
     probe.y = obj->pos.vy;
     probe.z = obj->pos.vz;
@@ -8310,7 +8305,6 @@ void func_800371CC(void) {
         func_80021554();
     }
 }
-#endif
 
 typedef struct {
     Unk8002A35C pos;
