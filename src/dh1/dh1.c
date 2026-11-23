@@ -10437,9 +10437,316 @@ void func_8003BFA8(void) {
     }
 }
 
+// NON_MATCHING: trigger flags addressed by name in the original, registers (99 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8003C1C4);
+#else
+typedef struct {
+    s16 type;
+    u16 arg;
+    s16 node;
+    s16 state;
+    s16 once;
+    s16 reset;
+    u8 padC[4];
+    s16 ids[8];
+} Unk8003C1C4_Entry;
 
+extern s16 D_800A61B0;
+extern s16 D_800A61D0[];
+extern s16 D_801C1EE0;
+extern s16 D_800A328C;
+extern s16 D_800A3464;
+extern s16 D_800A7F98[];
+extern s16 func_8003CB90();
+extern void func_8005E260(s16 arg0, s16 seconds);
+
+void func_8003C1C4(void) {
+    Unk8003BFA8_Data *d = (Unk8003BFA8_Data *)D_800A317C->vals;
+    Unk8003C1C4_Entry *e = (Unk8003C1C4_Entry *)D_800A3474;
+    Unk80043CC4 *node;
+    s16 *flags = &D_800A61B0;
+    s16 none = 0;
+    s16 busy;
+    s16 fire;
+    s16 slot;
+    s16 i;
+    s16 k;
+    s16 n;
+
+    if (d->unk1C != 0) {
+        return;
+    }
+    if (D_801C1EE0 == 0) {
+        d->unk1C = -1;
+    }
+    busy = 0;
+    if (D_800A329C != 0) {
+        e++;
+    }
+    for (i = d->unk1A; i < D_800A2F6C; i++, e++) {
+        fire = 0;
+        slot = -1;
+        if (d->unk1E < i) {
+            if (!(((Unk8003C1C4_Entry *)D_800A3474)[d->unk1E].type & 0x80)) {
+                break;
+            }
+            d->unk1E = D_800A2F6C + 1;
+        }
+        if (flags[6] != 0 && e->type != 12) {
+            continue;
+        }
+        switch (e->type) {
+        case 0:
+            if ((u16)d->unk18 >= e->arg) {
+                fire = -1;
+            }
+            break;
+        case 4:
+            if (e->arg >= (u16)D_800A3054) {
+                fire = -1;
+            }
+            break;
+        case 20:
+            if (e->arg >= (u16)D_800A3054) {
+                flags[11] = -1;
+                fire = -1;
+            }
+            break;
+        case 5:
+            if ((u16)D_800A2FD4 >= e->arg) {
+                fire = -1;
+            }
+            break;
+        case 2:
+            if (e->arg >= (u16)D_800A32F4 && D_800A2F74 != 0) {
+                fire = -1;
+            }
+            break;
+        case 1:
+            slot = 0;
+            if (flags[0] != 0) {
+                fire = -1;
+            }
+            break;
+        case 3:
+            slot = 1;
+            if (flags[1] != 0) {
+                fire = -1;
+            }
+            break;
+        case 8:
+            slot = 4;
+            if (flags[4] != 0) {
+                fire = -1;
+            }
+            break;
+        case 6:
+            slot = 3;
+            if (flags[3] != 0) {
+                fire = -1;
+            }
+            break;
+        case 7:
+            if (D_800A61D0[e->arg] != 0) {
+                for (k = 0; k < 8; k++) {
+                    if (e->ids[k] == -1) {
+                        break;
+                    }
+                }
+                if (D_800A31CC + k < 21) {
+                    fire = -1;
+                    slot = e->arg + 16;
+                }
+            }
+            break;
+        case 9:
+            if (e->arg >= D_800A3054 + D_800A32F4) {
+                fire = -1;
+            }
+            break;
+        case 22:
+            if (e->arg >= D_800A3054 + D_800A32F4) {
+                flags[12] = -1;
+                fire = -1;
+            }
+            break;
+        case 10:
+            if ((u16)D_800A2EE8 >= e->arg) {
+                fire = -1;
+            }
+            break;
+        case 11:
+            slot = 5;
+            if ((u16)flags[5] == e->arg) {
+                fire = -1;
+            }
+            break;
+        case 12:
+            if (flags[6] != 0) {
+                if (D_800A344C >= 3 || D_800A3084[e->node].unkE[3] != 0) {
+                    busy = -1;
+                    break;
+                }
+                d->unk1C = -1;
+                fire = -1;
+                func_8005E260(e->node, e->arg);
+            }
+            slot = 6;
+            break;
+        case 13:
+            slot = 8;
+            if (flags[8] != 0 && e->arg >= D_800A3054 + D_800A32F4) {
+                fire = -1;
+            }
+            break;
+        case 18:
+            slot = 9;
+            if (flags[9] != 0 && e->arg >= D_800A3054 + D_800A32F4) {
+                fire = -1;
+                flags[10] = -1;
+            }
+            break;
+        case 19:
+            if (flags[10] != 0) {
+                fire = -1;
+                slot = 10;
+            }
+            break;
+        case 21:
+            if (flags[11] != 0) {
+                fire = -1;
+                slot = 11;
+            }
+            break;
+        case 23:
+            if (flags[12] != 0) {
+                fire = -1;
+                slot = 12;
+            }
+            break;
+        case 14:
+            slot = 7;
+            if (flags[7] != 0) {
+                fire = -1;
+                n = func_8001E9DC(D_800A3464);
+                k = 0;
+                while (1) {
+                    node = &D_800A3084[n];
+                    if (node->unk16 == 3 && node->unkE[3] == 0) {
+                        break;
+                    }
+                    if (++n >= D_800A3464) {
+                        n = 0;
+                    }
+                    if (++k == D_800A3464) {
+                        none = -1;
+                        break;
+                    }
+                }
+                e->node = D_800A7F98[n];
+                slot = 7;
+            }
+            break;
+        case 15:
+            if (e->arg >= (u16)D_800A31FC) {
+                fire = -1;
+            }
+            break;
+        case 16:
+            if ((u16)D_800A3504 >= e->arg) {
+                fire = -1;
+            }
+            break;
+        case 17:
+            if (D_800A329C != 0) {
+                fire = -1;
+            }
+            break;
+        case 24:
+            if (D_800A328C == 0 && e->arg >= D_800A3054 + D_800A32F4) {
+                fire = -1;
+                flags[13] = -1;
+                slot = 13;
+            }
+            break;
+        case 25:
+            if (flags[13] != 0) {
+                fire = -1;
+                slot = 13;
+            }
+            break;
+        case 26:
+            if (D_800A318C + D_800A2EE8 >= e->arg) {
+                fire = -1;
+            }
+            break;
+        case 27:
+            if (e->arg >= (u16)D_800A32F4 && D_800A2F74 != 0) {
+                flags[14] = -1;
+                fire = -1;
+            }
+            break;
+        case 28:
+            if (flags[14] != 0) {
+                fire = -1;
+                slot = 14;
+            }
+            break;
+        default:
+            if (!(e->type & 0x80) && (e->type & 0x40)) {
+                for (k = 0; k < 8; k++) {
+                    if (e->ids[k] == -1) {
+                        break;
+                    }
+                }
+                if (D_800A31CC + k < 21) {
+                    fire = -1;
+                }
+            }
+            break;
+        }
+        if (fire != -1) {
+            continue;
+        }
+        if (func_8003CB90(e) != 0) {
+            if (e->once != 0) {
+                e->type |= 0x80;
+            }
+            if (slot != -1 && e->reset != 0) {
+                flags[slot] = 0;
+            }
+        } else if (e->once != 0) {
+            if ((e->type == 0x13 || e->type == 0x15 || e->type == 0x17) && e->reset != 0) {
+                flags[slot] = 0;
+            }
+            e->type |= 0x40;
+        }
+    }
+    if ((u16)++d->unk18 >= 0x4000) {
+        d->unk18 = 0x3FFF;
+    }
+    for (k = 0; k < 16; k++) {
+        flags[k] = 0;
+    }
+    flags[5] = -1;
+    if (none != 0) {
+        flags[7] = -1;
+    }
+    if (busy != 0) {
+        flags[6] = -1;
+    }
+    if (D_800A3054 == 1) {
+        D_800A3274++;
+    } else {
+        D_800A3274 = 0;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AA48);
+#endif
 
 typedef struct {
     u8 pad0[0xA];
