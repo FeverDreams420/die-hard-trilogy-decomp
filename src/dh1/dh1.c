@@ -11548,7 +11548,8 @@ typedef struct {
     s16 unkE0;
     s16 unkE2;
     s16 unkE4;
-    u8 padE6[4];
+    s16 unkE6;
+    u8 padE8[2];
     s16 unkEA;
     s16 unkEC;
     u8 padEE[2];
@@ -11566,7 +11567,12 @@ typedef struct {
     s16 unk114;
     s16 unk116;
     s16 unk118;
-    u8 pad11A[0xC];
+    s16 unk11A;
+    u8 pad11C[2];
+    s16 unk11E;
+    s16 unk120;
+    s16 unk122;
+    s16 unk124;
     s16 unk126;
     s16 unk128;
     u8 pad12A[0x28];
@@ -12268,9 +12274,193 @@ void func_80046598(void) {
     D_800A317C->func = func_80046030;
 }
 
+// NON_MATCHING: route fields at 0x114 read through a base register, store order (55 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8004667C);
+#else
+extern void func_80064088(void);
+void func_80046ED4(void);
+void func_800487B4(void);
+void func_800666C4(void);
 
+void func_8004667C(void) {
+    Obj80047314 *obj = (Obj80047314 *)D_800A317C->vals;
+    Unk80056ADC *path = D_801F7D70->unk1C;
+    Unk80043CC4 *node;
+    Unk8002A35C pos;
+    s32 *hdr;
+    u8 *src;
+    u8 *route;
+    s16 tmp;
+    s16 step;
+    s16 wrap;
+    s16 a;
+    s16 i;
+    s16 e;
+    s32 dist;
+
+    step = 0;
+    func_8003E384((Unk80045164 *)obj);
+    func_8002A270((Unk8002A35C *)obj, 4);
+    route = (u8 *)&obj->unk128;
+    a = obj->unk120;
+    dist = func_80043B6C(&pos, obj);
+    if (a != 0) {
+        obj->unk120 = a - 1;
+        obj->unk12 = func_80043814(obj->unk12, obj->unk22, 0x80) & 0xFFF;
+    } else {
+        a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
+        obj->unk22 = a;
+        obj->unk12 = func_80043814(obj->unk12, a, 0x80) & 0xFFF;
+        func_8004916C((Unk80045164 *)obj, dist);
+        step = func_80045EF4((Unk80045EF4 *)obj, dist);
+    }
+    if (obj->unkD4 >= 0x1000) {
+        node = &D_800A3084[obj->unkD8];
+        if (node->unk18 != 0 && node->unk16 == 0 && dist > 0x80) {
+            obj->unkD4 -= step;
+            obj->unkDA++;
+        } else if (dist > 0x140) {
+            obj->unkD4 = 0x1000;
+            obj->unkDA++;
+        } else {
+            obj->unkD4 = 0;
+            obj->unkDA = 0;
+            wrap = 0;
+            if (obj->unkD8 == obj->unkDC) {
+                obj->unkE6 += obj->unk118;
+                if (obj->unkE6 < 0) {
+                    if (obj->unk11A == 0) {
+                        obj->unkE6 = 1;
+                        obj->unk118 = -obj->unk118;
+                    } else {
+                        obj->unkE6 = obj->unk126 - 1;
+                    }
+                    wrap = -1;
+                }
+                if (obj->unkE6 >= obj->unk126) {
+                    if (obj->unk11A == 0) {
+                        obj->unkE6 = obj->unk126 - 2;
+                        obj->unk118 = -obj->unk118;
+                    } else {
+                        obj->unkE6 = 0;
+                    }
+                    wrap = -1;
+                }
+                obj->unkDC = route[obj->unkE6];
+                if (wrap == -1 && obj->unk11A == 2) {
+                    switch (obj->unk11E) {
+                    case 0:
+                        obj->unk28 = 7;
+                        obj->unk114 = 0;
+                        obj->unk116 = 0;
+                        D_800A317C->func = func_80046030;
+                        break;
+                    case 1:
+                        obj->unk28 = 8;
+                        obj->unk116 = 0;
+                        obj->unk124 = 0;
+                        obj->unk126 = 1;
+                        obj->unk114 = (obj->unk122 << 9) & 0xFFF;
+                        func_80024DA8(obj->unk64, D_8007C550[obj->unkF4], 0, 0x52, 8);
+                        D_800A317C->func = func_80046ED4;
+                        break;
+                    case 2:
+                        obj->unk28 = 11;
+                        D_800A317C->func = func_80046030;
+                        break;
+                    case 3:
+                        obj->unk28 = 6;
+                        D_800A317C->func = func_80064088;
+                        break;
+                    case 5:
+                        obj->unk28 = 2;
+                        obj->unk114 = obj->unk122 * 30;
+                        obj->unk118 = 0;
+                        D_800A317C->func = func_80047F7C;
+                        break;
+                    case 6:
+                        obj->unk28 = 3;
+                        obj->unk126 = 0;
+                        obj->unk114 = obj->unk122 * 30;
+                        obj->unk152 = obj->unk12;
+                        D_800A317C->func = func_800487B4;
+                        break;
+                    case 7:
+                        e = obj->unk122;
+                        hdr = (s32 *)D_800A32EC;
+                        obj->unk126 = hdr[e * 2 + 1];
+                        src = D_800A32EC + hdr[e * 2];
+                        for (i = 0; i < hdr[e * 2 + 1]; i++) {
+                            route[i] = *src++;
+                        }
+                        obj->unk11E = -1;
+                        obj->unk120 = 0;
+                        obj->unk118 = 1;
+                        obj->unk11A = 1;
+                        obj->unkE6 = 1;
+                        obj->unkDC = route[0];
+                        break;
+                    case 8:
+                        obj->unk28 = 0x12;
+                        obj->unk114 = 0;
+                        obj->unk126 = 0;
+                        obj->unk128 = 0;
+                        D_800A317C->func = func_800666C4;
+                        break;
+                    }
+                }
+            }
+            obj->unkD6 = obj->unkD8;
+            obj->unkD8 = func_80043770(obj->unkD8, obj->unkDC);
+            obj->unkEA = func_8001E9DC(20) + 40;
+        }
+    }
+    if (obj->unk158 == 0 && (s16)func_8004BF0C((Unk8002A35C *)obj) != 0) {
+        if ((s16)func_8001E9DC(2) != 0) {
+            tmp = 0x2A;
+        } else {
+            tmp = 0x2B;
+        }
+        func_80024DA8(obj->unk64, tmp, 0, 0x52, 8);
+        D_800A317C->saved = D_800A317C->func;
+        D_800A317C->func = func_8004BFB8;
+        return;
+    }
+    if (obj->unk10E == 0) {
+        tmp = func_80056B8C((Unk8002A35C *)obj, obj->unk10C);
+        if (tmp != -1 && D_801F7D50.unk0 != NULL) {
+            void *player = D_801F7D50.unk0->vals;
+
+            obj->unk10E = func_8001E9DC(3) + 5;
+            obj->unkEA = func_8001E9DC(20) + 40;
+            if ((s16)func_80042DD0(obj, player, 0) != 0) {
+                func_800492F8((SVECTOR *)obj);
+                obj->unkE4 = -1;
+                tmp = -1;
+                D_800A317C->func = func_8004566C;
+            } else {
+                obj->unk120 = 20;
+                obj->unk10E = obj->unk120 + func_8001E9DC(10) + 20;
+                obj->unk22 = func_80028B04((Unk8002A35C *)&path->pos[tmp], (Unk8002A35C *)obj);
+            }
+        }
+    } else {
+        obj->unk10E--;
+    }
+    func_800493D0(obj);
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, (s32 *)&tmp, (s32 *)&tmp);
+    func_80031320((Unk80045164 *)obj);
+    func_80049064((Unk80045164 *)obj, -1);
+    func_80049744(obj);
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007AE28);
+#endif
 
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80046D2C);
 
