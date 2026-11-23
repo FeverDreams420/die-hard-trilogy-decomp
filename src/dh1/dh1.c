@@ -9816,7 +9816,7 @@ void func_8003A8A4(void) {
         obj->anim.unk6 = 0xA4;
         func_80024DA8(&obj->anim, 0x23, 0, 0xF6, 3);
         if (sub->unk4 != 0) {
-            D_800A61B8[sub->unk4 - 8] = -1;
+            D_800A61B8[sub->unk4 - 4] = -1;
         }
     }
     func_80031200((Unk80031200 *)obj);
@@ -9977,7 +9977,7 @@ void func_8003B04C(void) {
         if (func_8002A35C(target, (Unk8002A35C *)obj) < 0x200) {
             D_800A61B8[0] = -1;
             if (sub->unk4 != 0) {
-                D_800A61B8[sub->unk4 - 8] = -1;
+                D_800A61B8[sub->unk4 - 4] = -1;
             }
             if (sub->unk6 != 0) {
                 obj->unkE4 = 0;
