@@ -21543,9 +21543,217 @@ void func_8005F92C(void) {
     }
 }
 
+// NON_MATCHING: title switch layout, sine table address kept in a register (32 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_8005F98C);
+#else
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    u8 pad4[0x1A];
+    u16 unk1E;
+    u8 pad20[2];
+    s16 unk22;
+    u8 pad24[2];
+    u16 unk26;
+    s16 unk28;
+    u8 pad2A[2];
+    s16 unk2C;
+    u8 pad2E[2];
+    s16 unk30;
+    u8 pad32[6];
+    s32 unk38;
+    u8 pad3C[6];
+    s16 unk42;
+    s16 unk44;
+    u8 pad46[2];
+    s16 unk48;
+    s16 unk4A;
+    s16 unk4C;
+    u8 pad4E[2];
+    s32 unk50;
+} Unk8005F98C;
 
+extern Color4 D_800A2BB0;
+extern Color4 D_800A2BB4;
+extern Color4 D_800A2BB8;
+extern Color4 D_800A2B98;
+extern char D_800A2BA8[];
+extern s16 D_800A346C;
+extern void func_8005F92C(void);
+
+void func_8005F98C(void) {
+    Unk8005F98C *self = (Unk8005F98C *)D_800A317C->vals;
+    Color4 c0 = D_800A2BB0;
+    Color4 c1 = D_800A2BB4;
+    Color4 c2 = D_800A2BB8;
+    Color4 c3 = D_800A2B80;
+    Color4 c4 = D_800A2B94;
+    Color4 c5 = D_800A2B98;
+    s32 params[6];
+    char *title;
+    s16 s;
+    s16 t;
+
+    func_80062F8C(self->unk0, self->unk2);
+    self->unk0 += 8;
+    func_800627B8();
+    func_8004983C();
+    func_800544F8(0xA0, 0x22, D_801D2068[0], 0x600, 0x4B0, D_800A2A48, D_800A2A30, 8);
+    if (D_800A2F54 == 6) {
+        func_8005F92C();
+        if (*D_800A343C & 0x800) {
+            D_801D206C = 0;
+            D_801D2068[0] = self->unk50;
+            func_8005EB14();
+            D_800A317C->func = func_8005EC74;
+        }
+    }
+    switch (self->unk42) {
+    case 4:
+        self->unk48 = 0x10;
+        s = D_800854C0[((self->unk30 << 5) + 0x400) & 0xFFF];
+        if (s < 0) {
+            s = -s;
+        }
+        c4.c[0] = func_800296F8(0xC8, c4.c[0], s);
+        c4.c[1] = func_800296F8(0, c4.c[1], s);
+        c4.c[2] = func_800296F8(0, c4.c[2], s);
+        s = D_800854C0[((self->unk30 << 5) + 0x800) & 0xFFF];
+        if (s < 0) {
+            s = -s;
+        }
+        c5.c[0] = func_800296F8(0xC8, c5.c[0], s);
+        c5.c[1] = func_800296F8(0, c5.c[1], s);
+        c5.c[2] = func_800296F8(0, c5.c[2], s);
+        switch (D_800A346C) {
+        case 5:
+            title = "GAME COMPLETION";
+            goto draw;
+        case 0:
+        case 4:
+            title = "LEVEL COMPLETION";
+        draw:
+            func_80053864(0xA0, 0x44, title, 0x5DC, 0x3E8, c3.c, c2.c);
+            func_80053864(0xA0, 0x78, D_800A2BA8, 0x1388, 0x960, c4.c, c5.c);
+            break;
+        default:
+            func_80053864(0xA0, 0x78, "GAME OVER", 0x753, 0x7D0, c0.c, c1.c);
+            break;
+        }
+        self->unk2 = func_800437C8(self->unk2, 0x400, 0x40);
+        if (self->unk30-- < 0) {
+            self->unk1E = 1;
+            self->unk42 = 0;
+            self->unk30 = 10;
+            self->unk48 = 0x10;
+        }
+        break;
+    case 0:
+        func_8005ED9C((Unk8005ED9C *)self);
+        self->unk2 = func_800437C8(self->unk2, 0x400, 0x40);
+        if (self->unk30-- < 0) {
+            self->unk42 = 5;
+            self->unk30 = 14;
+            self->unk4A = 0x30;
+        }
+        break;
+    case 5:
+        func_8005ED9C((Unk8005ED9C *)self);
+        func_8005F438((Unk8005F438 *)self);
+        self->unk2 = func_800437C8(self->unk2, 0x400, 0x40);
+        if (self->unk30-- < 0) {
+            self->unk1E = 1;
+            self->unk42 = 1;
+        }
+        break;
+    case 1:
+        self->unk1E--;
+        self->unk2 = func_800437C8(self->unk2, 0x400, 0x40);
+        func_8005F1F0((Unk8005F1F0 *)self);
+        func_8005ED9C((Unk8005ED9C *)self);
+        func_8005F438((Unk8005F438 *)self);
+        func_8005F8F0((Unk8005F8F0 *)self);
+        func_8005F790((Unk8005F790 *)self);
+        if (self->unk22 == self->unk44) {
+            self->unk42 = 2;
+            self->unk30 = 10;
+        }
+        break;
+    case 2:
+        func_8005ED9C((Unk8005ED9C *)self);
+        func_8005F438((Unk8005F438 *)self);
+        func_8005F790((Unk8005F790 *)self);
+        self->unk2 = func_800437C8(self->unk2, 0x400, 0x40);
+        if (self->unk30-- < 0) {
+            func_8005EB14();
+            t = self->unk2C;
+            self->unk1E = 1;
+            self->unk42 = 3;
+            self->unk30 = 10;
+            self->unk22 = 0;
+            self->unk4C = self->unk2C;
+            switch (t) {
+            case 0:
+                func_8005EBF4(2);
+                self->unk2C = 1;
+                self->unk44 = self->unk26;
+                break;
+            case 1:
+                if (self->unk28 != 0) {
+                    func_8005EBF4(0);
+                    self->unk2C = 2;
+                    self->unk44 = self->unk28;
+                    break;
+                }
+            case 2:
+                self->unk2C = 3;
+                break;
+            }
+        }
+        break;
+    case 3:
+        func_8005F098((Unk8005F098 *)self);
+        func_8005F688((Unk8005F688 *)self);
+        if (self->unk2C == 3) {
+            self->unk2 = func_800437C8(self->unk2, 0xC00, 0x40);
+        }
+        if (self->unk38 != 0) {
+            params[0] = 0x1F;
+            params[1] = 0x1000;
+            params[2] = 0;
+            params[3] = 0x400;
+            params[4] = 0;
+            params[5] = 0;
+            func_8004FB78(params);
+            func_8005F880((Unk8005F880 *)self);
+            func_8005F790((Unk8005F790 *)self);
+            return;
+        }
+        if (self->unk30-- < 0) {
+            if (self->unk2C != 3) {
+                params[0] = 7;
+                params[1] = 0x3FFF;
+                params[2] = 0;
+                params[3] = 0x400;
+                params[4] = 0;
+                params[5] = 0;
+                func_8004FB78(params);
+                self->unk42 = 0;
+                self->unk30 = 10;
+                self->unk48 = 0x10;
+                return;
+            }
+            D_800A317C->func = func_8005EC74;
+        }
+        break;
+    }
+}
+#endif
+
+#ifndef NON_MATCHING
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", jtbl_8007B474);
+#endif
 
 INCLUDE_RODATA("asm/dh1/nonmatchings/dh1", D_8007B48C);
 
