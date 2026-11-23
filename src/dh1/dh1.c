@@ -25726,7 +25726,294 @@ void func_80065094(Unk80065094_Owner *owner, Unk80065094_Obj *obj) {
     }
 }
 
+// NON_MATCHING: the original also builds the unused circle target in state 2, case order (108 lines)
+#ifndef NON_MATCHING
 INCLUDE_ASM("asm/dh1/nonmatchings/dh1", func_80065110);
+#else
+typedef struct {
+    s16 x, y, z;
+    u8 pad6[0xD2];
+    s16 unkD8;
+    u8 padDA[0x3A];
+    u8 sub[0x10];
+    s16 state;
+    s16 unk126;
+} Unk80065110_Leader;
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    u8 pad6[2];
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    u8 padE[4];
+    s16 unk12;
+    u8 pad14[0xE];
+    s16 unk22;
+    u8 pad24[4];
+    s16 unk28;
+    u8 pad2A[0x12];
+    s16 unk3C;
+    u8 pad3E[2];
+    s16 unk40;
+    u8 pad42[2];
+    s16 unk44;
+    u8 pad46[6];
+    s16 unk4C;
+    s16 unk4E;
+    s16 unk50;
+    u8 pad52[0x12];
+    Anim anim;
+    u8 pad84[0x3A];
+    s16 unkBE;
+    u8 padC0[0x14];
+    s16 unkD4;
+    s16 unkD6;
+    s16 unkD8;
+    s16 unkDA;
+    s16 unkDC;
+    u8 padDE[4];
+    s16 unkE2;
+    s16 unkE4;
+    u8 padE6[4];
+    s16 unkEA;
+    u8 padEC[6];
+    s16 unkF2;
+    s16 unkF4;
+    u8 padF6[0x1E];
+    s16 unk114;
+    s16 state;
+    s16 unk118;
+    s16 unk11A;
+    u8 pad11C[2];
+    s16 unk11E;
+    s16 unk120;
+    u8 pad122[2];
+    Unk80065110_Leader *leader;
+    s16 radius;
+    s16 angle;
+    u8 pad12C[2];
+    s16 unk12E;
+    s16 unk130;
+    s16 unk132;
+    u8 pad134[0x24];
+    s16 unk158;
+} Unk80065110;
+
+extern struct Task *volatile D_801F7D58;
+extern s16 D_800A61B4;
+extern const s16 D_8007C550[];
+extern void func_80044E9C(void);
+
+void func_80065110(void) {
+    Unk80065110 *obj = (Unk80065110 *)D_800A317C->vals;
+    Unk80065110_Leader *leader = obj->leader;
+    Unk80043CC4 *node;
+    SVECTOR at;
+    Unk8002A35C pos;
+    s32 tmp;
+    s32 dist;
+    s16 step;
+    s16 a;
+
+    func_8003E384((Unk80045164 *)obj);
+    func_8002A270((Unk8002A35C *)obj, 4);
+    if (D_801F7D58 == NULL) {
+        obj->unkDC = func_80043C60(-1);
+        obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+        obj->unkE2 = func_8001E9DC(20) + 20;
+        obj->unkE4 = 0;
+        obj->unk28 = 7;
+        obj->unk114 = 0;
+        obj->state = 0;
+        obj->unk118 = 0;
+        D_800A317C->func = func_80046030;
+        obj->unk2 = func_80023E80(obj, &tmp, &tmp);
+        func_80031200((Unk80031200 *)obj);
+        func_8003146C((Unk8003146C *)obj);
+        obj->unk2 = func_80023E80(obj, &tmp, &tmp);
+        func_80031320((Unk80045164 *)obj);
+        func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], -1, 0x52, 4);
+        return;
+    }
+    switch (obj->state) {
+    case 1:
+        pos.x = leader->x + ((D_800854C0[obj->angle & 0xFFF] * obj->radius) >> 12);
+        pos.y = leader->y;
+        pos.z = leader->z + ((D_800854C0[(obj->angle + 0x400) & 0xFFF] * obj->radius) >> 12);
+        dist = func_8002A35C((Unk8002A35C *)obj, &pos);
+        a = func_80028B04(&pos, (Unk8002A35C *)obj) & 0xFFF;
+        obj->unk22 = a;
+        obj->unk12 = func_80043814(obj->unk12, a, 0xA0) & 0xFFF;
+        if (obj->radius + 0x200 < dist) {
+            obj->unkD6 = func_80039458((Unk80045164 *)obj);
+            obj->unkDC = leader->unkD8;
+            obj->unkD8 = func_80043770(obj->unkD6, obj->unkDC);
+            obj->unkD4 = 0;
+            obj->unkEA = func_8001E9DC(20) + 50;
+            obj->unkDA = 0;
+            obj->unk118 = func_8001E9DC(20) + 90;
+            obj->unk130 = -1;
+            obj->state = 2;
+            obj->unk11E = 0;
+        }
+        obj->anim.unk6 = func_800296F8(0x84, 0x108, dist * 4);
+        if (obj->anim.unk6 > 300) {
+            obj->anim.unk6 = 300;
+        }
+        obj->unk4C = 0;
+        obj->unk4E = 0;
+        obj->unk50 = func_80031C58(&obj->anim);
+        func_80039518((Unk80045EF4 *)obj);
+        obj->unk0 += obj->unk3C;
+        obj->unk2 += obj->unk40;
+        obj->unk4 += obj->unk44;
+        obj->unk8 = obj->unk0;
+        obj->unkA = obj->unk2;
+        obj->unkC = obj->unk4;
+        func_80024EF0(&obj->anim);
+        if (leader->state == 2) {
+            if (obj->unk12E != 0) {
+                if (dist < 0x200) {
+                    D_800A317C->saved = D_800A317C->func;
+                    D_800A317C->func = func_80044E9C;
+                    return;
+                }
+            } else {
+                func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0x52, 8);
+                obj->state = 0;
+            }
+        }
+        break;
+    case 0:
+        obj->unk12 = func_80043814(obj->unk12, obj->angle, 0x50) & 0xFFF;
+        if (leader->unk126 == 0 && leader->state != 2) {
+            func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
+            obj->state = 1;
+        } else if (obj->unk12E != 0 && leader->state == 2) {
+            func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
+            obj->state = 1;
+        }
+        func_80024EF0(&obj->anim);
+        break;
+    case 2:
+        func_8004379C(obj->unkD8, &at);
+        dist = func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)&at);
+        a = func_80028B04((Unk8002A35C *)&at, (Unk8002A35C *)obj) & 0xFFF;
+        obj->unk22 = a;
+        obj->unk12 = func_80043814(obj->unk12, a, 0xA0) & 0xFFF;
+        leader->unk126++;
+        if (obj->unkEA != 0) {
+            obj->unkEA--;
+        }
+        if ((dist > 0x600 && obj->unkEA == 0) || obj->unk118 < obj->unkDA) {
+            obj->unkD6 = func_80039458((Unk80045164 *)obj);
+            obj->unkDC = leader->unkD8;
+            obj->unkD8 = func_80043770(obj->unkD6, func_80043CC4(obj->unkD8));
+            obj->unkD4 = 0;
+            obj->unkEA = func_8001E9DC(20) + 50;
+            obj->unkDA = 0;
+            obj->unk118 = func_8001E9DC(20) + 90;
+            if (++obj->unk11E >= 2) {
+                func_80024DA8(&obj->anim, D_8007C550[obj->unkF4], 0, 0x52, 8);
+                obj->state = 3;
+                obj->unk120 = func_8001E9DC(30) + 15;
+            }
+            break;
+        }
+        step = 0;
+        if (obj->unk12 == obj->unk22) {
+            obj->anim.unk6 = func_800296F8(0x84, 0x108, dist * 4);
+            if (obj->unk11A < obj->anim.unk6) {
+                obj->anim.unk6 = obj->unk11A;
+            }
+            obj->unk4C = 0;
+            obj->unk4E = 0;
+            obj->unk50 = func_80031C58(&obj->anim);
+            func_80039518((Unk80045EF4 *)obj);
+            obj->unk0 += obj->unk3C;
+            obj->unk2 += obj->unk40;
+            obj->unk4 += obj->unk44;
+            obj->unk8 = obj->unk0;
+            obj->unkA = obj->unk2;
+            obj->unkC = obj->unk4;
+            func_80024EF0(&obj->anim);
+            step = func_800296F8(obj->anim.unk6 * 4, 1, (s16)((dist << 12) / 1536));
+            if (step < 0) {
+                step = 0;
+            }
+            obj->unkD4 += step;
+        }
+        if (func_8002A35C((Unk8002A35C *)obj, (Unk8002A35C *)leader) < 0x180) {
+            obj->unk130 = 0;
+            obj->state = 1;
+            obj->unkDA = 0;
+            obj->unk118 = func_8001E9DC(20) + 90;
+            obj->unkEA = func_8001E9DC(20) + 50;
+            if (obj->unk132 != 0) {
+                func_80065094((Unk80065094_Owner *)leader->sub, (Unk80065094_Obj *)obj);
+            }
+        }
+        if (obj->unkD4 >= 0x1000) {
+            node = &D_800A3084[obj->unkD8];
+            if (node->unk18 != 0 && node->unk16 == 0 && dist > 0x80) {
+                obj->unkD4 -= step;
+                obj->unkDA++;
+            }
+            if (dist > 0x140) {
+                obj->unkD4 = 0x1000;
+                obj->unkDA++;
+            } else {
+                obj->unkD4 = 0;
+                obj->unkEA = func_8001E9DC(20) + 50;
+                obj->unkDA = 0;
+                obj->unk118 = func_8001E9DC(20) + 90;
+                obj->unkDC = func_80039458((Unk80045164 *)leader);
+                if (obj->unkD8 == obj->unkDC) {
+                    obj->unk130 = 0;
+                    obj->state = 1;
+                    if (obj->unk132 != 0) {
+                        func_80065094((Unk80065094_Owner *)leader->sub, (Unk80065094_Obj *)obj);
+                    }
+                }
+                obj->unkD6 = obj->unkD8;
+                obj->unkD8 = func_80043770(obj->unkD8, obj->unkDC);
+            }
+        }
+        break;
+    case 3:
+        func_80024EF0(&obj->anim);
+        if (--obj->unk120 == 0) {
+            obj->state = 2;
+            obj->unk11E = 0;
+            func_80024DA8(&obj->anim, D_8007C560[obj->unkF4], 0, 0x52, 8);
+        }
+        break;
+    }
+    obj->unk2 = func_80023E80(obj, &tmp, &tmp);
+    func_80031200((Unk80031200 *)obj);
+    func_8003146C((Unk8003146C *)obj);
+    obj->unk2 = func_80023E80(obj, &tmp, &tmp);
+    func_80031320((Unk80045164 *)obj);
+    if (obj->unkBE != 0) {
+        if (obj->unkBE < 0) {
+            obj->unk158 = 200;
+            obj->unkBE = 0;
+            D_800A317C->saved = D_800A317C->func;
+            D_800A317C->func = func_8003B850;
+            return;
+        }
+        obj->unkF2 -= obj->unkBE;
+        if (obj->unkF2 <= 0) {
+            D_800A317C->func = func_80039858;
+            D_800A61B4 = -1;
+        }
+        obj->unkBE = 0;
+    }
+}
+#endif
 
 typedef struct {
     s16 x, y, z;
